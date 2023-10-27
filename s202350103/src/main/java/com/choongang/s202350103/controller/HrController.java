@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
+@Slf4j 
 public class HrController {
 	public final MemberService ms;
 	
