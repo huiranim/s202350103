@@ -622,9 +622,9 @@
           <!-- breadcrumb -->
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-              <li class="breadcrumb-item"><a href="#!">Home</a></li>
+              <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
               <li class="breadcrumb-item"><a href="#!">카테고리</a></li>
-              <li class="breadcrumb-item active" aria-current="page">현재페이지</li>
+              <li class="breadcrumb-item active" aria-current="page">Current Page</li>
             </ol>
           </nav>
         </div>
