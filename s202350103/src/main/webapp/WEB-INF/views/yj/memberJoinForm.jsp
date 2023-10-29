@@ -67,6 +67,160 @@
 </script>
 
 
+<script type="text/javascript">
+	// 아이디 중복검사
+	function chkId() {
+		var m_id = document.getElementById("m_id").value;
+
+		// 정규식 6~12자 + @, #, $ 제외 , 영문자와 숫자 허용
+		var regex = /^[a-zA-Z0-9]{6,12}$/;
+
+		// 정규표현식 유효성 검사
+		if (!regex.test(m_id)) {
+			alert("아이디는 6자에서 12자 사이의 영문자와 숫자로만 작성해주세요.");
+			frm.m_id.value = "";
+			return false;
+		} else { // 중복검사 
+			location.href = "idConfirm?m_id=" + m_id;
+			return true;
+		}
+	}
+</script>
+
+<script type="text/javascript">
+function valiForm() {
+
+	var isValid = true;
+
+	// 이름 유효성 검사
+	function nameCk() {
+		var m_name = document.getElementById("m_name").value;
+		// 특수문자 제외, 영문 대소문자,한글, 공백 허용
+		var regex = /^[a-zA-Z가-힣\s]+$/;
+
+		if (!regex.test(m_name)) {
+			alert("이름에는 특수문자가 포함 될 수 없습니다.");
+			frm.m_name.value = "";
+			isValid = false;
+		}
+	}
+
+	// 이메일 유효성 검사
+	function emailCk() {
+		var m_email1 = document.getElementById("m_email1").value;
+		var m_email2 = document.getElementById("m_email2").value;
+		// 특문 제외 영문숫자와 마침표. 만 허용
+		var regex = /^[a-zA-Z0-9.]+$/;
+
+		if (!regex.test(m_email1) || !regex.test(m_email2)) {
+			alert("이메일은 영문자와 숫자로만 작성해주세요.");
+			isValid = false;
+		}
+	}
+
+	// 비밀번호 유효성 검사 
+	function pwCk() {
+		var m_pw = document.getElementById("m_pw").value;
+		//  영문, 숫자, 특수문자 조합으로 8자~20자
+		var regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,20}$/;
+
+		if (!regex.test(m_pw)) {
+			alert("비밀번호는 영문, 숫자, 특수문자 조합으로 8자에서 20자 사이여야 합니다.");
+			frm.m_pw.value ="";
+			isValid = false;
+		}
+	}
+
+	// 비밀번 재확인
+	function valiPwCk() {
+		var m_pw = document.getElementById("m_pw").value;
+		var pw_ck = document.getElementById("pw_ck").value;
+
+		if (m_pw !== pw_ck) {
+			alert("비밀번호가 일치하지 않습니다");
+			frm.pw_ck.value = "";
+			isValid = false;
+		}
+	}
+
+	// 전화번호 유효성 검사
+	function phCk() {
+		var m_ph1 = document.getElementById("m_ph1").value;
+		var m_ph2 = document.getElementById("m_ph2").value;
+		var m_ph3 = document.getElementById("m_ph3").value;
+
+		// 숫자만 
+		// ph1 은 010 까지 이므로 3자리까지 허용
+		var regex1 = /^(02|010|031|[0-9]{3})$/;
+		// ph2, 3은 4자리
+		var regex = /^[0-9]{4}$/;
+
+		if (!regex1.test(m_ph1)) {
+			alert("전화번호는 숫자로 입력하세요.");
+			isValid = false;
+		}
+
+		if (!regex.test(m_ph2)) {
+			alert("전화번호는 숫자로 입력하세요.");
+			isValid = false;
+		}
+
+		if (!regex.test(m_ph3)) {
+			alert("전화번호는 숫자로 입력하세요.");
+			isValid = false;
+		}
+	}
+
+	// 생년월일 유효성 검사
+	function birthCk() {
+		var m_birth = document.getElementById("m_birth").value;
+
+		// 6자리 숫자
+		var regex = /^[0-9]{6}$/;
+
+		if (!regex.test(m_birth)) {
+			alert("생년월일을 6자리 숫자로 입력하세요.");
+			isValid = false;
+		}
+
+	}
+
+	// 성별란 유효성 검사 
+	function genCk() {
+		var m_birth1 = document.getElementById("m_birth1").value;
+		// 성별 1~4 숫자 1자리
+		var regex1 = /^[1-4]{1}$/;
+
+		if (!regex1.test(m_birth1)) {
+			alert("성별란을 확인하세요.");
+			isValid = false;
+		}
+	}
+
+	// form 제출 시 각각 input 호출하여 유효성 검사 
+	nameCk();
+	emailCk();
+	pwCk();
+	valiPwCk();
+	phCk();
+	birthCk();
+	genCk();
+	
+	
+	// 폼 제출 여부 결정
+    if (!isValid) {
+        return false; // 유효성 검사에서 실패한 경우 폼 제출 중단
+    }
+
+    // 유효성 검사 통과 시  폼 제출
+    return true;
+	
+}
+
+</script>
+
+
+
 </head>
 <body>
 
@@ -85,22 +239,22 @@
     
     
    <form action="memberJoinAction" method="post" id="frm" onsubmit="return valiForm();">
-	 <div class="col-lg-7">
+	 <div class="col-lg-12">
 		<div class="input-group mb-1">
 				아이디 &nbsp;&nbsp;
 			 <input type="text"  class="form-control"  id="m_id" name="m_id" maxlength="13" placeholder="아이디를 입력해주세요" required="required" value="${m_id }">
 			  <button class="btn btn-outline-secondary btn-rounded" type="button" id="button-addon2" onclick="chkId()">중복확인</button> &nbsp;&nbsp;&nbsp;&nbsp;
 
 				<c:if test="${not empty no}">
-					<small class="text-muted"  style="color: red;">${no}</small>
+					<small class="fs-6" style="color: red;">${no}</small>
 				</c:if>
 		
 				<c:if test="${not empty ok}">
-					<small class="text-muted"  style="color: red;">${ok}</small>
+					<small class="fs-6" style="color: red;">${ok}</small>
 				</c:if><p>
 		</div>
 	</div>
-		<mark style="font-size: 13px;">(6자 ~ 12자라의 영문자, 숫자 / @,#,$ 등 특수문자는 제외)</mark><p>
+		<mark style="font-size: 13px;">* (6자 ~ 12자라의 영문자, 숫자 / @,#,$ 등 특수문자는 제외)</mark><p>
 
 
 
@@ -112,24 +266,26 @@
 		</div>
 	</div>
 
-	
-	<div class="col-lg-12">
-	<div class="input-group mb-5">
-			  	이메일 &nbsp;&nbsp;
-	   <input type="text" class="form-control" id="m_email1" name="m_email1"  required="required">
-	  	 <span class="input-group-text" style="background: #dfe2e1;">@</span>
-	   	<input type="text" class="form-control" id="m_email2" name="m_email2" required="required"> 
- 	
-		<select name="m_email" class="form-select" >
-			<option value="naver.com">naver.com</option>
-			<option value="gmail.com">gmail.com</option>
-			<option value="daum.com">daum.com</option>
-			<option value="hanmail.com">hanmail.com</option>
-			<option value="nate.com">nate.com</option>
-			<option value="yahoo.com">yahoo.com</option>
-			<option selected="selected" >직접 입력</option>
-		</select><p>
- 	</div>
+		
+	<div class="col-lg-11">
+	    <div class="input-group mb-5">
+	        이메일 &nbsp;&nbsp;
+	        <input type="text" class="form-control" id="m_email1" name="m_email1" required="required">
+	        <span class="input-group-text" style="background: #dfe2e1;">@</span>
+	        <input type="text" class="form-control" id="m_email2" name="m_email2" required="required">
+	        &nbsp;
+	        <div class="col-lg-3">
+	            <select name="m_email" class="form-select" id="emailSelect">
+	                <option value="naver.com">naver.com</option>
+	                <option value="gmail.com">gmail.com</option>
+	                <option value="daum.com">daum.com</option>
+	                <option value="hanmail.com">hanmail.com</option>
+	                <option value="nate.com">nate.com</option>
+	                <option value="yahoo.com">yahoo.com</option>
+	                <option value="직접 입력" selected="selected">직접 입력</option>
+	            </select>
+	        </div>
+	    </div>
 	</div>
 	
 	
@@ -140,7 +296,7 @@
 
 		</div>
 	</div>	
-	<mark style="font-size: 13px;">영문,숫자,특수문자 조합하여 8자~20자리</mark><p>
+	<mark style="font-size: 13px;">* 영문,숫자,특수문자 조합하여 8자~20자리</mark><p>
 		
 		
 	<div class="col-lg-8">
@@ -161,42 +317,154 @@
 	</div>		
 	
 	
-	<div class="col-lg-7">
-	  <div class="input-group mb-5">
+	<div class="col-lg-10">
+	  <div class="input-group mb-1">
 			    생년월일 &nbsp;&nbsp;
 	    <input type="text" class="form-control" id="m_birth" name="m_birth" maxlength="6" placeholder="ex) 201001"> &nbsp;&nbsp; 
 	    -  &nbsp;&nbsp; 
-	    	<div class="col-lg-1">
-		      <input type="text" class="form-control" id="m_birth1" name="m_birth1" size="3" maxlength="1">&nbsp;*&nbsp;*&nbsp;*&nbsp;*&nbsp;*&nbsp;*
+	    	<div class="col-lg-7 d-flex align-items-center">
+		      <input type="text" class="form-control" id="m_birth1" name="m_birth1"  maxlength="1">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
+
 	    	</div>
-	    </div>
 	  </div>
 	</div>
+		<mark style="font-size: 13px;">* 생년월일 6 자리와 앞 1 자리 를 입력하세요</mark><p>
 	
 	
-		<small>생년월일 6 자리와 앞 1 자리 를 입력하세요</small><p>
-
-		주소
-		<input type="text" name="m_addr1" id="sample6_postcode" placeholder="주소검색 버튼을 이용해주세요" required="required" >
-		<input type="button" onclick="sample6_execDaumPostcode()" value="주소 검색"><p>
-		<input type="text" name="m_addr2" id="sample6_address" placeholder="주소" required="required">&nbsp;&nbsp;
-		<input type="text" id="sample6_extraAddress" placeholder="참고항목" ><p>
+	<div class="col-lg-8">
+		<div class="input-group mb-2 ">
+				주소  &nbsp;&nbsp;
+			<input type="text" class="form-control"  name="m_addr1" id="sample6_postcode" placeholder="주소검색 버튼을 이용해주세요" required="required" readonly="readonly" >
+				<div class="col-lg-3">
+					<input type="button" class="form-control"  onclick="sample6_execDaumPostcode()" value="주소 검색" style="background: #d1e7dd;">
+				</div>
+		</div>
 		
-		상세주소입력 <input type="text" name="m_addr" id="sample6_detailAddress" placeholder="상세주소를 입력해주세요"  required="required"><p>
-
-		추천인 <input type="text" id="m_reid" name="m_reid" placeholder="추천인 아이디를 입력해주세요 : 선택 "><p>
-
-		<input type="submit" value="회원 가입하기">
+		<div class="input-group mb-2 ">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" class="form-control"  name="m_addr2" id="sample6_address" placeholder="주소" required="required" readonly="readonly">
+		</div>	
+		
+		<div class="input-group mb-5 ">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목"  readonly="readonly"><p>
+		</div>	
+		
+		
+	<div class="col-lg-15">
+		<div class="input-group mb-5 ">
+				상세주소입력  &nbsp;&nbsp;
+		 <input type="text" class="form-control"  name="m_addr" id="sample6_detailAddress" placeholder="상세주소를 입력해주세요"  required="required"><p>
+		</div>
+	</div>	
+		
 	
-	</form>
+		
+	<div class="col-lg-10">
+		<div class="input-group mb-1 ">
+				추천인  &nbsp;&nbsp;
+		 <input type="text" class="form-control" id="m_reid" name="m_reid" placeholder="추천인 아이디를 입력해주세요 : 선택 "><p>
+		</div>
+	</div>	
+	<mark style="font-size: 13px;">* 선택 사항입니다</mark><p><p>
+	
+</div>
+<hr>
+
+	<div class="btn btn-ghost-primary mb-2 d-grid gap-2 col-6 mx-auto ">
+		<button class="btn btn-primary" type="submit">회원 가입하기</button>
+	</div>
+</form>
    
    
-   
- 
  
   </div>
 </div>
 </div>
+
+
+<script type="text/javascript">
+	// ********* 이메일 처리 *********
+	// 이메일 select 요소
+	var emailSelect = document.getElementById("emailSelect");
+	
+	// m_email2 input 요소
+	var mEmail2 = document.getElementById("m_email2");
+	
+	// select 요소의 change 이벤트 핸들러
+	emailSelect.addEventListener("change", function() {
+	    // 선택된 옵션의 값을 가져옴
+	    var selectedOption = emailSelect.value;
+	
+	    // "직접 입력" 옵션을 선택한 경우 m_email2 입력 필드를 활성화하고 포커스를 설정
+	    if (selectedOption === "직접 입력") {
+	        mEmail2.removeAttribute("disabled");
+	        mEmail2.value = ""; // 입력 필드 초기화
+	        mEmail2.focus();
+	    } else {
+	        // 다른 옵션을 선택한 경우 m_email2 입력 필드를 비활성화하고 선택한 옵션 값이 설정됩니다.
+	        mEmail2.setAttribute("disabled", "disabled");
+	        mEmail2.value = selectedOption;
+	    }
+	});
+	
+	// 직접 입력시 폼 제출 
+	document.getElementById("frm").addEventListener("submit", function(e) {
+	    // 직접 입력 옵션이 선택되었을 때 m_email2 input 태그의 값을 설정
+	    if (emailSelect.value === "직접 입력") {
+	        mEmail2.removeAttribute("disabled");
+	        mEmail2.value = mEmail2.value; // 직접 입력한 값을 그대로 설정
+	    }
+	    // 폼 제출
+	    // e.preventDefault(); // 이 줄을 주석 처리하면 폼이 제출됨.
+	});
+	
+	
+</script>
+
+<script type="text/javascript">
+	// ********* 전화번호 처리 *********
+	// 각 입력 필드의 최대 길이 지정
+	var maxLength = 4;
+
+	// 각 입력 필드의 이벤트 리스너 추가
+	document.getElementById("m_ph1").addEventListener("input", function() {
+		// this 키워드로 현재객체를 가르킴 
+		// 현재 입력필드 값의 길이 > 지정최대값(4) 일때 
+		// 현재 입력필드의  값 = 0 부터 지정최대값(4) 
+		// 이후 현재 값이 최대값일 때 다음으로 포커스 이동
+		if (this.value.length > maxLength) {
+			this.value = this.value.slice(0, maxLength);
+		}
+		// 입력이 최대값에 도달하면 두 번째 입력 필드로 포커스를 이동
+		if (this.value.length === maxLength) {
+			document.getElementById("m_ph2").focus();
+		}
+	});
+
+	document.getElementById("m_ph2").addEventListener("input", function() {
+		if (this.value.length > maxLength) {
+			this.value = this.value.slice(0, maxLength);
+		}
+		if (this.value.length === maxLength) {
+			document.getElementById("m_ph3").focus();
+		}
+	});
+
+	document.getElementById("m_ph3").addEventListener("input", function() {
+		if (this.value.length > maxLength) {
+			this.value = this.value.slice(0, maxLength);
+		}
+	});
+</script>
+
+
 
 
 <%@ include file="../common/footerFo.jsp" %>

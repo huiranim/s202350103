@@ -251,7 +251,9 @@
 
 			<p><input class="form-check-input" type="checkbox" id="ckAll"> <strong><a class="#!">전체 동의</a></strong><p>
 		<hr>
-		 <button type="submit" class="btn btn-primary">다음</button>
+			<div class="d-grid gap-2 col-6 mx-auto ">
+			 <button type="submit" class="btn btn-primary">다음</button>
+			</div>
 		
 	
 		</form>
