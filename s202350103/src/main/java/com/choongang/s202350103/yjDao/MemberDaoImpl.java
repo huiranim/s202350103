@@ -30,10 +30,9 @@ public class MemberDaoImpl implements MemberDao{
 	// 추천인 포인트 적립
 	@Override
 	public int memberJoinPoint(String m_reid) {
-		
 		int	memberJoinPoint = session.update("memberJoinPoint", m_reid);
-			
 		return memberJoinPoint;
 	}
+	// 내정보 상세 
 
 }
