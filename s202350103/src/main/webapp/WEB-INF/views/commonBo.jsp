@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="common/headerBo.jsp" %>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
 <meta charset="UTF-8">
