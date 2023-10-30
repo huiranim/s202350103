@@ -10,9 +10,47 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
-	function category2Click() {
+	
+	function category2Click(currentPage1) {
+		// 클릭한 카테고리명
 		var category2Value = $("#category2").val();
-		// alert("내가 선택한 카테고리 -> "+category2Value);
+		var orderTypeValue = $("#orderType").val();
+		alert("내가 선택한 카테고리 + 정렬 -> " + category2Value + "+" + orderTypeValue);
+		
+		if(category2Value == "all"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookList?currentPage="+currentPage1+"&orderType="+orderTypeValue;
+		}
+		else if(category2Value == "economy"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookEcoList?currentPage="+currentPage1;
+			
+		}
+		else if(category2Value == "science"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookSciList?currentPage="+currentPage1;
+			
+		}
+		else if(category2Value == "novel"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookNovList?currentPage="+currentPage1;
+			
+		}
+		else if(category2Value == "history"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookHisList?currentPage="+currentPage1;
+			
+		}
+		else if(category2Value == "human"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookHumList?currentPage="+currentPage1;
+			
+		}
+		else {
+			alert("해당되는 카테고리 없음");
+			
+		}
+		
 	}
 </script>
 </head>
@@ -49,23 +87,23 @@
           <div class="d-flex mt-2 mt-lg-0">
              <div class="me-2 flex-grow-1">
                	<!-- 카테고리 검색 -->
-                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
-                   <option value="all" selected>전체</option>
-                   <option value="economy">경제/경영</option>
-                   <option value="science">과학</option>
-                   <option value="novel">소설</option>
-                   <option value="history">역사/문화</option>
-                   <option value="human">인문</option>
+                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click(${page.currentPage1 })">
+                   <option value="all" <c:if test ="${category eq '0'}"> selected="selected"</c:if>>전체</option>
+                   <option value="economy" <c:if test ="${category eq '1'}"> selected="selected"</c:if>>경제/경영</option>
+                   <option value="science" <c:if test ="${category eq '2'}"> selected="selected"</c:if>>과학</option>
+                   <option value="novel" <c:if test ="${category eq '3'}"> selected="selected"</c:if>>소설</option>
+                   <option value="history" <c:if test ="${category eq '4'}"> selected="selected"</c:if>>역사/문화</option>
+                   <option value="human" <c:if test ="${category eq '5'}"> selected="selected"</c:if>>인문</option>
      			</select>
              </div>
              
              <div>
                 <!-- 정렬 조건 -->
-                <select class="form-select" aria-label="Default select example">
-                   <option selected>최신순</option>
-                   <option value="highreview">높은별점순</option>
-                   <option value="highprice">높은가격순 </option>
-                   <option value="lowprice">낮은가격순</option>
+                <select id="orderType" class="form-select" aria-label="Default select example" onchange="category2Click(${page.currentPage1 })">
+                   <option value="recently" <c:if test ="${orderType eq 'recently'}"> selected="selected"</c:if>>최신순</option>
+                   <option value="highreview" <c:if test ="${orderType eq 'highreview'}"> selected="selected"</c:if>>높은별점순</option>
+                   <option value="highprice" <c:if test ="${orderType eq 'highprice'}"> selected="selected"</c:if>>높은가격순 </option>
+                   <option value="lowprice" <c:if test ="${orderType eq 'lowprice'}"> selected="selected"</c:if>>낮은가격순</option>
                 </select>
              </div>
           </div>
@@ -163,16 +201,71 @@
       <ul class="pagination">
         <!-- 이전버튼 -->
         <c:if test="${page.startPage > page.pageLimit}">
-	        <li class="page-item">
-	          <a class="page-link  mx-1 " href="innewbookList?currentPage=${page.startPage-page.pageLimit}" aria-label="Previous">
-	            <i class="feather-icon icon-chevron-left"></i>
-	          </a>
-	        </li>
+        	<!-- 전체도서 검색할 때 -->
+	        <c:if test="${category eq '0'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookList?currentPage=${page.startPage-page.pageLimit}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '1'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookEcoList?currentPage=${page.startPage-page.pageLimit}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '2'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookSciList?currentPage=${page.startPage-page.pageLimit}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '3'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookNovList?currentPage=${page.startPage-page.pageLimit}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '4'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookHisList?currentPage=${page.startPage-page.pageLimit}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '5'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookHumList?currentPage=${page.startPage-page.pageLimit}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
         </c:if>
         
         <!-- 페이지 넘버 -->
         <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-        	<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookList?currentPage=${i }">${i }</a></li>
+        	<c:if test="${category eq '0'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookList?currentPage=${i }">${i }</a></li>
+        	</c:if>
+        	<c:if test="${category eq '1'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookEcoList?currentPage=${i }">${i }</a></li>
+        	</c:if>
+        	<c:if test="${category eq '2'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookSciList?currentPage=${i }">${i }</a></li>
+        	</c:if>
+        	<c:if test="${category eq '3'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookNovList?currentPage=${i }">${i }</a></li>
+        	</c:if>
+        	<c:if test="${category eq '4'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookHisList?currentPage=${i }">${i }</a></li>
+        	</c:if>
+        	<c:if test="${category eq '5'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookHumList?currentPage=${i }">${i }</a></li>
+        	</c:if>
         </c:forEach>
         
         
@@ -184,11 +277,48 @@
          
         <!-- 다음 버튼 -->
         <c:if test="${page.endPage < page.totalPage}">
-	        <li class="page-item">
-	          <a class="page-link mx-1 text-body" href="innewbookList?currentPage=${page.startPage+page.pageLimit }" aria-label="Next">
-	            <i class="feather-icon icon-chevron-right"></i>
-	          </a>
-	        </li>
+        	<c:if test="${category eq '0'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookList?currentPage=${page.startPage+page.pageLimit }" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '1'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookEcoList?currentPage=${page.startPage+page.pageLimit }" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '2'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookSciList?currentPage=${page.startPage+page.pageLimit }" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '3'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookNovList?currentPage=${page.startPage+page.pageLimit }" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '4'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookHisList?currentPage=${page.startPage+page.pageLimit }" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '5'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookHumList?currentPage=${page.startPage+page.pageLimit }" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
         </c:if>
        
       </ul>
