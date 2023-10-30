@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 @Configuration
 public class SecurityConfig {
@@ -25,4 +27,11 @@ public class SecurityConfig {
 		
 		return http.build();
 	}
+	
+	// 페이지 이동 시 // 관련 오류 
+	@Bean
+	public HttpFirewall defaultHttpFirewall() {
+		return new DefaultHttpFirewall();
+	}
+
 }
