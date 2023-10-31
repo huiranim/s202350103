@@ -111,7 +111,7 @@
       
         <div class="col-md-4">
         <div class="card mb-3">
-          <a href="memberMyInfo?m_num=1021">
+          <a href="memberMyInfo?m_num=${member.m_num }">
           <div class="card-body ">
          	<div class="group mb-10 ">
 		          <i class="bi bi-person-fill fs-1 me-1" style="color:#21313c;">
@@ -121,7 +121,7 @@
 		          		</span> 
 		          </i>
          	</div>
-            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >안영준 님</p>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >${member.m_name } 님</p>
           </div>
 	          </a>
         </div>

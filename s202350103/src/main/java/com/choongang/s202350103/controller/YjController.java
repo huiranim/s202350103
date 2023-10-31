@@ -129,6 +129,10 @@ public class YjController {
 		@RequestMapping("/memberMyInfo")
 		public String memberMyInfo(Member member, Model model) {
 			
+			member.getM_num();
+			System.out.println(member.getM_num());
+			
+			model.addAttribute("member",member);
 			
 			return "yj/memberMyInfo";
 		}
