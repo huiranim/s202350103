@@ -10,6 +10,10 @@ public interface MemberService {
 	int joinResult(Member member);
 	// 추천인 포인트적립
 	int memberJoinPoint(String m_reid);
+	// 회원 상세 
+	Member memberInfo(int m_num);
+	// 회원정보 수정
+	int memberUpdate(Member member);
 
 	
 }

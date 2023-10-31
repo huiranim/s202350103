@@ -81,7 +81,7 @@ public class YjController {
 			member.setM_email(m_email1+"@"+m_email);	// 이메일 병합
 			member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
 			member.setM_birth(m_birth+m_birth1);		// 생년월일 성별 병합
-			member.setM_addr("("+m_addr1+") " + m_addr2 + " " + m_addr ); // 우편번호 주소 상세주소 병합
+			member.setM_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
 			
 			
 			String m_emailAll = member.getM_email();
@@ -114,7 +114,8 @@ public class YjController {
 		public void memberJoinPoint(String m_reid) {
 			int memberJoinPoint = ms.memberJoinPoint(m_reid);
 		}
-		
+	
+/*		
 	// 마이 페이지 이동
 		@RequestMapping ("/memberMyPage")
 		public String memberMyPage(String m_num, Model model) {
@@ -124,18 +125,66 @@ public class YjController {
 			
 			return "yj/memberMyPage";
 		}
+*/		
+	
 		
 	// 내정보 상세
-		@RequestMapping("/memberMyInfo")
-		public String memberMyInfo(Member member, Model model) {
+		@GetMapping("/memberMyInfo")
+		public String memberMyInfo(int m_num, Model model) {
 			
-			member.getM_num();
-			System.out.println(member.getM_num());
+			Member member = ms.memberInfo(m_num);
+			
+			String[] splitPh = member.getM_ph().split("-");
+			String[] splitEmail = member.getM_email().split("@");
+			String[] splitAddr = member.getM_addr().split("/");
+			
+			model.addAttribute("splitPh",splitPh);
+			model.addAttribute("splitEmail",splitEmail);
+			model.addAttribute("splitAddr",splitAddr);
 			
 			model.addAttribute("member",member);
 			
 			return "yj/memberMyInfo";
 		}
+		
+	// 회원정보 수정 
+		@PostMapping("/memberUpdate")
+		public String memberUpdate (	@RequestParam("m_num") int m_num ,
+				
+										@RequestParam("m_email1") String m_email1, 
+										@RequestParam("m_email") String m_email, 
+										
+										@RequestParam("m_ph1") String m_ph1,
+										@RequestParam("m_ph2") String m_ph2,
+										@RequestParam("m_ph3") String m_ph3,
+										
+										@RequestParam("m_addr1") String m_addr1,
+										@RequestParam("m_addr2") String m_addr2,
+										@RequestParam("m_addr") String m_addr,
+										
+										@ModelAttribute Member member, Model model) {
+
+			System.out.println(m_num);	
+			
+			member.setM_email(m_email1+"@"+m_email);	// 이메일 병합
+			member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
+			member.setM_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
+			
+			
+			String m_emailAll = member.getM_email();
+			String m_phAll = member.getM_ph();
+			String m_addrAll = member.getM_addr();
+			
+			System.out.println("m_emailAll ->"+ m_emailAll);
+			System.out.println("m_phAll ->"+ m_phAll);
+			System.out.println("m_addrAll -> " + m_addrAll);
+			
+			int memberUpdate = ms.memberUpdate(member);
+			model.addAttribute("memberUpdate",memberUpdate);
+		
+			return  "redirect:/";
+		}
+		
 		
 		
 }

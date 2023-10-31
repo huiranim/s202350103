@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- Bootstrap CSS link (Make sure to include Bootstrap CSS in your project) -->
 </head>
 <body>
   <!-- Container for card layout -->
