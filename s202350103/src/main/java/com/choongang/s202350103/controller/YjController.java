@@ -184,7 +184,13 @@ public class YjController {
 		
 			return  "redirect:/";
 		}
-		
+	
+	// 계정 찾기 폼
+		@RequestMapping("memberFindAccount")
+		public String memberFindAccount() {
+			
+			return"yj/memberFindAccount";
+		}
 		
 		
 }
