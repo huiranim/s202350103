@@ -8,6 +8,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+	
+	function findMemberPw(){
+		
+		location.href="findMemberPw";
+	}
+
+
+</script>
+
 </head>
 <body>
 	
@@ -26,17 +36,17 @@
        <!-- input -->
        <div class="col-md-10 mb-3">
           <!-- input -->
-          <label class="form-label" for="company">아이디 찾기<span class="text-danger">*</span></label>
+          <label class="form-label" >아이디 찾기<span class="text-danger">*</span></label>
 				<div class="d-grid gap-2  mx-auto">
-				  <button class="btn btn-primary" type="button">본인명의 인증으로 아이디 찾기</button>
+				  <button class="btn btn-primary" type="button" >본인명의 인증으로 아이디 찾기</button>
 				</div>
 
        </div>
        <div class="col-md-10 mb-3">
           <!-- input -->
-          <label class="form-label" for="phone"> 비밀번호 변경<span class="text-danger">*</span></label>
+          <label class="form-label" > 비밀번호 변경<span class="text-danger">*</span></label>
 				<div class="d-grid gap-2  mx-auto">
-				  <button class="btn btn-primary" type="button">본인명의 인증으로 비밀번호 변경</button>
+				  <button class="btn btn-primary" type="button" onclick="findMemberPw()">본인명의 인증으로 비밀번호 변경</button>
 				</div>
 
        </div>

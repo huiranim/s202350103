@@ -30,7 +30,7 @@
         <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1" style="align-items: center;">
           <div class="mb-lg-9 mb-5">
             <h1 class="mb-1 h2 fw-bold" style="text-align: center;">LOGIN</h1>
-            <p style="text-align: center;">다독다독에 오신걸 환영합니다.<br> 로그인하여 이용해주시길 바랍니다.</p>
+            <p style="text-align: center;">다독에 오신걸 환영합니다.<br> 로그인하여 이용해주시길 바랍니다.</p>
           </div>
 
           <form action="memberLogin" method="post" name="frm" onsubmit="member_chk()">                  
@@ -58,7 +58,7 @@
                   </label>
                   
                 </div>
-                <div> 비밀번호를 잊으셨나요? <a href="findMemberPw">비밀번호 찾기</a></div>
+                <div> 계정을 잊어버리셨나요? <a href="memberFindAccount">계정 찾기</a></div>
               </div>
 
              
@@ -66,7 +66,7 @@
               <div class="col-12 d-grid"> <button type="submit" class="btn btn-primary">로그인</button>
               </div>
               <!-- link -->
-              <div>이미 계정이 있으신가요? <a href="memberJoin"> 회원가입</a></div>
+              <div>회원이 아니신가요? <a href="memberJoin">회원 가입하기</a></div>
             </div>
           </form>
         </div>
