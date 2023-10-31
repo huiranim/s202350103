@@ -9,10 +9,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
+
+	function findMemberId(){
+	
+	location.href="memberFrinId";
+	}
+	
+
 	
 	function findMemberPw(){
 		
-		location.href="findMemberPw";
+	location.href="findMemberPw";
 	}
 
 
@@ -38,7 +45,7 @@
           <!-- input -->
           <label class="form-label" >아이디 찾기<span class="text-danger">*</span></label>
 				<div class="d-grid gap-2  mx-auto">
-				  <button class="btn btn-primary" type="button" >본인명의 인증으로 아이디 찾기</button>
+				  <button class="btn btn-primary" type="button" onclick="findMemberId()">본인명의 인증으로 아이디 찾기</button>
 				</div>
 
        </div>

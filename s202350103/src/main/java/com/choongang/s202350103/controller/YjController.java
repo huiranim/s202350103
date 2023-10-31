@@ -1,5 +1,7 @@
 package com.choongang.s202350103.controller;
 
+import java.util.Random;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,20 +9,32 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.yjService.MemberService;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Controller
 public class YjController {
 
 	private final MemberService ms;
+
+	final DefaultMessageService messageService; // 문자전송 API
+	
 	
 	public YjController(MemberService ms) {
 		this.ms = ms;
+		// 문자 전송 API 							API 키, API Secret Key
+		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
+		   
 	}
 	
 	// 약관 페이지 이동
@@ -185,12 +199,66 @@ public class YjController {
 			return  "redirect:/";
 		}
 	
-	// 계정 찾기 폼
+	// 계정 찾기 화면 이동
 		@RequestMapping("memberFindAccount")
 		public String memberFindAccount() {
-			
 			return"yj/memberFindAccount";
 		}
+	
+	// 아이디 찾기 화면 이동
+		@RequestMapping("memberFrinId")
+		public String memberFrinId() {
+			return "yj/memberFrinId";
+		}
+		
+	// 인증 화면 이동
+		@RequestMapping("memberFindAc")
+		public String memberPhFindId(@RequestParam("auth") String auth, Model model ) {
+			
+			if("ph".equals(auth)) {
+				return "yj/memberFindAcPh";
+			}else {
+				return "yj/memberFindAcEmail";
+			}
+			
+		}
+	
+	// 인증 랜덤번호 발송 메서드
+	    private String ranCode() {
+	    	Random random = new Random();
+	    	int min = 100000;
+	    	int max = 999999;
+	    	
+	    	int ranCode = random.nextInt((max - min) + 1) + min;
+	    	
+	    	return String.valueOf(ranCode);
+	    }
+		
+		
+     // 인증 메시지 발송 
+	  @PostMapping("/memberAuthPhone") 
+	  public String memberAuthPhone(@RequestParam String m_ph, Model model) {
+			
+		  System.out.println(m_ph);
+		  
+	      Message message = new Message();
+		  
+		  String ranCode = ranCode();
+		  
+		  
+		  // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력. "-" 제외
+		  message.setFrom(m_ph); 			// 발신번호 입력
+		  message.setTo("01024846106"); 	// 수신번호 입력
+		  // 한글 45자, 영자 90자 이하 입력되면 자동으로 SMS타입의 메시지가 추가
+		  message.setText("[(주)DADOK] ["+ranCode+"] 인증번호를 정확히 입력해주세요.");
+		  
+		  SingleMessageSentResponse response = this.messageService.sendOne(new
+		  SingleMessageSendingRequest(message)); System.out.println(response);
+		  
+		  return "yj/memberFindAcPh"; 
+		  
+		  }
+
 		
 		
 }

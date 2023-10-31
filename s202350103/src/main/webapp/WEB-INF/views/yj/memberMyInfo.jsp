@@ -284,16 +284,6 @@ function valiForm() {
 							</div>
 						</div>
 
-	
-						<div class="col-lg-15">
-							<div class="input-group mb-5 ">
-								<a href="memberFindAccount" style="font-size: 16px;" class="">계정찾기 </a>   
-								
-								<p>
-							</div>
-						</div>
-					
-
 
 					</div>
 					<hr>
