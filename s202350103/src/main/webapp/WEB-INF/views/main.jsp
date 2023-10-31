@@ -222,7 +222,7 @@
 			               	</div>
 			                <!-- 마이페이지 아이콘 -->
 						    <div class="list-inline-item me-5">
-						    	<a href="memberMyPage?m_num=1021" class="" >
+						    	<a href="memberMyPage1" class="" >
 						     		<i class="bi bi-person-circle fs-4 me-4"></i>MyPage
 						      		<span class="visually-hidden">unread messages</span>
 						    	</a>
