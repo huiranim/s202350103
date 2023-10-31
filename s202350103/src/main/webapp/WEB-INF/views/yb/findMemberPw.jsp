@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta content="Codescandy" name="author">
-  <title>Forget Password eCommerce HTML Template - FreshCart </title>
+  <title>Forget Password eCommerce HTML Template - DaDok </title>
 <!-- Favicon icon-->
 <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon/favicon.ico">
 
@@ -25,22 +25,19 @@
 
 <script language="javascript">
 	function view(arg) {
-		var t1 = document.getElementById("tb1");
-		var t2 = document.getElementById("tb2");
+		var tb1 = document.getElementById("tb1");
+		var tb2 = document.getElementById("tb2");
 		
 
 		
 		if(arg == 1) {
-			t1.style.display="block";
-			t2.style.display="none";
+			tb1.style.display="block";
+			tb2.style.display="none";
 		}
-		else if(arg == 2){
-			t2.style.display="block";
-			t1.style.display="none";
-		} else {
-			t1.style.display="block";
-			t2.style.display="none";
-		}
+		else {
+			tb2.style.display="block";
+			tb1.style.display="none";
+		} 
 	}
 </script>
 <style type="text/css">
@@ -53,6 +50,7 @@
 	#kindBtn:active {
 		background: white;
 		color: #0aad0a; 
+
 	}
 </style>
 <!-- End Tag -->
@@ -86,15 +84,12 @@
         <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1 d-flex align-items-center">
         	<div class="mb-lg-9 mb-5">
               <!-- heading -->
-              <h1 class="mb-2 h2 fw-bold">비밀번호 찾기</h1>
-              <p>이메일 또는 문자를 통해 인증번호 받고 비밀번호 찾으세요</p>
-                
-                <div class="row justify-content-center align-items-center" align="center">
-                <input type="button" value="이메일로 찾기"	id="kindBtn"  onClick="view(1)">
-				<input type="button" value="번호로 찾기"	id="kindBtn"  onClick="view(2)"><p>	
-				<form>
-	         		<table id="tb1" cellpadding="10px" >
-	   
+              <h1 class="mb-2 h2 fw-bold" style="margin-bottom: 30px;">비밀번호 찾기</h1>
+              <p>이메일 또는 문자를 통해 인증번호 받고 비밀번호 찾으세요.</p>
+              <input type="button" value="이메일로 찾기"  id="kindBtn"  onClick="view(1)" class="btn btn-primary">
+			  <input type="button" value="번호로 찾기"	  id="kindBtn"  onClick="view(2)" class="btn btn-primary"><p>	
+              <div class="row justify-content-center align-items-center" align="center" style="margin-right: 20px;">             
+	         		<table id="tb1" cellpadding="10px" style="margin-left: 50px; " >	   
 						<tr><td>
 								<div class="col-12">
 		                 			<!-- input -->
@@ -102,40 +97,42 @@
 		               			</div>
 		               		</td>
 		               	</tr>
-						<tr><td>
+						<tr>
+							<td>
 								<div class="row g-3">
 		               				<div class="col-12 d-grid gap-2"> <button type="submit" class="btn btn-primary">비밀번호 찾기</button>
-		                 			<a href="signup.html" class="btn btn-light">Back</a>
+		                 			<a href="loginForm" class="btn btn-light">Back</a>
 		               				</div>
 		             			</div>
-		             		</td></tr>
+		             		</td>
+		             	</tr>
 					</table>
-				</form>	
-				</div>
-				<div class="row justify-content-center align-items-center" align="center" >
-				<form>
-	         		<table id="tb2" cellpadding="10px" style="display: none">
-						<tr><td>
-								<div class="col-12">
-		                 			<!-- input -->
-		                 			<input type="email" class="form-control" id="inputEmail4" placeholder="전화번호를 입력하세요" required>
-		               			</div>
+
+	         		<table id="tb2" cellpadding="10px" style="display: none; margin-left: 35px; ">
+						<tr>
+							<td>
+		                 			<input type="email" class="form-control" id="inputPassword" placeholder="전화번호를 입력하세요" required>
+		   
 		               		</td>
 		               	</tr>
-						<tr><td>
+						<tr>
+							<td>
 								<div class="row g-3">
 		               				<div class="col-12 d-grid gap-2"> <button type="submit" class="btn btn-primary">비밀번호 찾기</button>
-		                 			<a href="signup.html" class="btn btn-light">Back</a>
+		                 			<a href="loginForm" class="btn btn-light">Back</a>
 		               				</div>
 		             			</div>
-		             		</td></tr>
+		             		</td>
+		             	</tr>
 					</table>			
-				</form>	
+
 				</div>
+				
+				</div>
+				
           </div>
         </div>
       </div>
-    </div>
 
   </section>
 </main>
