@@ -23,6 +23,8 @@ public class NewBook {				// 새상품
 	
 	// 조회용
 	private int r_rating;			// 별점
+	private int reviewCnt;			// 리뷰 개수 
+	private int r_ratingAvg;		// 별점 평균
 	private String orderType;		// 정렬기준
 	private String search_keyword;	// 검색어
 	private String search_type;		// 검색조건

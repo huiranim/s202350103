@@ -16,24 +16,35 @@ public class NewBookDaoImpl implements NewBookDao {
 	
 	@Override
 	public List<NewBook> selectInNewBookList(NewBook newbook) {
-		
-		System.out.println("NewBookDaoImpl selectInNewBookList Start...");
-		List<NewBook> listInNewBook = session.selectList("gbSelectInNbList", newbook);
+		List<NewBook> listInNewBook = null;
+		try {
+			System.out.println("NewBookDaoImpl selectInNewBookList Start...");
+		listInNewBook = session.selectList("gbSelectInNbList", newbook);
 		System.out.println("NewBookDaoImpl selectInNewBookList listInNewBook.size() -> "+listInNewBook.size());
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl selectInNewBookList -> "+e.getMessage());
+		}
 		
 		return listInNewBook;
 	}
 
 	@Override
 	public int selectInNewBookCnt() {
-		System.out.println("NewBookDaoImpl selectInNewBookCnt Start...");
-		int inNewbookCnt = session.selectOne("gbSelectInNbCnt");
-		System.out.println("NewBookDaoImpl selectInNewBookCnt inNewbookCnt");
+		int inNewbookCnt = 0;
+		try {
+			System.out.println("NewBookDaoImpl selectInNewBookCnt Start...");
+			inNewbookCnt = session.selectOne("gbSelectInNbCnt");
+			System.out.println("NewBookDaoImpl selectInNewBookCnt inNewbookCnt");
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl selectInNewBookCnt -> "+e.getMessage());
+		}
+		
 		return inNewbookCnt;
 	}
 
 	@Override
 	public int selectInNewBookEcoCnt() {
+		
 		System.out.println("NewBookDaoImpl selectInNewBookEcoCnt start...");
 		int ineconmyCnt = session.selectOne("gbSelectInNbEcoCnt");
 		System.out.println("NewBookDaoImpl selectInNewBookEcoCnt ineconmyCnt -> "+ineconmyCnt);
