@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.ybService.MemberService;
@@ -26,19 +27,20 @@ public class YbController {
 	// Main Page
 	@RequestMapping(value = "/")
 	public String main() {
-		System.out.println("YbController main start... ");
+		System.out.println("YbController main() start... ");
 		return "main";
 	}
 	// 로그인 창 이동
 	@GetMapping(value = "loginForm")
 	public String loginForm() {
+		System.out.println("YbController login() start... ");
 		return "yb/loginForm";
 	}
 	// 로그인
 	@RequestMapping(value = "memberLogin")
 	public String login(Member member1, HttpSession session, HttpServletRequest request, Model model) {
 		log.info("Login page");
-
+		ModelAndView mv = new ModelAndView();
 		System.out.println("YbController login() session -> " + session);
 		Member member = ms.login(member1);
 		
@@ -49,7 +51,7 @@ public class YbController {
 			return "redirect:/";
 		} else {
 			// 로그인실패
-			model.addAttribute("msg", "로그인실패");
+			mv.addObject("msg", "로그인 실패");
 			return "yb/loginForm";
 		}
 	}
@@ -74,7 +76,14 @@ public class YbController {
 	
 	@GetMapping(value = "memberMyPage1")
 	public String memberMyPage1() {
-		System.out.println("YbController memberMyPage1 start...");
+		System.out.println("YbController memberMyPage1() start...");
 		return "yb/memberMyPage1";
 	}
+	
+	@GetMapping(value = "findMemberPw")
+	public String findMemberPw() {
+		System.out.println("YbController findMemberPw() start...");
+		return "yb/findMemberPw";
+	}
+	
 }

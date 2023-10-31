@@ -2,9 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/headerFo.jsp"  %>
 
-    
+
+
 <!DOCTYPE html>
 <html>
+
+<script type="text/javascript">
+	function mem_check() {
+		if(frm.m_id.value != member.m_id) {
+			alert("아이디 혹은 비밀번호를 다시 입력하세요.")
+			return false;
+		} else
+		
+	}
+</script>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -22,10 +33,10 @@
             <p style="text-align: center;">다독다독에 오신걸 환영합니다.<br> 로그인하여 이용해주시길 바랍니다.</p>
           </div>
 
-          <form action="memberLogin" method="post">
+          <form action="memberLogin" method="post" name="frm" onsubmit="member_chk()">                  
             <div class="row g-3">
               <!-- row -->
-
+			
               <div class="col-12">
                 <!-- input -->
                 <input type="text" class="form-control" name="m_id" placeholder="아이디를 입력하세요" required>
@@ -34,20 +45,23 @@
                 <!-- input -->
               <div class="password-field position-relative">
       			<input type="password" name="m_pw" placeholder="비밀번호를 입력하세요" class="form-control" required >
-      <span><i id="passwordToggler"class="bi bi-eye-slash"></i></span>
+      			<span><i id="passwordToggler"class="bi bi-eye-slash"></i></span>
     		  </div>
 
               </div>
               <div class="d-flex justify-content-between">
                 <!-- form check -->
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="rememberPw">
-                  <!-- label --> <label class="form-check-label" for="flexCheckDefault">
-                    	기억하기
+                  <input class="form-check-input" type="checkbox" id="memberCheck" name="memberCheck" value="true" ${checked}>
+                  <!-- label --> <label class="form-check-label" for="memberCheck">
+                    	아이디 기억하기
                   </label>
+                  
                 </div>
-                <div> 비밀번호를 잊으셨나요? <a href="../pages/forgot-password.html">비밀번호 찾기</a></div>
+                <div> 비밀번호를 잊으셨나요? <a href="findMemberPw">비밀번호 찾기</a></div>
               </div>
+
+             
               <!-- btn -->
               <div class="col-12 d-grid"> <button type="submit" class="btn btn-primary">로그인</button>
               </div>
