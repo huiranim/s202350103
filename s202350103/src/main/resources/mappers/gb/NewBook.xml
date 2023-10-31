@@ -4,17 +4,122 @@
 
 <mapper namespace="com.choongang.s202350103.NewBookMapper">
 	
+	<!-- 전체 도서 개수 및 리스트-->
 	<select id="gbSelectInNbCnt" resultType="int">
 		SELECT count(*) FROM newbook WHERE nb_category1 = 1
 	</select>
 	
 	<select id="gbSelectInNbList" parameterType="NewBook" resultType="NewBook">
 		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
+			   nb_category1, nb_category2, nb_image, r_rating
+		FROM (
+				SELECT rownum rn, nb.*, re.r_rating
+				FROM newbook nb, review re
+				WHERE nb.nb_num = re.nb_num
+				AND nb.nb_category1 = 1
+				<choose>
+					<when test="#{orderType} == 'recently'">
+						ORDER BY nb.nb_publi_date desc
+					</when>
+					<when test="#{orderType} == 'highreview'">
+						ORDER BY re.r_rating desc
+					</when>
+					<when test="#{orderType} == 'highprice'">
+						ORDER BY nb.nb_price desc
+					</when>
+					<when test="#{orderType} == 'lowprice'">
+						ORDER BY nb.nb_price asc
+					</when>
+				</choose>
+			) 
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 경제/경영 도서 개수 및 리스트 -->
+	<select id="gbSelectInNbEcoCnt" resultType="int">
+		SELECT count(*) FROM newbook WHERE nb_category1 = 1 AND nb_category2 = 1
+	</select>
+	
+	<select id="gbSelectInNbEcoList" parameterType="NewBook" resultType="NewBook">
+		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
 			   nb_category1, nb_category2, nb_image
 		FROM (
 				SELECT rownum rn, nb.*
 				FROM newbook nb
 				WHERE nb_category1 = 1
+				AND   nb_category2 = 1
+				ORDER BY nb_publi_date desc
+			) 
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 과학 도서 개수 및 리스트 -->
+	<select id="gbSelectInNbSciCnt" resultType="int">
+		SELECT count(*) FROM newbook WHERE nb_category1 = 1 AND nb_category2 = 2
+	</select>
+	
+	<select id="gbSelectInNbSciList" parameterType="NewBook" resultType="NewBook">
+		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
+			   nb_category1, nb_category2, nb_image
+		FROM (
+				SELECT rownum rn, nb.*
+				FROM newbook nb
+				WHERE nb_category1 = 1
+				AND   nb_category2 = 2
+				ORDER BY nb_publi_date desc
+			) 
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 소설 도서 개수 및 리스트 -->
+	<select id="gbSelectInNbNovCnt" resultType="int">
+		SELECT count(*) FROM newbook WHERE nb_category1 = 1 AND nb_category2 = 3
+	</select>
+	
+	<select id="gbSelectInNbNovList" parameterType="NewBook" resultType="NewBook">
+		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
+			   nb_category1, nb_category2, nb_image
+		FROM (
+				SELECT rownum rn, nb.*
+				FROM newbook nb
+				WHERE nb_category1 = 1
+				AND   nb_category2 = 3
+				ORDER BY nb_publi_date desc
+			) 
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 역사/문화 도서 개수 및 리스트 -->
+	<select id="gbSelectInNbHisCnt" resultType="int">
+		SELECT count(*) FROM newbook WHERE nb_category1 = 1 AND nb_category2 = 4
+	</select>
+	
+	<select id="gbSelectInNbHisList" parameterType="NewBook" resultType="NewBook">
+		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
+			   nb_category1, nb_category2, nb_image
+		FROM (
+				SELECT rownum rn, nb.*
+				FROM newbook nb
+				WHERE nb_category1 = 1
+				AND   nb_category2 = 4
+				ORDER BY nb_publi_date desc
+			) 
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 인문 도서 개수 및 리스트 -->
+	<select id="gbSelectInNbHumCnt" resultType="int">
+		SELECT count(*) FROM newbook WHERE nb_category1 = 1 AND nb_category2 = 5
+	</select>
+	
+	<select id="gbSelectInNbHumList" parameterType="NewBook" resultType="NewBook">
+		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
+			   nb_category1, nb_category2, nb_image
+		FROM (
+				SELECT rownum rn, nb.*
+				FROM newbook nb
+				WHERE nb_category1 = 1
+				AND   nb_category2 = 5
 				ORDER BY nb_publi_date desc
 			) 
 		WHERE rn BETWEEN #{start} AND #{end}

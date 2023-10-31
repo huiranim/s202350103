@@ -11,18 +11,18 @@
 	</select>
 	
 	<select id="hrSelectOrderrList" parameterType="Orderr" resultType="Orderr">
-		<!-- SELECT o.*, m.m_name
-		FROM orderr o, member m
-		WHERE o.m_num = m.m_num -->
-		
+
 		SELECT *
 		FROM (SELECT rownum rn, a.*
-			  FROM (SELECT o.*, m.m_name
-			  		FROM orderr o, member m
-			  		WHERE o.m_num = m.m_num
-			  		ORDER BY o.o_order_date DESC) a
+			  FROM (SELECT o.*, m.m_name, order_detail_min(o.O_ORDER_NUM) nb_title
+                    FROM   orderr o, member m
+                    WHERE  o.m_num = m.m_num(+)
+                    ORDER BY o.o_order_date DESC
+                    ) a
 			  )
 		WHERE rn BETWEEN #{start} AND #{end}
+		
+
 	</select>
 	
 	<select id="hrMinNbNum" parameterType="long" resultType="int">

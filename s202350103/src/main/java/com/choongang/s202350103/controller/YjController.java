@@ -114,5 +114,24 @@ public class YjController {
 		public void memberJoinPoint(String m_reid) {
 			int memberJoinPoint = ms.memberJoinPoint(m_reid);
 		}
-	
+		
+	// 마이 페이지 이동
+		@RequestMapping ("/memberMyPage")
+		public String memberMyPage(String m_num, Model model) {
+			
+			System.out.println(m_num);
+			model.addAttribute("m_num",m_num);
+			
+			return "yj/memberMyPage";
+		}
+		
+	// 내정보 상세
+		@RequestMapping("/memberMyInfo")
+		public String memberMyInfo(Member member, Model model) {
+			
+			
+			return "yj/memberMyInfo";
+		}
+		
+		
 }

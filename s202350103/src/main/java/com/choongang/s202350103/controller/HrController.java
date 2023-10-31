@@ -62,4 +62,20 @@ public class HrController {
 		System.out.println("HrController selectOrderrList() end..");
 		return "/hr/boOrderList";
 	}
+	
+	// BO 주문상세
+	// boOrderDetail.jsp
+	@RequestMapping(value = "boOrderDetail")
+	public String selectOrderr(Model model, int o_order_num) {
+		System.out.println("HrController selectOrderr() start..");
+		
+		Orderr orderr = new Orderr();
+		orderr = os.selectOrderr(o_order_num);
+		System.out.println("HrController selectOrderr() orderr.getM_name() -> "+orderr.getM_name());
+		
+		model.addAttribute("orderr", orderr);
+		
+		System.out.println("HrController selectOrderr() end..");
+		return "/hr/boOrderDetail";
+	}
 }

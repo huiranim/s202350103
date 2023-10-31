@@ -31,6 +31,7 @@ public class MemberServiceImpl implements MemberService{
 		int memberJoinPoint = md.memberJoinPoint(m_reid);
 		return memberJoinPoint;
 	}
+	// 내정보 상세
 
 	
 }

@@ -27,19 +27,36 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl selectOrderrList() start..");
 		List<Orderr> orderrList = od.selectOrderrList(orderr);
 		System.out.println("OrderServiceImpl orderrList.size() -> "+ orderrList.size());
+		for(Orderr order : orderrList) {
+			System.out.println("selectOrderrList nb_title->"+order.getNb_title());
+	    }
 		
-		int nb_num;
-		for(Orderr oderr : orderrList) {
-			nb_num = od.minNbNum(oderr.getO_order_num());
-			
-			if (nb_num < 200000) {
-				oderr.setNb_title(od.selectNBTitleByNum(nb_num));
-			} else {
-				oderr.setNb_title(od.selectOBTitleByNum(nb_num));
-			}
-		}
+//		int nb_num;
+//						// 10건
+//		for(Orderr oderr : orderrList) {
+//			nb_num = od.minNbNum(oderr.getO_order_num());
+//			
+//			if (nb_num < 200000) {
+//				oderr.setNb_title(od.selectNBTitleByNum(nb_num));
+//			} else {
+//				oderr.setNb_title(od.selectOBTitleByNum(nb_num));
+//			}
+//		}
 		System.out.println("OrderServiceImpl selectOrderrList() end..");
 		return orderrList;
+	}
+	
+	// BO 주문상세
+	// boOrderDetail.jsp
+	@Override
+	public Orderr selectOrderr(int o_order_num) {
+		System.out.println("OrderServiceImpl selectOrderr() start..");
+		Orderr orderr = od.selectOrderr(o_order_num);
+		
+		System.out.println("OrderServiceImpl selectOrderr() orderr.getM_name() -> "+orderr.getM_name());
+		
+		System.out.println("OrderServiceImpl selectOrderr() end..");
+		return orderr;
 	}
 
 
