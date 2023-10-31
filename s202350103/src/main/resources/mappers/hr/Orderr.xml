@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.choongang.s202350103.OrderrMapper">
+
+<!-- BO 주문목록
+	 boOrderList.jsp -->
+	<select id="hrCountOrderrList" resultType="int">
+		SELECT count(*) FROM orderr
+	</select>
+	
+	<select id="hrSelectOrderrList" parameterType="Orderr" resultType="Orderr">
+
+		SELECT *
+		FROM (SELECT rownum rn, a.*
+			  FROM (SELECT o.*, m.m_name, order_detail_min(o.O_ORDER_NUM) nb_title
+                    FROM   orderr o, member m
+                    WHERE  o.m_num = m.m_num(+)
+                    ORDER BY o.o_order_date DESC
+                    ) a
+			  )
+		WHERE rn BETWEEN #{start} AND #{end}
+		
+
+	</select>
+	
+	<select id="hrMinNbNum" parameterType="long" resultType="int">
+		SELECT MIN(nb_num)
+		FROM order_detail
+		WHERE o_order_num = #{o_order_num}
+	</select>
+	
+	<select id="hrNBTitle" parameterType="int" resultType="String">
+		SELECT nb_title
+		FROM newbook
+		WHERE nb_num = #{nb_num}
+	</select>
+	
+	<select id="hrOBTitle" parameterType="int" resultType="String">
+		SELECT n.nb_title
+		FROM oldbook o, newbook n
+		WHERE o.nb_num = n.nb_num
+		AND o.ob_num = #{nb_num}
+	</select>
+</mapper>

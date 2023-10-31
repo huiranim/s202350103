@@ -22,6 +22,8 @@ public class NewBook {				// 새상품
 	private Date nb_register_date;	// 등록일자
 	
 	// 조회용
+	private int r_rating;			// 별점
+	private String orderType;		// 정렬기준
 	private String search_keyword;	// 검색어
 	private String search_type;		// 검색조건
 	private String pageNum;			// 페이징번호
