@@ -66,7 +66,7 @@
               <div class="col-12 d-grid"> <button type="submit" class="btn btn-primary">로그인</button>
               </div>
               <!-- link -->
-              <div>이미 계정이 있으신가요? <a href="signup"> 회원가입</a></div>
+              <div>이미 계정이 있으신가요? <a href="memberJoin"> 회원가입</a></div>
             </div>
           </form>
         </div>

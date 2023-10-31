@@ -1,15 +1,14 @@
 package com.choongang.s202350103.controller;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.Member;
@@ -85,5 +84,7 @@ public class YbController {
 		System.out.println("YbController findMemberPw() start...");
 		return "yb/findMemberPw";
 	}
+	
+	
 	
 }
