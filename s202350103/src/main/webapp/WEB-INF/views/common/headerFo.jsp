@@ -55,7 +55,7 @@
           <div class="col-xxl-2 col-lg-3">
 
 	<!-- 로고/제목(데스크톱) -->
-            <a class="navbar-brand d-none d-lg-block" href="../index.html">
+            <a class="navbar-brand d-none d-lg-block" href="/">
 				<h1>DADOK</h1>
 
             </a>
@@ -149,7 +149,7 @@
 
           
           <!-- 검색 버튼 -->
-          <div class="col-md-2 col-xxl-3 d-none d-lg-block">
+          <div class="col-md-2 col-xxl-2 d-none d-lg-block">
 			
             <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
               data-bs-target="#locationModal">
@@ -160,44 +160,59 @@
           </div>
           
           <div class="col-md-2 col-xxl-2 text-end d-none d-lg-block">
+		          	<!-- 비 로그인 시 -->	
+	          <div class="list-inline">
+		            <c:if test="${sessionScope.member == null }">
+             			<div class="list-inline-item me-6">
+						<!-- 로그인 아이콘 -->
+				       	<a href="loginForm" class="position-relative">                  
+				        	<i class="feather-icon icon-log-out me-1">
+				        	</i>로그인
+		               		<span class="visually-hidden">unread messages</span>
+		                </a></div>
 
-        	<!-- 로그인 시  -->
 
-        <div class="list-inline d-flex align-items-center">
-			  <!-- 로그인 아이콘 -->
-			  <div class="list-inline-item me-5" style="margin-top: 7px;">
-			    <a href="#!" class="" data-bs-toggle="modal" data-bs-target="#userModal">
-			      <i class="feather-icon icon-log-out me-4"></i>
-			      <div style="margin-top: 4px;" >
-			      Logout
-			      </div>
-			      <span class="visually-hidden">unread messages</span>
-			    </a>
-			  </div>
-			
-			  <!-- 마이페이지 아이콘 -->
-			  <div class="list-inline-item me-5">
-			    <a href="memberMyPage?m_num=1021" class="" >
-			      <i class="bi bi-person-circle fs-4 me-4"></i>MyPage
-			      <span class="visually-hidden">unread messages</span>
-			    </a>
-			  </div>
-			
-			  <!-- 장바구니 아이콘 -->
-			  <div class="list-inline-item me-5">
-			    <a href="#!" class="" >
-			      <i class="bi bi-cart2 fs-4 me-1"></i>Cart
-			      <span class="visually-hidden">unread messages</span>
-			    </a>
-			  </div>
-			</div>
-        </div>
-      </div>
+						<div class="list-inline-item me-6">
+						<!-- 회원가입 아이콘 -->
+				       	<a href="memberJoin">                  
+				        	<i class="bi bi-person-plus-fill me-1">
+				        	</i>회원가입
+		               		<span class="visually-hidden">unread messages</span>
+		                </a>
+		                
+		                </div>
+			            </c:if>
+		                
+		            <!-- 로그인 시 -->
+			     		<c:if test="${sessionScope.member != null }">
+			                <!-- 장바구니 아이콘 -->
+						    <div class="list-inline-item me-5">
+						    	<a href="#!" class="" >
+						      		<i class="bi bi-cart2 fs-6 me-1"></i>장바구니
+						     	 	<span class="visually-hidden">unread messages</span>
+						    	</a>
+						  </div>
+			     			<div class="list-inline-item me-5">
+								<!-- 로그아웃 아이콘 -->
+								<a href="memberLogout" class="list-inline">
+									<i class="feather-icon icon-log-out me-1"></i>로그아웃
+				               		<span class="visually-hidden">unread mes</span>
+			               		</a>
+			               	</div><p>
+			               	<div>
+								<a href="memberMyPage1" style="color: #002b63;"><strong>
+								${member.m_name }</strong></a>
+								님 환영합니다.
+			               	</div>
+			     		</c:if>	
+		 		   </div>
+		 		   
+   	  	    	  </div>
       
     </div>
   
     </div>
-    </div>
+   </div>
     
     
 

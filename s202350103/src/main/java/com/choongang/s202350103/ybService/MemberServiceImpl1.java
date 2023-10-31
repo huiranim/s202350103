@@ -15,11 +15,11 @@ public class MemberServiceImpl1 implements MemberService {
 	private final MemberDaoImpl1 md;
 
 	@Override
-	public Member login(Member member) {
+	public Member login(Member member1) {
 		System.out.println("MemberServiceImpl login Start");
-		member = md.login(member);
+		member1 = md.login(member1);
 		
-		return member;
+		return member1;
 	}
 
 
