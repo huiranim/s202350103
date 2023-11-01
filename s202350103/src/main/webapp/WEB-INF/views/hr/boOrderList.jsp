@@ -11,8 +11,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%-- <h1>회원 수 확인용 : ${result }</h1><p> --%>
-	
 <div class="row">
 <div class="col-lg-12">
       <div class="mb-8">
@@ -48,7 +46,7 @@
                      <th>주문번호</th>
                      <th>주문상태</th>
                      <th>주문일시</th>
-                     <th>주문상품</th>
+                     <th>대표 상품명</th>
                      <th>주문자</th>
                      <th>수신자</th>
                      <th>주문유형</th>
@@ -65,18 +63,37 @@
                             </label>
                         </div>
                      </td>
-                     <td class="align-middle">${num }</td><!-- No. -->
+                     <!-- No. -->
+                     <td class="align-middle">${num }</td>
+                     <!-- 주문번호 -->
                      <td class="align-middle">
                         <div>
-                        <h5 class="fs-6 mb-0"><a href="#" class="text-inherit">${orderr.o_order_num}</a></h5><!-- 주문번호 -->
+                        <h5 class="fs-6 mb-0"><a href="/boOrderDetail?o_order_num=${orderr.o_order_num}" class="text-inherit">${orderr.o_order_num}</a></h5>
                         </div>
                      </td>
-                     <td class="align-middle">${orderr.o_status}</td><!-- 주문상태 -->
-                     <td class="align-middle"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td><!-- 주문일시 -->
-                     <td class="align-middle">${orderr.nb_title}</td><!-- 주문상품 -->
-                     <td class="align-middle">${orderr.m_name}</td><!-- 주문자 -->
-                     <td class="align-middle">${orderr.o_rec_name}</td><!-- 수신자 -->
-                     <td class="align-middle">${orderr.o_type}</td><!-- 주문유형 -->
+                     <!-- 주문상태 -->
+                     <td class="align-middle"><%-- ${orderr.o_status} --%>
+                     	<c:if test="${orderr.o_status == 1}">주문접수</c:if>
+                     	<c:if test="${orderr.o_status == 2}">배송중</c:if>
+                     	<c:if test="${orderr.o_status == 3}">배송완료</c:if>
+                     	<c:if test="${orderr.o_status == 4}">주문확정</c:if>
+                     	<c:if test="${orderr.o_status == 5}">취소</c:if>
+                     	<c:if test="${orderr.o_status == 6}">교환</c:if>
+                     	<c:if test="${orderr.o_status == 7}">반품</c:if>
+                     </td>
+                     <!-- 주문일시 -->
+                     <td class="align-middle"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
+                     <!-- 주문상품 -->
+                     <td class="align-middle">${orderr.nb_title}</td>
+                     <!-- 주문자 -->
+                     <td class="align-middle">${orderr.m_name}</td>
+                     <!-- 수신자 -->
+                     <td class="align-middle">${orderr.o_rec_name}</td>
+                     <!-- 주문유형 -->
+                     <td class="align-middle"><%-- ${orderr.o_type} --%>
+                     	<c:if test="${orderr.o_type == 1}">일반</c:if>
+                     	<c:if test="${orderr.o_type == 2}">선물</c:if>
+                     </td>
                   </tr>
                   <c:set var="num" value="${num-1 }"></c:set>
                </c:forEach>

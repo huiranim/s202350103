@@ -11,16 +11,13 @@
 	</select>
 	
 	<select id="hrSelectOrderrList" parameterType="Orderr" resultType="Orderr">
-		<!-- SELECT o.*, m.m_name
-		FROM orderr o, member m
-		WHERE o.m_num = m.m_num -->
-		
 		SELECT *
 		FROM (SELECT rownum rn, a.*
-			  FROM (SELECT o.*, m.m_name
-			  		FROM orderr o, member m
-			  		WHERE o.m_num = m.m_num
-			  		ORDER BY o.o_order_date DESC) a
+			  FROM (SELECT o.*, m.m_name, order_nb_title(o.o_order_num) nb_title
+                    FROM   orderr o, member m
+                    WHERE  o.m_num = m.m_num(+)
+                    ORDER BY o.o_order_date DESC
+                    ) a
 			  )
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
@@ -43,4 +40,16 @@
 		WHERE o.nb_num = n.nb_num
 		AND o.ob_num = #{nb_num}
 	</select>
+	
+<!-- BO 주문상세
+	 boOrderDetail.jsp -->
+	 <select id="hrSelectOrder" parameterType="long" resultType="Orderr">
+		SELECT o.*, m.m_name, m.m_id, m.m_ph, order_nb_title(o.o_order_num) nb_title, order_nb_price(o_order_num) o_order_price
+			   , (SELECT SUM(o_de_count)
+			  	  FROM order_detail od
+			  	  WHERE o.o_order_num = od.o_order_num) o_order_count
+		FROM   orderr o, member m
+		WHERE  o.m_num = m.m_num(+)
+		AND    o_order_num = #{o_order_num}
+	 </select>
 </mapper>

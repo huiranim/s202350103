@@ -46,6 +46,7 @@ public class OrderDaoImpl implements OrderDao {
 	public int minNbNum(long o_order_num) {
 		System.out.println();
 		System.out.println("OrderDaoImpl minNbNum() start..");
+		System.out.println("OrderDaoImpl minNbNum() o_order_num->"+o_order_num);
 		int nb_num = 0;
 		
 		try {
@@ -84,7 +85,23 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl selectOBTitleByNum() end..");
 		return title;
 	}
-
+	
+	// BO 주문상세
+	// boOrderDetail.jsp
+	@Override
+	public Orderr selectOrderr(long o_order_num) {
+		System.out.println("OrderDaoImpl selectOrderr() start..");
+		
+		Orderr orderr = new Orderr();
+		try {
+			orderr = session.selectOne("hrSelectOrder", o_order_num);
+			System.out.println("OrderDaoImpl selectOrderr() orderr.getM_name() -> "+orderr.getM_name());
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl selectOrderr() e.getMessage() -> "+e.getMessage());
+		}
+		System.out.println("OrderDaoImpl selectOrderr() end..");
+		return orderr;
+	}
 
 
 }

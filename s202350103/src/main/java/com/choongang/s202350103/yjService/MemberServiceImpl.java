@@ -31,6 +31,18 @@ public class MemberServiceImpl implements MemberService{
 		int memberJoinPoint = md.memberJoinPoint(m_reid);
 		return memberJoinPoint;
 	}
+	// 내정보 상세
+	@Override
+	public Member memberInfo(int m_num) {
+		Member member = md.memberInfo(m_num);
+		return member;
+	}
+	// 회원정보 수정
+	@Override
+	public int memberUpdate(Member member) {
+		int memberUpdate = md.memberUpdate(member);
+		return memberUpdate;
+	}
 
 	
 }

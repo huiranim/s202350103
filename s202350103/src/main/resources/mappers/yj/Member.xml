@@ -16,7 +16,7 @@
 		values
 			( MEMBER_M_NUM_SEQ.nextval , #{m_id}, #{m_name} ,
 	 		 #{m_pw},    #{m_ph},    #{m_addr}, 
-	 		 #{m_email}, #{m_birth}, sysdate, 300, 0, 0)
+	 		 #{m_email}, #{m_birth}, sysdate, 300, 0, 0, null)
 		
 	
 	</insert>
@@ -28,5 +28,19 @@
 		</if>
 	</update>
 
-
+	<select id="memberInfo" parameterType="int" resultType="Member">
+		
+		select * from member where m_num = #{m_num}
+	
+	</select>
+	
+	<update id="memberUpdate" parameterType="Member">
+		update member SET 
+			m_email = #{m_email} , 
+			m_ph = #{m_ph}, 
+			m_addr = #{m_addr}
+		 where m_num= #{m_num}
+	</update>
+	
+	
 </mapper>

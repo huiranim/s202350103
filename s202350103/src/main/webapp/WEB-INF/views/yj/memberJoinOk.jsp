@@ -20,7 +20,7 @@
 			  <div class="card-body">
 			    <h5 class="card-title">${member.m_name } 님 DADOK 회원이 되신 것을 환영합니다</h5>
 			    <p class="card-text">다양한 국내/해외 도서를 만나보세요 ! </p>
-			    <a href="#" class="btn btn-primary">로그인 하러가기</a>
+			    <a href="loginForm" class="btn btn-primary">로그인 하러가기</a>
 			  </div>
 			  <div class="card-footer text-muted">
 			    1566-1142 고객센터 문의

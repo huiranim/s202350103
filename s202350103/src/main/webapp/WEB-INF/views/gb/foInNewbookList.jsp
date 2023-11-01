@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../common/headerFo.jsp" %>
 <%@ include file="../common/sideFo.jsp" %>
 <!DOCTYPE html>
@@ -10,28 +9,63 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
-	function category2Click() {
+	
+	function category2Click(currentPage1) {
+		// 클릭한 카테고리명
 		var category2Value = $("#category2").val();
-		// alert("내가 선택한 카테고리 -> "+category2Value);
+		var orderTypeValue = $("#orderType").val();
+		alert("내가 선택한 카테고리 + 정렬 -> " + category2Value + "+" + orderTypeValue);
+		
+		if(category2Value == "all"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookList?orderType="+orderTypeValue;
+		}
+		else if(category2Value == "economy"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookEcoList?orderType="+orderTypeValue;
+			
+		}
+		else if(category2Value == "science"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookSciList?orderType="+orderTypeValue;
+			
+		}
+		else if(category2Value == "novel"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookNovList?orderType="+orderTypeValue;
+			
+		}
+		else if(category2Value == "history"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookHisList?orderType="+orderTypeValue;
+			
+		}
+		else if(category2Value == "human"){
+			// alert("내가 선택한 카테고리 -> "+category2Value);
+			location.href = "/innewbookHumList?orderType="+orderTypeValue;
+			
+		}
+		else {
+			alert("해당되는 카테고리 없음");
+			
+		}
+		
 	}
 </script>
 </head>
 <body>
+<p class="fs-4">현재 : ${page.currentPage1 } 페이지</p>
 <!-- 정렬조건 및 카테고리 검색 -->
 <div class="row py-5 mb-3" style="background-color: #EBEBEB">
  <div class="col-12">
     <div class="d-lg-flex justify-content-between align-items-center">
        <div class="mb-3 mb-lg-0">
-          <p class="mb-0"> <span class="text-dark">${inNewbookCnt} </span> Products found </p>
+          <p class="mb-0"> <span class="text-dark">${inNewbookCnt} </span> Products found </p>  
        </div>
        
        <!-- icon -->
        <div class="d-md-flex justify-content-between align-items-center">
           <div class="d-flex align-items-center justify-content-between">
-             <div class="">
-                <a href="../../pages/shop-list.html" class="text-muted me-3 active"><i class="bi bi-list-ul"></i></a>
-                <a href="../../pages/shop-grid.html" class=" me-3"><i class="bi bi-grid"></i></a>
-             </div>
              
              <!-- 반응형 시 사이드 바 -->
              <div class="ms-2 d-lg-none">
@@ -50,22 +84,22 @@
              <div class="me-2 flex-grow-1">
                	<!-- 카테고리 검색 -->
                 <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
-                   <option value="all" selected>전체</option>
-                   <option value="economy">경제/경영</option>
-                   <option value="science">과학</option>
-                   <option value="novel">소설</option>
-                   <option value="history">역사/문화</option>
-                   <option value="human">인문</option>
+                   <option value="all" <c:if test ="${category eq '0'}"> selected="selected"</c:if>>전체</option>
+                   <option value="economy" <c:if test ="${category eq '1'}"> selected="selected"</c:if>>경제/경영</option>
+                   <option value="science" <c:if test ="${category eq '2'}"> selected="selected"</c:if>>과학</option>
+                   <option value="novel" <c:if test ="${category eq '3'}"> selected="selected"</c:if>>소설</option>
+                   <option value="history" <c:if test ="${category eq '4'}"> selected="selected"</c:if>>역사/문화</option>
+                   <option value="human" <c:if test ="${category eq '5'}"> selected="selected"</c:if>>인문</option>
      			</select>
              </div>
              
              <div>
                 <!-- 정렬 조건 -->
-                <select class="form-select" aria-label="Default select example">
-                   <option selected>최신순</option>
-                   <option value="highreview">높은별점순</option>
-                   <option value="highprice">높은가격순 </option>
-                   <option value="lowprice">낮은가격순</option>
+                <select id="orderType" class="form-select" aria-label="Default select example" onchange="category2Click(${page.currentPage1 })">
+                   <option value="recently" <c:if test ="${orderType eq 'recently'}"> selected="selected"</c:if>>최신순</option>
+                   <option value="highreview" <c:if test ="${orderType eq 'highreview'}"> selected="selected"</c:if>>높은별점순</option>
+                   <option value="highprice" <c:if test ="${orderType eq 'highprice'}"> selected="selected"</c:if>>높은가격순 </option>
+                   <option value="lowprice" <c:if test ="${orderType eq 'lowprice'}"> selected="selected"</c:if>>낮은가격순</option>
                 </select>
              </div>
           </div>
@@ -100,20 +134,26 @@
 		                 <h3 class="fs-6 mb-3">${inNewbook.nb_writer} | ${inNewbook.nb_publisher} | ${inNewbook.nb_publi_date}
 		                 </h3>
 		              <div>
-		                    <!-- 별점 -->
-		                    <div class="text-warning"> <i class="bi bi-star-fill"></i>
-		                    <i class="bi bi-star-fill"></i>
-		                    <i class="bi bi-star-fill"></i>
-		                    <i class="bi bi-star-fill"></i>
-		                    <i class="bi bi-star-half"></i></div> <span class="text-muted small">4.5(149)</span>
+	                    <!-- 별점 -->
+	                    <div class="text-warning">
+	                    	<c:forEach var="i" begin="1" end="${inNewbook.r_ratingAvg }">
+	                    		<i class="bi bi-star-fill"></i>
+	                    	</c:forEach>
+	                    	<c:forEach var="i" begin="${inNewbook.r_ratingAvg + 1}" end="5">
+	                    		<i class="bi bi-star"></i>
+	                    	</c:forEach>
+		                    <span class="text-muted small" style="margin-left: 10px;">${inNewbook.r_ratingAvg }(${inNewbook.reviewCnt })</span>
+	              		</div>
 		              </div>
 		                 
 		                 <!-- 도서가격 + 버튼들 -->
 		                 <div class="  mt-8 mb-3">
-		                    <!-- 도서 가격 -->
+		                     <!-- 도서 가격 -->
 		                    <div>
-		                     <span class="text-dark fs-3">${inNewbook.nb_price}원</span>
-		                     <span id="price_point" class="text-muted ml-5">적립포인트 : ${inNewbook.nb_price * 0.01}p</span>
+		                     <span class="text-dark fs-3"><fmt:formatNumber value="${inNewbook.nb_price}" groupingUsed="true"/>원</span>
+		                     <span id="price_point" class="text-muted ml-5">
+		                     		적립포인트 : <fmt:formatNumber value="${inNewbook.nb_price * 0.01}" pattern="#"/>p
+		                     </span>
 		                    </div>
 		                    
 		                    <!-- 찜, 바로구매,  장바구니 버튼 -->
@@ -163,16 +203,71 @@
       <ul class="pagination">
         <!-- 이전버튼 -->
         <c:if test="${page.startPage > page.pageLimit}">
-	        <li class="page-item">
-	          <a class="page-link  mx-1 " href="innewbookList?currentPage=${page.startPage-page.pageLimit}" aria-label="Previous">
-	            <i class="feather-icon icon-chevron-left"></i>
-	          </a>
-	        </li>
+        	<!-- 전체도서 검색할 때 -->
+	        <c:if test="${category eq '0'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookList?currentPage=${page.startPage-page.pageLimit}&orderType=${orderType}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '1'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookEcoList?currentPage=${page.startPage-page.pageLimit}&orderType=${orderType}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '2'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookSciList?currentPage=${page.startPage-page.pageLimit}&orderType=${orderType}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '3'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookNovList?currentPage=${page.startPage-page.pageLimit}&orderType=${orderType}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '4'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookHisList?currentPage=${page.startPage-page.pageLimit}&orderType=${orderType}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '5'}">
+		        <li class="page-item">
+		          <a class="page-link  mx-1 " href="innewbookHumList?currentPage=${page.startPage-page.pageLimit}&orderType=${orderType}" aria-label="Previous">
+		            <i class="feather-icon icon-chevron-left"></i>
+		          </a>
+		        </li>
+	        </c:if>
         </c:if>
         
         <!-- 페이지 넘버 -->
         <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-        	<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookList?currentPage=${i }">${i }</a></li>
+        	<c:if test="${category eq '0'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookList?currentPage=${i }&orderType=${orderType}">${i }</a></li>
+        	</c:if>
+        	<c:if test="${category eq '1'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookEcoList?currentPage=${i }&orderType=${orderType}">${i }</a></li>
+        	</c:if>
+        	<c:if test="${category eq '2'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookSciList?currentPage=${i }&orderType=${orderType}">${i }</a></li>
+        	</c:if>
+        	<c:if test="${category eq '3'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookNovList?currentPage=${i }&orderType=${orderType}">${i }</a></li>
+        	</c:if>
+        	<c:if test="${category eq '4'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookHisList?currentPage=${i }&orderType=${orderType}">${i }</a></li>
+        	</c:if>
+        	<c:if test="${category eq '5'}">
+        		<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookHumList?currentPage=${i }&orderType=${orderType}">${i }</a></li>
+        	</c:if>
         </c:forEach>
         
         
@@ -184,11 +279,48 @@
          
         <!-- 다음 버튼 -->
         <c:if test="${page.endPage < page.totalPage}">
-	        <li class="page-item">
-	          <a class="page-link mx-1 text-body" href="innewbookList?currentPage=${page.startPage+page.pageLimit }" aria-label="Next">
-	            <i class="feather-icon icon-chevron-right"></i>
-	          </a>
-	        </li>
+        	<c:if test="${category eq '0'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookList?currentPage=${page.startPage+page.pageLimit }&orderType=${orderType}" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '1'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookEcoList?currentPage=${page.startPage+page.pageLimit }&orderType=${orderType}" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '2'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookSciList?currentPage=${page.startPage+page.pageLimit }&orderType=${orderType}" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '3'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookNovList?currentPage=${page.startPage+page.pageLimit }&orderType=${orderType}" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '4'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookHisList?currentPage=${page.startPage+page.pageLimit }&orderType=${orderType}" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
+	        <c:if test="${category eq '5'}">
+		        <li class="page-item">
+		          <a class="page-link mx-1 text-body" href="innewbookHumList?currentPage=${page.startPage+page.pageLimit }&orderType=${orderType}" aria-label="Next">
+		            <i class="feather-icon icon-chevron-right"></i>
+		          </a>
+		        </li>
+	        </c:if>
         </c:if>
        
       </ul>
