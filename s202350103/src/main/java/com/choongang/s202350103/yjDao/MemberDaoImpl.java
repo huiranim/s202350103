@@ -43,5 +43,17 @@ public class MemberDaoImpl implements MemberDao{
 		int memberUpdate = session.update("memberUpdate", member);
 		return memberUpdate;
 	}
+	// 회원 번호 검증
+	@Override
+	public String memberPhFind(String m_ph) {
+		String memberPhFind = session.selectOne("memberPhFind",m_ph);
+		return memberPhFind;
+	}
+	// 인증 후 회원 상세
+	@Override
+	public Member memberFindGetId(String m_ph) {
+		Member member = session.selectOne("memberFindGetId",m_ph);
+		return member;
+	}
 
 }
