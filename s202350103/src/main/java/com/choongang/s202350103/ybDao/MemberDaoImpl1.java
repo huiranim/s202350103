@@ -1,5 +1,7 @@
 package com.choongang.s202350103.ybDao;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +28,17 @@ public class MemberDaoImpl1 implements MemberDao {
 		
 		return member;
 	}
+
+	@Override
+	public String emailCheck(Map<String, Object> map) {
+	    return session.selectOne("emailCheck", map);
+	}
+	 
+	@Override
+	public String phoneCheck(Map<String, Object> map) {
+	    return session.selectOne("phoneCheck", map);
+	}
+
 
 
 }
