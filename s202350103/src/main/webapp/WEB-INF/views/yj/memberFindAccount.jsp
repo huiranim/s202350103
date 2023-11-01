@@ -19,7 +19,7 @@
 	
 	function findMemberPw(){
 		
-	location.href="findPassword";
+	location.href="memberFindPwForm";
 	}
 
 

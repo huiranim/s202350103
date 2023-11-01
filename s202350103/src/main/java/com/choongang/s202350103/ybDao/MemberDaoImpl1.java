@@ -28,16 +28,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		
 		return member;
 	}
-
-	@Override
-	public String emailCheck(Map<String, Object> map) {
-	    return session.selectOne("emailCheck", map);
-	}
-	 
-	@Override
-	public String phoneCheck(Map<String, Object> map) {
-	    return session.selectOne("phoneCheck", map);
-	}
+	
 
 
 
