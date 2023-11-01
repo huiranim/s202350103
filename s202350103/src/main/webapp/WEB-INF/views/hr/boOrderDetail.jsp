@@ -35,21 +35,42 @@
             <table class="table text-nowrap">
             <tr>
                      <th class="table-light">주문번호</th>
-                     <td class="align-middle">주문번호</td>
+                     <td class="align-middle">${orderr.o_order_num}</td>
                      <th class="table-light">주문일시</th>
-                     <td class="align-middle">주문일시</td>
+                     <td class="align-middle"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
             </tr>
             <tr>
                      <th class="table-light">주문상태</th>
-                     <td class="align-middle">주문상태</td>
+                     <td class="align-middle">
+                     	<c:if test="${orderr.o_status == 1}">주문접수</c:if>
+                     	<c:if test="${orderr.o_status == 2}">배송중</c:if>
+                     	<c:if test="${orderr.o_status == 3}">배송완료</c:if>
+                     	<c:if test="${orderr.o_status == 4}">주문확정</c:if>
+                     	<c:if test="${orderr.o_status == 5}">취소</c:if>
+                     	<c:if test="${orderr.o_status == 6}">교환</c:if>
+                     	<c:if test="${orderr.o_status == 7}">반품</c:if>
+                     </td>
                      <th class="table-light">주문유형</th>
-                     <td class="align-middle">주문유형</td>
+                     <td class="align-middle">
+                     	<c:if test="${orderr.o_type == 1}">일반</c:if>
+                     	<c:if test="${orderr.o_type == 2}">선물</c:if>
+                     </td>
             </tr>
             <tr>
                      <th class="table-light">결제 수단</th>
-                     <td class="align-middle">결제 수단</td>
+                     <td class="align-middle">
+                     	<c:if test="${orderr.o_type == 1}">카카오페이</c:if>
+                     	<c:if test="${orderr.o_type == 2}">토스</c:if>
+                     </td>
                      <th class="table-light">택배사/송장번호</th>
-                     <td class="align-middle">택배사/송장번호</td>
+                     <td class="align-middle">
+                     	<c:if test="${orderr.o_deliv_com == 1}">대한통운</c:if>
+                     	<c:if test="${orderr.o_deliv_com == 2}">우체국택배</c:if>
+                     	<c:if test="${orderr.o_deliv_com == 3}">로젠택배</c:if>
+                     	<c:if test="${orderr.o_deliv_com == 4}">한진택배</c:if>
+                     	<c:if test="${orderr.o_deliv_com == 5}">롯데택배</c:if>
+                     /${orderr.o_deliv_track}
+                     </td>
             </tr>
             </table>
          </div>
@@ -59,15 +80,15 @@
             <table class="table text-nowrap">
             <tr>
                      <th class="table-light">대표 상품명</th>
-                     <td class="align-middle">대표 상품명</td>
+                     <td class="align-middle">${orderr.nb_title}</td>
                      <th class="table-light">주문수량</th>
-                     <td class="align-middle">주문수량</td>
+                     <td class="align-middle"><fmt:formatNumber value="${orderr.o_order_count}" groupingUsed="true"/></td>
             </tr>
             <tr>
                      <th class="table-light">상품금액</th>
-                     <td class="align-middle">상품금액</td>
+                     <td class="align-middle"><fmt:formatNumber value="${orderr.o_order_price}" groupingUsed="true"/></td>
                      <th class="table-light">결제금액</th>
-                     <td class="align-middle">결제금액</td>
+                     <td class="align-middle"><fmt:formatNumber value="${orderr.o_pay_price}" groupingUsed="true"/></td>
             </tr>
             </table>
          </div>
@@ -77,13 +98,13 @@
             <table class="table text-nowrap">
             <tr>
                      <th class="table-light">아이디</th>
-                     <td class="align-middle">아이디</td>
+                     <td class="align-middle">${orderr.m_id}</td>
                      <th class="table-light">이름</th>
-                     <td class="align-middle">이름</td>
+                     <td class="align-middle">${orderr.m_name}</td>
             </tr>
             <tr>
                      <th class="table-light">전화번호</th>
-                     <td class="align-middle">전화번호</td>
+                     <td class="align-middle">${orderr.m_ph}</td>
             </tr>
             </table>
          </div>
@@ -93,15 +114,15 @@
             <table class="table text-nowrap">
             <tr>
                      <th class="table-light">이름</th>
-                     <td class="align-middle">이름</td>
+                     <td class="align-middle">${orderr.o_rec_name}</td>
                      <th class="table-light">전화번호</th>
-                     <td class="align-middle">전화번호</td>
+                     <td class="align-middle">${orderr.o_rec_ph}</td>
             </tr>
             <tr>
                      <th class="table-light">배송지</th>
-                     <td class="align-middle">배송지</td>
+                     <td class="align-middle">${orderr.o_rec_addr}</td>
                      <th class="table-light">배송메시지</th>
-                     <td class="align-middle">배송메시지</td>
+                     <td class="align-middle">${orderr.o_rec_msg}</td>
             </tr>
             </table>
          </div>

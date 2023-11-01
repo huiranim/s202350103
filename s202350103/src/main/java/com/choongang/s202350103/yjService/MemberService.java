@@ -14,6 +14,10 @@ public interface MemberService {
 	Member memberInfo(int m_num);
 	// 회원정보 수정
 	int memberUpdate(Member member);
+	// 회원 번호 검증
+	String memberPhFind(String m_ph);
+	// 인증 후 회원정보 상세
+	Member memberFindGetId(String m_ph);
 
 	
 }

@@ -43,6 +43,18 @@ public class MemberServiceImpl implements MemberService{
 		int memberUpdate = md.memberUpdate(member);
 		return memberUpdate;
 	}
+	// 회원 번호 검증
+	@Override
+	public String memberPhFind(String m_ph) {
+		String memberPhFind = md.memberPhFind(m_ph);
+		return memberPhFind;
+	}
+	// 인증 후 회원상세
+	@Override
+	public Member memberFindGetId(String m_ph) {
+		Member member = md.memberFindGetId(m_ph);
+		return member;
+	}
 
 	
 }

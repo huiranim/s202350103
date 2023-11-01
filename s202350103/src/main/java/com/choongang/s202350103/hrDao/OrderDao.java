@@ -11,7 +11,7 @@ public interface OrderDao {
 	int 		 minNbNum(long o_order_num);
 	String 		 selectNBTitleByNum(int nb_num);
 	String 		 selectOBTitleByNum(int nb_num);
-	Orderr 		 selectOrderr(int o_order_num);
+	Orderr 		 selectOrderr(long o_order_num);
 
 	
 

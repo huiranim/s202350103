@@ -25,10 +25,16 @@ public class Orderr {				// 주문
 	
 	// 조회용
 	private String m_name;			// 회원 이름
+	private String m_id;			// 회원 아이디
+	private String m_ph;			// 회원 전화번호
 	private int	   nb_num;			// 상품번호(신/중고)
 	private int	   ob_num;			// 중고상품번호
 	private int	   o_de_prodtype;	// 상품유형
 	private String nb_title;		// 제목
-	private int start;				// 페이지 내 시작 게시글 번호
-	private int end;				// 페이지 내 종료 게시글 번호
+	private int    start;			// 페이지 내 시작 게시글 번호
+	private int    end;				// 페이지 내 종료 게시글 번호
+	private int	   o_order_count;	// 주문 수량
+	private int    o_order_price;	// 상품 금액 합산
+
+	
 }
