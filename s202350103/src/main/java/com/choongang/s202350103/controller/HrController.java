@@ -66,7 +66,7 @@ public class HrController {
 	// BO 주문상세
 	// boOrderDetail.jsp
 	@RequestMapping(value = "boOrderDetail")
-	public String selectOrderr(Model model, int o_order_num) {
+	public String selectOrderr(Model model, long o_order_num) {
 		System.out.println("HrController selectOrderr() start..");
 		
 		Orderr orderr = new Orderr();

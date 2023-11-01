@@ -4,6 +4,6 @@
 
 <mapper namespace="com.choongang.s202350103.MemberMapper">
 	<select id="ybUserLogin" parameterType="Member" resultType="Member">
-		SELECT * from member where m_id = #{m_id}
+		SELECT * from member where m_id = #{m_id} and m_pw = #{m_pw}
 	</select>
 </mapper>

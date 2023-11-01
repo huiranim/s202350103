@@ -8,7 +8,7 @@ public interface OrderService {
 	// boOrderList.jsp
 	int 		 countOrderrList();
 	List<Orderr> selectOrderrList(Orderr orderr);
-	Orderr 		 selectOrderr(int o_order_num);
+	Orderr 		 selectOrderr(long o_order_num);
 
 
 	

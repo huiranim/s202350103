@@ -16,9 +16,7 @@ public class MemberDaoImpl implements MemberDao{
 	// 아이디 중복검사 
 	@Override
 	public int idConfirm(String m_id) {
-		
 		int resultId = session.selectOne("resultId",m_id);
-		
 		return resultId;
 	}
 	// 회원 가입 
@@ -33,6 +31,17 @@ public class MemberDaoImpl implements MemberDao{
 		int	memberJoinPoint = session.update("memberJoinPoint", m_reid);
 		return memberJoinPoint;
 	}
-	// 내정보 상세 
+	// 회원 상세 
+	@Override
+	public Member memberInfo(int m_num) {
+		Member member = session.selectOne("memberInfo",m_num);
+		return member;
+	}
+	// 회원 정보 수정
+	@Override
+	public int memberUpdate(Member  member) {
+		int memberUpdate = session.update("memberUpdate", member);
+		return memberUpdate;
+	}
 
 }

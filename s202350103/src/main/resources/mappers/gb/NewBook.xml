@@ -11,27 +11,35 @@
 	
 	<select id="gbSelectInNbList" parameterType="NewBook" resultType="NewBook">
 		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
-			   nb_category1, nb_category2, nb_image, r_rating
+			   nb_category1, nb_category2, nb_image, reviewCnt, r_ratingAvg
 		FROM (
-				SELECT rownum rn, nb.*, re.r_rating
-				FROM newbook nb, review re
-				WHERE nb.nb_num = re.nb_num
-				AND nb.nb_category1 = 1
-				<choose>
-					<when test="#{orderType} == 'recently'">
-						ORDER BY nb.nb_publi_date desc
-					</when>
-					<when test="#{orderType} == 'highreview'">
-						ORDER BY re.r_rating desc
-					</when>
-					<when test="#{orderType} == 'highprice'">
-						ORDER BY nb.nb_price desc
-					</when>
-					<when test="#{orderType} == 'lowprice'">
-						ORDER BY nb.nb_price asc
-					</when>
-				</choose>
-			) 
+		    SELECT rownum rn, nbre.*
+		    FROM(
+		            SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
+		            FROM NEWBOOK nb, (
+		                                SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
+		                                FROM newbook nb, review re
+		                                WHERE nb.nb_num = re.nb_num
+		                                GROUP BY nb.nb_num
+		                             ) re
+		            WHERE nb.nb_num = re.nb_num(+)
+		            AND nb.nb_category1 = 1
+		            <choose>
+		                <when test="orderType == 'recently'">
+		                    ORDER BY nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highreview'">
+		                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highprice'">
+		                    ORDER BY nb.nb_price desc
+		                </when>
+		                <when test="orderType == 'lowprice'">
+		                    ORDER BY nb.nb_price asc
+		                </when>
+		            </choose>
+		    ) nbre
+		)
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
@@ -42,14 +50,36 @@
 	
 	<select id="gbSelectInNbEcoList" parameterType="NewBook" resultType="NewBook">
 		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
-			   nb_category1, nb_category2, nb_image
+			   nb_category1, nb_category2, nb_image, reviewCnt, r_ratingAvg
 		FROM (
-				SELECT rownum rn, nb.*
-				FROM newbook nb
-				WHERE nb_category1 = 1
-				AND   nb_category2 = 1
-				ORDER BY nb_publi_date desc
-			) 
+		    SELECT rownum rn, nbre.*
+		    FROM(
+		            SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
+		            FROM NEWBOOK nb, (
+		                                SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
+		                                FROM newbook nb, review re
+		                                WHERE nb.nb_num = re.nb_num
+		                                GROUP BY nb.nb_num
+		                             ) re
+		            WHERE nb.nb_num = re.nb_num(+)
+		            AND nb.nb_category1 = 1
+		            AND nb.nb_category2 = 1
+		            <choose>
+		                <when test="orderType == 'recently'">
+		                    ORDER BY nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highreview'">
+		                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highprice'">
+		                    ORDER BY nb.nb_price desc
+		                </when>
+		                <when test="orderType == 'lowprice'">
+		                    ORDER BY nb.nb_price asc
+		                </when>
+		            </choose>
+		    ) nbre
+		)
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
@@ -60,14 +90,36 @@
 	
 	<select id="gbSelectInNbSciList" parameterType="NewBook" resultType="NewBook">
 		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
-			   nb_category1, nb_category2, nb_image
+			   nb_category1, nb_category2, nb_image, reviewCnt, r_ratingAvg
 		FROM (
-				SELECT rownum rn, nb.*
-				FROM newbook nb
-				WHERE nb_category1 = 1
-				AND   nb_category2 = 2
-				ORDER BY nb_publi_date desc
-			) 
+		    SELECT rownum rn, nbre.*
+		    FROM(
+		            SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
+		            FROM NEWBOOK nb, (
+		                                SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
+		                                FROM newbook nb, review re
+		                                WHERE nb.nb_num = re.nb_num
+		                                GROUP BY nb.nb_num
+		                             ) re
+		            WHERE nb.nb_num = re.nb_num(+)
+		            AND nb.nb_category1 = 1
+		            AND nb.nb_category2 = 2
+		            <choose>
+		                <when test="orderType == 'recently'">
+		                    ORDER BY nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highreview'">
+		                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highprice'">
+		                    ORDER BY nb.nb_price desc
+		                </when>
+		                <when test="orderType == 'lowprice'">
+		                    ORDER BY nb.nb_price asc
+		                </when>
+		            </choose>
+		    ) nbre
+		)
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
@@ -78,14 +130,36 @@
 	
 	<select id="gbSelectInNbNovList" parameterType="NewBook" resultType="NewBook">
 		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
-			   nb_category1, nb_category2, nb_image
+			   nb_category1, nb_category2, nb_image, reviewCnt, r_ratingAvg
 		FROM (
-				SELECT rownum rn, nb.*
-				FROM newbook nb
-				WHERE nb_category1 = 1
-				AND   nb_category2 = 3
-				ORDER BY nb_publi_date desc
-			) 
+		    SELECT rownum rn, nbre.*
+		    FROM(
+		            SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
+		            FROM NEWBOOK nb, (
+		                                SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
+		                                FROM newbook nb, review re
+		                                WHERE nb.nb_num = re.nb_num
+		                                GROUP BY nb.nb_num
+		                             ) re
+		            WHERE nb.nb_num = re.nb_num(+)
+		            AND nb.nb_category1 = 1
+		            AND nb.nb_category2 = 3
+		            <choose>
+		                <when test="orderType == 'recently'">
+		                    ORDER BY nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highreview'">
+		                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highprice'">
+		                    ORDER BY nb.nb_price desc
+		                </when>
+		                <when test="orderType == 'lowprice'">
+		                    ORDER BY nb.nb_price asc
+		                </when>
+		            </choose>
+		    ) nbre
+		)
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
@@ -96,14 +170,36 @@
 	
 	<select id="gbSelectInNbHisList" parameterType="NewBook" resultType="NewBook">
 		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
-			   nb_category1, nb_category2, nb_image
+			   nb_category1, nb_category2, nb_image, reviewCnt, r_ratingAvg
 		FROM (
-				SELECT rownum rn, nb.*
-				FROM newbook nb
-				WHERE nb_category1 = 1
-				AND   nb_category2 = 4
-				ORDER BY nb_publi_date desc
-			) 
+		    SELECT rownum rn, nbre.*
+		    FROM(
+		            SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
+		            FROM NEWBOOK nb, (
+		                                SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
+		                                FROM newbook nb, review re
+		                                WHERE nb.nb_num = re.nb_num
+		                                GROUP BY nb.nb_num
+		                             ) re
+		            WHERE nb.nb_num = re.nb_num(+)
+		            AND nb.nb_category1 = 1
+		            AND nb.nb_category2 = 4
+		            <choose>
+		                <when test="orderType == 'recently'">
+		                    ORDER BY nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highreview'">
+		                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highprice'">
+		                    ORDER BY nb.nb_price desc
+		                </when>
+		                <when test="orderType == 'lowprice'">
+		                    ORDER BY nb.nb_price asc
+		                </when>
+		            </choose>
+		    ) nbre
+		)
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
@@ -114,14 +210,36 @@
 	
 	<select id="gbSelectInNbHumList" parameterType="NewBook" resultType="NewBook">
 		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
-			   nb_category1, nb_category2, nb_image
+			   nb_category1, nb_category2, nb_image, reviewCnt, r_ratingAvg
 		FROM (
-				SELECT rownum rn, nb.*
-				FROM newbook nb
-				WHERE nb_category1 = 1
-				AND   nb_category2 = 5
-				ORDER BY nb_publi_date desc
-			) 
+		    SELECT rownum rn, nbre.*
+		    FROM(
+		            SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
+		            FROM NEWBOOK nb, (
+		                                SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
+		                                FROM newbook nb, review re
+		                                WHERE nb.nb_num = re.nb_num
+		                                GROUP BY nb.nb_num
+		                             ) re
+		            WHERE nb.nb_num = re.nb_num(+)
+		            AND nb.nb_category1 = 1
+		            AND nb.nb_category2 = 5
+		            <choose>
+		                <when test="orderType == 'recently'">
+		                    ORDER BY nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highreview'">
+		                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
+		                </when>
+		                <when test="orderType == 'highprice'">
+		                    ORDER BY nb.nb_price desc
+		                </when>
+		                <when test="orderType == 'lowprice'">
+		                    ORDER BY nb.nb_price asc
+		                </when>
+		            </choose>
+		    ) nbre
+		)
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 </mapper>

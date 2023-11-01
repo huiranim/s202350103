@@ -89,12 +89,19 @@ public class OrderDaoImpl implements OrderDao {
 	// BO 주문상세
 	// boOrderDetail.jsp
 	@Override
-	public Orderr selectOrderr(int o_order_num) {
+	public Orderr selectOrderr(long o_order_num) {
 		System.out.println("OrderDaoImpl selectOrderr() start..");
+		
+		Orderr orderr = new Orderr();
+		try {
+			orderr = session.selectOne("hrSelectOrder", o_order_num);
+			System.out.println("OrderDaoImpl selectOrderr() orderr.getM_name() -> "+orderr.getM_name());
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl selectOrderr() e.getMessage() -> "+e.getMessage());
+		}
 		System.out.println("OrderDaoImpl selectOrderr() end..");
-		return null;
+		return orderr;
 	}
-
 
 
 }

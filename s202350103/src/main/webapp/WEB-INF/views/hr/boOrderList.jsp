@@ -68,7 +68,7 @@
                      <!-- 주문번호 -->
                      <td class="align-middle">
                         <div>
-                        <h5 class="fs-6 mb-0"><a href="#" class="text-inherit">${orderr.o_order_num}</a></h5>
+                        <h5 class="fs-6 mb-0"><a href="/boOrderDetail?o_order_num=${orderr.o_order_num}" class="text-inherit">${orderr.o_order_num}</a></h5>
                         </div>
                      </td>
                      <!-- 주문상태 -->

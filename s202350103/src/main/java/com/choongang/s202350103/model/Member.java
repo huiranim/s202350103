@@ -17,7 +17,7 @@ public class Member {				// 회원
 		private int	 	m_point;	// 회원 포인트
 		private int 	m_admin;	// 관리자 여부
 		private int 	m_wd;		// 탈퇴자 여부 
-		
+		private String  m_image;	// 회원 이미지
 		
 		// 조회 및 join 용
 		private String m_reid; 		// 추천인 ID 

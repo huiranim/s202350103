@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
 	// BO 주문상세
 	// boOrderDetail.jsp
 	@Override
-	public Orderr selectOrderr(int o_order_num) {
+	public Orderr selectOrderr(long o_order_num) {
 		System.out.println("OrderServiceImpl selectOrderr() start..");
 		Orderr orderr = od.selectOrderr(o_order_num);
 		
