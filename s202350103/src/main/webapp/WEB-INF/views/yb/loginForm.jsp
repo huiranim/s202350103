@@ -8,13 +8,7 @@
 <html>
 
 <script type="text/javascript">
-	function mem_check() {
-		if(frm.m_id.value != member.m_id) {
-			alert("아이디 혹은 비밀번호를 다시 입력하세요.")
-			return false;
-		} else
-		
-	}
+
 </script>
 <head>
 <meta charset="UTF-8">

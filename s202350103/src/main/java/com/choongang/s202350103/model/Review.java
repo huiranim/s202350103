@@ -13,6 +13,5 @@ public class Review {			  // 리뷰
 	private int    r_rating;	  // 별점
 	
 	//조회용
-	private String pageNum;
-	private int    startRow;		private int endRow;
+	private int    start;		private int end;
 }
