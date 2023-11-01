@@ -1,5 +1,7 @@
 package com.choongang.s202350103.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
@@ -314,9 +316,18 @@ public class YjController {
 			  
 			  Member member = ms.memberFindGetId(phoneHyphen);
 			  
+			  // 전화번호 * 처리 -> 스트링 포맷
+			  // 구현 예정
+			  
+			  // 가입일 처리 -> 데이트 포맷
+			  Date m_date = member.getM_date();
+			  SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd");
+			  String formatM_date = dataFormat.format(m_date);
+			  
+			  model.addAttribute("formatM_date",formatM_date );
 			  model.addAttribute("member",member);
 			  return "yj/memberFindGetId"; 
-
+			  
 		  }else {
 			  model.addAttribute("noAuth","인증번호가 일치하지 않습니다. 다시 진행해 주세요.");
 			  return "yj/memberFindAcPh"; 
