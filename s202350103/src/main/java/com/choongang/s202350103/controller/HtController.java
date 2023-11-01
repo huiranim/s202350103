@@ -56,8 +56,32 @@ public class HtController {
 		// Paging 작업
 		Paging page = new Paging(totalReview, currentPage);
 		// Parameter emp --> Page만 추가 setting
-		review.setStartRow(page.getStartRow());    // 시작시 1
-		review.setEndRow(page.getEndRow());	       // 시작시 10
+		review.setStart(page.getStart());      // 시작시 1
+		review.setEnd(page.getEnd());	       // 시작시 10
+		
+		List<Review> listReview = rs.listReview(review);
+		
+		model.addAttribute("totalReview", totalReview);
+		model.addAttribute("listReview", listReview);
+		model.addAttribute("page", page);
+		
+		return "/ht/boProductReviewList";
+	}
+	
+	
+	@RequestMapping("/ajaxReviewList")
+	public String ajaxReviewList(Model model, Review review, String currentPage) {
+		System.out.println("Controller Start reviewList...");
+		
+		int totalReview = rs.reviewTotal();
+		
+		model.addAttribute("totalReview", totalReview);
+		
+		// Paging 작업
+		Paging page = new Paging(totalReview, currentPage);
+		// Parameter emp --> Page만 추가 setting
+		review.setStart(page.getStart());      // 시작시 1
+		review.setEnd(page.getEnd());	       // 시작시 10
 		
 		List<Review> listReview = rs.listReview(review);
 		
@@ -82,30 +106,28 @@ public class HtController {
 		return "/ht/boReviewWritePro";
 	}
 	
-	@GetMapping("/MyReviewList")
-	public String MyReviewList(Model model, Orderr orderr, String currentPage) {
-		System.out.println("HtController MyReviewList Start...");
-		
-		int totalReview = rs.reviewTotal();
-		
-		model.addAttribute("totalReview", totalReview);
-		
-		// Paging 작업
-		Paging page = new Paging(totalReview, currentPage);
-		// Parameter emp --> Page만 추가 setting
-//		review.setStartRow(page.getStartRow());    // 시작시 1
-//		review.setEndRow(page.getEndRow());	       // 시작시 10
-		
-//		List<Review> listReview = rs.listReview(review);
-//		
-//		model.addAttribute("totalReview", totalReview);
-//		model.addAttribute("listReview", listReview);
-//		model.addAttribute("page", page);
-		
-		
-		return "/ht/boMyReviewList";
-	}
-	
+	/*
+	 * @GetMapping("/MyReviewList") public String MyReviewList(Model model, Orderr
+	 * orderr, String currentPage) {
+	 * System.out.println("HtController MyReviewList Start...");
+	 * 
+	 * int totalReview = rs.reviewTotal();
+	 * 
+	 * model.addAttribute("totalReview", totalReview);
+	 * 
+	 * // Paging 작업 Paging page = new Paging(totalReview, currentPage); // Parameter
+	 * emp --> Page만 추가 setting orderr.setStart(page.getStart()); // 시작시 1
+	 * orderr.setEnd(page.getEnd()); // 시작시 10
+	 * 
+	 * List<Review> listReview = rs.listReview(orderr);
+	 * 
+	 * model.addAttribute("totalReview", totalReview);
+	 * model.addAttribute("listReview", listReview); model.addAttribute("page",
+	 * page);
+	 * 
+	 * 
+	 * return "/ht/boMyReviewList"; }
+	 */
 	
 
 }

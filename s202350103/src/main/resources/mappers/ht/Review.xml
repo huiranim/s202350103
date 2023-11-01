@@ -17,8 +17,8 @@
 		(
 			SELECT rownum rn , a.*
 			FROM
-					(SELECT * From Review order by o_order_num) a		
+					(SELECT * From Review order by r_create_date) a		
 		)
-		WHERE rn BETWEEN #{startRow} and #{endRow}
+		WHERE rn BETWEEN 1 and #{end}
 	</select>
 </mapper>
