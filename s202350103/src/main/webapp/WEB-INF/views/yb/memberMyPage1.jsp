@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- Bootstrap CSS link (Make sure to include Bootstrap CSS in your project) -->
 </head>
 <body>
   <!-- Container for card layout -->
@@ -28,7 +29,7 @@
 		          		</span> 
 		          </i>
          	</div>
-            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >300 P</p>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >${member.m_point }</p>
           </div>
       		</a>
         </div>
@@ -120,7 +121,7 @@
 		          		</span> 
 		          </i>
          	</div>
-            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >${member.m_name } 님</p>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >${member.m_name }</p>
           </div>
 	          </a>
         </div>
