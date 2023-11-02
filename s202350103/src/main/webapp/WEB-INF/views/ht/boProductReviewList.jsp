@@ -6,36 +6,24 @@
 <%@ include file="../common/headerFo.jsp" %>
 
 <!DOCTYPE html>
-<%
-	String context = request.getContextPath();
-%>
+
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="js/jquery.js"></script> <!-- jquery안에  ajax 함수가 있기 때문에 jquery.js 가져와야 한다. -->
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script> <!-- jquery안에  ajax 함수가 있기 때문에 jquery.js 가져와야 한다. -->
 <script type="text/javascript">
-	function moreReview(pCurrentPage){
-		console.log(pCurrentPage);
-		//alert("pCurrentPage->"+pCurrentPage); //잘 오는지 테스트용
-		
-		//Ajax현재번호  보내고 부서명 받음
-		$.ajax(
-			 {     //context는 위에 정의되어 있음  안써도 되는데 못찾아갈까봐 쓰는 것
-				url :"<%=context%>/ajaxReviewList", //getDeptName 메소드를 호출한다 그런데 메소드가  @ResponseBody가 되어 있으니까 몸통에 값이 들어가 있다. 몸통에 값이 들어간걸 가져오는건 function에 deptName이다.
-				data:{currentPage : pCurrentPage}, // url에 호출할 메소드에 보낼 데이터
-				dataType:'text', // 두 가지 있다. 호출한 메소드의 반환값이 String이면 text이고, 객체면 json이다.
-				success:function(currentPage){ //몸통의 값은 여기에 들어간다. 즉, getDeptName 메소드의 반환값인 deptname의 값이 여기에 들어감
-					// alert("success ajax Data-> "+deptName);
-					 $("#currentPage").val(currentPage + 1);  	/* input Tag */   //input태그는 값을 넣을때 val을 쓴다.
-				}
-			}	
-		);		
-	}
+	$(function() {
+		$('#chk1').click(function() {
+			var sendData = $('form').serialize();
+			location.href="reviewList?"+sendData;
+		});              //? 뒤로는 파라미터를 보내주는 것이라서 ajax를 호출하지 않아도 데이터를 보낼 수 있다.        
+	}) 
 </script>
-
-
 </head>
+
+	
+
 <body>
 <div class="row">
  <div class="col-md-4">
@@ -146,11 +134,11 @@
 	            <c:forEach var="review" items="${listReview}" >
 		          <div class="d-flex border-bottom pb-6 mb-6">
 		             <!-- img -->
-		             <!-- img --><img src="../../assets/images/avatar/avatar-10.jpg" alt=""
+		             <img src="${review.nb_image}" alt="product_image"
 		                class="rounded-circle avatar-lg">
 		             <div class="ms-5">
 		                <h6 class="mb-1">
-		                 <%--   ${review.m_name } --%>
+		                 ${review.m_name }
 		                </h6>
 		                <!-- select option -->
 		                <!-- content -->
@@ -168,12 +156,13 @@
 		             </div>
 		          </div>
                 </c:forEach>
-                <!-- <a href="reviewList" class="btn btn-outline-gray-400 text-muted">리뷰 더보기</a> -->  
-				<form action="ajaxReviewList">
-					<input type="hidden" id="currentPage" name="currentPage" value="${page.currentPage}">
-                	<input type="button" class="btn btn-outline-gray-400 text-muted" value="리뷰 더보기">
-                	<%-- <input type="button" class="btn btn-outline-gray-400 text-muted" value="리뷰 더보기" onclick="moreReview(${page.currentPage })"> --%>
-                </form>
+                <form action="">
+               	  <!--  <a href="reviewList" id="chk1" class="btn btn-outline-gray-400 text-muted">리뷰 더보기</a> -->
+           	       <input type="hidden" name="start" value="1">
+          	       <input type="hidden" name="end" value="${end + 5}">
+
+               	   <input type="button" id="chk1" class="btn btn-outline-gray-400 text-muted" value="리뷰 더보기">
+				</form>
           </div>
        </div>
       

@@ -17,8 +17,19 @@
 		(
 			SELECT rownum rn , a.*
 			FROM
-					(SELECT * From Review order by r_create_date) a		
+                (SELECT r.*,m.m_name,nb.nb_image
+                 FROM 
+					 Review r	
+                    ,orderr o
+                    ,member m
+                    ,newbook nb
+                 Where   r.o_order_num = o.o_order_num
+                 AND     o.m_num = m.m_num
+                 AND     r.nb_num = nb.nb_num
+                 order by r_create_date
+                 ) a
 		)
 		WHERE rn BETWEEN 1 and #{end}
+
 	</select>
 </mapper>

@@ -37,6 +37,35 @@ public class ReviewServiceImpl implements ReviewService {
 		return list;
 	}
 
+	@Override
+	public int reviewRating1() {
+		return 0;
+	}
+
+	@Override
+	public int reviewRating2() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int reviewRating3() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int reviewRating4() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int reviewRating5() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	
 	
 	

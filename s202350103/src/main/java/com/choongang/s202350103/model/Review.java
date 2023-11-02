@@ -12,6 +12,11 @@ public class Review {			  // 리뷰
 	private Date   r_create_date; // 리뷰등록일
 	private int    r_rating;	  // 별점
 	
-	//조회용
+	// 조회용
 	private int    start;		private int end;
+	// 회원 table(Member)에서 회원이름 관련 컬럼
+	private String 	m_name;
+	// 상품 table(NewBook)에서 이미지
+	private String nb_image;
+	
 }

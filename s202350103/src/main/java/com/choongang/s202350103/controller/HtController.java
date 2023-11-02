@@ -46,51 +46,33 @@ public class HtController {
 	}
 	
 	@RequestMapping("/reviewList")
-	public String reviewList(Model model, Review review, String currentPage) {
+	public String reviewList(Model model, Review review) {
 		System.out.println("Controller Start reviewList...");
 		
-		int totalReview = rs.reviewTotal();
+		int reviewTotal = rs.reviewTotal();
+		int reviewRating1 = rs.reviewRating1();
+		int reviewRating2 = rs.reviewRating2();
+		int reviewRating3 = rs.reviewRating3();
+		int reviewRating4 = rs.reviewRating4();
+		int reviewRating5 = rs.reviewRating5();
 		
-		model.addAttribute("totalReview", totalReview);
-		
-		// Paging 작업
-		Paging page = new Paging(totalReview, currentPage);
-		// Parameter emp --> Page만 추가 setting
-		review.setStart(page.getStart());      // 시작시 1
-		review.setEnd(page.getEnd());	       // 시작시 10
+		if (review.getEnd() == 0 ) {
+			review.setEnd(5);
+		}
+		System.out.println("Controller Start review.getStart->"+review.getStart());
+		System.out.println("Controller Start review.getEnd->"+review.getEnd());
 		
 		List<Review> listReview = rs.listReview(review);
 		
-		model.addAttribute("totalReview", totalReview);
 		model.addAttribute("listReview", listReview);
-		model.addAttribute("page", page);
+		model.addAttribute("end", review.getEnd());
+		model.addAttribute("reviewTotal", reviewTotal);
 		
 		return "/ht/boProductReviewList";
 	}
 	
 	
-	@RequestMapping("/ajaxReviewList")
-	public String ajaxReviewList(Model model, Review review, String currentPage) {
-		System.out.println("Controller Start reviewList...");
-		
-		int totalReview = rs.reviewTotal();
-		
-		model.addAttribute("totalReview", totalReview);
-		
-		// Paging 작업
-		Paging page = new Paging(totalReview, currentPage);
-		// Parameter emp --> Page만 추가 setting
-		review.setStart(page.getStart());      // 시작시 1
-		review.setEnd(page.getEnd());	       // 시작시 10
-		
-		List<Review> listReview = rs.listReview(review);
-		
-		model.addAttribute("totalReview", totalReview);
-		model.addAttribute("listReview", listReview);
-		model.addAttribute("page", page);
-		
-		return "/ht/boProductReviewList";
-	}
+	
 	
 	@RequestMapping("/reviewForm")
 	public String reviewForm(Model model) {
