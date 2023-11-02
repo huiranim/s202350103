@@ -5,9 +5,10 @@ server:
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@172.30.1.85:1521/xe
+    url: jdbc:oracle:thin:@172.30.1.85:1521/xe 
     username: s202350103
     password: tiger
+    
   
   #File Size
   servlet:
