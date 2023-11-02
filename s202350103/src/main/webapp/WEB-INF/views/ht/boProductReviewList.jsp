@@ -157,7 +157,6 @@
 		          </div>
                 </c:forEach>
                 <form action="">
-               	  <!--  <a href="reviewList" id="chk1" class="btn btn-outline-gray-400 text-muted">리뷰 더보기</a> -->
            	       <input type="hidden" name="start" value="1">
           	       <input type="hidden" name="end" value="${end + 5}">
 

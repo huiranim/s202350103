@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.choongang.s202350103.hrService.MemberService;
 import com.choongang.s202350103.hrService.OrderService;
 import com.choongang.s202350103.hrService.Paging;
@@ -77,5 +80,21 @@ public class HrController {
 		
 		System.out.println("HrController selectOrderr() end..");
 		return "/hr/boOrderDetail";
+	}
+	
+	// BO 주문상세 - 취소처리
+	// 주문 접수 상태일 때, 취소처리 버튼 클릭 시 주문상태값 취소로 변경
+	@ResponseBody
+	@RequestMapping("/statusCancellation")
+	public String statusCancellation(long o_order_num) {
+		System.out.println("HrController statusCancellation() start..");
+
+		System.out.println("HrController statusCancellation() o_order_num -> "+o_order_num);
+		int result = os.statusCancellation(o_order_num);
+		String stringResult = Long.toString(result);
+		System.out.println("HrController statusCancellation() stringResult -> "+stringResult);		
+		
+		System.out.println("HrController statusCancellation() end..");
+		return stringResult;
 	}
 }

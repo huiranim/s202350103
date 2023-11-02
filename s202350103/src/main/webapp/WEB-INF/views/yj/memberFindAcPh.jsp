@@ -9,7 +9,22 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<script type="text/javascript">
+// 전화번호 유효성 검사
+function phCk() {
+    var m_ph = document.getElementById("m_ph").value;
 
+    // 숫자만 허용
+    var regex = /^[0-9]+$/;
+
+    if (!regex.test(m_ph)) {
+        alert("전화번호는 숫자만 입력하세요.");
+		frm.m_ph.value = "";
+		frm.m_ph.focus();
+        return false;
+    }
+}
+</script>
 
 </head>
 <body>
@@ -31,10 +46,10 @@
 			
 				<h4 class="fs-6 mb-4">본인 명의 휴대전화로 인증하여 주세요</h4>
 				
-				<form action="memberAuthPhone" method="post" >
+				<form action="memberAuthPhone" method="post" onsubmit="return phCk()" id="frm">
 					<div class="input-phone mb-2">
 						<input type="tel" maxlength="11" class="form-control"
-							 required placeholder="ex)01012345678" name="m_ph" value="${m_ph }">
+							 required placeholder="ex)01012345678" name="m_ph" id="m_ph" value="${m_ph }">
 					</div>
 					<h4 class="fs-6 mb-4"><mark>- 생략하고 번호만 입력해주세요</mark></h4>
 					
