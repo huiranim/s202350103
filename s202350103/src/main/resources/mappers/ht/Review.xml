@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.choongang.s202350103.ReviewMapper">
+	<insert id="htReviewInsert" parameterType="Review">
+		Insert into Review values(#{o_order_num},#{nb_num},#{r_title},#{r_content},#{sysdate},#{r_rating})
+	</insert>
+	
+	<select id="htReviewTotal" parameterType="Review" resultType="int">
+		SELECT count(*) FROM Review
+	</select>
+	
+	<select id="htReviewList" parameterType="Review" resultType="Review">
+		SELECT *
+		FROM
+		(
+			SELECT rownum rn , a.*
+			FROM
+					(SELECT * From Review order by r_create_date) a		
+		)
+		WHERE rn BETWEEN 1 and #{end}
+	</select>
+</mapper>
