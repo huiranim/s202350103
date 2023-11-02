@@ -47,5 +47,13 @@ public class ReviewServiceImpl implements ReviewService {
 		return total;
 	}
 
+	@Override
+	public double reviewAverage() {
+		System.out.println("ReviewServiceImpl reviewAverage() Start..." );
+		double average = rd.reviewAverage();
+		System.out.println("ReviewServiceImpl reviewAverage() average--> " + average);
+		return average;
+	}
+
 	
 }

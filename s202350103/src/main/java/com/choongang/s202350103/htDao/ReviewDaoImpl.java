@@ -58,11 +58,24 @@ public class ReviewDaoImpl implements ReviewDao {
 		System.out.println("ReviewDaoImpl reviewRating() Start....");
 		int total = 0;
 		try {
-			total = session.selectOne("htReviewRating");
+			total = session.selectOne("htReviewRating",review);
 		}catch (Exception e) {
 			System.out.println("ReviewDaoImpl reviewRating() total--> " + total);
 		}
 		return total;
+	}
+
+	@Override
+	public double reviewAverage() {
+		System.out.println("ReviewDaoImpl reviewAverage() Start....");
+		double average = 0;
+		try {
+			average = session.selectOne("htReviewAverage");
+			System.out.println("ReviewDaoImpl reviewAverage() average->"+average);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewAverage() average--> " + average);
+		}
+		return average;
 	}
 
 }

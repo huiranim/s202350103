@@ -10,5 +10,6 @@ public interface ReviewService {
 	List<Review>   listReview(Review review);
 
 	int            reviewRating(Review review);
+	double         reviewAverage();
 	
 }
