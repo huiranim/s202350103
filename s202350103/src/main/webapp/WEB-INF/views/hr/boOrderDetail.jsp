@@ -9,6 +9,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript">
+		function statusCancellation(p_order_num) {
+			// 확인용
+			alert("statusCancellation p_order_num -> "+p_order_num);
+			
+			if(p_order_num == null) {
+				p_order_num = 0;
+			}
+			
+			$.ajax(
+					{
+						url : "/statusCancellation",
+						data : {o_order_num : p_order_num},
+						dataType : 'text',
+						success : function(data) {
+							alert('statusCancellation data -> '+data);
+							if(data == "1"){
+								alert('취소 처리 완료되었습니다.');
+								// $('#o_status').val('5');
+								$('#o_status').val('5');
+							}
+						}
+					}	
+			)
+		}
+	</script>
 </head>
 <body>
 <div class="row" >
@@ -24,7 +51,7 @@
               <button type="button" class="btn btn-success mb-2">발송</button>
               <button type="button" class="btn btn-success mb-2">배송완료</button>
               <button type="button" class="btn btn-success mb-2">구매확정</button>
-              <button type="button" class="btn btn-success mb-2">취소</button>
+              <input type="button" class="btn btn-success mb-2" value="취소" onclick="statusCancellation(${orderr.o_order_num})">
               <button type="button" class="btn btn-success mb-2">교환</button>
               <button type="button" class="btn btn-success mb-2">반품</button>
            </div>
@@ -41,7 +68,7 @@
             </tr>
             <tr>
                      <th class="table-light">주문상태</th>
-                     <td class="align-middle">
+                     <td class="align-middle" id="o_status">
                      	<c:if test="${orderr.o_status == 1}">주문접수</c:if>
                      	<c:if test="${orderr.o_status == 2}">배송중</c:if>
                      	<c:if test="${orderr.o_status == 3}">배송완료</c:if>

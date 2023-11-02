@@ -21,10 +21,34 @@
 <!-- Theme CSS -->
 <link rel="stylesheet" href="../assets/css/theme.min.css">
 <!-- Google tag (gtag.js) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function sendNumber(){
+        $("#mail_number").css("display","block");
+        $.ajax({
+            url:"/mail",
+            type:"post",
+            dataType:"json",
+            data:{"mail" : $("#mail").val()},
+            success: function(data){
+                alert("인증번호 발송");
+                $("#Confirm").attr("value",data);
+            }
+        });
+    }
 
+    function confirmNumber(){
+        var number1 = $("#number").val();
+        var number2 = $("#Confirm").val();
 
-<script language="javascript">
-	function view(arg) {
+        if(number1 == number2){
+            alert("인증되었습니다.");
+        }else{
+            alert("번호가 다릅니다.");
+        }
+    }
+    
+    function view(arg) {
 		var tb1 = document.getElementById("tb1");
 		var tb2 = document.getElementById("tb2");
 		
@@ -40,6 +64,8 @@
 		} 
 	}
 </script>
+
+
 <style type="text/css">
 	#kindBtn {
 		background: #0aad0a; 
@@ -89,25 +115,33 @@
               <input type="button" value="이메일로 찾기"  id="kindBtn"  onClick="view(1)" class="btn btn-primary">
 			  <input type="button" value="번호로 찾기"	  id="kindBtn"  onClick="view(2)" class="btn btn-primary"><p>	
               <div class="row justify-content-center align-items-center" align="center" style="margin-right: 20px;">             
+	         		<form method="post" action="/mail">
 	         		<table id="tb1" cellpadding="10px" style="margin-left: 50px; " >	   
 						<tr><td>
 								<div class="col-12">
-		                 			<!-- input -->
-		                 			<input type="email" class="form-control" id="inputEmail4" placeholder="Email을 입력하세요" required>
+		                 			<div id="mail_input" name="mail_input">
+		                 			<input type="text" class="form-control" name="mail" id="mail" placeholder="Email을 입력하세요" required>
+		               				<button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호</button>
+		               				</div>
 		               			</div>
 		               		</td>
 		               	</tr>
 						<tr>
 							<td>
 								<div class="row g-3">
-		               				<div class="col-12 d-grid gap-2"> <button type="submit" class="btn btn-primary">비밀번호 찾기</button>
+		               				<div class="col-12 d-grid gap-2">
+		               				 <div id="mail_number" name="mail_number" style="display: none">
+    									<input type="text" name="number" id="number" placeholder="인증번호 입력">
+    									<button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일 인증</button>
+  									</div>
+  									<input type="text" id="Confirm" name="Confirm" style="display: none" value="">
 		                 			<a href="loginForm" class="btn btn-light">Back</a>
 		               				</div>
 		             			</div>
 		             		</td>
 		             	</tr>
 					</table>
-
+					</form>
 	         		<table id="tb2" cellpadding="10px" style="display: none; margin-left: 35px; ">
 						<tr>
 							<td>

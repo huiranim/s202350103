@@ -22,25 +22,6 @@
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
-	<select id="hrMinNbNum" parameterType="long" resultType="int">
-		SELECT MIN(nb_num)
-		FROM order_detail
-		WHERE o_order_num = #{o_order_num}
-	</select>
-	
-	<select id="hrNBTitle" parameterType="int" resultType="String">
-		SELECT nb_title
-		FROM newbook
-		WHERE nb_num = #{nb_num}
-	</select>
-	
-	<select id="hrOBTitle" parameterType="int" resultType="String">
-		SELECT n.nb_title
-		FROM oldbook o, newbook n
-		WHERE o.nb_num = n.nb_num
-		AND o.ob_num = #{nb_num}
-	</select>
-	
 <!-- BO 주문상세
 	 boOrderDetail.jsp -->
 	 <select id="hrSelectOrder" parameterType="long" resultType="Orderr">
@@ -52,4 +33,10 @@
 		WHERE  o.m_num = m.m_num(+)
 		AND    o_order_num = #{o_order_num}
 	 </select>
+	 
+	 <update id="hrStatusCancellation" parameterType="long">
+	 	UPDATE orderr
+	 	SET    o_status = 5
+	 	WHERE  o_order_num = #{o_order_num}
+	 </update>
 </mapper>

@@ -13,7 +13,7 @@ public class OrderDaoImpl implements OrderDao {
 	
 	private final SqlSession session;
 
-	// BO 주문목록
+	// BO 주문목록 - total
 	// boOrderList.jsp
 	@Override
 	public int countOrderrList() {
@@ -28,6 +28,7 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl countOrderrList() end..");
 		return cnt;
 	}
+	// BO 주문목록 - 각 row
 	@Override
 	public List<Orderr> selectOrderrList(Orderr orderr) {
 		System.out.println("OrderDaoImpl selectOrderrList() start..");
@@ -41,49 +42,6 @@ public class OrderDaoImpl implements OrderDao {
 		}
 		System.out.println("OrderDaoImpl selectOrderrList() end..");
 		return orderrList;
-	}
-	@Override
-	public int minNbNum(long o_order_num) {
-		System.out.println();
-		System.out.println("OrderDaoImpl minNbNum() start..");
-		System.out.println("OrderDaoImpl minNbNum() o_order_num->"+o_order_num);
-		int nb_num = 0;
-		
-		try {
-			nb_num = session.selectOne("hrMinNbNum", o_order_num);
-			System.out.println("OrderDaoImpl o_order_num -> "+ o_order_num);
-			System.out.println("OrderDaoImpl nb_num -> "+ nb_num);
-		} catch (Exception e) {
-			System.out.println("OrderDaoImpl minNbNum() e.getMessage() -> "+e.getMessage());
-		}
-		System.out.println("OrderDaoImpl minNbNum() end..");
-		return nb_num;
-	}
-	@Override
-	public String selectNBTitleByNum(int nb_num) {
-		System.out.println("OrderDaoImpl selectNBTitleByNum() start..");
-		String title = "";
-		try {
-			title = session.selectOne("hrNBTitle", nb_num);
-			System.out.println("OrderDaoImpl NB title -> "+ title);
-		} catch (Exception e) {
-			System.out.println("OrderDaoImpl selectNBTitleByNum() e.getMessage() -> "+e.getMessage());
-		}
-		System.out.println("OrderDaoImpl selectNBTitleByNum() end..");
-		return title;
-	}
-	@Override
-	public String selectOBTitleByNum(int nb_num) {
-		System.out.println("OrderDaoImpl selectOBTitleByNum() start..");
-		String title = "";
-		try {
-			title = session.selectOne("hrOBTitle", nb_num);
-			System.out.println("OrderDaoImpl OB title -> "+ title);
-		} catch (Exception e) {
-			System.out.println("OrderDaoImpl selectOBTitleByNum() e.getMessage() -> "+e.getMessage());
-		}
-		System.out.println("OrderDaoImpl selectOBTitleByNum() end..");
-		return title;
 	}
 	
 	// BO 주문상세
@@ -101,6 +59,21 @@ public class OrderDaoImpl implements OrderDao {
 		}
 		System.out.println("OrderDaoImpl selectOrderr() end..");
 		return orderr;
+	}
+	// BO 주문상세 - 취소처리
+	@Override
+	public int statusCancellation(long o_order_num) {
+		System.out.println("OrderDaoImpl selectOrderr() start..");
+		
+		int result = 0;
+		try {
+			result = session.update("hrStatusCancellation", o_order_num);
+			System.out.println("OrderDaoImpl statusCancellation() result -> "+result);					
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl statusCancellation() e.getMessage() -> "+e.getMessage());
+		}
+		System.out.println("OrderDaoImpl selectOrderr() end..");
+		return result;
 	}
 
 

@@ -43,4 +43,16 @@
 	</update>
 	
 	
+	<select id="memberPhFind" resultType="String" parameterType="String">
+	
+		select m_ph from member where m_ph = #{m_ph}
+	
+	</select>
+	
+	<select id="memberFindGetId" resultType="Member" parameterType="String">
+	
+		select * from member where m_ph = #{m_ph}
+		
+	</select>
+	
 </mapper>
