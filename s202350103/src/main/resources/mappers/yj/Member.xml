@@ -68,7 +68,8 @@
 		    on o.o_order_num = r.o_order_num
 		join newbook n
 		    on r.nb_num = n.nb_num
-		where m.m_num = #{m_num} order by r.r_create_date desc
+		where m.m_num = #{m_num} 
+		order by r.r_create_date desc
 	
 	</select>
 	
@@ -78,5 +79,21 @@
 
 	</select>
 	
+	
+	<select id="memberMyOrder" resultType="Member" parameterType="int">
+		
+		select 	o.o_order_date, o.o_rec_name, nb.nb_title,
+				nb.nb_writer, nb.nb_image, o.o_pay_price, o.o_status
+		from orderr o
+		    join member m
+		on  o.m_num = m.m_num
+		    join order_detail od
+		on o.o_order_num = od.o_order_num
+		    join newbook nb 
+		on nb.nb_num = od.nb_num
+		where m.m_num = #{m_num}
+		order by o.o_order_date desc
+	
+	</select>
 	
 </mapper>

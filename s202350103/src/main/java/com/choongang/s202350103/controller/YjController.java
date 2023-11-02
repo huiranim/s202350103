@@ -340,8 +340,18 @@ public class YjController {
 		  
  		  model.addAttribute("memberMyReview",memberMyReview);
  		  
- 		  
 		  return "yj/memberMyReview";
+	  }
+	  
+	  // 내 주문 리스트
+	  @GetMapping("memberMyOrder")
+	  public String memberMyOrder(@RequestParam int m_num, Model model) {
+		  
+		  List<Member> memberMyOrder = ms.memberMyOrder(m_num);
+		  
+		  model.addAttribute("memberMyOrder",memberMyOrder);
+		  
+		  return "yj/memberMyOrder";
 	  }
 	  
 	  // 관리자 회원 전체 조회

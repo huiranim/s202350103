@@ -69,6 +69,12 @@ public class MemberServiceImpl implements MemberService{
 		List<Member> adminMemberList = md.adminMemberList(member);
 		return adminMemberList;
 	}
+	// 내 주문 리스트
+	@Override
+	public List<Member> memberMyOrder(int m_num) {
+		List<Member> memberMyOrder = md.memberMyOrder(m_num);
+		return memberMyOrder;
+	}
 
 	
 }

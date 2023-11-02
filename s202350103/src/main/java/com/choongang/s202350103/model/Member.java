@@ -22,7 +22,6 @@ public class Member {				// 회원
 		//			 조회 및 join 용	
 		
 		// 회원
-		// 조회 및 join 용
 		private String  m_reid; 	// 추천인 ID
 		
 		// 페이징 작업용
@@ -38,8 +37,12 @@ public class Member {				// 회원
 		private String nb_title;		// 상품 제목
 		private String nb_writer;		// 상품 저자
 		private String r_title;		  	// 리뷰제목
-		private String r_content;	 	 // 리뷰내용
-		private int    r_rating;	 	 // 별점
+		private String r_content;	 	// 리뷰내용
+		private int    r_rating;	 	// 별점
 		
-		
+		// 주문조회
+		private Date   o_order_date;	// 주문일자
+		private String o_rec_name;		// 수령_이름
+		private int	   o_pay_price;		// 결제금액
+		private int	   o_status;		// 주문상태
 }

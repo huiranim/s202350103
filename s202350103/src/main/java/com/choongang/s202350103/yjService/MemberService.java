@@ -24,6 +24,8 @@ public interface MemberService {
 	List<Member> memberMyReview(int m_num);
 	// 관리자 회원 전체 조회
 	List<Member> adminMemberList(Member member);
+	// 내 주문 리스트
+	List<Member> memberMyOrder(int m_num);
 
 	
 }

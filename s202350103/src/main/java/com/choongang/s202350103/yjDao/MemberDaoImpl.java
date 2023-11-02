@@ -69,5 +69,11 @@ public class MemberDaoImpl implements MemberDao{
 		List<Member> adminMemberList = session.selectList("adminMemberList",member);
 		return adminMemberList;
 	}
+	// 내 주문 리스트
+	@Override
+	public List<Member> memberMyOrder(int m_num) {
+		List<Member> memberMyOrder = session.selectList("memberMyOrder",m_num);
+		return memberMyOrder;
+	}
 
 }
