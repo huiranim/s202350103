@@ -55,4 +55,28 @@
 		
 	</select>
 	
+	
+	<select id="memberMyReview"	resultType="Member" parameterType="int">
+		
+		select o.o_order_num, m.m_num, r.nb_num, 
+   			 r.r_create_date, n.nb_image, n.nb_title, n.nb_writer,
+   			 r.r_title, r.r_content, r.r_rating
+		from orderr o 
+		join member m 
+    		on m.m_num = o.m_num
+		join review r
+		    on o.o_order_num = r.o_order_num
+		join newbook n
+		    on r.nb_num = n.nb_num
+		where m.m_num = #{m_num} order by r.r_create_date desc
+	
+	</select>
+	
+	<select id="adminMemberList" resultType="Member" parameterType="Member">
+		
+		select * from member order by m_num desc
+
+	</select>
+	
+	
 </mapper>

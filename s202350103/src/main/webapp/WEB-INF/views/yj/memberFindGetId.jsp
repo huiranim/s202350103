@@ -34,7 +34,7 @@
 				</div>
 
 
-				<form action="loginForm" method="post" >
+				<form action="loginForm"  >
 					<input type="hidden" name="m_num" value="${member.m_num }">
 					<div class="col-lg-4">
 						<div class="input-group mb-8">

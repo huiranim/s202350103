@@ -2,6 +2,7 @@ package com.choongang.s202350103.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.yjService.MemberService;
@@ -134,17 +133,14 @@ public class YjController {
 		int memberJoinPoint = ms.memberJoinPoint(m_reid);
 	}
 	
-	/*		
-		// 마이 페이지 이동
-			@RequestMapping ("/memberMyPage")
-			public String memberMyPage(String m_num, Model model) {
-				
-				System.out.println(m_num);
-				model.addAttribute("m_num",m_num);
-				
-				return "yj/memberMyPage";
-			}
-	*/		
+		
+	// 마이 페이지 이동
+		@RequestMapping ("/memberMyPage")
+		public String memberMyPage() {
+			
+			return "yj/memberMyPage";
+		}
+	
 	
 	
 	// 내정보 상세
@@ -332,9 +328,31 @@ public class YjController {
 			  model.addAttribute("noAuth","인증번호가 일치하지 않습니다. 다시 진행해 주세요.");
 			  return "yj/memberFindAcPh"; 
 		  }
+	  }
+	  
+	  // 내리뷰 리스트 조회 
+	  @GetMapping("memberMyReview")
+	  public String memberMyReview(@RequestParam int m_num , Model model) {
 		  
+		  System.out.println(m_num);
+
+		  List<Member> memberMyReview = ms.memberMyReview(m_num);
 		  
+ 		  model.addAttribute("memberMyReview",memberMyReview);
+ 		  
+ 		  
+		  return "yj/memberMyReview";
+	  }
+	  
+	  // 관리자 회원 전체 조회
+	  @GetMapping("adminMemberList")
+	  public String adminMemberList(Member member, Model model ) {
 		  
+		  List<Member> adminMemberList = ms.adminMemberList(member);
+		  
+		  model.addAttribute("adminMemberList", adminMemberList);
+		  
+		  return "yj/adminMemberList";
 	  }
 		
 }

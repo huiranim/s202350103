@@ -198,8 +198,8 @@
 			               		</a>
 			               	</div><p>
 			               	<div>
-								<a href="memberMyPage1" style="color: #002b63;"><strong>
-								${member.m_name }</strong></a>
+								<a href="memberMyPage" style="color: #002b63;"><strong>
+								${member.m_name }(${member.m_id })</strong></a>
 								님 환영합니다.
 			               	</div>
 			     		</c:if>	

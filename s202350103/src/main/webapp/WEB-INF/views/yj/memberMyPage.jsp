@@ -28,7 +28,7 @@
 		          		</span> 
 		          </i>
          	</div>
-            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >300 P</p>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >${member.m_point } P</p>
           </div>
       		</a>
         </div>
@@ -74,7 +74,7 @@
       
         <div class="col-md-4">
         <div class="card mb-3">
-           <a href="">
+           <a href="memberMyReview?m_num=${member.m_num }">
           <div class="card-body ">
          	<div class="group mb-10 ">
 		          <i class="bi bi-chat-left-text-fill fs-1 me-1" style="color:#21313c;">
