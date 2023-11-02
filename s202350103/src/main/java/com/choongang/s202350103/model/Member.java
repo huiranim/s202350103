@@ -22,7 +22,13 @@ public class Member {				// 회원
 		//			 조회 및 join 용	
 		
 		// 회원
-		private String m_reid; 		// 추천인 ID 
+		// 조회 및 join 용
+		private String  m_reid; 	// 추천인 ID
+		
+		// 페이징 작업용
+		private String  pageNum;	// 페이지	
+		private int     start;		
+		private int 	end;
 		
 		// 리뷰
 		private long   o_order_num; 	// 주문번호
