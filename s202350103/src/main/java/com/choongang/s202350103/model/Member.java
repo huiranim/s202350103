@@ -20,6 +20,11 @@ public class Member {				// 회원
 		private String  m_image;	// 회원 이미지
 		
 		// 조회 및 join 용
-		private String m_reid; 		// 추천인 ID 
+		private String  m_reid; 	// 추천인 ID
+		
+		// 페이징 작업용
+		private String  pageNum;	// 페이지	
+		private int     start;		
+		private int 	end;
 		
 }

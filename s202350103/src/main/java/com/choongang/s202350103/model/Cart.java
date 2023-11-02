@@ -3,8 +3,20 @@ package com.choongang.s202350103.model;
 import lombok.Data;
 
 @Data
-public class Cart {			// 장바구니
-	private int m_num; 		// 회원번호
-	private int nb_num;		// 상품번호
-	private int c_count;	// 상품개수
+public class Cart {				// 장바구니
+	private int 	m_num; 		// 회원번호
+	private int 	nb_num;		// 상품번호
+	private int 	c_count;	// 상품개수
+
+	// 조회용
+	private String  nb_title;
+	private String	nb_price;
+	private String	nb_writer;
+	private String  nb_publisher;
+	private String 	nb_image;
+	private String  total_price;
+	// 페이징 작업용
+	private String  pageNum;	// 페이지	
+	private int     start;		
+	private int 	end;
 }

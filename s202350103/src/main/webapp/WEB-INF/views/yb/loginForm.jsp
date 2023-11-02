@@ -1,3 +1,4 @@
+<%@page import="com.choongang.s202350103.model.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/headerFo.jsp"  %>
@@ -6,8 +7,27 @@
 
 <!DOCTYPE html>
 <html>
-
+<script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
+
+	
+	 function member_chk() {
+		 
+		 console.log("getListDept Run...");
+		
+		if(frm.m_id.value !== "${member.m_id}" || frm.m_pw.value!=="${member.m_pw}") {
+			alert("아이디 혹은 비밀번호를 확인해주세요.");
+			return false;
+		} else {
+			return true;
+		}
+		
+		if(member.m_admin.equals(1)) {
+			alert("관리자입니다.");
+			return true;
+		}
+	}  
+	
 
 </script>
 <head>
@@ -33,12 +53,12 @@
 			
               <div class="col-12">
                 <!-- input -->
-                <input type="text" class="form-control" name="m_id" placeholder="아이디를 입력하세요" required>
+                <input type="text" class="form-control" id="m_id" name="m_id" placeholder="아이디를 입력하세요" required>
               </div>
               <div class="col-12">
                 <!-- input -->
               <div class="password-field position-relative">
-      			<input type="password" name="m_pw" placeholder="비밀번호를 입력하세요" class="form-control" required >
+      			<input type="password" id="m_pw"  name="m_pw" placeholder="비밀번호를 입력하세요" class="form-control" required >
       			<span><i id="passwordToggler"class="bi bi-eye-slash"></i></span>
     		  </div>
 
