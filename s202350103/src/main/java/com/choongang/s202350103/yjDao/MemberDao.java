@@ -26,5 +26,7 @@ public interface MemberDao {
 	List<Member> adminMemberList(Member member);
 	// 내 주문 리스트
 	List<Member> memberMyOrder(int m_num);
+	// 전체 회원 카운트 
+	int totalMember();
 	
 }

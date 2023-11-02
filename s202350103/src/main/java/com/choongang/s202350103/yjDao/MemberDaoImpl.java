@@ -75,5 +75,12 @@ public class MemberDaoImpl implements MemberDao{
 		List<Member> memberMyOrder = session.selectList("memberMyOrder",m_num);
 		return memberMyOrder;
 	}
+	// 전체 회원 카운트
+	@Override
+	public int totalMember() {
+		int totalMember = session.selectOne("totalMember");
+		return totalMember;
+		
+	}
 
 }

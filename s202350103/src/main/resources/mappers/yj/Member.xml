@@ -96,4 +96,10 @@
 	
 	</select>
 	
+	<select id="totalMember" resultType="int">
+	
+	select count(*) from member
+	
+	</select>
+	
 </mapper>

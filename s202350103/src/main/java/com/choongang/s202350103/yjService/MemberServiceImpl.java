@@ -75,6 +75,12 @@ public class MemberServiceImpl implements MemberService{
 		List<Member> memberMyOrder = md.memberMyOrder(m_num);
 		return memberMyOrder;
 	}
+	// 전체 회원 카운트
+	@Override
+	public int totalMember() {
+		int totalMember = md.totalMember();
+		return totalMember;
+	}
 
 	
 }

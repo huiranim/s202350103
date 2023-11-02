@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.yjService.MemberService;
+import com.choongang.s202350103.yjService.Paging;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
@@ -335,7 +336,7 @@ public class YjController {
 	  public String memberMyReview(@RequestParam int m_num , Model model) {
 		  
 		  System.out.println(m_num);
-
+		  
 		  List<Member> memberMyReview = ms.memberMyReview(m_num);
 		  
  		  model.addAttribute("memberMyReview",memberMyReview);
@@ -356,11 +357,20 @@ public class YjController {
 	  
 	  // 관리자 회원 전체 조회
 	  @GetMapping("adminMemberList")
-	  public String adminMemberList(Member member, Model model ) {
+	  public String adminMemberList(Member member, String currentPage, Model model ) {
+		  // 전체회원 count
+		  int totalMember = ms.totalMember();
+		  
+		  // 페이징
+		  Paging page = new Paging(totalMember, currentPage);
+		  member.setStart(page.getStart());
+		  member.setEnd(page.getEnd());
 		  
 		  List<Member> adminMemberList = ms.adminMemberList(member);
 		  
+		  model.addAttribute("totalMember",totalMember);
 		  model.addAttribute("adminMemberList", adminMemberList);
+		  model.addAttribute("page", page);
 		  
 		  return "yj/adminMemberList";
 	  }
