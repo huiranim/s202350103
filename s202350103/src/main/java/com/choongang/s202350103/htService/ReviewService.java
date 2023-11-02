@@ -9,10 +9,6 @@ public interface ReviewService {
 	int            reviewTotal();
 	List<Review>   listReview(Review review);
 
-	int            reviewRating1();
-	int            reviewRating2();
-	int            reviewRating3();
-	int            reviewRating4();
-	int            reviewRating5();
-
+	int            reviewRating(Review review);
+	
 }

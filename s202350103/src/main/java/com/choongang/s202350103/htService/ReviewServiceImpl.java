@@ -14,13 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class ReviewServiceImpl implements ReviewService {
 	private final ReviewDao rd;
 
-	@Override
-	public int reviewTotal() {
-		System.out.println("ReviewServiceImpl reviewTotal() Start..." );
-		int total = rd.reviewTotal();
-		System.out.println("ReviewServiceImpl reviewTotal() total--> " + total);
-		return total;
-	}
+	
 	
 	@Override
 	public int reviewInsert(Review review) {
@@ -36,36 +30,22 @@ public class ReviewServiceImpl implements ReviewService {
 		List<Review> list = rd.listReview(review);
 		return list;
 	}
-
-	@Override
-	public int reviewRating1() {
-		return 0;
-	}
-
-	@Override
-	public int reviewRating2() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int reviewRating3() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int reviewRating4() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int reviewRating5() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
-	
+	@Override
+	public int reviewTotal() {
+		System.out.println("ReviewServiceImpl reviewTotal() Start..." );
+		int total = rd.reviewTotal();
+		System.out.println("ReviewServiceImpl reviewTotal() total--> " + total);
+		return total;
+	}
+
+	@Override
+	public int reviewRating(Review review) {
+		System.out.println("ReviewServiceImpl reviewRating() Start..." );
+		int total = rd.reviewRating(review);
+		System.out.println("ReviewServiceImpl reviewRating() total--> " + total);
+		return total;
+	}
+
 	
 }

@@ -8,4 +8,5 @@ public interface ReviewDao {
 	int          reviewInsert(Review review);
 	int          reviewTotal();
 	List<Review> listReview(Review review);
+	int          reviewRating(Review review);
 }

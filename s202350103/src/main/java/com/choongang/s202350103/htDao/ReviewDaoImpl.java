@@ -14,18 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReviewDaoImpl implements ReviewDao {
 	private final SqlSession session;
-	
-	@Override
-	public int reviewTotal() {
-		System.out.println("ReviewDaoImpl reviewTotal() Start....");
-		int total = 0;
-		try {
-			total = session.selectOne("htReviewTotal");
-		}catch (Exception e) {
-			System.out.println("ReviewDaoImpl reviewTotal() total--> " + total);
-		}
-		return total;
-	}
+
 	
 	@Override
 	public int reviewInsert(Review review) {
@@ -50,6 +39,30 @@ public class ReviewDaoImpl implements ReviewDao {
 		}
 		return list;
 	}
-
+    
 	
+	@Override
+	public int reviewTotal() {
+		System.out.println("ReviewDaoImpl reviewTotal() Start....");
+		int total = 0;
+		try {
+			total = session.selectOne("htReviewTotal");
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewTotal() total--> " + total);
+		}
+		return total;
+	}
+	
+	@Override
+	public int reviewRating(Review review) {
+		System.out.println("ReviewDaoImpl reviewRating() Start....");
+		int total = 0;
+		try {
+			total = session.selectOne("htReviewRating");
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewRating() total--> " + total);
+		}
+		return total;
+	}
+
 }

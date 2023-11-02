@@ -18,5 +18,10 @@ public class Review {			  // 리뷰
 	private String 	m_name;
 	// 상품 table(NewBook)에서 이미지
 	private String nb_image;
-	
+    // r_rating 별점을 1~5까지 구분해서 받음(total개수 또는 평균값)
+	private int    r_rating1;
+	private int    r_rating2;
+	private int    r_rating3;
+	private int    r_rating4;
+	private int    r_rating5;
 }

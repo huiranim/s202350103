@@ -50,11 +50,12 @@ public class HtController {
 		System.out.println("Controller Start reviewList...");
 		
 		int reviewTotal = rs.reviewTotal();
-		int reviewRating1 = rs.reviewRating1();
-		int reviewRating2 = rs.reviewRating2();
-		int reviewRating3 = rs.reviewRating3();
-		int reviewRating4 = rs.reviewRating4();
-		int reviewRating5 = rs.reviewRating5();
+		
+		int reviewRating = rs.reviewRating(review);
+		
+		
+		
+		
 		
 		if (review.getEnd() == 0 ) {
 			review.setEnd(5);
@@ -70,8 +71,26 @@ public class HtController {
 		
 		return "/ht/boProductReviewList";
 	}
-	
-	
+//	
+//	@RequestMapping("/reviewList")
+//	public String reviewList(Model model, Review review) {
+//		System.out.println("Controller Start reviewList...");
+//		
+//		if (review.getEnd() == 0 ) {
+//			review.setEnd(5);
+//		}
+//		System.out.println("Controller Start review.getStart->"+review.getStart());
+//		System.out.println("Controller Start review.getEnd->"+review.getEnd());
+//		
+//		List<Review> listReview = rs.listReview(review);
+//		
+//		model.addAttribute("listReview", listReview);
+//		model.addAttribute("end", review.getEnd());
+//		
+//		return "/ht/boProductReviewList";
+//	}
+//	
+//	
 	
 	
 	@RequestMapping("/reviewForm")
