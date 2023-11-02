@@ -17,6 +17,7 @@
 		(
 			SELECT rownum rn , a.*
 			FROM
+<<<<<<< HEAD
                 (SELECT r.*,m.m_name,nb.nb_image
                  FROM 
 					 Review r	
@@ -31,5 +32,10 @@
 		)
 		WHERE rn BETWEEN 1 and #{end}
 
+=======
+					(SELECT * From Review order by r_create_date) a		
+		)
+		WHERE rn BETWEEN 1 and #{end}
+>>>>>>> branch 'main' of https://github.com/huiranim/s202350103.git
 	</select>
 </mapper>
