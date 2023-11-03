@@ -74,8 +74,16 @@
 	</select>
 	
 	<select id="adminMemberList" resultType="Member" parameterType="Member">
-		
-		select * from member order by m_num desc
+		<![CDATA[
+			select * from 
+			(	
+				select rownum rn , m.* 
+				from 
+					(select * from member order by m_num desc) m
+			)
+			where rn >= #{start}
+			and rn <= #{end}
+		]]>
 
 	</select>
 	

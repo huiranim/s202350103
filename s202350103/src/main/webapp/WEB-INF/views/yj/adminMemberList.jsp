@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../common/headerFo.jsp"%>
-<%@ include file="../common/sideFo.jsp"%>
+<%@ include file="../common/headerBo.jsp"%>
 
 <!DOCTYPE html>
 <html>
@@ -17,6 +16,7 @@
 
 	<table>
 		<tr>
+			<th>No.</th>
 			<th>회원번호</th>
 			<th>가입일</th>
 			<th>아이디</th>
@@ -44,36 +44,34 @@
 			<td>${member.m_point }</td>
 			<td>${member.m_wd }</td>
 		</tr>
-
 			<c:set var="num" value="${num-1 }"></c:set>
 
 		</c:forEach>
 
-	</table>
+	</table><p></p>
+	
 
-	<nav aria-label="Page navigation example">
-		<ul class="pagination justify-content-center">
+	 <nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center">
 
-			<li class="page-item">
-				<c:if test="${page.startPage > page.pageBlock }">
-					<a class="page-link" href="adminMemberList?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
+			 	<c:if test="${page.startPage > page.pageBlock }">
+					 <li class="pagination justify-content-center">					
+						<a class="page-link" href="adminMemberList?currentPage=${page.startPage-page.pageBlock}">이전</a>
+					</li>
 				</c:if>
-			</li>
-
-			<li class="page-item">
-				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-					<a class="page-link" href="adminMemberList?currentPage=${i}">[${i}]</a>
+ 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+					 <li class="pagination justify-content-center">
+ 						<a class="page-link" href="adminMemberList?currentPage=${i}">${i}</a>&nbsp;&nbsp;
+					</li>
 				</c:forEach>
-			</li>
-			
-			<li class="page-item">
+					
 				<c:if test="${page.endPage < page.totalPage }">
-					<a class="page-link" href="adminMemberList?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
+					 <li class="pagination justify-content-center">		 
+						<a class="page-link" href="adminMemberList?currentPage=${page.startPage+page.pageBlock}">다음</a>
+					</li>
 				</c:if>
-			</li>
 		</ul>
 	</nav>
-
 
 </body>
 </html>
