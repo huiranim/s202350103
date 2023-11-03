@@ -339,6 +339,7 @@ public class YjController {
 		  
 		  List<Member> memberMyReview = ms.memberMyReview(m_num);
 		  
+		  
  		  model.addAttribute("memberMyReview",memberMyReview);
  		  
 		  return "yj/memberMyReview";
