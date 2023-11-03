@@ -278,7 +278,7 @@ function valiForm() {
 						
 						<div class="col-lg-15">
 							<div class="input-group mb-5 ">
-								<a href="#!" style="font-size: 16px; color: red;" class="">회원 탈퇴 </a>
+								<a href="memberWithdrawForm" style="font-size: 16px; color: red;" class="">회원 탈퇴 </a>
 								<p>
 							</div>
 						</div>

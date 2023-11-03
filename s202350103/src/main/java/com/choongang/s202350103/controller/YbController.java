@@ -10,9 +10,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.Cart;
@@ -43,8 +45,8 @@ public class YbController {
 		System.out.println("YbController login() start... ");
 		return "yb/loginForm";
 	}
+	
 	// 로그인
-
 	@RequestMapping(value = "memberLogin")
 	public String login(Member member1, HttpSession session, HttpServletRequest request, Model model,
 						@RequestParam("m_id") String m_id) {
@@ -55,7 +57,6 @@ public class YbController {
 		
 		if (member != null) {
 			session.setAttribute("member", member);
-			
 			System.out.println("YbController login() session -> " + session.getId());
 			
 			return "redirect:/";
@@ -87,6 +88,7 @@ public class YbController {
 	@GetMapping(value = "memberMyPage1")
 	public String memberMyPage1() {
 		System.out.println("YbController memberMyPage1() start...");
+		
 		return "yb/memberMyPage1";
 	}
 	// 비밀번호 찾기 페이지 이동
@@ -107,6 +109,7 @@ public class YbController {
 		if(member == null) {
 			return "yb/loginForm";
 		}
+	
 		System.out.println("YbController memberCartList() member.m_id -> " + member.getM_id());
 		// 회원별 장바구니 총 개수
 		int totalCart = ms.totalCart(member);
@@ -146,7 +149,7 @@ public class YbController {
 			return "yb/loginForm";
 		}
 		
-		// 회원별 장바구니 총 개수
+		// 회원별 찜 총 개수
 		int totalWishList = ms.totalWishList(member);
 		
 		// 페이징 처리
@@ -158,7 +161,7 @@ public class YbController {
 		System.out.println("YbController memberCartList() member.m_id -> " + member.getM_id());
 	
 		
-		// 장바구니 리스트
+		// 찜목록 리스트
 		List<WishList> memberWishList = ms.memberWishList(wishList);
 		System.out.println("YbController memberCartList listCart.size() -> " + memberWishList.size());
 		System.out.println("YbController memberCartList listCart.title -> " + wishList.getNb_title());
@@ -168,6 +171,49 @@ public class YbController {
 		model.addAttribute("wishList", wishList);
 		return "yb/memberWishList";
 	}
+	
+	// 회원 탈퇴 페이지 이동
+	@GetMapping(value = "memberWithdrowForm")
+	public String memberWithdrawForm(Member member, HttpSession session, Model model) {
+		
+		System.out.println("YbController memberWithdrowForm() start...");
+		
+		member =(Member) session.getAttribute("member");
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		
+		model.addAttribute("member", member);
+		return "yb/memberWithdrawForm";
+	}
+	
+	// 회원탈퇴 하기
+	@PostMapping(value = "memberWithdrow")
+	public String memberWithdraw(Member member, HttpSession session, Model model
+								,@RequestParam("m_pw") String m_pw) {
+		
+		System.out.println("YbController memberWithdraw() start...");
+		member =(Member) session.getAttribute("member");
+
+		if(m_pw == member.getM_pw()) {
+			int result = ms.memberWithdraw(member);
+			return "yb/memberWithdrowForm";
+		} else {
+			return "yb/memberWithdrowForm";
+		}
+	}
+
+   @ResponseBody
+   @RequestMapping("/memberChkPw")
+   public String memberChkPw(Member member, HttpSession session) {
+         System.out.println("YbController memberChkPw() start..");
+         member =(Member) session.getAttribute("member");
+         
+         String memberPw = member.getM_pw();
+         System.out.println("YbController memberChkPw() memberPw -> " + memberPw);
+         return memberPw;
+   }	
 	
 
 }
