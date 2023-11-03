@@ -23,5 +23,6 @@
 		<typeAlias alias="Refund" 			type="com.choongang.s202350103.model.Refund"/>
 		<typeAlias alias="Review" 			type="com.choongang.s202350103.model.Review"/>
 		<typeAlias alias="WishList" 		type="com.choongang.s202350103.model.WishList"/>
+		<typeAlias alias="NewBookOldBook"   type="com.choongang.s202350103.model.NewBookOldBook"/>
 	</typeAliases>
 </configuration>

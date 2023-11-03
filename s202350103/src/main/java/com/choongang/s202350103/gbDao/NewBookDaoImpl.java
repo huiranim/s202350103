@@ -82,5 +82,34 @@ public class NewBookDaoImpl implements NewBookDao {
 		return selectNewbook;
 	}
 
+	@Override
+	public int updateReadCnt(int nb_num) {
+		System.out.println("NewBookDaoImpl updateReadCnt Start...");
+		int result = 0;
+		try {
+			result = session.update("gbUpdateReadCnt", nb_num);
+			System.out.println("NewBookDaoImpl selectNewBookDetail result->"+result);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl updateReadCnt -> "+e.getMessage());
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int selectHitNbNum() {
+		System.out.println("NewBookDaoImpl selectHitNbNum Start...");
+		int hit_nb_num = 0;
+		
+		try {
+			hit_nb_num = session.selectOne("gbSelectHitNbNum");
+			System.out.println("NewBookDaoImpl selectNewBookDetail hit_nb_num->"+hit_nb_num);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl selectHitNbNum -> "+e.getMessage());
+		}
+		
+		return hit_nb_num;
+	}
+
 }
 

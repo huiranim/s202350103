@@ -6,15 +6,59 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Insert title here</title>
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
 	function oldbookList() {
-		alert("현재 도서 번호는 -> "+'${newbook.nb_num}');
-		
+		var pNb_num = '${newbook.nb_num}' ;
+		alert("현재 도서 번호는 -> "+pNb_num);
+		 
+		$.ajax({
+					url : "/sameOldBookList", 
+					data : {nb_num : pNb_num},
+					dataType : 'json',
+					success : function(data){ // data -> sameOldBookList 값
+						var sameOldBookList = JSON.stringify(data);
+						// alert("sameOldBookList -> "+sameOldBookList);
+						
+						if(sameOldBookList == "[]"){
+							$("#sameOldBook").empty();
+							$('#sameOldBook').append("<p>동일한 중고도서 상품이 없습니다.<p>")
+						} else {
+							$("#sameOldBook").empty();
+							var html = "";
+							$(data).each (function() {
+								var  v_price = 0;
+								html += "<div class='row g-4  row-cols-1 mt-2'>";
+								html += "<div class='row justify-content-center'>";
+								html += "<div class='col-11'>";
+								html += "<div class='card card-product'>";
+								html += "<div class='card-body'>";
+								html += "<div class='row align-items-center'>";
+								html += "<div class='col-md-4 col-12'>";
+								html += "<div class='text-center position-relative'>";
+								/* 도서 이미지 */
+								html += "<a href='newbookDetail?nb_num="+this.ob_num+"'>";
+								html += "<img src='"+this.nb_image+"' alt='도서 썸네일' class='mb-3 img-fluid' style='width: 13rem;'>";
+								html += "</a></div></div>";
+								html += "<div class='col-md-8 col-12 flex-grow-1'>";
+								/* 도서 제목 */
+								html += "<h1 class='fs-3 mb-3'><a href='newbookDetail?nb_num="+this.ob_num+"' class='text-inherit text-decoration-none'>"+this.nb_title+"</a></h1>";
+								/* 도서 지은이, 출판사, 출간일 */
+								html += "<h3 class='fs-6 mb-3'>"+this.nb_writer +" | "+ this.nb_publisher +" | "+ this.nb_publi_date +"</h3>";
+								html += "<div><div class='mt-8 mb-3'> <div>";
+								/* 도서 가격 */
+								html += "<span class='text-dark fs-3'>"+this.ob_sell_price+"원</span>";
+								html += "</div></div></div></div></div></div></div></div></div></div>";	
+							})
+							$('#sameOldBook').append(html)
+						}
+					}
+		});
 	}
 </script>
 </head>
 <body>
+	<h3>조회수 : ${newbook.nb_readcnt }</h3>
 	<div class="row">
 	  <div class="col-md-6 row justify-content-center">
 		<!-- 도서 이미지 -->
@@ -136,7 +180,7 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="details-tab" data-bs-toggle="tab"
                 data-bs-target="#details-tab-pane" type="button" role="tab" aria-controls="details-tab-pane"
-                aria-selected="false" onclick="oldbookList()">동일 중고 도서(3)</button>
+                aria-selected="false" onclick="oldbookList()">동일 중고 도서(${newbook.same_obCnt })</button>
             </li>
             <!-- 리뷰 탭 버튼 -->
             <li class="nav-item" role="presentation">
@@ -183,67 +227,11 @@
                     <h4 class="mb-4">동일한 중고 도서 내역</h4>
                   </div>
                   
-                  <!-- 중고 도서 카드 -->
-                  <%-- <c:forEach var="inNewbook" items="${listInNewbook }">
-					<div class="row g-4  row-cols-1 mt-2">
-						<div class="row">
-						  <div class="col-12">
-						     <div class="card card-product">
-						        <!-- 한 개 도서상품 내용  -->
-						        <div class="card-body">
-						           <div class=" row align-items-center">
-						              <!-- col -->
-						              <div class="col-md-4 col-12">
-						                 <div class="text-center position-relative ">
-						                    <a href="newbookDetail?nb_num=${inNewbook.nb_num }">
-						                       <!-- 도서 이미지 -->
-						                       <img src="${inNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
-						                    </a>
-						                 </div>
-						              </div>
-						              <div class="col-md-8 col-12 flex-grow-1">
-						                 <!-- 도서 제목 -->
-						                 <h1 class="fs-2 mb-3"><a href="newbookDetail?nb_num=${inNewbook.nb_num }" class="text-inherit text-decoration-none">${inNewbook.nb_title}</a>
-						                 </h1>
-						                 <!-- 지은이, 출판사, 출판일 -->
-						                 <h3 class="fs-6 mb-3">${inNewbook.nb_writer} | ${inNewbook.nb_publisher} | ${inNewbook.nb_publi_date}
-						                 </h3>
-						              <div>
-						                 
-						                 <!-- 도서가격 + 버튼들 -->
-						                 <div class="  mt-8 mb-3">
-						                     <!-- 도서 가격 -->
-						                    <div>
-						                     <span class="text-dark fs-3"><fmt:formatNumber value="${inNewbook.nb_price}" groupingUsed="true"/>원</span>
-						                    </div>
-						                    
-						                    <!-- 찜, 바로구매,  장바구니 버튼 -->
-						                    <div class="mt-2">
-						                       <!-- 찜하기 버튼 -->	
-						                       <a href="shop-wishlist.html" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
-						                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist"><i
-						                          class="bi bi-heart"></i></a>
-						                       <!-- 바로구매 버튼 -->   
-						                       <a href="#!" class="btn btn-primary ">
-						                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-						                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-						                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
-							                  	   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-							                  	   <line x1="3" y1="6" x2="21" y2="6"></line>
-							                       <path d="M16 10a4 4 0 0 1-8 0"></path>
-						                 	   </svg>
-						                  		바로구매
-						                    </div>
-						                 </div>
-						              </div>
-						           </div>
-						        </div>
-						     </div>
-						  </div>
-						 </div>
-					</div>    
-				</c:forEach>    --%>
-				   
+                  <!-- Ajax로 동일한 중고도서 리스트 넣기 -->
+                  <div id="sameOldBook" class="row g-4  row-cols-1 mt-2">
+                  	
+                  </div>
+                  
                 </div>
               </div>
             </div>

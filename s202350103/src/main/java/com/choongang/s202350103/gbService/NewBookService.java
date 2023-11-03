@@ -11,5 +11,7 @@ public interface NewBookService {
 	int 			selectSearchNewBookCnt(NewBook newbook);
 	List<NewBook> 	selectSearchNewBookList(NewBook newbook);
 	NewBook 		selectNewBookDetail(int nb_num);
+	int 			updateReadCnt(int nb_num);
+	int 			selectHitNbNum();
 
 }

@@ -79,6 +79,15 @@
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
+	<select id="gbSelectHitNbNum" resultType="int">
+		SELECT nb_num
+		FROM newbook
+		WHERE nb_readcnt IN (
+								SELECT max(nb_readcnt)
+								FROM newbook
+							)
+	</select>
+	
 	<select id="gbSelectSearchNbCnt" parameterType="NewBook" resultType="int">
 		SELECT count(*) 
 		FROM (
@@ -200,4 +209,9 @@
 		AND nb.nb_num = #{nb_num}
 	</select>
 	
+	<update id="gbUpdateReadCnt" parameterType="int">
+		UPDATE newbook
+		SET nb_readcnt = nb_readcnt+1
+		WHERE nb_num = #{nb_num}
+	</update>
 </mapper>

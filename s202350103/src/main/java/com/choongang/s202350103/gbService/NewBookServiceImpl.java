@@ -57,4 +57,21 @@ public class NewBookServiceImpl implements NewBookService {
 		return selectNewbook;
 	}
 
+	@Override
+	public int updateReadCnt(int nb_num) {
+		System.out.println("NewBookServiceImpl updateReadCnt start...");
+		int result = nbd.updateReadCnt(nb_num);
+		System.out.println("NewBookServiceImpl updateReadCnt result->"+result);
+		
+		return result;
+	}
+
+	@Override
+	public int selectHitNbNum() {
+		System.out.println("NewBookServiceImpl selectHitNbNum start...");
+		int hit_nb_num = nbd.selectHitNbNum();
+		
+		return hit_nb_num;
+	}
+
 }

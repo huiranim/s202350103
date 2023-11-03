@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
 import com.choongang.s202350103.model.NewBook;
-
+import com.choongang.s202350103.model.NewBookOldBook;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,14 +21,9 @@ import lombok.RequiredArgsConstructor;
 public class GbController {
 	
 	private final NewBookService nbs;
+	private final NewBookOldBookService nbods;
 	
-	@RequestMapping("/bo")
-	public String bomain() {
-		System.out.println("GbController main() start... ");
-		return "bomain";
-	}
-	
-	// 국내도서 전체 리스트 조회
+	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
 	public String selectInNewBookList(NewBook newbook, String currentPage, Model model) {
 		System.out.println("GbController selectInNewBookList start...");
@@ -38,7 +34,7 @@ public class GbController {
 			newbook.setOrderType(orderType_default);
 		}
 		
-		// 국내도서 총 개수
+		// 도서 총 개수
 		int inNewbookCnt = nbs.selectInNewBookCnt(newbook.getNb_category2()); // 카테고리별 총 개수를 구해준다.
 		System.out.println("GbController selectInNewBookList inNewbookCnt -> "+inNewbookCnt);
 		
@@ -49,9 +45,13 @@ public class GbController {
 		newbook.setEnd(page.getEndRow());
 		System.out.println("GbController orderType -> "+newbook.getOrderType());
 		
-		// 국내도서 리스트
+		// 도서 리스트
 		List<NewBook> listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
 		System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
+		
+		// 조회수 최대 값 구하기
+		int hit_nb_num = nbs.selectHitNbNum();
+		newbook.setHit_nb_num(hit_nb_num);
 		
 		model.addAttribute("listInNewbook", listInNewbook);
 		model.addAttribute("inNewbookCnt", inNewbookCnt);
@@ -107,12 +107,35 @@ public class GbController {
 		System.out.println("GbController selectNewbookDetail start...");
 		System.out.println("GbController selectNewbookDetail newbook.getNb_num()"+newbook.getNb_num());
 		
+		// 조회 수 +1
+		int result = nbs.updateReadCnt(newbook.getNb_num());
+		System.out.println("GbController selectNewbookDetail result -> "+result);
+		
+		// 상세 정보
 		NewBook selectNewbook = nbs.selectNewBookDetail(newbook.getNb_num());
 		String publi_date1 = selectNewbook.getNb_publi_date().substring(0,10);
 		selectNewbook.setNb_publi_date(publi_date1);
+		
+		// 동일한 중고도서 개수
+		int same_obCnt = nbods.selectSameOldBookList(newbook.getNb_num()).size();
+		selectNewbook.setSame_obCnt(same_obCnt);
 		
 		model.addAttribute("newbook", selectNewbook);
 		
 		return "gb/newbookDetail";
 	}
+	
+	// 동일한 중고도서 목록 리스트
+	@ResponseBody
+	@RequestMapping("sameOldBookList") 
+	public List<NewBookOldBook> sameOldBookList(int nb_num){ 
+		System.out.println("GbController sameOldBookList start...");
+	  
+		List<NewBookOldBook> sameOldBookList = nbods.selectSameOldBookList(nb_num);
+		System.out.println("GbController sameOldBookList sameOldBookList.size->" + sameOldBookList.size());
+	  
+		return sameOldBookList; 
+	}
+	 
+	
 }

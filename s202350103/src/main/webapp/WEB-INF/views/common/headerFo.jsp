@@ -323,13 +323,8 @@
                     도서상품
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="innewbookList">국내도서</a></li>
-                    <li><a class="dropdown-item" href="./pages/index-2.html">메뉴 2</a></li>
-                    <li><a class="dropdown-item" href="./pages/index-3.html">메뉴 3</a></li>
-                    <li><a class="dropdown-item" href="./pages/index-4.html">메뉴 4</a></li>
-                   <!-- new 아이콘 -->
-                    <li><a class="dropdown-item" href="./pages/index-5.html">메뉴 5 <span
-                          class="badge bg-light-info text-dark-info ms-1">New</span></a></li>
+                    <li><a class="dropdown-item" href="innewbookList?nb_category1=1">국내도서</a></li>
+                    <li><a class="dropdown-item" href="innewbookList?nb_category1=2">해외도서</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown w-100 w-lg-auto">

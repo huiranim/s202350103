@@ -89,6 +89,12 @@
 		              <!-- col -->
 		              <div class="col-md-4 col-12">
 		                 <div class="text-center position-relative ">
+			                 <c:if test="${inNewbook.nb_num eq newbook.hit_nb_num}">
+			                 	<div class=" position-absolute top-0">
+			                 	   <!-- 조회수가 가장 높은 것 hit로 보여주기 --> 
+			                       <span class="badge bg-danger">Hit</span>
+			                    </div>
+			                 </c:if>
 		                    <a href="newbookDetail?nb_num=${inNewbook.nb_num }">
 		                       <!-- 도서 이미지 -->
 		                       <img src="${inNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
