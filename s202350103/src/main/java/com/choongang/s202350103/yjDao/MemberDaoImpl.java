@@ -1,5 +1,7 @@
 package com.choongang.s202350103.yjDao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -54,6 +56,31 @@ public class MemberDaoImpl implements MemberDao{
 	public Member memberFindGetId(String m_ph) {
 		Member member = session.selectOne("memberFindGetId",m_ph);
 		return member;
+	}
+	// 내 리뷰 리스트
+	@Override
+	public List<Member> memberMyReview(int m_num) {
+		List<Member> memberMyReview = session.selectList("memberMyReview",m_num);
+		return memberMyReview;
+	}
+	// 관리자 회원 전체 조회
+	@Override
+	public List<Member> adminMemberList(Member member) {
+		List<Member> adminMemberList = session.selectList("adminMemberList",member);
+		return adminMemberList;
+	}
+	// 내 주문 리스트
+	@Override
+	public List<Member> memberMyOrder(int m_num) {
+		List<Member> memberMyOrder = session.selectList("memberMyOrder",m_num);
+		return memberMyOrder;
+	}
+	// 전체 회원 카운트
+	@Override
+	public int totalMember() {
+		int totalMember = session.selectOne("totalMember");
+		return totalMember;
+		
 	}
 
 }

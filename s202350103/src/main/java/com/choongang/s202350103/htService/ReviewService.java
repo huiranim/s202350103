@@ -8,4 +8,8 @@ public interface ReviewService {
 	int            reviewInsert(Review review);
 	int            reviewTotal();
 	List<Review>   listReview(Review review);
+
+	int            reviewRating(Review review);
+	double         reviewAverage();
+	
 }
