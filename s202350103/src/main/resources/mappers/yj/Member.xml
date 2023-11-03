@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.choongang.s202350103.MemberMapper">
+
+	<select id="resultId" resultType="int" parameterType="String">
+		
+		select count(*) from member where m_id = #{m_id}
+	
+	</select>
+
+	<insert id="joinResult" parameterType="Member">
+		
+		insert into member    
+		values
+			( MEMBER_M_NUM_SEQ.nextval , #{m_id}, #{m_name} ,
+	 		 #{m_pw},    #{m_ph},    #{m_addr}, 
+	 		 #{m_email}, #{m_birth}, sysdate, 300, 0, 0, null)
+		
+	
+	</insert>
+
+	<update id="memberJoinPoint" parameterType="String">
+		<if test="m_reid != null">
+			update member SET m_point = m_point + 500 
+			where m_id = #{m_reid}
+		</if>
+	</update>
+
+	<select id="memberInfo" parameterType="int" resultType="Member">
+		
+		select * from member where m_num = #{m_num}
+	
+	</select>
+	
+	<update id="memberUpdate" parameterType="Member">
+		update member SET 
+			m_email = #{m_email} , 
+			m_ph = #{m_ph}, 
+			m_addr = #{m_addr}
+		 where m_num= #{m_num}
+	</update>
+	
+	
+	<select id="memberPhFind" resultType="String" parameterType="String">
+	
+		select m_ph from member where m_ph = #{m_ph}
+	
+	</select>
+	
+	<select id="memberFindGetId" resultType="Member" parameterType="String">
+	
+		select * from member where m_ph = #{m_ph}
+		
+	</select>
+	
+	
+	<select id="memberMyReview"	resultType="Member" parameterType="int">
+		
+		select o.o_order_num, m.m_num, r.nb_num, 
+   			 r.r_create_date, n.nb_image, n.nb_title, n.nb_writer,
+   			 r.r_title, r.r_content, r.r_rating
+		from orderr o 
+		join member m 
+    		on m.m_num = o.m_num
+		join review r
+		    on o.o_order_num = r.o_order_num
+		join newbook n
+		    on r.nb_num = n.nb_num
+		where m.m_num = #{m_num} 
+		order by r.r_create_date desc
+	
+	</select>
+	
+	<select id="adminMemberList" resultType="Member" parameterType="Member">
+		<![CDATA[
+			select * from 
+			(	
+				select rownum rn , m.* 
+				from 
+					(select * from member order by m_num desc) m
+			)
+			where rn >= #{start}
+			and rn <= #{end}
+		]]>
+
+	</select>
+	
+	
+	<select id="memberMyOrder" resultType="Member" parameterType="int">
+		
+		select 	o.o_order_date, o.o_rec_name, nb.nb_title,
+				nb.nb_writer, nb.nb_image, o.o_pay_price, o.o_status
+		from orderr o
+		    join member m
+		on  o.m_num = m.m_num
+		    join order_detail od
+		on o.o_order_num = od.o_order_num
+		    join newbook nb 
+		on nb.nb_num = od.nb_num
+		where m.m_num = #{m_num}
+		order by o.o_order_date desc
+	
+	</select>
+	
+	<select id="totalMember" resultType="int">
+	
+	select count(*) from member
+	
+	</select>
+	
+</mapper>

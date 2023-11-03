@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta content="Codescandy" name="author">
-  <title>DADOK</title>
+  <title>DADOK index</title>
 
   <link href="./assets/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
 <link href="./assets/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
@@ -108,7 +108,7 @@
                   </div>
 
                 </div>
-                
+
               <!-- 메뉴 버튼 -->  
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbar-default" aria-controls="navbar-default" aria-label="Toggle navigation">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
@@ -189,19 +189,32 @@
 			    </a>
 			  </div>
 			</div> -->
-				
-				
-			<!-- 비 로그인 시 -->	
-            <div class="list-inline">
-              <div class="list-inline-item me-6">
+			<script type="text/javascript">
+				if(session.id == null) {
+					
+				} else {
+					
+				}
+					
+
+			</script>
+
+			 	<!-- 비 로그인 시 -->	
+            	<div class="list-inline">
+             	<div class="list-inline-item me-6">
+			 
+			 <th:if>
+			 </th:if>	
+			
 			
 			<!-- 로그인 아이콘 -->
-		        <a href="#!" class="" data-bs-toggle="modal" data-bs-target="#userModal">                  
+		        <a href="loginForm">                  
 		          <i class="feather-icon icon-log-out me-1">
-		          </i>Login
+		          </i>Loginzzz
                     <span class="visually-hidden">unread messages</span>
                 </a></div>
-     
+     			
+     			<a href="memberJoin">회원가입</a>
 
 
 
@@ -328,7 +341,7 @@
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="helloFo">회원조회Fo</a></li>
                     <li><a class="dropdown-item" href="helloBo">회원조회Bo</a></li>
-                    <li><a class="dropdown-item" href="./pages/index-3.html">메뉴 3</a></li>
+                    <li><a class="dropdown-item" href="innewbookList">국내도서</a></li>
                     <li><a class="dropdown-item" href="./pages/index-4.html">메뉴 4</a></li>
                    <!-- new 아이콘 -->
                     <li><a class="dropdown-item" href="./pages/index-5.html">메뉴 5 <span
@@ -358,7 +371,7 @@
 					포인트
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="./pages/store-list.html">메뉴1</a></li>
+                    <li><a class="dropdown-item" href="eventList">테스트</a></li>
                     <li><a class="dropdown-item" href="./pages/store-grid.html">메뉴2</a></li>
                     <li><a class="dropdown-item" href="./pages/store-single.html">메뉴3</a></li>
                   </ul>

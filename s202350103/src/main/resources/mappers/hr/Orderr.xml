@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.choongang.s202350103.OrderrMapper">
+
+<!-- BO 주문목록
+	 boOrderList.jsp -->
+	<select id="hrCountOrderrList" resultType="int">
+		SELECT count(*) FROM orderr
+	</select>
+	
+	<select id="hrSelectOrderrList" parameterType="Orderr" resultType="Orderr">
+		SELECT *
+		FROM (SELECT rownum rn, a.*
+			  FROM (SELECT o.*, m.m_name, order_nb_title(o.o_order_num) nb_title
+                    FROM   orderr o, member m
+                    WHERE  o.m_num = m.m_num(+)
+                    ORDER BY o.o_order_date DESC
+                    ) a
+			  )
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+<!-- BO 주문상세
+	 boOrderDetail.jsp -->
+	 <select id="hrSelectOrder" parameterType="long" resultType="Orderr">
+		SELECT o.*, m.m_name, m.m_id, m.m_ph, order_nb_title(o.o_order_num) nb_title, order_nb_price(o_order_num) o_order_price
+			   , (SELECT SUM(o_de_count)
+			  	  FROM order_detail od
+			  	  WHERE o.o_order_num = od.o_order_num) o_order_count
+		FROM   orderr o, member m
+		WHERE  o.m_num = m.m_num(+)
+		AND    o_order_num = #{o_order_num}
+	 </select>
+	 
+	 <update id="hrStatusCancellation" parameterType="long">
+	 	UPDATE orderr
+	 	SET    o_status = 5
+	 	WHERE  o_order_num = #{o_order_num}
+	 </update>
+	 
+	 <insert id="hrInsertCancellation" parameterType="long">
+	 	INSERT INTO order_cancel
+	 	VALUES (#{o_order_num}, CONCAT('C',#{o_order_num}), sysdate)
+	 </insert>
+	 
+	 <update id="hrStatusDelivered" parameterType="long">
+	 	UPDATE orderr
+	 	SET    o_status = 3
+	 	WHERE  o_order_num = #{o_order_num}
+	 </update>
+	 
+	 <update id="hrStatusConfirmation" parameterType="long">
+	 	UPDATE orderr
+	 	SET    o_status = 4
+	 	WHERE  o_order_num = #{o_order_num}
+	 </update>
+	 
+	 <update id="hrStatusShipping" parameterType="Orderr">
+	 	UPDATE orderr
+	 	SET	   o_status = 2, o_deliv_com = #{o_deliv_com}, o_deliv_track = #{o_deliv_track}
+	 	WHERE  o_order_num = #{o_order_num}
+	 </update>
+</mapper>

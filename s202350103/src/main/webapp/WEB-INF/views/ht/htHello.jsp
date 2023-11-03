@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="header.jsp" %>
+<%@ include file="../common/headerFo.jsp" %>
+<%@ include file="../common/sideFo.jsp" %>
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,10 +14,10 @@
 </head>
 <body>
 
+	<h1>Test</h1>
+	책 전체 수량 : ${total}
 
-	<div>\</div>
-	<h1>안녕</h1>
-
+<%@ include file="../common/footerFo.jsp" %>
 
 </body>
 </html>

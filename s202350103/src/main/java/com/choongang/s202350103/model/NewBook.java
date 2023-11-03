@@ -22,7 +22,16 @@ public class NewBook {				// 새상품
 	private Date nb_register_date;	// 등록일자
 	
 	// 조회용
+	private int hit_nb_num;			// 최대 조회수 상품번호
+	private int same_obCnt;			// 동일한 중고도서 개수
+	private int r_rating;			// 별점
+	private int reviewCnt;			// 리뷰 개수 
+	private int r_ratingAvg;		// 별점 평균
+	private String orderType;		// 정렬기준
 	private String search_keyword;	// 검색어
 	private String search_type;		// 검색조건
+	private String pageNum;			// 페이징번호
+	private int start;				// 페이징 시작번호
+	private int end;				// 페이징 종료번호
 	
 }

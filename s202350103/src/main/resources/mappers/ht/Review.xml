@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.choongang.s202350103.ReviewMapper">
+	<insert id="htReviewInsert" parameterType="Review">
+		Insert into Review values(#{o_order_num},#{nb_num},#{r_title},#{r_content},#{sysdate},#{r_rating})
+	</insert>
+	
+	<select id="htReviewTotal" parameterType="Review" resultType="int">
+		SELECT count(*) FROM Review
+	</select>
+	
+	
+	<select id="htReviewRating" parameterType="Review" resultType="int">
+		SELECT count(*) FROM Review Where r_rating = #{r_rating}
+	</select>	
+	
+	
+	<select id="htReviewAverage"  resultType="double">
+		SELECT AVG(r_rating) FROM review
+	</select>	
+	
+	
+	<select id="htReviewList" parameterType="Review" resultType="Review">
+		SELECT *
+		FROM
+		(
+			SELECT rownum rn , a.*
+			FROM
+                (SELECT r.*,m.m_name,nb.nb_image
+                 FROM 
+					 Review r	
+                    ,orderr o
+                    ,member m
+                    ,newbook nb
+                 Where   r.o_order_num = o.o_order_num
+                 AND     o.m_num = m.m_num
+                 AND     r.nb_num = nb.nb_num
+                
+                 <choose>
+		 			<when test="r_reviewSelect == 1">
+		 				  order by r_create_date 
+		  			</when>
+		 			<when test="r_reviewSelect == 2">
+		 				  order by r_rating DESC, r_create_date
+		  			</when>
+			        <otherwise>
+		                  order by r_create_date 
+		            </otherwise>
+		         </choose>
+                 ) a
+		)
+		WHERE rn BETWEEN 1 and #{end}
+	</select>
+	
+</mapper>
