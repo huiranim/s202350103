@@ -189,20 +189,17 @@ public class YbController {
 	}
 	
 	// 회원탈퇴 하기
-	@PostMapping(value = "memberWithdraw")
-	public String memberWithdraw(Member member, HttpSession session, Model model
-								,@RequestParam("m_pw") String m_pw) {
-		
-		System.out.println("YbController memberWithdraw() start...");
-		member =(Member) session.getAttribute("member");
-
-		if(m_pw == member.getM_pw()) {
-			int result = ms.memberWithdraw(member);
-			return "yb/memberWithdrawForm";
-		} else {
-			return "yb/memberWithdrawForm";
-		}
-	}
+	/*
+	 * @PostMapping(value = "memberWithdraw") public String memberWithdraw(Member
+	 * member, HttpSession session, Model model ,@RequestParam("m_pw") String m_pw)
+	 * {
+	 * 
+	 * System.out.println("YbController memberWithdraw() start..."); member
+	 * =(Member) session.getAttribute("member");
+	 * 
+	 * if(m_pw == member.getM_pw()) { int result = ms.memberWithdraw(member); return
+	 * "yb/memberWithdrawForm"; } else { return "yb/memberWithdrawForm"; } }
+	 */
 
    @ResponseBody
    @RequestMapping("/memberChkPw")

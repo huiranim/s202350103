@@ -12,26 +12,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
 
-	
-$(function(){
-	fn_login();
-	fn_displayRememberId();
-});
 
-function fn_login() {
-	$('#frm_login').submit(function(event){ // submit을 취소할 수 있게끔 event 객체를 잡아준다.
-		
-		// 아이디 저장
-		if($('#rememberId').is(':checked')) {
-			alert("아이디 저장 실행")// Java에서 쿠키를 처리하려면 Service단에서 Cookie 클래스를 이용하여 request에 저장해주는 방식을 사용했다.
-			$.cookie('rememberId', $('#m_id').val()); // 쿠키ID, 값 순으로 저장을 하면 편리
-		} else {
-			$.cookie('rememberId', '');
-		}											
-		
-	});
-}
 
+	function chk_pw(m_pw) {
+		
+		var m_pw = $("#m_pw").val();
+		var m_id = $("#m_id").val();
+		
+		$.ajax(
+				{
+					url:"<%=request.getContextPath()%>/LoginCheck",
+					data : {m_pw : m_pw, m_id : m_id},
+					dataType : 'text',
+					success : function(memberPw) {
+						alert(m_pw)
+						alert('memberChkPw -> '+memberPw);
+						if(m_pw == memberPw){
+							alert("비밀번호 일치")
+							$('#msg').html("비밀번호가 일치합니다.");
+						} else {
+							alert("비밀번호 불일치")
+							$('#msg').html("비밀번호를 확인해주세요.");
+						}
+					}
+				}	
+		) 
+	}
 function fn_displayRememberId() {
 	// 아이디저장 쿠키 불러오기
 	let rememberId = $.cookie('rememberId');

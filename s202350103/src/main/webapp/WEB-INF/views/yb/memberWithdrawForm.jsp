@@ -13,25 +13,26 @@
 <script type="text/javascript">
 	
 	function chk_pw(m_pw) {
-		alert("비밀번호 확인 하자");
-		alert(m_pw);
-		
-		<%-- var m_pw = $("#m_pw").val();
+	
+		var m_pw = $("#m_pw").val();
 		$.ajax(
 				{
 					url:"<%=request.getContextPath()%>/memberChkPw",
 					data : {m_pw : m_pw},
 					dataType : 'text',
 					success : function(memberPw) {
+						alert(m_pw)
 						alert('memberChkPw -> '+memberPw);
 						if(m_pw == memberPw){
-							$('#msg').val("비밀번호가 일치합니다.");
+							alert("비밀번호 일치")
+							$('#msg').html("비밀번호가 일치합니다.");
 						} else {
-							$('#msg').val("비밀번호가 일치합니다.");
+							alert("비밀번호 불일치")
+							$('#msg').html("비밀번호를 확인해주세요.");
 						}
 					}
-				}	 --%>
-		)
+				}	
+		) 
 	}
 
 
@@ -67,7 +68,7 @@
  				<label class="form-label" for="comments"> 
           			<strong >비밀번호 입력</strong> <input type="password" name="m_pw" required="required" id="m_pw">
           			<button onclick="chk_pw(m_pw.value)">비밀번호 확인</button>
-          			Message :  <span id="msg"></span><p>
+          			<span id="msg"></span><p>
           		</label><p>
  					개인정보 삭제 및 보유 포인트 소멸에 대한 안내를 모두 숙지하고 회원탈퇴에 대해 동의하여 주시기 바랍니다.<p>
  				<input class="form-check-input"  type="checkbox" value="ck1" id="ck1" required="required">
