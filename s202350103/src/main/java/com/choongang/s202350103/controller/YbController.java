@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.WishList;
 import com.choongang.s202350103.ybService.MemberService;
 import com.choongang.s202350103.ybService.Paging;
 
@@ -102,6 +103,10 @@ public class YbController {
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
 		System.out.println("YbController memberCartList() member.m_id -> " + member.getM_id());
 		// 회원별 장바구니 총 개수
 		int totalCart = ms.totalCart(member);
@@ -122,8 +127,46 @@ public class YbController {
 		model.addAttribute("totalCart", totalCart);
 		model.addAttribute("member", member);
 		model.addAttribute("listCart", listCart);
+		model.addAttribute("totalPrice", totalPrice);
 		
 		return "yb/memberCartList";
+	}
+	
+	// 찜목록 페이지 이동
+	@RequestMapping(value = "memberWishList")
+	public String memberWishList(Member member, HttpServletRequest request, HttpSession session, Model model, 
+								 WishList wishList, String currentPage) {
+		
+		System.out.println("YbController memberWishList() start...");
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		// 회원별 장바구니 총 개수
+		int totalWishList = ms.totalWishList(member);
+		
+		// 페이징 처리
+		Paging page = new Paging(totalWishList, currentPage);
+				
+		wishList.setStart(page.getStart());
+		wishList.setEnd(page.getEnd());
+		
+		System.out.println("YbController memberCartList() member.m_id -> " + member.getM_id());
+	
+		
+		// 장바구니 리스트
+		List<WishList> memberWishList = ms.memberWishList(wishList);
+		System.out.println("YbController memberCartList listCart.size() -> " + memberWishList.size());
+		System.out.println("YbController memberCartList listCart.title -> " + wishList.getNb_title());
+		model.addAttribute("member", member);
+		model.addAttribute("memberWishList", memberWishList);
+		model.addAttribute("totalWishList", totalWishList);
+		model.addAttribute("wishList", wishList);
+		return "yb/memberWishList";
 	}
 	
 
