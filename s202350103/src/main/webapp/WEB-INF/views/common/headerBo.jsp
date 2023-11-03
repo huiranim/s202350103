@@ -33,6 +33,11 @@
 <link rel="stylesheet" href="../assets/css/theme.min.css">
 <!-- Google tag (gtag.js) -->
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 
 <!-- End Tag -->
@@ -84,7 +89,7 @@
 		<nav class="navbar-vertical-nav d-none d-xl-block ">
 			<div class="navbar-vertical">
 				<div class="px-4 py-5">
-					<a href="../mainAd" class="navbar-brand">
+					<a href="/" class="navbar-brand">
 						<h3>DADOK</h3>
 					</a>
 				</div>
@@ -213,7 +218,7 @@
 			<div class="navbar-vertical">
 				<div
 					class="px-4 py-5 d-flex justify-content-between align-items-center">
-					<a href="../index.html" class="navbar-brand">
+					<a href="/" class="navbar-brand">
 						<h3>DADOK</h3>
 					</a>
 					<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
