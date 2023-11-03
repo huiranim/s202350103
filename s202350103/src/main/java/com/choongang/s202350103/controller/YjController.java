@@ -374,5 +374,10 @@ public class YjController {
 		  
 		  return "yj/adminMemberList";
 	  }
-		
+	
+	  // 관리자 페이지 이동
+	  @RequestMapping("mainBo")
+	  public String mainBo() {
+		  return "common/mainBo";
+	  }
 }

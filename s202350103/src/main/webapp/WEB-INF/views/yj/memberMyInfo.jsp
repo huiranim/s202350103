@@ -282,9 +282,6 @@ function valiForm() {
 								<p>
 							</div>
 						</div>
-								<a href="adminMemberList">관리자-회원 전체조회(임시)</a>
-
-
 					</div>
 					<hr>
 

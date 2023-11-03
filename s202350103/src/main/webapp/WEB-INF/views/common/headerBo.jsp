@@ -89,14 +89,14 @@
 		<nav class="navbar-vertical-nav d-none d-xl-block ">
 			<div class="navbar-vertical">
 				<div class="px-4 py-5">
-					<a href="/" class="navbar-brand">
+					<a href="mainBo" class="navbar-brand">
 						<h3>DADOK</h3>
 					</a>
 				</div>
 				<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
 					<ul class="navbar-nav flex-column" id="sideNavbar">
 
-						<li class="nav-item "><a class="nav-link  active " href="#">
+						<li class="nav-item "><a class="nav-link  active " href="mainBo">
 								<div class="d-flex align-items-center">
 									<span class="nav-link-icon"> <i class="bi bi-house"></i></span>
 									<span class="nav-link-text">MAIN</span>
@@ -116,10 +116,8 @@
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-list.html"> 메뉴1 </a></li>
+										href="adminMemberList"> 회원조회 </a></li>
 									<!-- Nav item -->
-									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-single.html"> 메뉴2 </a></li>
 								</ul>
 							</div></li>
 
@@ -218,7 +216,7 @@
 			<div class="navbar-vertical">
 				<div
 					class="px-4 py-5 d-flex justify-content-between align-items-center">
-					<a href="/" class="navbar-brand">
+					<a href="mainBo" class="navbar-brand">
 						<h3>DADOK</h3>
 					</a>
 					<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
@@ -227,7 +225,7 @@
 				<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
 					<ul class="navbar-nav flex-column">
 						<li class="nav-item "><a class="nav-link  active "
-							href="../dashboard/index.html">
+							href="mainBo">
 								<div class="d-flex align-items-center">
 									<span class="nav-link-icon"> <i class="bi bi-house"></i></span>
 									<span>MAIN</span>
@@ -247,11 +245,8 @@
 							<div id="navMembers" class="collapse "
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
-									<li class="nav-item "><a class="nav-link " href="#">
-											메뉴1 </a></li>
-									<!-- Nav item -->
-									<li class="nav-item "><a class="nav-link " href="#">
-											메뉴2 </a></li>
+									<li class="nav-item "><a class="nav-link " href="adminMemberList">
+											회원조회 </a></li>
 								</ul>
 							</div></li>
 
