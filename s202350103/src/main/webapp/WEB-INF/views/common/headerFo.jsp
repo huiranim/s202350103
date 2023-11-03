@@ -345,7 +345,7 @@
                     중고도서
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="./pages/shop-grid.html">카테고리 메뉴 1</a></li>
+                    <li><a class="dropdown-item" href="BolistOb">카테고리 메뉴 1</a></li>
                     <li><a class="dropdown-item" href="./pages/shop-grid-3-column.html">메뉴 2</a></li>
                     <li><a class="dropdown-item" href="./pages/shop-list.html">메뉴 3</a></li>
                     <li><a class="dropdown-item" href="./pages/shop-filter.html">메뉴 4</a></li>
@@ -362,7 +362,7 @@
 					포인트
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="./pages/store-list.html">메뉴1</a></li>
+                    <li><a class="dropdown-item" href="eventList">메뉴1</a></li>
                     <li><a class="dropdown-item" href="./pages/store-grid.html">메뉴2</a></li>
                     <li><a class="dropdown-item" href="./pages/store-single.html">메뉴3</a></li>
                   </ul>
