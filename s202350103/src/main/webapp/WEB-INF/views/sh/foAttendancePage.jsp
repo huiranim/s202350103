@@ -10,13 +10,23 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+
 <body>
+	<table>
+	<thead>
+		<tr>
+			<c:forEach var="day" items="${weekDay }">
+				<td>${day }</td>
+			</c:forEach>
+		</tr>
+	</table>
 	<h1>hi</h1>
-	<c:forEach var="attJoin" items="${attJoinList }">
-		<h1>${attJoin.m_num }</h1>
-		<h1>${attJoin.a_par_pdate }</h1>
-		
+	<c:forEach var="attJoin" items="${attJoin }">
+		<p>${attJoin.a_num }</p>
+		<p>${attJoin.a_par_pdate }</p>
+		<p>${attJoin.m_num }</p><br>	
 	</c:forEach>
+			
 <%@ include file="../common/footerFo.jsp" %>
 </body>
 </html>

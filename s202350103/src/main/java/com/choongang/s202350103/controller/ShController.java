@@ -7,8 +7,9 @@ package com.choongang.s202350103.controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-	import com.choongang.s202350103.model.AttJoin;
+import com.choongang.s202350103.model.AttJoin;
 	import com.choongang.s202350103.model.Attendance;
 	import com.choongang.s202350103.model.Quiz;
 	import com.choongang.s202350103.model.QuizJoin;
@@ -55,39 +56,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 			return "sh/foEventList";
 		}
 			
-			//해당 이벤트 번호를 가지고 있는 페이지로 회원정보와 같이 enter
-			@RequestMapping(value = "evetIn")
-			public String pageIn(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num) {
-				System.out.println("PointController pageIn() Start..");
-				//attendance 테이블에 조회에서 a_num인지 체크
-				int num = ps.divideAttNum(eNum);
-				if(num != 0) {
-					System.out.println("PointController pageIn() eNum == a_num");
-					return "redirect:/attendancePage";
-				} else {
-					System.out.println("PointController pageIn() eNum == q_num");
-					return "redirect:/quizPage";
-				}
-			}
+		@RequestMapping(value = "eventIn")
+		public String pageIn(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
+		    System.out.println("PointController pageIn() Start..");
+		    int num = ps.divideAttNum(eNum);
+		    if(num == eNum) {
+		    	System.out.println("eNum == a_num");
+		    	return "forward:/attendancePage?eNum="+eNum+"&m_num="+m_num;
+		    } else {
+		    	System.out.println("eNum != a_num");
+		    	return "forward:/quizPage?eNum="+eNum+"&m_num="+m_num;
+		    }
+		    
+		}
+				
+		@RequestMapping(value = "attendancePage")
+		public String attendancePage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
+			System.out.println("PointController attendancePage() Start..");
+		    // 데이터 처리 및 모델 설정
+		    Attendance attendance = ps.detailAttendance(eNum);
+		    List<AttJoin> attJoinList = ps.listAttJoin(m_num);
+		    System.out.println("PointController listAttJoin() attJoinList.size->" + attJoinList.size());
+		    model.addAttribute("attendance", attendance);
+		    model.addAttribute("attJoin", attJoinList);
+		    return "sh/foAttendancePage";
+		}
 			
-			@RequestMapping (value = "attendancePage")
-			public String attendanceIn(int eNum, int m_num, Model model) {
-				Attendance attendance = ps.detailAttendance(eNum);
-				List<AttJoin> attJoinList = ps.listAttJoin(m_num);
-				System.out.println("PointController listAttJoin() attJoinList.size->"+attJoinList.size());
-				model.addAttribute("attendance",attendance);
-				model.addAttribute("attJoin",attJoinList);
-				return "sh/foQuizPage";
-			}
-			
-			@RequestMapping (value = "quizPage")
-			public String quizIn(int eNum, int m_num, Model model) {
-				Quiz quiz = ps.detailQuiz(eNum);
-				List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
-				System.out.println("PointController divideEventNum() quizJoinList.size->"+quizJoinList.size());
-				model.addAttribute("quizJoin",quizJoinList);
-				model.addAttribute("quiz",quiz);
-				return "sh/foQuizPage";
-			}
+		@RequestMapping (value = "quizPage")
+		public String quizPage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
+			Quiz quiz = ps.detailQuiz(eNum);
+			List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
+			System.out.println("PointController divideEventNum() quizJoinList.size->"+quizJoinList.size());
+			model.addAttribute("quizJoin",quizJoinList);
+			model.addAttribute("quiz",quiz);
+			return "sh/foQuizPage";
+		}
 		
 	}

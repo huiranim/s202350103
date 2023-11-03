@@ -21,10 +21,10 @@
 	</select>
 	
 	<select id="shDivideAttNum" parameterType="int" resultType="int">
-		Select a_num From attendance Where attendance=#{eNum}
+		Select a_num From attendance Where a_num=#{eNum}
 	</select>
 	
-	<select id="shAttendance" parameterType="Attendance" resultType="Attendance">
-		Select * From attendance Where a_num = #{eNum}
+	<select id="shAttendance" parameterType="int" resultType="Attendance">
+		Select * From attendance Where a_num=#{eNum}
 	</select>
 </mapper>

@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class EventListService implements PointService {
+public class PointServiceImpl implements PointService {
 
 	private final AttendanceDao ad;
 	private final QuizDao		qd;

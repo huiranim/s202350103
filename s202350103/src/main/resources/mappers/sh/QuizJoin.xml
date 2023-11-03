@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oracle.oBootTest.QuizJoinMapper">
-	<select id="shQuizJoinList" parameterType="QuizJoin" resultType="QuizJoin">
-		Select * From AttJoin Where m_num = #{m_num}
+	<select id="shQuizJoinList" parameterType="int" resultType="QuizJoin">
+		Select * From quiz_join Where m_num = #{m_num}
 	</select>
 </mapper>

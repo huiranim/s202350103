@@ -13,22 +13,20 @@
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javascript">
 	//이벤트 클릭 function
-	function eventClick(m_num){
-		console.log("function eventClick Start..");
-		if (m_num === "number"){
-			alert(${member.m_num});
-			alert("로그인이 필요한 페이지입니다.");
-			location.href="loginForm";
-			return true;
-		} else {
-			alert(m_num);
-		}
-	 } 
+	function eventClick(mNum, eNum) {
+	    if (!mNum) {
+	        alert("로그인이 필요한 페이지입니다.");
+	        location.href = "loginForm";
+	    } else {
+	    	mNum = parseInt(mNum);
+	        location.href = "eventIn?m_num=" + mNum + "&eNum=" + eNum;
+	    }
+	}
 </script>
 <body>
 	<div class="tbody">
 		<h1>${member.m_num}</h1>
-		<form>
+		
 			<c:forEach var="event" items="${eventList }">
 					<div class="tr" style="border: 1px solid black; margin-bottom: 30px;">
 						<span>${event.a_image }</span>
@@ -36,10 +34,9 @@
 							<span>${event.a_title }</span>
 							<span>${event.a_sdate }~${event.a_edate }</span>
 						</span>
-						<span><button onclick="eventClick('${member.m_num }')">버튼</button></span>
+						<span><button onclick="eventClick('${member.m_num}',${event.a_num})">버튼</button></span>
 					</div>
 			</c:forEach>	
-		</form>
 	</div>
 	<div>
 		<span id="pageNum">

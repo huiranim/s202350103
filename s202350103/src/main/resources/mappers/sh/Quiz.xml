@@ -7,7 +7,7 @@
 		Select Count(*) From Quiz
 	</select>
 	
-	<select id="shQuiz" parameterType="Quiz" resultType="Quiz">
+	<select id="shQuiz" parameterType="int" resultType="Quiz">
 		Select * From quiz Where q_num = #{eNum}
 	</select>
 </mapper>

@@ -57,6 +57,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
 	public Attendance attendance(int eNum) {
 		System.out.println("AttendanceDaoImpl listAttendance() Start..");
 		Attendance attendance = null;
+		System.out.println("eNum"+eNum);
 		try {
 			attendance = session.selectOne("shAttendance",eNum);
 		} catch (Exception e) {
