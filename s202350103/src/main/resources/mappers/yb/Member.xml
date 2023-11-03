@@ -25,9 +25,11 @@
 		WHERE   rn BETWEEN #{start} and #{end}
 	</select>
 	
-	<select id="ybTotalPrice" parameterType="member" resultType="int">
-		SELECT sum(c_count) totalPrice 
-		FROM   
+	<select id="ybTotalPrice" parameterType="cart" resultType="int">
+		SELECT sum(c.c_count * n.nb_price) totalPrice 
+		FROM   cart c, newbook n
+		where  c.nb_num = n.nb_num
+		and    c.m_num = #{m_num}  
 	</select>
 	
 </mapper>

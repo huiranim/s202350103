@@ -53,8 +53,9 @@ public class MemberServiceImpl1 implements MemberService {
 	public int totalPrice(Member member) {
 		System.out.println("MemberService totalPrice start...");
 		System.out.println("MemberDaoImpl1 totalPrice member.m_num -> " + member.getM_num());
+		int totalPrice = 0;
 		
-		int totalPrice = md.totalPrice(member);
+		totalPrice = md.totalPrice(member);
 		return 0;
 	}
 	
