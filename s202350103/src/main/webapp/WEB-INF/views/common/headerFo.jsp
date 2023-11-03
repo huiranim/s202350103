@@ -180,7 +180,7 @@
 			     		<c:if test="${sessionScope.member != null }">
 			                <!-- 장바구니 아이콘 -->
 						    <div class="list-inline-item me-5">
-						    	<a href="#!" class="" >
+						    	<a href="memberCartList" class="" >
 						      		<i class="bi bi-cart2 fs-6 me-1"></i>장바구니
 						     	 	<span class="visually-hidden">unread messages</span>
 						    	</a>
@@ -193,8 +193,8 @@
 			               		</a>
 			               	</div><p>
 			               	<div>
-								<a href="memberMyPage1" style="color: #002b63;"><strong>
-								${member.m_name }</strong></a>
+								<a href="memberMyPage" style="color: #002b63;"><strong>
+								${member.m_name }(${member.m_id })</strong></a>
 								님 환영합니다.
 			               	</div>
 			     		</c:if>	

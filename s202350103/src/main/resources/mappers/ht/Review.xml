@@ -12,13 +12,14 @@
 	</select>
 	
 	
-	
-	
 	<select id="htReviewRating" parameterType="Review" resultType="int">
 		SELECT count(*) FROM Review Where r_rating = #{r_rating}
 	</select>	
 	
 	
+	<select id="htReviewAverage"  resultType="double">
+		SELECT AVG(r_rating) FROM review
+	</select>	
 	
 	
 	<select id="htReviewList" parameterType="Review" resultType="Review">
@@ -36,9 +37,21 @@
                  Where   r.o_order_num = o.o_order_num
                  AND     o.m_num = m.m_num
                  AND     r.nb_num = nb.nb_num
-                 order by r_create_date
+                
+                 <choose>
+		 			<when test="r_reviewSelect == 1">
+		 				  order by r_create_date 
+		  			</when>
+		 			<when test="r_reviewSelect == 2">
+		 				  order by r_rating DESC, r_create_date
+		  			</when>
+			        <otherwise>
+		                  order by r_create_date 
+		            </otherwise>
+		         </choose>
                  ) a
 		)
 		WHERE rn BETWEEN 1 and #{end}
 	</select>
+	
 </mapper>

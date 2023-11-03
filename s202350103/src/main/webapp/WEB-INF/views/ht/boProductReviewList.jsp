@@ -17,8 +17,19 @@
 		$('#chk1').click(function() {
 			var sendData = $('form').serialize();
 			location.href="reviewList?"+sendData;
-		});              //? 뒤로는 파라미터를 보내주는 것이라서 ajax를 호출하지 않아도 데이터를 보낼 수 있다.        
+		});               
 	}) 
+	
+	 $(function() {
+      $('#reviewSelect').change(function() {
+          var endValue = 5;
+          $('input[name="end"]').val('#end'- endValue);
+          
+          var sendData = $('form').serialize();
+          location.href = "reviewList?" + sendData;
+       });
+    })
+	
 </script>
 </head>
 
@@ -36,8 +47,8 @@
                 <i class="bi bi-star-fill"></i>
                 <i class="bi bi-star-fill"></i>
                 <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i></small><span class="ms-3">4.1 out of 5</span><small
-                   class="ms-3">11,130 global ratings</small>
+                <i class="bi bi-star-half"></i></small><span class="ms-3">${review.r_review_average } out of 5</span><small
+                   class="ms-3">리뷰 총 수량 : ${review.r_review_total}</small>
              </span>
           </div>
           <div class="mb-8">
@@ -48,11 +59,11 @@
                    class="bi bi-star-fill ms-1 small text-warning"></i></div>
                 <div class="w-100">
                    <div class="progress" style="height: 6px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 60%;"
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating5+20}%;"
                          aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                    </div>
                 </div>
-                <span class="text-muted ms-3">53%</span>
+                <span class="text-muted ms-3">${review.r_rating5}%</span>
              </div>
              <!-- progress -->
              <div class="d-flex align-items-center mb-2">
@@ -61,11 +72,11 @@
                    class="bi bi-star-fill ms-1 small text-warning"></i></div>
                 <div class="w-100">
                    <div class="progress" style="height: 6px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 50%;"
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating4+20}%;"
                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="50"></div>
                    </div>
                 </div>
-                <span class="text-muted ms-3">22%</span>
+                <span class="text-muted ms-3">${review.r_rating4}%</span>
              </div>
              <!-- progress -->
              <div class="d-flex align-items-center mb-2">
@@ -74,11 +85,11 @@
                    class="bi bi-star-fill ms-1 small text-warning"></i></div>
                 <div class="w-100">
                    <div class="progress" style="height: 6px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 35%;"
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating3+20}%;"
                         aria-valuenow="35" aria-valuemin="0" aria-valuemax="35"></div>
                    </div>
                 </div>
-                <span class="text-muted ms-3">14%</span>
+                <span class="text-muted ms-3">${review.r_rating3}%</span>
              </div>
              <!-- progress -->
              <div class="d-flex align-items-center mb-2">
@@ -87,11 +98,11 @@
                    class="bi bi-star-fill ms-1 small text-warning"></i></div>
                 <div class="w-100">
                    <div class="progress" style="height: 6px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 22%;"
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating2+20}%;"
                      aria-valuenow="22" aria-valuemin="0" aria-valuemax="22"></div>
                    </div>
                 </div>
-                <span class="text-muted ms-3">5%</span>
+                <span class="text-muted ms-3">${review.r_rating2}%</span>
              </div>
              <!-- progress -->
              <div class="d-flex align-items-center mb-2">
@@ -100,11 +111,11 @@
                    class="bi bi-star-fill ms-1 small text-warning"></i></div>
                 <div class="w-100">
                    <div class="progress" style="height: 6px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 14%;"
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating1+20}%;"
                     aria-valuenow="14" aria-valuemin="0" aria-valuemax="14"></div>
                    </div>
                 </div>
-                <span class="text-muted ms-3">7%</span>
+                <span class="text-muted ms-3">${review.r_rating1}%</span>
              </div>
           </div>
           <div class="d-grid">
@@ -123,12 +134,12 @@
                 <h4>리뷰</h4>
              </div>
              <div>
-                <select class="form-select" aria-label="Default select example">
-                   <option selected>Top Review</option>
-                   <option value="1">One</option>
-                   <option value="2">Two</option>
-                   <option value="3">Three</option>
-                </select>
+             	<form action="">
+	                <select name="r_reviewSelect" id="reviewSelect" class="form-select" aria-label="Default select example">
+	                   <option value="1" <c:if test="${review.r_reviewSelect == '1' }">selected</c:if> >최신순</option>
+	                   <option value="2" <c:if test="${review.r_reviewSelect == '2' }">selected</c:if> >별점순</option>
+	                </select>
+                </form>
              </div>
           </div>
 	            <c:forEach var="review" items="${listReview}" >
@@ -158,7 +169,7 @@
                 </c:forEach>
                 <form action="">
            	       <input type="hidden" name="start" value="1">
-          	       <input type="hidden" name="end" value="${end + 5}">
+          	       <input type="hidden" name="end" value="${review.end + 5}">
 
                	   <input type="button" id="chk1" class="btn btn-outline-gray-400 text-muted" value="리뷰 더보기">
 				</form>
