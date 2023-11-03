@@ -44,7 +44,7 @@ public class MemberServiceImpl1 implements MemberService {
 		
 		member =(Member) session.getAttribute("member");
 		System.out.println("MemberService listCart start...");
-		System.out.println("MemberDaoImpl1 listCart() member.m_num -> " + member.getM_num());
+		System.out.println("MemberServiceImpl1 listCart() member.m_num -> " + member.getM_num());
 		List<Cart> listCart = md.listCart(cart, member);
 		
 		return listCart;
@@ -54,7 +54,7 @@ public class MemberServiceImpl1 implements MemberService {
 	@Override
 	public int totalPrice(Member member) {
 		System.out.println("MemberService totalPrice start...");
-		System.out.println("MemberDaoImpl1 totalPrice member.m_num -> " + member.getM_num());
+		System.out.println("MemberServiceImpl1 totalPrice member.m_num -> " + member.getM_num());
 		int totalPrice = 0;
 		
 		totalPrice = md.totalPrice(member);
@@ -66,25 +66,35 @@ public class MemberServiceImpl1 implements MemberService {
 	public int totalWishList(Member member) {
 		// TODO Auto-generated method stub
 		System.out.println("MemberService totalWishList start...");
-		System.out.println("MemberDaoImpl1 totalWishList member.m_num -> " + member.getM_num());
+		System.out.println("MemberServiceImpl1 totalWishList member.m_num -> " + member.getM_num());
 		int totalWishList = 0;
 		
 		totalWishList = md.totalWishList(member);
 		return totalWishList;
 	}
-
+	
+	// 회원 찜목록
 	@Override
 	public List<WishList> memberWishList(WishList wishList) {
 		
 		Member member =(Member) session.getAttribute("member");
 		System.out.println("MemberService listCart start...");
-		System.out.println("MemberDaoImpl1 listCart() member.m_num -> " + member.getM_num());
+		System.out.println("MemberServiceImpl1 listCart() member.m_num -> " + member.getM_num());
 		List<WishList> memberWishList = md.memberWishList(wishList);
 		
 		return memberWishList;
 	}
+
+	@Override
+	public int memberWithdraw(Member member) {
+		System.out.println("MemberServiceImpl1 memberWithdraw start...");
+		member =(Member) session.getAttribute("member");
+		System.out.println("MemberServiceImpl1 memberWithdraw member.m_id -> " + member.getM_id());
+		int memberWithdraw = md.memberWithdraw(member);
+		return memberWithdraw;
+	}
+
 	
-	// 회원 찜목록
 	
 	
 }

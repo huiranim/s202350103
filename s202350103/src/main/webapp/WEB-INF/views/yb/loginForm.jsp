@@ -7,26 +7,43 @@
 
 <!DOCTYPE html>
 <html>
+
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
 
 	
-	 function member_chk() {
-		 
-		 console.log("getListDept Run...");
+$(function(){
+	fn_login();
+	fn_displayRememberId();
+});
+
+function fn_login() {
+	$('#frm_login').submit(function(event){ // submit을 취소할 수 있게끔 event 객체를 잡아준다.
 		
-		if(frm.m_id.value !== "${member.m_id}" || frm.m_pw.value!=="${member.m_pw}") {
-			alert("아이디 혹은 비밀번호를 확인해주세요.");
-			return false;
+		// 아이디 저장
+		if($('#rememberId').is(':checked')) {
+			alert("아이디 저장 실행")// Java에서 쿠키를 처리하려면 Service단에서 Cookie 클래스를 이용하여 request에 저장해주는 방식을 사용했다.
+			$.cookie('rememberId', $('#m_id').val()); // 쿠키ID, 값 순으로 저장을 하면 편리
 		} else {
-			return true;
-		}
+			$.cookie('rememberId', '');
+		}											
 		
-		if(member.m_admin.equals(1)) {
-			alert("관리자입니다.");
-			return true;
-		}
-	}  
+	});
+}
+
+function fn_displayRememberId() {
+	// 아이디저장 쿠키 불러오기
+	let rememberId = $.cookie('rememberId');
+	if(rememberId == '') {
+		$('#m_id').val('');
+		$('#rememberId').prop('checked', false); // check 해제
+	} else {
+		$('#m_id').val(rememberId);
+		$('#rememberId').prop('checked', true); // check 해제
+	}
+	
+}
 	
 
 </script>
@@ -63,11 +80,11 @@
     		  </div>
 
               </div>
-              <div class="d-flex justify-content-between">
+              <div class="d-flex justify-content-between">	
                 <!-- form check -->
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="memberCheck" name="memberCheck" value="true" ${checked}>
-                  <!-- label --> <label class="form-check-label" for="memberCheck">
+                  <input class="form-check-input" type="checkbox" id="rememberId" name="rememberId" >
+                  <!-- label --> <label class="form-check-label" for="rememberId">
                     	아이디 기억하기
                   </label>
                   

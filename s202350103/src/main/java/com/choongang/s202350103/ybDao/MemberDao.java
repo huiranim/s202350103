@@ -20,4 +20,7 @@ public interface MemberDao {
 
 	List<WishList>  memberWishList(WishList wishList);
 
+	int				memberWithdraw(Member member);
+
+
 }

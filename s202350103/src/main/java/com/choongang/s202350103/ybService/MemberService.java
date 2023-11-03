@@ -20,6 +20,9 @@ public interface MemberService {
 
 	List<WishList>  memberWishList(WishList wishList);
 
+	int 			memberWithdraw(Member member);
+
+
 	
 
 
