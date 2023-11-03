@@ -173,7 +173,7 @@ public class YbController {
 	}
 	
 	// 회원 탈퇴 페이지 이동
-	@GetMapping(value = "memberWithdrowForm")
+	@GetMapping(value = "memberWithdrawForm")
 	public String memberWithdrawForm(Member member, HttpSession session, Model model) {
 		
 		System.out.println("YbController memberWithdrowForm() start...");
@@ -189,7 +189,7 @@ public class YbController {
 	}
 	
 	// 회원탈퇴 하기
-	@PostMapping(value = "memberWithdrow")
+	@PostMapping(value = "memberWithdraw")
 	public String memberWithdraw(Member member, HttpSession session, Model model
 								,@RequestParam("m_pw") String m_pw) {
 		
@@ -198,9 +198,9 @@ public class YbController {
 
 		if(m_pw == member.getM_pw()) {
 			int result = ms.memberWithdraw(member);
-			return "yb/memberWithdrowForm";
+			return "yb/memberWithdrawForm";
 		} else {
-			return "yb/memberWithdrowForm";
+			return "yb/memberWithdrawForm";
 		}
 	}
 

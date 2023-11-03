@@ -44,7 +44,7 @@
 <%@ include file="../common/headerFo.jsp" %>
 <body>
 <div class="container" style="text-align: center;">
-	<form class="row" action="memberWithdrow" method="post">
+	<form class="row" action="memberWithdraw" method="post">
 	
 	      <div class="mb-8">
        		<!-- heading -->
