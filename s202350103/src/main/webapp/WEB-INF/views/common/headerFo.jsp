@@ -187,16 +187,28 @@
 						  </div>
 			     			<div class="list-inline-item me-5">
 								<!-- 로그아웃 아이콘 -->
-								<a href="memberLogout" class="list-inline">
+								<a href="memberLogout" class="">
 									<i class="feather-icon icon-log-out me-1"></i>로그아웃
 				               		<span class="visually-hidden">unread mes</span>
 			               		</a>
 			               	</div><p>
+			               	
+			               	<c:if test="${member.m_admin == 1 }">
+				               	<div class="list-inline-item me-5"  >
+									<a href="mainBo" class="list-inline"><strong>
+				               		<i class="bi bi-universal-access-circle me-1" ></i>
+									 관리자 페이지 </strong></a>
+				               		<span class="visually-hidden">unread mes</span>
+				               	</div>
+			               	</c:if><p>
 			               	<div>
 								<a href="memberMyPage" style="color: #002b63;"><strong>
 								${member.m_name }(${member.m_id })</strong></a>
 								님 환영합니다.
 			               	</div>
+			               	
+			               	
+			               	
 			     		</c:if>	
 		 		   </div>
 		 		   
