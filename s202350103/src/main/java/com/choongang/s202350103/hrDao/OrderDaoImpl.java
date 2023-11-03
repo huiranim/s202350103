@@ -63,16 +63,95 @@ public class OrderDaoImpl implements OrderDao {
 	// BO 주문상세 - 취소처리
 	@Override
 	public int statusCancellation(long o_order_num) {
-		System.out.println("OrderDaoImpl selectOrderr() start..");
+		System.out.println("OrderDaoImpl statusCancellation() start..");
 		
-		int result = 0;
+		int result1, result2, result = 0;
 		try {
-			result = session.update("hrStatusCancellation", o_order_num);
+			result1 = session.update("hrStatusCancellation", o_order_num);
+			result2 = session.insert("hrInsertCancellation", o_order_num);
+			if(result1 == 1 && result2 == 1) {
+				result = 1;
+			}
 			System.out.println("OrderDaoImpl statusCancellation() result -> "+result);					
 		} catch (Exception e) {
 			System.out.println("OrderDaoImpl statusCancellation() e.getMessage() -> "+e.getMessage());
 		}
-		System.out.println("OrderDaoImpl selectOrderr() end..");
+		System.out.println("OrderDaoImpl statusCancellation() end..");
+		return result;
+	}
+	// BO 주문상세 - 배송완료
+	@Override
+	public int statusDelivered(long o_order_num) {
+		System.out.println("OrderDaoImpl statusDelivered() start..");
+		
+		int result = 0;
+		try {
+			result = session.update("hrStatusDelivered", o_order_num);
+			System.out.println("OrderDaoImpl statusDelivered() result -> "+result);					
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl statusDelivered() e.getMessage() -> "+e.getMessage());
+		}
+		System.out.println("OrderDaoImpl statusDelivered() end..");
+		return result;
+	}
+	// BO 주문상세 - 구매확정
+	@Override
+	public int statusConfirmation(long o_order_num) {
+		System.out.println("OrderDaoImpl statusConfirmation() start..");
+		
+		int result = 0;
+		try {
+			result = session.update("hrStatusConfirmation", o_order_num);
+			System.out.println("OrderDaoImpl statusConfirmation() result -> "+result);					
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl statusConfirmation() e.getMessage() -> "+e.getMessage());
+		}
+		System.out.println("OrderDaoImpl statusConfirmation() end..");
+		return result;
+	}
+	// BO 주문상세 - 발송처리
+	@Override
+	public int statusShipping(Orderr orderr) {
+		System.out.println("OrderDaoImpl statusShipping() start..");
+		
+		int result = 0;
+		try {
+			result = session.update("hrStatusShipping", orderr);
+			System.out.println("OrderDaoImpl statusShipping() result -> "+result);					
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl statusShipping() e.getMessage() -> "+e.getMessage());
+		}
+		System.out.println("OrderDaoImpl statusShipping() end..");
+		return result;
+	}
+	// BO 주문상세 - 교환처리
+	@Override
+	public int statusExchange(Orderr orderr) {
+		System.out.println("OrderDaoImpl statusExchange() start..");
+		
+		int result = 0;
+		try {
+			result = session.update("hrStatusShipping", orderr);
+			System.out.println("OrderDaoImpl statusExchange() result -> "+result);					
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl statusExchange() e.getMessage() -> "+e.getMessage());
+		}
+		System.out.println("OrderDaoImpl statusExchange() end..");
+		return result;
+	}
+	// BO 주문상세 - 반품처리
+	@Override
+	public int statusReturn(Orderr orderr) {
+		System.out.println("OrderDaoImpl statusReturn() start..");
+		
+		int result = 0;
+		try {
+			result = session.update("hrStatusShipping", orderr);
+			System.out.println("OrderDaoImpl statusReturn() result -> "+result);					
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl statusReturn() e.getMessage() -> "+e.getMessage());
+		}
+		System.out.println("OrderDaoImpl statusReturn() end..");
 		return result;
 	}
 

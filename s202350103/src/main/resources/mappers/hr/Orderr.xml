@@ -39,4 +39,27 @@
 	 	SET    o_status = 5
 	 	WHERE  o_order_num = #{o_order_num}
 	 </update>
+	 
+	 <insert id="hrInsertCancellation" parameterType="long">
+	 	INSERT INTO order_cancel
+	 	VALUES (#{o_order_num}, CONCAT('C',#{o_order_num}), sysdate)
+	 </insert>
+	 
+	 <update id="hrStatusDelivered" parameterType="long">
+	 	UPDATE orderr
+	 	SET    o_status = 3
+	 	WHERE  o_order_num = #{o_order_num}
+	 </update>
+	 
+	 <update id="hrStatusConfirmation" parameterType="long">
+	 	UPDATE orderr
+	 	SET    o_status = 4
+	 	WHERE  o_order_num = #{o_order_num}
+	 </update>
+	 
+	 <update id="hrStatusShipping" parameterType="Orderr">
+	 	UPDATE orderr
+	 	SET	   o_status = 2, o_deliv_com = #{o_deliv_com}, o_deliv_track = #{o_deliv_track}
+	 	WHERE  o_order_num = #{o_order_num}
+	 </update>
 </mapper>
