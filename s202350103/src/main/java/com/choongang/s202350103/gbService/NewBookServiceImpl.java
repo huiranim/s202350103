@@ -10,7 +10,7 @@ import com.choongang.s202350103.model.NewBook;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor 
 public class NewBookServiceImpl implements NewBookService {
 
 	private final NewBookDao nbd;

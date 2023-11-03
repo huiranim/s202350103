@@ -62,6 +62,7 @@ public class GbController {
 		return "gb/foInNewbookList";
 	}
 	
+	// 검색 도서 리스트 조회
 	@GetMapping("searchNewbookList")
 	// form에서 파라미터 값을 받아올 떄에는 DTO에 변수와 동일하게 작성하면 자동으로 DTO의 변수와 매핑되어 가져온다.
 	public String selectSearchNewbookList(NewBook newbook, String currentPage, Model model) {
@@ -100,6 +101,7 @@ public class GbController {
 		
 	}
 	
+	// 상품 상페 페이지
 	@RequestMapping("newbookDetail")
 	public String selectNewbookDetail(NewBook newbook, Model model) {
 		System.out.println("GbController selectNewbookDetail start...");

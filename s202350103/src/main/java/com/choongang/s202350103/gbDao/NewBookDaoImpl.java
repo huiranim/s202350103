@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class NewBookDaoImpl implements NewBookDao {
+public class NewBookDaoImpl implements NewBookDao { 
 	private final SqlSession session;
 	
 	@Override
