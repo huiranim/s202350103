@@ -7,7 +7,7 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
+  <!-- Required meta tags --> 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta content="Codescandy" name="author">
@@ -30,12 +30,15 @@
 <link rel="stylesheet" href="../assets/css/theme.min.css">
 <!-- Google tag (gtag.js) -->
 
-<!-- End Tag -->
+<!-- End Tag 금비 -->
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 	function search() {
 		var search_type = $("#search_type").val();
-		alert("내가 선택한 검색 조건 -> "+search_type);
+		var search_keyword = $("#search_keyword").val();
+		alert("내가 선택한 검색 조건 -> "+search_type + " 키워드는 "+search_keyword);
+		
+		location.href = "/searchNewbookList?search_type="+search_type+"&search_keyword="+search_keyword;
 	}
 	
 </script>
@@ -133,29 +136,21 @@
           </div>
         
 		<div class="col-md-2 col-md-5  d-block">
-		    <!-- 검색 -->
-		    <form action="#">
-		        <div class="input-group">
-		            
-					<select id="search_type" class="w-25 rounded" style="border-color: rgb(223, 226, 225);" >
-						<option value="all">도서제목</option>
-						<option value="newbook">지은이</option>
-						<option value="oldbook">출판사</option>
-					</select>&nbsp;&nbsp;
-		            <input class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요." >
-		        </div>
-		    </form>
+		    <!-- 검색 금비 -->
+	        <div class="input-group">
+				<select id="search_type" class="w-25 rounded" style="border-color: rgb(223, 226, 225);" >
+					<option value="title">도서제목</option>
+					<option value="writer">지은이</option>
+					<option value="publisher">출판사</option>
+				</select>&nbsp;&nbsp;
+	            <input id = "search_keyword" class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요." >
+	        </div>
 		</div>
-
-          
-          <!-- 검색 버튼 -->
-          <div class="col-md-2 col-xxl-2 d-none d-lg-block">
-			
-            <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
-              data-bs-target="#locationModal" onclick="search()">검색  </button>
-
-
-          </div>
+            <!-- 검색 버튼 -->
+            <div class="col-md-2 col-xxl-2 d-none d-lg-block">
+              <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
+                	data-bs-target="#locationModal" onclick="search()">검색  </button>
+            </div>
           
           <div class="col-md-2 col-xxl-2 text-end d-none d-lg-block">
 		          	<!-- 비 로그인 시 -->	
