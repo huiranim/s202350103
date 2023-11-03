@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.choongang.s202350103.OldBookMapper">
+
+	<select id="totObCnt" resultType="int">
+		SELECT Count(*) FROM oldbook
+	
+	</select>
+
+	<select id="sjObListAll" resultType="OldBook" parameterType="OldBook">
+			SELECT *
+			FROM
+			(
+        SELECT rownum rn , a.nb_title, a.nb_price , a.ob_num, a.ob_acc_name, a.ob_acc_num, 
+        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, a.ob_report_date, 
+        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
+        FROM
+          (select *
+          from  newbook n , oldbook o
+          WHERE  n.nb_num = o.nb_num 
+                   order by o.ob_num) a
+			)  	
+	 		WHERE  rn BETWEEN #{start} and #{end} 
+	
+	</select>
+	<select id="sjObSelOne" parameterType="int" resultType="OldBook">	        
+select *
+   from  oldbook o , newbook n  
+   WHERE o.nb_num = n.nb_num
+    AND o.ob_num = #{ob_num}
+	</select>
+	
+   <select id="sjObListAll2"   parameterType="OldBook"   resultType="OldBook">
+	     <![CDATA[
+			SELECT *
+			FROM
+			(
+			        SELECT rownum rn , a.nb_title, a.nb_price ,a.ob_num, a.ob_acc_name, a.ob_acc_num, 
+			        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, a.ob_report_date, 
+			        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
+			        FROM
+			                   (select *
+			                   from  newbook n , oldbook o
+			                   WHERE  n.nb_num = o.nb_num 
+                               order by o.ob_num) a  
+			 )  
+	 		WHERE  rn >=  #{start} 
+	 		and    rn <=  #{end} 
+	 	  ]]>		
+     </select>
+     	
+	<update id="sjObUpdate"  parameterType="OldBook" >
+		UPDATE oldbook 
+		SET 
+			ob_status = #{ob_status}, 
+			nb_title = #{nb_title}, 
+			ob_pur_price = #{ob_pur_price},
+			ob_ripped = #{ob_ripped}, 
+			ob_scribble = #{ob_scribble}, 
+		    ob_smeary = #{ob_smeary}, 
+		    ob_grade = #{ob_grade}
+		    ob_pur_price = #{ob_pur_price}
+		    nb_title= # {nb_title}
+		    nb_price= # {nb_price}
+		WHERE ob_num = #{ob_num}
+	</update>
+
+</mapper>
