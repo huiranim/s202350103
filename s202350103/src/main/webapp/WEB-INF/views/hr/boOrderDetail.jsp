@@ -11,29 +11,116 @@
 <title>Insert title here</title>
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
+		// 취소처리 (1 -> 5)
 		function statusCancellation(p_order_num) {
 			// 확인용
 			alert("statusCancellation p_order_num -> "+p_order_num);
 			
-			if(p_order_num == null) {
-				p_order_num = 0;
-			}
-			
-			$.ajax(
-					{
-						url : "/statusCancellation",
-						data : {o_order_num : p_order_num},
-						dataType : 'text',
-						success : function(data) {
-							alert('statusCancellation data -> '+data);
-							if(data == "1"){
-								alert('취소 처리 완료되었습니다.');
-								// $('#o_status').val('5');
-								$('#o_status').val('5');
+			if("${orderr.o_status}" == 1) {
+				$.ajax(
+						{
+							url : "/statusCancellation",
+							data : {o_order_num : p_order_num},
+							dataType : 'text',
+							success : function(data) {
+								alert('statusCancellation data -> '+data);
+								if(data == "1"){
+									alert('취소 처리 완료되었습니다.');
+									//$('#o_status').load(location.href+' #o_status');
+									location.reload();
+								}
 							}
-						}
-					}	
-			)
+						}	
+				)
+			} else {
+				alert('주문접수 상태일 때만 취소 처리 가능합니다.')
+			}
+		}
+		// 배송완료 (2 -> 3)
+		function statusDelivered(p_order_num) {
+			// 확인용
+			alert("statusDelivered p_order_num -> "+p_order_num);
+			
+			if("${orderr.o_status}" == 2) {
+				$.ajax(
+						{
+							url : "/statusDelivered",
+							data : {o_order_num : p_order_num},
+							dataType : 'text',
+							success : function(data) {
+								alert('statusDelivered data -> '+data);
+								if(data == "1"){
+									alert('배송완료 처리 완료되었습니다.');
+									location.reload();
+								}
+							}
+						}	
+				)
+			} else {
+				alert('배송중 상태일 때만 배송완료 처리 가능합니다.')
+			}
+		}
+		// 구매확정 (3 -> 4)
+		function statusConfirmation(p_order_num) {
+			// 확인용
+			alert("statusConfirmation p_order_num -> "+p_order_num);
+			
+			if("${orderr.o_status}" == 3) {
+				$.ajax(
+						{
+							url : "/statusConfirmation",
+							data : {o_order_num : p_order_num},
+							dataType : 'text',
+							success : function(data) {
+								alert('statusConfirmation data -> '+data);
+								if(data == "1"){
+									alert('구매확정 처리 완료되었습니다.');
+									location.reload();
+								}
+							}
+						}	
+				)
+			} else {
+				alert('배송완료 상태일 때만 구매확정 처리 가능합니다.')
+			}
+		}
+		// 발송처리 (1 -> 2)
+		function statusShipping(p_order_num) {
+			alert("statusShipping p_order_num -> "+p_order_num);
+			
+			if("${orderr.o_status}" == 1) {
+				window.open("/boShippingPopup?o_order_num=${orderr.o_order_num}",
+							"발송처리",
+							"width=500 height=400");
+			} else {
+				alert('주문접수 상태일 때만 발송 처리 가능합니다.')
+			}
+		}
+		
+		// 교환처리 (3 -> 6)
+		function statusExchange(p_order_num) {
+			alert("statusExchange p_order_num -> "+p_order_num);
+			
+			if("${orderr.o_status}" == 3) {
+				window.open("/boExchangePopup?o_order_num=${orderr.o_order_num}",
+							"교환처리",
+							"width=500 height=400");
+			} else {
+				alert('배송완료 상태일 때만 교환 처리 가능합니다.')
+			}
+		}
+		
+		// 반품처리 (3 -> 7)
+		function statusReturn(p_order_num) {
+			alert("statusReturn p_order_num -> "+p_order_num);
+			
+			if("${orderr.o_status}" == 3) {
+				window.open("/boReturnPopup?o_order_num=${orderr.o_order_num}",
+							"반품처리",
+							"width=500 height=400");
+			} else {
+				alert('배송완료 상태일 때만 반품 처리 가능합니다.')
+			}
 		}
 	</script>
 </head>
@@ -48,12 +135,12 @@
          <!-- table -->
            <!-- Button -->
            <div class="order-operating-buttons">
-              <button type="button" class="btn btn-success mb-2">발송</button>
-              <button type="button" class="btn btn-success mb-2">배송완료</button>
-              <button type="button" class="btn btn-success mb-2">구매확정</button>
+              <input type="button" class="btn btn-success mb-2" value="발송" onclick="statusShipping(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="배송완료" onclick="statusDelivered(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="구매확정" onclick="statusConfirmation(${orderr.o_order_num})">
               <input type="button" class="btn btn-success mb-2" value="취소" onclick="statusCancellation(${orderr.o_order_num})">
-              <button type="button" class="btn btn-success mb-2">교환</button>
-              <button type="button" class="btn btn-success mb-2">반품</button>
+              <input type="button" class="btn btn-success mb-2" value="교환" onclick="statusExchange(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="반품" onclick="statusReturn(${orderr.o_order_num})">
            </div>
            
          <!-- 주문 정보 -->

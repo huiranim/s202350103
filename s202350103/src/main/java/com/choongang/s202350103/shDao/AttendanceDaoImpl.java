@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.choongang.s202350103.model.AttJoin;
 import com.choongang.s202350103.model.Attendance;
 
 import lombok.RequiredArgsConstructor;

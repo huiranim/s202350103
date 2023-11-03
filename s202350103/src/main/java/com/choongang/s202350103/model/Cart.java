@@ -14,7 +14,7 @@ public class Cart {				// 장바구니
 	private String	nb_writer;
 	private String  nb_publisher;
 	private String 	nb_image;
-	private String  total_price;
+	private int  	totalPrice;
 	// 페이징 작업용
 	private String  pageNum;	// 페이지	
 	private int     start;		

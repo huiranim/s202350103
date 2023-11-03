@@ -339,6 +339,7 @@ public class YjController {
 		  
 		  List<Member> memberMyReview = ms.memberMyReview(m_num);
 		  
+		  
  		  model.addAttribute("memberMyReview",memberMyReview);
  		  
 		  return "yj/memberMyReview";
@@ -374,5 +375,10 @@ public class YjController {
 		  
 		  return "yj/adminMemberList";
 	  }
-		
+	
+	  // 관리자 페이지 이동
+	  @RequestMapping("mainBo")
+	  public String mainBo() {
+		  return "common/mainBo";
+	  }
 }

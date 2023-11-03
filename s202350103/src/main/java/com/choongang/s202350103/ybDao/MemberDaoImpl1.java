@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.WishList;
 
 import lombok.RequiredArgsConstructor;
 
@@ -48,7 +49,37 @@ public class MemberDaoImpl1 implements MemberDao {
 		
 		return totalCart;
 	}
+	
 
+	@Override
+	public int totalPrice(Member member) {
+		System.out.println("MemberDaoImpl1 totalPrice() start...");
+		int totalPrice = 0;
+		try {
+			totalPrice = session.selectOne("ybTotalPrice", member);
+			System.out.println("MemberDaoImpl1 totalPrice totalPrice -> " + totalPrice);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 totalPrice Exception -> " + e.getMessage());
+		}
+		return totalPrice;
+	}
+
+	@Override
+	public int totalWishList(Member member) {
+		System.out.println("MemberDaoImpl1 totalWishList start...");
+		int totalWishList = 0;
+		System.out.println("MemberDaoImpl1 totalWishList member -> " + member.getM_id());
+		try {
+			totalWishList = session.selectOne("ybTotalWishList", member);	
+			System.out.println("MemberDaoImpl1 totalWishList() totalWishList -> " + totalWishList);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 totalWishList() Exception -> " + e.getMessage());
+		}
+	
+	return totalWishList;
+	}
+	
+	// 장바구니 리스트
 	@Override
 	public List<Cart> listCart(Cart cart, Member member) {
 		
@@ -68,19 +99,40 @@ public class MemberDaoImpl1 implements MemberDao {
 		
 		return listCart;
 	}
+	// 찜 목록 리스트
+	@Override
+	public List<WishList> memberWishList(WishList wishList) {
+		Member member =(Member) https.getAttribute("member");
+		List<WishList> memberWishList = new ArrayList<WishList>();
+		System.out.println("MemberDaoImpl1 memberWishList() start...");
+		wishList.setM_num(member.getM_num());
+		System.out.println("MemberDaoImpl1 memberWishList() wishList.m_num -> " +wishList.getM_num());
+		System.out.println("MemberDaoImpl1 memberWishList() member.m_num -> " + member.getM_num());
+		try {
+			memberWishList = session.selectList("ybWishList", wishList);
+			
+			System.out.println("MemberDaoImpl1 memberWishList.size() -> " + memberWishList.size());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberWishList Exception -> " + e.getMessage());
+		}
+		return memberWishList;
+	}
 
 	@Override
-	public int totalPrice(Member member) {
-		System.out.println("MemberDaoImpl1 totalPrice() start...");
-		int totalPrice = 0;
+	public int memberWithdraw(Member member) {
+		System.out.println("MemberDaoImpl1 memberWithdraw() start...");
+		member =(Member) https.getAttribute("member");
+		System.out.println("MemberDaoImpl1 memberWithdraw() member.m_num -> " + member.getM_num());
+		int result = 0;
 		try {
-			totalPrice = session.selectOne("ybTotalPrice", member);
-			System.out.println("MemberDaoImpl1 totalPrice totalPrice -> " + totalPrice);
+			result = session.selectOne("ybMemberWithdraw", member);
 		} catch (Exception e) {
-			System.out.println("MemberDaoImpl1 totalPrice Exception -> " + e.getMessage());
+			System.out.println("MemberDaoImpl1 memberWithdraw Exception -> " + e.getMessage());
 		}
-		return totalPrice;
+		return result;
 	}
+
+	
 	
 
 
