@@ -12,5 +12,7 @@ public interface AttendanceDao {
 	List<Attendance> listEvent(Attendance attendance);
 	int 			 divideAttNum(int eNum);
 	Attendance 		 attendance(int eNum);
+	int 			 startMonth(int eNum);
+	int 			 startYear(int eNum);
 
 }

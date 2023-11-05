@@ -1,6 +1,7 @@
 package com.choongang.s202350103.controller;
 
-	import java.util.List;
+	import java.util.Calendar;
+import java.util.List;
 
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
@@ -73,12 +74,29 @@ import com.choongang.s202350103.model.AttJoin;
 		@RequestMapping(value = "attendancePage")
 		public String attendancePage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
 			System.out.println("PointController attendancePage() Start..");
-		    // 데이터 처리 및 모델 설정
+			//캘린더
+			Calendar cal = Calendar.getInstance();
+			int month = ps.startMonth(eNum);
+			int year  = ps.startYear(eNum);
+			cal.set(year, month - 1, 1);
+		    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		    int lastday = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+			//매 월 1일 요일을 맞추는 빈 셀 생성
+		    int emptyCells = 0;
+		    
+			// 데이터 처리 및 모델 설정
 		    Attendance attendance = ps.detailAttendance(eNum);
-		    List<AttJoin> attJoinList = ps.listAttJoin(m_num);
+		    AttJoin attJoin = new AttJoin();
+		    attJoin.setM_num(m_num);
+		    attJoin.setA_num(eNum);
+		    List<AttJoin> attJoinList = ps.listAttJoin(attJoin);
 		    System.out.println("PointController listAttJoin() attJoinList.size->" + attJoinList.size());
 		    model.addAttribute("attendance", attendance);
 		    model.addAttribute("attJoin", attJoinList);
+		    model.addAttribute("dayOfWeek",dayOfWeek);
+		    model.addAttribute("lastday",lastday);
+		    model.addAttribute("month",month);
+		    model.addAttribute("cal",cal);
 		    return "sh/foAttendancePage";
 		}
 			

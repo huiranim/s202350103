@@ -24,7 +24,7 @@
 			<input type="radio" name="select2" value="${quiz.q_select2 }">${quiz.q_select2 }
 			<input type="radio" name="select3" value="${quiz.q_select3 }">${quiz.q_select3 }
 			<input type="radio" name="select4" value="${quiz.q_select4 }">${quiz.q_select4 }
-			<input type="button" name="submit">
+			<input type="button" name="submit">제출
 		</form>
 	</div>
 	<div>

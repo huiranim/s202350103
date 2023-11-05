@@ -27,4 +27,12 @@
 	<select id="shAttendance" parameterType="int" resultType="Attendance">
 		Select * From attendance Where a_num=#{eNum}
 	</select>
+	
+	<select id="shStartMonth" parameterType="int" resultType="int">
+		Select substr(a_sdate,6,2) From attendance Where a_num=#{eNum}
+	</select>
+	
+	<select id="shStartYear" parameterType="int" resultType="int">
+		Select substr(a_sdate,1,4) From attendance Where a_num=#{eNum}
+	</select>
 </mapper>

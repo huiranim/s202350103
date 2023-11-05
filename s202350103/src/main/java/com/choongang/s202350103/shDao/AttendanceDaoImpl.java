@@ -66,4 +66,26 @@ public class AttendanceDaoImpl implements AttendanceDao {
 		return attendance;
 	}
 
+	@Override
+	public int startMonth(int eNum) {
+		int sMonth = 0;
+		try {
+			sMonth = session.selectOne("shStartMonth",eNum);
+		} catch (Exception e) {
+			System.out.println("AttendanceDaoImpl startMonth() Exception ->"+e.getMessage());
+		}
+		return sMonth;
+	}
+
+	@Override
+	public int startYear(int eNum) {
+		int sYear = 0;
+		try {
+			sYear = session.selectOne("shStartYear",eNum);
+		} catch (Exception e) {
+			System.out.println("AttendanceDaoImpl startYear() Exception ->"+e.getMessage());
+		}
+		return sYear;
+	}
+
 }

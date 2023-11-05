@@ -6,5 +6,5 @@ import com.choongang.s202350103.model.AttJoin;
 
 public interface AttJoinDao {
 
-	List<AttJoin> 	 listAttJoin(int m_num);
+	List<AttJoin> 	 listAttJoin(AttJoin attJoin);
 }

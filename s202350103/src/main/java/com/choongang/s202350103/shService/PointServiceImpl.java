@@ -64,9 +64,9 @@ public class PointServiceImpl implements PointService {
 	}
 
 	@Override
-	public List<AttJoin> listAttJoin(int m_num) {
+	public List<AttJoin> listAttJoin(AttJoin attJoin) {
 		System.out.println("EventListService listAttJoin() Start...");
-		List<AttJoin> attJoinList = ajd.listAttJoin(m_num);
+		List<AttJoin> attJoinList = ajd.listAttJoin(attJoin);
 		System.out.println("EventListService listAttJoin.size()->"+attJoinList.size());
 		return attJoinList;
 	}
@@ -83,6 +83,18 @@ public class PointServiceImpl implements PointService {
 		System.out.println("EventListService listAttJoin() Start...");
 		List<QuizJoin> quizJoinList = qjd.listQuizJoin(m_num);
 		return quizJoinList;
+	}
+
+	@Override
+	public int startMonth(int eNum) {
+		int sMonth = ad.startMonth(eNum);
+		return sMonth;
+	}
+
+	@Override
+	public int startYear(int eNum) {
+		int sYear = ad.startYear(eNum);
+		return sYear;
 	}
 
 }

@@ -17,11 +17,11 @@ public class AttJoinDaoImpl implements AttJoinDao {
 	private final SqlSession session;
 	
 	@Override
-	public List<AttJoin> listAttJoin(int m_num) {
+	public List<AttJoin> listAttJoin(AttJoin attJoin) {
 		System.out.println("AttendanceDaoImpl listAttJoin() Start..");
 		List<AttJoin> attJoinList = null;
 		try {
-			attJoinList = session.selectList("shAttJoinList",m_num);
+			attJoinList = session.selectList("shAttJoinList",attJoin);
 		} catch (Exception e) {
 			System.out.println("AttendanceDaoImpl listAttJoin() Exception ->"+e.getMessage());
 		}

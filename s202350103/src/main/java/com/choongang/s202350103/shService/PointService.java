@@ -18,9 +18,11 @@ public interface PointService {
 	int 			 divideAttNum(int eNum);
 	//출석이벤트에 회원정보를 가지고 들어가는 메소드
 	Attendance 		 detailAttendance(int eNum);
-	List<AttJoin> 	 listAttJoin(int m_num);
+	List<AttJoin> 	 listAttJoin(AttJoin attJoin);
 	Quiz 			 detailQuiz(int eNum);
 	List<QuizJoin>   listQuizJoin(int m_num);
+	int 			 startMonth(int eNum);
+	int 			 startYear(int eNum);
 	
 	
 }
