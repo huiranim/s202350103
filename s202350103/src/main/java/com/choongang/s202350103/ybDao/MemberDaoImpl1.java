@@ -119,17 +119,29 @@ public class MemberDaoImpl1 implements MemberDao {
 	}
 
 	@Override
-	public int memberWithdraw(Member member) {
+	public Member memberWithdraw(Member member) {
 		System.out.println("MemberDaoImpl1 memberWithdraw() start...");
 		member =(Member) https.getAttribute("member");
 		System.out.println("MemberDaoImpl1 memberWithdraw() member.m_num -> " + member.getM_num());
-		int result = 0;
 		try {
-			result = session.selectOne("ybMemberWithdraw", member);
+			member = session.selectOne("ybMemberWithdraw", member);
 		} catch (Exception e) {
 			System.out.println("MemberDaoImpl1 memberWithdraw Exception -> " + e.getMessage());
 		}
-		return result;
+		return member;
+	}
+
+	@Override
+	public Member memberChk(String chk_Id) {
+		System.out.println("MemberDaoImpl1 memberChk() start...");
+		
+		Member member = session.selectOne("ybMemberChk", chk_Id);
+		if(chk_Id == null) {
+			return null;	
+		} else {
+			return member;
+		}
+		
 	}
 
 	

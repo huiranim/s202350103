@@ -13,7 +13,9 @@
 <script type="text/javascript">
 	
 	function chk_pw(m_pw) {
-	
+		
+		
+		
 		var m_pw = $("#m_pw").val();
 		$.ajax(
 				{
@@ -26,18 +28,20 @@
 						if(m_pw == memberPw){
 							alert("비밀번호 일치")
 							$('#msg').html("비밀번호가 일치합니다.");
+							$('#msg').css("color","#0aad0a");
+							$('#button_dw').attr("disabled", false);	
 						} else {
 							alert("비밀번호 불일치")
 							$('#msg').html("비밀번호를 확인해주세요.");
+							$('#msg').css("color","red");
+							$('#button_dw').attr("disabled", true);// 버튼 비활성화
+
 						}
 					}
 				}	
 		) 
 	}
 
-
-
-	
 	
 </script>
 </head>
@@ -67,17 +71,16 @@
  			<div class="container">
  				<label class="form-label" for="comments"> 
           			<strong >비밀번호 입력</strong> <input type="password" name="m_pw" required="required" id="m_pw">
-          			<button onclick="chk_pw(m_pw.value)">비밀번호 확인</button>
+          			<button onclick="chk_pw(m_pw.value)" class="btn btn-primary" style="height:30px;">비밀번호 확인</button><p>	
           			<span id="msg"></span><p>
           		</label><p>
  					개인정보 삭제 및 보유 포인트 소멸에 대한 안내를 모두 숙지하고 회원탈퇴에 대해 동의하여 주시기 바랍니다.<p>
  				<input class="form-check-input"  type="checkbox" value="ck1" id="ck1" required="required">
  				위 내용을 모두 숙지하였으며, 이에 동의합니다.
  			</div>
-		
 		<hr>
 			<div class="d-grid gap-2 col-6 mx-auto ">
-			 <button type="submit" class="btn btn-primary">확인</button>
+			<button type="submit" class="btn btn-primary" id="button_dw">탈퇴하기</button>
 			</div>
 			
 	
