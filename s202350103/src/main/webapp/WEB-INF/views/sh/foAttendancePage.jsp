@@ -12,14 +12,20 @@
 </head>
 
 <body>
-	<table>
-	<thead>
-		<tr>
-			<c:forEach var="day" items="${weekDay }">
-				<td>${day }</td>
-			</c:forEach>
-		</tr>
-	</table>
+	<c:forEach var="i" begin="1" end="${lastday }" step="1">
+		<span>
+			${i }</a>
+		</span>
+		<div class="calDate">
+			<c:if test="${attJoin.a_par_date }!=null">
+				<p>출석체크</p>
+			</c:if>
+		</div>
+	</c:forEach>
+		
+	
+	
+	
 	<h1>hi</h1>
 	<c:forEach var="attJoin" items="${attJoin }">
 		<p>${attJoin.a_num }</p>

@@ -36,6 +36,7 @@
 	
 	<update id="memberUpdate" parameterType="Member">
 		update member SET 
+			m_image = #{m_image} ,
 			m_email = #{m_email} , 
 			m_ph = #{m_ph}, 
 			m_addr = #{m_addr}

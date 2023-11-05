@@ -137,7 +137,7 @@ function valiForm() {
 		var pw_ck = document.getElementById("pw_ck").value;
 
 		if (m_pw !== pw_ck) {
-			alert("비밀번호가 일치하지 않습니다");
+			alert("비밀번호를 다시 확인해주세요.");
 			frm.pw_ck.value = "";
 			isValid = false;
 		}
@@ -422,7 +422,7 @@ function valiForm() {
 	        mEmail2.value = mEmail2.value; // 직접 입력한 값을 그대로 설정
 	    }
 	    // 폼 제출
-	    // e.preventDefault(); // 이 줄을 주석 처리하면 폼이 제출됨.
+	   //  e.preventDefault(); // 이 줄을 주석 처리하면 폼이 제출됨.
 	});
 	
 	

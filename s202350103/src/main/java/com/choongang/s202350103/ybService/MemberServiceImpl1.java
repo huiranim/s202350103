@@ -86,12 +86,23 @@ public class MemberServiceImpl1 implements MemberService {
 	}
 
 	@Override
-	public int memberWithdraw(Member member) {
+	public Member memberWithdraw(Member member) {
 		System.out.println("MemberServiceImpl1 memberWithdraw start...");
 		member =(Member) session.getAttribute("member");
 		System.out.println("MemberServiceImpl1 memberWithdraw member.m_id -> " + member.getM_id());
-		int memberWithdraw = md.memberWithdraw(member);
+		Member memberWithdraw = md.memberWithdraw(member);
 		return memberWithdraw;
+	}
+
+	@Override
+	public Member memberChk(String chk_Id) {
+		System.out.println("MemberServiceImpl1 memberChk start...");
+		Member member = md.memberChk(chk_Id);
+		if(member != null) {
+			return member;	
+		} else {
+			return null;
+		}
 	}
 
 	
