@@ -139,7 +139,8 @@ public class YjController {
 		
 	// 마이 페이지 이동
 		@RequestMapping ("/memberMyPage")
-		public String memberMyPage() {
+		public String memberMyPage(int m_num) {
+			
 			
 			return "yj/memberMyPage";
 		}
@@ -348,7 +349,6 @@ public class YjController {
 		  System.out.println(m_num);
 		  
 		  List<Member> memberMyReview = ms.memberMyReview(m_num);
-		  
 		  
  		  model.addAttribute("memberMyReview",memberMyReview);
  		  
