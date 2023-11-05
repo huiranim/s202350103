@@ -63,6 +63,8 @@
                    <option value=3 <c:if test ="${search_Newbook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
                    <option value=4 <c:if test ="${search_Newbook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
                    <option value=5 <c:if test ="${search_Newbook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
+                   <option value=6 <c:if test ="${search_Newbook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
+                   <option value=7 <c:if test ="${search_Newbook.nb_category2 eq '7'}"> selected="selected"</c:if>>문학</option>
      			</select>
              </div>
              
@@ -93,7 +95,7 @@
 			              <!-- col -->
 			              <div class="col-md-4 col-12">
 			                 <div class="text-center position-relative ">
-			                    <a href="shop-single.html">
+			                    <a href="newbookDetail?nb_num=${searchNewbook.nb_num }">
 			                       <!-- 도서 이미지 -->
 			                       <img src="${searchNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
 			                    </a>
@@ -101,7 +103,7 @@
 			              </div>
 			              <div class="col-md-8 col-12 flex-grow-1">
 			                 <!-- 도서 제목 -->
-			                 <h1 class="fs-2 mb-3"><a href="shop-single.html" class="text-inherit text-decoration-none">${searchNewbook.nb_title}</a>
+			                 <h1 class="fs-2 mb-3"><a href="newbookDetail?nb_num=${searchNewbook.nb_num }" class="text-inherit text-decoration-none">${searchNewbook.nb_title}</a>
 			                 </h1>
 			                 <!-- 지은이, 출판사, 출판일 -->
 			                 <h3 class="fs-6 mb-3">${searchNewbook.nb_writer} | ${searchNewbook.nb_publisher} | ${searchNewbook.nb_publi_date}

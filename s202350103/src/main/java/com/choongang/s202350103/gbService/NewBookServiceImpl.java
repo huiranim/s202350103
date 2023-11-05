@@ -25,9 +25,9 @@ public class NewBookServiceImpl implements NewBookService {
 	}
 
 	@Override
-	public int selectInNewBookCnt(int category2) {
+	public int selectInNewBookCnt(NewBook newbook) {
 		System.out.println("NewBookServiceImpl selectInNewBookCnt start...");
-		int inNewbookCnt = nbd.selectInNewBookCnt(category2);
+		int inNewbookCnt = nbd.selectInNewBookCnt(newbook);
 		System.out.println("NewBookServiceImpl selectInNewBookCnt inNewbookCnt -> "+inNewbookCnt);
 		return inNewbookCnt;
 	}
@@ -50,9 +50,9 @@ public class NewBookServiceImpl implements NewBookService {
 	}
 
 	@Override
-	public NewBook selectNewBookDetail(int nb_num) {
+	public NewBook selectNewBookDetail(NewBook newbook) {
 		System.out.println("NewBookServiceImpl selectNewBookDetail start...");
-		NewBook selectNewbook = nbd.selectNewBookDetail(nb_num);
+		NewBook selectNewbook = nbd.selectNewBookDetail(newbook);
 		
 		return selectNewbook;
 	}
@@ -72,6 +72,20 @@ public class NewBookServiceImpl implements NewBookService {
 		int hit_nb_num = nbd.selectHitNbNum();
 		
 		return hit_nb_num;
+	}
+
+	@Override
+	public int insertUpdateWish(NewBook newbook) {
+		System.out.println("NewBookServiceImpl insertUpdateWish start...");
+		
+		// wishStaus 가 널이면 insert notnull이면 update
+		int result = nbd.InsertUpdateWish(newbook);
+		
+		// 찜상태 변경 후 찜여부 확인하기
+		int wishStatus = nbd.selectWishStatus(newbook);
+		System.out.println("NewBookServiceImpl insertUpdateWish result ->" + wishStatus);
+		
+		return wishStatus;
 	}
 
 }

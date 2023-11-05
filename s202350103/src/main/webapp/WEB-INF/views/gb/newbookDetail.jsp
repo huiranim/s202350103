@@ -55,6 +55,30 @@
 					}
 		});
 	}
+	
+	function wishlist(pNb_num) {
+		alert("pNb_num ->"+pNb_num);
+		
+		$.ajax({
+			url : "/wish/wishclick", 
+			data : {nb_num : pNb_num},
+			dataType : 'text',
+			success : function(data){
+						if (data == '0') {
+							alert ("찜 취소 되었습니다.");
+							location.reload();
+						} 
+						else if(data == '1') {
+							alert ("찜 되었습니다.");
+							location.reload();
+						} 
+						else {
+							location.href = data ;
+						}
+										
+				  }
+			});
+	}
 </script>
 </head>
 <body>
@@ -155,8 +179,19 @@
 				        <button type="button" class="btn btn-warning"><i class="feather-icon icon-shopping-bag me-2"></i>선물하기</button>
 				        <button type="button" class="btn btn-secondary"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
 		  			    <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button>
-				        <!-- 찜하기 버튼 -->
-				        <a class="btn btn-light" href="#!" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Wishlist"><i class="feather-icon icon-heart"></i></a>
+				        <!-- 찜하기 버튼 -->	
+                        <c:choose>
+                       	  <c:when test="${newbook.w_wish == 0}">
+	                         <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+	                            data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${newbook.nb_num })">
+	                            <i id="wishbtn" class="bi bi-heart"></i></a>
+	                      </c:when>
+	                      <c:when test="${newbook.w_wish == 1}">
+	                         <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+	                            data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${newbook.nb_num })">
+	                            <i id="wishbtn" class="bi bi-heart-fill"></i></a>
+	                      </c:when>
+                       </c:choose>
 				     </div>
 		    	  </div>
 		      </div>

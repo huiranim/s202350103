@@ -5,10 +5,17 @@
 <mapper namespace="com.choongang.s202350103.NewBookMapper"> 
 	
 	<!-- 전체 도서 개수 및 리스트-->
-	<select id="gbSelectInNbCnt" resultType="int">
+	<select id="gbSelectInNbCnt" parameterType="NewBook" resultType="int">
 		SELECT count(*) 
 		FROM newbook 
-		WHERE nb_category1 = 1
+		<choose>
+            <when test="nb_category1 == 1">
+            	WHERE nb_category1 = 1
+            </when>
+            <when test="nb_category1 == 2">
+            	WHERE nb_category1 = 2
+            </when>
+        </choose>
 		<choose>
             <when test="nb_category2 == 1">
                 AND nb_category2 = 1
@@ -25,55 +32,138 @@
             <when test="nb_category2 == 5">
                 AND nb_category2 = 5
             </when>
+            <when test="nb_category2 == 6">
+                AND nb_category2 = 6
+            </when>
+            <when test="nb_category2 == 7">
+                AND nb_category2 = 7
+            </when>
         </choose>
 	</select>
 	
 	<select id="gbSelectInNbList" parameterType="NewBook" resultType="NewBook">
 		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
-			   nb_category1, nb_category2, nb_image, reviewCnt, r_ratingAvg
+			   nb_category1, nb_category2, nb_image, reviewCnt, r_ratingAvg, <if test="#{m_num}!=null">w_wish</if>
 		FROM (
 		    SELECT rownum rn, nbre.*
 		    FROM(
-		            SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
-		            FROM NEWBOOK nb, (
-		                                SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
-		                                FROM newbook nb, review re
-		                                WHERE nb.nb_num = re.nb_num
-		                                GROUP BY nb.nb_num
-		                             ) re
-		            WHERE nb.nb_num = re.nb_num(+)
-		            AND nb.nb_category1 = 1
-		            <choose>
-		                <when test="nb_category2 == 1">
-		                    AND nb.nb_category2 = 1
-		                </when>
-		                <when test="nb_category2 == 2">
-		                    AND nb.nb_category2 = 2
-		                </when>
-		                <when test="nb_category2 == 3">
-		                    AND nb.nb_category2 = 3
-		                </when>
-		                <when test="nb_category2 == 4">
-		                    AND nb.nb_category2 = 4
-		                </when>
-		                <when test="nb_category2 == 5">
-		                    AND nb.nb_category2 = 5
-		                </when>
-		            </choose>
-		            <choose>
-		                <when test="orderType == 'recently'">
-		                    ORDER BY nb.nb_publi_date desc
-		                </when>
-		                <when test="orderType == 'highreview'">
-		                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
-		                </when>
-		                <when test="orderType == 'highprice'">
-		                    ORDER BY nb.nb_price desc
-		                </when>
-		                <when test="orderType == 'lowprice'">
-		                    ORDER BY nb.nb_price asc
-		                </when>
-		            </choose>
+		    	<choose>
+		    		<when test="#{m_num} != null">
+		    			SELECT a1.*, NVL(w.w_wish,0) w_wish
+						FROM 	(SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
+					            FROM NEWBOOK nb, (
+					                                SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
+					                                FROM newbook nb, review re
+					                                WHERE nb.nb_num = re.nb_num
+					                                GROUP BY nb.nb_num
+					                             ) re
+					            WHERE nb.nb_num = re.nb_num(+)
+					            <choose>
+						            <when test="nb_category1 == 1">
+						            	AND nb.nb_category1 = 1
+						            </when>
+						            <when test="nb_category1 == 2">
+						            	AND nb.nb_category1 = 2
+						            </when>
+						        </choose>
+					            <choose>
+					                <when test="nb_category2 == 1">
+					                    AND nb.nb_category2 = 1
+					                </when>
+					                <when test="nb_category2 == 2">
+					                    AND nb.nb_category2 = 2
+					                </when>
+					                <when test="nb_category2 == 3">
+					                    AND nb.nb_category2 = 3
+					                </when>
+					                <when test="nb_category2 == 4">
+					                    AND nb.nb_category2 = 4
+					                </when>
+					                <when test="nb_category2 == 5">
+					                    AND nb.nb_category2 = 5
+					                </when>
+					                <when test="nb_category2 == 6">
+						                AND nb_category2 = 6
+						            </when>
+						            <when test="nb_category2 == 7">
+						                AND nb_category2 = 7
+						            </when>
+					            </choose>
+					            <choose>
+					                <when test="orderType == 'recently'">
+					                    ORDER BY nb.nb_publi_date desc
+					                </when>
+					                <when test="orderType == 'highreview'">
+					                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
+					                </when>
+					                <when test="orderType == 'highprice'">
+					                    ORDER BY nb.nb_price desc
+					                </when>
+					                <when test="orderType == 'lowprice'">
+					                    ORDER BY nb.nb_price asc
+					                </when>
+					            </choose>) a1, 
+								 (SELECT nb_num, w_wish
+							      FROM wishlist
+							      WHERE m_num = #{m_num}) w
+						WHERE a1.nb_num = w.nb_num(+)
+		    		</when>
+		    		<otherwise>
+			            SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
+			            FROM NEWBOOK nb, (
+			                                SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
+			                                FROM newbook nb, review re
+			                                WHERE nb.nb_num = re.nb_num
+			                                GROUP BY nb.nb_num
+			                             ) re
+			            WHERE nb.nb_num = re.nb_num(+)
+			            <choose>
+				            <when test="nb_category1 == 1">
+				            	AND nb.nb_category1 = 1
+				            </when>
+				            <when test="nb_category1 == 2">
+				            	AND nb.nb_category1 = 2
+				            </when>
+				        </choose>
+			            <choose>
+			                <when test="nb_category2 == 1">
+			                    AND nb.nb_category2 = 1
+			                </when>
+			                <when test="nb_category2 == 2">
+			                    AND nb.nb_category2 = 2
+			                </when>
+			                <when test="nb_category2 == 3">
+			                    AND nb.nb_category2 = 3
+			                </when>
+			                <when test="nb_category2 == 4">
+			                    AND nb.nb_category2 = 4
+			                </when>
+			                <when test="nb_category2 == 5">
+			                    AND nb.nb_category2 = 5
+			                </when>
+			                <when test="nb_category2 == 6">
+				                AND nb_category2 = 6
+				            </when>
+				            <when test="nb_category2 == 7">
+				                AND nb_category2 = 7
+				            </when>
+			            </choose>
+			            <choose>
+			                <when test="orderType == 'recently'">
+			                    ORDER BY nb.nb_publi_date desc
+			                </when>
+			                <when test="orderType == 'highreview'">
+			                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
+			                </when>
+			                <when test="orderType == 'highprice'">
+			                    ORDER BY nb.nb_price desc
+			                </when>
+			                <when test="orderType == 'lowprice'">
+			                    ORDER BY nb.nb_price asc
+			                </when>
+			            </choose>
+			         </otherwise>
+		         </choose>
 		    ) nbre
 		)
 		WHERE rn BETWEEN #{start} AND #{end}
@@ -125,6 +215,12 @@
              <when test="nb_category2 == 5">
                  AND alltb.nb_category2 = 5
              </when>
+             <when test="nb_category2 == 6">
+                AND nb_category2 = 6
+            </when>
+            <when test="nb_category2 == 7">
+                AND nb_category2 = 7
+            </when>
          </choose>
 	</select>
 	
@@ -177,6 +273,12 @@
 		                <when test="nb_category2 == 5">
 		                    AND alltb.nb_category2 = 5
 		                </when>
+		                <when test="nb_category2 == 6">
+			                AND nb_category2 = 6
+			            </when>
+			            <when test="nb_category2 == 7">
+			                AND nb_category2 = 7
+			            </when>
 		            </choose>
 		            <choose>
 		                <when test="orderType == 'recently'">
@@ -197,16 +299,36 @@
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
-	<select id="gbSelectNewBook" parameterType="int" resultType="NewBook">
-		SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
-		FROM NEWBOOK nb, (
-		                    SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
-		                    FROM newbook nb, review re
-		                    WHERE nb.nb_num = re.nb_num
-		                    GROUP BY nb.nb_num
-		                             ) re
-		WHERE nb.nb_num = re.nb_num(+)
-		AND nb.nb_num = #{nb_num}
+	<select id="gbSelectNewBook" parameterType="NewBook" resultType="NewBook">
+		<choose>
+    		<when test="#{m_num} != null">
+    			SELECT a1.*, NVL(w.w_wish,0) w_wish
+				FROM 	(SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
+			            FROM NEWBOOK nb, (
+			                                SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
+			                                FROM newbook nb, review re
+			                                WHERE nb.nb_num = re.nb_num
+			                                GROUP BY nb.nb_num
+			                             ) re
+			            WHERE nb.nb_num = re.nb_num(+)
+			            AND nb.nb_num = #{nb_num}) a1,
+			            (SELECT nb_num, w_wish
+							      FROM wishlist
+							      WHERE m_num = #{m_num}) w
+				WHERE a1.nb_num = w.nb_num(+)
+			</when>
+			<otherwise>
+				SELECT nb.*, NVL(re.reviewCnt,0) reviewCnt, NVL(re.r_ratingAvg, 0) r_ratingAvg
+				FROM NEWBOOK nb, (
+				                    SELECT nb.nb_num, COUNT(*) reviewCnt, NVL(ROUND(AVG(re.r_rating)),0) r_ratingAvg
+				                    FROM newbook nb, review re
+				                    WHERE nb.nb_num = re.nb_num
+				                    GROUP BY nb.nb_num
+				                             ) re
+				WHERE nb.nb_num = re.nb_num(+)
+				AND nb.nb_num = #{nb_num}		
+			</otherwise>
+		</choose>
 	</select>
 	
 	<update id="gbUpdateReadCnt" parameterType="int">
@@ -214,4 +336,5 @@
 		SET nb_readcnt = nb_readcnt+1
 		WHERE nb_num = #{nb_num}
 	</update>
+	
 </mapper>

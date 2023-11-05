@@ -2,6 +2,8 @@ package com.choongang.s202350103.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.NewBookOldBook;
+import com.choongang.s202350103.model.WishList;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,8 +29,12 @@ public class GbController {
 	
 	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
-	public String selectInNewBookList(NewBook newbook, String currentPage, Model model) {
+	public String selectInNewBookList(HttpSession session, Member member, NewBook newbook, String currentPage, Model model) {
 		System.out.println("GbController selectInNewBookList start...");
+		List<NewBook> listInNewbook = null;
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
 		
 		// 정렬 유형, 초기값(null)이면 --> recently
 		String orderType_default = "recently";
@@ -35,7 +43,7 @@ public class GbController {
 		}
 		
 		// 도서 총 개수
-		int inNewbookCnt = nbs.selectInNewBookCnt(newbook.getNb_category2()); // 카테고리별 총 개수를 구해준다.
+		int inNewbookCnt = nbs.selectInNewBookCnt(newbook); // 카테고리별 총 개수를 구해준다.
 		System.out.println("GbController selectInNewBookList inNewbookCnt -> "+inNewbookCnt);
 		
 		// 페이징 처리 작업
@@ -44,10 +52,19 @@ public class GbController {
 		newbook.setStart(page.getStartRow());
 		newbook.setEnd(page.getEndRow());
 		System.out.println("GbController orderType -> "+newbook.getOrderType());
-		
-		// 도서 리스트
-		List<NewBook> listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
-		System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
+						
+		if(member == null) {
+			// 로그인 안되었을 때 도서 리스트
+			System.out.println("GbController member null start");
+			listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
+			System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
+		} else {
+			// 로그인 되었을 때 도서 리스트
+			System.out.println("GbController member notnull start");
+			newbook.setM_num(member.getM_num());
+			listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
+			System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
+		}
 		
 		// 조회수 최대 값 구하기
 		int hit_nb_num = nbs.selectHitNbNum();
@@ -103,16 +120,20 @@ public class GbController {
 	
 	// 상품 상페 페이지
 	@RequestMapping("newbookDetail")
-	public String selectNewbookDetail(NewBook newbook, Model model) {
+	public String selectNewbookDetail(NewBook newbook, HttpSession session, Member member, Model model) {
 		System.out.println("GbController selectNewbookDetail start...");
 		System.out.println("GbController selectNewbookDetail newbook.getNb_num()"+newbook.getNb_num());
+		
+		// 회원정보 가져오기
+		member =(Member) session.getAttribute("member");
+		if(member != null) { newbook.setM_num(member.getM_num()); }
 		
 		// 조회 수 +1
 		int result = nbs.updateReadCnt(newbook.getNb_num());
 		System.out.println("GbController selectNewbookDetail result -> "+result);
 		
 		// 상세 정보
-		NewBook selectNewbook = nbs.selectNewBookDetail(newbook.getNb_num());
+		NewBook selectNewbook = nbs.selectNewBookDetail(newbook);
 		String publi_date1 = selectNewbook.getNb_publi_date().substring(0,10);
 		selectNewbook.setNb_publi_date(publi_date1);
 		
@@ -136,6 +157,21 @@ public class GbController {
 	  
 		return sameOldBookList; 
 	}
-	 
+	
+	  // 찜하기
+	  @ResponseBody
+	  @RequestMapping("/wish/wishclick") public String wishClick(NewBook newbook, HttpSession session, Member member, Model model) {
+		  System.out.println("GbController wishClick() start...");
+		  
+		  // 로그인한 멤버 값 불러오기 
+		  member =(Member) session.getAttribute("member");
+		  if(member == null) { return "loginForm"; }
+		  else 				 { newbook.setM_num(member.getM_num());}
+		  
+		  // 찜하기
+		  String wish = String.valueOf(nbs.insertUpdateWish(newbook));
+		  
+		  return wish; 
+	  }
 	
 }

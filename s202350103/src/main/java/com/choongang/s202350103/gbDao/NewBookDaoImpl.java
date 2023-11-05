@@ -29,11 +29,11 @@ public class NewBookDaoImpl implements NewBookDao {
 	}
 
 	@Override
-	public int selectInNewBookCnt(int category2) {
+	public int selectInNewBookCnt(NewBook newbook) {
 		int inNewbookCnt = 0;
 		try {
 			System.out.println("NewBookDaoImpl selectInNewBookCnt Start...");
-			inNewbookCnt = session.selectOne("gbSelectInNbCnt", category2);
+			inNewbookCnt = session.selectOne("gbSelectInNbCnt", newbook);
 			System.out.println("NewBookDaoImpl selectInNewBookCnt inNewbookCnt");
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectInNewBookCnt -> "+e.getMessage());
@@ -71,11 +71,11 @@ public class NewBookDaoImpl implements NewBookDao {
 	}
 
 	@Override
-	public NewBook selectNewBookDetail(int nb_num) {
+	public NewBook selectNewBookDetail(NewBook newbook) {
 		System.out.println("NewBookDaoImpl selectNewBookDetail Start...");
 		NewBook selectNewbook = null;
 		try {
-			selectNewbook = session.selectOne("gbSelectNewBook", nb_num);
+			selectNewbook = session.selectOne("gbSelectNewBook", newbook);
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectNewBookDetail -> "+e.getMessage());
 		}
@@ -109,6 +109,22 @@ public class NewBookDaoImpl implements NewBookDao {
 		}
 		
 		return hit_nb_num;
+	}
+
+	@Override
+	public int selectWishStatus(NewBook newbook) {
+		System.out.println("NewBookDaoImpl selectWishStatus start...");
+		int wishStatus = session.selectOne("gbselectWishStatus", newbook);
+		System.out.println("NewBookDaoImpl selectWishStatus wishStatus -> "+wishStatus);
+		return wishStatus;
+	}
+
+	@Override
+	public int InsertUpdateWish(NewBook newbook) {
+		System.out.println("NewBookDaoImpl InsertUpdateWish start...");
+		int result = session.insert("gbInsertUpdateWish", newbook);
+		System.out.println("NewBookDaoImpl InsertUpdateWish result->"+result);
+		return result;
 	}
 
 }
