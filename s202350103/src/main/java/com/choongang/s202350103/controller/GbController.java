@@ -143,7 +143,7 @@ public class GbController {
 		
 		model.addAttribute("newbook", selectNewbook);
 		
-		return "gb/newbookDetail";
+		return "gb/newbookDetail"; 
 	}
 	
 	// 동일한 중고도서 목록 리스트
