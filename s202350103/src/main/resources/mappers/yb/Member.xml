@@ -51,15 +51,17 @@
 		WHERE   rn BETWEEN #{start} and #{end}
 	</select>
 	
-	<select id="ybMemberWithdraw" parameterType="Member" resultType="int">
-		UPDATE FROM member SET m_wd = 1 WHERE m_num = #{m_num}
+	<select id="ybMemberWithdraw" parameterType="Member" resultType="Member">
+		UPDATE member SET m_wd = 1 WHERE m_num = #{m_num}
 	</select>
 	
 	<select id="ybMemberPw" parameterType="Member" resultType="String">
 		SELECT FROM member m_pw WHERE m_id = #{m_id}
 	</select>
 	
-	
+	<select id="ybMemberChk" parameterType="String" resultType="Member">
+		SELECT * FROM member WHERE m_id = #{chk_Id}
+	</select>
 	
 	
 	

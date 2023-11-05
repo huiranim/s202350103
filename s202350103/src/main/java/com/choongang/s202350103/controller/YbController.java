@@ -48,10 +48,9 @@ public class YbController {
 	
 	// 로그인
 	@RequestMapping(value = "memberLogin")
-	public String login(Member member1, HttpSession session, HttpServletRequest request, Model model,
-						@RequestParam("m_id") String m_id) {
+	public String login(Member member1, HttpSession session, HttpServletRequest request, Model model) {
 		log.info("Login page");
-		ModelAndView mv = new ModelAndView();
+
 		System.out.println("YbController login() session -> " + session);
 		Member member = ms.login(member1);
 		
@@ -76,7 +75,8 @@ public class YbController {
 				  // 세션이 없으면 새로운  세션을 생성하지 않고, null을 반환
 				  if (session != null) {
 					  System.out.println("YbController logout() session null ");
-					  session.removeAttribute("member"); session.invalidate(); // 세션 초기화
+					  session.removeAttribute("member"); 
+					  session.invalidate(); // 세션 초기화
 				  }
 		  } catch (Exception e) {
 	         System.out.println("logout Exception -> "+e.getMessage());
@@ -189,30 +189,72 @@ public class YbController {
 	}
 	
 	// 회원탈퇴 하기
-	/*
-	 * @PostMapping(value = "memberWithdraw") public String memberWithdraw(Member
-	 * member, HttpSession session, Model model ,@RequestParam("m_pw") String m_pw)
-	 * {
-	 * 
-	 * System.out.println("YbController memberWithdraw() start..."); member
-	 * =(Member) session.getAttribute("member");
-	 * 
-	 * if(m_pw == member.getM_pw()) { int result = ms.memberWithdraw(member); return
-	 * "yb/memberWithdrawForm"; } else { return "yb/memberWithdrawForm"; } }
-	 */
+	@PostMapping(value = "memberWithdraw") 
+	public String memberWithdraw(Member member, HttpSession session, Model model,
+								 @RequestParam("m_pw") String m_pw) { 
+		System.out.println("YbController memberWithdraw() start..."); 
+		member =(Member) session.getAttribute("member");
+			
+		member = ms.memberWithdraw(member); 
+		System.out.println("YbController memberWithdraw member.m_wd -> " + member.getM_wd());
+		session.removeAttribute("member"); 
+		session.invalidate(); // 세션 초기화
+		return "redirect:/"; 
 
-   @ResponseBody
-   @RequestMapping("/memberChkPw")
-   public String memberChkPw(Member member, HttpSession session) {
-         System.out.println("YbController memberChkPw() start..");
-         member =(Member) session.getAttribute("member");
+	}
+	 
+
+	// 회원탈퇴 비밀번호 Check Ajax
+	@ResponseBody
+    @RequestMapping("/memberChkPw")
+    public String memberChkPw(Member member, HttpSession session) {
+          System.out.println("YbController memberChkPw() start..");
+          member =(Member) session.getAttribute("member");
          
-         String memberPw = member.getM_pw();
-         System.out.println("YbController memberChkPw() memberPw -> " + memberPw);
-         return memberPw;
-   }	
+          String memberPw = member.getM_pw();
+          System.out.println("YbController memberChkPw() memberPw -> " + memberPw);
+          return memberPw;
+    }	
 	
+	// 로그인 시 회원 체크 Ajax
+	@ResponseBody
+	@RequestMapping("/memberChk")
+	public String memberLoginChk(Member member, String chk_Id, String chk_Pw, HttpSession session) {
+		System.out.println("YbController memberChk() start...");
+		
+		member = ms.memberChk(chk_Id);
+		
+		System.out.println("YbController memberLoginChk member.m_id -> " + member.getM_id());
+		System.out.println("YbController memberLoginChk member.m_pw -> " + member.getM_pw());
+		System.out.println("YbContorller memberLoginChk member.m_wd -> " + member.getM_wd());
+		int m_wd = member.getM_wd();
+		String m_id = member.getM_id();
+		String m_pw = member.getM_pw();
+		System.out.println("YbController memberLoginChk m_id -> " + m_id);
+		System.out.println("YbController memberLoginChk m_pw -> " + m_pw);
+		System.out.println("YbController memberLoginChk chk_id -> " + chk_Id);
+		System.out.println("YbController memberLoginChk chk_Pw -> " + chk_Pw);
+		int result = 0;
 
+		
+		if(chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 0) {
+			result = 1;
+			session.setAttribute("member", member);
+			System.out.println("YbController memberLoginChk member -> " + session.getId());
+		} else if(chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 1) {
+			result = 2;		
+		} else {
+			result = 0;
+		}
+
+		System.out.println("YbController memberLoginChk result -> " + result);
+
+		String strResult = Integer.toString(result);
+		return strResult;
+	
+	}
+	
+	
 }
 	
 
