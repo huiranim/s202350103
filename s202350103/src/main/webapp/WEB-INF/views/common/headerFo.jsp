@@ -193,6 +193,18 @@
 			               		</a>
 			               	</div><p>
 			               	
+			               	
+			               	<c:if test="${member.m_image != null}">
+				               	<div class="list-inline-item me-5">
+									<!-- 내 아이콘 -->
+									<a href="memberMyPage" class="">
+									<img  src="${member.m_image }" width="55px" height="55px" alt="회원이미지" class="rounded-circle">
+	
+										<span class="visually-hidden">unread mes</span>
+				               		</a>
+				               	</div><p>
+			               	</c:if>
+			               	
 			               	<c:if test="${member.m_admin == 1 }">
 				               	<div class="list-inline-item me-5"  >
 									<a href="mainBo" class="list-inline"><strong>
@@ -204,7 +216,10 @@
 			               	<div>
 								<a href="memberMyPage" style="color: #002b63;"><strong>
 								${member.m_name }(${member.m_id })</strong></a>
-								님 환영합니다.
+								님<p> 환영합니다.
+								
+								<p>
+
 			               	</div>
 			               	
 			               	
@@ -427,15 +442,15 @@
                 </li>
                 
                 
-<!--  
-				상단 메뉴 바로가기 시 참고 
-				
+ 
+				<!-- 
                 <li class="nav-item w-100 w-lg-auto">
                   <a class="nav-link" href="./dashboard/index.html">
-                    바로가기 6
+                 		   바로가기 6
                   </a>
                 </li>
--->
+				 -->
+
 				
               </ul>
             </div>

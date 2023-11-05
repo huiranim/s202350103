@@ -1,10 +1,12 @@
 package com.choongang.s202350103.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -163,10 +165,12 @@ public class YjController {
 		return "yj/memberMyInfo";
 	}
 	
-	// 회원정보 수정 
+	// 회원정보 수정 -> 수정 후 로그아웃
 	@PostMapping("/memberUpdate")
 	public String memberUpdate (@RequestParam("m_num") int m_num ,
-		
+
+								@RequestParam("m_image") String m_image,
+			
 								@RequestParam("m_email1") String m_email1, 
 								@RequestParam("m_email") String m_email, 
 								
@@ -178,13 +182,15 @@ public class YjController {
 								@RequestParam("m_addr2") String m_addr2,
 								@RequestParam("m_addr") String m_addr,
 								
-								@ModelAttribute Member member, Model model) {
+								@ModelAttribute Member member, Model model,
+								HttpSession session) {
 	
 		System.out.println(m_num);	
+		System.out.println(m_image);
 		
 		member.setM_email(m_email1+"@"+m_email);	// 이메일 병합
 		member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
-		member.setM_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
+		member.setM_addr(m_addr1+"/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
 		
 		
 		String m_emailAll = member.getM_email();
@@ -197,9 +203,13 @@ public class YjController {
 		
 		int memberUpdate = ms.memberUpdate(member);
 		model.addAttribute("memberUpdate",memberUpdate);
-	
-		return  "redirect:/";
+		
+		session.invalidate(); // 세션 초기화
+		
+		return  "redirect:/loginForm";
 	}
+	
+	
 	
 	// 계정 찾기 화면 이동
 	@RequestMapping("memberFindAccount")
@@ -381,4 +391,44 @@ public class YjController {
 	  public String mainBo() {
 		  return "common/mainBo";
 	  }
+	  
+	 
+	  // 이미지 리스트
+	  public List<String> imageList(){
+		  
+		  List<String> imageUrl = new ArrayList<String>();
+		  imageUrl.add("../assets/images/memberImage/1.jpg");
+		  imageUrl.add("../assets/images/memberImage/2.jpg");
+		  imageUrl.add("../assets/images/memberImage/3.jpg");
+		  imageUrl.add("../assets/images/memberImage/4.jpg");
+		  imageUrl.add("../assets/images/memberImage/5.jpg");
+		  imageUrl.add("../assets/images/memberImage/6.jpg");
+		  imageUrl.add("../assets/images/memberImage/7.jpg");
+		  imageUrl.add("../assets/images/memberImage/8.jpg");
+		  imageUrl.add("../assets/images/memberImage/9.jpg");
+		  imageUrl.add("../assets/images/memberImage/10.jpg");
+		  imageUrl.add("../assets/images/memberImage/11.jpg");
+		  imageUrl.add("../assets/images/memberImage/12.jpg");
+		  imageUrl.add("../assets/images/memberImage/13.jpg");
+		  imageUrl.add("../assets/images/memberImage/14.jpg");
+		  imageUrl.add("../assets/images/memberImage/15.jpg");
+		  imageUrl.add("../assets/images/memberImage/16.jpg");
+		  imageUrl.add("../assets/images/memberImage/17.jpg");
+		  imageUrl.add("../assets/images/memberImage/18.jpg");
+		  
+		  return imageUrl;
+	  }
+	  
+	  
+	  // 회원 상세정보 이미지 수정
+	  @RequestMapping("/memberImageSelect")
+	  public String memberImageSelect(Model model) {
+		  
+		  List<String> imageList = imageList();
+		  model.addAttribute("imageList",imageList);
+		  
+		  return "yj/memberImageSelect";
+	  }
+	  
+	  
 }
