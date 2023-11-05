@@ -34,6 +34,7 @@
 		AND    o_order_num = #{o_order_num}
 	 </select>
 	 
+	 <!-- 취소처리 (1 -> 5) -->
 	 <update id="hrStatusCancellation" parameterType="long">
 	 	UPDATE orderr
 	 	SET    o_status = 5
@@ -45,21 +46,65 @@
 	 	VALUES (#{o_order_num}, CONCAT('C',#{o_order_num}), sysdate)
 	 </insert>
 	 
+	 <!-- 배송완료 (2 -> 3) -->
 	 <update id="hrStatusDelivered" parameterType="long">
 	 	UPDATE orderr
 	 	SET    o_status = 3
 	 	WHERE  o_order_num = #{o_order_num}
 	 </update>
 	 
+	 <!-- 구매확정 (3 -> 4) -->
 	 <update id="hrStatusConfirmation" parameterType="long">
 	 	UPDATE orderr
 	 	SET    o_status = 4
 	 	WHERE  o_order_num = #{o_order_num}
 	 </update>
 	 
+	 <!-- 발송처리 (1 -> 2) -->
 	 <update id="hrStatusShipping" parameterType="Orderr">
 	 	UPDATE orderr
 	 	SET	   o_status = 2, o_deliv_com = #{o_deliv_com}, o_deliv_track = #{o_deliv_track}
 	 	WHERE  o_order_num = #{o_order_num}
 	 </update>
+	 
+	 <!-- 교환처리 (3 -> 6) -->
+	 <update id="hrStatusExchange" parameterType="Orderr">
+	 	UPDATE orderr
+	 	SET    o_status = 6
+	 	WHERE  o_order_num = #{o_order_num}
+	 </update>
+	 
+	 <insert id="hrInsertExchange" parameterType="Orderr">
+	 	INSERT INTO order_exch
+	 	VALUES (#{o_order_num}, CONCAT('EX',#{o_order_num}), sysdate, #{o_ex_deli}, #{o_ex_track})
+	 </insert>
+	 
+	 <!-- 반품처리 (3 -> 7) -->
+	 <update id="hrStatusReturn" parameterType="Orderr">
+	 	UPDATE orderr
+	 	SET    o_status = 7
+	 	WHERE  o_order_num = #{o_order_num}
+	 </update>
+	 
+	 <insert id="hrInsertReturn" parameterType="Orderr">
+	 	INSERT INTO order_return
+	 	VALUES (#{o_order_num}, CONCAT('RE',#{o_order_num}), sysdate, #{o_re_deli}, #{o_re_track})
+	 </insert>
+	 
+	 <!-- 상품목록 -->
+	 <select id="hrSelectOrderProduct" parameterType="long" resultType="OrderDetail">
+		SELECT nb.nb_title, nb.nb_price, o_de_prodtype
+		FROM   newbook nb, order_detail od
+		WHERE  nb.nb_num = od.nb_num
+		AND    od.o_order_num = #{o_order_num}
+		
+		UNION
+		
+		SELECT nb.nb_title, nb.nb_price, o_de_prodtype
+		FROM   newbook nb, order_detail od
+		WHERE  nb.nb_num = (SELECT ob.nb_num
+		                    FROM   oldbook ob
+		                    WHERE  od.nb_num = ob.ob_num)
+		AND    od.o_order_num = #{o_order_num}
+	 </select>
 </mapper>
