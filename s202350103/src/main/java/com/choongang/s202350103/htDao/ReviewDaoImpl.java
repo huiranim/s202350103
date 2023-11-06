@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
 import lombok.RequiredArgsConstructor;
@@ -76,6 +77,18 @@ public class ReviewDaoImpl implements ReviewDao {
 			System.out.println("ReviewDaoImpl reviewAverage() average--> " + average);
 		}
 		return average;
+	}
+
+	@Override
+	public List<Orderr> reviewWriteList(Orderr orderr) {
+		System.out.println("ReviewDaoImpl reviewWriteList() Start...");
+		List<Orderr> list = null;
+		try {
+			list = session.selectList("htMyReviewList", orderr);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewWriteList() Exception-->" + e.getMessage());
+		}
+		return list;
 	}
 
 }

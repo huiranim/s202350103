@@ -11,39 +11,43 @@
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
 
-
-
 	function loginChk(m_id, m_pw) {		
+		$('#m_id, #m_pw').on('keypress', function(e){
+			  if(e.keyCode == '13'){
+			  	$('#btnSearch').click();
+			  }
+		});
+		//alert("loginChk");
 		
-		alert("loginChk");
-		
-		$.ajax(
-				{
+		$.ajax({
 					url:"<%=request.getContextPath()%>/memberChk",
 					data : {chk_Id : m_id, 
 							chk_Pw : m_pw},
 					dataType : 'text',
 					success : function(strResult) {
-						alert('strResult -> '+strResult);
+						//alert('strResult -> '+strResult);
 						if(strResult == "1"){
-							alert("로그인 성공! 환영합니다.");
+// 							alert("로그인 성공! 환영합니다.");
 							location.href = "memberLogin?m_id="+ m_id + "&m_pw=" +m_pw;		
+							return true;
 						} else if(strResult == "2") {
 							alert("탈퇴한 회원입니다.");
 							$('#msg').html("탈퇴한 회원입니다.");
 							$('#msg').css("color", "red");
 							$('#m_id').val('');
 							$('#m_pw').val('');
+							return false;
 						} else if(strResult == "0"){
 							alert("아이디 혹은 비밀번호를 확인해주세요.");
 							$('#msg').html("아이디 혹은 비밀번호를 확인해주세요.");
 							$('#msg').css("color", "red");
 							$('#m_id').val('');
 							$('#m_pw').val('');
+							return false;
 						}	
 					}
-				}
-		)
+		});
+		
 		
 	} 
 
@@ -67,7 +71,7 @@
             <p style="text-align: center;">다독에 오신걸 환영합니다.<br> 로그인하여 이용해주시길 바랍니다.</p>
           </div>
 		  <div id="msg" style="text-align: center;"></div><p>
-<!-- 		<form action="" method="post" name="frm" onsubmit="loginChk(m_id.value, m_pw.value)"> -->
+<!-- 		<form action="memberLogin" method="get" name="frm" onsubmit="loginChk(m_id.value, m_pw.value)"> -->
             <div class="row g-3">
               <!-- row -->
 			
@@ -96,15 +100,15 @@
               </div>
 
              
-              <!-- <div class="col-12 d-grid"><input type="submit" class="btn btn-primary"  value="로그인"></div> -->
+<!--               <div class="col-12 d-grid"><input type="submit" class="btn btn-primary"  value="로그인"></div> -->
               <!-- btn -->
-             <div class="col-12 d-grid"> <button class="btn btn-primary" onclick="loginChk(m_id.value, m_pw.value)">로그인</button>
+             <div class="col-12 d-grid"> <button id="btnSearch" class="btn btn-primary" onclick="loginChk(m_id.value, m_pw.value)">로그인</button>
              	 <!-- link -->
               <div>회원이 아니신가요? <a href="memberJoin">회원 가입하기</a></div>
            	 </div>
             
               
-		</form>
+<!-- 		</form> -->
              
         
         </div>
