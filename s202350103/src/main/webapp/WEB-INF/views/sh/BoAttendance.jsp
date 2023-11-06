@@ -8,16 +8,16 @@
 </head>
 <body>
 <h1>출석체크</h1>
-<form action="">
-	이벤트 이름 : <input type="text" name="a_title" >
-	이벤트 기간 : <input type="date" name="a_sdate">~<input type="date" name="a_edate">
-	사진 등록    : <input type="file" name="a_image">	
+<form action="createAtt()" method="post">
+	이벤트 이름 : <input type="text" name="a_title" required="required">
+	이벤트 기간 : <input type="date" name="a_sdate" required="required">~<input type="date" name="a_edate" required="required">
+	사진 등록    : <input type="file" name="a_image" required="required">	
 	출석 관리
-		지급 포인트 : <input type="text" name="a_point">point
+		지급 포인트 : <input type="text" name="a_point" required="required">point
 	연속 출석 
-		조건 : <input type="text" name="a_add"> 연속 출석 시
-		지금 포인트  : <input type="text" name="a_addpoint">point
-	<input type="submit" name="제출">
+		조건 : <input type="text" name="a_add" required="required"> 연속 출석 시
+		지금 포인트  : <input type="text" name="a_addpoint" required="required">point
+	<input type="submit" value="생성">
 </form>
 </body>
 </html>

@@ -88,4 +88,15 @@ public class AttendanceDaoImpl implements AttendanceDao {
 		return sYear;
 	}
 
+	@Override
+	public int createAtt(Attendance attendance) {
+		int result = 0;
+		try {
+			result = session.insert("shCreateAtt",attendance);
+		} catch (Exception e) {
+			System.out.println("AttendanceDaoImpl createAtt() Exception ->"+e.getMessage());
+		}
+		return result;
+	}
+
 }

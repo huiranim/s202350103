@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.choongang.s202350103.model.AttJoin;
-import com.choongang.s202350103.model.Attendance;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,14 +17,60 @@ public class AttJoinDaoImpl implements AttJoinDao {
 	
 	@Override
 	public List<AttJoin> listAttJoin(AttJoin attJoin) {
-		System.out.println("AttendanceDaoImpl listAttJoin() Start..");
+		System.out.println("AttJoinDaoImpl listAttJoin() Start..");
 		List<AttJoin> attJoinList = null;
+		System.out.println("m_num->"+ attJoin.getM_num());
+	    System.out.println("a_num->"+ attJoin.getA_num());
 		try {
 			attJoinList = session.selectList("shAttJoinList",attJoin);
 		} catch (Exception e) {
-			System.out.println("AttendanceDaoImpl listAttJoin() Exception ->"+e.getMessage());
+			System.out.println("AttJoinDaoImpl listAttJoin() Exception ->"+e.getStackTrace());
 		}
 		return attJoinList;
+	}
+
+	@Override
+	public List<AttJoin> subDate(AttJoin attJoin) {
+		List<AttJoin> dateList = null;
+		try {
+			dateList = session.selectList("shSubDate",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttJoinDaoImpl subDate() Exception ->"+e.getMessage());
+		}
+		return dateList;
+	}
+
+	@Override
+	public int stampAtt(AttJoin attJoin) {
+		int result = 0 ;
+		try {
+			result = session.insert("shStampAtt",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttJoinDaoImpl StampAtt() Exception->"+e.getMessage());
+		}
+		return result;
+	}
+	
+	@Override
+	public int savePoint(AttJoin attJoin) {
+		int point = 0;
+		try {
+			point = session.update("shSavePoint",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttendanceDaoImpl savePoint() Exception->"+e.getMessage());
+		} 
+		return point;
+	}
+
+	@Override
+	public int checkChance(AttJoin attJoin) {
+		int chance = 0;
+		try {
+			chance = session.selectOne("shCheckChance",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttendanceImpl checkChance() Exception->"+e.getMessage());
+		}
+		return chance;
 	}
 }
 

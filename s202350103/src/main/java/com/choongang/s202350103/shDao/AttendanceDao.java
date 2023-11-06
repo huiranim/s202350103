@@ -14,5 +14,6 @@ public interface AttendanceDao {
 	Attendance 		 attendance(int eNum);
 	int 			 startMonth(int eNum);
 	int 			 startYear(int eNum);
+	int 			 createAtt(Attendance attendance);
 
 }

@@ -23,6 +23,11 @@ public interface PointService {
 	List<QuizJoin>   listQuizJoin(int m_num);
 	int 			 startMonth(int eNum);
 	int 			 startYear(int eNum);
+	int 			 createAtt(Attendance attendance);
+	List<AttJoin> 	 subDate(AttJoin attJoin);
+	int 			 stampAtt(AttJoin attJoin);
+	int 			 savePoint(AttJoin attJoin);
+	int 			 checkChance(AttJoin attJoin);
 	
 	
 }
