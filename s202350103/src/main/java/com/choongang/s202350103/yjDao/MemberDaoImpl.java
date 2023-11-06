@@ -82,5 +82,17 @@ public class MemberDaoImpl implements MemberDao{
 		return totalMember;
 		
 	}
+	// 회원 이메일 검증
+	@Override
+	public String memberEmailFind(String m_email) {
+		String memberEmailFind = session.selectOne("memberEmailFind",m_email);
+		return memberEmailFind;
+	}
+	// 이메일 인증후 회원정보 상세 
+	@Override
+	public Member memberFindGetIdEmail(String m_email) {
+		Member member = session.selectOne("memberFindGetIdEmail",m_email);
+		return member;
+	}
 
 }

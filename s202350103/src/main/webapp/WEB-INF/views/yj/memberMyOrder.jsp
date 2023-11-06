@@ -8,6 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+
 </head>
 <body>
 
@@ -55,19 +57,37 @@
 				                        <c:choose>
 
 			                        	    <c:when test="${myOrder.o_status == 1}">
-								               <span>배송완료</span>
+								               <span>주문접수</span>
 				                            </c:when>
+				                            
 				                            <c:when test="${myOrder.o_status == 2}">
 	                        		         	<span style="color: red;">배송중</span>
 				                            </c:when>
-				                            <c:otherwise>
-		                      		          	 <span style="color: red;">접수중</span>
-				                            </c:otherwise>
+				                            
+				                            <c:when test="${myOrder.o_status == 3}">
+								               <span><strong>배송완료</strong></span>
+				                            </c:when>
+				                            
+				                            <c:when test="${myOrder.o_status == 4}">
+								               <span>주문확정</span>
+				                            </c:when>
+				                            
+				                            <c:when test="${myOrder.o_status == 5}">
+								               <span style="color: gray;">취소</span>
+				                            </c:when>
+				                            
+				                            <c:when test="${myOrder.o_status == 6}">
+								               <span>교환</span>
+				                            </c:when>
+				                            
+				                            <c:when test="${myOrder.o_status == 7}">
+	                        		         	<span>반품</span>
+				                            </c:when>
 
 				                        </c:choose>
 				                        
 				                        <p></p>
-				                        <button onclick="#" class="btn btn-soft-success mb-2">상세조회</button> &nbsp;&nbsp;&nbsp;
+				                        <a href="foOrderDetail?o_order_num=${myOrder.o_order_num}"  class="btn btn-soft-success mb-2">상세조회</a>
 				                        <button onclick="#" class="btn btn-soft-success mb-2">리뷰작성</button>
 				                        
             	        	    	</div>
