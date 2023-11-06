@@ -54,4 +54,22 @@
 		WHERE rn BETWEEN 1 and #{end}
 	</select>
 	
+	<select id="htMyReviewList" parameterType="Orderr" resultType="Orderr">
+		SELECT *
+		FROM
+		(
+		    SELECT rownum rn, a.*
+		    FROM
+		       (SELECT o.*, n.nb_title, od.o_de_count
+		        FROM   orderr       o,
+		               newbook      n,
+		               order_detail od
+		        WHERE  o.o_order_num = od.o_order_num
+		        AND    od.nb_num   = n.nb_num
+		        order by o_order_date
+		        )a
+		)
+		WHERE rn BETWEEN 1 and 30
+	 </select>
+	
 </mapper>
