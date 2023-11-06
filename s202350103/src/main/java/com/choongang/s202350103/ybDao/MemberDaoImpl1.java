@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
 
@@ -170,7 +171,7 @@ public class MemberDaoImpl1 implements MemberDao {
 	@Override
 	public Member memberChk(String chk_Id) {
 		System.out.println("MemberDaoImpl1 memberChk() start...");
-			Member member = new Member();
+		Member member = new Member();
 		try {
 			member = session.selectOne("ybMemberChk", chk_Id);	
 		} catch (Exception e) {
@@ -182,6 +183,21 @@ public class MemberDaoImpl1 implements MemberDao {
 			return member;
 		}
 		
+	}
+	@Override
+	public List<OldBook> oldBookSellList(OldBook oldbook) {
+		System.out.println("MemberDaoImpl1 oldBookSellList() start...");
+		Member member =(Member) https.getAttribute("member");
+		List<OldBook> oldBookSellList = new ArrayList<OldBook>();
+		try {
+			oldbook.setM_num(member.getM_num());
+			System.out.println("MemberServiceImpl1 oldBookSellList member.getNum -> " + oldbook.getM_num());
+			oldBookSellList = session.selectList("ybOldBookSellList", oldbook); 
+			System.out.println("MemberServiceImpl1 oldBookSellList oldBookSellList -> " + oldBookSellList.size());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 oldBookSellList() Exception -> " + e.getMessage());
+		}
+		return oldBookSellList;
 	}
 	
 

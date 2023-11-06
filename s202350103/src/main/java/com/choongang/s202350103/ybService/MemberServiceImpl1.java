@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
 import com.choongang.s202350103.ybDao.MemberDao;
@@ -102,7 +103,7 @@ public class MemberServiceImpl1 implements MemberService {
 		
 		return memberPointList;
 	}
-
+	// 회원 탈퇴
 	@Override
 	public Member memberWithdraw(Member member) {
 		System.out.println("MemberServiceImpl1 memberWithdraw start...");
@@ -111,7 +112,7 @@ public class MemberServiceImpl1 implements MemberService {
 		Member memberWithdraw = md.memberWithdraw(member);
 		return memberWithdraw;
 	}
-
+	// 회원 체크
 	@Override
 	public Member memberChk(String chk_Id) {
 		System.out.println("MemberServiceImpl1 memberChk start...");
@@ -121,6 +122,15 @@ public class MemberServiceImpl1 implements MemberService {
 		} else {
 			return null;
 		}
+	}
+	// 중고책 판매 리스트
+	@Override
+	public List<OldBook> oldBookSellList(OldBook oldbook) {
+		System.out.println("MemberServiceImpl1 oldBookSellList start...");
+		Member member =(Member) session.getAttribute("member");
+		List<OldBook> oldBookSellList = md.oldBookSellList(oldbook);
+		System.out.println("MemberServiceImpl1 oldBookSellList member.m_id -> " + member.getM_id());
+		return oldBookSellList;
 	}
 
 	

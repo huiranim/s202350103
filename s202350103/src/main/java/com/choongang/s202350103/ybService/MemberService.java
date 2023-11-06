@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
 
@@ -28,6 +29,8 @@ public interface MemberService {
 	List<PointList> memberPointList(PointList pointList);
 
 	int 			totalSellCnt(Member member);
+
+	List<OldBook> 	oldBookSellList(OldBook oldbook);
 
 
 

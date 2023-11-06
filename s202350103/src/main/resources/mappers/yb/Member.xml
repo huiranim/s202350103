@@ -73,6 +73,21 @@
 		ORDER   by date1
 	</select>
 	
+	<select id="ybOldBookSellList" parameterType="OldBook" resultType="OldBook">
+		SELECT *
+		FROM
+		(
+				SELECT rownum rn, a.*
+				FROM
+							(SELECT n.nb_title, o.ob_grade, o.ob_pur_price, o.ob_sell_price, o.ob_write_date, n.nb_publisher, n.nb_writer, n.nb_image,n.nb_num
+							 FROM   newbook n, oldbook o
+						     WHERE  n.nb_num = o.nb_num
+							 AND    m_num = #{m_num}) a
+							 ORDER BY ob_write_date
+		)
+		WHERE   rn BETWEEN #{start} and #{end}
+	</select>
+	
 	<select id="ybMemberWithdraw" parameterType="Member" resultType="Member">
 		UPDATE member SET m_wd = 1 WHERE m_num = #{m_num}
 	</select>

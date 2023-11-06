@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
 import com.choongang.s202350103.ybService.MemberService;
@@ -66,7 +67,11 @@ public class YbController {
 		}
 	
 	}
-	
+	// 로그인 세션 로직
+	public Member loginStorage() {
+		Member member =(Member) session.getAttribute("member");
+		return member;
+	}
 	// 로그아웃
 	@GetMapping(value = "memberLogout")
 	   public String logout(HttpSession session, HttpServletRequest request) {
@@ -190,24 +195,31 @@ public class YbController {
 		return "yb/memberPointList";
 		
 	}
-	// 판매 리스트
+	// 중고책 판매 리스트
 	@GetMapping(value = "memberSellList") 
-	public String memberSellList(Member member, Model model, PointList pointList) {
+	public String memberSellList(Member member, Model model, OldBook oldbook, String currentPage) {
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
-		
 		if(member == null) {
 			return "yb/loginForm";
 		}
-		
 		// 총 판매 개수
 		int totalSellCnt = ms.totalSellCnt(member);
 		System.out.println("YbController memberSellList() totalSellCnt -> " + totalSellCnt);
-
+		// 페이징 처리
+		Paging page = new Paging(totalSellCnt, currentPage);
+				
+		oldbook.setStart(page.getStart());
+		oldbook.setEnd(page.getEnd());
+		// 중고책 리스트
+		List<OldBook> oldBookSellList = ms.oldBookSellList(oldbook);
+		
+		System.out.println("YbController memberSellList() oldBookSellList.size -> " + oldBookSellList.size());
+		model.addAttribute("oldBookSellList", oldBookSellList);
 		model.addAttribute("totalSellCnt", totalSellCnt);
 		model.addAttribute("member", member);
-		return "yb/memberMySellList";
 		
+		return "yb/memberMySellList";
 	}
 	
 	// 회원 탈퇴 페이지 이동
