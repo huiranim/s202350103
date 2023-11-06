@@ -125,6 +125,7 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl orderDetailList.size() -> "+ orderDetailList.size());
 		for(OrderDetail orderDetail : orderDetailList) {
 			System.out.println("selectOrderProduct nb_title->"+orderDetail.getNb_title());
+			System.out.println("selectOrderProduct o_de_count->"+orderDetail.getO_de_count());
 	    }
 		System.out.println("OrderServiceImpl selectOrderProduct() end..");
 		return orderDetailList;

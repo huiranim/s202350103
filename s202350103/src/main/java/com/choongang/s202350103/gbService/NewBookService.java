@@ -2,7 +2,9 @@ package com.choongang.s202350103.gbService;
 
 import java.util.List;
 
+import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.NewBook;
+import com.choongang.s202350103.model.WishList;
 
 public interface NewBookService { 
 	
@@ -13,6 +15,8 @@ public interface NewBookService {
 	NewBook 		selectNewBookDetail(NewBook newbook);
 	int 			updateReadCnt(int nb_num);
 	int 			selectHitNbNum();
-	int insertUpdateWish(NewBook newbook);
+	int 			insertUpdateWish(WishList wishlist);
+	int 			insertCart(Cart cart);
+	void 			updateCartCount(Cart cart);
 
 }

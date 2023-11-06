@@ -88,27 +88,39 @@
 
 	</select>
 	
-	
 	<select id="memberMyOrder" resultType="Member" parameterType="int">
 		
-		select 	o.o_order_date, o.o_rec_name, nb.nb_title,
-				nb.nb_writer, nb.nb_image, o.o_pay_price, o.o_status
+		select rownum rn, od.*, o.*, m.*,nb.* ,
+		        (select count(*) from orderr o2 where o2.m_num = #{m_num}) myOrder
 		from orderr o
-		    join member m
-		on  o.m_num = m.m_num
+		    join member m 
+		        on o.m_num = m.m_num
 		    join order_detail od
-		on o.o_order_num = od.o_order_num
-		    join newbook nb 
-		on nb.nb_num = od.nb_num
-		where m.m_num = #{m_num}
+		        on o.o_order_num = od.o_order_num
+		    join newbook nb
+		        on od.nb_num = nb.nb_num
+		where o.m_num = #{m_num}
 		order by o.o_order_date desc
-	
+
 	</select>
 	
 	<select id="totalMember" resultType="int">
 	
-	select count(*) from member
+		select count(*) from member
 	
 	</select>
+	
+	<select id="memberEmailFind" resultType="String" parameterType="String">
+	
+		select m_email from member where m_email = #{m_email}
+	
+	</select>
+	
+	<select id="memberFindGetIdEmail" resultType="Member" parameterType="String">
+	
+		select * from member where m_email = #{m_email}
+	
+	</select>
+	
 	
 </mapper>

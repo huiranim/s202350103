@@ -197,7 +197,7 @@
 			               	<c:if test="${member.m_image != null}">
 				               	<div class="list-inline-item me-5">
 									<!-- 내 아이콘 -->
-									<a href="memberMyPage" class="">
+									<a href="memberMyPage?m_num=${member.m_num }" class="">
 									<img  src="${member.m_image }" width="55px" height="55px" alt="회원이미지" class="rounded-circle">
 	
 										<span class="visually-hidden">unread mes</span>
@@ -214,7 +214,7 @@
 				               	</div>
 			               	</c:if><p>
 			               	<div>
-								<a href="memberMyPage" style="color: #002b63;"><strong>
+								<a href="memberMyPage?m_num=${member.m_num }" style="color: #002b63;"><strong>
 								${member.m_name }(${member.m_id })</strong></a>
 								님<p> 환영합니다.
 								

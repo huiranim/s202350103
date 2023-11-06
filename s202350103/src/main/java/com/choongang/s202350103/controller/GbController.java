@@ -7,12 +7,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
+import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.NewBookOldBook;
@@ -31,10 +34,12 @@ public class GbController {
 	@RequestMapping("innewbookList")
 	public String selectInNewBookList(HttpSession session, Member member, NewBook newbook, String currentPage, Model model) {
 		System.out.println("GbController selectInNewBookList start...");
-		List<NewBook> listInNewbook = null;
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
+		if (member != null) {
+			newbook.setM_num(member.getM_num());
+		}
 		
 		// 정렬 유형, 초기값(null)이면 --> recently
 		String orderType_default = "recently";
@@ -52,24 +57,16 @@ public class GbController {
 		newbook.setStart(page.getStartRow());
 		newbook.setEnd(page.getEndRow());
 		System.out.println("GbController orderType -> "+newbook.getOrderType());
-						
-		if(member == null) {
-			// 로그인 안되었을 때 도서 리스트
-			System.out.println("GbController member null start");
-			listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
-			System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
-		} else {
-			// 로그인 되었을 때 도서 리스트
-			System.out.println("GbController member notnull start");
-			newbook.setM_num(member.getM_num());
-			listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
-			System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
-		}
+		
+		// 국내도서 리스트
+		List<NewBook> listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
+		System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
 		
 		// 조회수 최대 값 구하기
 		int hit_nb_num = nbs.selectHitNbNum();
 		newbook.setHit_nb_num(hit_nb_num);
 		
+		model.addAttribute("member", member);
 		model.addAttribute("listInNewbook", listInNewbook);
 		model.addAttribute("inNewbookCnt", inNewbookCnt);
 		model.addAttribute("page", page);
@@ -82,9 +79,15 @@ public class GbController {
 	// 검색 도서 리스트 조회
 	@GetMapping("searchNewbookList")
 	// form에서 파라미터 값을 받아올 떄에는 DTO에 변수와 동일하게 작성하면 자동으로 DTO의 변수와 매핑되어 가져온다.
-	public String selectSearchNewbookList(NewBook newbook, String currentPage, Model model) {
+	public String selectSearchNewbookList(HttpSession session, Member member, NewBook newbook, String currentPage, Model model) {
 		System.out.println("GbController selectSearchNewbookList start...");
-
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		if (member != null) {
+			newbook.setM_num(member.getM_num());
+		}
+		
 		// 정렬 유형, 초기값(null)이면 --> recently
 		String orderType_default = "recently";
 		if( newbook.getOrderType() == null ) {
@@ -102,13 +105,13 @@ public class GbController {
 		newbook.setEnd(page.getEndRow());
 		System.out.println("GbController orderType -> "+newbook.getOrderType());
 		
-		// 국내도서 리스트
-		List<NewBook> listSearchNewbook = nbs.selectSearchNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
+		// 국내도서 검색 리스트
+		System.out.println("GbController selectSearchNewbookList m_num -> "+newbook.getM_num());
+		List<NewBook> listSearchNewbook = nbs.selectSearchNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
 		System.out.println("GbController selectSearchNewbookList listSearchNewbook.size() -> "+listSearchNewbook.size());
+		System.out.println("GbController selectSearchNewbookList listSearchNewbook.w_wish -> "+listSearchNewbook.get(0).getW_wish());
 		
-//		System.out.println("newbook.getSearch_type -> "+newbook.getSearch_type());
-//		System.out.println("newbook.getSearch_keyword -> "+newbook.getSearch_keyword());
-		
+		model.addAttribute("member", member);
 		model.addAttribute("search_Newbook", newbook);
 		model.addAttribute("listSearchNewbook", listSearchNewbook);
 		model.addAttribute("search_NewbookCnt", searchNewbookCnt);
@@ -141,6 +144,7 @@ public class GbController {
 		int same_obCnt = nbods.selectSameOldBookList(newbook.getNb_num()).size();
 		selectNewbook.setSame_obCnt(same_obCnt);
 		
+		model.addAttribute("member", member);
 		model.addAttribute("newbook", selectNewbook);
 		
 		return "gb/newbookDetail"; 
@@ -158,20 +162,57 @@ public class GbController {
 		return sameOldBookList; 
 	}
 	
-	  // 찜하기
-	  @ResponseBody
-	  @RequestMapping("/wish/wishclick") public String wishClick(NewBook newbook, HttpSession session, Member member, Model model) {
-		  System.out.println("GbController wishClick() start...");
+	// 찜하기
+	@ResponseBody
+	@RequestMapping("/wish/wishclick") 
+	public String wishClick(WishList wishlist, HttpSession session, Member member) {
+		System.out.println("GbController wishClick() start...");
 		  
-		  // 로그인한 멤버 값 불러오기 
-		  member =(Member) session.getAttribute("member");
-		  if(member == null) { return "loginForm"; }
-		  else 				 { newbook.setM_num(member.getM_num());}
+		// 로그인한 멤버 값 불러오기 
+		member =(Member) session.getAttribute("member");
+		if(member == null) { return "loginForm"; }
+		else 				 { wishlist.setM_num(member.getM_num());}
 		  
-		  // 찜하기
-		  String wish = String.valueOf(nbs.insertUpdateWish(newbook));
+		// 찜하기
+		String wish = String.valueOf(nbs.insertUpdateWish(wishlist));
 		  
-		  return wish; 
-	  }
+		return wish; 
+	}
+	  
+	// 장바구니 버튼 클릭했을 때
+	@ResponseBody
+	@RequestMapping("/cart/cartclick")
+	public String cartClick(Cart cart, HttpSession session, Member member) {
+		
+		// 로그인한 멤버 값 불러오기 
+		member =(Member) session.getAttribute("member");
+		if(member == null) { return "loginForm"; }
+		else 				 { cart.setM_num(member.getM_num());}
+		
+		// 장바구니 담기
+		String cartResult = String.valueOf(nbs.insertCart(cart));
+		
+		return cartResult;
+	}
+	
+	// 장바구니 화면에서 수정버튼 클릭 시
+	@PostMapping("cartList")
+	public String cartList(@RequestParam int[] nb_num, @RequestParam int[] quantity, 
+							HttpSession session, Member member, Model model) {
+		// 로그인한 멤버 값 불러오기 
+		member =(Member) session.getAttribute("member");
+		
+		// 장바구니에 담긴 상품 리스트
+		for (int i=0; i<nb_num.length; i++) {
+			Cart cart = new Cart();
+			cart.setM_num(member.getM_num());
+			cart.setC_count(quantity[i]);
+			cart.setNb_num(nb_num[i]);
+			nbs.updateCartCount(cart);
+		}
+		
+		return "redirect:memberCartList";
+		
+	}
 	
 }
