@@ -28,6 +28,10 @@ public interface MemberService {
 	List<Member> memberMyOrder(int m_num);
 	// 전체 회원 카운트 
 	int totalMember();
+	// 회원 이메일 검증 
+	String memberEmailFind(String m_email);
+	// 이메일 인증 후 회원정보 상세 
+	Member memberFindGetIdEmail(String m_email);
 
 	
 }

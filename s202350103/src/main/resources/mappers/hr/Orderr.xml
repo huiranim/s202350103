@@ -93,14 +93,14 @@
 	 
 	 <!-- 상품목록 -->
 	 <select id="hrSelectOrderProduct" parameterType="long" resultType="OrderDetail">
-		SELECT nb.nb_title, nb.nb_price, o_de_prodtype
+		SELECT nb.nb_title, nb.nb_price, od.o_de_count, od.o_de_prodtype
 		FROM   newbook nb, order_detail od
 		WHERE  nb.nb_num = od.nb_num
 		AND    od.o_order_num = #{o_order_num}
 		
 		UNION
 		
-		SELECT nb.nb_title, nb.nb_price, o_de_prodtype
+		SELECT nb.nb_title, nb.nb_price, od.o_de_count, od.o_de_prodtype
 		FROM   newbook nb, order_detail od
 		WHERE  nb.nb_num = (SELECT ob.nb_num
 		                    FROM   oldbook ob
