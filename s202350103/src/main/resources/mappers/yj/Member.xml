@@ -110,4 +110,17 @@
 	
 	</select>
 	
+	<select id="memberEmailFind" resultType="String" parameterType="String">
+	
+		select m_email from member where m_email = #{m_email}
+	
+	</select>
+	
+	<select id="memberFindGetIdEmail" resultType="Member" parameterType="String">
+	
+		select * from member where m_email = #{m_email}
+	
+	</select>
+	
+	
 </mapper>

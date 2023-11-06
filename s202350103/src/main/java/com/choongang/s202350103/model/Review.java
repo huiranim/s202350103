@@ -27,7 +27,7 @@ public class Review {			  // 리뷰
 	// 리뷰 총 수량
 	private int    r_review_total;
 	// 리뷰 평균
-	private double r_review_average = 1;
+	private double r_review_average ;
 	// 리뷰 리스트 조회선택(1-> 최신순, 2-> 별점순)
-	private int    r_reviewSelect;
+	private int    r_reviewSelect ;
 }

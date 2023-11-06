@@ -188,7 +188,7 @@
                 </div>
   				<div class="col-4 col-md-5">
                     <!-- title -->
-                    <a href="newbookDetail?nb_num=${cart.nb_num }" class="text-inherit"><h6 class="mb-0">${cart.nb_title }</h6></a>
+                    <a href="newbookDetail?nb_num=${cart.nb_num }" class="text-inherit"><h6 class="fs-6 mb-0">${cart.nb_title }</h6></a>
                     <span><small class="text-muted">${cart.nb_publisher }</small></span>
                     <!-- text -->
                     <div class="mt-2 small lh-1"> <a href="#!" class="text-decoration-none text-inherit"> <span

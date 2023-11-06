@@ -19,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.OldBook;
+import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
 import com.choongang.s202350103.ybService.MemberService;
 import com.choongang.s202350103.ybService.Paging;
@@ -33,6 +35,7 @@ public class YbController {
 	
 	private final MemberService ms;
 	
+	private final HttpSession session;
 	// Main Page
 	@RequestMapping(value = "/")
 	public String main() {
@@ -64,7 +67,11 @@ public class YbController {
 		}
 	
 	}
-	
+	// 로그인 세션 로직
+	public Member loginStorage() {
+		Member member =(Member) session.getAttribute("member");
+		return member;
+	}
 	// 로그아웃
 	@GetMapping(value = "memberLogout")
 	   public String logout(HttpSession session, HttpServletRequest request) {
@@ -102,7 +109,7 @@ public class YbController {
 	public String memberCartList(Cart cart, Model model, String currentPage, 
 								 HttpSession session, Member member) {
 		System.out.println("YbController memberCartList() start...");
-		
+
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
 		
@@ -172,6 +179,49 @@ public class YbController {
 		return "yb/memberWishList";
 	}
 	
+	// 포인트 페이지
+	@GetMapping(value = "memberPointList") 
+	public String memberPointList(Member member, Model model, PointList pointList) {
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+
+		System.out.println("YbController memberPointList() member.getM_point -> " + member.getM_point());
+		// 포인트 리스트
+		List<PointList> memberPointList = ms.memberPointList(pointList);
+		System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
+		System.out.println("YbController memberPointList() point.type -> " + pointList.getType1());
+		model.addAttribute("memberPointList", memberPointList);
+		model.addAttribute("member", member);
+		return "yb/memberPointList";
+		
+	}
+	// 중고책 판매 리스트
+	@GetMapping(value = "memberSellList") 
+	public String memberSellList(Member member, Model model, OldBook oldbook, String currentPage) {
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		// 총 판매 개수
+		int totalSellCnt = ms.totalSellCnt(member);
+		System.out.println("YbController memberSellList() totalSellCnt -> " + totalSellCnt);
+		// 페이징 처리
+		Paging page = new Paging(totalSellCnt, currentPage);
+				
+		oldbook.setStart(page.getStart());
+		oldbook.setEnd(page.getEnd());
+		// 중고책 리스트
+		List<OldBook> oldBookSellList = ms.oldBookSellList(oldbook);
+		
+		System.out.println("YbController memberSellList() oldBookSellList.size -> " + oldBookSellList.size());
+		model.addAttribute("oldBookSellList", oldBookSellList);
+		model.addAttribute("totalSellCnt", totalSellCnt);
+		model.addAttribute("member", member);
+		
+		return "yb/memberMySellList";
+	}
+	
 	// 회원 탈퇴 페이지 이동
 	@GetMapping(value = "memberWithdrawForm")
 	public String memberWithdrawForm(Member member, HttpSession session, Model model) {
@@ -224,6 +274,7 @@ public class YbController {
 		
 		member = ms.memberChk(chk_Id);
 		
+		if(member != null ) {
 		System.out.println("YbController memberLoginChk member.m_id -> " + member.getM_id());
 		System.out.println("YbController memberLoginChk member.m_pw -> " + member.getM_pw());
 		System.out.println("YbContorller memberLoginChk member.m_wd -> " + member.getM_wd());
@@ -251,10 +302,13 @@ public class YbController {
 
 		String strResult = Integer.toString(result);
 		return strResult;
-	
+		
+		}else {
+			return "0";
+		}
+		
 	}
-	
-	
+
 }
 	
 
