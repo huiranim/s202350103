@@ -7,7 +7,7 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
+  <!-- Required meta tags --> 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta content="Codescandy" name="author">
@@ -30,12 +30,15 @@
 <link rel="stylesheet" href="../assets/css/theme.min.css">
 <!-- Google tag (gtag.js) -->
 
-<!-- End Tag -->
+<!-- End Tag 금비 -->
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 	function search() {
 		var search_type = $("#search_type").val();
-		alert("내가 선택한 검색 조건 -> "+search_type);
+		var search_keyword = $("#search_keyword").val();
+		alert("내가 선택한 검색 조건 -> "+search_type + " 키워드는 "+search_keyword);
+		
+		location.href = "/searchNewbookList?search_type="+search_type+"&search_keyword="+search_keyword;
 	}
 	
 </script>
@@ -133,29 +136,21 @@
           </div>
         
 		<div class="col-md-2 col-md-5  d-block">
-		    <!-- 검색 -->
-		    <form action="#">
-		        <div class="input-group">
-		            
-					<select id="search_type" class="w-25 rounded" style="border-color: rgb(223, 226, 225);" >
-						<option value="all">도서제목</option>
-						<option value="newbook">지은이</option>
-						<option value="oldbook">출판사</option>
-					</select>&nbsp;&nbsp;
-		            <input class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요." >
-		        </div>
-		    </form>
+		    <!-- 검색 금비 -->
+	        <div class="input-group">
+				<select id="search_type" class="w-25 rounded" style="border-color: rgb(223, 226, 225);" >
+					<option value="title">도서제목</option>
+					<option value="writer">지은이</option>
+					<option value="publisher">출판사</option>
+				</select>&nbsp;&nbsp;
+	            <input id = "search_keyword" class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요." >
+	        </div>
 		</div>
-
-          
-          <!-- 검색 버튼 -->
-          <div class="col-md-2 col-xxl-2 d-none d-lg-block">
-			
-            <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
-              data-bs-target="#locationModal" onclick="search()">검색  </button>
-
-
-          </div>
+            <!-- 검색 버튼 -->
+            <div class="col-md-2 col-xxl-2 d-none d-lg-block">
+              <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
+                	data-bs-target="#locationModal" onclick="search()">검색  </button>
+            </div>
           
           <div class="col-md-2 col-xxl-2 text-end d-none d-lg-block">
 		          	<!-- 비 로그인 시 -->	
@@ -185,23 +180,50 @@
 			     		<c:if test="${sessionScope.member != null }">
 			                <!-- 장바구니 아이콘 -->
 						    <div class="list-inline-item me-5">
-						    	<a href="#!" class="" >
+						    	<a href="memberCartList" class="" >
 						      		<i class="bi bi-cart2 fs-6 me-1"></i>장바구니
 						     	 	<span class="visually-hidden">unread messages</span>
 						    	</a>
 						  </div>
 			     			<div class="list-inline-item me-5">
 								<!-- 로그아웃 아이콘 -->
-								<a href="memberLogout" class="list-inline">
+								<a href="memberLogout" class="">
 									<i class="feather-icon icon-log-out me-1"></i>로그아웃
 				               		<span class="visually-hidden">unread mes</span>
 			               		</a>
 			               	</div><p>
+			               	
+			               	
+			               	<c:if test="${member.m_image != null}">
+				               	<div class="list-inline-item me-5">
+									<!-- 내 아이콘 -->
+									<a href="memberMyPage?m_num=${member.m_num }" class="">
+									<img  src="${member.m_image }" width="55px" height="55px" alt="회원이미지" class="rounded-circle">
+	
+										<span class="visually-hidden">unread mes</span>
+				               		</a>
+				               	</div><p>
+			               	</c:if>
+			               	
+			               	<c:if test="${member.m_admin == 1 }">
+				               	<div class="list-inline-item me-5"  >
+									<a href="mainBo" class="list-inline"><strong>
+				               		<i class="bi bi-universal-access-circle me-1" ></i>
+									 관리자 페이지 </strong></a>
+				               		<span class="visually-hidden">unread mes</span>
+				               	</div>
+			               	</c:if><p>
 			               	<div>
-								<a href="memberMyPage1" style="color: #002b63;"><strong>
-								${member.m_name }</strong></a>
-								님 환영합니다.
+								<a href="memberMyPage?m_num=${member.m_num }" style="color: #002b63;"><strong>
+								${member.m_name }(${member.m_id })</strong></a>
+								님<p> 환영합니다.
+								
+								<p>
+
 			               	</div>
+			               	
+			               	
+			               	
 			     		</c:if>	
 		 		   </div>
 		 		   
@@ -328,13 +350,8 @@
                     도서상품
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="innewbookList">국내도서</a></li>
-                    <li><a class="dropdown-item" href="./pages/index-2.html">메뉴 2</a></li>
-                    <li><a class="dropdown-item" href="./pages/index-3.html">메뉴 3</a></li>
-                    <li><a class="dropdown-item" href="./pages/index-4.html">메뉴 4</a></li>
-                   <!-- new 아이콘 -->
-                    <li><a class="dropdown-item" href="./pages/index-5.html">메뉴 5 <span
-                          class="badge bg-light-info text-dark-info ms-1">New</span></a></li>
+                    <li><a class="dropdown-item" href="innewbookList?nb_category1=1">국내도서</a></li>
+                    <li><a class="dropdown-item" href="innewbookList?nb_category1=2">해외도서</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown w-100 w-lg-auto">
@@ -343,7 +360,7 @@
                     중고도서
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="./pages/shop-grid.html">카테고리 메뉴 1</a></li>
+                    <li><a class="dropdown-item" href="BolistOb">카테고리 메뉴 1</a></li>
                     <li><a class="dropdown-item" href="./pages/shop-grid-3-column.html">메뉴 2</a></li>
                     <li><a class="dropdown-item" href="./pages/shop-list.html">메뉴 3</a></li>
                     <li><a class="dropdown-item" href="./pages/shop-filter.html">메뉴 4</a></li>
@@ -360,7 +377,7 @@
 					포인트
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="./pages/store-list.html">메뉴1</a></li>
+                    <li><a class="dropdown-item" href="eventList">메뉴1</a></li>
                     <li><a class="dropdown-item" href="./pages/store-grid.html">메뉴2</a></li>
                     <li><a class="dropdown-item" href="./pages/store-single.html">메뉴3</a></li>
                   </ul>
@@ -425,15 +442,15 @@
                 </li>
                 
                 
-<!--  
-				상단 메뉴 바로가기 시 참고 
-				
+ 
+				<!-- 
                 <li class="nav-item w-100 w-lg-auto">
                   <a class="nav-link" href="./dashboard/index.html">
-                    바로가기 6
+                 		   바로가기 6
                   </a>
                 </li>
--->
+				 -->
+
 				
               </ul>
             </div>

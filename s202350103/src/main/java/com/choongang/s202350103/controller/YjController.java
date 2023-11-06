@@ -1,9 +1,12 @@
 package com.choongang.s202350103.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -13,11 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.yjService.MemberService;
+import com.choongang.s202350103.yjService.Paging;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
@@ -134,17 +136,15 @@ public class YjController {
 		int memberJoinPoint = ms.memberJoinPoint(m_reid);
 	}
 	
-	/*		
-		// 마이 페이지 이동
-			@RequestMapping ("/memberMyPage")
-			public String memberMyPage(String m_num, Model model) {
-				
-				System.out.println(m_num);
-				model.addAttribute("m_num",m_num);
-				
-				return "yj/memberMyPage";
-			}
-	*/		
+		
+	// 마이 페이지 이동
+		@RequestMapping ("/memberMyPage")
+		public String memberMyPage(int m_num) {
+			
+			
+			return "yj/memberMyPage";
+		}
+	
 	
 	
 	// 내정보 상세
@@ -166,10 +166,12 @@ public class YjController {
 		return "yj/memberMyInfo";
 	}
 	
-	// 회원정보 수정 
+	// 회원정보 수정 -> 수정 후 로그아웃
 	@PostMapping("/memberUpdate")
 	public String memberUpdate (@RequestParam("m_num") int m_num ,
-		
+
+								@RequestParam("m_image") String m_image,
+			
 								@RequestParam("m_email1") String m_email1, 
 								@RequestParam("m_email") String m_email, 
 								
@@ -181,13 +183,15 @@ public class YjController {
 								@RequestParam("m_addr2") String m_addr2,
 								@RequestParam("m_addr") String m_addr,
 								
-								@ModelAttribute Member member, Model model) {
+								@ModelAttribute Member member, Model model,
+								HttpSession session) {
 	
 		System.out.println(m_num);	
+		System.out.println(m_image);
 		
 		member.setM_email(m_email1+"@"+m_email);	// 이메일 병합
 		member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
-		member.setM_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
+		member.setM_addr(m_addr1+"/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
 		
 		
 		String m_emailAll = member.getM_email();
@@ -200,9 +204,13 @@ public class YjController {
 		
 		int memberUpdate = ms.memberUpdate(member);
 		model.addAttribute("memberUpdate",memberUpdate);
-	
-		return  "redirect:/";
+		
+		session.invalidate(); // 세션 초기화
+		
+		return  "redirect:/loginForm";
 	}
+	
+	
 	
 	// 계정 찾기 화면 이동
 	@RequestMapping("memberFindAccount")
@@ -332,9 +340,95 @@ public class YjController {
 			  model.addAttribute("noAuth","인증번호가 일치하지 않습니다. 다시 진행해 주세요.");
 			  return "yj/memberFindAcPh"; 
 		  }
-		  
-		  
-		  
 	  }
-		
+	  
+	  // 내리뷰 리스트 조회 
+	  @GetMapping("memberMyReview")
+	  public String memberMyReview(@RequestParam int m_num , Model model) {
+		  
+		  System.out.println(m_num);
+		  
+		  List<Member> memberMyReview = ms.memberMyReview(m_num);
+		  
+ 		  model.addAttribute("memberMyReview",memberMyReview);
+ 		  
+		  return "yj/memberMyReview";
+	  }
+	  
+	  // 내 주문 리스트
+	  @GetMapping("memberMyOrder")
+	  public String memberMyOrder(@RequestParam int m_num, Model model) {
+		  
+		  List<Member> memberMyOrder = ms.memberMyOrder(m_num);
+		  
+		  model.addAttribute("memberMyOrder",memberMyOrder);
+		  
+		  return "yj/memberMyOrder";
+	  }
+	  
+	  // 관리자 회원 전체 조회
+	  @GetMapping("adminMemberList")
+	  public String adminMemberList(Member member, String currentPage, Model model ) {
+		  // 전체회원 count
+		  int totalMember = ms.totalMember();
+		  
+		  // 페이징
+		  Paging page = new Paging(totalMember, currentPage);
+		  member.setStart(page.getStart());
+		  member.setEnd(page.getEnd());
+		  
+		  List<Member> adminMemberList = ms.adminMemberList(member);
+		  
+		  model.addAttribute("totalMember",totalMember);
+		  model.addAttribute("adminMemberList", adminMemberList);
+		  model.addAttribute("page", page);
+		  
+		  return "yj/adminMemberList";
+	  }
+	
+	  // 관리자 페이지 이동
+	  @RequestMapping("mainBo")
+	  public String mainBo() {
+		  return "common/mainBo";
+	  }
+	  
+	 
+	  // 이미지 리스트
+	  public List<String> imageList(){
+		  
+		  List<String> imageUrl = new ArrayList<String>();
+		  imageUrl.add("../assets/images/memberImage/1.jpg");
+		  imageUrl.add("../assets/images/memberImage/2.jpg");
+		  imageUrl.add("../assets/images/memberImage/3.jpg");
+		  imageUrl.add("../assets/images/memberImage/4.jpg");
+		  imageUrl.add("../assets/images/memberImage/5.jpg");
+		  imageUrl.add("../assets/images/memberImage/6.jpg");
+		  imageUrl.add("../assets/images/memberImage/7.jpg");
+		  imageUrl.add("../assets/images/memberImage/8.jpg");
+		  imageUrl.add("../assets/images/memberImage/9.jpg");
+		  imageUrl.add("../assets/images/memberImage/10.jpg");
+		  imageUrl.add("../assets/images/memberImage/11.jpg");
+		  imageUrl.add("../assets/images/memberImage/12.jpg");
+		  imageUrl.add("../assets/images/memberImage/13.jpg");
+		  imageUrl.add("../assets/images/memberImage/14.jpg");
+		  imageUrl.add("../assets/images/memberImage/15.jpg");
+		  imageUrl.add("../assets/images/memberImage/16.jpg");
+		  imageUrl.add("../assets/images/memberImage/17.jpg");
+		  imageUrl.add("../assets/images/memberImage/18.jpg");
+		  
+		  return imageUrl;
+	  }
+	  
+	  
+	  // 회원 상세정보 이미지 수정
+	  @RequestMapping("/memberImageSelect")
+	  public String memberImageSelect(Model model) {
+		  
+		  List<String> imageList = imageList();
+		  model.addAttribute("imageList",imageList);
+		  
+		  return "yj/memberImageSelect";
+	  }
+	  
+	  
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.choongang.s202350103.model.AttJoin;
 import com.choongang.s202350103.model.Attendance;
 
 import lombok.RequiredArgsConstructor;
@@ -58,6 +57,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
 	public Attendance attendance(int eNum) {
 		System.out.println("AttendanceDaoImpl listAttendance() Start..");
 		Attendance attendance = null;
+		System.out.println("eNum"+eNum);
 		try {
 			attendance = session.selectOne("shAttendance",eNum);
 		} catch (Exception e) {

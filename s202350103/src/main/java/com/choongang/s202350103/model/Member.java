@@ -19,7 +19,30 @@ public class Member {				// 회원
 		private int 	m_wd;		// 탈퇴자 여부 
 		private String  m_image;	// 회원 이미지
 		
-		// 조회 및 join 용
-		private String m_reid; 		// 추천인 ID 
+		//			 조회 및 join 용	
 		
+		// 회원
+		private String  m_reid; 	// 추천인 ID
+		
+		// 페이징 작업용
+		private String  pageNum;	// 페이지	
+		private int     start;		
+		private int 	end;
+		
+		// 리뷰
+		private long   o_order_num; 	// 주문번호
+		private int    nb_num;		  	// 상품번호
+		private Date   r_create_date; 	// 리뷰등록일
+		private String nb_image;		// 상품 이미지
+		private String nb_title;		// 상품 제목
+		private String nb_writer;		// 상품 저자
+		private String r_title;		  	// 리뷰제목
+		private String r_content;	 	// 리뷰내용
+		private int    r_rating;	 	// 별점
+		
+		// 주문조회
+		private Date   o_order_date;	// 주문일자
+		private String o_rec_name;		// 수령_이름
+		private int	   o_pay_price;		// 결제금액
+		private int	   o_status;		// 주문상태
 }

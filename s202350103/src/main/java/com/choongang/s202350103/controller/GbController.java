@@ -2,15 +2,21 @@ package com.choongang.s202350103.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
-
+import com.choongang.s202350103.model.NewBookOldBook;
+import com.choongang.s202350103.model.WishList;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,211 +25,153 @@ import lombok.RequiredArgsConstructor;
 public class GbController {
 	
 	private final NewBookService nbs;
+	private final NewBookOldBookService nbods;
 	
-	// 국내도서 전체 리스트 조회
+	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
-	public String selectInNewBookList(NewBook newbook, String currentPage, String orderType, Model model) {
+	public String selectInNewBookList(HttpSession session, Member member, NewBook newbook, String currentPage, Model model) {
 		System.out.println("GbController selectInNewBookList start...");
+		List<NewBook> listInNewbook = null;
 		
-		// 정렬 유형
-		String orderType1 = "recently";
-		if(orderType != null) {
-			orderType1 = orderType;
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		// 정렬 유형, 초기값(null)이면 --> recently
+		String orderType_default = "recently";
+		if( newbook.getOrderType() == null ) {
+			newbook.setOrderType(orderType_default);
 		}
 		
-		// 국내도서 총 개수
-		int inNewbookCnt = nbs.selectInNewBookCnt();
+		// 도서 총 개수
+		int inNewbookCnt = nbs.selectInNewBookCnt(newbook); // 카테고리별 총 개수를 구해준다.
 		System.out.println("GbController selectInNewBookList inNewbookCnt -> "+inNewbookCnt);
 		
 		// 페이징 처리 작업
 		Paging page = new Paging(inNewbookCnt, currentPage);
-		// Parameter emp --> Page만 추가 Setting
+		// Parameter newbook --> Page만 추가 Setting
 		newbook.setStart(page.getStartRow());
 		newbook.setEnd(page.getEndRow());
-		newbook.setOrderType(orderType1);
 		System.out.println("GbController orderType -> "+newbook.getOrderType());
+						
+		if(member == null) {
+			// 로그인 안되었을 때 도서 리스트
+			System.out.println("GbController member null start");
+			listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
+			System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
+		} else {
+			// 로그인 되었을 때 도서 리스트
+			System.out.println("GbController member notnull start");
+			newbook.setM_num(member.getM_num());
+			listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
+			System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
+		}
 		
-		// 국내도서 리스트
-		List<NewBook> listInNewbook = nbs.selectInNewBookList(newbook);
-		System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
+		// 조회수 최대 값 구하기
+		int hit_nb_num = nbs.selectHitNbNum();
+		newbook.setHit_nb_num(hit_nb_num);
 		
 		model.addAttribute("listInNewbook", listInNewbook);
 		model.addAttribute("inNewbookCnt", inNewbookCnt);
 		model.addAttribute("page", page);
-		model.addAttribute("category", "0");
-		model.addAttribute("orderType", orderType1);
+		model.addAttribute("newbook", newbook);
 		
 		
 		return "gb/foInNewbookList";
 	}
+	
+	// 검색 도서 리스트 조회
+	@GetMapping("searchNewbookList")
+	// form에서 파라미터 값을 받아올 떄에는 DTO에 변수와 동일하게 작성하면 자동으로 DTO의 변수와 매핑되어 가져온다.
+	public String selectSearchNewbookList(NewBook newbook, String currentPage, Model model) {
+		System.out.println("GbController selectSearchNewbookList start...");
 
-	// 국내도서 경영/경제 리스트 조회
-	@RequestMapping("innewbookEcoList")
-	public String selectinnewbookEcoList(NewBook newbook, String currentPage, String orderType, Model model) {
-		System.out.println("GbController selectinnewbookEcoList start...");
-		
-		// 정렬 유형
-		String orderType1 = "recently";
-		if(orderType != null) {
-			orderType1 = orderType;
+		// 정렬 유형, 초기값(null)이면 --> recently
+		String orderType_default = "recently";
+		if( newbook.getOrderType() == null ) {
+			newbook.setOrderType(orderType_default);
 		}
 		
-		// 국내 경영/경제 총 개수
-		int ineconmyCnt = nbs.selectInNewBookEcoCnt();
-		System.out.println("GbController selectinnewbookEcoList enconmyCnt -> "+ineconmyCnt);
+		// 키워드 검색 결과 도서 총 개수
+		int searchNewbookCnt = nbs.selectSearchNewBookCnt(newbook); // 카테고리별 총 개수를 구해준다.
+		System.out.println("GbController selectInNewBookList searchNewbookCnt -> "+searchNewbookCnt);	
 		
-		// 페이징 처리
-		Paging page = new Paging(ineconmyCnt, currentPage);
+		// 페이징 처리 작업
+		Paging page = new Paging(searchNewbookCnt, currentPage);
+		// Parameter searchnewbook --> Page만 추가 Setting
 		newbook.setStart(page.getStartRow());
 		newbook.setEnd(page.getEndRow());
-		newbook.setOrderType(orderType1);
+		System.out.println("GbController orderType -> "+newbook.getOrderType());
 		
-		// 국내 경영/경제 리스트
-		List<NewBook> listInNewbookEco = nbs.selectInNewBookEcoList(newbook);
-		System.out.println("GbController selectinnewbookEcoList listInNewbookEco.size() -> "+listInNewbookEco.size());
+		// 국내도서 리스트
+		List<NewBook> listSearchNewbook = nbs.selectSearchNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
+		System.out.println("GbController selectSearchNewbookList listSearchNewbook.size() -> "+listSearchNewbook.size());
 		
-		model.addAttribute("listInNewbook", listInNewbookEco);
-		model.addAttribute("inNewbookCnt", ineconmyCnt);
+//		System.out.println("newbook.getSearch_type -> "+newbook.getSearch_type());
+//		System.out.println("newbook.getSearch_keyword -> "+newbook.getSearch_keyword());
+		
+		model.addAttribute("search_Newbook", newbook);
+		model.addAttribute("listSearchNewbook", listSearchNewbook);
+		model.addAttribute("search_NewbookCnt", searchNewbookCnt);
 		model.addAttribute("page", page);
-		model.addAttribute("category", "1");
-		model.addAttribute("orderType", orderType1);
 		
-		return "gb/foInNewbookList";
+		return "gb/searchNewbookList";
+		
 	}
 	
-	// 국내도서 과학 리스트 조회
-	@RequestMapping("innewbookSciList")
-	public String selectinnewbookSciList(NewBook newbook, String currentPage, String orderType, Model model) {
-		System.out.println("GbController selectinnewbookSciList start...");
+	// 상품 상페 페이지
+	@RequestMapping("newbookDetail")
+	public String selectNewbookDetail(NewBook newbook, HttpSession session, Member member, Model model) {
+		System.out.println("GbController selectNewbookDetail start...");
+		System.out.println("GbController selectNewbookDetail newbook.getNb_num()"+newbook.getNb_num());
 		
-		// 정렬 유형
-		String orderType1 = "recently";
-		if(orderType != null) {
-			orderType1 = orderType;
-		}
+		// 회원정보 가져오기
+		member =(Member) session.getAttribute("member");
+		if(member != null) { newbook.setM_num(member.getM_num()); }
 		
-		// 국내 과학 총 개수
-		int inscienceCnt = nbs.selectInNewBookSciCnt();
-		System.out.println("GbController selectinnewbookSciList inscienceCnt -> "+inscienceCnt);
+		// 조회 수 +1
+		int result = nbs.updateReadCnt(newbook.getNb_num());
+		System.out.println("GbController selectNewbookDetail result -> "+result);
 		
-		// 페이징 처리
-		Paging page = new Paging(inscienceCnt, currentPage);
-		newbook.setStart(page.getStartRow());
-		newbook.setEnd(page.getEndRow());
-		newbook.setOrderType(orderType1);
+		// 상세 정보
+		NewBook selectNewbook = nbs.selectNewBookDetail(newbook);
+		String publi_date1 = selectNewbook.getNb_publi_date().substring(0,10);
+		selectNewbook.setNb_publi_date(publi_date1);
 		
-		// 국내 과학 리스트
-		List<NewBook> listInNewbookSci = nbs.selectInNewBookSciList(newbook);
-		System.out.println("GbController selectinnewbookSciList listInNewbookSci.size() -> "+listInNewbookSci.size());
+		// 동일한 중고도서 개수
+		int same_obCnt = nbods.selectSameOldBookList(newbook.getNb_num()).size();
+		selectNewbook.setSame_obCnt(same_obCnt);
 		
-		model.addAttribute("listInNewbook", listInNewbookSci);
-		model.addAttribute("inNewbookCnt", inscienceCnt);
-		model.addAttribute("page", page);
-		model.addAttribute("category", "2");
-		model.addAttribute("orderType", orderType1);
+		model.addAttribute("newbook", selectNewbook);
 		
-		return "gb/foInNewbookList";
+		return "gb/newbookDetail"; 
 	}
 	
-	// 국내도서 소설 리스트 조회
-	@RequestMapping("innewbookNovList")
-	public String selectinnewbookNovList(NewBook newbook, String currentPage, String orderType, Model model) {
-		System.out.println("GbController selectinnewbookNovList start...");
-		
-		// 정렬 유형
-		String orderType1 = "recently";
-		if(orderType != null) {
-			orderType1 = orderType;
-		}
-		
-		// 국내 소설 총 개수
-		int innovelCnt = nbs.selectInNewBookNovCnt();
-		System.out.println("GbController selectinnewbookNovList innovelCnt -> "+innovelCnt);
-		
-		// 페이징 처리
-		Paging page = new Paging(innovelCnt, currentPage);
-		newbook.setStart(page.getStartRow());
-		newbook.setEnd(page.getEndRow());
-		newbook.setOrderType(orderType1);
-		
-		// 국내 소설 리스트
-		List<NewBook> listInNewbookNov = nbs.selectInNewBookNovList(newbook);
-		System.out.println("GbController selectinnewbookNovList listInNewbookNov.size() -> "+listInNewbookNov.size());
-		
-		model.addAttribute("listInNewbook", listInNewbookNov);
-		model.addAttribute("inNewbookCnt", innovelCnt);
-		model.addAttribute("page", page);
-		model.addAttribute("category", "3");
-		model.addAttribute("orderType", orderType1);
-		
-		return "gb/foInNewbookList";
+	// 동일한 중고도서 목록 리스트
+	@ResponseBody
+	@RequestMapping("sameOldBookList") 
+	public List<NewBookOldBook> sameOldBookList(int nb_num){ 
+		System.out.println("GbController sameOldBookList start...");
+	  
+		List<NewBookOldBook> sameOldBookList = nbods.selectSameOldBookList(nb_num);
+		System.out.println("GbController sameOldBookList sameOldBookList.size->" + sameOldBookList.size());
+	  
+		return sameOldBookList; 
 	}
 	
-	// 국내도서 역사/문화 리스트 조회
-	@RequestMapping("innewbookHisList")
-	public String selectinnewbookHisList(NewBook newbook, String currentPage, String orderType, Model model) {
-		System.out.println("GbController selectinnewbookHisList start...");
-		
-		// 정렬 유형
-		String orderType1 = "recently";
-		if(orderType != null) {
-			orderType1 = orderType;
-		}
-		
-		// 국내 역사/문화 총 개수
-		int inhistoryCnt = nbs.selectInNewBookHisCnt();
-		System.out.println("GbController selectinnewbookHisList inhistoryCnt -> "+inhistoryCnt);
-		
-		// 페이징 처리
-		Paging page = new Paging(inhistoryCnt, currentPage);
-		newbook.setStart(page.getStartRow());
-		newbook.setEnd(page.getEndRow());
-		newbook.setOrderType(orderType1);
-		
-		// 국내 역사/문화 리스트
-		List<NewBook> listInNewbookHis = nbs.selectInNewBookHisList(newbook);
-		System.out.println("GbController selectinnewbookHisList listInNewbookHis.size() -> "+listInNewbookHis.size());
-		
-		model.addAttribute("listInNewbook", listInNewbookHis);
-		model.addAttribute("inNewbookCnt", inhistoryCnt);
-		model.addAttribute("page", page);
-		model.addAttribute("category", "4");
-		model.addAttribute("orderType", orderType1);
-		
-		return "gb/foInNewbookList";
-	}
+	  // 찜하기
+	  @ResponseBody
+	  @RequestMapping("/wish/wishclick") public String wishClick(NewBook newbook, HttpSession session, Member member, Model model) {
+		  System.out.println("GbController wishClick() start...");
+		  
+		  // 로그인한 멤버 값 불러오기 
+		  member =(Member) session.getAttribute("member");
+		  if(member == null) { return "loginForm"; }
+		  else 				 { newbook.setM_num(member.getM_num());}
+		  
+		  // 찜하기
+		  String wish = String.valueOf(nbs.insertUpdateWish(newbook));
+		  
+		  return wish; 
+	  }
 	
-	// 국내도서 인문 리스트 조회
-	@RequestMapping("innewbookHumList")
-	public String selectinnewbookHumList(NewBook newbook, String currentPage, String orderType, Model model) {
-		System.out.println("GbController selectinnewbookHumList start...");
-		
-		// 정렬 유형
-		String orderType1 = "recently";
-		if(orderType != null) {
-			orderType1 = orderType;
-		}
-		
-		// 국내 인문 총 개수
-		int inhumanCnt = nbs.selectInNewBookHumCnt();
-		System.out.println("GbController selectinnewbookHumList inhumanCnt -> "+inhumanCnt);
-		
-		// 페이징 처리
-		Paging page = new Paging(inhumanCnt, currentPage);
-		newbook.setStart(page.getStartRow());
-		newbook.setEnd(page.getEndRow());
-		newbook.setOrderType(orderType1);
-		
-		// 국내 인문 리스트
-		List<NewBook> listInNewbookHum = nbs.selectInNewBookHumList(newbook);
-		System.out.println("GbController selectinnewbookHumList listInNewbookHum.size() -> "+listInNewbookHum.size());
-		
-		model.addAttribute("listInNewbook", listInNewbookHum);
-		model.addAttribute("inNewbookCnt", inhumanCnt);
-		model.addAttribute("page", page);
-		model.addAttribute("category", "5");
-		model.addAttribute("orderType", orderType1);
-		
-		return "gb/foInNewbookList";
-	}
 }

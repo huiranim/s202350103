@@ -35,6 +35,10 @@ public class Orderr {				// 주문
 	private int    end;				// 페이지 내 종료 게시글 번호
 	private int	   o_order_count;	// 주문 수량
 	private int    o_order_price;	// 상품 금액 합산
+	private int    o_ex_deli;		// 교환 택배사
+	private int    o_ex_track;		// 교환 송장번호
+	private int    o_re_deli;		// 반품 택배사
+	private int    o_re_track;		// 반품 송장번호
 
 	
 }

@@ -22,6 +22,10 @@ public class NewBook {				// 새상품
 	private Date nb_register_date;	// 등록일자
 	
 	// 조회용
+	private int w_wish;				// 찜여부
+	private int m_num;				// 회원번호
+	private int hit_nb_num;			// 최대 조회수 상품번호
+	private int same_obCnt;			// 동일한 중고도서 개수
 	private int r_rating;			// 별점
 	private int reviewCnt;			// 리뷰 개수 
 	private int r_ratingAvg;		// 별점 평균

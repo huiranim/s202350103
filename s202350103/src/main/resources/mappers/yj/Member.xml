@@ -36,6 +36,7 @@
 	
 	<update id="memberUpdate" parameterType="Member">
 		update member SET 
+			m_image = #{m_image} ,
 			m_email = #{m_email} , 
 			m_ph = #{m_ph}, 
 			m_addr = #{m_addr}
@@ -53,6 +54,60 @@
 	
 		select * from member where m_ph = #{m_ph}
 		
+	</select>
+	
+	
+	<select id="memberMyReview"	resultType="Member" parameterType="int">
+		
+		select o.o_order_num, m.m_num, r.nb_num, 
+   			 r.r_create_date, n.nb_image, n.nb_title, n.nb_writer,
+   			 r.r_title, r.r_content, r.r_rating
+		from orderr o 
+		join member m 
+    		on m.m_num = o.m_num
+		join review r
+		    on o.o_order_num = r.o_order_num
+		join newbook n
+		    on r.nb_num = n.nb_num
+		where m.m_num = #{m_num} 
+		order by r.r_create_date desc
+	
+	</select>
+	
+	<select id="adminMemberList" resultType="Member" parameterType="Member">
+		<![CDATA[
+			select * from 
+			(	
+				select rownum rn , m.* 
+				from 
+					(select * from member order by m_num desc) m
+			)
+			where rn >= #{start}
+			and rn <= #{end}
+		]]>
+
+	</select>
+	
+	<select id="memberMyOrder" resultType="Member" parameterType="int">
+		
+		select rownum rn, od.*, o.*, m.*,nb.* ,
+		        (select count(*) from orderr o2 where o2.m_num = #{m_num}) myOrder
+		from orderr o
+		    join member m 
+		        on o.m_num = m.m_num
+		    join order_detail od
+		        on o.o_order_num = od.o_order_num
+		    join newbook nb
+		        on od.nb_num = nb.nb_num
+		where o.m_num = #{m_num}
+		order by o.o_order_date desc
+
+	</select>
+	
+	<select id="totalMember" resultType="int">
+	
+		select count(*) from member
+	
 	</select>
 	
 </mapper>

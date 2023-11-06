@@ -7,5 +7,66 @@
 		SELECT * from member where m_id = #{m_id} and m_pw = #{m_pw} and m_wd = 0
 	</select>
 	
+	<select id="ybTotalCart" parameterType="Member" resultType="int">
+		Select sum(c_count) from cart  WHERE m_num = #{m_num}
+	</select>
+	
+	<select id="ybTotalWishList" parameterType="Member" resultType="int">
+		Select sum(w_wish) from wishlist  WHERE m_num = #{m_num} and w_wish = 1
+	</select>
+	
+	<select id="ybTotalPrice" parameterType="cart" resultType="int">
+		SELECT sum(c.c_count * n.nb_price) totalPrice 
+		FROM   cart c, newbook n
+		where  c.nb_num = n.nb_num
+		and    c.m_num = #{m_num}  
+	</select>
+	
+	<select id="ybListCart" parameterType="Member" resultType="Cart">
+		SELECT *
+		FROM
+		(
+				SELECT rownum rn, a.*
+				FROM
+							(select c.nb_num, c.c_count, n.nb_title, n.nb_price, n.nb_writer, n.nb_publisher, n.nb_image  
+                             From cart c, newbook n
+                             where c.nb_num = n.nb_num
+                             and   c.m_num = #{m_num}) a
+		)
+		WHERE   rn BETWEEN #{start} and #{end}
+	</select>
+	
+	<select id="ybWishList" parameterType="Member" resultType="WishList">
+		SELECT *
+		FROM
+		(
+				SELECT rownum rn, a.*
+				FROM
+							(select w.nb_num, w.w_wish, n.nb_image,  n.nb_title, n.nb_price, n.nb_writer, n.nb_publisher
+                             From wishlist w, newbook n
+                             where w.nb_num = n.nb_num
+                             and   w.m_num = #{m_num}
+                             and   w.w_wish = 1) a
+		)
+		WHERE   rn BETWEEN #{start} and #{end}
+	</select>
+	
+	<select id="ybMemberWithdraw" parameterType="Member" resultType="Member">
+		UPDATE member SET m_wd = 1 WHERE m_num = #{m_num}
+	</select>
+	
+	<select id="ybMemberPw" parameterType="Member" resultType="String">
+		SELECT FROM member m_pw WHERE m_id = #{m_id}
+	</select>
+	
+	<select id="ybMemberChk" parameterType="String" resultType="Member">
+		SELECT * FROM member WHERE m_id = #{chk_Id}
+	</select>
+	
+	
+	
+	
+	
+	
 	
 </mapper>
