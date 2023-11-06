@@ -6,11 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.mail.javamail.JavaMailSender;
@@ -41,8 +37,7 @@ public class YjController {
 	final DefaultMessageService messageService; // 문자전송 API
 	
 	private final JavaMailSender mailSender;	// 메일 전송 객체
-	
-	
+
 	public YjController(MemberService ms,JavaMailSender mailSender) {
 		this.ms = ms;
 		// 문자 전송 API 							API 키, API Secret Key
@@ -51,8 +46,8 @@ public class YjController {
 		// 메일 전송 객체
 		this.mailSender = mailSender;
 	}
-	
-	// 약관 페이지 이동
+
+	//  회원 가입 약관 페이지 이동
 	@RequestMapping("/memberJoin")
 	public String memberJoin() {
 		return "yj/memberJoin";
@@ -521,7 +516,6 @@ public class YjController {
 		  return imageUrl;
 	  }
 	  
-	  
 	  // 회원 상세정보 이미지 수정
 	  @RequestMapping("/memberImageSelect")
 	  public String memberImageSelect(Model model) {
@@ -532,18 +526,14 @@ public class YjController {
 		  return "yj/memberImageSelect";
 	  }
 	  
-	  
-	  @RequestMapping("kakao")
-	  public String kakao() {
-		  
-		  return "yj/kakao";
+	  // 관리자 문의 
+	  @RequestMapping("/memberQna")
+	  public String memberQna(@RequestParam int m_num, Model model) {
+		  System.out.println(m_num);
+		  return "yj/memberQna";
 	  }
 	  
-	  @PostMapping("paytest")
-	  public String pay() {
-		  
-		  
-		  return "yj/paytest";
-	  }
+	  
+	  
 	  
 }
