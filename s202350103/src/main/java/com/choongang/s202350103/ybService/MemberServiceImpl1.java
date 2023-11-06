@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
 import com.choongang.s202350103.ybDao.MemberDao;
 
@@ -41,9 +42,7 @@ public class MemberServiceImpl1 implements MemberService {
 	// 장바구니 목록
 	@Override
 	public List<Cart> listCart(Cart cart, Member member) {
-		
-		member =(Member) session.getAttribute("member");
-		System.out.println("MemberService listCart start...");
+		System.out.println("MemberServiceImpl1 listCart start...");
 		System.out.println("MemberServiceImpl1 listCart() member.m_num -> " + member.getM_num());
 		List<Cart> listCart = md.listCart(cart, member);
 		
@@ -53,7 +52,7 @@ public class MemberServiceImpl1 implements MemberService {
 	// 장바구니 총 금액
 	@Override
 	public int totalPrice(Member member) {
-		System.out.println("MemberService totalPrice start...");
+		System.out.println("MemberServiceImpl1 totalPrice start...");
 		System.out.println("MemberServiceImpl1 totalPrice member.m_num -> " + member.getM_num());
 		int totalPrice = 0;
 		
@@ -65,24 +64,43 @@ public class MemberServiceImpl1 implements MemberService {
 	@Override
 	public int totalWishList(Member member) {
 		// TODO Auto-generated method stub
-		System.out.println("MemberService totalWishList start...");
+		System.out.println("MemberServiceImpl1 totalWishList start...");
 		System.out.println("MemberServiceImpl1 totalWishList member.m_num -> " + member.getM_num());
 		int totalWishList = 0;
 		
 		totalWishList = md.totalWishList(member);
 		return totalWishList;
 	}
-	
+	// 판매 개수
+	@Override
+	public int totalSellCnt(Member member) {
+		System.out.println("MemberServiceImpl1 totalSellCnt start...");
+		System.out.println("MemberServiceImpl1 totalSellCnt member.m_num -> " + member.getM_num());
+		int totalSellCnt = md.totalSellCnt(member);
+		return totalSellCnt;
+	}
+
 	// 회원 찜목록
 	@Override
 	public List<WishList> memberWishList(WishList wishList) {
 		
 		Member member =(Member) session.getAttribute("member");
-		System.out.println("MemberService listCart start...");
+		System.out.println("MemberServiceImpl1 listCart start...");
 		System.out.println("MemberServiceImpl1 listCart() member.m_num -> " + member.getM_num());
 		List<WishList> memberWishList = md.memberWishList(wishList);
 		
 		return memberWishList;
+	}
+	
+	// 포인트 리스트
+	@Override
+	public List<PointList> memberPointList(PointList pointList) {
+		Member member =(Member) session.getAttribute("member");
+		System.out.println("MemberServiceImpl1 listCart start...");
+		System.out.println("MemberServiceImpl1 listCart() member.m_num -> " + member.getM_num());
+		List<PointList> memberPointList = md.memberPointList(pointList);
+		
+		return memberPointList;
 	}
 
 	@Override
@@ -105,6 +123,11 @@ public class MemberServiceImpl1 implements MemberService {
 		}
 	}
 
+	
+
+	
+
+	
 	
 	
 	
