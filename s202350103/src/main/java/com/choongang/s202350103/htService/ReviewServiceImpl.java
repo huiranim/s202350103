@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.htDao.ReviewDao;
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
@@ -60,7 +61,16 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<Orderr> reviewWriteList(Orderr orderr) {
 		System.out.println("ReviewServiceImpl reviewWriteList() Start...");
 		List<Orderr> reviewWriteList = rd.reviewWriteList(orderr);
+		System.out.println("ReviewServiceImpl reviewWriteList() reviewWriteList.getO_order_num --> "+ reviewWriteList.size());
 		return reviewWriteList;
+	}
+
+	@Override
+	public int totalReviewCnt(Member member) {
+		System.out.println("ReviewServiceImpl totalReviewCnt() Start..." );
+		int total = rd.myReviewTotal(member);
+		System.out.println("ReviewServiceImpl totalReviewCnt() total--> " + total);
+		return total;
 	}
 
 	

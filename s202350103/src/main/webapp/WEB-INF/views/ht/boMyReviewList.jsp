@@ -10,6 +10,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script> <!-- jquery안에  ajax 함수가 있기 때문에 jquery.js 가져와야 한다. -->
+<script type="text/javascript">
+
+
+</script>
+<style>
+    img {
+        width: 150px; /* Set the desired width */
+        height: 200px; /* Set the desired height */
+    }
+    .pagination .page-item {
+						    width: 50%;
+						     text-align: center;
+    }
+</style>
 
 </head>
 <body>
@@ -18,118 +33,51 @@
 <!-- col -->
     <div class="col-12">
        <div class="p-4">
-          <!-- heading -->
-          <div class="d-flex justify-content-between mb-6 align-items-center">
-              <!-- Toggle State -->
-			 <button type="button" class="btn btn-primary" data-bs-toggle="button" autocomplete="off">작성 가능한 리뷰</button>
-			 <button type="button" class="btn btn-primary active" data-bs-toggle="button" autocomplete="off" aria-pressed="true">작성한 리뷰</button>
-          </div>
-          
+       
+         <!-- heading -->
+         <nav aria-label="...">
+			<ul class="pagination pagination-lg justify-content-center">
+			  <li  class="page-item active"><a class="page-link" href="#" >작성 가능한 리뷰</a></li>
+			  <li  class="page-item "><a class="page-link" href="#" >작성한 리뷰</a></li>
+			</ul>
+		 </nav>
+       
           <ul class="list-group list-group-flush">
           
-          	 <c:forEach var="orderList" items="reviewWriteList">
+          	 <c:forEach var="orderList" items="${reviewWriteList }">
 	             <li class="list-group-item py-5">
 	                <div class="d-flex justify-content-between">
 	                   <div class="d-flex">
 	                      <!-- img -->
-	                      <img src="${orderList.nb_image }" alt="책 이미지">
+	                      <img src="${orderList.nb_image}" alt="bookImage">
 	                      <!-- text -->
 	                      <div class="ms-4">
-	                          <h5 class="mb-0 h6 h6">${orderList.nb_title }</h5>
+	                          <h5 class="mb-0 h6 h6">${orderList.nb_title}</h5>
 	                         <p class="mb-0 small">수량 : ${orderList.o_de_count}
+	                         <p class="mb-0 small">구매일자 : ${orderList.o_order_date}
 	                        </p>
 	                      </div>
 	                   </div>
 	                   <div>
-	                      <button class="btn btn-primary" type="button">리뷰 작성하기</button>
+	                      <a class="btn btn-primary" href="reviewForm?o_order_num=${orderList.o_order_num}&currentPage=${page.currentPage}">리뷰 작성하기</a>
 	                   </div>
 	                </div>
 	             </li>
-             </c:forEach>
-             
-             
-             
-             <!-- List group item -->
-             <li class="list-group-item py-5">
-                <div class="d-flex justify-content-between">
-                   <div class="d-flex">
-                      <!-- img -->
-                      <img src="../../assets/images/svg-graphics/mastercard.svg" alt="" class="me-3">
-                      <div>
-                       <h5 class="mb-0 h6">Mastercard ending in 1234</h5>
-                       <p class="mb-0 small">Expires in 03/2026</p>
-                      </div>
-                   </div>
-                   <div>
-                      <!-- button-->
-                      <a href="#" class="btn btn-outline-gray-400 text-muted btn-sm">리뷰 작성하기</a>
-                   </div>
-                </div>
-             </li>
-             
-             
-  <!--            List group item
-             <li class="list-group-item py-5">
-                <div class="d-flex justify-content-between">
-                   <div class="d-flex">
-                      img
-                      <img src="../../assets/images/svg-graphics/discover.svg" alt="" class="me-3">
-                      <div>
-                          text
-                                <h5 class="mb-0 h6">Discover ending in 1234</h5>
-                             <p class="mb-0 small">Expires in 07/2020 <span class="badge bg-warning text-dark"> This card is
-                           expired.</span>
-                         </p>
-                      </div>
-                   </div>
-                   <div>
-                      btn
-                      <a href="#" class="btn btn-outline-gray-400 text-muted btn-sm">Remove</a>
-                   </div>
-                </div>
-             </li>
-             List group item
-             <li class="list-group-item py-5">
-                <div class="d-flex justify-content-between">
-                   <div class="d-flex">
-                      img
-                      <img src="../../assets/images/svg-graphics/americanexpress.svg" alt="" class="me-3">
-                      text
-                      <div>
-                         <h5 class="mb-0 h6">American Express ending in 1234</h5>
-                        <p class="mb-0 small">Expires in 12/2021</p>
-                      </div>
-                   </div>
-                   <div>
-                      btn
-                      <a href="#" class="btn btn-outline-gray-400 text-muted btn-sm">Remove</a>
-                   </div>
-                </div>
-             </li>
-             List group item
-             <li class="list-group-item py-5 border-bottom">
-                <div class="d-flex justify-content-between">
-                   <div class="d-flex">
-                      img
-                      <img src="../../assets/images/svg-graphics/paypal.svg" alt="" class="me-3">
-                      <div>
-                       text
-                        <h5 class="mb-0 h6">Paypal Express ending in 1234</h5>
-                         <p class="mb-0 small">Expires in 10/2021</p>
-                      </div>
-                   </div>
-                   <div>
-                      btn
-                      <a href="#" class="btn btn-outline-gray-400 text-muted btn-sm">Remove</a>
-                   </div>
-                </div>
-             </li> -->
-             
-             
-             
+               </c:forEach>
           </ul>
        </div>
-    </div>
+         <div style="text-align: center;">
+	        <c:if test="${page.startPage > page.pageBlock}">
+				<a href="MyReviewList?currentPage=${page.startPage-page.pageBlock}"style="font-size: 19px;">[이전]</a>
+			</c:if>
+			<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+				<a href="MyReviewList?currentPage=${i}"style="font-size: 19px;">[${i}]</a>
+			</c:forEach>
+			<c:if test="${page.endPage < page.totalPage}">
+				<a href="MyReviewList?currentPage=${page.startPage+page.pageBlock}"style="font-size: 19px;">[다음]</a>
+			</c:if>
+		 </div>
+   	  </div>
     </div>
 		
 <%@ include file="../common/footerFo.jsp" %>	

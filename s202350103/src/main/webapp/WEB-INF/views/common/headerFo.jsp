@@ -382,6 +382,17 @@
                     <li><a class="dropdown-item" href="./pages/store-single.html">메뉴3</a></li>
                   </ul>
                 </li>
+                <li class="nav-item dropdown w-100 w-lg-auto">
+                  <a class="nav-link dropdown-toggle" href="reviewList" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+					리뷰 작성하기
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="reviewList">메뉴1</a></li>
+                    <li><a class="dropdown-item" href="./pages/store-grid.html">메뉴2</a></li>
+                    <li><a class="dropdown-item" href="./pages/store-single.html">메뉴3</a></li>
+                  </ul>
+                </li>
                 
                 
                 <!-- 상세 메뉴 -->

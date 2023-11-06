@@ -13,7 +13,8 @@ public class Review {			  // 리뷰
 	private int    r_rating;	  // 별점
 	
 	// 조회용
-	private int    start;		private int end;
+	private int    start;	private int end;  private int currentPage;
+	private int	    m_num;	// 회원번호
 	// 회원 table(Member)에서 회원이름 관련 컬럼
 	private String 	m_name;
 	// 상품 table(NewBook)에서 이미지

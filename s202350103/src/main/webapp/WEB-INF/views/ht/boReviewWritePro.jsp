@@ -12,13 +12,13 @@
 		<c:if test="${result > 0}">
 			<script type="text/javascript">
 				alert("리뷰 작성완료~~!! ");
-				location.href="reviewList?pageNum=${pageNum}";
+				location.href="MyReviewList?currentPage=${review.currentPage}";
 			</script>
 		</c:if>
 		<c:if test="${result == 0}">
 			<script type="text/javascript">
 				alert("리뷰를 다시 작성해주세요....!! ");
-				location.href="reviewForm?pageNum=${pageNum}";
+				location.href="MyReviewList?currentPage=${review.currentPage}";
 			</script>
 		</c:if>
 	</div>

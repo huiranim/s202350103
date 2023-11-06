@@ -9,6 +9,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.catalina.LifecycleListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.choongang.s202350103.htService.OrderrService;
 import com.choongang.s202350103.htService.Paging;
 import com.choongang.s202350103.htService.ReviewService;
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
@@ -46,9 +50,19 @@ public class HtController {
 	}
 
 	@RequestMapping("/reviewList")
-	public String reviewList(Model model, Review review) {
+	public String reviewList(Model model, Review review, HttpSession session,  Member member) {
 		System.out.println("Controller Start reviewList...");
-		System.out.println("Controller Start reviewList review.getR_reviewSelect-->" + review.getR_reviewSelect());
+		
+		// 임시 회원번호(나중에 삭제)
+		member.setM_num(1002);
+		session.setAttribute("member", member);
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
 
 		int reviewTotal = rs.reviewTotal();
 		double reviewAverage = rs.reviewAverage();
@@ -93,32 +107,83 @@ public class HtController {
 		return "/ht/boProductReviewList";
 	}
 
-	@RequestMapping("/reviewForm")
-	public String reviewForm(Model model) {
-		System.out.println("Controller Start reviewList...");
-		return "/ht/boReviewWriteForm";
-	}
-
-	@PostMapping("/reviewWritePro")
-	public String reviewInsert(Model model, Review review) {
-		System.out.println("HtController reviewInsert Start...");
-		int result = rs.reviewInsert(review);
-		System.out.println("HtController reviewInsert result-->" + result);
-		return "/ht/boReviewWritePro";
-	}
-
-	
 	 @GetMapping("/MyReviewList")
-	 public String MyReviewList(Model model, Orderr orderr) {
+	 public String MyReviewList(Model model, Orderr orderr, String currentPage, HttpSession session, Member member) {
 		 System.out.println("HtController MyReviewList Start...");
+		
+		// 임시 회원번호(나중에 삭제)
+		member.setM_num(1002);
+		session.setAttribute("member", member);
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		// orderr 전체  Count ?
+		int totalReviewCnt = rs.totalReviewCnt(member);
+		System.out.println("totalReviewCnt--> " + totalReviewCnt);
+		
+		// Paging 작업
+		Paging  page = new Paging(totalReviewCnt, currentPage);
+		// Parameter orderr --> Page만 추가 setting
+		orderr.setStart(page.getStart());    // 시작시 1
+		orderr.setEnd(page.getEnd()); 		 // 시작시 5
+		
+		orderr.setM_num(member.getM_num());
 		 
 		 List<Orderr> reviewWriteList = rs.reviewWriteList(orderr);
+		 System.out.println("HtController MyReviewList() reviewWriteList.size() --> "+ reviewWriteList.size());
 		 
+		 model.addAttribute("page", page);
 		 model.addAttribute("reviewWriteList", reviewWriteList);
+		 
 		  
 		 return "/ht/boMyReviewList";
 	}
 	  
-	 
+	 @RequestMapping("/reviewForm")
+	 public String reviewForm(Model model, HttpSession session, Member member, Review review) {
+		System.out.println("Controller Start reviewList...");
+		
+		// 임시 회원번호(나중에 삭제)
+		member.setM_num(1002);
+		session.setAttribute("member", member);
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		model.addAttribute("review", review);
+		
+		return "/ht/boReviewWriteForm";
+	}
 
+	 @RequestMapping("/reviewWritePro")
+	 public String reviewInsert(Model model, Review review, HttpSession session, Member member) {
+		System.out.println("HtController reviewInsert Start...");
+		
+		// 임시 회원번호(나중에 삭제)
+		member.setM_num(1002);
+		session.setAttribute("member", member);
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		int result = rs.reviewInsert(review);
+		System.out.println("HtController reviewInsert result-->" + result);
+		
+		model.addAttribute("result", result);
+		
+		return "/ht/boReviewWritePro";
+	}
 }

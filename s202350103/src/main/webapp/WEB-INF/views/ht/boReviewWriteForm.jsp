@@ -24,24 +24,19 @@
 </head>
 <body>
  <form action="reviewWritePro">
- 	 <input type="hidden" name="o_order_num" value="${orderr.o_order_num}">
- 	 <input type="hidden" name="nb_num" value="${member.nb_num}">
+ 	 <input type="hidden" name="o_order_num" value="${review.o_order_num}">
+ 	 <input type="hidden" name="currentPage" value="${review.currentPage}">
 	 <div>
 	   <!-- rating -->
 	   <h3 class="mb-5">리뷰 작성</h3>
 	   <div class="border-bottom py-4 mb-4">
 	      <h4 class="mb-3">별점</h4>
 	       <fieldset class="rate">
-	             <input type="radio" id="rating10" name="r_rating" value="10"><label for="rating10" title="5점"></label>
-	             <input type="radio" id="rating9" name="r_rating" value="9"><label class="half" for="rating9" title="4.5점"></label>
-	             <input type="radio" id="rating8" name="r_rating" value="8"><label for="rating8" title="4점"></label>
-	             <input type="radio" id="rating7" name="r_rating" value="7"><label class="half" for="rating7" title="3.5점"></label>
-	             <input type="radio" id="rating6" name="r_rating" value="6"><label for="rating6" title="3점"></label>
-	             <input type="radio" id="rating5" name="r_rating" value="5"><label class="half" for="rating5" title="2.5점"></label>
-	             <input type="radio" id="rating4" name="r_rating" value="4"><label for="rating4" title="2점"></label>
-	             <input type="radio" id="rating3" name="r_rating" value="3"><label class="half" for="rating3" title="1.5점"></label>
-	             <input type="radio" id="rating2" name="r_rating" value="2"><label for="rating2" title="1점"></label>
-	             <input type="radio" id="rating1" name="r_rating" value="1"><label class="half" for="rating1" title="0.5점"></label>
+	             <input type="radio" id="rating5" name="r_rating" value="5"><label for="rating5" title="5점"></label>
+	             <input type="radio" id="rating4" name="r_rating" value="4"><label for="rating4" title="4점"></label>
+	             <input type="radio" id="rating3" name="r_rating" value="3"><label for="rating3" title="3점"></label>
+	             <input type="radio" id="rating2" name="r_rating" value="2"><label for="rating2" title="2점"></label>
+	             <input type="radio" id="rating1" name="r_rating" value="1"><label for="rating1" title="1점"></label>
             </fieldset>
 	      </div>
 	   </div>
