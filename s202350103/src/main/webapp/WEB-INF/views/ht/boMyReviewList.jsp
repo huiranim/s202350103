@@ -27,16 +27,16 @@
           
           <ul class="list-group list-group-flush">
           
-          	 <c:forEach var="orderList" items="orderList">
+          	 <c:forEach var="orderList" items="reviewWriteList">
 	             <li class="list-group-item py-5">
 	                <div class="d-flex justify-content-between">
 	                   <div class="d-flex">
 	                      <!-- img -->
-	                      <img src="../../assets/images/svg-graphics/visa.svg" alt="">
+	                      <img src="${orderList.nb_image }" alt="책 이미지">
 	                      <!-- text -->
 	                      <div class="ms-4">
-	                          <h5 class="mb-0 h6 h6">**** 1234</h5>
-	                         <p class="mb-0 small">Expires in 10/2023
+	                          <h5 class="mb-0 h6 h6">${orderList.nb_title }</h5>
+	                         <p class="mb-0 small">수량 : ${orderList.o_de_count}
 	                        </p>
 	                      </div>
 	                   </div>

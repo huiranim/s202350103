@@ -111,13 +111,10 @@ public class HtController {
 	 @GetMapping("/MyReviewList")
 	 public String MyReviewList(Model model, Orderr orderr) {
 		 System.out.println("HtController MyReviewList Start...");
-		  
 		 
 		 List<Orderr> reviewWriteList = rs.reviewWriteList(orderr);
-		  
-//		 model.addAttribute("totalReview", totalReview);
-//		 model.addAttribute("listReview", listReview); model.addAttribute("page",page);
-		  
+		 
+		 model.addAttribute("reviewWriteList", reviewWriteList);
 		  
 		 return "/ht/boMyReviewList";
 	}
