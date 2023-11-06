@@ -210,7 +210,7 @@ public class HrController {
 		System.out.println("HrController orderDetailList.size() -> "+ orderDetailList.size());
 
 		model.addAttribute("cnt", orderDetailList.size());
-		model.addAttribute("orderrDetailList", orderDetailList);
+		model.addAttribute("orderDetailList", orderDetailList);
 
 		System.out.println("HrController selectOrderProduct() end..");
 		return "/hr/boOrderProductPopup";
@@ -231,5 +231,15 @@ public class HrController {
 		
 		System.out.println("HrController selectOrderrFo() end..");
 		return "/hr/foOrderDetail";
+	}
+	
+	// FO 선물하기
+	// foGivingGift.jsp
+	@RequestMapping(value = "foGivingGift")
+	public String givingGift() {
+		System.out.println("HrController givingGift() start..");
+		
+		System.out.println("HrController givingGift() end..");
+		return "/hr/foGivingGift";
 	}
 }

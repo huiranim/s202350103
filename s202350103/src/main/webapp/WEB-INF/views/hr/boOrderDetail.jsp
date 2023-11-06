@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../common/headerBo.jsp" %>
 
 <!DOCTYPE html> 
@@ -206,9 +204,7 @@
                      <td class="align-middle">
                         <div>
                         	<h5 class="fs-6 mb-0" onclick="ProductPopup(${orderr.o_order_num})"><a class="text-inherit">${orderr.nb_title}</a></h5>
-                        	<%-- <h5 class="fs-6 mb-0"><a href="/boOrderDetail/List?o_order_num=${orderr.o_order_num}" class="text-inherit"
-                        							 onclick="window.open('this.href','주문 상품 목록','width=500 height=400')">${orderr.nb_title}</a></h5> --%>
-                        </div>
+                         </div>
                      </td>                     
                      <th class="table-light">주문수량</th>
                      <td class="align-middle"><fmt:formatNumber value="${orderr.o_order_count}" groupingUsed="true"/></td>
@@ -255,6 +251,9 @@
             </tr>
             </table>
          </div>
+         <!-- 목록 버튼 -->
+         <!-- <input type="button" value="목록" class="btn btn-secondary mb-2"
+         		onclick="location.href='/boOrderList'"> -->
  </div>
  </div>
  </div>
