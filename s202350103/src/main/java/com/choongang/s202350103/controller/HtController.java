@@ -143,6 +143,43 @@ public class HtController {
 		  
 		 return "/ht/boMyReviewList";
 	}
+	 
+	 @GetMapping("/MyReviewedList")
+	 public String MyReviewedList(Model model, Orderr orderr, String currentPage, HttpSession session, Member member) {
+		 System.out.println("HtController MyReviewList Start...");
+		
+		// 임시 회원번호(나중에 삭제)
+		member.setM_num(1002);
+		session.setAttribute("member", member);
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		// orderr 전체  Count ?
+		int totalReviewedCnt = rs.totalReviewedCnt(member);
+		System.out.println("totalReviewedCnt--> " + totalReviewedCnt);
+		
+		// Paging 작업
+		Paging  page = new Paging(totalReviewedCnt, currentPage);
+		// Parameter orderr --> Page만 추가 setting
+		orderr.setStart(page.getStart());    // 시작시 1
+		orderr.setEnd(page.getEnd()); 		 // 시작시 5
+		
+		orderr.setM_num(member.getM_num());
+		 
+		 List<Orderr> reviewWriteList = rs.reviewWriteList(orderr);
+		 System.out.println("HtController MyReviewList() reviewWriteList.size() --> "+ reviewWriteList.size());
+		 
+		 model.addAttribute("page", page);
+		 model.addAttribute("reviewWriteList", reviewWriteList);
+		 
+		  
+		 return "/ht/boMyReviewList";
+	}
 	  
 	 @RequestMapping("/reviewForm")
 	 public String reviewForm(Model model, HttpSession session, Member member, Review review) {
