@@ -122,5 +122,17 @@
 	
 	</select>
 	
+	<insert id="memberQInsert" parameterType="MemberQ">
+	
+		insert into memberq values 
+		(#{m_num}, MEMBERQ_MQ_NUM_SEQ.nextval, #{mq_title} , #{mq_content}, sysdate, #{mq_hidden})
+	
+	</insert>
+	
+	<select id="memberQnaList" resultType="MemberQ">
+		
+		select * from memberq
+	
+	</select>
 	
 </mapper>

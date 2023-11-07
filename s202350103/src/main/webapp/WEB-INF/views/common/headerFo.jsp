@@ -19,7 +19,7 @@
   <link href="./assets/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
   
 <!-- Favicon icon-->
-<link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon/DADOKLOGO.png">
 
 <!-- Libs CSS -->
 <link href="../assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -68,9 +68,15 @@
 
 	<!-- 로고/제목(데스크톱) -->
             <a class="navbar-brand d-none d-lg-block" href="/">
-				<h1>DADOK</h1>
-
+				<h1>
+				<img alt="" src="../assets/images/favicon/DADOKLOGO.png" >
+				DADOK
+				</h1>
             </a>
+
+<!-- 				
+<div> 아이콘 제작자 <a href="https://www.freepik.com" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com'</a></div> 
+-->
 	
 <!-- 화면 줄었을 때 작업 -->
             <div class="d-flex justify-content-between w-100 d-lg-none">
@@ -362,13 +368,6 @@
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="BolistOb">카테고리 메뉴 1</a></li>
                     <li><a class="dropdown-item" href="./pages/shop-grid-3-column.html">메뉴 2</a></li>
-                    <li><a class="dropdown-item" href="./pages/shop-list.html">메뉴 3</a></li>
-                    <li><a class="dropdown-item" href="./pages/shop-filter.html">메뉴 4</a></li>
-                    <li><a class="dropdown-item" href="./pages/shop-fullwidth.html">메뉴 5</a></li>
-                    <li><a class="dropdown-item" href="./pages/shop-single.html">메뉴 6</a></li>
-                    <li><a class="dropdown-item" href="./pages/shop-single-2.html">메뉴 7</a></li>
-                    <li><a class="dropdown-item" href="./pages/shop-wishlist.html">메뉴 8</a></li>
-                    <li><a class="dropdown-item" href="./pages/shop-cart.html">메뉴 9</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown w-100 w-lg-auto">
@@ -382,7 +381,26 @@
                     <li><a class="dropdown-item" href="./pages/store-single.html">메뉴3</a></li>
                   </ul>
                 </li>
-                
+
+
+				<li class="nav-item dropdown w-100 w-lg-auto">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+					고객센터
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="memberQnaList">Q & A</a></li>
+                    
+                 <c:if test="${sessionScope.member != null }">
+                    <li><a class="dropdown-item" href="memberQna?m_num=${member.m_num }">문의하기</a></li>
+                    <li><a class="dropdown-item" href="?m_num=${member.m_num }">1:1 문의</a></li>
+                    <li><a class="dropdown-item" href="?m_num=${member.m_num }">내 문의</a></li>
+                  
+                  </c:if>  
+                    
+                  </ul>
+                </li>
+
                 
                 <!-- 상세 메뉴 -->
                 <li class="nav-item dropdown w-100 w-lg-auto dropdown-fullwidth">
@@ -396,21 +414,11 @@
                         <h6 class="text-primary ps-3">대제목1</h6>
                         <a class="dropdown-item" href="./pages/shop-grid.html">소제목1</a>
                         <a class="dropdown-item" href="./pages/shop-grid.html">소제목2</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목3</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목4</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목5</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목6</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목7</a>
                         <a class="dropdown-item" href="./pages/shop-grid.html">소제목8</a>
                       </div>
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0">
                         <h6 class="text-primary ps-3">대제목2</h6>
                         <a class="dropdown-item" href="./pages/shop-grid.html">소제목1</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목2</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목3</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목4</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목5</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목6</a>
                         <a class="dropdown-item" href="./pages/shop-grid.html">소제목7</a>
                         <a class="dropdown-item" href="./pages/shop-grid.html">소제목8</a>
                       </div>
@@ -418,10 +426,6 @@
                         <h6 class="text-primary ps-3">대제목3</h6>
                         <a class="dropdown-item" href="./pages/shop-grid.html">소제목1</a>
                         <a class="dropdown-item" href="./pages/shop-grid.html">소제목2</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목3</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목4</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목5</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목6</a>
                         <a class="dropdown-item" href="./pages/shop-grid.html">소제목7</a>
                       </div>
   					

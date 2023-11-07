@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.MemberQ;
 
 import lombok.RequiredArgsConstructor;
 
@@ -93,6 +94,18 @@ public class MemberDaoImpl implements MemberDao{
 	public Member memberFindGetIdEmail(String m_email) {
 		Member member = session.selectOne("memberFindGetIdEmail",m_email);
 		return member;
+	}
+	// 회원 등록
+	@Override
+	public int memberQInsert(MemberQ memberQ) {
+		int memberQInsert = session.insert("memberQInsert",memberQ);
+		return memberQInsert;
+	}
+	// 문의 리스츠
+	@Override
+	public List<MemberQ> memberQnaList() {
+		List<MemberQ> memberQnaList = session.selectList("memberQnaList");
+		return memberQnaList;
 	}
 
 }

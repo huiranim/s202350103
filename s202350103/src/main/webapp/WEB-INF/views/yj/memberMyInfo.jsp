@@ -126,7 +126,7 @@ function valiForm() {
     }
 
     // 유효성 검사 통과 시  폼 제출
-    var con = confirm("수정하시겠습니까? : 재 로그인 필요")
+    var con = confirm("수정하시겠습니까? : 재 로그인 필요");
     
     if(con == true){
     	

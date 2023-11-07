@@ -16,8 +16,7 @@
 <meta content="Codescandy" name="author">
 <title>DADOK-AD</title>
 <!-- Favicon icon-->
-<link rel="shortcut icon" type="image/x-icon"
-	href="../assets/images/favicon/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon/DADOKLOGO.png">
 
 
 <!-- Libs CSS -->
@@ -90,7 +89,9 @@
 			<div class="navbar-vertical">
 				<div class="px-4 py-5">
 					<a href="mainBo" class="navbar-brand">
-						<h3>DADOK</h3>
+						<h3>
+						<img alt="" src="../assets/images/favicon/DADOKLOGO.png" width="50px">
+						DADOK</h3>
 					</a>
 				</div>
 				<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
@@ -217,7 +218,9 @@
 				<div
 					class="px-4 py-5 d-flex justify-content-between align-items-center">
 					<a href="mainBo" class="navbar-brand">
-						<h3>DADOK</h3>
+						<h3>
+						<img alt="" src="../assets/images/favicon/DADOKLOGO.png" width="50px">
+						DADOK</h3>
 					</a>
 					<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
 						aria-label="Close"></button>
@@ -348,7 +351,7 @@
 						<div class="card h-100 card-lg">
 							<!-- heading -->
 							<div class="p-6">
-								<h3 class="mb-0 fs-5">관리자 페이지 입니다</h3>
+								<h3 class="mb-0 fs-5">DADOK-ADMIN</h3>
 							</div>
 						</div>
 					</div>
@@ -356,7 +359,7 @@
 
 
 				<div class="row mb-10">
-					<div class="col-md-10">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-6">
 					<!-- 내용 -->
 					
 					

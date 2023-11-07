@@ -66,7 +66,7 @@
 		          		</span> 
 		          </i>
          	</div>
-            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >3 건</p>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >${totalSellCnt } 건</p>
           </div>
 		          </a>
         </div>
@@ -84,7 +84,7 @@
 		          		</span> 
 		          </i>
          	</div>
-            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >리뷰 바로가기</p>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >작성리뷰 바로가기</p>
           </div>
 	          </a>
         </div>
@@ -102,7 +102,7 @@
 		          		</span> 
 		          </i>
          	</div>
-            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >5 건</p>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >${totalWishList } 개</p>
           </div>
 	          </a>
         </div>

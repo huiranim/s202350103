@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.MemberQ;
 import com.choongang.s202350103.yjService.MemberService;
 import com.choongang.s202350103.yjService.Paging;
 
@@ -32,19 +33,23 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 @Controller
 public class YjController {
 
+	private final com.choongang.s202350103.ybService.MemberService ys;
 	private final MemberService ms;
 
 	final DefaultMessageService messageService; // 문자전송 API
 	
 	private final JavaMailSender mailSender;	// 메일 전송 객체
 
-	public YjController(MemberService ms,JavaMailSender mailSender) {
+	public YjController(MemberService ms,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys ) {
 		this.ms = ms;
 		// 문자 전송 API 							API 키, API Secret Key
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
 		
 		// 메일 전송 객체
 		this.mailSender = mailSender;
+		
+		this.ys = ys;
+		
 	}
 
 	//  회원 가입 약관 페이지 이동
@@ -142,8 +147,19 @@ public class YjController {
 		
 	// 마이 페이지 이동
 		@RequestMapping ("/memberMyPage")
-		public String memberMyPage(int m_num) {
+		public String memberMyPage(int m_num, Model model, HttpSession session) {
+			Member member = new Member();
+			member =(Member) session.getAttribute("member");
+			int totalWishList = ys.totalWishList(member);
+			int totalSellCnt = ys.totalSellCnt(member);
 			
+			System.out.println("Controller " + totalSellCnt);
+			
+			model.addAttribute("totalWishList", totalWishList);
+			model.addAttribute("totalSellCnt", totalSellCnt);
+			
+			
+			System.out.println("Controller sadasdasd" + totalWishList);
 			
 			return "yj/memberMyPage";
 		}
@@ -391,6 +407,7 @@ public class YjController {
 
 			// 실패시 
 			}catch (Exception e) {
+				System.out.println(e.getMessage());
 				System.out.println("yjController Email Send Error");
 			}
 			
@@ -526,12 +543,48 @@ public class YjController {
 		  return "yj/memberImageSelect";
 	  }
 	  
-	  // 관리자 문의 
-	  @RequestMapping("/memberQna")
+	  // 문의 등록 폼
+	  @GetMapping("/memberQna")
 	  public String memberQna(@RequestParam int m_num, Model model) {
 		  System.out.println(m_num);
+		  
+		  Member member = ms.memberInfo(m_num);
+		  model.addAttribute("member",member);
+		  
 		  return "yj/memberQna";
 	  }
+	  
+	  // 문의 등록 
+	  @PostMapping("/memberQInsert")
+	  public String memberQInsert(@RequestParam int m_num ,
+			  					@RequestParam String mq_title,
+			  					@RequestParam String mq_content,
+			  					@RequestParam int mq_hidden,
+			  					@ModelAttribute MemberQ memberQ ,
+			  					Model model) {
+		  System.out.println(m_num);
+		  System.out.println(mq_title);
+		  System.out.println(mq_content);
+		  System.out.println(mq_hidden);
+		  
+		  int memberQInsert = ms.memberQInsert(memberQ);
+		 
+		  model.addAttribute("memberQInsert",memberQInsert); 
+		  
+		  return "yj/memberQnaList";
+	  }
+	  
+	  // 문의 리스트
+	  @GetMapping("/memberQnaList")
+	  public String memberQnaList(Model model) {
+		  
+		  List<MemberQ> memberQnaList = ms.memberQnaList();
+		  
+		  model.addAttribute("memberQnaList",memberQnaList);
+		  
+		  return "yj/memberQnaList";
+	  }
+	  
 	  
 	  
 	  

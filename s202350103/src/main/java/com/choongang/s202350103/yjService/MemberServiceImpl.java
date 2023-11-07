@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.MemberQ;
 import com.choongang.s202350103.yjDao.MemberDao;
 
 import lombok.RequiredArgsConstructor;
@@ -92,6 +93,17 @@ public class MemberServiceImpl implements MemberService{
 	public Member memberFindGetIdEmail(String m_email) {
 		Member member = md.memberFindGetIdEmail(m_email);
 		return member;
+	}
+	// 문의 등록
+	@Override
+	public int memberQInsert(MemberQ memberQ) {
+		int memberQInsert = md.memberQInsert(memberQ);
+		return memberQInsert;
+	}
+	@Override
+	public List<MemberQ> memberQnaList() {
+		List<MemberQ> memberQnaList = md.memberQnaList();
+		return memberQnaList;
 	}
 
 	
