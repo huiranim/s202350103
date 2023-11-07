@@ -34,6 +34,7 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 public class YjController {
 
 	private final com.choongang.s202350103.ybService.MemberService ys;
+	
 	private final MemberService ms;
 
 	final DefaultMessageService messageService; // 문자전송 API
@@ -48,6 +49,7 @@ public class YjController {
 		// 메일 전송 객체
 		this.mailSender = mailSender;
 		
+		// 마이페이지 용빈 멤버서비스
 		this.ys = ys;
 		
 	}
@@ -568,18 +570,29 @@ public class YjController {
 		  System.out.println(mq_hidden);
 		  
 		  int memberQInsert = ms.memberQInsert(memberQ);
-		 
+			
 		  model.addAttribute("memberQInsert",memberQInsert); 
+			
 		  
-		  return "yj/memberQnaList";
+		  return "redirect:/memberQnaList";
 	  }
+	  
 	  
 	  // 문의 리스트
 	  @GetMapping("/memberQnaList")
-	  public String memberQnaList(Model model) {
+	  public String memberQnaList(MemberQ memberQ, String currentPage, Model model) {
+		  // 문의 글 카운트
+		  int mqCount = ms.mqCount();
 		  
-		  List<MemberQ> memberQnaList = ms.memberQnaList();
+		  Paging page = new Paging(mqCount,currentPage);
+
+		  memberQ.setStart(page.getStart());
+		  memberQ.setEnd(page.getEnd());
 		  
+		  List<MemberQ> memberQnaList = ms.memberQnaList(memberQ);
+		  
+		  model.addAttribute("mqCount",mqCount);
+		  model.addAttribute("page",page);
 		  model.addAttribute("memberQnaList",memberQnaList);
 		  
 		  return "yj/memberQnaList";

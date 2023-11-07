@@ -13,7 +13,7 @@
 	
 	function Con(){
 		
-		var con = confirm("문의 등록 하시겠습니까 ?");
+		var con = confirm("문의 사항을 등록 하시겠습니까 ?");
 		
 		if(con == true){
 			

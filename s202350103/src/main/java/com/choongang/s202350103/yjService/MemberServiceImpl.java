@@ -100,10 +100,17 @@ public class MemberServiceImpl implements MemberService{
 		int memberQInsert = md.memberQInsert(memberQ);
 		return memberQInsert;
 	}
+	// 문의 리스트
 	@Override
-	public List<MemberQ> memberQnaList() {
-		List<MemberQ> memberQnaList = md.memberQnaList();
+	public List<MemberQ> memberQnaList(MemberQ memberQ) {
+		List<MemberQ> memberQnaList = md.memberQnaList(memberQ);
 		return memberQnaList;
+	}
+	// 문의 카운트
+	@Override
+	public int mqCount() {
+		int mqCount = md.mqCount();
+		return mqCount;
 	}
 
 	

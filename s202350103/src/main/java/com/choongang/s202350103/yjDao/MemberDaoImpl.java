@@ -101,11 +101,17 @@ public class MemberDaoImpl implements MemberDao{
 		int memberQInsert = session.insert("memberQInsert",memberQ);
 		return memberQInsert;
 	}
-	// 문의 리스츠
+	// 문의 리스트
 	@Override
-	public List<MemberQ> memberQnaList() {
-		List<MemberQ> memberQnaList = session.selectList("memberQnaList");
+	public List<MemberQ> memberQnaList(MemberQ memberQ) {
+		List<MemberQ> memberQnaList = session.selectList("memberQnaList",memberQ);
 		return memberQnaList;
+	}
+	// 문의 카운트
+	@Override
+	public int mqCount() {
+		int mqCount = session.selectOne("mqCount");
+		return mqCount;
 	}
 
 }

@@ -36,7 +36,9 @@ public interface MemberService {
 	// 문의 등록
 	int memberQInsert(MemberQ memberQ);
 	// 문의 리스트
-	List<MemberQ> memberQnaList();
+	List<MemberQ> memberQnaList(MemberQ memberQ);
+	// 문의 카운트
+	int mqCount();
 
 	
 }
