@@ -2,58 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/headerFo.jsp"  %>
-
+<%@ include file="aboutLogin.jsp" %>
 
 
 <!DOCTYPE html>
 <html>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 
-<script type="text/javascript" src="../assets/js/jquery.js"></script>
-<script type="text/javascript">
-	
-
-	function loginChk(m_id, m_pw) {		
-		$('#m_id, #m_pw').on('keypress', function(e){
-			  if(e.keyCode == '13'){
-			  	$('#btnSearch').click();
-			  }
-		});
-		//alert("loginChk");
-		
-		$.ajax({
-					url:"<%=request.getContextPath()%>/memberChk",
-					data : {chk_Id : m_id, 
-							chk_Pw : m_pw},
-					dataType : 'text',
-					success : function(strResult) {
-						//alert('strResult -> '+strResult);
-						if(strResult == "1"){
-// 							alert("로그인 성공! 환영합니다.");
-							location.href = "memberLogin?m_id="+ m_id + "&m_pw=" +m_pw;		
-							return true;
-						} else if(strResult == "2") {
-							alert("탈퇴한 회원입니다.");
-							$('#msg').html("탈퇴한 회원입니다.");
-							$('#msg').css("color", "red");
-							$('#m_id').val('');
-							$('#m_pw').val('');
-							return false;
-						} else if(strResult == "0"){
-							alert("아이디 혹은 비밀번호를 확인해주세요.");
-							$('#msg').html("아이디 혹은 비밀번호를 확인해주세요.");
-							$('#msg').css("color", "red");
-							$('#m_id').val('');
-							$('#m_pw').val('');
-							return false;
-						}	
-					}
-		});
-		
-		
-	} 
-
-
-</script>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -91,8 +46,8 @@
               <div class="d-flex justify-content-between">	
                 <!-- form check -->
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="rememberId" name="rememberId" >
-                  <!-- label --> <label class="form-check-label" for="rememberId">
+                  <input class="form-check-input" type="checkbox" id="idSaveCheck" name="idSaveCheck" value="remember" >
+                  <!-- label --> <label class="form-check-label" for="idSaveCheck">
                     	아이디 기억하기
                   </label>
                   
