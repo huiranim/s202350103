@@ -381,7 +381,6 @@
                     <li><a class="dropdown-item" href="./pages/store-single.html">메뉴3</a></li>
                   </ul>
                 </li>
-<<<<<<< HEAD
 
 
 				<li class="nav-item dropdown w-100 w-lg-auto">
@@ -402,7 +401,6 @@
                   </ul>
                 </li>
 
-=======
                 <li class="nav-item dropdown w-100 w-lg-auto">
                   <a class="nav-link dropdown-toggle" href="reviewList" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -415,7 +413,6 @@
                   </ul>
                 </li>
                 
->>>>>>> branch 'main' of https://github.com/huiranim/s202350103.git
                 
                 <!-- 상세 메뉴 -->
                 <li class="nav-item dropdown w-100 w-lg-auto dropdown-fullwidth">
