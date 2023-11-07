@@ -118,5 +118,14 @@ public class NewBookServiceImpl implements NewBookService {
 		
 	}
 
+	@Override
+	public List<NewBook> selectSearchBoNewBookList(NewBook newbook) {
+		System.out.println("NewBookServiceImpl selectSearchBoNewBookList start...");
+		List<NewBook> listSearchNewbook = nbd.selectSearchBoNewBookList(newbook);
+		System.out.println("NewBookServiceImpl selectSearchBoNewBookList listSearchNewbook.size()->"+listSearchNewbook.size());
+		
+		return listSearchNewbook;
+	}
+
 
 }

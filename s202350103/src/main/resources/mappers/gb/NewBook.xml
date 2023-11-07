@@ -413,4 +413,25 @@
 		WHERE nb_num = #{nb_num}
 	</update>
 	
+	<select id="gbSelectSearchBOBList" parameterType="NewBook" resultType="NewBook">
+		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
+			   nb_category1, nb_category2, nb_image
+		FROM (
+   				SELECT rownum rn, nb.*
+	            FROM newbook nb
+	            <choose>
+		            <when test="search_type == 'title'">
+		                WHERE nb_title LIKE '%' || #{search_keyword} || '%'
+		            </when>
+		            <when test="search_type == 'writer'">
+		                WHERE nb_writer LIKE '%' || #{search_keyword} || '%'
+		            </when>
+		            <when test="search_type == 'publisher'">
+		               WHERE nb_publisher LIKE '%' || #{search_keyword} || '%'
+		            </when>
+		        </choose>
+			  )
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
 </mapper>

@@ -7,6 +7,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- End Tag 금비 -->
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+	function search() {
+		var search_type = $("#search_type").val();
+		var search_keyword = $("#search_keyword").val();
+		alert("내가 선택한 검색 조건 -> "+search_type + " 키워드는 "+search_keyword);
+		
+		location.href = "/boSearchNewbookList?search_type="+search_type+"&search_keyword="+search_keyword;
+	}
+	
+</script>
 </head>
 <body>
 	<div class="row">
@@ -17,7 +29,7 @@
 		       <h1 class="mb-1">새상품 목록</h1>
 		       <p>There are 5 products in this wishlist.</p>
 		    </div>
-		    <div class="col-md-2 col-md-8  d-block">
+		    <div class="row mt-8">
 		    	<!-- 검색 -->
 		        <div class="input-group mb-3">
 					<select id="search_type" class="w-20 rounded" style="border-color: rgb(223, 226, 225);" >
@@ -41,15 +53,7 @@
 		          <table class="table text-nowrap">
 		             <thead class="table-light">
 		                <tr>
-		                   <th>
-		                      <!-- form check -->
-		                      <div class="form-check">
-			                  <!-- input --><input class="form-check-input" type="checkbox" value="" id="checkAll">
-			                  <!-- label --><label class="form-check-label" for="checkAll">
-		                  </label>
-		                      </div>
-		                   </th>
-		                   <th></th>
+		                   <th>순번</th>
 		                   <th>제목</th>
 		                   <th>지은이</th>
 		                   <th>가격</th>
@@ -62,41 +66,110 @@
 		             </thead>
 		             <tbody>
 		             	<c:forEach var="newbook" items="${listBoNewbook }">
-		                <tr>
-		                   <td class="align-middle">
-		                      <!-- form check -->
-		                      <div class="form-check">
-		                          <!-- input --><input class="form-check-input" type="checkbox" value="" id="chechboxTwo">
-		                          <!-- label --><label class="form-check-label" for="chechboxTwo">
-		                          </label>
-		                      </div>
-		                   </td>
-		                   <td class="align-middle">
-		                      <a href="#"><img src="../../assets/images/products/product-img-18.jpg" class="icon-shape icon-xxl" alt=""></a>
-		                   </td>
-		                   <td class="align-middle">
-		                      <div>
-		                      <h5 class="fs-6 mb-0"><a href="#" class="text-inherit">Organic Banana</a></h5>
-		                      <small>$.98 / lb</small>
-		                      </div>
-		                   </td>
-		                   <td class="align-middle">홍길동</td>
-		                   <td class="align-middle">$35.00</td>
-		                   <td class="align-middle">중앙출판사</td>
-		                   <td class="align-middle">2023-11-07</td>
-		                   <td class="align-middle">국내</td>
-		                   <td class="align-middle">경제/경영</td>
-		                   <td colspan='2' class="align-middle">
-		                      <div class="btn btn-info mb-2">수정</div>
-		                      <div class="btn btn-secondary mb-2">삭제</div>
-		                   </td>
-		                </tr>
-		            </c:forEach>
+			                <tr>
+			                   <td class="align-middle">${startRow }</td>
+			                   <td class="align-middle">
+			                      <a href="#"><img src="${newbook.nb_image }" class="icon-shape icon-xxl" alt="도서이미지"></a>
+			                   </td>
+			                   <td class="align-middle">
+			                      <div>
+			                      <h5 class="fs-6 mb-0"><a href="#" class="text-inherit">${newbook.nb_title }</a></h5>
+			                      </div>
+			                   </td>
+			                   <td class="align-middle">${newbook.nb_writer}</td>
+			                   <td class="align-middle">${newbook.nb_price }</td>
+			                   <td class="align-middle">${newbook.nb_publisher }</td>
+			                   <td class="align-middle">${newbook.nb_publi_date }</td>
+			                   <td class="align-middle">
+			                   		<c:if test="${newbook.nb_category1 eq 1}">국내</c:if>
+			                   		<c:if test="${newbook.nb_category1 eq 2}">해외</c:if>
+			                   </td>
+			                   <td class="align-middle">
+									<c:choose>
+										<c:when test="${newbook.nb_category2 eq 1}"> 경제/경영</c:when>
+										<c:when test="${newbook.nb_category2 eq 2}"> 과학</c:when>
+										<c:when test="${newbook.nb_category2 eq 3}"> 소설</c:when>
+										<c:when test="${newbook.nb_category2 eq 4}"> 역사/문화</c:when>
+										<c:when test="${newbook.nb_category2 eq 5}"> 인문</c:when>
+										<c:when test="${newbook.nb_category2 eq 6}"> 과학/기술</c:when>
+										<c:when test="${newbook.nb_category2 eq 7}"> 문학</c:when>
+									</c:choose>
+								</td>
+			                   <td colspan='2' class="align-middle">
+			                      <div class="btn btn-info mb-2">수정</div>
+			                      <div class="btn btn-secondary mb-2">삭제</div>
+			                   </td>
+			                </tr>
+			                <c:set var="startRow" value="${page.startRow +1}"/>
+		              </c:forEach>
 			    </tbody>
 			  </table>
 			  </div>
 			</div>
 		</div>
+	</div>
+	
+	<!-- 페이징 처리 -->
+	<div class="row mt-8">
+	  <div class="d-flex justify-content-center">
+	    <!-- nav -->
+	    <nav>
+	    	<c:choose>
+		    	<c:when test="${search_Newbook.search_type == null }">
+			      <ul class="pagination">
+			        <!-- 이전버튼 -->
+			        <c:if test="${page.startPage > page.pageLimit}">
+				        <li class="page-item">
+				          <a class="page-link  mx-1 " href="bonewbookList?currentPage=${page.startPage-page.pageLimit}" aria-label="Previous">
+				            <i class="feather-icon icon-chevron-left"></i>
+				          </a>
+				        </li>
+			        </c:if>
+			        
+			        <!-- 페이지 넘버 -->
+			        <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
+			        	<li class="page-item"><a class="page-link mx-1 text-body" href="bonewbookList?currentPage=${i }">${i }</a></li>
+			        </c:forEach>
+			         
+			        <!-- 다음 버튼 -->
+			        <c:if test="${page.endPage < page.totalPage}">
+				        <li class="page-item">
+				          <a class="page-link mx-1 text-body" href="bonewbookList?currentPage=${page.startPage+page.pageLimit }" aria-label="Next">
+				            <i class="feather-icon icon-chevron-right"></i>
+				          </a>
+				        </li>
+			        </c:if>
+			       </ul>
+			     </c:when>
+			     <c:otherwise>
+			      <ul class="pagination">
+			        <!-- 이전버튼 -->
+			        <c:if test="${page.startPage > page.pageLimit}">
+				        <li class="page-item">
+				          <a class="page-link  mx-1 " href="boSearchNewbookList?currentPage=${page.startPage-page.pageLimit}&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}" aria-label="Previous">
+				            <i class="feather-icon icon-chevron-left"></i>
+				          </a>
+				        </li>
+			        </c:if>
+			        
+			        <!-- 페이지 넘버 -->
+			        <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
+			        	<li class="page-item"><a class="page-link mx-1 text-body" href="boSearchNewbookList?currentPage=${i }&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}">${i }</a></li>
+			        </c:forEach>
+			         
+			        <!-- 다음 버튼 -->
+			        <c:if test="${page.endPage < page.totalPage}">
+				        <li class="page-item">
+				          <a class="page-link mx-1 text-body" href="boSearchNewbookList?currentPage=${page.startPage+page.pageLimit }&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}" aria-label="Next">
+				            <i class="feather-icon icon-chevron-right"></i>
+				          </a>
+				        </li>
+			        </c:if>
+			       </ul>
+			     </c:otherwise>
+		      </c:choose>
+	    </nav>
+	  </div>
 	</div>
 
 </body>

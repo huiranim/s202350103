@@ -244,8 +244,37 @@ public class GbController {
 		List<NewBook> listBoNewbook = nbs.selectSearchNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
 		
 		model.addAttribute("listBoNewbook", listBoNewbook);
+		model.addAttribute("page", page);
 		
 		return "gb/boNewbookList";
+	}
+	
+	// 검색 도서 리스트 조회
+	@GetMapping("boSearchNewbookList")
+	// form에서 파라미터 값을 받아올 떄에는 DTO에 변수와 동일하게 작성하면 자동으로 DTO의 변수와 매핑되어 가져온다.
+	public String selectBoNewbookList(NewBook newbook, String currentPage, Model model) {
+		System.out.println("GbController selectBoNewbookList start...");
+		
+		// 키워드 검색 결과 도서 총 개수
+		int searchBoNewbookCnt = nbs.selectSearchNewBookCnt(newbook); // 카테고리별 총 개수를 구해준다.
+		System.out.println("GbController selectBoNewbookList searchBoNewbookCnt -> "+searchBoNewbookCnt);	
+		
+		// 페이징 처리 작업
+		Paging page = new Paging(searchBoNewbookCnt, currentPage);
+		// Parameter searchBoNewbook --> Page만 추가 Setting
+		newbook.setStart(page.getStartRow());
+		newbook.setEnd(page.getEndRow());
+		
+		// 국내도서 검색 리스트
+		List<NewBook> listSearchBoNewbook = nbs.selectSearchBoNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
+		System.out.println("GbController selectBoNewbookList listSearchBoNewbook.size() -> "+listSearchBoNewbook.size());
+		
+		model.addAttribute("search_Newbook", newbook);
+		model.addAttribute("listBoNewbook", listSearchBoNewbook);
+		model.addAttribute("page", page);
+		
+		return "gb/boNewbookList";
+		
 	}
 	
 }

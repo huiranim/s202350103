@@ -212,7 +212,7 @@
 	        <!-- 이전버튼 -->
 	        <c:if test="${page.startPage > page.pageLimit}">
 		        <li class="page-item">
-		          <a class="page-link  mx-1 " href="innewbookList?currentPage=${page.startPage-page.pageLimit}&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}" aria-label="Previous">
+		          <a class="page-link  mx-1 " href="searchNewbookList?currentPage=${page.startPage-page.pageLimit}&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}" aria-label="Previous">
 		            <i class="feather-icon icon-chevron-left"></i>
 		          </a>
 		        </li>
@@ -220,7 +220,7 @@
 	        
 	        <!-- 페이지 넘버 -->
 	        <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-	        	<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookList?currentPage=${i }&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}">${i }</a></li>
+	        	<li class="page-item"><a class="page-link mx-1 text-body" href="searchNewbookList?currentPage=${i }&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}">${i }</a></li>
 	        </c:forEach>
 	        
 	        
@@ -233,7 +233,7 @@
 	        <!-- 다음 버튼 -->
 	        <c:if test="${page.endPage < page.totalPage}">
 		        <li class="page-item">
-		          <a class="page-link mx-1 text-body" href="innewbookList?currentPage=${page.startPage+page.pageLimit }&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}" aria-label="Next">
+		          <a class="page-link mx-1 text-body" href="searchNewbookList?currentPage=${page.startPage+page.pageLimit }&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}" aria-label="Next">
 		            <i class="feather-icon icon-chevron-right"></i>
 		          </a>
 		        </li>
