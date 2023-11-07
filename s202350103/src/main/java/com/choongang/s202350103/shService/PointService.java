@@ -28,6 +28,9 @@ public interface PointService {
 	int 			 stampAtt(AttJoin attJoin);
 	int 			 savePoint(AttJoin attJoin);
 	int 			 checkChance(AttJoin attJoin);
+	int 			 checkChance(QuizJoin quizJoin);
+	void 			 checkedAnswer(QuizJoin quizJoin);
+	void 			 savePoint(QuizJoin quizJoin);
 	
 	
 }

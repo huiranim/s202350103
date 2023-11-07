@@ -13,14 +13,17 @@
 	</select>
 	
 	<insert id="shStampAtt" parameterType="AttJoin">
-		Insert into att_join values (#{m_num},#{a_num},sysdate);
+		Insert into att_join values (#{m_num},#{a_num},sysdate)
 	</insert>
 	
-	<update id="shSavePoint" parameterType="AttJoin">
-		Update member Set m_point = +(Select a_point From attendance Where a_num = #{a_num}) Where m_num=#{m_num}
+	<update id="shAttPoint" parameterType="AttJoin">
+		Update member Set m_point = m_point + (Select a_point From attendance Where a_num = #{a_num}) Where m_num=#{m_num}
 	</update>
 	
-	<select id="shCheckChance" parameterType="AttJoin" resultType="int">
-		Select count(*) From attendance Where a_num=#{a_num} and m_num=#{m_num}
+	<select id="shAttChance" parameterType="AttJoin" resultType="int">
+		Select count(*) a From att_join
+    	Where a_num = #{a_num} And m_num = #{m_num}
+    	And To_char(a_par_pdate, 'yyMMdd') = To_char(SYSDATE, 'yyMMdd')
 	</select>
+	
 </mapper>

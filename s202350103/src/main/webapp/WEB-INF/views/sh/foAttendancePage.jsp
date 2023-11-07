@@ -13,26 +13,23 @@
 <title>Insert title here</title>
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javaScript">
-	function checkAtt(attJoin){
-		if(${chance}>=1){
-			alert("금일 참여하셨습니다.")
-		} else {
-			location.href="checkAtt?m_"
-		}
+	function checkAtt(a_num, m_num){	
+			if(${chance}==0){
+				alert("출석 체크 완료");
+				location.href="checkAtt?m_num="+m_num+"&a_num="+a_num;
+				return true;
+			} else {
+				alert("금일 참여하셨습니다.");
+				return false;
+			}
 	}
 </script>
 </head>
 
 <body>
-
-	<c:if test="${chance >= 1 }">
-		
-	</c:if>
-
+<h1>${month}월 출석 이벤트</h1>
+<caption>${attendance.a_sdate } ~ ${attendance.a_edate }</caption>
 <table border="1" width="100%" cellspacing="0">
-	
-	<h1>${month}월 출석 이벤트</h1>
-	<caption>${attendance.a_sdate } ~ ${attendance.a_edate }</caption>
 	<colgroup>
 		<col width="14.3%"/>
 		<col width="14.3%"/>
@@ -85,9 +82,12 @@
 	    </c:forEach>
 	</tbody>
 </table>
-	<form action="checkA">
-		<input type="submit" value="출석하기 " onclick="checkAtt(${attJoin})">
-	</form>
+		<button onclick="checkAtt(${a_num},${m_num })">출석체크</button>
+	<c:forEach var="attJoin" items="${attJoin }">
+		<p>${attJoin.a_num }</p>
+		<p>${attJoin.m_num }</p>
+		<p>${attJoin.a_par_pdate }</p>
+	</c:forEach>
 			
 <%@ include file="../common/footerFo.jsp" %>
 </body>

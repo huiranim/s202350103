@@ -55,7 +55,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 	public int savePoint(AttJoin attJoin) {
 		int point = 0;
 		try {
-			point = session.update("shSavePoint",attJoin);
+			point = session.update("shAttPoint",attJoin);
 		} catch (Exception e) {
 			System.out.println("AttendanceDaoImpl savePoint() Exception->"+e.getMessage());
 		} 
@@ -66,7 +66,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 	public int checkChance(AttJoin attJoin) {
 		int chance = 0;
 		try {
-			chance = session.selectOne("shCheckChance",attJoin);
+			chance = session.selectOne("shAttChance",attJoin);
 		} catch (Exception e) {
 			System.out.println("AttendanceImpl checkChance() Exception->"+e.getMessage());
 		}

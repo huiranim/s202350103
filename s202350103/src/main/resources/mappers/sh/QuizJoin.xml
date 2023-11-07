@@ -6,4 +6,16 @@
 	<select id="shQuizJoinList" parameterType="int" resultType="QuizJoin">
 		Select * From quiz_join Where m_num = #{m_num}
 	</select>
+	
+	<select id="shQuizChance" parameterType="QuizJoin" resultType="int">
+		Select count(*) a From quiz_join Where q_num=#{q_num} and m_num=#{m_num} and to_char(q_par_pdate,'yyMMdd') =to_char(sysdate,'yyMMdd')
+	</select>
+	
+	<insert id="shQuizAnswer" parameterType="QuizJoin">
+		Insert Into quiz_join Values (#{m_num},#{q_num},sysdate)
+	</insert>
+	
+	<update id="shQuizPoint"  parameterType="QuizJoin">
+		Update member Set m_point = m_point + (Select q_point From quiz Where q_num=#{q_num}) Where m_num = #{m_num}
+	</update>
 </mapper>
