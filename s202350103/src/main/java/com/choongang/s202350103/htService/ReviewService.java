@@ -14,6 +14,6 @@ public interface ReviewService {
 	int            reviewRating(Review review);
 	double         reviewAverage();
 	List<Orderr>   reviewWriteList(Orderr orderr);
-	int            totalReviewCnt(Member member);
+	int            totalReviewCnt(Orderr orderr);
 	
 }

@@ -82,11 +82,11 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public int myReviewTotal(Member member) {
+	public int myReviewTotal(Orderr orderr) {
 		System.out.println("ReviewDaoImpl myReviewTotal() Start....");
 		int total = 0;
 		try {
-			total = session.selectOne("htMyReviewCnt", member);
+			total = session.selectOne("htMyReviewCnt", orderr);
 		}catch (Exception e) {
 			System.out.println("ReviewDaoImpl myReviewTotal() total--> " + total);
 		}

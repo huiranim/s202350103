@@ -66,9 +66,9 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public int totalReviewCnt(Member member) {
+	public int totalReviewCnt(Orderr orderr) {
 		System.out.println("ReviewServiceImpl totalReviewCnt() Start..." );
-		int total = rd.myReviewTotal(member);
+		int total = rd.myReviewTotal(orderr);
 		System.out.println("ReviewServiceImpl totalReviewCnt() total--> " + total);
 		return total;
 	}

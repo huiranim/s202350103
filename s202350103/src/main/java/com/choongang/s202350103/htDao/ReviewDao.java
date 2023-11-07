@@ -13,5 +13,5 @@ public interface ReviewDao {
 	int          reviewRating(Review review);
 	double       reviewAverage();
 	List<Orderr> reviewWriteList(Orderr orderr);
-	int          myReviewTotal(Member member);
+	int          myReviewTotal(Orderr orderr);
 }

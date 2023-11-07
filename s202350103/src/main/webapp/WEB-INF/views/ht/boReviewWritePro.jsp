@@ -22,6 +22,5 @@
 			</script>
 		</c:if>
 	</div>
-
 </body>
 </html>
