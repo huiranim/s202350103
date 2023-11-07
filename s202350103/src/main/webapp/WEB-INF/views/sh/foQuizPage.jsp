@@ -8,10 +8,38 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Quiz이벤트</title>
 </head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+<script type="text/javascript">
+	function checkAnswer(m_num, q_num){
+		var selected = document.querySelector('input[name="select"]:checked');
+	    if (!selected || selected === null) {
+	        alert("정답을 선택하세요.");
+	        return false;
+	    } else{ 
+				var select = selected.value;
+				var answer = document.getElementById('answer').value;
+				alert("정답.");
+				if(select == answer){
+					if(${chance} == 0){
+						alert("정답입니다! 정말 대단하시군요~");
+						/* location.href="checkQuiz?m_num="+m_num+"&q_num="+q_num; */
+						return true;
+					} else{
+						alert("이미 참여하셨습니다");
+						return false;
+					}
+				} else {
+					alert("오답입니다. 오달숩니다.");
+					return false;
+				}
+			}
+		}
+</script>
 <body>
-	<h1>Quiz 이벤트</h1>
+<p>${q_num},${m_num}</p>
+	<h1>Quiz이벤트</h1>
 	<p>${quiz.q_sdate}~${quiz.q_edate}</p>
 	<br>
 	<div>
@@ -19,12 +47,15 @@
 			<h3>Quiz</h3>
 			<textarea>${quiz.q_question }</textarea>
 		</div>
-		<form action="quizAnswer()">
-			<input type="radio" name="select1" value="${quiz.q_select1 }">${quiz.q_select1 }
-			<input type="radio" name="select2" value="${quiz.q_select2 }">${quiz.q_select2 }
-			<input type="radio" name="select3" value="${quiz.q_select3 }">${quiz.q_select3 }
-			<input type="radio" name="select4" value="${quiz.q_select4 }">${quiz.q_select4 }
-			<input type="button" name="submit" value="제출">
+		<form onsubmit="checkAnswer()">
+			<input type="hidden" name="m_num" value="${m_num}">
+   			<input type="hidden" name="q_num" value="${q_num}">
+			<input type="hidden" name="answer"   value="${quiz.q_answer}">
+			<input type="radio"  name="select"   value="1">${quiz.q_select1 }<br>
+			<input type="radio"  name="select"   value="2">${quiz.q_select2 }<br>
+			<input type="radio"  name="select"   value="3">${quiz.q_select3 }<br>
+			<input type="radio"  name="select"   value="4">${quiz.q_select4 }<br>
+			<input type="submit" value="제출">
 		</form>
 	</div>
 	<div>

@@ -66,8 +66,6 @@ public class PointServiceImpl implements PointService {
 	@Override
 	public List<AttJoin> listAttJoin(AttJoin attJoin) {
 		System.out.println("PointService listAttJoin() Start...");
-		System.out.println("m_num->"+ attJoin.getM_num());
-	    System.out.println("a_num->"+ attJoin.getA_num());
 		List<AttJoin> attJoinList = ajd.listAttJoin(attJoin);
 		System.out.println("PointService listAttJoin.size()->"+attJoinList.size());
 		return attJoinList;
@@ -127,6 +125,23 @@ public class PointServiceImpl implements PointService {
 	public int checkChance(AttJoin attJoin) {
 		int chance = ajd.checkChance(attJoin);
 		return chance;
+	}
+
+	@Override
+	public int checkChance(QuizJoin quizJoin) {
+		int chance = qjd.checkChance(quizJoin);
+		return chance;
+	}
+
+	@Override
+	public void checkedAnswer(QuizJoin quizJoin) {
+		qjd.checkedAnswer(quizJoin);
+	}
+
+	@Override
+	public void savePoint(QuizJoin quizJoin) {
+		qjd.savePoint(quizJoin);
+		
 	}
 
 }

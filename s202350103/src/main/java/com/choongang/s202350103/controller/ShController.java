@@ -28,7 +28,7 @@ import com.choongang.s202350103.model.AttJoin;
 		
 		private final PointService ps;
 		
-		//EventList 
+		//EventList Page
 		@RequestMapping(value = "eventList")
 		public String eventList(Attendance attendance, Quiz quiz, String currentPage, Model model) {
 			System.out.println("PointController eventList() Start..");
@@ -43,13 +43,9 @@ import com.choongang.s202350103.model.AttJoin;
 			int end = page.getEnd();
 			attendance.setStart(start);
 			attendance.setEnd(end);
-			System.out.println("PointController attendance.getStart()->"+start);
-			System.out.println("PointController attendance.getEnd()->"+end);
-			
 			
 			List<Attendance> eventList = ps.listEvent(attendance);
-			System.out.println("PointController listEvent.size()->"+eventList.size());
-			
+
 			model.addAttribute("totalEvent",totalEvent);
 			model.addAttribute("eventList",eventList);
 			model.addAttribute("page",page);
@@ -57,7 +53,7 @@ import com.choongang.s202350103.model.AttJoin;
 			
 			return "sh/foEventList";
 		}
-			
+		//해당 이벤트 분류(eventList -> eventPage 과정)
 		@RequestMapping(value = "eventIn")
 		public String pageIn(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
 		    System.out.println("PointController pageIn() Start..");
@@ -71,9 +67,9 @@ import com.choongang.s202350103.model.AttJoin;
 		    }
 		    
 		}
-				
+		//Attendance Page		
 		@RequestMapping(value = "attendancePage")
-		public String attendancePage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
+		public String attendancePage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num,AttJoin attJoin, Model model) {
 			System.out.println("PointController attendancePage() Start..");
 			//캘린더
 			Calendar cal = Calendar.getInstance();
@@ -84,14 +80,14 @@ import com.choongang.s202350103.model.AttJoin;
 		    int lastday = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 			// 데이터 처리 및 모델 설정
 		    Attendance attendance = ps.detailAttendance(eNum);
-		    AttJoin attJoin = new AttJoin();
 		    attJoin.setM_num(m_num);
 		    attJoin.setA_num(eNum);
-		    System.out.println("m_num->"+ attJoin.getM_num());
-		    System.out.println("a_num->"+ attJoin.getA_num());
 		    List<AttJoin> attJoinList = ps.listAttJoin(attJoin);
 		    List<AttJoin> dateList = ps.subDate(attJoin);
-		    System.out.println("PointController listAttJoin() attJoinList.size->" + attJoinList.size());
+		  //당일 출석 유무 체크
+		    int chance = ps.checkChance(attJoin);
+		    System.out.println("chance->"+ chance);
+		    
 		    model.addAttribute("attendance", attendance);
 		    model.addAttribute("date",dateList);
 		    model.addAttribute("attJoin", attJoinList);
@@ -99,25 +95,19 @@ import com.choongang.s202350103.model.AttJoin;
 		    model.addAttribute("lastday",lastday);
 		    model.addAttribute("month",month);
 		    model.addAttribute("cal",cal);
+		    model.addAttribute("chance",chance);
+		    model.addAttribute("m_num",m_num);
+		    model.addAttribute("a_num",eNum);
 		    return "sh/foAttendancePage";
 		}
-			
-		@RequestMapping (value = "quizPage")
-		public String quizPage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
-			Quiz quiz = ps.detailQuiz(eNum);
-			List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
-			System.out.println("PointController divideEventNum() quizJoinList.size->"+quizJoinList.size());
-			model.addAttribute("quizJoin",quizJoinList);
-			model.addAttribute("quiz",quiz);
-			return "sh/foQuizPage";
-		}
 	
+		//관리자 페이지 출석이벤트 생성
 		@PostMapping(value = "createAtt")
 		public String createAtt(String a_title, String a_sdate, String a_edate, String a_image, int a_point, int a_add, int a_addpoint ) {
 			Attendance attendance = new Attendance();
 			attendance.setA_title(a_title);
 			attendance.setA_sdate(a_sdate);
-			attendance.setA_edate(a_edate);
+			attendance.setA_edate(a_edate);	
 			attendance.setA_image(a_image);
 			attendance.setA_point(a_point);
 			attendance.setA_add(a_add);
@@ -127,16 +117,51 @@ import com.choongang.s202350103.model.AttJoin;
 			return	"creatAtt() data insert successfully";
 		}
 		
+		//출석페이지 출석 버튼 클릭 메소드
 		@RequestMapping(value = "checkAtt")
-		public String checkAtt(AttJoin attJoin, Model model) {
-			int chance = ps.checkChance(attJoin);
-			System.out.println("chance"+chance);
-			int stamp = ps.stampAtt(attJoin);
-			int point = ps.savePoint(attJoin);
-			
-			model.addAttribute("chance",chance);
-			
-			return "forward:/sh/foAttendancePage";
+		public String checkAtt(@RequestParam("a_num") int a_num, @RequestParam("m_num") int m_num, Model model) {
+			AttJoin attJoin = new AttJoin();
+			attJoin.setA_num(a_num);
+			attJoin.setM_num(m_num);
+			//출석 메소드
+			ps.stampAtt(attJoin);
+			//포인트 적립메소드
+			ps.savePoint(attJoin);
+				
+			return "forward:/foAttendancePage?eNum="+a_num+"&m_num="+m_num;
 		}
+		
+		//Quiz Page
+		@RequestMapping (value = "quizPage")
+		public String quizPage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
+			Quiz quiz = ps.detailQuiz(eNum);
+			//참여여부 확인
+			QuizJoin quizJoin = new QuizJoin();
+			quizJoin.setM_num(m_num);
+			quizJoin.setQ_num(eNum);
+			int chance = ps.checkChance(quizJoin);
+			List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
+			System.out.println("PointController divideEventNum() quizJoinList.size->"+quizJoinList.size());
+			model.addAttribute("quizJoin",quizJoinList);
+			model.addAttribute("quiz",quiz);
+			model.addAttribute("chance",chance);
+			model.addAttribute("m_num",m_num);
+			model.addAttribute("q_num",eNum);
+			return "sh/foQuizPage";
+		}
+		
+		//Quiz 정답 제출
+		@RequestMapping(value = "checkQuiz")
+		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("q_num") int q_num, Model model) {
+			System.out.println("PointController quizAnswer() Start...");
+			QuizJoin quizJoin = new QuizJoin();
+			quizJoin.setM_num(m_num);
+			quizJoin.setQ_num(q_num);
+			ps.checkedAnswer(quizJoin);
+			ps.savePoint(quizJoin);
+			return "forward:/foQuizPage?eNum="+q_num+"&m_num="+m_num;
+		}
+		
+		
 	
 	}

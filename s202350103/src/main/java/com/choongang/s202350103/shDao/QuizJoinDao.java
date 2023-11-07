@@ -7,5 +7,8 @@ import com.choongang.s202350103.model.QuizJoin;
 public interface QuizJoinDao {
 
 	List<QuizJoin> 		listQuizJoin(int m_num);
+	int 				checkChance(QuizJoin quizJoin);
+	void 				checkedAnswer(QuizJoin quizJoin);
+	void 				savePoint  (QuizJoin quizJoin);
 
 }
