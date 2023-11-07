@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.OldBook;
+import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberDaoImpl1 implements MemberDao {
 	private final SqlSession session;
 	private final HttpSession https; 
+	// 로그인
 	@Override
 	public Member login(Member member1) {
 		System.out.println("MemberDaoImpl login Start...");
@@ -31,10 +34,13 @@ public class MemberDaoImpl1 implements MemberDao {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
-		return member;
+		if(member == null) {
+			return null;
+		} else {
+			return member;			
+		}
 	}
-
+	// 장바구니 총 개수
 	@Override
 	public int totalCart(Member member) {
 		System.out.println("MemberDaoImpl1 totalCart start...");
@@ -49,8 +55,22 @@ public class MemberDaoImpl1 implements MemberDao {
 		
 		return totalCart;
 	}
+	// 판매 총 개수
+	@Override
+	public int totalSellCnt(Member member) {
+		System.out.println("MemberDaoImpl1 totalSellCnt() start...");
+		int totalSellCnt = 0;
+		System.out.println("MemberDaoImpl1 totalSellCnt member -> " + member.getM_num());
+		try {
+			totalSellCnt = session.selectOne("ybTotalSellCnt", member);
+			System.out.println("MemberDaoImpl1 totalSellCnt() totalCart -> " + totalSellCnt);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 totalSellCnt() Exception -> " + e.getMessage());
+		}
+		return totalSellCnt;
+	}
 	
-
+	// 장바구니 총 가격
 	@Override
 	public int totalPrice(Member member) {
 		System.out.println("MemberDaoImpl1 totalPrice() start...");
@@ -63,7 +83,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return totalPrice;
 	}
-
+	// 찜목록
 	@Override
 	public int totalWishList(Member member) {
 		System.out.println("MemberDaoImpl1 totalWishList start...");
@@ -117,7 +137,23 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return memberWishList;
 	}
-
+	// 포인트리스트
+	@Override
+	public List<PointList> memberPointList(PointList pointList) {
+		Member member =(Member) https.getAttribute("member");
+		List<PointList> memberPointList = new ArrayList<PointList>();
+		pointList.setM_num(member.getM_num());
+		
+		try {
+			memberPointList = session.selectList("ybMemberQuizList", pointList);
+			System.out.println("MemberDaoImpl1 memberPointList.size() -> " + memberPointList.size());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberPointList Exception -> " + e.getMessage());
+		}
+		return memberPointList;
+	}
+	
+	// 회원 탈퇴
 	@Override
 	public Member memberWithdraw(Member member) {
 		System.out.println("MemberDaoImpl1 memberWithdraw() start...");
@@ -130,12 +166,17 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return member;
 	}
-
+	
+	// 회원 로그인 체크
 	@Override
 	public Member memberChk(String chk_Id) {
 		System.out.println("MemberDaoImpl1 memberChk() start...");
-		
-		Member member = session.selectOne("ybMemberChk", chk_Id);
+		Member member = new Member();
+		try {
+			member = session.selectOne("ybMemberChk", chk_Id);	
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberChk() Exception -> " + e.getMessage());
+		}
 		if(chk_Id == null) {
 			return null;	
 		} else {
@@ -143,6 +184,24 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		
 	}
+	@Override
+	public List<OldBook> oldBookSellList(OldBook oldbook) {
+		System.out.println("MemberDaoImpl1 oldBookSellList() start...");
+		Member member =(Member) https.getAttribute("member");
+		List<OldBook> oldBookSellList = new ArrayList<OldBook>();
+		try {
+			oldbook.setM_num(member.getM_num());
+			System.out.println("MemberServiceImpl1 oldBookSellList member.getNum -> " + oldbook.getM_num());
+			oldBookSellList = session.selectList("ybOldBookSellList", oldbook); 
+			System.out.println("MemberServiceImpl1 oldBookSellList oldBookSellList -> " + oldBookSellList.size());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 oldBookSellList() Exception -> " + e.getMessage());
+		}
+		return oldBookSellList;
+	}
+	
+
+	
 
 	
 	

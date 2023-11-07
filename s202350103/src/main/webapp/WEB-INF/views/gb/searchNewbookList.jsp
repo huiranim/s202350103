@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Insert title here</title>
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
 	
 	function category2Click() {
@@ -20,6 +20,30 @@
 		location.href = "/searchNewbookList?nb_category2="+category2Value +"&orderType="
 				+orderTypeValue+"&search_type="+'${search_Newbook.search_type}'+"&search_keyword="+'${search_Newbook.search_keyword}';
 
+	}
+	
+	function wishlist(pNb_num) {
+		alert("pNb_num ->"+pNb_num);
+		
+		$.ajax({
+			url : "/wish/wishclick", 
+			data : {nb_num : pNb_num},
+			dataType : 'text',
+			success : function(data){
+						if (data == '0') {
+							alert ("찜 취소 되었습니다.");
+							location.reload();
+						} 
+						else if(data == '1') {
+							alert ("찜 되었습니다.");
+							location.reload();
+						} 
+						else {
+							location.href = data ;
+						}
+										
+				  }
+			});
 	}
 </script>
 </head>
@@ -134,9 +158,18 @@
 			                    <!-- 찜, 바로구매,  장바구니 버튼 -->
 			                    <div class="mt-2">
 			                       <!-- 찜하기 버튼 -->	
-			                       <a href="shop-wishlist.html" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
-			                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist"><i
-			                          class="bi bi-heart"></i></a>
+			                       <c:choose>
+			                       	<c:when test="${searchNewbook.w_wish == 0}">
+				                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+				                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
+				                          <i id="wishbtn" class="bi bi-heart"></i></a>
+				                    </c:when>
+				                    <c:when test="${searchNewbook.w_wish == 1}">
+				                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+				                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
+				                          <i id="wishbtn" class="bi bi-heart-fill"></i></a>
+				                    </c:when>
+			                       </c:choose>
 			                       <!-- 바로구매 버튼 -->   
 			                       <a href="#!" class="btn btn-primary ">
 			                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"

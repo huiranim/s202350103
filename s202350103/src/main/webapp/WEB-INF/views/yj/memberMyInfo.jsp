@@ -342,7 +342,7 @@ function valiForm() {
 						</div>
 					</div>
 					<hr>
-
+					<a href="memberQna?m_num=${member.m_num }">관리자문의</a>
 					<div class="btn btn-ghost-primary mb-2 d-grid gap-2 col-6 mx-auto ">
 						<button class="btn btn-primary" type="submit">회원 정보변경</button>
 					</div>
@@ -427,8 +427,7 @@ function valiForm() {
 			}
 		});
 	</script>
-
-
+	
 
 	<%@ include file="../common/footerFo.jsp"%>
 

@@ -23,9 +23,12 @@ public class OldBook {				//중고상품
 	private Date	ob_write_date;	//중고 등록일자
 	private int 	ob_readcnt;		//중고 조회수
 	
-	
+	// 조회용
 	private String  nb_title;
 	private	int     nb_price;
+	private String  nb_image;
+	private String	nb_publisher;
+	private String  nb_writer;
 	
 	
 	

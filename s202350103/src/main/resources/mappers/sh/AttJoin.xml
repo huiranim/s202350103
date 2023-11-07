@@ -2,8 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.oracle.oBootTest.AttJoinMapper">
+<mapper namespace="com.choongang.s202350103.AttJoinMapper">
+
 	<select id="shAttJoinList" parameterType="AttJoin" resultType="AttJoin">
-		Select * From att_join Where m_num = #{m_num}
+		Select * From att_join Where m_num = #{m_num} and a_num = #{a_num}
+	</select>
+	
+	<select id="shSubDate" parameterType="AttJoin" resultType="int" >
+		Select substr(a_par_pdate,7,2) day from att_join where a_num = #{a_num} and m_num = #{m_num}
+	</select>
+	
+	<insert id="shStampAtt" parameterType="AttJoin">
+		Insert into att_join values (#{m_num},#{a_num},sysdate);
+	</insert>
+	
+	<update id="shSavePoint" parameterType="AttJoin">
+		Update member Set m_point = +(Select a_point From attendance Where a_num = #{a_num}) Where m_num=#{m_num}
+	</update>
+	
+	<select id="shCheckChance" parameterType="AttJoin" resultType="int">
+		Select count(*) From attendance Where a_num=#{a_num} and m_num=#{m_num}
 	</select>
 </mapper>

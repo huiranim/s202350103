@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.NewBook;
+import com.choongang.s202350103.model.WishList;
 
 import lombok.RequiredArgsConstructor;
 
@@ -63,6 +65,7 @@ public class NewBookDaoImpl implements NewBookDao {
 			System.out.println("NewBookDaoImpl selectSearchNewBookList Start...");
 			listSearchNewbook = session.selectList("gbSelectSearchBList", newbook);
 			System.out.println("NewBookDaoImpl selectSearchNewBookList listSearchNewbook.size() -> "+listSearchNewbook.size());
+			System.out.println("NewBookDaoImpl selectSearchNewBookList listSearchNewbook.w_wish -> "+listSearchNewbook.get(0).getW_wish());
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectSearchNewBookList -> "+e.getMessage());
 		}
@@ -112,19 +115,34 @@ public class NewBookDaoImpl implements NewBookDao {
 	}
 
 	@Override
-	public int selectWishStatus(NewBook newbook) {
+	public int selectWishStatus(WishList wishlist) {
 		System.out.println("NewBookDaoImpl selectWishStatus start...");
-		int wishStatus = session.selectOne("gbselectWishStatus", newbook);
+		int wishStatus = session.selectOne("gbselectWishStatus", wishlist);
 		System.out.println("NewBookDaoImpl selectWishStatus wishStatus -> "+wishStatus);
 		return wishStatus;
 	}
 
 	@Override
-	public int InsertUpdateWish(NewBook newbook) {
+	public int InsertUpdateWish(WishList wishlist) {
 		System.out.println("NewBookDaoImpl InsertUpdateWish start...");
-		int result = session.insert("gbInsertUpdateWish", newbook);
+		int result = session.insert("gbInsertUpdateWish", wishlist);
 		System.out.println("NewBookDaoImpl InsertUpdateWish result->"+result);
 		return result;
+	}
+
+	@Override
+	public int insertCart(Cart cart) {
+		int result = 0;
+		System.out.println("NewBookDaoImpl insertCart start...");
+		result = session.insert("gbInsertCart", cart);
+		System.out.println("NewBookDaoImpl insertCart cart->"+result);
+		return result;
+	}
+
+	@Override
+	public void updateCartCount(Cart cart) {
+		System.out.println("NewBookDaoImpl updateCartCount start...");
+		session.update("gbUpdateCartCount", cart);	
 	}
 
 }

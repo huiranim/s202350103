@@ -14,15 +14,17 @@
 		      <div class="row">
 		        <div class="col-lg-12">
 		          <div class="card py-1 border-0 mb-8">
-           			 <div>
-             			 <h1 class="fw-bold">찜목록</h1><br>
-              			 <h4>총 상품 개수 : ${totalWishList }</h4>
-           			 </div>
+           			 <div class="mb-8">
+			         <!-- heading -->
+				         <h2 class="mb-2">찜목록</h2>
+				         <p><a href="#">${member.m_id } 님의 찜 목록입니다.</a></p>
+				               총 상품 개수 : ${totalWishList }		
+			      	</div>
 		          <div>
 		            <!-- table -->
 		            <div class="table-responsive">
 		              <table class="table text-nowrap table-with-checkbox">
-		              <c:forEach var="wishList" items="${memberWishList }">
+		              
 		                <thead class="table-light">
 		                  <tr>
 		                    <th>
@@ -43,6 +45,7 @@
 		                  </tr>
 		                </thead>
 		                <tbody>
+		                <c:forEach var="wishList" items="${memberWishList }">
 		                  <tr>
 		                    <td class="align-middle">
 		                      <!-- form check -->
@@ -75,8 +78,9 @@
 		                        <i class="feather-icon icon-trash-2"></i>
 		                      </a></td>
 		                  </tr>
+		                  </c:forEach>
 		                </tbody>
-		                </c:forEach>
+		               
 		              </table>
 		            </div>
 		
