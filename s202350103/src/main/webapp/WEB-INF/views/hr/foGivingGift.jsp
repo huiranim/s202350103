@@ -7,6 +7,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript">
+		function changeChk(p_point){
+			//alert("변경!");
+			//alert("보유 포인트 : ${member.m_point }");
+			//alert("입력 포인트 : "+p_point);
+			
+			if(p_point <= '${member.m_point }'){
+				//alert("사용 가능합니다.");
+				$("#pointMsg").html("사용 가능합니다.");
+				// 여기부터 시작 $("o_point_result").val(p_point);
+			} else {
+				//alert("보유 포인트보다 많이 사용할 수 없습니다.");
+				$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
+				$("#o_point").val("");
+			}
+		}
+	</script>
 </head>
 <body>
 
@@ -20,43 +38,39 @@
         <div class="offset-lg-2 col-lg-8 col-12">
           <div class="mb-8">
               <!-- heading -->
-            <h1 class="h3" style="align: center;">선물하기</h1><p>
+            <h3 style="align: center;">선물하기</h3><p>
           </div>
           <!-- form -->
           <form class="row">
             <h5 class="h5">보내는 사람</h5><p>
               <!-- input -->
             <div class="col-md-12 mb-3">
-            
-            
-              <label class="form-label" for="fname"> 이름</label>
-              <h6 class="h6">홍길동</h6>
-              <!-- <input type="text" id="fname" class="form-control" name="fname" placeholder="홍길동" required> -->
+              <label class="form-label"> 이름</label>
+              <h6 class="h6">${member.m_name }</h6>
             </div>
             <div class="col-md-12 mb-3">
               <!-- input -->
-              <label class="form-label" for="lname"> 이메일</label>
-              <h6 class="h6">hong@dadok.com</h6>
-              <!-- <input type="text" id="lname" class="form-control" name="lname" placeholder="hong@dadok.com" required> -->
+              <label class="form-label"> 이메일</label>
+              <h6 class="h6">${member.m_email }</h6>
             </div>
             <div class="col-md-12 mb-3">
               <!-- input -->
-              <label class="form-label" for="company"> 휴대전화</label>
-              <h6 class="h6">010-0000-0000</h6>
-              <!-- <input type="text" id="company" name="company" class="form-control" placeholder="010-0000-0000" required> -->
+              <label class="form-label"> 휴대전화</label>
+              <h6 class="h6">${member.m_ph }</h6>
             </div>
-            <p><p>
+            
+            <p><p><hr><p><p>
             
             <h5 class="h5">받는 사람</h5><p>
               <!-- input -->
             <div class="col-md-12 mb-3">
-              <label class="form-label" for="fname"> 이름<span class="text-danger">*</span></label>
-              <input type="text" id="fname" class="form-control" name="fname" placeholder="홍길동" required>
+              <label class="form-label" for="o_gift_name"> 이름<span class="text-danger">*</span></label>
+              <input type="text" id="o_gift_name" class="form-control" name="o_gift_name" placeholder="홍길동" required>
             </div>
             <div class="col-md-12 mb-3">
               <!-- input -->
-              <label class="form-label" for="company"> 휴대전화<span class="text-danger">*</span></label>
-              <input type="text" id="company" name="company" class="form-control" placeholder="010-0000-0000" required>
+              <label class="form-label" for="o_gift_ph"> 휴대전화<span class="text-danger">*</span></label>
+              <input type="text" id="o_gift_ph" name="o_gift_name" class="form-control" placeholder="010-0000-0000" required>
             </div>
             
             <p><p><hr><p><p>
@@ -64,7 +78,7 @@
             <h5 class="h5">메시지 카드</h5><p>
             <div class="col-md-12 mb-3">
             	<input type="radio" name="card" value="card1"><img alt="card1" src="../assets/images/gift/giftcard1.png"><br>
-            	<input type="radio" name="card" value="card2"><img alt="card2" src="../assets/images/gift/giftcard2.png"><br>
+            	<input type="radio" name="card" value="card2"><img alt="card2" src="../assets/images/gift/giftcard2.png"><br><p><p>
             	<textarea rows="3" name="msg" class="form-control" placeholder="메시지를 입력해주세요."></textarea>
             </div>
             
@@ -83,17 +97,16 @@
 				              <!-- col -->
 				              <div class="col-md-4 col-12">
 				                 <div class="text-center position-relative ">
-				                       <!-- img --><img src="../../assets/images/products/product-img-1.jpg"
-				                         alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
+				                       <!-- img --><img src="${newbook.nb_image}" alt="${newbook.nb_title}" class="mb-3 img-fluid" style="height: 150px;">
 				                 </div>
 				              </div>
 				              <div class="col-md-8 col-12 flex-grow-1">
 				                 <!-- heading -->
-				                 <h2 class="fs-6">상품명</h2>
-				                 <div class="text-small mb-1"><small>수량</small></div>
+				                 <h2 class="fs-6">${newbook.nb_title}</h2>
+				                 <div class="text-small mb-1"><small><fmt:formatNumber value="${quantity}" groupingUsed="true"/>개</small></div>
 				                 <div class=" mt-6">
 				                    <!-- price -->
-				                    <div><span class="text-dark">가격</span></div>
+				                    <div><span class="text-dark"><fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/>원</span></div>
 				                 </div>
 				              </div>
 				           </div>
@@ -108,8 +121,10 @@
             <h5 class="h5">할인/부가결제</h5><p>
               <!-- input -->
             <div class="col-md-12 mb-3">
-              <label class="form-label" for="fname"> 사용 포인트</label>
-              <input type="text" id="fname" class="form-control" name="point">
+              <label class="form-label" for="o_point"> 사용 포인트  (보유 : ${member.m_point }원)</label>
+              <span class="text-danger" id="pointMsg" ></span>
+              <input type="text" id="o_point" class="form-control" name="o_point"
+              		 onchange="changeChk(o_point.value)">
             </div>
 				
             <p><p><hr><p><p>
@@ -118,25 +133,25 @@
               <!-- input -->
             <div class="col-md-12 mb-3">
             	<table style="width: 100%;">
-            		<tr>
+            		<tr height="40px">
             			<td class="form-label" width="70%">상품금액</td>
-            			<td class="h6" width="30%" align="right">10,000 원</td>
+            			<td class="h6" width="30%" align="right"><fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/>원</td>
             		</tr>
-            		<tr>
+            		<tr height="40px">
             			<td class="form-label" width="70%">배송비</td>
             			<td class="h6" width="30%" align="right">3,000 원</td>
             		</tr>
-            		<tr>
+            		<tr height="40px">
             			<td class="form-label" width="70%">할인/부가결제</td>
             			<td class="h6" width="30%" align="right">- 1,000 원</td>
             		</tr>
             		<tr style="border-top: 1px solid #dfe2e1;
-            				   border-bottom: 1px solid #dfe2e1;"
-            				   >
-            			<td class="form-label" width="70%">최종 결제 금액</td>
-            			<td class="h6" width="30%" align="right">12,000 원</td>
+            				   border-bottom: 1px solid #dfe2e1;
+            				   height: 60px">
+            			<td class="text-danger" width="70%">최종 결제 금액</td>
+            			<td class="text-danger" width="30%" align="right">12,000 원</td>
             		</tr>
-            		<tr>
+            		<tr height="40px">
             			<td class="form-label" width="70%">적립 혜택</td>
             			<td class="h6" width="30%" align="right">120 원</td>
             		</tr>
@@ -146,11 +161,15 @@
             <p><p><hr><p><p>
             
             <h5 class="h5">결제 수단</h5><p>
-            	버튼 버튼 버튼
-            
-            <div class="col-md-12">
-              <!-- btn -->
-              <button type="submit" class="btn btn-primary">결제하기</button>
+            	<div class="d-grid gap-2 col-6 mx-auto">
+	            	<button type="button" class="btn btn-soft-secondary mb-2">카카오</button>
+	            	<button type="button" class="btn btn-soft-secondary mb-2">토스</button>
+            	</div>
+            	
+            <p><p><p><p><p><p>
+            	
+            <div class="d-grid gap-2">
+	            <button class="btn btn-primary" type="button">결제하기</button>
             </div>
 
 

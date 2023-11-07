@@ -1,16 +1,17 @@
 package com.choongang.s202350103.controller;
 
 import java.util.List;
-
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.choongang.s202350103.hrService.MemberService;
+import com.choongang.s202350103.hrService.NewbookService;
 import com.choongang.s202350103.hrService.OrderService;
 import com.choongang.s202350103.hrService.Paging;
+import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OrderDetail;
 import com.choongang.s202350103.model.Orderr;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j 
 public class HrController {
-	public final MemberService ms;
-	public final OrderService os;
+	private final MemberService ms;
+	private final OrderService os;
+	private final NewbookService ns;
 	
 	@RequestMapping(value = "helloFo")
 	public String memTot1(Model model) {
@@ -236,8 +238,21 @@ public class HrController {
 	// FO 선물하기
 	// foGivingGift.jsp
 	@RequestMapping(value = "foGivingGift")
-	public String givingGift() {
+	public String givingGift(Model model, Member member, HttpSession session, int nb_num, int quantity) {
 		System.out.println("HrController givingGift() start..");
+		
+		// model에 회원 정보 저장
+		member = (Member) session.getAttribute("member");
+		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
+		model.addAttribute("member", member);
+		
+		// model에 상품 정보 저장
+		NewBook newbook = ns.selectNewbook(nb_num);
+		System.out.println("HrController givingGift() newbook.getNb_title()"+newbook.getNb_title());
+		model.addAttribute("newbook", newbook);
+		
+		// model에 선택 수량 저장
+		model.addAttribute("quantity", quantity);
 		
 		System.out.println("HrController givingGift() end..");
 		return "/hr/foGivingGift";

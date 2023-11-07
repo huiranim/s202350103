@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class OrderDaoImpl implements OrderDao {
-	
 	private final SqlSession session;
 
 	// BO 주문목록 - total
