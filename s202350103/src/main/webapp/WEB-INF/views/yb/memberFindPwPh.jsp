@@ -18,7 +18,7 @@
 	<div class="row justify-content-center">
 		<div class="mb-8">
        <!-- heading -->
-       <h1 class="h3">아이디 찾기</h1>
+       <h1 class="h3">비밀번호 찾기</h1>
     	</div>
 	
 		<div class="col-lg-8 col-12">

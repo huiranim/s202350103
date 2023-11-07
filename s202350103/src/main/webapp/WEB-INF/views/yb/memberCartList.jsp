@@ -22,7 +22,7 @@
         <div class="col-12">
           <!-- 장바구니 헤더 -->
           <div class="card py-1 border-0">
-         	<div class="mb-3">
+         	<div class="mb-8">
 		         <h2>장바구니</h2>
 		         <p><a href="#">${member.m_id } 님의 장바구니 목록입니다.</a></p>
 		               총 상품 개수 : ${totalCart }		
@@ -34,6 +34,21 @@
       <div class="row">
         <div class="col-lg-8 col-md-7">
           <div class="py-3">
+          	<div class="table-responsive">
+		        <table class="table text-nowrap table-with-checkbox">
+		                <thead class="table-light">
+		                  <tr>
+		                    <th></th>
+		                    <th style="padding-left: 70px;">제목</th>
+		                    <th></th>
+		                    <th></th>    
+		                    <th></th>
+		                    <th>수량</th>
+		                   	<th style="padding-left: ;padding-right: 0px;padding-left: 70px;">가격</th>
+		                  </tr>
+		                </thead>
+		         </table>
+		    </div>
        		<form action="cartList" method="post">
 	          <c:forEach var="cart" items="${listCart }" varStatus="status">   
 	          	<input type="hidden" name="nb_num" value="${cart.nb_num }">
@@ -70,7 +85,7 @@
 	                  	</div>
 	                  </div>
 	                    <!-- price -->
-	                  <div class="col-2 text-lg-end text-start text-md-end col-md-2">
+	                  <div class="col-2 text-lg-end text-start text-md-end col-md-2" style="padding-left: 0px;">
 	                    <span class="fw-bold"><fmt:formatNumber value="${cart.nb_price * cart.c_count}" pattern="#,###" />원</span>
 	                  </div>
 	                 </div>
@@ -102,7 +117,7 @@
               	<h5>결제예정금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
               <div class="d-grid mb-1 mt-4">
                 <!-- btn -->
-                <button class="btn btn-primary btn-lg d-flex justify-content-between align-items-center" type="submit">
+                <button class="btn btn-primary justify-content-between align-items-center" type="submit">
                   	주문하기(${totalCart })</button>
               </div>
               </div>

@@ -32,6 +32,8 @@ public interface MemberService {
 
 	List<OldBook> 	oldBookSellList(OldBook oldbook);
 
+	Member 			findEmail(String memberMail);
+
 
 
 	

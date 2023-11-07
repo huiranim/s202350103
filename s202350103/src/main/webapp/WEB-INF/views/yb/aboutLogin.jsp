@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<script type="text/javascript" src="../assets/js/jquery.js"></script>
+<script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
-<%-- exam3_login.jsp --%>
+	// 아이디 기억하기
 	$(document).ready(function(){
 		 
 	    // 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
@@ -62,15 +62,17 @@
 	    }
 	    return unescape(cookieValue);
 	}
+	
 
-
+	function submitName(e) {
+	    if (e.code === 'Enter') {
+	        document.getElementById('btnSearch').click();
+	    }
+	}
+	
 	
 	function loginChk(m_id, m_pw) {		
-		$('#m_id, #m_pw').on('keypress', function(e){
-			  if(e.keyCode == '13'){
-			  	$('#btnSearch').click();
-			  }
-		});
+	
 		//alert("loginChk");
 		$.ajax({
 					url:"<%=request.getContextPath()%>/memberChk",
