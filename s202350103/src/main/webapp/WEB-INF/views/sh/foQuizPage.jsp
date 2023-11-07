@@ -19,12 +19,12 @@
 			<h3>Quiz</h3>
 			<textarea>${quiz.q_question }</textarea>
 		</div>
-		<form action="submitAnswer()">
+		<form action="quizAnswer()">
 			<input type="radio" name="select1" value="${quiz.q_select1 }">${quiz.q_select1 }
 			<input type="radio" name="select2" value="${quiz.q_select2 }">${quiz.q_select2 }
 			<input type="radio" name="select3" value="${quiz.q_select3 }">${quiz.q_select3 }
 			<input type="radio" name="select4" value="${quiz.q_select4 }">${quiz.q_select4 }
-			<input type="button" name="submit">
+			<input type="button" name="submit" value="제출">
 		</form>
 	</div>
 	<div>

@@ -2,7 +2,9 @@ package com.choongang.s202350103.gbDao;
 
 import java.util.List;
 
+import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.NewBook;
+import com.choongang.s202350103.model.WishList;
 
 public interface NewBookDao { 
 
@@ -13,6 +15,8 @@ public interface NewBookDao {
 	NewBook 		selectNewBookDetail(NewBook newbook);
 	int 			updateReadCnt(int nb_num);
 	int 			selectHitNbNum();
-	int 			selectWishStatus(NewBook newbook);
-	int 			InsertUpdateWish(NewBook newbook);
-}
+	int 			selectWishStatus(WishList wishlist);
+	int 			InsertUpdateWish(WishList wishlist);
+	int 			insertCart(Cart cart);
+	void 			updateCartCount(Cart cart);
+} 

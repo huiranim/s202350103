@@ -46,6 +46,30 @@
 			});
 	}
 	
+	function cart(pNb_num) {
+		var m_num = '${member.m_num}';
+		$.ajax({
+			url : "/cart/cartclick",
+			data : {nb_num : pNb_num},
+			dataType : 'text',
+			success : function(data){
+				if (data == '0') {
+					if(confirm("장바구니에 이미 등록된 상품입니다. \n장바구니로 이동하시겠습니까?")){
+						location.href = "memberCartList?m_num"+m_num;
+					}
+				} 
+				else if(data == '1') {
+					if(confirm("장바구니에 등록되었습니다. \n장바구니로 이동하시겠습니까?")){
+						location.href = "memberCartList?m_num"+m_num;
+					}
+				} 
+				else {
+					location.href = data ;
+				}
+			}
+		});
+	}
+	
 </script>
 </head>
 <body>
@@ -195,7 +219,7 @@
 		                  		바로구매
 		                       </a>
 		                       <!-- 장바구니 버튼 -->
-		                       <a href="#!" class="btn btn-secondary ">
+		                       <a class="btn btn-secondary" onclick="cart(${inNewbook.nb_num })">
 		                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
 		                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
 		                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">

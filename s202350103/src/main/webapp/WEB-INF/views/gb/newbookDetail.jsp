@@ -79,6 +79,32 @@
 				  }
 			});
 	}
+	
+	function cart(pNb_num) {
+		var m_num = '${member.m_num}';
+		var pC_count = $("#c_count").val();
+		
+		$.ajax({
+			url : "/cart/cartclick",
+			data : {nb_num : pNb_num, c_count : pC_count},
+			dataType : 'text',
+			success : function(data){
+				if (data == '0') {
+					if(confirm("장바구니에 이미 등록된 상품입니다. \n장바구니로 이동하시겠습니까?")){
+						location.href = "memberCartList?m_num"+m_num;
+					}
+				} 
+				else if(data == '1') {
+					if(confirm("장바구니에 등록되었습니다. \n장바구니로 이동하시겠습니까?")){
+						location.href = "memberCartList?m_num"+m_num;
+					}
+				} 
+				else {
+					location.href = data ;
+				}
+			}
+		});
+	}
 </script>
 </head>
 <body>
@@ -171,13 +197,13 @@
 		       <div class="input-group input-spinner">
 		       	  <!-- 수량 선택 버튼 -->
 		          <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
-		          <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" style="height: 42px;width: 40px;">
+		          <input id="c_count" type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" style="height: 42px;width: 40px;">
 		          <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
 				  <div class="g-2 align-items-center">
 				     <div style="margin-left: 15px;">
 				        <!-- 구매 버튼 -->
 				        <button type="button" class="btn btn-warning"><i class="feather-icon icon-shopping-bag me-2"></i>선물하기</button>
-				        <button type="button" class="btn btn-secondary"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
+				        <button type="button" class="btn btn-secondary" onclick="cart(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
 		  			    <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button>
 				        <!-- 찜하기 버튼 -->	
                         <c:choose>

@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.gbDao.NewBookDao;
+import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.NewBook;
+import com.choongang.s202350103.model.WishList;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,6 +47,7 @@ public class NewBookServiceImpl implements NewBookService {
 		System.out.println("NewBookServiceImpl selectSearchNewBookList start...");
 		List<NewBook> listSearchNewbook = nbd.selectSearchNewBookList(newbook);
 		System.out.println("NewBookServiceImpl selectSearchNewBookList listSearchNewbook.size()->"+listSearchNewbook.size());
+		System.out.println("NewBookServiceImpl selectSearchNewBookList listSearchNewbook.w_wish -> "+listSearchNewbook.get(0).getW_wish());
 		
 		return listSearchNewbook;
 	}
@@ -75,17 +78,36 @@ public class NewBookServiceImpl implements NewBookService {
 	}
 
 	@Override
-	public int insertUpdateWish(NewBook newbook) {
+	public int insertUpdateWish(WishList wishlist) {
 		System.out.println("NewBookServiceImpl insertUpdateWish start...");
 		
-		// wishStaus 가 널이면 insert notnull이면 update
-		int result = nbd.InsertUpdateWish(newbook);
+		// wishStaus(찜 여부) 가 널이면 insert, notnull이면 update
+		int result = nbd.InsertUpdateWish(wishlist);
 		
 		// 찜상태 변경 후 찜여부 확인하기
-		int wishStatus = nbd.selectWishStatus(newbook);
+		int wishStatus = nbd.selectWishStatus(wishlist);
 		System.out.println("NewBookServiceImpl insertUpdateWish result ->" + wishStatus);
 		
 		return wishStatus;
+	}
+
+	@Override
+	public int insertCart(Cart cart) {
+		System.out.println("NewBookServiceImpl insertCart start...");
+		
+		// 장바구니에 담기
+		int result = nbd.insertCart(cart);
+		System.out.println("NewBookServiceImpl insertCart result->"+result);
+		
+		return result;
+	}
+
+	@Override
+	public void updateCartCount(Cart cart) {
+		System.out.println("NewBookServiceImpl updateCartCount start...");
+		// 장바구니 화면에 수량 수정하기
+		nbd.updateCartCount(cart);
+		
 	}
 
 }
