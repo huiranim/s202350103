@@ -19,4 +19,5 @@ public interface NewBookDao {
 	int 			InsertUpdateWish(WishList wishlist);
 	int 			insertCart(Cart cart);
 	void 			updateCartCount(Cart cart);
+	void 			deleteCart(Cart cart);
 } 

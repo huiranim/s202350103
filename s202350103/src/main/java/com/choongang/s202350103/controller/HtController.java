@@ -159,22 +159,21 @@ public class HtController {
 			return "yb/loginForm";
 		}
 		 
-		// orderr 전체  Count ?
-		int totalReviewedCnt = rs.totalReviewedCnt(member);
-		System.out.println("totalReviewedCnt--> " + totalReviewedCnt);
-		
-		// Paging 작업
-		Paging  page = new Paging(totalReviewedCnt, currentPage);
-		// Parameter orderr --> Page만 추가 setting
-		orderr.setStart(page.getStart());    // 시작시 1
-		orderr.setEnd(page.getEnd()); 		 // 시작시 5
-		
-		orderr.setM_num(member.getM_num());
+		/*
+		 * // orderr 전체 Count ? int totalReviewedCnt = rs.totalReviewedCnt(member);
+		 * System.out.println("totalReviewedCnt--> " + totalReviewedCnt);
+		 * 
+		 * // Paging 작업 Paging page = new Paging(totalReviewedCnt, currentPage); //
+		 * Parameter orderr --> Page만 추가 setting orderr.setStart(page.getStart()); //
+		 * 시작시 1 orderr.setEnd(page.getEnd()); // 시작시 5
+		 * 
+		 * orderr.setM_num(member.getM_num());
+		 */
 		 
 		 List<Orderr> reviewWriteList = rs.reviewWriteList(orderr);
 		 System.out.println("HtController MyReviewList() reviewWriteList.size() --> "+ reviewWriteList.size());
 		 
-		 model.addAttribute("page", page);
+		 // model.addAttribute("page", page);
 		 model.addAttribute("reviewWriteList", reviewWriteList);
 		 
 		  

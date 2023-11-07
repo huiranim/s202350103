@@ -28,18 +28,19 @@
 <body>
 <%@ include file="../common/sideFo.jsp" %>
   <main>
-  <section class="mb-lg-14 mb-8 mt-8">
+  <section class="mb-lg-14 mb-8">
     <div class="container">
       <!-- row -->
       <div class="row">
         <div class="col-12">
-          <!-- card -->
-          <div class="card py-1 border-0 mb-8">
-            <div>
-              <h1 class="fw-bold">장바구니</h1><br>
-              	<h4>총 상품 개수 : ${totalCart }</h4>
-            </div>
-          </div>
+          <!-- 장바구니 헤더 -->
+          <div class="card py-1 border-0">
+         	<div class="mb-3">
+		         <h2>장바구니</h2>
+		         <p><a href="#">${member.m_id } 님의 장바구니 목록입니다.</a></p>
+		               총 상품 개수 : ${totalCart }		
+	      	</div>
+          <div>
         </div>
       </div>
       <!-- row -->
@@ -60,7 +61,7 @@
 	                    <a href="newbookDetail?nb_num=${cart.nb_num }" class="text-inherit"><h6 class="mb-0">${cart.nb_title }</h6></a>
 	                    <span><small class="text-muted">${cart.nb_publisher }</small></span>
 	                    <!-- text -->
-	                    <div class="mt-2 small lh-1"> <a href="#!" class="text-decoration-none text-inherit"> <span
+	                    <div class="mt-2 small lh-1"> <a href="deleteCart?nb_num=${cart.nb_num }" class="text-decoration-none text-inherit"> <span
 	                          class="me-1 align-text-bottom">
 	                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
 	                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -107,7 +108,9 @@
             <div class="card-body p-6">
               <!-- heading -->
               	<h5>상품금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
-              	<h5>배송비 <span><fmt:formatNumber value="0" pattern="#,###" /> 원</span></h5> 
+              	<h5>배송비 <span>
+              	<c:if test="${totalPrice > 50000 }"><fmt:formatNumber value="0" pattern="#,###" /> 원</c:if>
+              	<c:if test="${totalPrice <= 50000 }"><fmt:formatNumber value="2500" pattern="#,###" /> 원</c:if></span></h5> 
               <hr>
               	<h5>결제예정금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
               <div class="d-grid mb-1 mt-4">

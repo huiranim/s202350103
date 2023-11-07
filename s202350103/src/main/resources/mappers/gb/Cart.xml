@@ -11,7 +11,7 @@
 		WHEN NOT MATCHED THEN
 		      INSERT (m_num, nb_num, c_count)
 		      <choose>
-		      	<when test="#{c_count}!=null">
+		      	<when test="c_count!=0">
 		      		VALUES (#{m_num}, #{nb_num}, #{c_count})
 		      	</when>
 		      	<otherwise>
@@ -27,5 +27,11 @@
 		WHERE m_num = #{m_num}
 		AND	  nb_num = #{nb_num}
 	</update>
+	
+	<delete id="gbDeleteCart" parameterType="Cart">
+		DELETE FROM cart
+		WHERE m_num = #{m_num}
+		AND nb_num = #{nb_num}
+	</delete>
 	
 </mapper>
