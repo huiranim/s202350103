@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class Paging {
 	//			현재 페이지							페이지 당 게시글 수
-	private int currentPage = 1;	private int rowPage = 10;
+	private int currentPage = 1;	private int rowPage = 5;
 	//			최대 노출 페이지 수 (이전, 다음 제외)
 	private int pageBlock = 10;
 	//			페이지 내 시작 게시글 번호				종료 게시글 번호

@@ -18,5 +18,7 @@ public interface NewBookService {
 	int 			insertUpdateWish(WishList wishlist);
 	int 			insertCart(Cart cart);
 	void 			updateCartCount(Cart cart);
+	void 			deleteCart(Cart cart);
+	List<NewBook> selectSearchBoNewBookList(NewBook newbook);
 
 }

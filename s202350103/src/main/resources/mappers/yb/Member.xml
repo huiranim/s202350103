@@ -100,6 +100,10 @@
 		SELECT * FROM member WHERE m_id = #{chk_Id}
 	</select>
 	
+	<select id="ybFindEmail" parameterType="String" resultType="Member">
+		SELECT * FROM member WHERE m_email = #{memberMail}
+	</select>
+	
 
 	
 	

@@ -14,6 +14,7 @@
 		      <div class="row">
 		        <div class="col-lg-12">
 		          <div class="card py-1 border-0 mb-8">
+		           			    <!-- card --> 			 
            			 <div class="mb-8">
 			         <!-- heading -->
 				         <h2 class="mb-2">찜목록</h2>
@@ -27,36 +28,17 @@
 		              
 		                <thead class="table-light">
 		                  <tr>
-		                    <th>
-		                      <!-- form check -->
-		                      <div class="form-check">
-		                        <!-- input --><input class="form-check-input" type="checkbox" value="" id="checkAll">
-		                        <!-- label --><label class="form-check-label" for="checkAll">
-		
-		                        </label>
-		                      </div>
-		                    </th>
 		                    <th></th>
-		                    <th>제목</th>
+		                    <th style="padding-left: 70px;">제목</th>
 		                    <th>출판사</th>
 		                    <th>가격</th>
-		                    <th>상태</th>
+		                    <th style="padding-left: 50px;">상태</th>
 		                    <th>삭제</th>
 		                  </tr>
 		                </thead>
 		                <tbody>
 		                <c:forEach var="wishList" items="${memberWishList }">
 		                  <tr>
-		                    <td class="align-middle">
-		                      <!-- form check -->
-		                      <div class="form-check">
-		                        <!-- input --><input class="form-check-input" type="checkbox" value="" id="chechboxTwo">
-		                        <!-- label --><label class="form-check-label" for="chechboxTwo">
-		
-		                        </label>
-		                      </div>
-		
-		                    </td>
 		                    <td class="align-middle">
 		                      <a href="newbookDetail?nb_num=${wishList.nb_num }"><img src="${wishList.nb_image }"
 		                          class="icon-shape icon-xxl" alt=""></a>
@@ -69,7 +51,7 @@
 		                      </div>
 		                    </td>
 		                    <td class="align-middle"> ${wishList.nb_publisher }</td>
-		                    <td class="align-middle">${wishList.nb_price }</td>
+		                    <td class="align-middle"><fmt:formatNumber value="${wishList.nb_price }" pattern="#,###" /></td>
 		                    <td class="align-middle">
 		                      <div class="btn btn-primary btn-sm">장바구니 추가</div>
 		                    </td>

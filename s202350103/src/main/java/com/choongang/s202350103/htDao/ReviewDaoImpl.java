@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
@@ -16,18 +17,6 @@ import lombok.RequiredArgsConstructor;
 public class ReviewDaoImpl implements ReviewDao {
 	private final SqlSession session;
 
-	
-	@Override
-	public int reviewInsert(Review review) {
-		System.out.println("ReviewDaoImpl reviewInsert() Start....");
-		int result = 0;
-		try {
-			result = session.insert("htReviewInsert", review);
-		} catch (Exception e) {
-			System.out.println("ReviewDaoImpl reviewInsert() Exception-->" + e.getMessage());
-		}
-		return result;
-	}
 
 	@Override
 	public List<Review> listReview(Review review) {
@@ -82,13 +71,39 @@ public class ReviewDaoImpl implements ReviewDao {
 	@Override
 	public List<Orderr> reviewWriteList(Orderr orderr) {
 		System.out.println("ReviewDaoImpl reviewWriteList() Start...");
-		List<Orderr> list = null;
+		List<Orderr> list2 = null;
 		try {
-			list = session.selectList("htMyReviewList", orderr);
+			list2 = session.selectList("htMyReviewList", orderr);
+			System.out.println("ReviewDaoImpl reviewWriteList() list2-> " + list2);
 		}catch (Exception e) {
 			System.out.println("ReviewDaoImpl reviewWriteList() Exception-->" + e.getMessage());
 		}
-		return list;
+		return list2;
+	}
+
+	@Override
+	public int myReviewTotal(Orderr orderr) {
+		System.out.println("ReviewDaoImpl myReviewTotal() Start....");
+		int total = 0;
+		try {
+			total = session.selectOne("htMyReviewCnt", orderr);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl myReviewTotal() total--> " + total);
+		}
+		return total;
+	}
+
+	
+	@Override
+	public int reviewInsert(Review review) {
+		System.out.println("ReviewDaoImpl reviewInsert() Start....");
+		int result = 0;
+		try {
+			result = session.insert("htReviewInsert", review);
+		} catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewInsert() Exception-->" + e.getMessage());
+		}
+		return result;
 	}
 
 }

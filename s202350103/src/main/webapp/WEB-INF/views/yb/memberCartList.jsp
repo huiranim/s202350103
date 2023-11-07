@@ -9,43 +9,46 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
-	/* function deleteCart(pNb_num) {
-		
-		$.ajax({
-					url : "deleteCart",
-					data : {nb_num : pNb_num},
-					dataType : 'Text'
-					success : function(deptName){
-						if(data == '1') {
-					
-						}
-					}
-						
-		});
-	} */
+
 </script>
 </head>
 <body>
 <%@ include file="../common/sideFo.jsp" %>
   <main>
-  <section class="mb-lg-14 mb-8 mt-8">
+  <section class="mb-lg-14 mb-8">
     <div class="container">
       <!-- row -->
       <div class="row">
         <div class="col-12">
-          <!-- card -->
-          <div class="card py-1 border-0 mb-8">
-            <div>
-              <h1 class="fw-bold">장바구니</h1><br>
-              	<h4>총 상품 개수 : ${totalCart }</h4>
-            </div>
-          </div>
+          <!-- 장바구니 헤더 -->
+          <div class="card py-1 border-0">
+         	<div class="mb-8">
+		         <h2>장바구니</h2>
+		         <p><a href="#">${member.m_id } 님의 장바구니 목록입니다.</a></p>
+		               총 상품 개수 : ${totalCart }		
+	      	</div>
+          <div>
         </div>
       </div>
       <!-- row -->
       <div class="row">
         <div class="col-lg-8 col-md-7">
           <div class="py-3">
+          	<div class="table-responsive">
+		        <table class="table text-nowrap table-with-checkbox">
+		                <thead class="table-light">
+		                  <tr>
+		                    <th></th>
+		                    <th style="padding-left: 70px;">제목</th>
+		                    <th></th>
+		                    <th></th>    
+		                    <th></th>
+		                    <th>수량</th>
+		                   	<th style="padding-left: ;padding-right: 0px;padding-left: 70px;">가격</th>
+		                  </tr>
+		                </thead>
+		         </table>
+		    </div>
        		<form action="cartList" method="post">
 	          <c:forEach var="cart" items="${listCart }" varStatus="status">   
 	          	<input type="hidden" name="nb_num" value="${cart.nb_num }">
@@ -60,7 +63,7 @@
 	                    <a href="newbookDetail?nb_num=${cart.nb_num }" class="text-inherit"><h6 class="mb-0">${cart.nb_title }</h6></a>
 	                    <span><small class="text-muted">${cart.nb_publisher }</small></span>
 	                    <!-- text -->
-	                    <div class="mt-2 small lh-1"> <a href="#!" class="text-decoration-none text-inherit"> <span
+	                    <div class="mt-2 small lh-1"> <a href="deleteCart?nb_num=${cart.nb_num }" class="text-decoration-none text-inherit"> <span
 	                          class="me-1 align-text-bottom">
 	                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
 	                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -82,7 +85,7 @@
 	                  	</div>
 	                  </div>
 	                    <!-- price -->
-	                  <div class="col-2 text-lg-end text-start text-md-end col-md-2">
+	                  <div class="col-2 text-lg-end text-start text-md-end col-md-2" style="padding-left: 0px;">
 	                    <span class="fw-bold"><fmt:formatNumber value="${cart.nb_price * cart.c_count}" pattern="#,###" />원</span>
 	                  </div>
 	                 </div>
@@ -107,12 +110,14 @@
             <div class="card-body p-6">
               <!-- heading -->
               	<h5>상품금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
-              	<h5>배송비 <span><fmt:formatNumber value="0" pattern="#,###" /> 원</span></h5> 
+              	<h5>배송비 <span>
+              	<c:if test="${totalPrice > 50000 }"><fmt:formatNumber value="0" pattern="#,###" /> 원</c:if>
+              	<c:if test="${totalPrice <= 50000 }"><fmt:formatNumber value="2500" pattern="#,###" /> 원</c:if></span></h5> 
               <hr>
               	<h5>결제예정금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
               <div class="d-grid mb-1 mt-4">
                 <!-- btn -->
-                <button class="btn btn-primary btn-lg d-flex justify-content-between align-items-center" type="submit">
+                <button class="btn btn-primary justify-content-between align-items-center" type="submit">
                   	주문하기(${totalCart })</button>
               </div>
               </div>

@@ -132,6 +132,18 @@ public class MemberServiceImpl1 implements MemberService {
 		System.out.println("MemberServiceImpl1 oldBookSellList member.m_id -> " + member.getM_id());
 		return oldBookSellList;
 	}
+	
+	// 비밀번호 찾기 이메일 체크
+	@Override
+	public Member findEmail(String memberMail) {
+		System.out.println("MemberServiceImpl1 findEmail start...");
+		Member member = md.findEmail(memberMail);
+		if(member != null) {
+			return member;	
+		} else {
+			return null;
+		}	
+	}
 
 	
 

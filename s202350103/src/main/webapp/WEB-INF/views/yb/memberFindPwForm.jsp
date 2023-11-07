@@ -12,14 +12,14 @@
 
 	function findMemberId(){
 	
-	location.href="memberFrinId";
+	location.href="memberFindPwPh";
 	}
 	
 
 	
 	function findMemberPw(){
 		
-	location.href="memberFindPwForm";
+	location.href="memberFindPwEmail";
 	}
 
 

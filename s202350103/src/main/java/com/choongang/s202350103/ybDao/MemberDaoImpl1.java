@@ -199,13 +199,30 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return oldBookSellList;
 	}
-	
-
-	
-
-	
-	
-
-
-
+	@Override
+	public Member findEmail(String memberMail) {
+		System.out.println("MemberDaoImpl1 findEmail() start...");
+		Member member = new Member();
+		try {
+			member = session.selectOne("ybFindEmail", memberMail);
+			System.out.println("MemberDaoImpl1 findMail memberMail -> " + memberMail);
+			System.out.println("에러에러에ㅓ레러레렝어네");
+			
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 findEmail() Exception -> " + e.getMessage());
+		}
+		if(memberMail == null) {
+			return null;	
+		} else {
+			return member;
+		}
+	}
 }
+	
+
+	
+
+	
+	
+
+

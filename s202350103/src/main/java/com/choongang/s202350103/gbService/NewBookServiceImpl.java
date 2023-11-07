@@ -110,4 +110,22 @@ public class NewBookServiceImpl implements NewBookService {
 		
 	}
 
+	@Override
+	public void deleteCart(Cart cart) {
+		System.out.println("NewBookServiceImpl updateCartCount start...");
+		// 장바구니 화면에 상품 삭제하기
+		nbd.deleteCart(cart);
+		
+	}
+
+	@Override
+	public List<NewBook> selectSearchBoNewBookList(NewBook newbook) {
+		System.out.println("NewBookServiceImpl selectSearchBoNewBookList start...");
+		List<NewBook> listSearchNewbook = nbd.selectSearchBoNewBookList(newbook);
+		System.out.println("NewBookServiceImpl selectSearchBoNewBookList listSearchNewbook.size()->"+listSearchNewbook.size());
+		
+		return listSearchNewbook;
+	}
+
+
 }

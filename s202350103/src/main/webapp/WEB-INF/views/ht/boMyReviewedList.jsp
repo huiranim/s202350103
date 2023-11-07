@@ -37,8 +37,8 @@
          <!-- heading -->
          <nav aria-label="...">
 			<ul class="pagination pagination-lg justify-content-center">
-			  <li  class="page-item active"><a class="page-link" href="#" >작성 가능한 리뷰</a></li>
-			  <li  class="page-item "><a class="page-link" href="#" >작성한 리뷰</a></li>
+			  <li  class="page-item "><a class="page-link" href="#" >작성 가능한 리뷰</a></li>
+			  <li  class="page-item active"><a class="page-link" href="#" >작성한 리뷰</a></li>
 			</ul>
 		 </nav>
        

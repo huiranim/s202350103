@@ -194,6 +194,8 @@
 		    
 		   <div>
 		       <!-- 수량 선택 버튼 및 구매 버튼, 찜하기 버튼 -->
+		       <form action="">
+		       <input name="nb_num" type="hidden" value="${newbook.nb_num }">
 		       <div class="input-group input-spinner">
 		       	  <!-- 수량 선택 버튼 -->
 		          <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
@@ -202,7 +204,7 @@
 				  <div class="g-2 align-items-center">
 				     <div style="margin-left: 15px;">
 				        <!-- 구매 버튼 -->
-				        <button type="button" class="btn btn-warning"><i class="feather-icon icon-shopping-bag me-2"></i>선물하기</button>
+				        <input type="submit" value="선물하기" class="btn btn-warning" onclick="javascript: form.action='/foGivingGift';"><i class="feather-icon icon-shopping-bag me-2"></i>
 				        <button type="button" class="btn btn-secondary" onclick="cart(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
 		  			    <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button>
 				        <!-- 찜하기 버튼 -->	
@@ -221,6 +223,7 @@
 				     </div>
 		    	  </div>
 		      </div>
+		      </form>
 		   </div>
 		 </div>
 	  </div>

@@ -1,16 +1,30 @@
 package com.choongang.s202350103.controller;
 
-
-
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,20 +48,52 @@ import lombok.extern.slf4j.Slf4j;
 public class YbController {
 	
 	private final MemberService ms;
-	
 	private final HttpSession session;
+	private final JavaMailSender mailSender;
+	
 	// Main Page
 	@RequestMapping(value = "/")
-	public String main() {
+	public String main(HttpServletRequest request, Model model) {
+//		Member member = (Member) sessionManager.getSession(request);
+//		if(member == null) {
+//			return "main";
+//		}
 		System.out.println("YbController main() start... ");
 		return "main";
 	}
+	
 	// 로그인 창 이동
 	@GetMapping(value = "loginForm")
 	public String loginForm() {
 		System.out.println("YbController login() start... ");
 		return "yb/loginForm";
 	}
+	
+	// cookieSeession 이용 로그인
+	
+//	@RequestMapping(value = "memberLogin")
+//	public String login(@Valid @ModelAttribute Member member, HttpServletResponse response, HttpServletRequest request, BindingResult bindingResult, Member member1) {
+//		if(bindingResult.hasErrors()) {
+//			return "yb/loginForm";
+//		} 
+//		member = ms.login(member1);
+//		System.out.println("YbController login() member -> " + member);
+//		
+//		if(member == null) {
+//			return "yb/loginForm";
+//		}
+//		sessionManager.createSession(member, response);
+//	
+//		System.out.println("YbController login getSessionId -> " + sessionManager.getSession(request));
+//		return "main";
+//	}
+//	// 로그아웃
+//	@GetMapping(value = "memberLogout")
+//	public String logout(HttpServletRequest request) {
+//		sessionManager.expire(request);
+//
+//		return "redirect:/";
+//	}
 	
 	// 로그인
 	@RequestMapping(value = "memberLogin")
@@ -67,11 +113,8 @@ public class YbController {
 		}
 	
 	}
-	// 로그인 세션 로직
-	public Member loginStorage() {
-		Member member =(Member) session.getAttribute("member");
-		return member;
-	}
+	
+	
 	// 로그아웃
 	@GetMapping(value = "memberLogout")
 	   public String logout(HttpSession session, HttpServletRequest request) {
@@ -91,6 +134,8 @@ public class YbController {
 	      return "redirect:/";
 	   }
 	
+	
+	
 	// 마이페이지 이동
 	@GetMapping(value = "memberMyPage1")
 	public String memberMyPage1() {
@@ -104,6 +149,19 @@ public class YbController {
 		System.out.println("YbController memberFindPwForm() start...");
 		return "yb/memberFindPwForm";
 	}
+	
+	// 비밀번호 찾기 인증 화면 이동
+	@RequestMapping("memberFindPw")
+	public String memberPhFindId(@RequestParam("auth") String auth, Model model ) {
+		
+		if("ph".equals(auth)) {
+			return "yb/memberFindPwPh";
+		}else {
+			return "yb/memberFindPwEmail";
+		}
+		
+	}
+
 	// 장바구니 페이지 이동
 	@RequestMapping(value = "memberCartList")
 	public String memberCartList(Cart cart, Model model, String currentPage, 
@@ -240,7 +298,7 @@ public class YbController {
 	
 	// 회원탈퇴 하기
 	@PostMapping(value = "memberWithdraw") 
-	public String memberWithdraw(Member member, HttpSession session, Model model,
+	public String memberWithdraw(Member member, Model model,
 								 @RequestParam("m_pw") String m_pw) { 
 		System.out.println("YbController memberWithdraw() start..."); 
 		member =(Member) session.getAttribute("member");
@@ -269,45 +327,99 @@ public class YbController {
 	// 로그인 시 회원 체크 Ajax
 	@ResponseBody
 	@RequestMapping("/memberChk")
-	public String memberLoginChk(Member member, String chk_Id, String chk_Pw, HttpSession session) {
+	public String memberLoginChk(Member member, String chk_Id, String chk_Pw) {
 		System.out.println("YbController memberChk() start...");
 		
 		member = ms.memberChk(chk_Id);
 		
 		if(member != null ) {
-		System.out.println("YbController memberLoginChk member.m_id -> " + member.getM_id());
-		System.out.println("YbController memberLoginChk member.m_pw -> " + member.getM_pw());
-		System.out.println("YbContorller memberLoginChk member.m_wd -> " + member.getM_wd());
-		int m_wd = member.getM_wd();
-		String m_id = member.getM_id();
-		String m_pw = member.getM_pw();
-		System.out.println("YbController memberLoginChk m_id -> " + m_id);
-		System.out.println("YbController memberLoginChk m_pw -> " + m_pw);
-		System.out.println("YbController memberLoginChk chk_id -> " + chk_Id);
-		System.out.println("YbController memberLoginChk chk_Pw -> " + chk_Pw);
-		int result = 0;
-
-		
-		if(chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 0) {
-			result = 1;
-			session.setAttribute("member", member);
-			System.out.println("YbController memberLoginChk member -> " + session.getId());
-		} else if(chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 1) {
-			result = 2;		
-		} else {
-			result = 0;
-		}
-
-		System.out.println("YbController memberLoginChk result -> " + result);
-
-		String strResult = Integer.toString(result);
-		return strResult;
+			System.out.println("YbController memberLoginChk member.m_id -> " + member.getM_id());
+			System.out.println("YbController memberLoginChk member.m_pw -> " + member.getM_pw());
+			System.out.println("YbContorller memberLoginChk member.m_wd -> " + member.getM_wd());
+			int m_wd = member.getM_wd();
+			String m_id = member.getM_id();
+			String m_pw = member.getM_pw();
+			System.out.println("YbController memberLoginChk m_id -> " + m_id);
+			System.out.println("YbController memberLoginChk m_pw -> " + m_pw);
+			System.out.println("YbController memberLoginChk chk_id -> " + chk_Id);
+			System.out.println("YbController memberLoginChk chk_Pw -> " + chk_Pw);
+			int result = 0;
+	
+			
+			if(chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 0) {
+				result = 1;
+				session.setAttribute("member", member);
+				System.out.println("YbController memberLoginChk member -> " + session.getId());
+			} else if(chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 1) {
+				result = 2;		
+			} else {
+				result = 0;
+			}
+	
+			System.out.println("YbController memberLoginChk result -> " + result);
+	
+			String strResult = Integer.toString(result);
+			return strResult;
 		
 		}else {
 			return "0";
-		}
-		
+		}		
 	}
+	
+	@SuppressWarnings("unused")
+	@ResponseBody
+	@RequestMapping(value = "/mailTransport")
+	public String mailTransport(Model model, Member member, String memberMail) {
+		System.out.println("YbController mailTransport start...");
+		System.out.println("YbController mail memberMail -> " + memberMail); 
+		member = ms.findEmail(memberMail);
+		
+		System.out.println("YbController findMail member.getMail -> " + member.getM_email());
+
+		
+		if(member != null) {
+			String m_email = member.getM_email();
+
+			int result = 0;
+			if(memberMail.equals(m_email)) {
+				String tomail = member.getM_email();	// 받는 사람 email
+				System.out.println("YbController mailTransport memberMail -> " + tomail);
+				String setfrom = "96dydqls@gmail.com";
+				String title = "DADOK 인증번호 입니다.";	// 제목
+				
+				try {
+					// Mime 전자우편 Internet 표준 Format
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+					messageHelper.setFrom(setfrom);		// 보내는 사람 생략하거나 하면 정상작동 안함
+					messageHelper.setTo(tomail);		// 받는 사람 이메일
+					messageHelper.setSubject(title); 	// 메일제목은 생략 가능
+					String tempPassword = (int)(Math.random()*999999) + 1 + "";
+					messageHelper.setText("인증번호입니다." + tempPassword);	// 메일 내용
+					System.out.println("인증번호입니다." + tempPassword);
+					mailSender.send(message);
+					session.setAttribute("member", member);
+					//정상 전달
+					// DB Logic 구성
+					result = 1;
+				} catch (Exception e) {
+					System.out.println("mailTransport e.getMessage -> " + e.getMessage());
+					//메일 전달 실패
+				}
+				
+			} else {
+				result = 0;
+			}
+			String strResult = Integer.toString(result);
+			return strResult;
+		} else {
+			return "0";
+		}	
+	}
+	
+	
+	
+	
 
 }
 	
