@@ -82,13 +82,15 @@
 		        AND    od.nb_num     = n.nb_num
 		        AND    o.m_num       = #{m_num}
 		        AND    o.o_status    = 4
+		        AND    o.o_order_num NOT IN (SELECT r.o_order_num
+                                     		 FROM   review r)
 		        order by o_order_date
 		        )a
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	 </select>
 	 
-	<select id="htMyReviewCnt" parameterType="Member" resultType="int">
+	<select id="htMyReviewCnt" parameterType="Orderr" resultType="int">
 		    SELECT count(*)
 		    FROM
 		       (SELECT o.*, n.nb_title, n.nb_image, o_de_count
@@ -99,6 +101,8 @@
 		        AND    od.nb_num   = n.nb_num
 		        AND    o.m_num       = #{m_num}
 		        AND    o.o_status    = 4
+		        AND    o.o_order_num NOT IN (SELECT r.o_order_num
+                                     FROM   review r)
 		        order by o_order_date
 		        )
 	 </select>

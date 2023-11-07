@@ -9,20 +9,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
-	/* function deleteCart(pNb_num) {
-		
-		$.ajax({
-					url : "deleteCart",
-					data : {nb_num : pNb_num},
-					dataType : 'Text'
-					success : function(deptName){
-						if(data == '1') {
-					
-						}
-					}
-						
-		});
-	} */
+
 </script>
 </head>
 <body>

@@ -2,14 +2,25 @@ package com.choongang.s202350103.controller;
 
 
 
-import java.util.List;
+import static org.junit.Assert.assertThat;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -34,20 +45,52 @@ import lombok.extern.slf4j.Slf4j;
 public class YbController {
 	
 	private final MemberService ms;
-	
 	private final HttpSession session;
+//	private final SessionManager sessionManager;
+	
 	// Main Page
 	@RequestMapping(value = "/")
-	public String main() {
+	public String main(HttpServletRequest request, Model model) {
+//		Member member = (Member) sessionManager.getSession(request);
+//		if(member == null) {
+//			return "main";
+//		}
 		System.out.println("YbController main() start... ");
 		return "main";
 	}
+	
 	// 로그인 창 이동
 	@GetMapping(value = "loginForm")
 	public String loginForm() {
 		System.out.println("YbController login() start... ");
 		return "yb/loginForm";
 	}
+	
+	// cookieSeession 이용 로그인
+	
+//	@RequestMapping(value = "memberLogin")
+//	public String login(@Valid @ModelAttribute Member member, HttpServletResponse response, HttpServletRequest request, BindingResult bindingResult, Member member1) {
+//		if(bindingResult.hasErrors()) {
+//			return "yb/loginForm";
+//		} 
+//		member = ms.login(member1);
+//		System.out.println("YbController login() member -> " + member);
+//		
+//		if(member == null) {
+//			return "yb/loginForm";
+//		}
+//		sessionManager.createSession(member, response);
+//	
+//		System.out.println("YbController login getSessionId -> " + sessionManager.getSession(request));
+//		return "main";
+//	}
+//	// 로그아웃
+//	@GetMapping(value = "memberLogout")
+//	public String logout(HttpServletRequest request) {
+//		sessionManager.expire(request);
+//
+//		return "redirect:/";
+//	}
 	
 	// 로그인
 	@RequestMapping(value = "memberLogin")
@@ -67,11 +110,8 @@ public class YbController {
 		}
 	
 	}
-	// 로그인 세션 로직
-	public Member loginStorage() {
-		Member member =(Member) session.getAttribute("member");
-		return member;
-	}
+	
+	
 	// 로그아웃
 	@GetMapping(value = "memberLogout")
 	   public String logout(HttpSession session, HttpServletRequest request) {
@@ -90,6 +130,8 @@ public class YbController {
 	      }
 	      return "redirect:/";
 	   }
+	
+	
 	
 	// 마이페이지 이동
 	@GetMapping(value = "memberMyPage1")

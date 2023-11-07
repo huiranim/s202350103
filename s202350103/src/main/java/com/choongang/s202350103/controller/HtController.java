@@ -121,9 +121,11 @@ public class HtController {
 		if(member == null) {
 			return "yb/loginForm";
 		}
-		 
+		
+		orderr.setM_num(member.getM_num());
+		
 		// orderr 전체  Count ?
-		int totalReviewCnt = rs.totalReviewCnt(member);
+		int totalReviewCnt = rs.totalReviewCnt(orderr);
 		System.out.println("totalReviewCnt--> " + totalReviewCnt);
 		
 		// Paging 작업
@@ -132,16 +134,15 @@ public class HtController {
 		orderr.setStart(page.getStart());    // 시작시 1
 		orderr.setEnd(page.getEnd()); 		 // 시작시 5
 		
-		orderr.setM_num(member.getM_num());
 		 
-		 List<Orderr> reviewWriteList = rs.reviewWriteList(orderr);
-		 System.out.println("HtController MyReviewList() reviewWriteList.size() --> "+ reviewWriteList.size());
+		List<Orderr> reviewWriteList = rs.reviewWriteList(orderr);
+		System.out.println("HtController MyReviewList() reviewWriteList.size() --> "+ reviewWriteList.size());
 		 
-		 model.addAttribute("page", page);
-		 model.addAttribute("reviewWriteList", reviewWriteList);
+		model.addAttribute("page", page);
+		model.addAttribute("reviewWriteList", reviewWriteList);
 		 
 		  
-		 return "/ht/boMyReviewList";
+		return "/ht/boMyReviewList";
 	}
 	 
 	 @GetMapping("/MyReviewedList")
