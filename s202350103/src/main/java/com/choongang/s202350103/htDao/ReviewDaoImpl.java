@@ -106,4 +106,74 @@ public class ReviewDaoImpl implements ReviewDao {
 		return result;
 	}
 
+
+	@Override
+	public int myReviewedTotal(Review review) {
+		System.out.println("ReviewDaoImpl myReviewedTotal() Start....");
+		int total = 0;
+		try {
+			total = session.selectOne("htMyReviewedCnt", review);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl myReviewedTotal() total--> " + total);
+		}
+		return total;
+	}
+
+
+	@Override
+	public List<Review> reviewedWriteList(Review review) {
+		System.out.println("ReviewDaoImpl reviewedWriteList() Start...");
+		List<Review> list = null;
+		try {
+			list = session.selectList("htMyReviewedList", review);
+			System.out.println("ReviewDaoImpl reviewedWriteList() list-> " + list);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewedWriteList() Exception-->" + e.getMessage());
+		}
+		return list;
+	}
+
+
+	@Override
+	public Review writedReview(Review review) {
+		System.out.println("ReviewDaoImpl writedReview() Start....");
+		Review writedReview = null;
+		try {
+			writedReview = session.selectOne("htWritedReview",review);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl writedReview() Exception--> " + e.getMessage());
+		}
+		return writedReview;
+	}
+
+
+	@Override
+	public int reviewUpdate(Review review) {
+		System.out.println("ReviewDaoImpl reviewUpdate() Start....");
+		int result = 0;
+		try {
+			System.out.println("ReviewDaoImpl reviewUpdate review--> "+ review );
+			result = session.update("htReviewUpdate", review);
+			System.out.println("ReviewDaoImpl reviewUpdate() result--> " + result);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewUpdate() Exception--> " + e.getMessage());
+		}
+		return result;
+	}
+
+
+	@Override
+	public int reviewDelete(Review review) {
+		System.out.println("ReviewDaoImpl reviewDelete() Start....");
+		int result = 0;
+		try {
+			System.out.println("ReviewDaoImpl reviewDelete review--> "+ review );
+			result = session.delete("htReviewDelete", review);
+			System.out.println("ReviewDaoImpl reviewDelete() result--> " + result);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewDelete() Exception--> " + e.getMessage());
+		}
+		return result;
+	}
+
 }

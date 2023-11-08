@@ -57,6 +57,9 @@ public class HtController {
 		member.setM_num(1002);
 		session.setAttribute("member", member);
 		
+		// 임시 상품 등록(나중에 삭제)
+		//review.setNb_num(100003);
+		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
 		
@@ -146,7 +149,7 @@ public class HtController {
 	}
 	 
 	 @GetMapping("/MyReviewedList")
-	 public String MyReviewedList(Model model, Orderr orderr, String currentPage, HttpSession session, Member member) {
+	 public String MyReviewedList(Model model, Review review, String currentPage, HttpSession session, Member member) {
 		 System.out.println("HtController MyReviewList Start...");
 		
 		// 임시 회원번호(나중에 삭제)
@@ -159,26 +162,30 @@ public class HtController {
 		if(member == null) {
 			return "yb/loginForm";
 		}
+		
+		review.setM_num(member.getM_num());
 		 
-		/*
-		 * // orderr 전체 Count ? int totalReviewedCnt = rs.totalReviewedCnt(member);
-		 * System.out.println("totalReviewedCnt--> " + totalReviewedCnt);
-		 * 
-		 * // Paging 작업 Paging page = new Paging(totalReviewedCnt, currentPage); //
-		 * Parameter orderr --> Page만 추가 setting orderr.setStart(page.getStart()); //
-		 * 시작시 1 orderr.setEnd(page.getEnd()); // 시작시 5
-		 * 
-		 * orderr.setM_num(member.getM_num());
-		 */
+		 // orderr 전체 Count ?
+		 int totalReviewedCnt = rs.totalReviewedCnt(review);
+		 System.out.println("totalReviewedCnt--> " + totalReviewedCnt);
+		  
+		 // Paging 작업 
+		 Paging page = new Paging(totalReviewedCnt, currentPage);
+		 //Parameter orderr --> Page만 추가 setting
+		 review.setStart(page.getStart());//시작시 1 
+		 review.setEnd(page.getEnd()); // 시작시 5
 		 
-		 List<Orderr> reviewWriteList = rs.reviewWriteList(orderr);
-		 System.out.println("HtController MyReviewList() reviewWriteList.size() --> "+ reviewWriteList.size());
+		 review.setM_num(member.getM_num());
 		 
-		 // model.addAttribute("page", page);
-		 model.addAttribute("reviewWriteList", reviewWriteList);
+		 
+		 List<Review> reviewedWriteList = rs.reviewedWriteList(review);
+		 System.out.println("HtController MyReviewList() reviewedWriteList.size() --> "+ reviewedWriteList.size());
+		 
+		 model.addAttribute("page", page);
+		 model.addAttribute("reviewedWriteList", reviewedWriteList);
 		 
 		  
-		 return "/ht/boMyReviewList";
+		 return "/ht/boMyReviewedList";
 	}
 	  
 	 @RequestMapping("/reviewForm")
@@ -195,6 +202,7 @@ public class HtController {
 		if(member == null) {
 			return "yb/loginForm";
 		}
+		
 		
 		model.addAttribute("review", review);
 		
@@ -222,5 +230,84 @@ public class HtController {
 		model.addAttribute("result", result);
 		
 		return "/ht/boReviewWritePro";
+	}
+	 
+	 @RequestMapping("/reviewUpdateForm")
+	 public String reviewUpdateForm(Model model, HttpSession session, Member member, Review review) {
+		System.out.println("Controller Start reviewUpdateForm...");
+		System.out.println("reviewUpdateForm review---> "  + review);
+		
+		// 임시 회원번호(나중에 삭제)
+		member.setM_num(1002);
+		session.setAttribute("member", member);
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		//PK 이용한 Review 조회 로직 추가
+		Review writedReview = rs.writedReview(review);
+		writedReview.setCurrentPage(review.getCurrentPage());
+		
+		model.addAttribute("writedReview", writedReview);
+		
+		
+		return "/ht/boReviewUpdateForm";
+	}
+	 
+	 @RequestMapping("/reviewUpdatePro")
+	 public String reviewUpdatePro(Model model, HttpSession session, Member member, Review review) {
+		System.out.println("Controller Start reviewUpdateForm...");
+		System.out.println("reviewUpdatePro review---> "  + review);
+		
+		// 임시 회원번호(나중에 삭제)
+		member.setM_num(1002);
+		session.setAttribute("member", member);
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		int result = rs.reviewUpdate(review);
+		
+		System.out.println("result --> " + result);
+		
+		model.addAttribute("result", result);
+		model.addAttribute("review", review);
+		
+		
+		return "/ht/boReviewUpdatePro";
+	}
+	 
+	 @RequestMapping("/reviewDelete")
+	 public String reviewDelete(Model model, HttpSession session, Member member, Review review) {
+		System.out.println("Controller Start reviewDelete...");
+		
+		// 임시 회원번호(나중에 삭제)
+		member.setM_num(1002);
+		session.setAttribute("member", member);
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		int result = rs.reviewDelete(review);
+		
+		System.out.println("result --> " + result);
+		
+		model.addAttribute("result", result);
+		model.addAttribute("review", review);
+		
+		
+		return "/ht/boReviewDelete";
 	}
 }
