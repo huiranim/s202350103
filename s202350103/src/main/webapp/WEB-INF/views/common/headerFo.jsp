@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -393,8 +395,8 @@
                     
                  <c:if test="${sessionScope.member != null }">
                     <li><a class="dropdown-item" href="memberQna?m_num=${member.m_num }">문의하기</a></li>
-                    <li><a class="dropdown-item" href="?m_num=${member.m_num }">1:1 문의</a></li>
-                    <li><a class="dropdown-item" href="?m_num=${member.m_num }">내 문의</a></li>
+                    <li><a class="dropdown-item" href="memberQnaOne?m_num=${member.m_num }">1 : 1 문의</a></li>
+                    <li><a class="dropdown-item" href="memberMyOna?m_num=${member.m_num }">내 문의</a></li>
                   
                   </c:if>  
                     

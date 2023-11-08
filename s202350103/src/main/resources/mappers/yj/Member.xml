@@ -147,7 +147,7 @@
 		  select rownum rn, m.*
 		  from (
 		    select  m.m_num , m.m_id,  m.m_name,  
-		            m.m_email, m.m_ph,
+		            m.m_email, m.m_ph, m.m_admin ,
 		            
 		            mq.mq_num,  mq.mq_title, mq.mq_content, 
 		            mq.mq_date, mq.mq_hidden
@@ -163,5 +163,16 @@
 		]]>
 	
 	</select>
+	
+	<select id="memberQInfo" parameterType="int" resultType="MemberQ">
+		
+		select * from 
+		memberq mq
+		join member m
+		on mq.m_num = m.m_num 
+		where mq_num = #{mq_num}
+			
+	</select>
+	
 	
 </mapper>

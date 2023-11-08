@@ -39,6 +39,8 @@ public interface MemberDao {
 	List<MemberQ> memberQnaList(MemberQ memberQ);
 	// 문의 카운트
 	int mqCount();
+	// 문의 상세 
+	MemberQ memberQInfo(int mq_num);
 	
 	
 }

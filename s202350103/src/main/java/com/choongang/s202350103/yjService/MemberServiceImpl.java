@@ -112,6 +112,12 @@ public class MemberServiceImpl implements MemberService{
 		int mqCount = md.mqCount();
 		return mqCount;
 	}
+	// 문의 상세
+	@Override
+	public MemberQ memberQInfo(int mq_num) {
+		MemberQ memberQInfo = md.memberQInfo(mq_num);
+		return memberQInfo;
+	}
 
 	
 }

@@ -113,5 +113,11 @@ public class MemberDaoImpl implements MemberDao{
 		int mqCount = session.selectOne("mqCount");
 		return mqCount;
 	}
+	// 문의 상세
+	@Override
+	public MemberQ memberQInfo(int mq_num) {
+		MemberQ memberQInfo = session.selectOne("memberQInfo",mq_num);
+		return memberQInfo;
+	}
 
 }

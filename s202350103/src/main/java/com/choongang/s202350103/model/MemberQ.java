@@ -22,7 +22,7 @@ public class MemberQ {
 	private String	m_addr;		// 회원 주소 
 	private String 	m_email;	// 회원 이메일
 	private String  m_image;	// 회원 이미지
-	
+	private int 	m_admin;	// 관리자 여부
 	
 	// 페이징 
 	private String  pageNum;		

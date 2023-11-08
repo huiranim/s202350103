@@ -6,9 +6,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -24,13 +27,16 @@ import com.choongang.s202350103.model.MemberQ;
 import com.choongang.s202350103.yjService.MemberService;
 import com.choongang.s202350103.yjService.Paging;
 
+import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
+import retrofit2.http.GET;
 
 @Controller
+@Slf4j
 public class YjController {
 
 	private final com.choongang.s202350103.ybService.MemberService ys;
@@ -40,7 +46,7 @@ public class YjController {
 	final DefaultMessageService messageService; // 문자전송 API
 	
 	private final JavaMailSender mailSender;	// 메일 전송 객체
-
+	
 	public YjController(MemberService ms,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys ) {
 		this.ms = ms;
 		// 문자 전송 API 							API 키, API Secret Key
@@ -598,8 +604,86 @@ public class YjController {
 		  return "yj/memberQnaList";
 	  }
 	  
+	  // 문의 상세조회
+	  @GetMapping("/memberQInfo")
+	  public String memberQInfo(@RequestParam int mq_num, 
+			  					String currentPage, Model model) {
+		  
+		  System.out.println("yj controller mqNum ->" +mq_num);
+		  
+		  MemberQ memberQInfo  = ms.memberQInfo(mq_num);
+		  model.addAttribute("memberQInfo",memberQInfo);
+		  
+		  return "yj/memberQInfo";
+	  }
 	  
 	  
+	  // 1 : 1 문의 폼
+	  @GetMapping("/memberQnaOne")
+	  public String memberQnaOne(@RequestParam int m_num, Model model) {
+		  
+		  System.out.println(m_num);
+		  
+		  Member member = ms.memberInfo(m_num);
+		  model.addAttribute("member",member);
+		  
+		  return "yj/memberQnaOne";
+	  }
+	 
+	 // yml 설정 파일  프로퍼티 소스 로드 (사용자 입력 이메일)
+//	 @Value("${mail.sender-email}")
+//	 private String senderEmail;
 	  
+	  // 1 : 1 문의 이메일 전송
+	  @PostMapping("/memberOneMail")
+	  public String memberOneMail(@RequestParam int m_num,
+			  					@RequestParam String m_email,	
+			  					@RequestParam String m_id,
+			  					@RequestParam String mq_title,
+			  					@RequestParam String mq_content,
+			  					Model model) {
+		  	
+		  System.out.println(m_num);
+		  System.out.println(m_email);		  
+		  System.out.println(m_id);
+		  System.out.println(mq_title);
+		  System.out.println(mq_content);
+		  
+//		  System.out.println("입력이메일 검증 ->" +senderEmail);
+		  
+		  try {
+			  
+		  	MimeMessage message2 = mailSender.createMimeMessage();
+			// 메일전송 객체 
+			MimeMessageHelper messageHelper2 = new MimeMessageHelper(message2, true , "UTF-8");
+			
+			String setfrom = m_email;	// 보내는 사람 이메일 (생략시 오류)
+			String tomail = "ayj8487@naver.com";   		// 받는 사람 이메일
+			String title = mq_title;  	// 제목
+			
+//			messageHelper.setFrom(senderEmail);
+			messageHelper2.setFrom(setfrom);    		// 보내는 사람 이메일 (생략시 오류)
+			messageHelper2.setTo(tomail);       		// 받는사람 이메일
+			messageHelper2.setSubject(title);   		// 메일제목 (생략 가능) -> 생략시 try 안걸어줘도됨
+													
+			// 메일 내용 
+			messageHelper2.setText("(" +m_id +") 님의 발신 : " + mq_content); 
+			// 메일 전송
+			mailSender.send(message2);
+			
+			// 전송 후 
+		  } catch (MessagingException e) {
+			  e.printStackTrace();
+		  }
+		  
+		  return "yj/memberQnaOne";
+	  }
+	  
+	  // 내문의 
+	  @GetMapping("/memberMyOna")
+	  public String memberMyOna() {
+		  
+		  return "yj/memberMyOna";
+	  }
 	  
 }
