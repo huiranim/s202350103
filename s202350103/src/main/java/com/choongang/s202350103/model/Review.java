@@ -14,21 +14,20 @@ public class Review {			  // 리뷰
 	
 	// 조회용
 	private int    start;	private int end;  private int currentPage;
-	private int	    m_num;	// 회원번호
-	// 회원 table(Member)에서 회원이름 관련 컬럼
-	private String 	m_name;
-	// 상품 table(NewBook)에서 이미지
-	private String nb_image;
+	private int	    m_num;	     // 회원번호
+	private String 	m_name;      // 회원이름
+	private String  nb_image;    // 상품 이미지
+	private String  nb_title;    // 상품 제목
+	private int     o_de_count;  // 주문 수량
+	private Date    o_order_date;// 주문일자
     // r_rating 별점을 1~5까지 구분해서 받음(total개수 또는 평균값)
 	private int    r_rating1;
 	private int    r_rating2;
 	private int    r_rating3;
 	private int    r_rating4;
 	private int    r_rating5;
-	// 리뷰 총 수량
-	private int    r_review_total;
-	// 리뷰 평균
-	private double r_review_average ;
-	// 리뷰 리스트 조회선택(1-> 최신순, 2-> 별점순)
-	private int    r_reviewSelect ;
+	
+	private int    r_review_total;   // 리뷰 총수량
+	private double r_review_average; // 리뷰 평균
+	private int    r_reviewSelect ;  // 리뷰 리스트 조회선택(1-> 최신순, 2-> 별점순)
 }

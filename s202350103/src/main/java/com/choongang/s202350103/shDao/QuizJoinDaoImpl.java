@@ -44,10 +44,30 @@ public class QuizJoinDaoImpl implements QuizJoinDao {
 	@Override
 	public void savePoint(QuizJoin quizJoin) {
 		try {
-			session.update("shQuizPoin",quizJoin);
+			session.update("shQuizPoint",quizJoin);
 		} catch (Exception e) {
 			System.out.println("QuizJoinDao savePoint()->"+e.getMessage());
 		}
+	}
+
+	@Override
+	public QuizJoin searchQuiz(QuizJoin quizJoin) {
+		try {
+			quizJoin = session.selectOne("shSearchQuiz",quizJoin);
+		} catch (Exception e) {
+			System.out.println("QuizJoinDao searchQuiz()->"+e.getMessage());
+		}
+		return quizJoin;
+	}
+
+	@Override
+	public void quizPointList(QuizJoin quizJoin) {
+		try {
+			session.insert("shQuizPointList",quizJoin);
+		} catch (Exception e) {
+			System.out.println("QuizJoinDao quizPointList()->"+e.getMessage());
+		}
+		
 	}
 
 }

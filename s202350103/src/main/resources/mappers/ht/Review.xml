@@ -32,7 +32,7 @@
 	
 	
 	<select id="htReviewAverage"  resultType="double">
-		SELECT AVG(r_rating) FROM review
+		SELECT ROUND(AVG(r_rating),1) FROM review
 	</select>	
 	
 	
@@ -51,6 +51,7 @@
                  Where   r.o_order_num = o.o_order_num
                  AND     o.m_num = m.m_num
                  AND     r.nb_num = nb.nb_num
+                 AND     nb.nb_num = #{nb_num}
                 
                  <choose>
 		 			<when test="r_reviewSelect == 1">
@@ -106,5 +107,63 @@
 		        order by o_order_date
 		        )
 	 </select>
+	 
+	 <select id="htMyReviewedList" parameterType="Review" resultType="Review">
+		SELECT r.*, n.nb_title, n.nb_image, od.o_de_count, o.o_order_date
+		FROM   review        r,
+		       orderr        o,
+		       newbook       n,
+		       order_detail  od
+		WHERE  r.o_order_num = o.o_order_num
+		AND    o.o_order_num = od.o_order_num
+		AND    r.nb_num      = n.nb_num
+		AND    o.o_order_num IN (SELECT oo.o_order_num
+		                         FROM   orderr oo
+		                         WHERE  oo.m_num = #{m_num})
+		order by o_order_date
+	 </select>
+	 
+	 <select id="htMyReviewedCnt" parameterType="Review" resultType="int">
+		    SELECT count(*)
+			FROM   review        r,
+			       orderr        o,
+			       newbook       n,
+			       order_detail  od
+			WHERE  r.o_order_num = o.o_order_num
+			AND    o.o_order_num = od.o_order_num
+			AND    r.nb_num      = n.nb_num
+			AND    o.o_order_num IN (SELECT oo.o_order_num
+			                         FROM   orderr oo
+			                         WHERE  oo.m_num = #{m_num})
+			order by o_order_date
+	 </select>
+	 
+	 <select id="htWritedReview" parameterType="Review" resultType="Review">
+		   SELECT r.*
+		   FROM   review        r
+		   WHERE  o_order_num = #{o_order_num}
+		   AND    nb_num      = #{nb_num}
+	 </select>
+	 
+	 <update id="htReviewUpdate" parameterType="Review" >
+	 	UPDATE review
+		SET
+		r_title        = #{r_title},
+		r_content      = #{r_content},
+		r_create_date  = CURRENT_TIMESTAMP,
+		r_rating       = #{r_rating}
+		
+		WHERE o_order_num = #{o_order_num}
+		AND   nb_num      = #{nb_num}
+	 </update>
+	 
+	 
+	 
+	 <delete id="htReviewDelete" parameterType="Review">
+	 	DELETE 
+		FROM   review
+		WHERE  o_order_num = #{o_order_num}
+		AND    nb_num      = #{nb_num}
+	 </delete>
 	
 </mapper>

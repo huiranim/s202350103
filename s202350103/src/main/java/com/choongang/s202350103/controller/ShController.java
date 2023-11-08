@@ -8,7 +8,8 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-	import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.AttJoin;
@@ -123,14 +124,34 @@ import com.choongang.s202350103.model.AttJoin;
 			AttJoin attJoin = new AttJoin();
 			attJoin.setA_num(a_num);
 			attJoin.setM_num(m_num);
-			//출석 메소드
+			//출석 참여
 			ps.stampAtt(attJoin);
 			//포인트 적립메소드
 			ps.savePoint(attJoin);
-				
-			return "forward:/foAttendancePage?eNum="+a_num+"&m_num="+m_num;
+			//포인트 이력 저장
+			attJoin = ps.searchAtt(attJoin);
+			ps.attPointList(attJoin);
+			return "forward:/attendancePage?eNum="+a_num+"&m_num="+m_num;
 		}
 		
+		//출석부 연속 출선 메소드
+		@RequestMapping(value = "addAtt")
+		public int addAtt(@RequestParam("a_num") int a_num, @RequestParam("m_num") int m_num) {
+			System.out.println("PointController addAtt() Start..");
+			AttJoin attJoin = new AttJoin();
+			attJoin.setA_num(a_num);
+			attJoin.setM_num(m_num);
+			int totalCount = ps.addAtt(attJoin);
+			if(totalCount == 3) {
+				ps.stampAddAtt(attJoin);
+				ps.saveAddAtt(attJoin);
+				ps.searchAddAtt(attJoin);
+			} else {
+				totalCount = 0;
+			}
+			return totalCount;
+		}
+				
 		//Quiz Page
 		@RequestMapping (value = "quizPage")
 		public String quizPage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
@@ -146,20 +167,25 @@ import com.choongang.s202350103.model.AttJoin;
 			model.addAttribute("quiz",quiz);
 			model.addAttribute("chance",chance);
 			model.addAttribute("m_num",m_num);
-			model.addAttribute("q_num",eNum);
+			model.addAttribute("eNum",eNum);
 			return "sh/foQuizPage";
 		}
 		
 		//Quiz 정답 제출
-		@RequestMapping(value = "checkQuiz")
-		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("q_num") int q_num, Model model) {
+		@RequestMapping(value = "checkQuiz", method = RequestMethod.GET)
+		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
 			System.out.println("PointController quizAnswer() Start...");
 			QuizJoin quizJoin = new QuizJoin();
 			quizJoin.setM_num(m_num);
-			quizJoin.setQ_num(q_num);
+			quizJoin.setQ_num(eNum);
+			//퀴즈 참여
 			ps.checkedAnswer(quizJoin);
+			//포인트 적립
 			ps.savePoint(quizJoin);
-			return "forward:/foQuizPage?eNum="+q_num+"&m_num="+m_num;
+			//포인트 이력 저장
+			quizJoin = ps.searchQuiz(quizJoin);
+			ps.quizPointList(quizJoin);
+			return "forward:/quizPage?eNum="+eNum+"&m_num="+m_num;
 		}
 		
 		

@@ -37,29 +37,33 @@
          <!-- heading -->
          <nav aria-label="...">
 			<ul class="pagination pagination-lg justify-content-center">
-			  <li  class="page-item "><a class="page-link" href="#" >작성 가능한 리뷰</a></li>
-			  <li  class="page-item active"><a class="page-link" href="#" >작성한 리뷰</a></li>
+			  <li  class="page-item "><a class="page-link" href="MyReviewList" >작성 가능한 리뷰</a></li>
+			  <li  class="page-item active"><a class="page-link" href="MyReviewedList" >작성한 리뷰</a></li>
 			</ul>
 		 </nav>
        
           <ul class="list-group list-group-flush">
           
-          	 <c:forEach var="orderList" items="${reviewWriteList }">
+          	 <c:forEach var="reviewedList" items="${reviewedWriteList }">
 	             <li class="list-group-item py-5">
 	                <div class="d-flex justify-content-between">
 	                   <div class="d-flex">
 	                      <!-- img -->
-	                      <img src="${orderList.nb_image}" alt="bookImage">
+	                      <img src="${reviewedList.nb_image}" alt="bookImage">
 	                      <!-- text -->
 	                      <div class="ms-4">
-	                          <h5 class="mb-0 h6 h6">${orderList.nb_title}</h5>
-	                         <p class="mb-0 small">수량 : ${orderList.o_de_count}
-	                         <p class="mb-0 small">구매일자 : ${orderList.o_order_date}
+	                          <h5 class="mb-0 h6 h6">${reviewedList.nb_title}</h5>
+	                         <p class="mb-0 small">수량 : ${reviewedList.o_de_count}
+	                         <p class="mb-0 small">구매일자 : ${reviewedList.o_order_date}
+	                         <p style="margin: 10px;">
+	                         <p class="mb-0 small">리뷰 작성일자 : ${reviewedList.r_create_date}
 	                        </p>
 	                      </div>
 	                   </div>
-	                   <div>
-	                      <a class="btn btn-primary" href="reviewForm?o_order_num=${orderList.o_order_num}&currentPage=${page.currentPage}">리뷰 작성하기</a>
+	                   <div style="display: flex; justify-content: center; align-items: center;">
+	                      <a class="btn btn-primary" href="reviewUpdateForm?o_order_num=${reviewedList.o_order_num}&nb_num=${reviewedList.nb_num}&currentPage=${page.currentPage}">수정</a>
+	                      <p style="margin: 10px;">
+	                      <a class="btn btn-primary" href="reviewDelete?o_order_num=${reviewedList.o_order_num}&nb_num=${reviewedList.nb_num}&currentPage=${page.currentPage}">삭제</a>
 	                   </div>
 	                </div>
 	             </li>
@@ -77,7 +81,7 @@
 				<a href="MyReviewList?currentPage=${page.startPage+page.pageBlock}"style="font-size: 19px;">[다음]</a>
 			</c:if>
 		 </div>
-   	  </div>
+   	   </div>
     </div>
 		
 <%@ include file="../common/footerFo.jsp" %>	
