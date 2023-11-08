@@ -217,6 +217,18 @@ public class MemberDaoImpl1 implements MemberDao {
 			return member;
 		}
 	}
+	@Override
+	public int memberPwUpdate(String m_pw, Member member) {
+		System.out.println("MemberDaoImpl1 memberPwUpdate() start...");
+		int memberPwUpdate = 0;
+		try {
+			memberPwUpdate = session.selectOne("ybMemberPwUpdate", m_pw);
+			System.out.println("MemberDaoImpl1 memberPwUpdate memberPwUpdate -> " + memberPwUpdate);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberPwUpdate() Exception -> " + e.getMessage());
+		}
+		return memberPwUpdate;
+	}
 }
 	
 

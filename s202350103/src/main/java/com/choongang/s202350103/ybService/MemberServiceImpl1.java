@@ -145,6 +145,14 @@ public class MemberServiceImpl1 implements MemberService {
 		}	
 	}
 
+	@Override
+	public int memberPwUpdate(String m_pw, Member member) {
+		System.out.println("MemberServiceImpl1 memberPwUpdate start...");
+		int memberPwUpdate = md.memberPwUpdate(m_pw, member);
+		System.out.println("MemberServiceImpl1 memberPwUpdate m_pw -> " + m_pw);
+		return memberPwUpdate;
+	}
+
 	
 
 	

@@ -11,29 +11,34 @@
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
 
-function emailChk(m_email) {
-    alert("하이");
-    
-    $.ajax({
-       url:"<%=request.getContextPath()%>/mailTransport",
-       data : {memberMail : m_email},
-       dataType : 'text',
-       success : function(strResult) {
-          //alert('strResult -> '+strResult);
-          if(strResult == "1"){
-             alert("인증번호 전송 성공! 인증번호를 입력해주세요.");
-             $("authInput").prop('disabled', false)
-             return true;
-          } else if(strResult == "0") {
-             alert("가입할때 사용하신 이메일을 입력해주세요.");
-             $('#msg').html("가입할때 사용한 이메일을 입력해주세요.");
-             $('#msg').css("color", "red");
-             $('#m_email').val('');
 
-          } 
-       }
-    });
- }
+	function emailChk(m_email) {
+	    alert("인증번호 전송중... 잠시만 기다려주세요.");
+	    
+	    $.ajax({
+	       url:"<%=request.getContextPath()%>/mailTransport",
+	       data : {memberMail : m_email},
+	       dataType : 'text',
+	       success : function(strResult) {
+	          //alert('strResult -> '+strResult);
+	          if(strResult != null){
+	        	 alert(strResult);
+	             $('#msg').html("인증번호 전송 성공! 인증번호를 입력해주세요.");
+	             $('#msg').css("color", "red");
+	             $('input[name=certiNum]').attr('value',strResult);
+	             return true;
+	          } else if (strResult == null){
+	             alert("가입할때 사용하신 이메일을 입력해주세요.");
+	             $('#msg').html("가입할때 사용한 이메일을 입력해주세요.");
+	             $('#msg').css("color", "red");
+	             $('#m_email').val('');
+				 return false;
+	          } 
+	       }
+	    });
+	 }
+	 
+	
 </script>
 
 
@@ -46,7 +51,7 @@ function emailChk(m_email) {
        <!-- heading -->
        <h1 class="h3">비밀번호 찾기</h1>
     	</div>
-	
+		
 		<div class="col-lg-8 col-12">
 			<div class="py-6">
 				
@@ -59,20 +64,26 @@ function emailChk(m_email) {
 					</div>
 					
 					<h4 class="fs-6 mb-4"><mark>가입하신 이메일을 입력해주세요.</mark></h4>
-					<div id="msg"></div>
+					<div id="msg" style="text-align: center"></div>
 			
 					<div class="d-grid mb-8" >
-						<button class="btn btn-primary" onclick="return emailChk(m_email.value);">
+						<button class="btn btn-primary" onclick="emailChk(m_email.value)">
 						인증 메일발송
 						</button>
 					</div>
-
-					<div class="mb-2">
-						<input type="text" class="form-control"
-							 required placeholder="인증번호를 입력해주세요" name="m_email" id="authInput" hidden="true">
-					</div>
-
-                     
+					
+					<form action="certiNumChk" method="post">
+						<div class="mb-2">
+							<input type="hidden" name="certiNum" value="${certiNum }" >
+							<input type="text" class="form-control"
+								 required placeholder="인증번호를 입력해주세요" name="inputNum" id="inputNum">
+						</div>
+					
+						
+						<div class="d-grid mb-8" >
+							<input type="submit" name="numChk" value="인증번호 확인" class="btn btn-primary">
+						</div>
+                    </form>
 					<div class="mt-4">
 						<small> <a href="#">메일이 오지 않으세요?</a> <a href="#"
 							class="ms-3">1544-1125 고객센터 문의</a>

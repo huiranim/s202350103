@@ -34,6 +34,8 @@ public interface MemberService {
 
 	Member 			findEmail(String memberMail);
 
+	int 			memberPwUpdate(String m_pw, Member member);
+
 
 
 	
