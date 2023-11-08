@@ -2,6 +2,7 @@ package com.choongang.s202350103.shDao;
 
 import java.util.List;
 
+import com.choongang.s202350103.model.AttJoin;
 import com.choongang.s202350103.model.Attendance;
 
 public interface AttendanceDao {

@@ -11,4 +11,10 @@ public interface AttJoinDao {
 	int 			 stampAtt(AttJoin attJoin);
 	int 			 savePoint(AttJoin attJoin);
 	int 			 checkChance(AttJoin attJoin);
+	void 			 attPointList(AttJoin attJoin);
+	AttJoin 		 searchAtt(AttJoin attJoin);
+	int 			 addAtt(AttJoin attJoin);
+	void 			 saveAddAtt(AttJoin attJoin);
+	void 			 searchAddAtt(AttJoin attJoin);
+	void 			 stampAddAtt(AttJoin attJoin);
 }

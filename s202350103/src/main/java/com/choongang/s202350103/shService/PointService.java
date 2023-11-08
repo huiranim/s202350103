@@ -9,15 +9,11 @@ import com.choongang.s202350103.model.QuizJoin;
 
 public interface PointService {
 	
-	// 출석 이벤트 갯수
-	int 			 totalAtt();
+	int 			 totalAtt();						// 출석 이벤트 갯수
 	int 			 totalQuiz();
-	//EventList에서 a_num+q_num 하기위한 메소드
-	List<Attendance> listEvent(Attendance attendance);
-	//EventList에서 합친 a_num을 다시 분류
-	int 			 divideAttNum(int eNum);
-	//출석이벤트에 회원정보를 가지고 들어가는 메소드
-	Attendance 		 detailAttendance(int eNum);
+	List<Attendance> listEvent(Attendance attendance);	//EventList에서 a_num+q_num 하기위한 메소드
+	int 			 divideAttNum(int eNum);			//EventList에서 합친 a_num을 다시 분류
+	Attendance 		 detailAttendance(int eNum);		//출석이벤트에 회원정보를 가지고 들어가는 메소드
 	List<AttJoin> 	 listAttJoin(AttJoin attJoin);
 	Quiz 			 detailQuiz(int eNum);
 	List<QuizJoin>   listQuizJoin(int m_num);
@@ -31,6 +27,15 @@ public interface PointService {
 	int 			 checkChance(QuizJoin quizJoin);
 	void 			 checkedAnswer(QuizJoin quizJoin);
 	void 			 savePoint(QuizJoin quizJoin);
+	void 			 attPointList(AttJoin attJoin);
+	AttJoin 		 searchAtt(AttJoin attJoin);
+	QuizJoin 		 searchQuiz(QuizJoin quizJoin);
+	void 			 quizPointList(QuizJoin quizJoin);
+	int 			 addAtt(AttJoin attJoin);
+	void 			 stampAddAtt(AttJoin attJoin);		//연속 출석 이력 (출석)
+	void 			 saveAddAtt(AttJoin attJoin);		//연속 출석 포인트 지급
+	void 			 searchAddAtt(AttJoin attJoin);		//연속 출석 이력(포인트 이력) 
+	
 	
 	
 }

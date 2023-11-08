@@ -72,5 +72,67 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		}
 		return chance;
 	}
+
+	@Override
+	public void attPointList(AttJoin attJoin) {
+		try {
+			session.insert("shAttPointList",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttendanceImpl checkChance() Exception->"+e.getMessage());
+		}
+	}
+
+	@Override
+	public AttJoin searchAtt(AttJoin attJoin) {
+		try {
+			attJoin = session.selectOne("shSearchAtt",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttendanceImpl searchAtt() Exception->"+e.getMessage());
+		}
+		return attJoin;
+	}
+
+	@Override
+	public int addAtt(AttJoin attJoin) {
+		System.out.println("AttJoinDao addAtt() Start..");
+		int count = 0;
+		try {
+			count = session.selectOne("shAddAtt",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttendanceImpl addAtt() Exception->"+e.getMessage());
+		}
+		return count;
+	}
+
+	@Override
+	public void stampAddAtt(AttJoin attJoin) {
+		System.out.println("AttJoinDao stampAddAtt() Start..");
+		try {
+			session.insert("shStampAddAtt",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttendanceImpl stampAddAtt() Exception->"+e.getMessage());
+		}
+	}
+	
+	@Override
+	public void saveAddAtt(AttJoin attJoin) {
+		System.out.println("AttJoinDao addAtt() Start..");
+		try {
+			session.update("shSaveAddAtt",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttendanceImpl saveAddAtt() Exception->"+e.getMessage());
+		}
+	}
+
+	@Override
+	public void searchAddAtt(AttJoin attJoin) {
+		System.out.println("AttJoinDao addAtt() Start..");
+		try {
+			session.insert("shSearchAddAtt",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttendanceImpl searchAddAtt() Exception->"+e.getMessage());
+		}
+	}
+
 }
 
