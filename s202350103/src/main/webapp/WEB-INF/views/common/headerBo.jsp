@@ -194,10 +194,10 @@
 							<div id="navEvent" class="collapse " data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-list.html"> 메뉴1 </a></li>
+										href="../sh/boAttendance.jsp"> 메뉴1 </a></li>
 									<!-- Nav item -->
 									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-single.html"> 메뉴2 </a></li>
+										href="../sh/boAttendance.jsp"> 메뉴2 </a></li>
 								</ul>
 							</div></li>
 
