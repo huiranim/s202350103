@@ -73,5 +73,42 @@ public class ReviewServiceImpl implements ReviewService {
 		return total;
 	}
 
+	@Override
+	public int totalReviewedCnt(Review review) {
+		System.out.println("ReviewServiceImpl totalReviewedCnt() Start..." );
+		int total = rd.myReviewedTotal(review);
+		System.out.println("ReviewServiceImpl totalReviewedCnt() total--> " + total);
+		return total;
+	}
+
+	@Override
+	public List<Review> reviewedWriteList(Review review) {
+		System.out.println("ReviewServiceImpl reviewedWriteList() Start...");
+		List<Review> reviewedWriteList = rd.reviewedWriteList(review);
+		System.out.println("ReviewServiceImpl reviewedWriteList() reviewedWriteList.size() --> "+ reviewedWriteList.size());
+		return reviewedWriteList;
+	}
+
+	@Override
+	public Review writedReview(Review review) {
+		System.out.println("ReviewServiceImpl writedReview() Start....");
+		Review writedReview = rd.writedReview(review);
+		return writedReview;
+	}
+
+	@Override
+	public int reviewUpdate(Review review) {
+		System.out.println("ReviewServiceImpl reviewUpdate() Start....");
+		int result = rd.reviewUpdate(review);
+		return result;
+	}
+
+	@Override
+	public int reviewDelete(Review review) {
+		System.out.println("ReviewServiceImpl reviewDelete() Start....");
+		int result = rd.reviewDelete(review);
+		return result;
+	}
+
 	
 }

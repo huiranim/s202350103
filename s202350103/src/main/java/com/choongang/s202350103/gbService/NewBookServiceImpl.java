@@ -127,5 +127,14 @@ public class NewBookServiceImpl implements NewBookService {
 		return listSearchNewbook;
 	}
 
+	@Override
+	public NewBook selectBoNewBookDetail(NewBook newbook) {
+		System.out.println("NewBookServiceImpl selectBoNewBookDetail start...");
+		// 관리자페이지 상품 상세페이지 값 가져오기
+		NewBook bonewbook = nbd.selectBoNewBookDetail(newbook);
+		
+		return bonewbook;
+	}
+
 
 }

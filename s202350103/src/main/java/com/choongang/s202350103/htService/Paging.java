@@ -17,7 +17,7 @@ public class Paging {
 	//			전체 게시글 수						전체 페이지 수
 	private int total;				private int totalPage;
 	
-	//					21				null
+	//					1				null
 	public Paging(int total, String currentPage1) {
 		this.total = total;	// 21
 		if(currentPage1 != null) {

@@ -1,16 +1,23 @@
 package com.choongang.s202350103.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.query.criteria.internal.expression.function.SubstringFunction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
@@ -239,12 +246,14 @@ public class GbController {
 		// Parameter boNewbookCnt --> Page만 추가 Setting
 		newbook.setStart(page.getStartRow());
 		newbook.setEnd(page.getEndRow());
+		System.out.println("GbController page.getStartRow() -> "+page.getStartRow());
 		
 		// 국내도서 검색 리스트
 		List<NewBook> listBoNewbook = nbs.selectSearchNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
 		
 		model.addAttribute("listBoNewbook", listBoNewbook);
 		model.addAttribute("page", page);
+		model.addAttribute("StartRow",page.getStartRow());
 		
 		return "gb/boNewbookList";
 	}
@@ -272,9 +281,62 @@ public class GbController {
 		model.addAttribute("search_Newbook", newbook);
 		model.addAttribute("listBoNewbook", listSearchBoNewbook);
 		model.addAttribute("page", page);
+		model.addAttribute("StartRow",page.getStartRow());
 		
 		return "gb/boNewbookList";
 		
 	}
 	
+	// 관리자 상품 상세페이지
+	@GetMapping("boNewbookDetail")
+	public String selectBoNewbook(NewBook newbook, Model model) {
+		System.out.println("GbController selectBoNewbook start...");
+		
+		NewBook bonewbook = nbs.selectBoNewBookDetail(newbook);
+		String publi_date1 = bonewbook.getNb_publi_date().substring(0,10);
+		bonewbook.setNb_publi_date(publi_date1);
+		
+		model.addAttribute("newbook", bonewbook);
+		
+		return "gb/boNewbookDetail";
+	}
+	
+	@PostMapping("updateNewbook")
+	public String updateBoNewbook(HttpServletRequest request, MultipartFile file1, NewBook newbook, Model model) throws IOException {
+		System.out.println("GbController updateBoNewbook start...");
+		
+		// 업로드 경로를 만들어야함.
+		String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+		System.out.println("GbController uploadPath->"+uploadPath);
+		
+		System.out.println("GbController uploadForm Post Start");
+		String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+		System.out.println("GbController updateBoNewbook Post savedName ->"+savedName);
+		
+		// model.addAttribute("savedName", savedName);
+		
+		return "gb/boNewbookList";
+	}
+
+	private String uploadFile(String originalName, byte[] fileData, String uploadPath) throws IOException {
+		UUID uid = UUID.randomUUID();
+		
+		System.out.println("uploadFile ->"+uploadPath);
+		File fileDirectory = new File(uploadPath);
+		
+		if(!fileDirectory.exists()) {
+			// 신규 폴더(Directory 생성)
+			fileDirectory.mkdirs();
+			System.out.println("업로드용 폴더 생성 : "+uploadPath);
+		}
+
+		String savedName = uid.toString() + "_" +originalName;
+		File target = new File(uploadPath, savedName);
+		// File UpLoad --> uploadPath / UUID +_+ originalName
+		FileCopyUtils.copy(fileData, target);
+		
+		return savedName;
+
+	}
+	 
 }

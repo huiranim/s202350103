@@ -18,6 +18,12 @@
 		location.href = "/boSearchNewbookList?search_type="+search_type+"&search_keyword="+search_keyword;
 	}
 	
+	function boNewbookUpdate(pNb_num) {
+		alert("선택한 도서는 ->" +pNb_num);
+		
+		location.href = "boNewbookDetail?nb_num="+pNb_num;
+	}
+	
 </script>
 </head>
 <body>
@@ -31,7 +37,7 @@
 		    </div>
 		    <div class="row mt-8">
 		    	<!-- 검색 -->
-		        <div class="input-group mb-3">
+		        <div class="input-group mb-3" style="width: 60%;">
 					<select id="search_type" class="w-20 rounded" style="border-color: rgb(223, 226, 225);" >
 						<option value="title">도서제목</option>
 						<option value="writer">지은이</option>
@@ -54,6 +60,7 @@
 		             <thead class="table-light">
 		                <tr>
 		                   <th>순번</th>
+		                   <th></th>
 		                   <th>제목</th>
 		                   <th>지은이</th>
 		                   <th>가격</th>
@@ -61,23 +68,23 @@
 		                   <th>출간일</th>
 		                   <th>국내/해외</th>
 		                   <th>카테고리</th>
-		                   <th colspan='2'>수정/삭제</th>
+		                   <th colspan='2'>삭제</th>
 		                </tr>
 		             </thead>
 		             <tbody>
 		             	<c:forEach var="newbook" items="${listBoNewbook }">
 			                <tr>
-			                   <td class="align-middle">${startRow }</td>
+			                   <td class="align-middle">${StartRow }</td>
 			                   <td class="align-middle">
-			                      <a href="#"><img src="${newbook.nb_image }" class="icon-shape icon-xxl" alt="도서이미지"></a>
+			                      <a onclick="boNewbookUpdate(${newbook.nb_num})"><img src="${newbook.nb_image }" class="icon-shape icon-xxl" alt="도서이미지"></a>
 			                   </td>
 			                   <td class="align-middle">
 			                      <div>
-			                      <h5 class="fs-6 mb-0"><a href="#" class="text-inherit">${newbook.nb_title }</a></h5>
+			                      <h5 class="fs-6 mb-0"><a class="text-inherit" onclick="boNewbookUpdate(${newbook.nb_num})">${newbook.nb_title }</a></h5>
 			                      </div>
 			                   </td>
 			                   <td class="align-middle">${newbook.nb_writer}</td>
-			                   <td class="align-middle">${newbook.nb_price }</td>
+			                   <td class="align-middle"><fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/>원</td>
 			                   <td class="align-middle">${newbook.nb_publisher }</td>
 			                   <td class="align-middle">${newbook.nb_publi_date }</td>
 			                   <td class="align-middle">
@@ -96,11 +103,10 @@
 									</c:choose>
 								</td>
 			                   <td colspan='2' class="align-middle">
-			                      <div class="btn btn-info mb-2">수정</div>
 			                      <div class="btn btn-secondary mb-2">삭제</div>
 			                   </td>
 			                </tr>
-			                <c:set var="startRow" value="${page.startRow +1}"/>
+			                <c:set var="StartRow" value="${StartRow +1}"/>
 		              </c:forEach>
 			    </tbody>
 			  </table>
@@ -171,6 +177,6 @@
 	    </nav>
 	  </div>
 	</div>
-
+<%@ include file="../common/footerFo.jsp" %>
 </body>
 </html>

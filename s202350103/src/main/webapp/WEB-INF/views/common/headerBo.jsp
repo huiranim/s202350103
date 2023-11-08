@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <!DOCTYPE html>
@@ -194,10 +195,10 @@
 							<div id="navEvent" class="collapse " data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-list.html"> 메뉴1 </a></li>
+										href="../sh/boAttendance.jsp"> 메뉴1 </a></li>
 									<!-- Nav item -->
 									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-single.html"> 메뉴2 </a></li>
+										href="../sh/boAttendance.jsp"> 메뉴2 </a></li>
 								</ul>
 							</div></li>
 
@@ -264,11 +265,11 @@
 							<div id="navProducts" class="collapse "
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
-									<li class="nav-item "><a class="nav-link " href="#">
-											메뉴1 </a></li>
+									<li class="nav-item "><a class="nav-link " href="bonewbookList">
+											상품목록 </a></li>
 									<!-- Nav item -->
 									<li class="nav-item "><a class="nav-link " href="#">
-											메뉴2 </a></li>
+											상품등록 </a></li>
 								</ul>
 							</div></li>
 
@@ -343,7 +344,7 @@
 
 		<!-- main wrapper -->
 		<main class="main-content-wrapper">
-			<section class="container">
+			<section style="margin-left: 5%; margin-right: 5%;">
 
 				<!-- row -->
 				<div class="row ">

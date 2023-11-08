@@ -304,7 +304,8 @@
               <div class="my-8">
                 <!-- row -->
                 <div class="row">
-					<h2>리뷰는 혁수 담당</h2>
+					<%@ include file="../ht/boProductReviewList.jsp" %>
+					
                 </div>
               </div>
             </div>

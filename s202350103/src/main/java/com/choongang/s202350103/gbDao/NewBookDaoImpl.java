@@ -165,5 +165,17 @@ public class NewBookDaoImpl implements NewBookDao {
 		return listSearchNewbook;
 	}
 
+	@Override
+	public NewBook selectBoNewBookDetail(NewBook newbook) {
+		System.out.println("NewBookDaoImpl selectBoNewBookDetail Start...");
+		NewBook bonewbook = null;
+		try {
+			bonewbook = session.selectOne("gbselectBoNewBookDetail", newbook);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl selectBoNewBookDetail -> "+e.getMessage());
+		}
+		return bonewbook;
+	}
+
 }
 

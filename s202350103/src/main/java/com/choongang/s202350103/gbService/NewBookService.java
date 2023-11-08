@@ -20,5 +20,6 @@ public interface NewBookService {
 	void 			updateCartCount(Cart cart);
 	void 			deleteCart(Cart cart);
 	List<NewBook> selectSearchBoNewBookList(NewBook newbook);
+	NewBook selectBoNewBookDetail(NewBook newbook);
 
 }

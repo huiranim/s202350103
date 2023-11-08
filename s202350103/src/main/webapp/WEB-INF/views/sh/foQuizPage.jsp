@@ -12,19 +12,21 @@
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javascript">
-	function checkAnswer(m_num, q_num){
+	var m_num = ${m_num};
+	var q_num = ${eNum};
+
+	function checkAnswer(){
 		var selected = document.querySelector('input[name="select"]:checked');
 	    if (!selected || selected === null) {
 	        alert("정답을 선택하세요.");
 	        return false;
 	    } else{ 
 				var select = selected.value;
-				var answer = document.getElementById('answer').value;
-				alert("정답.");
+				var answer = $('[name=answer]').val();
 				if(select == answer){
 					if(${chance} == 0){
 						alert("정답입니다! 정말 대단하시군요~");
-						/* location.href="checkQuiz?m_num="+m_num+"&q_num="+q_num; */
+						location.href="checkQuiz?m_num="+m_num+"&eNum="+q_num;
 						return true;
 					} else{
 						alert("이미 참여하셨습니다");
@@ -38,7 +40,6 @@
 		}
 </script>
 <body>
-<p>${q_num},${m_num}</p>
 	<h1>Quiz이벤트</h1>
 	<p>${quiz.q_sdate}~${quiz.q_edate}</p>
 	<br>
@@ -49,7 +50,7 @@
 		</div>
 		<form onsubmit="checkAnswer()">
 			<input type="hidden" name="m_num" value="${m_num}">
-   			<input type="hidden" name="q_num" value="${q_num}">
+   			<input type="hidden" name="eNum" value="${eNum}">
 			<input type="hidden" name="answer"   value="${quiz.q_answer}">
 			<input type="radio"  name="select"   value="1">${quiz.q_select1 }<br>
 			<input type="radio"  name="select"   value="2">${quiz.q_select2 }<br>

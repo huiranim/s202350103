@@ -112,7 +112,7 @@
               	<h5>상품금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
               	<h5>배송비 <span>
               	<c:if test="${totalPrice > 50000 }"><fmt:formatNumber value="0" pattern="#,###" /> 원</c:if>
-              	<c:if test="${totalPrice <= 50000 }"><fmt:formatNumber value="2500" pattern="#,###" /> 원</c:if></span></h5> 
+              	<c:if test="${totalPrice <= 50000 }"><fmt:formatNumber value="3000" pattern="#,###" /> 원</c:if></span></h5> 
               <hr>
               	<h5>결제예정금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
               <div class="d-grid mb-1 mt-4">

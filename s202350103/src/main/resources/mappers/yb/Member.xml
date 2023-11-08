@@ -104,7 +104,9 @@
 		SELECT * FROM member WHERE m_email = #{memberMail}
 	</select>
 	
-
+	<select id="ybMemberPwUpdate" parameterType="String" resultType="Member">
+		UPDATE member SET m_pw = #{m_pw} WHERE m_id = #{m_id}
+	</select>
 	
 	
 	
