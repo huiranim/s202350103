@@ -6,6 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../common/headerFo.jsp" %>
 <%@ include file="../common/sideFo.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,16 +17,34 @@
 	function checkAtt(a_num, m_num){	
 			if(${chance}==0){
 				alert("출석 체크 완료");
-				location.href="checkAtt?m_num="+m_num+"&a_num="+a_num;
+				location.href="checkAtt?a_num="+a_num+"&m_num="+m_num;
 				return true;
 			} else {
 				alert("금일 참여하셨습니다.");
 				return false;
 			}
 	}
+	
+	function addAtt(a_num, m_num){
+		$.ajax({
+			url : "/addAtt";
+			data : {a_num:a_num, m_num:m_num},
+			dataType:"text",
+			success : function(totalCount){
+				if(totalCount == 3){
+					alert("3일 연속 출석 하셨습니다!");
+				} else {
+					alert("연속 출석 자격 미달입니다.");
+				}
+			},
+			error : function(){
+				alert("오류발생");
+			}
+		});
+	}
+	
 </script>
 </head>
-
 <body>
 <h1>${month}월 출석 이벤트</h1>
 <caption>${attendance.a_sdate } ~ ${attendance.a_edate }</caption>
@@ -82,13 +101,7 @@
 	    </c:forEach>
 	</tbody>
 </table>
-		<button onclick="checkAtt(${a_num},${m_num })">출석체크</button>
-	<c:forEach var="attJoin" items="${attJoin }">
-		<p>${attJoin.a_num }</p>
-		<p>${attJoin.m_num }</p>
-		<p>${attJoin.a_par_pdate }</p>
-	</c:forEach>
-			
+		<button onclick="checkAtt(${a_num},${m_num }),">출석체크</button>
 <%@ include file="../common/footerFo.jsp" %>
 </body>
 </html>

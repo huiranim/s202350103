@@ -10,5 +10,7 @@ public interface QuizJoinDao {
 	int 				checkChance(QuizJoin quizJoin);
 	void 				checkedAnswer(QuizJoin quizJoin);
 	void 				savePoint  (QuizJoin quizJoin);
+	QuizJoin 			searchQuiz(QuizJoin quizJoin);
+	void 				quizPointList(QuizJoin quizJoin);
 
 }

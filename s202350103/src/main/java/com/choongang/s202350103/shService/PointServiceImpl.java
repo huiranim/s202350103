@@ -141,7 +141,55 @@ public class PointServiceImpl implements PointService {
 	@Override
 	public void savePoint(QuizJoin quizJoin) {
 		qjd.savePoint(quizJoin);
+	}
+
+	@Override
+	public void attPointList(AttJoin attJoin) {
+		ajd.attPointList(attJoin);
 		
+	}
+
+	@Override
+	public AttJoin searchAtt(AttJoin attJoin) {
+		attJoin = ajd.searchAtt(attJoin);
+		return attJoin;
+	}
+
+	@Override
+	public QuizJoin searchQuiz(QuizJoin quizJoin) {
+		quizJoin = qjd.searchQuiz(quizJoin);
+		return quizJoin;
+	}
+
+	@Override
+	public void quizPointList(QuizJoin quizJoin) {
+		qjd.quizPointList(quizJoin);
+		
+	}
+
+	@Override
+	public int addAtt(AttJoin attJoin) {
+		System.out.println("PointService addAtt() Start..");
+		int count = ajd.addAtt(attJoin);
+		return count;
+	}
+
+	@Override
+	public void stampAddAtt(AttJoin attJoin) {
+		System.out.println("PointService stampAddAtt() Start..");
+		ajd.stampAddAtt(attJoin);
+	}
+	
+	@Override
+	public void saveAddAtt(AttJoin attJoin) {
+		System.out.println("PointService saveAddAtt() Start..");
+		ajd.saveAddAtt(attJoin);
+	}
+
+	@Override
+	public void searchAddAtt(AttJoin attJoin) {
+		System.out.println("PointService searchAddAtt() Start..");
+		ajd.searchAddAtt(attJoin);
 	}
 
 }
