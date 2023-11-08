@@ -434,4 +434,8 @@
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
+	<select id="gbselectBoNewBookDetail" parameterType="NewBook" resultType="NewBook">
+		SELECT * FROM newbook WHERE nb_num = #{nb_num}
+	</select>
+	
 </mapper>
