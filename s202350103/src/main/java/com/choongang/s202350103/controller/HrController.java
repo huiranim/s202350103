@@ -13,6 +13,7 @@ import com.choongang.s202350103.hrService.Paging;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OrderDetail;
+import com.choongang.s202350103.model.OrderGift;
 import com.choongang.s202350103.model.Orderr;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -235,9 +236,9 @@ public class HrController {
 		return "/hr/foOrderDetail";
 	}
 	
-	// FO 선물하기
+	// FO 선물하기 - 화면
 	// foGivingGift.jsp
-	@RequestMapping(value = "foGivingGift")
+	@RequestMapping("foGivingGift")
 	public String givingGift(Model model, Member member, HttpSession session, int nb_num, int quantity) {
 		System.out.println("HrController givingGift() start..");
 		
@@ -256,5 +257,34 @@ public class HrController {
 		
 		System.out.println("HrController givingGift() end..");
 		return "/hr/foGivingGift";
+	}
+	
+	// FO 선물하기 - 액션
+	@RequestMapping("foGivingGiftAction")
+	public String givingGiftAction(Model model, Member member, HttpSession session, Orderr orderr, OrderGift orderGift) {
+		System.out.println("HrController givingGiftAction() start..");
+		
+		// model에 회원 정보 저장
+		member = (Member) session.getAttribute("member");
+		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
+		model.addAttribute("member", member);
+		
+		// INSERT - ORDERR
+		// int oResult = os.insertOrderr(orderr);
+		
+		// INSERT - ORDER_DETAIL
+		// int odResult = os.insertOrderDetail(orderr);
+		
+		// INSERT - ORDER_GIFT
+		// int ogResult = os.insertOrderGift(orderGift);
+		
+		// UPDATE - MEMBER
+		// int mResult = os.updateMember(member);
+		
+		// INSERT - POINT_LIST
+		// int plResult = insertPointList(member, orderr);
+		
+		System.out.println("HrController givingGiftAction() end..");
+		return "/hr/foGivingGiftAction";
 	}
 }
