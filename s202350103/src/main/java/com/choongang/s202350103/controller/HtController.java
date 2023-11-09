@@ -58,7 +58,7 @@ public class HtController {
 		session.setAttribute("member", member);
 		
 		// 임시 상품 등록(나중에 삭제)
-		//review.setNb_num(100003);
+		review.setNb_num(100003);
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
