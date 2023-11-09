@@ -43,7 +43,18 @@
 </script>
 </head>
 <body>
-${a_num} ${m_num}
+<script type="text/javascript">
+$(function(){
+	var curDate = new Date();
+	var sysdate = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
+	if(sysdate < ${attendance.a_sdate} || sysdate > ${attendance.a_edate}){
+	const target = document.getElementById("button");
+	target.disabled = false;
+	} else{
+	target.disabled = true;	
+	}
+});
+</script>
 <h1>${month}월 출석 이벤트</h1>
 <caption>${attendance.a_sdate } ~ ${attendance.a_edate }</caption>
 <table border="1" width="100%" cellspacing="0">
