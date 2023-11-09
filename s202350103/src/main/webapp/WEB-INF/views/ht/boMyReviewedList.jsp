@@ -16,7 +16,7 @@
 
 </script>
 <style>
-    img {
+    #ht {
         width: 150px; /* Set the desired width */
         height: 200px; /* Set the desired height */
     }
@@ -49,7 +49,7 @@
 	                <div class="d-flex justify-content-between">
 	                   <div class="d-flex">
 	                      <!-- img -->
-	                      <img src="${reviewedList.nb_image}" alt="bookImage">
+	                      <img id="ht" src="${reviewedList.nb_image}" alt="bookImage">
 	                      <!-- text -->
 	                      <div class="ms-4">
 	                          <h5 class="mb-0 h6 h6">${reviewedList.nb_title}</h5>

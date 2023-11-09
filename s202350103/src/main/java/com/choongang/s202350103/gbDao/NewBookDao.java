@@ -22,4 +22,5 @@ public interface NewBookDao {
 	void 			deleteCart(Cart cart);
 	List<NewBook> selectSearchBoNewBookList(NewBook newbook);
 	NewBook selectBoNewBookDetail(NewBook newbook);
+	int updateBoNewbook(NewBook newbook);
 } 

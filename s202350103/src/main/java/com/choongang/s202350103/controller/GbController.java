@@ -22,10 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
+import com.choongang.s202350103.htService.ReviewService;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.NewBookOldBook;
+import com.choongang.s202350103.model.Review;
 import com.choongang.s202350103.model.WishList;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,7 @@ public class GbController {
 	
 	private final NewBookService nbs;
 	private final NewBookOldBookService nbods;
+	private final ReviewService rs;
 	
 	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
@@ -130,7 +133,7 @@ public class GbController {
 	
 	// 상품 상페 페이지
 	@RequestMapping("newbookDetail")
-	public String selectNewbookDetail(NewBook newbook, HttpSession session, Member member, Model model) {
+	public String selectNewbookDetail(NewBook newbook, Review review, HttpSession session, Member member, Model model) {
 		System.out.println("GbController selectNewbookDetail start...");
 		System.out.println("GbController selectNewbookDetail newbook.getNb_num()"+newbook.getNb_num());
 		
@@ -150,6 +153,47 @@ public class GbController {
 		// 동일한 중고도서 개수
 		int same_obCnt = nbods.selectSameOldBookList(newbook.getNb_num()).size();
 		selectNewbook.setSame_obCnt(same_obCnt);
+		
+		// 리뷰 가져오기
+		int reviewTotal = rs.reviewTotal();
+		double reviewAverage = rs.reviewAverage();
+
+		review.setR_review_average(reviewAverage);
+		review.setR_review_total(reviewTotal);
+
+		for (int i = 1; i < 6; i++) {
+			review.setR_rating(i);
+			int reviewRatingCnt = rs.reviewRating(review);
+			switch (i) {
+			case 1:
+				review.setR_rating1((int) (((double) reviewRatingCnt / reviewTotal) * 100));
+				break;
+			case 2:
+				review.setR_rating2((int) (((double) reviewRatingCnt / reviewTotal) * 100));
+				break;
+			case 3:
+				review.setR_rating3((int) (((double) reviewRatingCnt / reviewTotal) * 100));
+				break;
+			case 4:
+				review.setR_rating4((int) (((double) reviewRatingCnt / reviewTotal) * 100));
+				break;
+			case 5:
+				review.setR_rating5((int) (((double) reviewRatingCnt / reviewTotal) * 100));
+				break;
+			}
+		}
+
+		if (review.getEnd() == 0) {
+			review.setEnd(5);
+		}
+		
+		System.out.println("Controller Start review.getStart->" + review.getStart());
+		System.out.println("Controller Start review.getEnd->" + review.getEnd());
+
+		List<Review> listReview = rs.listReview(review);
+
+		model.addAttribute("listReview", listReview);
+		model.addAttribute("review", review);
 		
 		model.addAttribute("member", member);
 		model.addAttribute("newbook", selectNewbook);
@@ -313,6 +357,9 @@ public class GbController {
 		String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
 		System.out.println("GbController updateBoNewbook Post savedName ->"+savedName);
 		
+		// 생성된 파일명과 상품 정보를 수정
+		int result = nbs.updateBoNewbook(newbook);
+		
 		// model.addAttribute("savedName", savedName);
 		
 		return "gb/boNewbookList";
@@ -324,6 +371,7 @@ public class GbController {
 		System.out.println("uploadFile ->"+uploadPath);
 		File fileDirectory = new File(uploadPath);
 		
+		// 파일경로가 존재하지 않으면 폴더를 생성
 		if(!fileDirectory.exists()) {
 			// 신규 폴더(Directory 생성)
 			fileDirectory.mkdirs();

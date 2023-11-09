@@ -105,6 +105,23 @@
 			}
 		});
 	}
+	
+	function reviewChange(start,end) {
+		//var sendData = $('form').serialize();
+		var r_reviewSelect = $('#reviewSel').val();;
+		var sendData = 'r_reviewSelect='+r_reviewSelect+'&start='+start+'&end='+end;
+	
+		location.href="newbookDetail?"+sendData;
+	};  
+
+	$(function() {
+		// ++5
+		$('#chk1').click(function() {
+				var sendData = $('form').serialize();
+				location.href="newbookDetail?"+sendData;
+			   
+		 });
+	}) 
 </script>
 </head>
 <body>

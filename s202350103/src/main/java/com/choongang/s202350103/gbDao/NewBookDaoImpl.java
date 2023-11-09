@@ -177,5 +177,17 @@ public class NewBookDaoImpl implements NewBookDao {
 		return bonewbook;
 	}
 
+	@Override
+	public int updateBoNewbook(NewBook newbook) {
+		System.out.println("NewBookDaoImpl updateBoNewbook Start...");
+		int result = 0;
+		try {
+			result = session.update("gbUpdateBoNewbook", newbook);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl updateBoNewbook -> "+e.getMessage());
+		}
+		return result;
+	}
+
 }
 
