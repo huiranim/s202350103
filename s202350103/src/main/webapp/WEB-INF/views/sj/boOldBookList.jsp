@@ -44,7 +44,7 @@
 	       <p class="fs-1 text-center">중고 리스트 </p>
 	        <div class="table-responsive border-0">
 	           <!-- Table -->
-	           	<c:set var="num" value="${page.total-page.start+1 }"></c:set>
+	           	<c:set var="num" value="${page.totalOb-page.start+1 }"></c:set>
 	           <table class="table table-bordered border-primary">
 	              <!-- Table Head -->
 	              <thead class="table-light">
@@ -61,7 +61,7 @@
 	                 <!-- Table body -->
 	              	   <tr>
 	               	     <td class="align-middle border-top-0">
-                            <h6 class="mb-0"> <fmt:formatDate value="${oldBook.ob_report_date}" pattern="yyyy-MM-dd KK:mm:ss"></fmt:formatDate></h6>
+                            <h6 class="mb-0">${oldBook.ob_report_date}</h6>
 	                       <span><small class="text-muted"></small></span>
 	                    </td>
 	                    <td class="align-middle border-top-0">
@@ -105,13 +105,13 @@
 	              </tbody>
 		</table>	
 			<c:if test="${page.startPage > page.pageBlock }">
-					<a href="listob?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
+					<a href="BolistOb?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
 					</c:if>
 						<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-					<a href="listob?currentPage=${i}">[${i}]</a>
+					<a href="BolistOb?currentPage=${i}">[${i}]</a>
 					</c:forEach>
-						<c:if test="${page.endPage < page.totalPage }">
-					<a href="listob?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
+						<c:if test="${page.endPage < page.totalObPage }">
+					<a href="BolistOb?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
 				</c:if>	
 			        </div>
 			     </div>

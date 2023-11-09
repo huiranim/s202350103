@@ -36,5 +36,7 @@ public interface MemberDao {
 
 	int 				memberPwUpdate(String m_pw, Member member);
 
+	Member 				memberPwChange(String m_num, String m_pw);
+
 
 }
