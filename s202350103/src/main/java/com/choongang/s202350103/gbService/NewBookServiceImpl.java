@@ -144,5 +144,22 @@ public class NewBookServiceImpl implements NewBookService {
 		return result;
 	}
 
+	@Override
+	public List<NewBook> selectBoNewBookList(NewBook newbook) {
+		System.out.println("NewBookServiceImpl selectBoNewBookList start...");
+		List<NewBook> listBoNewbook = nbd.selectBoNewBookList(newbook);
+		System.out.println("NewBookServiceImpl selectBoNewBookList listBoNewbook.size()->"+listBoNewbook.size());
+		
+		return listBoNewbook;
+	}
+
+	@Override
+	public int deleteBoNewbook(int nb_num) {
+		System.out.println("NewBookServiceImpl deleteBoNewbook start...");
+		int result = nbd.deleteBoNewbook(nb_num);
+		System.out.println("NewBookServiceImpl deleteBoNewbook result ->"+result);
+		return result;
+	}
+
 
 }

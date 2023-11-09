@@ -55,7 +55,15 @@
 			 <div class="product" id="product" style="width: 20rem;">
 			 	<div class="product" id="product" style="width: 20rem;">
 			    	<div>
-			    		<img id="preview" src="${newbook.nb_image}" alt="${newbook.nb_title}" style="border: 1px solid black; width: 18rem; height: 400px;">
+			    	   <c:set var="nb_image" value="${newbook.nb_image }"/>
+	                   <c:choose>
+	                   	<c:when test="${fn:contains(nb_image, 'http')}">
+	                   		<img id="preview" src="${newbook.nb_image}" alt="${newbook.nb_title}" style="border: 1px solid black; width: 18rem; height: 400px;">
+	                   	</c:when>
+	                   	<c:otherwise>
+	                   		<img id="preview" src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" alt="${newbook.nb_title}" style="border: 1px solid black; width: 18rem; height: 400px;">
+	                   	</c:otherwise>
+	                   </c:choose>
 			    	</div>
 			 </div>
 			 <!-- 파일 선택 -->

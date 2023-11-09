@@ -31,6 +31,25 @@
 		location.href = "boNewbookDetail?nb_num="+pNb_num;
 	}
 	
+	function deleteBoNewbook(pIndex){
+		if(confirm("상품을 삭제하시겠습니까?")){
+			var pNb_num = $('#newbook'+pIndex).val();
+			$.ajax({
+					url : "deleteBoNewbook",
+					data : {nb_num : pNb_num},
+					dataType : 'Text',
+					success : function(data){
+						if(data == '1'){
+							alert("삭제되었습니다.");
+							$('#newbookRow'+pIndex).remove();
+						}else {
+							alert("삭제에 실패하였습니다.");
+						}
+					}
+			});
+		}
+	}
+	
 </script>
 </head>
 <body>
@@ -40,7 +59,7 @@
 		    <div class="mb-8">
 		       <!-- heading -->
 		       <h1 class="mb-1">새상품 목록</h1>
-		       <p>There are 5 products in this wishlist.</p>
+		       <p>총 개수 : ${boNewbookCnt } ${searchBoNewbookCnt }</p>
 		    </div>
 		    <div class="row mt-8">
 		    	<!-- 검색 -->
@@ -79,11 +98,21 @@
 		                </tr>
 		             </thead>
 		             <tbody>
-		             	<c:forEach var="newbook" items="${listBoNewbook }">
-			                <tr>
+		             	<c:forEach var="newbook" items="${listBoNewbook }" varStatus="status">
+			                <tr id="newbookRow${status.index }">
 			                   <td class="align-middle">${StartRow }</td>
 			                   <td class="align-middle">
-			                      <a onclick="boNewbookUpdate(${newbook.nb_num})"><img src="${newbook.nb_image }" class="icon-shape icon-xxl" alt="도서이미지"></a>
+			                   	   <input type="hidden" id="newbook${status.index }" value="${newbook.nb_num }">
+				                   <!-- 도서 이미지 출력 -->
+				                   <c:set var="nb_image" value="${newbook.nb_image }"/>
+				                   <c:choose>
+				                   	<c:when test="${fn:contains(nb_image, 'http')}">
+				                   		<a onclick="boNewbookUpdate(${newbook.nb_num})"><img src="${newbook.nb_image }" class="icon-shape icon-xxl" alt="도서이미지"></a>
+				                   	</c:when>
+				                   	<c:otherwise>
+				                   		<a onclick="boNewbookUpdate(${newbook.nb_num})"><img src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" class="icon-shape icon-xxl" alt="도서이미지"></a>
+				                   	</c:otherwise>
+				                   </c:choose>
 			                   </td>
 			                   <td class="align-middle">
 			                      <div>
@@ -110,7 +139,7 @@
 									</c:choose>
 								</td>
 			                   <td colspan='2' class="align-middle">
-			                      <div class="btn btn-secondary mb-2">삭제</div>
+			                      <div class="btn btn-secondary mb-2" onclick="deleteBoNewbook(${status.index})">삭제</div>
 			                   </td>
 			                </tr>
 			                <c:set var="StartRow" value="${StartRow +1}"/>

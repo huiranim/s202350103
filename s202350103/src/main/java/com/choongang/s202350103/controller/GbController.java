@@ -305,12 +305,13 @@ public class GbController {
 		System.out.println("GbController page.getStartRow() -> "+page.getStartRow());
 		
 		// 국내도서 검색 리스트
-		List<NewBook> listBoNewbook = nbs.selectSearchNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
+		List<NewBook> listBoNewbook = nbs.selectBoNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
 		
 		model.addAttribute("listBoNewbook", listBoNewbook);
 		model.addAttribute("page", page);
 		model.addAttribute("result", result1);
 		model.addAttribute("StartRow",page.getStartRow());
+		model.addAttribute("boNewbookCnt", boNewbookCnt);
 		
 		return "gb/boNewbookList";
 	}
@@ -338,6 +339,7 @@ public class GbController {
 		model.addAttribute("search_Newbook", newbook);
 		model.addAttribute("listBoNewbook", listSearchBoNewbook);
 		model.addAttribute("page", page);
+		model.addAttribute("searchBoNewbookCnt", searchBoNewbookCnt);
 		model.addAttribute("StartRow",page.getStartRow());
 		
 		return "gb/boNewbookList";
@@ -384,7 +386,7 @@ public class GbController {
 		
 		model.addAttribute("result", result);
 		
-		return "forward:bonewbookList?result="+result;
+		return "redirect:bonewbookList?result="+result;
 	}
 	
 	// 파일 생성하고 파일 이름 리턴하는 메소드
@@ -408,6 +410,20 @@ public class GbController {
 		
 		return savedName;
 
+	}
+	
+	// 관리자페이지 상품 삭제
+	@ResponseBody
+	@RequestMapping("deleteBoNewbook")
+	public String deleteBoNewbook(NewBook newbook) {
+		System.out.println("GbController deleteBoNewbook start...");
+		
+		String result = null;
+		
+		result = Integer.toString(nbs.deleteBoNewbook(newbook.getNb_num()));
+		System.out.println("GbController deleteBoNewbook result -> "+result);
+		
+		return result;
 	}
 	 
 }

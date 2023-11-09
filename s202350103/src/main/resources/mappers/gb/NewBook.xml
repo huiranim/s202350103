@@ -39,6 +39,17 @@
                 AND nb_category2 = 7
             </when>
         </choose>
+        <choose>
+            <when test="search_type == 'title'">
+                WHERE nb_title LIKE '%' || #{search_keyword} || '%'
+            </when>
+            <when test="search_type == 'writer'">
+                WHERE nb_writer LIKE '%' || #{search_keyword} || '%'
+            </when>
+            <when test="search_type == 'publisher'">
+               WHERE nb_publisher LIKE '%' || #{search_keyword} || '%'
+            </when>
+        </choose>
 	</select>
 	
 	<select id="gbSelectInNbList" parameterType="NewBook" resultType="NewBook">
@@ -453,6 +464,10 @@
 			nb_page = #{nb_page},
 			nb_size = #{nb_size}
 		WHERE nb_num = #{nb_num}
-		
 	</update>
+	
+	<delete id="gbDeleteBoNewbook" parameterType="int">
+		DELETE FROM newbook
+		WHERE nb_num = #{nb_num}
+	</delete>
 </mapper>

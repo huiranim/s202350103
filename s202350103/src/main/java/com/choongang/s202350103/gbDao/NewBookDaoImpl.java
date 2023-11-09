@@ -49,7 +49,7 @@ public class NewBookDaoImpl implements NewBookDao {
 		int searchNewbookCnt = 0;
 		try {
 			System.out.println("NewBookDaoImpl selectSearchNewBookCnt Start...");
-			searchNewbookCnt = session.selectOne("gbSelectSearchNbCnt", newbook);
+			searchNewbookCnt = session.selectOne("gbSelectInNbCnt", newbook);
 			System.out.println("NewBookDaoImpl selectSearchNewBookCnt searchNewbookCnt -> "+searchNewbookCnt);
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectSearchNewBookCnt -> "+e.getMessage());
@@ -185,6 +185,31 @@ public class NewBookDaoImpl implements NewBookDao {
 			result = session.update("gbUpdateBoNewbook", newbook);
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl updateBoNewbook -> "+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<NewBook> selectBoNewBookList(NewBook newbook) {
+		List<NewBook> listBoNewbook = null;
+		try {
+			System.out.println("NewBookDaoImpl selectBoNewBookList Start...");
+			listBoNewbook = session.selectList("gbSelectInNbList", newbook);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl selectBoNewBookList -> "+e.getMessage());
+		}
+		
+		return listBoNewbook;
+	}
+
+	@Override
+	public int deleteBoNewbook(int nb_num) {
+		System.out.println("NewBookDaoImpl deleteBoNewbook Start...");
+		int result = 0;
+		try {
+			result = session.delete("gbDeleteBoNewbook", nb_num);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl deleteBoNewbook -> "+e.getMessage());
 		}
 		return result;
 	}
