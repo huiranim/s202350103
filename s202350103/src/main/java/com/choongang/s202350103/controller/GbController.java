@@ -191,7 +191,7 @@ public class GbController {
 		System.out.println("Controller Start review.getStart->" + review.getStart());
 		System.out.println("Controller Start review.getEnd->" + review.getEnd());
 
-		List<Review> listReview = rs.listReview(review);
+		List<Review> listReview = rs.listReview(review); 
 		
 		System.out.println("review.getP_status()--->"+review.getP_status());
 		
