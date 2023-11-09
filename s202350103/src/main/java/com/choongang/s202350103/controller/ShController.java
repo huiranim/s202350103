@@ -7,9 +7,11 @@ import java.util.List;
 	import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.AttJoin;
@@ -120,7 +122,7 @@ import com.choongang.s202350103.model.AttJoin;
 		
 		//출석페이지 출석 버튼 클릭 메소드
 		@RequestMapping(value = "checkAtt")
-		public String checkAtt(@RequestParam("a_num") int a_num, @RequestParam("m_num") int m_num, Model model) {
+		public String checkAtt(@RequestParam("a_num") int a_num, @RequestParam("m_num") int m_num) {
 			AttJoin attJoin = new AttJoin();
 			attJoin.setA_num(a_num);
 			attJoin.setM_num(m_num);
@@ -134,7 +136,8 @@ import com.choongang.s202350103.model.AttJoin;
 			return "forward:/attendancePage?eNum="+a_num+"&m_num="+m_num;
 		}
 		
-		//출석부 연속 출선 메소드
+		//출석부 연속 출선 메소드 (ajax)
+		@ResponseBody
 		@RequestMapping(value = "addAtt")
 		public int addAtt(@RequestParam("a_num") int a_num, @RequestParam("m_num") int m_num) {
 			System.out.println("PointController addAtt() Start..");
