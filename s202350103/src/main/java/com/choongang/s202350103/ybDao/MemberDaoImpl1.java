@@ -1,6 +1,7 @@
 package com.choongang.s202350103.ybDao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -220,6 +221,8 @@ public class MemberDaoImpl1 implements MemberDao {
 	@Override
 	public int memberPwUpdate(String m_pw, Member member) {
 		System.out.println("MemberDaoImpl1 memberPwUpdate() start...");
+		System.out.println("MemberDaoImpl1 memberPwUpdate member.getM_id -> " + member.getM_id());
+		System.out.println("MemberDaoImpl1 memberPwUpdate m_pw -> " +m_pw);
 		int memberPwUpdate = 0;
 		try {
 			memberPwUpdate = session.selectOne("ybMemberPwUpdate", m_pw);
@@ -228,6 +231,23 @@ public class MemberDaoImpl1 implements MemberDao {
 			System.out.println("MemberDaoImpl1 memberPwUpdate() Exception -> " + e.getMessage());
 		}
 		return memberPwUpdate;
+	}
+	@Override
+	public Member memberPwChange(String m_num, String m_pw) {
+		System.out.println("MemberDaoImpl1 memberPwChange() start...");
+		Member memberPwChange = null;
+		try {
+			System.out.println("MemberDaoImpl1 memberPwChange() m_num -> " + m_num);
+			System.out.println("MemberDaoImpl1 memberPwChange() m_pw -> " + m_pw);
+			HashMap<String, Object> mapUpdate = new HashMap<>();
+			mapUpdate.put("m_num", m_num);
+			mapUpdate.put("m_pw", m_pw);
+			
+			memberPwChange = session.selectOne("ybMemberPwUpdate1", mapUpdate);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberPwChange() Exception -> " + e.getMessage());
+		}
+		return memberPwChange;
 	}
 }
 	

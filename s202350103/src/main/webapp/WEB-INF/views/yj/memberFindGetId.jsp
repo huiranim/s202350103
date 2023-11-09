@@ -12,7 +12,9 @@
 <script type="text/javascript">
 	
 	function findMemberPw(){
-		location.href="findMemberPw";
+		var m_num = document.getElementById("m_num").value;
+		
+		location.href="memberPwChangeForm?m_num=" + m_num;
 	}
 
 </script>
@@ -35,7 +37,7 @@
 
 
 				<form action="loginForm"  >
-					<input type="hidden" name="m_num" value="${member.m_num }">
+					<input type="hidden" name="m_num" value="${member.m_num }" id="m_num">
 					<div class="col-lg-4">
 						<div class="input-group mb-8">
 							아이디 &nbsp;&nbsp; 

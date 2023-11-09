@@ -108,6 +108,9 @@
 		UPDATE member SET m_pw = #{m_pw} WHERE m_id = #{m_id}
 	</select>
 	
+	<select id="ybMemberPwUpdate1" parameterType="map" resultType="Member">
+		UPDATE member set m_pw = #{m_pw} WHERE m_num = #{m_num}
+	</select>
 	
 	
 	
