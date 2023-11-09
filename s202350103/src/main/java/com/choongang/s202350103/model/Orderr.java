@@ -16,7 +16,7 @@ public class Orderr {				// 주문
 	private int	   o_deliv_price;	// 배송비
 	private int	   o_point;			// 사용포인트
 	private String o_rec_name;		// 수령_이름
-	private String o_rec_email;		// 수령_이메일
+	private String o_rec_mail;		// 수령_이메일
 	private String o_rec_ph;		// 수령_전화번호
 	private String o_rec_addr;		// 수령_주소
 	private String o_rec_msg;		// 수령_메시지

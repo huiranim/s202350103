@@ -29,6 +29,7 @@ import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,17 +49,37 @@ public class HtController {
 		System.out.println("Controller test() orderTotal--> " + total);
 		return "/ht/boOrderForm";
 	}
-
+	
+	@Data
+	@AllArgsConstructor
+	class Result<T>{ 
+		private final int plusEnd; //총 인원수 추가
+		private final T data;
+	}
+	
+	@ResponseBody 
+	@RequestMapping("plusEnd")
+	public Result endPlus(String plusEndStr, Review review) {
+		int plusEnd = 5;
+		System.out.println("plusEndStr--> "+plusEndStr);
+		if (plusEndStr != null) plusEnd = Integer.parseInt(plusEndStr);
+		review.setStart(1);
+		review.setEnd(plusEnd);
+		
+		List<Review> listReview = rs.listReview(review);
+		System.out.println("Review.size--> "+listReview.size());
+		System.out.println("Review--> "+listReview);
+		
+		return new Result(plusEnd, listReview);
+	}
+	
 	@RequestMapping("/reviewList")
 	public String reviewList(Model model, Review review, HttpSession session,  Member member) {
 		System.out.println("Controller Start reviewList...");
 		
-		// 임시 회원번호(나중에 삭제)
-		member.setM_num(1002);
-		session.setAttribute("member", member);
 		
 		// 임시 상품 등록(나중에 삭제)
-		//review.setNb_num(100003);
+		review.setNb_num(100042);
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -76,6 +97,7 @@ public class HtController {
 		for (int i = 1; i < 6; i++) {
 			review.setR_rating(i);
 			int reviewRatingCnt = rs.reviewRating(review);
+			// 도서 리뷰 별점 평균
 			switch (i) {
 			case 1:
 				review.setR_rating1((int) (((double) reviewRatingCnt / reviewTotal) * 100));
@@ -114,9 +136,6 @@ public class HtController {
 	 public String MyReviewList(Model model, Orderr orderr, String currentPage, HttpSession session, Member member) {
 		 System.out.println("HtController MyReviewList Start...");
 		
-		// 임시 회원번호(나중에 삭제)
-		member.setM_num(1002);
-		session.setAttribute("member", member);
 		 
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -152,9 +171,6 @@ public class HtController {
 	 public String MyReviewedList(Model model, Review review, String currentPage, HttpSession session, Member member) {
 		 System.out.println("HtController MyReviewList Start...");
 		
-		// 임시 회원번호(나중에 삭제)
-		member.setM_num(1002);
-		session.setAttribute("member", member);
 		 
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -192,9 +208,6 @@ public class HtController {
 	 public String reviewForm(Model model, HttpSession session, Member member, Review review) {
 		System.out.println("Controller Start reviewList...");
 		
-		// 임시 회원번호(나중에 삭제)
-		member.setM_num(1002);
-		session.setAttribute("member", member);
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -213,9 +226,6 @@ public class HtController {
 	 public String reviewInsert(Model model, Review review, HttpSession session, Member member) {
 		System.out.println("HtController reviewInsert Start...");
 		
-		// 임시 회원번호(나중에 삭제)
-		member.setM_num(1002);
-		session.setAttribute("member", member);
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -236,10 +246,6 @@ public class HtController {
 	 public String reviewUpdateForm(Model model, HttpSession session, Member member, Review review) {
 		System.out.println("Controller Start reviewUpdateForm...");
 		System.out.println("reviewUpdateForm review---> "  + review);
-		
-		// 임시 회원번호(나중에 삭제)
-		member.setM_num(1002);
-		session.setAttribute("member", member);
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -263,9 +269,6 @@ public class HtController {
 		System.out.println("Controller Start reviewUpdateForm...");
 		System.out.println("reviewUpdatePro review---> "  + review);
 		
-		// 임시 회원번호(나중에 삭제)
-		member.setM_num(1002);
-		session.setAttribute("member", member);
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -288,11 +291,7 @@ public class HtController {
 	 @RequestMapping("/reviewDelete")
 	 public String reviewDelete(Model model, HttpSession session, Member member, Review review) {
 		System.out.println("Controller Start reviewDelete...");
-		
-		// 임시 회원번호(나중에 삭제)
-		member.setM_num(1002);
-		session.setAttribute("member", member);
-		
+
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
 		

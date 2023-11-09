@@ -2,7 +2,9 @@ package com.choongang.s202350103.hrService;
 
 import java.util.List;
 
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
+import com.choongang.s202350103.model.OrderGift;
 import com.choongang.s202350103.model.Orderr;
 
 public interface OrderService {
@@ -16,8 +18,10 @@ public interface OrderService {
 	int 		 	  statusExchange(Orderr orderr);
 	int 		 	  statusReturn(Orderr orderr);
 	List<OrderDetail> selectOrderProduct(long o_order_num);
+	int 			  givingGiftAction(Member member, Orderr orderr, OrderGift orderGift);
 
 
+	
 	
 	
 	

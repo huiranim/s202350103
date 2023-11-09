@@ -32,7 +32,7 @@
 				const p_pay_price_result = p_pay_price.toLocaleString();
 				//alert("p_pay_price_result : "+p_pay_price_result);
 				$("#o_pay_price").html(p_pay_price_result);
-				$("#o_pay_price").val(p_pay_price_result);
+				$("#o_pay_price_val").val(p_pay_price);
 				
 				// 결제정보의 적립혜택에 반영
 				const p_point_save = (p_pay_price * 0.01);
@@ -48,18 +48,6 @@
 	</script>
 </head>
 <body>
-<!-- 배송비 결정 -->
-<c:choose>
-	<c:when test="${newbook.nb_price > 50000}">
-		<c:set var="o_deliv_price" value="0"/>
-		<c:set var="o_deliv_price_express" value="무료 배송"/>
-	</c:when>
-	<c:otherwise>
-		<c:set var="o_deliv_price" value="3000"/>
-		<c:set var="o_deliv_price_express" value="3,000 원"/>
-	</c:otherwise>
-</c:choose>
-<input type="hidden" id="o_deliv_price" name="o_deliv_price" value="${o_deliv_price }">
 
 
   <!-- section -->
@@ -76,6 +64,20 @@
           </div>
           <!-- form -->
           <form class="row" action="foGivingGiftAction">
+          
+<!-- 배송비 결정 -->
+<c:choose>
+	<c:when test="${newbook.nb_price > 50000}">
+		<c:set var="o_deliv_price" value="0"/>
+		<c:set var="o_deliv_price_express" value="무료 배송"/>
+	</c:when>
+	<c:otherwise>
+		<c:set var="o_deliv_price" value="3000"/>
+		<c:set var="o_deliv_price_express" value="3,000 원"/>
+	</c:otherwise>
+</c:choose>
+<input type="hidden" id="o_deliv_price" name="o_deliv_price" value="${o_deliv_price }">
+         
             <h5 class="h5">보내는 사람</h5><p>
               <!-- input -->
             <div class="col-md-12 mb-3">
@@ -98,25 +100,25 @@
             <h5 class="h5">받는 사람</h5><p>
               <!-- input -->
             <div class="col-md-12 mb-3">
-              <label class="form-label" for="o_gift_name"> 이름<span class="text-danger">*</span></label>
-              <input type="text" id="o_gift_name" class="form-control" name="o_gift_name" placeholder="홍길동" required>
+              <label class="form-label" for="o_rec_name"> 이름<span class="text-danger">*</span></label>
+              <input type="text" id="o_rec_name" class="form-control" name="o_rec_name" placeholder="홍길동" required>
             </div>
             <div class="col-md-12 mb-3">
-              <label class="form-label" for="o_gift_mail"> 이메일<span class="text-danger">*</span></label>
-              <input type="text" id="o_gift_mail" class="form-control" name="o_gift_mail" placeholder="hgd@dadok.com" required>
+              <label class="form-label" for="o_rec_mail"> 이메일<span class="text-danger">*</span></label>
+              <input type="text" id="o_rec_mail" class="form-control" name="o_rec_mail" placeholder="hgd@dadok.com" required>
             </div>
             <div class="col-md-12 mb-3">
               <!-- input -->
-              <label class="form-label" for="o_gift_ph"> 휴대전화<span class="text-danger">*</span></label>
-              <input type="text" id="o_gift_ph" name="o_gift_name" class="form-control" placeholder="010-0000-0000" required>
+              <label class="form-label" for="o_rec_ph"> 휴대전화<span class="text-danger">*</span></label>
+              <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control" placeholder="010-0000-0000" required>
             </div>
             
             <p><p><hr><p><p>
             
             <h5 class="h5">메시지 카드</h5><p>
             <div class="col-md-12 mb-3">
-            	<input type="radio" name="o_gift_card" value="card1"><img alt="card1" src="../assets/images/gift/giftcard1.png"><br>
-            	<input type="radio" name="o_gift_card" value="card2"><img alt="card2" src="../assets/images/gift/giftcard2.png"><br><p><p>
+            	<input type="radio" name="o_gift_card" value="1"><img alt="card1" src="../assets/images/gift/giftcard1.png"><br>
+            	<input type="radio" name="o_gift_card" value="2"><img alt="card2" src="../assets/images/gift/giftcard2.png"><br><p><p>
             	<textarea rows="3" name="o_gift_msg" class="form-control" placeholder="메시지를 입력해주세요."></textarea>
             </div>
             
@@ -218,6 +220,11 @@
 	            <input class="btn btn-primary" type="submit" value="결제하기">
             </div>
 
+<!-- hidden value -->
+<input type="hidden" name="m_num" value="${member.m_num }"> 
+<input type="hidden" name="o_pay_price" value="" id="o_pay_price_val"> <!-- ajax 통해 삽입 -->
+<input type="hidden" name="nb_num" value="${newbook.nb_num }"> 
+<input type="hidden" name="o_de_count" value="${quantity}"> 
 
           </form>
 
@@ -227,9 +234,6 @@
 
   </section>
 
-<!-- hidden value -->
-<input type="hidden" name="m_num" value="${member.m_num }"> 
-<input type="hidden" name="o_pay_price" value="" id="o_pay_price"> <!-- ajax 통해 삽입 -->
 
 <%@ include file="../common/footerFo.jsp" %>
 </body>

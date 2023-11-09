@@ -84,6 +84,74 @@ public class OldBookDaoImpl implements OldBookDao {
 		return updateCount;
 	}
 
+	@Override  
+	public int insertOldBook(OldBook oldBook) {
+		int result = 0;
+		
+		System.out.println("OldBookDaoImpl insert start....");
+		
+		try {
+			result = session.insert("insertOldBook", oldBook);
+			
+		} catch (Exception e) {
+			System.out.println("OldBookDaoImpl insert Exception->"+e.getMessage() );
+		}
+
+		return result;
+	}
+
+	@Override
+	public List<OldBook> oldBookAcc() {
+		List<OldBook> oldbookList =null;
+		System.out.println("OldBookDaoImpl oldBookAcc start...");
+		
+		try {
+			
+			oldbookList = session.selectList("SelectAcc");
+			
+		} catch (Exception e) {
+			System.out.println("OldBookDaoImpl oldBookAcc Exception->"+e.getMessage());
+		}
+		
+		return oldbookList;
+	}
+
+	@Override
+	public List<OldBook> listMoOb(OldBook oldBook) {
+		List<OldBook> obMoList = null;
+		System.out.println("OldBookDaoImpl listOb start...");
+		try {
+			
+			obMoList = session.selectList("sjObMoListAll", oldBook);
+			System.out.println("OldBookDaoImpl listOb obList.size()"+obMoList.size());
+			
+			
+		} catch (Exception e) {
+			System.out.println("OldBookDaoImpl listOb e.getMessage()->" +e.getMessage());
+		}
+		return obMoList;
+	}
+
+	@Override
+	public OldBook ModetailNb(int nb_num) {
+		System.out.println("OldBookDaoImpl ModetailNb start...");
+		System.out.println("OldBookDaoImpl ModetailNb ob_num->"+nb_num);
+		OldBook oldBook = new OldBook();
+		
+		try {
+			oldBook = session.selectOne("sjObSelNb" , nb_num);
+			System.out.println("OldBookDaoImpl ModetailNb getOb_pur_price()->"+oldBook.getOb_pur_price());
+			
+			
+		} catch (Exception e) {
+			System.out.println("OldBookDaoImpl ModetailNb Exception->"+e.getMessage());
+		}
+		
+		return oldBook;
+	}
+
+	
+
 
 	
 	

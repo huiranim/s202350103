@@ -21,14 +21,14 @@ function btnActive()  {
 </head>
 <body>
 
-<form action="updateOb" method="post">
+<form action="" method="post">
 <p class="fs-1 text-center">중고 검수등록 1 </p>
 
 <table class="table table-bordered">
 
   <tr>
 	      <td scope="col">신청 일자</td>
-	      <td scope="col" colspan="2"><input type="hidden" name="ob_report_date" value="${oldBook.ob_report_date }"></td> 
+	      <td scope="col" colspan="2"><input type="hidden"  value="${oldBook.ob_report_date }"></td> 
     </tr>
     <tr>
 	      <td>중고상품번호 </td>

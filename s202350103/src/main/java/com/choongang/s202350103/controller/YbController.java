@@ -1,6 +1,7 @@
 package com.choongang.s202350103.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -55,12 +56,13 @@ public class YbController {
 	
 	// Main Page
 	@RequestMapping(value = "/")
-	public String main(HttpServletRequest request, Model model) {
-//		Member member = (Member) sessionManager.getSession(request);
-//		if(member == null) {
-//			return "main";
-//		}
+	public String main(Member member,HttpServletRequest request, Model model) {
+		member =(Member) session.getAttribute("member");
+		if(member == null) {
+			return "main";
+		}
 		System.out.println("YbController main() start... ");
+		model.addAttribute("member", member);
 		return "main";
 	}
 	
@@ -310,10 +312,9 @@ public class YbController {
 		member =(Member) session.getAttribute("member");
 			
 		member = ms.memberWithdraw(member); 
-		System.out.println("YbController memberWithdraw member.m_wd -> " + member.getM_wd());
 		session.removeAttribute("member"); 
 		session.invalidate(); // 세션 초기화
-		return "redirect:/"; 
+		return "main"; 
 
 	}
 	 
@@ -382,13 +383,14 @@ public class YbController {
 	@SuppressWarnings("unused")
 	@ResponseBody
 	@RequestMapping(value = "/mailTransport")
-	public String mailTransport(Model model, Member member, String memberMail) throws MessagingException {
+	public HashMap<String, Object> mailTransport(Model model, Member member, String memberMail) throws MessagingException {
 		System.out.println("YbController mailTransport start...");
 		System.out.println("YbController mail memberMail -> " + memberMail); 
 		member = ms.findEmail(memberMail);
 		
 		System.out.println("YbController findMail member.getMail -> " + member.getM_email());
 		String certiNum = null;
+		HashMap<String, Object> jsonMap = new HashMap<String, Object>();
 		if(member != null) {
 			String m_email = member.getM_email();
 			
@@ -407,27 +409,34 @@ public class YbController {
 				messageHelper.setText("인증번호는 [ " + certiNum + " ]입니다." );	// 메일 내용
 				System.out.println("인증번호입니다." + certiNum);
 				mailSender.send(message);
-				session.setAttribute("member", member);
+				
+				jsonMap.put("certiNum", certiNum);
+				jsonMap.put("m_email", m_email);
+				
+				model.addAttribute("m_email", m_email);
+				member =(Member) session.getAttribute("member");
 				
 			} else {
-				return certiNum;
+				return jsonMap;
 			}
-			return certiNum;
+			return jsonMap;
 		} else {
-			return certiNum;
+			return jsonMap;
 		}	
 	}
 	// 인증번호 체크
 	@PostMapping(value = "certiNumChk") 
 	public String certiNumChk(Member member, Model model,
 											 @RequestParam("certiNum") String certiNum,
-											 @RequestParam("inputNum") String inputNum) {
+											 @RequestParam("inputNum") String inputNum,
+											 @RequestParam("m_email")  String m_email) {
 		System.out.println("YbController certiNumChk() start..");
 		System.out.println("certiNum -> " + certiNum);
 		System.out.println("inputNum -> " + inputNum);
 		if(certiNum.equals(inputNum)) {
+			
 			System.out.println("YbController certiNumChk Success! Change your Password.");
-			session.setAttribute("member", member);
+			System.out.println("YbController certiNumChk m_email -> " + m_email);
 			model.addAttribute("member", member);
 			return "yb/memberPwChange";
 		} else {
@@ -446,9 +455,12 @@ public class YbController {
 											 @RequestParam("m_pw2") String m_pw2) {
 		System.out.println("YbController changePwChk() start..");
 		int result = 0;
+	
 		System.out.println("");
-		if(m_pw.equals(m_pw2)) {
+		if(m_pw.equals(m_pw2) && m_pw.matches((("^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")))) {
 			result = 1;
+		} else if(m_pw.equals(m_pw2) && !m_pw.matches((("^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")))){
+			result = 2;
 		} else {
 			result = 0;
 		}
@@ -457,13 +469,26 @@ public class YbController {
 		return strResult;
 	}
 	
-	@GetMapping(value = "memberChangePw")
-	public String memberChangePw(String m_pw) {
-		Member member =(Member) session.getAttribute("member");
+	// 인증 후 비밀번호 변경 페이지
+	@GetMapping(value = "memberPwChangeForm")
+	public String memberPwChangeForm(String m_num, Model model) {
+		System.out.println("YbController memberPwChangeForm() start..");
+		System.out.println("YbController memberPwChangeForm() member.m_num -> " + m_num);
+		model.addAttribute("m_num", m_num);
+		return "yb/memberPwChangeForm";
+	}
+	// 비
+	@GetMapping(value = "memberPwChange")
+	public String memberPwChange(String m_num, String m_pw, Member member) {
+		System.out.println("YbController memberPwChange() start..");
+		System.out.println("YbController memberPwChange() m_num -> " + m_num);
+		System.out.println("YbController memberPwChange() m_pw -> " + m_pw);
+
+		Member memberPwChange = ms.memberPwChange(m_num, m_pw);
 		
-		int memberPwUpdate = ms.memberPwUpdate(m_pw, member);
-		
-		return "yj/memberMyPage";
+		session.removeAttribute("member"); 
+		session.invalidate(); // 세션 초기화
+		return "main"; 
 	}
 
 }
