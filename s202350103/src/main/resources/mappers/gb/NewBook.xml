@@ -438,4 +438,21 @@
 		SELECT * FROM newbook WHERE nb_num = #{nb_num}
 	</select>
 	
+	<update id="gbUpdateBoNewbook" parameterType="NewBook">
+		UPDATE newbook
+		SET <if test="nb_image != null">nb_image = #{nb_image},</if>
+			nb_category1 = #{nb_category1}, 
+			nb_category2 = #{nb_category2}, 
+			nb_title = #{nb_title}, 
+			nb_price = #{nb_price},
+			nb_writer = #{nb_writer},
+			nb_publisher = #{nb_publisher},
+			nb_publi_date = #{nb_publi_date},
+			nb_summary = #{nb_summary},
+			nb_isbn = #{nb_isbn},
+			nb_page = #{nb_page},
+			nb_size = #{nb_size}
+		WHERE nb_num = #{nb_num}
+		
+	</update>
 </mapper>

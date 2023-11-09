@@ -60,7 +60,7 @@
 			 </div>
 			 <!-- 파일 선택 -->
 			 <div class="input-group">
-	    		<input type="file" name="nb_image" id="img_select" onchange="setImageFromFile(this);" class="form-control mt-3" aria-label="Upload">
+	    		<input type="file" name="file1" id="img_select" onchange="setImageFromFile(this);" class="form-control mt-3" aria-label="Upload">
 	  		 </div>
 		  </div>
 		 </div>
@@ -101,7 +101,7 @@
 			    <!-- 도서제목 -->
 			    <div class="mb-3">
 	                  <span class="form-label">제목 : </span>
-	                  <input type="text" value="${newbook.nb_title}" class="form-control">
+	                  <input type="text" name="nb_title" value="${newbook.nb_title}" class="form-control">
 	            </div>
 	            <!-- 도서가격 -->
 			    <div class="mb-3">

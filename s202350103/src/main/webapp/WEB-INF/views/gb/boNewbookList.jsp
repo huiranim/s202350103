@@ -10,6 +10,13 @@
 <!-- End Tag 금비 -->
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
+
+	$(function() {
+		if('${result}' == '1'){
+			alert("수정이 완료되었습니다.");
+		}
+	});
+	
 	function search() {
 		var search_type = $("#search_type").val();
 		var search_keyword = $("#search_keyword").val();

@@ -9,7 +9,12 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
-
+	function deleteCart(pNb_num){
+		if(confirm("삭제하시겠습니까?")){
+			location.href = "deleteCart?nb_num="+pNb_num;
+		}
+		
+	}
 </script>
 </head>
 <body>
@@ -63,7 +68,7 @@
 	                    <a href="newbookDetail?nb_num=${cart.nb_num }" class="text-inherit"><h6 class="mb-0">${cart.nb_title }</h6></a>
 	                    <span><small class="text-muted">${cart.nb_publisher }</small></span>
 	                    <!-- text -->
-	                    <div class="mt-2 small lh-1"> <a href="deleteCart?nb_num=${cart.nb_num }" class="text-decoration-none text-inherit"> <span
+	                    <div class="mt-2 small lh-1"> <a onclick="deleteCart(${cart.nb_num})" class="text-decoration-none text-inherit"> <span
 	                          class="me-1 align-text-bottom">
 	                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
 	                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
