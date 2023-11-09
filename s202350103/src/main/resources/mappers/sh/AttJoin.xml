@@ -9,7 +9,7 @@
 	</select>
 	
 	<select id="shSubDate" parameterType="AttJoin" resultType="int" >
-		Select substr(a_par_pdate,7,2) day from att_join Where a_num = #{a_num} and m_num = #{m_num}
+		Select substr(a_par_pdate,7,2) day from att_join Where a_num = #{a_num} and m_num = #{m_num} Fetch fist 1 row only
 	</select>
 	
 	<insert id="shStampAtt" parameterType="AttJoin">

@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javaScript">
-	function checkAtt(a_num, m_num){	
+	function checkAtt(a_num, m_num){
 			if(${chance}==0){
 				alert("출석 체크 완료");
 				location.href="checkAtt?a_num="+a_num+"&m_num="+m_num;
@@ -27,25 +27,23 @@
 	
 	function addAtt(a_num, m_num){
 		$.ajax({
-			url : "/addAtt";
+			url : "/addAtt",
 			data : {a_num:a_num, m_num:m_num},
 			dataType:"text",
 			success : function(totalCount){
 				if(totalCount == 3){
 					alert("3일 연속 출석 하셨습니다!");
-				} else {
-					alert("연속 출석 자격 미달입니다.");
 				}
-			},
+			}, 
 			error : function(){
 				alert("오류발생");
-			}
-		});
-	}
-	
+		}
+	});
+}
 </script>
 </head>
 <body>
+${a_num} ${m_num}
 <h1>${month}월 출석 이벤트</h1>
 <caption>${attendance.a_sdate } ~ ${attendance.a_edate }</caption>
 <table border="1" width="100%" cellspacing="0">
@@ -101,7 +99,7 @@
 	    </c:forEach>
 	</tbody>
 </table>
-		<button onclick="checkAtt(${a_num},${m_num }),">출석체크</button>
+		<button onclick="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num })">출석체크</button>
 <%@ include file="../common/footerFo.jsp" %>
 </body>
 </html>
