@@ -35,6 +35,7 @@ public interface PointService {
 	void 			 stampAddAtt(AttJoin attJoin);		//연속 출석 이력 (출석)
 	void 			 saveAddAtt(AttJoin attJoin);		//연속 출석 포인트 지급
 	void 			 searchAddAtt(AttJoin attJoin);		//연속 출석 이력(포인트 이력) 
+	int 			 createQuiz(Quiz quiz);
 	
 	
 	

@@ -31,6 +31,8 @@ import com.choongang.s202350103.model.AttJoin;
 		
 		private final PointService ps;
 		
+		//fo
+		
 		//EventList Page
 		@RequestMapping(value = "eventList")
 		public String eventList(Attendance attendance, Quiz quiz, String currentPage, Model model) {
@@ -102,24 +104,6 @@ import com.choongang.s202350103.model.AttJoin;
 		    model.addAttribute("m_num",m_num);
 		    model.addAttribute("a_num",eNum);
 		    return "sh/foAttendancePage";
-		}
-	
-		//관리자 페이지 출석이벤트 생성
-		@PostMapping(value = "createAtt")
-		public String createAtt(String a_title, String a_sdate, String a_edate, String a_image, int a_point, int a_add, int a_addpoint ) {
-			System.out.println("PointController createAtt() Start..");
-			Attendance attendance = new Attendance();
-			attendance.setA_title(a_title);
-			attendance.setA_sdate(a_sdate);
-			attendance.setA_edate(a_edate);	
-			attendance.setA_image(a_image);
-			attendance.setA_point(a_point);
-			attendance.setA_add(a_add);
-			attendance.setA_addpoint(a_addpoint);
-			// 생성 확인 용
-			int result = ps.createAtt(attendance);
-			
-			return	"creatAtt() data insert successfully";
 		}
 		
 		//출석페이지 출석 버튼 클릭 메소드
@@ -206,6 +190,54 @@ import com.choongang.s202350103.model.AttJoin;
 			return "forward:/quizPage?eNum="+eNum+"&m_num="+m_num;
 		}
 		
+		//bo
 		
-	
+		@RequestMapping(value = "boAttendance")
+		public String boAttendance() {
+			return "sh/boAttendance";
+		}
+		
+		@RequestMapping(value = "boQuiz")
+		public String boQuiz() {
+			return "sh/boQuiz";
+		}
+		
+		//관리자 페이지 출석이벤트 생성
+		@RequestMapping(value = "createAtt")
+		public String createAtt(@RequestParam("a_title") String a_title, @RequestParam("a_sdate")String a_sdate, @RequestParam("a_edate")String a_edate,
+				@RequestParam("a_image") String a_image, @RequestParam("a_point") int a_point, @RequestParam("a_add") int a_add, @RequestParam("a_addpoint") int a_addpoint ) {
+			System.out.println("PointController createAtt() Start..");
+			Attendance attendance = new Attendance();
+			attendance.setA_title(a_title);
+			attendance.setA_sdate(a_sdate);
+			attendance.setA_edate(a_edate);	
+			attendance.setA_image(a_image);
+			attendance.setA_point(a_point);
+			attendance.setA_add(a_add);
+			attendance.setA_addpoint(a_addpoint);
+			// 생성 확인 용
+			int result = ps.createAtt(attendance);
+			
+			return	"redirect:/boAttendance";
+		}
+		
+		@RequestMapping(value = "createQuiz")
+		public String createQuiz(int q_num, String q_title, String q_sdate, String q_edate, String q_image, int q_point, String q_question, String q_select1, String q_select2, String q_select3, String q_select4, int q_answer) {
+			System.out.println("PointController createQuiz() Start..");
+			Quiz quiz = new Quiz();
+			quiz.setQ_title(q_title);;
+			quiz.setQ_sdate(q_sdate);
+			quiz.setQ_edate(q_edate);
+			quiz.setQ_image(q_image);
+			quiz.setQ_point(q_point);
+			quiz.setQ_question(q_question);
+			quiz.setQ_select1(q_select1);
+			quiz.setQ_select2(q_select2);
+			quiz.setQ_select3(q_select3);
+			quiz.setQ_select4(q_select4);
+			quiz.setQ_answer(q_answer);
+			
+			int result = ps.createQuiz(quiz);
+			return "redirect:/boQuiz";
 	}
+}

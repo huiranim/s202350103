@@ -28,9 +28,21 @@ public class QuizDaoImpl implements QuizDao {
 
 	@Override
 	public Quiz quiz(int eNum) {
-		System.out.println("QuizDaoImpl quiz() Start");
+		System.out.println("QuizDao quiz() Start");
 		Quiz quiz = session.selectOne("shQuiz",eNum);
 		return quiz;
+	}
+
+	@Override
+	public int createQuiz(Quiz quiz) {
+		System.out.println("QuizDaoImpl createQuiz() Start");
+		int result = 0 ;
+		try {
+			result = session.insert("shCreateQuiz",quiz);
+		} catch (Exception e) {
+			System.out.println("QuizDao createQuiz() Exception ->"+e.getMessage());
+		}
+		return result;
 	}
 	
 }
