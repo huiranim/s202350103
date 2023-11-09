@@ -12,9 +12,6 @@
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javascript">
-	var m_num = ${m_num};
-	var q_num = ${eNum};
-
 	function checkAnswer(){
 		var selected = document.querySelector('input[name="select"]:checked');
 	    if (!selected || selected === null) {
@@ -26,7 +23,7 @@
 				if(select == answer){
 					if(${chance} == 0){
 						alert("정답입니다! 정말 대단하시군요~");
-						location.href="checkQuiz?m_num="+m_num+"&eNum="+q_num;
+						location.href="checkQuiz?m_num="+${m_num}+"&eNum="+${eNum};
 						return true;
 					} else{
 						alert("이미 참여하셨습니다");
@@ -40,6 +37,7 @@
 		}
 </script>
 <body>
+<p>${eNum}, ${m_num }<p>
 	<h1>Quiz이벤트</h1>
 	<p>${quiz.q_sdate}~${quiz.q_edate}</p>
 	<br>
@@ -56,7 +54,7 @@
 			<input type="radio"  name="select"   value="2">${quiz.q_select2 }<br>
 			<input type="radio"  name="select"   value="3">${quiz.q_select3 }<br>
 			<input type="radio"  name="select"   value="4">${quiz.q_select4 }<br>
-			<input type="submit" value="제출">
+			<input type="submit" id="subButton" value="제출" disabled="disabled">
 		</form>
 	</div>
 	<div>
@@ -67,6 +65,31 @@
 			유의사항
 		</div>
 	</div>
+	<script type="text/javascript">
+	$(function(){
+		var curDate = new Date();
+		var curDate1 = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
+		var a_sdate = '${quiz.q_sdate}';
+		var a_edate = '${quiz.q_edate}';
+		var sysdate = new Date(curDate1);
+		var sdate = convertToDate(a_sdate);
+		var edate = convertToDate(a_edate);
+		var target = document.getElementById("subButton");
+		alert(sysdate);
+		alert(sdate);
+		alert(edate);
+		if(sysdate>=sdate&&sysdate<=edate){
+		target.disabled = false;
+		} else{
+		target.disabled = true;	
+		}
+		
+		function convertToDate(dateStr) {
+			  var parts = dateStr.split('-');
+			  return new Date(parts[0], parts[1] - 1, parts[2]);
+			}
+	});
+</script>
 <%@ include file="../common/footerFo.jsp" %>
 </body>
 </html>
