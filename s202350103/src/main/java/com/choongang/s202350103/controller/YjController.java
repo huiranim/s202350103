@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -685,5 +686,7 @@ public class YjController {
 		  
 		  return "yj/memberMyOna";
 	  }
+	  
+	  
 	  
 }
