@@ -114,12 +114,12 @@
 		location.href="newbookDetail?"+sendData;
 	}  
 
-	$()
+	
 	function reviewListFocus(pStatus){
 		alert("리뷰 더보기 포커스 이동 start...");
 		alert("리뷰 더보기 포커스 pStatus---> " + pStatus);
     	if(pStatus == 1) {
-    		document.getElementById("reviewList").focus(); //reviewList로 이동
+    		//document.getElementById("reviewList").focus(); //reviewList로 이동
     		alert("리뷰 더보기 포커스 이동");
     	} else {
     		alert("리뷰 더보기 포커스 이동 실패");
@@ -139,8 +139,8 @@
 
 </script>
 </head>
-<body onload="reviewListFocus(${review.pStatus})">
-	<h3>조회수 : ${newbook.nb_readcnt }</h3>
+<body onload="reviewListFocus(${review.p_status})">
+	<h3>조회수 : ${newbook.nb_readcnt } pStatus : ${review.p_status}</h3>
 	<div class="row">
 	  <div class="col-md-6 row justify-content-center">
 		<!-- 도서 이미지 -->

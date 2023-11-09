@@ -31,5 +31,5 @@ public class Review {			  // 리뷰
 	private double r_review_average; // 리뷰 평균
 	private int    r_reviewSelect ;  // 리뷰 리스트 조회선택(1-> 최신순, 2-> 별점순)
 
-	private int    pStatus=0;          // 제품 상세페이지에서 리뷰 페이지로 포커스 이동할 경우 사용
+	private int    p_status;         // 제품 상세페이지에서 리뷰 페이지로 포커스 이동할 경우 사용
 }
