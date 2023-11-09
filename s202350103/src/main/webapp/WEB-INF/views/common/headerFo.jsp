@@ -33,7 +33,7 @@
 <!-- Google tag (gtag.js) -->
 
 <!-- End Tag 금비 -->
-<script type="text/javascript" src="js/jquery.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 	function search() {
 		var search_type = $("#search_type").val();

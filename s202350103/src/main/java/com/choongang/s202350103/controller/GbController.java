@@ -191,12 +191,16 @@ public class GbController {
 		System.out.println("Controller Start review.getEnd->" + review.getEnd());
 
 		List<Review> listReview = rs.listReview(review);
-
+		
+		System.out.println("review.getPStatus()--->"+review.getPStatus());
+		
 		model.addAttribute("listReview", listReview);
 		model.addAttribute("review", review);
 		
 		model.addAttribute("member", member);
 		model.addAttribute("newbook", selectNewbook);
+		System.out.println("kkk Controller newbookDetail listReview.size()-->" + listReview.size());
+		System.out.println("kkk Controller newbookDetail view->gb/fonewbookDetail" + review.getEnd());
 		
 		return "gb/fonewbookDetail"; 
 	}
