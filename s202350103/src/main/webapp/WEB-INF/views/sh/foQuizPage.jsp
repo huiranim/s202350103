@@ -39,32 +39,65 @@
 <body>
 <p>${eNum}, ${m_num }<p>
 	<h1>Quiz이벤트</h1>
-	<p>${quiz.q_sdate}~${quiz.q_edate}</p>
-	<br>
+	
 	<div>
+		
+<div class="card card-product mb-8">
+    <div class="card-body text-center py-8">
+      <h3 class="fs-3 mb-5" style="color: #0a3622;">[오늘의 Quiz]</h3>
+		<p>${quiz.q_sdate}~${quiz.q_edate}</p>
+		<p><mark>퀴즈를 풀고 포인트를 적립해 보세요 !</mark> </p>    
+    
+		
 		<div>
-			<h3>Quiz</h3>
-			<textarea>${quiz.q_question }</textarea>
+			<textarea rows="8" class="form-control mb-8" style="border: none; background:#ecf0ef; font-size: 20px; font-weight: bold;"  class="form-control">${quiz.q_question }</textarea>
 		</div>
+		<div class="form-check" style="display: flex; align-items: center; justify-content: center;">
 		<form onsubmit="checkAnswer()">
 			<input type="hidden" name="m_num" value="${m_num}">
    			<input type="hidden" name="eNum" value="${eNum}">
 			<input type="hidden" name="answer"   value="${quiz.q_answer}">
-			<input type="radio"  name="select"   value="1">${quiz.q_select1 }<br>
-			<input type="radio"  name="select"   value="2">${quiz.q_select2 }<br>
-			<input type="radio"  name="select"   value="3">${quiz.q_select3 }<br>
-			<input type="radio"  name="select"   value="4">${quiz.q_select4 }<br>
-			<input type="submit" id="subButton" value="제출" disabled="disabled">
+			
+	<div style="display: flex; flex-direction: column; align-items: center;">
+   	
+   	<label>
+         <input class="form-check-input" type="radio" name="select" value="1">${quiz.q_select1}
+    </label><br>
+    
+    <label>
+         <input class="form-check-input" type="radio" name="select" value="2">${quiz.q_select2}
+    </label><br>
+    <label>
+        <input class="form-check-input" type="radio" name="select" value="3">${quiz.q_select3}
+    </label><br>
+    <label>
+         <input class="form-check-input" type="radio" name="select" value="4">${quiz.q_select4}
+    </label><br>
+    <input type="submit" class="btn btn-primary" id="subButton" value="정답 제출" disabled="disabled">
+</div>
 		</form>
-	</div>
-	<div>
-		<div>
-			보상안내
-		</div>
-		<div>
-			유의사항
 		</div>
 	</div>
+  </div>
+ </div>
+
+<div class="card mb-10">
+  <div class="card-header">
+    <h6 class="card-title">보상안내</h6>
+    	<span style="font-size: 15px;"> 보상 안내 내용
+    	</span>
+
+  </div>
+
+  <div class="card-header">
+    <h6 class="card-title">유의사항</h6>
+    	<span style="font-size: 15px;"> 유의사항 안내 내용
+    	</span>
+
+  </div>
+</div>
+	
+	
 	<script type="text/javascript">
 	$(function(){
 		var curDate = new Date();
