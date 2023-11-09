@@ -46,11 +46,39 @@
 			    alert ("num2->"+num2);
 			    alert ("num3->"+num3);
 			    var totalNum = parseInt(num1)+parseInt(num2)+parseInt(num3);
-			    var totalNumStr = String(totalNum); 
+			    var totalNumStr = parseInt(totalNum); 
+				var totalCalculVal =parseInt(totalCalculVal);  // 중고 등급에 따른 곱셈값 
+			
 			    alert ("totalNumStr->"+totalNumStr);
 			    
+	/* 	  		  //무조건 적인 리턴 
+				//    0          0 , 1, ,2,3
+			    var num4 = $("#totalSum6").val();
+				//    1          0 , 1, ,2,3
+			    var num5 = $("#totalSum7").val();
+			    var num6 = $("#totalSum8").val();
+			    var num7 = $("#totalSum9").val(); */
+			    
+			    //새상품 가격에서 등급을 *한 값을 넣어주는 식
+			    var totalCal1 = (${oldBook.nb_price*0.6});
+			    var totalCal2 = (${oldBook.nb_price*0.5});
+			    var totalCal3 = (${oldBook.nb_price*0.4});
+			    var totalCal4 = (${oldBook.nb_price*0.3});
+			   
+			    //위 식의 값을 넣을 그릇  
+			    $("#totalCalcul1").val(totalCal1);
+			    $("#totalCalcul2").val(totalCal2);
+			    $("#totalCalcul3").val(totalCal3);
+			    $("#totalCalcul4").val(totalCal4);
+			   
+			    alert ("totalCal1->"+totalCal1);
+			    alert ("totalCal2->"+totalCal2);
+			    alert ("totalCal3->"+totalCal3);
+			    alert ("totalCal4->"+totalCal4);
+			    //                 checkbox()
 			    $("#totalSum").val(totalNum);
 			    
+			    //grade 값에 따른 등급 
 			    if(totalNum == '0'){
 			    	$("#totalSum1").val('A');
 			    } else if(totalNum == '1'){
@@ -62,15 +90,33 @@
 			    } else {
 			    	$("#totalSum5").val('kkk');
 			    }
-			    
-			    
+			 
+			    // totalNum view에 보여질거고 
+			    //1 리턴된걸 value로 넣고싶어요
+			    if(totalNumStr == '0'){
+			    	$("#totalSum6").val(totalCal1);
+			    	totalCalculVal = totalCal1;
+			    } else if(totalNumStr == '1'){
+			    	$("#totalSum7").val(totalCal2);
+			    	totalCalculVal = totalCal2;
+			    } else if(totalNumStr == '2'){
+			    	$("#totalSum8").val(totalCal3);
+			    	totalCalculVal = totalCal3;
+			    } else if(totalNumStr == '3'){
+			    	$("#totalSum9").val(totalCal4);
+			    	totalCalculVal = totalCal4;
+			    } else {
+			    	$("#totalSum10").val('kkk');
+			    	totalCalculVal = 0;
+			    }
+			    	
+			 	//calcul의 그릇  --> 리턴으로 value값 전달
+			 	$("#totalCalculVal").val(totalCalculVal);
+				
+			    $("#totalCalculValSell").val(parseInt(totalCalculVal*1.1));
+			     
 			    //alert ("z"+$("#totalSum"));
 			}
-			//가격 합계
-		/* 	function togglecalcul() {
-				
-			}
-			 */
 </script>
 <head>
 <meta charset="UTF-8">
@@ -80,14 +126,16 @@
 
 <form action="updateOb" method="post">
 <p class="fs-1 text-center">중고 검수등록 1 </p>
+
+<input type="hidden" name="ob_report_date" value="${oldBook.ob_report_date }">
 <table class="table table-bordered">
 	    <tr>
 		      <td scope="col">신청 일자</td>
-		      <td scope="col" colspan="2"><fmt:formatDate value="${oldBook.ob_report_date }" pattern="yyyy-MM-dd KK:mm:ss"></fmt:formatDate></td> 
+		      <td scope="col" colspan="2">${oldBook.ob_report_date }</td> 
 	    </tr>
 	     <tr>
 		      <td>중고상품번호 </td>
-		      <td colspan="2" id="ob_num" >${oldBook.ob_num }</td>
+		      <td colspan="2"><input type="hidden"  value="${oldBook.ob_num }">${oldBook.ob_num } </td>
 	    </tr>
 	      <tr>
 		      <td>검수매입상태</td>
@@ -102,7 +150,8 @@
 	    </tr>
 	     <tr>
 			      <td>책이름 </td>
-			      <td colspan="2">${oldBook.nb_title }</td>
+			      
+			      <td colspan="2"><input type="hidden" name="nb_title"> ${oldBook.nb_title }</td>
 	      </tr>
 	     <tr>
 			      <td>중고매입가격 </td>
@@ -135,18 +184,18 @@
 	 
     
      <tr>
-      <td>등급 <input type="button"  class="btn btn-dark mb-2" value="등급확인" onclick="toggleSum()"></td>
+      <td>등급 
+      	<input type="button"  class="btn btn-dark mb-2" value="등급확인" onclick="toggleSum()">
+      </td>
       <td colspan="2">
-       		 	<input type="hidden" name="ob_grade" id="totalSum" value="" >
-      		 	
-      		 	<p><input type="button" class="btn btn-outline-info mb-2" id="totalSum1" value="" >
-      		 	<input type="button" 	class="btn btn-outline-info mb-2" id="totalSum2" value="" >
-      		 	<p><input type="button" class="btn btn-outline-info mb-2" id="totalSum3" value="" >
-      		 	<input type="button"	class="btn btn-outline-info mb-2" id="totalSum4" value="" >
-      		 
-      		 	
-		
-		
+       		 	<input type="hidden" name="ob_grade" id="totalSum" value="0" >
+   		 	<div>
+      		 	<input type="button" class="btn btn-ghost-secondary mb-2" 		id="totalSum1" value="" >
+      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2" 	id="totalSum2" value="" >
+      		 	<input type="button" class="btn btn-ghost-secondary mb-2" 		id="totalSum3" value="" >
+      		 	<input type="button"	class="btn btn-ghost-secondary mb-2"	id="totalSum4" value="" >
+   		 	</div>
+
 	<%-- 	 	<c:set var="grade" id="totalSum" value=""></c:set>
 			<c:choose>
 				<c:when test="${grade eq '0' }"><c:out value="A"/></c:when>
@@ -159,17 +208,25 @@
 		</tr>
 		
 	    <tr>
-		      <td>중고 정산가격  <input type="button"  class="btn btn-dark mb-2" value="정산가격 계산" onclick="togglecalcul()">  </td>
-		      
+		    <td>중고 정산가격   </td> 
+		  <!--      <input type="button"  class="btn btn-dark mb-2" value="정산가격 계산" onclick="togglecalcul()"> -->
 		 <td colspan="2">
-	      <c:choose>
-			<c:when test="${oldBook.ob_grade eq '0'}"  > <c:out value="${oldBook.nb_price *0.6 }"/>원 </c:when>
+		   		 	<input type="hidden"  name="ob_pur_price" id="totalCalculVal" value="0" > 
+      		 		<input type="hidden"  name="ob_sell_price" id="totalCalculValSell" value=""> 
+      		 	<div>	
+      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum6"> 
+      		 	 <input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum7">
+      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum8">
+      		 	 <input type="button"	class="btn btn-ghost-secondary mb-2"   id="totalSum9"> 
+				 </div>
+		 <!-- 위에서 이미 if 돌렸음   -->
+	<%--       <c:choose>
+			<c:when test="${# eq '0'}"  > <c:out value="${oldBook.nb_price *0.6 }"/>원 </c:when>
 			<c:when test="${oldBook.ob_grade eq '1'}"> <c:out value="${oldBook.nb_price *0.5 }"/>원</c:when>
 			<c:when test="${oldBook.ob_grade eq '2'}"> <c:out value="${oldBook.nb_price *0.4 }"/>원</c:when>
 			<c:otherwise> <c:out value="${oldBook.nb_price *0.4 }"/> 원  </c:otherwise>
-			</c:choose>
-
-	      <input type="hidden" name="ob_pur_price" value="${oldBook.ob_pur_price }">
+			</c:choose> 
+			 --%>
     	</tr>
   
 	</table>
