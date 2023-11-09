@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
+import com.choongang.s202350103.model.OrderGift;
 import com.choongang.s202350103.model.Orderr;
 import lombok.RequiredArgsConstructor;
 
@@ -178,6 +180,43 @@ public class OrderDaoImpl implements OrderDao {
 		}
 		System.out.println("OrderDaoImpl selectOrderProduct() end..");
 		return orderDetailList;
+	}
+
+	// FO 선물하기 - 액션
+	@Override
+	public int givingGiftAction(Member member, Orderr orderr, OrderGift orderGift) {
+		System.out.println("OrderDaoImpl givingGiftAction() start..");
+		
+		int result = 0, oResult = 0, odResult = 0,
+				ogResult = 0, mResult = 0, plResult = 0;
+		try {
+			// INSERT - ORDERR
+			oResult = session.insert("hrInsertOrderrG", orderr);
+			
+			// INSERT - ORDER_DETAIL
+			odResult = session.insert("hrInsertOrderDetailG", orderr);
+			
+			// INSERT - ORDER_GIFT
+			ogResult = session.insert("hrInsertOrderGift", orderGift);
+			
+			// UPDATE - MEMBER
+			mResult = session.update("hrUpdateMemberP", orderr);
+			
+			// INSERT - POINT_LIST
+			plResult = session.insert("hrInsertPointListG", orderr);
+			
+			if(oResult == 1 && odResult == 1 && ogResult == 1
+					 && mResult == 1 && plResult == 1) {
+				result = 1;
+			} else {
+				result = 0;
+			}
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl givingGiftAction() e.getMessage() -> "+e.getMessage());
+		}
+		
+		System.out.println("OrderDaoImpl givingGiftAction() end..");
+		return result;
 	}
 
 
