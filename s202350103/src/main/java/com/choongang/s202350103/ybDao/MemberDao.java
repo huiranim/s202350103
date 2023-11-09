@@ -5,22 +5,36 @@ import java.util.List;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.OldBook;
+import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
 
 public interface MemberDao {
-	Member			login(Member member1);
+	Member				login(Member member1);
 
-	int 			totalCart(Member member);
+	int 				totalCart(Member member);
 
-	List<Cart> 		listCart(Cart cart, Member member);
+	List<Cart> 			listCart(Cart cart, Member member);
 
-	int 			totalPrice(Member member);
+	int 				totalPrice(Member member);
 
-	int 			totalWishList(Member member);
+	int 				totalWishList(Member member);
 
-	List<WishList>  memberWishList(WishList wishList);
+	List<WishList>  	memberWishList(WishList wishList);
 
-	int				memberWithdraw(Member member);
+	Member				memberWithdraw(Member member);
+
+	Member 				memberChk(String chk_Id);
+
+	List<PointList> 	memberPointList(PointList pointList);
+
+	int 				totalSellCnt(Member member);
+
+	List<OldBook> 		oldBookSellList(OldBook oldbook);
+
+	Member 				findEmail(String memberMail);
+
+	int 				memberPwUpdate(String m_pw, Member member);
 
 
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -13,22 +14,23 @@
 <title>Insert title here</title>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script> <!-- jquery안에  ajax 함수가 있기 때문에 jquery.js 가져와야 한다. -->
 <script type="text/javascript">
+	function reviewChange(start,end) {
+		//var sendData = $('form').serialize();
+		var r_reviewSelect = $('#reviewSel').val();;
+		var sendData = 'r_reviewSelect='+r_reviewSelect+'&start='+start+'&end='+end;
+	
+		location.href="reviewList?"+sendData;
+	};  
+
 	$(function() {
+		// ++5
 		$('#chk1').click(function() {
-			var sendData = $('form').serialize();
-			location.href="reviewList?"+sendData;
-		});               
+				var sendData = $('form').serialize();
+				location.href="reviewList?"+sendData;
+			   
+		 });
 	}) 
 	
-	 $(function() {
-      $('#reviewSelect').change(function() {
-          var endValue = 5;
-          $('input[name="end"]').val('#end'- endValue);
-          
-          var sendData = $('form').serialize();
-          location.href = "reviewList?" + sendData;
-       });
-    })
 	
 </script>
 </head>
@@ -134,13 +136,20 @@
                 <h4>리뷰</h4>
              </div>
              <div>
-             	<form action="">
-	                <select name="r_reviewSelect" id="reviewSelect" class="form-select" aria-label="Default select example">
+             	<form action="" >
+             	   <select name="r_reviewSelect" id="reviewSel" 
+                	        class="form-select" 
+                	        aria-label="Default select example"
+                	        onchange="reviewChange(1,5)"
+                	>
 	                   <option value="1" <c:if test="${review.r_reviewSelect == '1' }">selected</c:if> >최신순</option>
 	                   <option value="2" <c:if test="${review.r_reviewSelect == '2' }">selected</c:if> >별점순</option>
 	                </select>
+                
+             	
                 </form>
              </div>
+         
           </div>
 	            <c:forEach var="review" items="${listReview}" >
 		          <div class="d-flex border-bottom pb-6 mb-6">
@@ -167,14 +176,15 @@
 		             </div>
 		          </div>
                 </c:forEach>
+          	
                 <form action="">
-           	       <input type="hidden" name="start" value="1">
-          	       <input type="hidden" name="end" value="${review.end + 5}">
-
+           	       <input type="hidden" name="start"       value="1">
+          	       <input type="hidden" name="end"         value="${review.end + 5}">
+  
                	   <input type="button" id="chk1" class="btn btn-outline-gray-400 text-muted" value="리뷰 더보기">
 				</form>
 
-  
+
 <%@ include file="../common/footerFo.jsp" %>
 
 </body>

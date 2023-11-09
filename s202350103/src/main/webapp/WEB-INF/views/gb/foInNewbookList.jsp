@@ -7,17 +7,67 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Insert title here</title>
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
 	
 	function category2Click() {
 		// 클릭한 카테고리명
 		var category2Value = $("#category2").val();
 		var orderTypeValue = $("#orderType").val();
+		var category1Value = '${newbook.nb_category1}';
+		alert("category1Value -> " +category1Value );
 		alert("내가 선택한 카테고리 + 정렬 -> " + category2Value + "+" + orderTypeValue);
 		
-		location.href = "/innewbookList?nb_category2="+category2Value +"&orderType="+orderTypeValue;
+		location.href = "/innewbookList?nb_category1="+category1Value+"&nb_category2="+category2Value +"&orderType="+orderTypeValue;
 	
+	}
+	
+	function wishlist(pNb_num) {
+		alert("pNb_num ->"+pNb_num);
+		
+		$.ajax({
+			url : "/wish/wishclick", 
+			data : {nb_num : pNb_num},
+			dataType : 'text',
+			success : function(data){
+						if (data == '0') {
+							alert ("찜 취소 되었습니다.");
+							location.reload();
+						} 
+						else if(data == '1') {
+							alert ("찜 되었습니다.");
+							location.reload();
+						} 
+						else {
+							location.href = data ;
+						}
+										
+				  }
+			});
+	}
+	
+	function cart(pNb_num) {
+		var m_num = '${member.m_num}';
+		$.ajax({
+			url : "/cart/cartclick",
+			data : {nb_num : pNb_num},
+			dataType : 'text',
+			success : function(data){
+				if (data == '0') {
+					if(confirm("장바구니에 이미 등록된 상품입니다. \n장바구니로 이동하시겠습니까?")){
+						location.href = "memberCartList?m_num"+m_num;
+					}
+				} 
+				else if(data == '1') {
+					if(confirm("장바구니에 등록되었습니다. \n장바구니로 이동하시겠습니까?")){
+						location.href = "memberCartList?m_num"+m_num;
+					}
+				} 
+				else {
+					location.href = data ;
+				}
+			}
+		});
 	}
 	
 </script>
@@ -52,15 +102,25 @@
           <div class="d-flex mt-2 mt-lg-0">
              <div class="me-2 flex-grow-1">
                <!-- 카테고리 검색 -->
-                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
-                   <option value=0 <c:if test ="${newbook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
-                   <option value=1 <c:if test ="${newbook.nb_category2 eq '1'}"> selected="selected"</c:if>>경제/경영</option>
-                   <option value=2 <c:if test ="${newbook.nb_category2 eq '2'}"> selected="selected"</c:if>>과학</option>
-                   <option value=3 <c:if test ="${newbook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
-                   <option value=4 <c:if test ="${newbook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
-                   <option value=5 <c:if test ="${newbook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
-     			</select>
+               <c:if test="${newbook.nb_category1 eq 1 }">
+	                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
+	                   <option value=0 <c:if test ="${newbook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
+	                   <option value=1 <c:if test ="${newbook.nb_category2 eq '1'}"> selected="selected"</c:if>>경제/경영</option>
+	                   <option value=2 <c:if test ="${newbook.nb_category2 eq '2'}"> selected="selected"</c:if>>과학</option>
+	                   <option value=3 <c:if test ="${newbook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
+	                   <option value=4 <c:if test ="${newbook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
+	                   <option value=5 <c:if test ="${newbook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
+	     			</select>
+     			</c:if>
+     			<c:if test="${newbook.nb_category1 eq 2 }">
+	                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
+	                   <option value=0 <c:if test ="${newbook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
+	                   <option value=6 <c:if test ="${newbook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
+	                   <option value=7 <c:if test ="${newbook.nb_category2 eq '7'}"> selected="selected"</c:if>>문학</option>
+	     			</select>
+     			</c:if>
              </div>
+             
              
              <div>
                 <!-- 정렬 조건 -->
@@ -134,9 +194,19 @@
 		                    <!-- 찜, 바로구매,  장바구니 버튼 -->
 		                    <div class="mt-2">
 		                       <!-- 찜하기 버튼 -->	
-		                       <a href="shop-wishlist.html" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
-		                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist"><i
-		                          class="bi bi-heart"></i></a>
+		                       <c:choose>
+		                       	<c:when test="${inNewbook.w_wish == 0}">
+			                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+			                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${inNewbook.nb_num })">
+			                          <i id="wishbtn" class="bi bi-heart"></i></a>
+			                    </c:when>
+			                    <c:when test="${inNewbook.w_wish == 1}">
+			                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+			                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${inNewbook.nb_num })">
+			                          <i id="wishbtn" class="bi bi-heart-fill"></i></a>
+			                    </c:when>
+		                       </c:choose>
+		                       
 		                       <!-- 바로구매 버튼 -->   
 		                       <a href="#!" class="btn btn-primary ">
 		                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -149,7 +219,7 @@
 		                  		바로구매
 		                       </a>
 		                       <!-- 장바구니 버튼 -->
-		                       <a href="#!" class="btn btn-secondary ">
+		                       <a class="btn btn-secondary" onclick="cart(${inNewbook.nb_num })">
 		                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
 		                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
 		                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
@@ -179,7 +249,7 @@
         <!-- 이전버튼 -->
         <c:if test="${page.startPage > page.pageLimit}">
 	        <li class="page-item">
-	          <a class="page-link  mx-1 " href="innewbookList?currentPage=${page.startPage-page.pageLimit}&nb_category2=${newbook.nb_category2 }&orderType=${newbook.orderType}" aria-label="Previous">
+	          <a class="page-link  mx-1 " href="innewbookList?currentPage=${page.startPage-page.pageLimit}&nb_category1=${newbook.nb_category1 }&nb_category2=${newbook.nb_category2 }&orderType=${newbook.orderType}" aria-label="Previous">
 	            <i class="feather-icon icon-chevron-left"></i>
 	          </a>
 	        </li>
@@ -187,7 +257,7 @@
         
         <!-- 페이지 넘버 -->
         <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-        	<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookList?currentPage=${i }&nb_category2=${newbook.nb_category2 }&orderType=${newbook.orderType}">${i }</a></li>
+        	<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookList?currentPage=${i }&nb_category1=${newbook.nb_category1 }&nb_category2=${newbook.nb_category2 }&orderType=${newbook.orderType}">${i }</a></li>
         </c:forEach>
         
         
@@ -200,7 +270,7 @@
         <!-- 다음 버튼 -->
         <c:if test="${page.endPage < page.totalPage}">
 	        <li class="page-item">
-	          <a class="page-link mx-1 text-body" href="innewbookList?currentPage=${page.startPage+page.pageLimit }&nb_category2=${newbook.nb_category2 }&orderType=${newbook.orderType}" aria-label="Next">
+	          <a class="page-link mx-1 text-body" href="innewbookList?currentPage=${page.startPage+page.pageLimit }&nb_category1=${newbook.nb_category1 }&nb_category2=${newbook.nb_category2 }&orderType=${newbook.orderType}" aria-label="Next">
 	            <i class="feather-icon icon-chevron-right"></i>
 	          </a>
 	        </li>

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.OldBook;
+import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
 import com.choongang.s202350103.ybDao.MemberDao;
 
@@ -41,9 +43,7 @@ public class MemberServiceImpl1 implements MemberService {
 	// 장바구니 목록
 	@Override
 	public List<Cart> listCart(Cart cart, Member member) {
-		
-		member =(Member) session.getAttribute("member");
-		System.out.println("MemberService listCart start...");
+		System.out.println("MemberServiceImpl1 listCart start...");
 		System.out.println("MemberServiceImpl1 listCart() member.m_num -> " + member.getM_num());
 		List<Cart> listCart = md.listCart(cart, member);
 		
@@ -53,7 +53,7 @@ public class MemberServiceImpl1 implements MemberService {
 	// 장바구니 총 금액
 	@Override
 	public int totalPrice(Member member) {
-		System.out.println("MemberService totalPrice start...");
+		System.out.println("MemberServiceImpl1 totalPrice start...");
 		System.out.println("MemberServiceImpl1 totalPrice member.m_num -> " + member.getM_num());
 		int totalPrice = 0;
 		
@@ -65,35 +65,99 @@ public class MemberServiceImpl1 implements MemberService {
 	@Override
 	public int totalWishList(Member member) {
 		// TODO Auto-generated method stub
-		System.out.println("MemberService totalWishList start...");
+		System.out.println("MemberServiceImpl1 totalWishList start...");
 		System.out.println("MemberServiceImpl1 totalWishList member.m_num -> " + member.getM_num());
 		int totalWishList = 0;
 		
 		totalWishList = md.totalWishList(member);
 		return totalWishList;
 	}
-	
+	// 판매 개수
+	@Override
+	public int totalSellCnt(Member member) {
+		System.out.println("MemberServiceImpl1 totalSellCnt start...");
+		System.out.println("MemberServiceImpl1 totalSellCnt member.m_num -> " + member.getM_num());
+		int totalSellCnt = md.totalSellCnt(member);
+		return totalSellCnt;
+	}
+
 	// 회원 찜목록
 	@Override
 	public List<WishList> memberWishList(WishList wishList) {
 		
 		Member member =(Member) session.getAttribute("member");
-		System.out.println("MemberService listCart start...");
+		System.out.println("MemberServiceImpl1 listCart start...");
 		System.out.println("MemberServiceImpl1 listCart() member.m_num -> " + member.getM_num());
 		List<WishList> memberWishList = md.memberWishList(wishList);
 		
 		return memberWishList;
 	}
-
+	
+	// 포인트 리스트
 	@Override
-	public int memberWithdraw(Member member) {
+	public List<PointList> memberPointList(PointList pointList) {
+		Member member =(Member) session.getAttribute("member");
+		System.out.println("MemberServiceImpl1 listCart start...");
+		System.out.println("MemberServiceImpl1 listCart() member.m_num -> " + member.getM_num());
+		List<PointList> memberPointList = md.memberPointList(pointList);
+		
+		return memberPointList;
+	}
+	// 회원 탈퇴
+	@Override
+	public Member memberWithdraw(Member member) {
 		System.out.println("MemberServiceImpl1 memberWithdraw start...");
 		member =(Member) session.getAttribute("member");
 		System.out.println("MemberServiceImpl1 memberWithdraw member.m_id -> " + member.getM_id());
-		int memberWithdraw = md.memberWithdraw(member);
+		Member memberWithdraw = md.memberWithdraw(member);
 		return memberWithdraw;
 	}
+	// 회원 체크
+	@Override
+	public Member memberChk(String chk_Id) {
+		System.out.println("MemberServiceImpl1 memberChk start...");
+		Member member = md.memberChk(chk_Id);
+		if(member != null) {
+			return member;	
+		} else {
+			return null;
+		}
+	}
+	// 중고책 판매 리스트
+	@Override
+	public List<OldBook> oldBookSellList(OldBook oldbook) {
+		System.out.println("MemberServiceImpl1 oldBookSellList start...");
+		Member member =(Member) session.getAttribute("member");
+		List<OldBook> oldBookSellList = md.oldBookSellList(oldbook);
+		System.out.println("MemberServiceImpl1 oldBookSellList member.m_id -> " + member.getM_id());
+		return oldBookSellList;
+	}
+	
+	// 비밀번호 찾기 이메일 체크
+	@Override
+	public Member findEmail(String memberMail) {
+		System.out.println("MemberServiceImpl1 findEmail start...");
+		Member member = md.findEmail(memberMail);
+		if(member != null) {
+			return member;	
+		} else {
+			return null;
+		}	
+	}
 
+	@Override
+	public int memberPwUpdate(String m_pw, Member member) {
+		System.out.println("MemberServiceImpl1 memberPwUpdate start...");
+		int memberPwUpdate = md.memberPwUpdate(m_pw, member);
+		System.out.println("MemberServiceImpl1 memberPwUpdate m_pw -> " + m_pw);
+		return memberPwUpdate;
+	}
+
+	
+
+	
+
+	
 	
 	
 	

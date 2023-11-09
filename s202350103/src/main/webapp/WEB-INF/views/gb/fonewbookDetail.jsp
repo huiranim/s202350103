@@ -55,6 +55,73 @@
 					}
 		});
 	}
+	
+	function wishlist(pNb_num) {
+		alert("pNb_num ->"+pNb_num);
+		
+		$.ajax({
+			url : "/wish/wishclick", 
+			data : {nb_num : pNb_num},
+			dataType : 'text',
+			success : function(data){
+						if (data == '0') {
+							alert ("찜 취소 되었습니다.");
+							location.reload();
+						} 
+						else if(data == '1') {
+							alert ("찜 되었습니다.");
+							location.reload();
+						} 
+						else {
+							location.href = data ;
+						}
+										
+				  }
+			});
+	}
+	
+	function cart(pNb_num) {
+		var m_num = '${member.m_num}';
+		var pC_count = $("#c_count").val();
+		
+		$.ajax({
+			url : "/cart/cartclick",
+			data : {nb_num : pNb_num, c_count : pC_count},
+			dataType : 'text',
+			success : function(data){
+				if (data == '0') {
+					if(confirm("장바구니에 이미 등록된 상품입니다. \n장바구니로 이동하시겠습니까?")){
+						location.href = "memberCartList?m_num"+m_num;
+					}
+				} 
+				else if(data == '1') {
+					if(confirm("장바구니에 등록되었습니다. \n장바구니로 이동하시겠습니까?")){
+						location.href = "memberCartList?m_num"+m_num;
+					}
+				} 
+				else {
+					location.href = data ;
+				}
+			}
+		});
+	}
+	
+	function reviewChange(start,end) {
+		//var sendData = $('form').serialize();
+		var r_reviewSelect = $('#reviewSel').val();;
+		var sendData = 'r_reviewSelect='+r_reviewSelect+'&start='+start+'&end='+end;
+	
+		location.href="newbookDetail?"+sendData;
+	};  
+
+	$(function() {
+		// ++5
+		$('#chk1').click(function() {
+				var sendData = $('form').serialize();
+				location.href="newbookDetail?"+sendData;
+			   
+		 });
+	}) 
 </script>
 </head>
 <body>
@@ -144,22 +211,36 @@
 		    
 		   <div>
 		       <!-- 수량 선택 버튼 및 구매 버튼, 찜하기 버튼 -->
+		       <form action="">
+		       <input name="nb_num" type="hidden" value="${newbook.nb_num }">
 		       <div class="input-group input-spinner">
 		       	  <!-- 수량 선택 버튼 -->
 		          <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
-		          <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" style="height: 42px;width: 40px;">
+		          <input id="c_count" type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" style="height: 42px;width: 40px;">
 		          <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
 				  <div class="g-2 align-items-center">
 				     <div style="margin-left: 15px;">
 				        <!-- 구매 버튼 -->
-				        <button type="button" class="btn btn-warning"><i class="feather-icon icon-shopping-bag me-2"></i>선물하기</button>
-				        <button type="button" class="btn btn-secondary"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
+				        <input type="submit" value="선물하기" class="btn btn-warning" onclick="javascript: form.action='/foGivingGift';"><i class="feather-icon icon-shopping-bag me-2"></i>
+				        <button type="button" class="btn btn-secondary" onclick="cart(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
 		  			    <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button>
-				        <!-- 찜하기 버튼 -->
-				        <a class="btn btn-light" href="#!" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Wishlist"><i class="feather-icon icon-heart"></i></a>
+				        <!-- 찜하기 버튼 -->	
+                        <c:choose>
+                       	  <c:when test="${newbook.w_wish == 0}">
+	                         <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+	                            data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${newbook.nb_num })">
+	                            <i id="wishbtn" class="bi bi-heart"></i></a>
+	                      </c:when>
+	                      <c:when test="${newbook.w_wish == 1}">
+	                         <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+	                            data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${newbook.nb_num })">
+	                            <i id="wishbtn" class="bi bi-heart-fill"></i></a>
+	                      </c:when>
+                       </c:choose>
 				     </div>
 		    	  </div>
 		      </div>
+		      </form>
 		   </div>
 		 </div>
 	  </div>
@@ -240,7 +321,8 @@
               <div class="my-8">
                 <!-- row -->
                 <div class="row">
-					<h2>리뷰는 혁수 담당</h2>
+					<%@ include file="../ht/boProductReviewList.jsp" %>
+					
                 </div>
               </div>
             </div>

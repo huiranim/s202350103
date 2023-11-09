@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.MemberQ;
 import com.choongang.s202350103.yjDao.MemberDao;
 
 import lombok.RequiredArgsConstructor;
@@ -80,6 +81,42 @@ public class MemberServiceImpl implements MemberService{
 	public int totalMember() {
 		int totalMember = md.totalMember();
 		return totalMember;
+	}
+	// 회원 이메일 검증
+	@Override
+	public String memberEmailFind(String m_email) {
+		String memberEmailFind = md.memberEmailFind(m_email);
+		return memberEmailFind;
+	}
+	// 이메일  인증후 회원정보 상세
+	@Override
+	public Member memberFindGetIdEmail(String m_email) {
+		Member member = md.memberFindGetIdEmail(m_email);
+		return member;
+	}
+	// 문의 등록
+	@Override
+	public int memberQInsert(MemberQ memberQ) {
+		int memberQInsert = md.memberQInsert(memberQ);
+		return memberQInsert;
+	}
+	// 문의 리스트
+	@Override
+	public List<MemberQ> memberQnaList(MemberQ memberQ) {
+		List<MemberQ> memberQnaList = md.memberQnaList(memberQ);
+		return memberQnaList;
+	}
+	// 문의 카운트
+	@Override
+	public int mqCount() {
+		int mqCount = md.mqCount();
+		return mqCount;
+	}
+	// 문의 상세
+	@Override
+	public MemberQ memberQInfo(int mq_num) {
+		MemberQ memberQInfo = md.memberQInfo(mq_num);
+		return memberQInfo;
 	}
 
 	

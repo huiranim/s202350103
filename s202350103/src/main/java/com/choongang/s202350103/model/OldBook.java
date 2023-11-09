@@ -31,8 +31,6 @@ public class OldBook {				//중고상품
 	private String  nb_image;		// 책 이미지
 	
 	
-	
-	
 	private String search;   	private String keyword;
 	private String pageNum;  
 	private int start; 		 	private int end;

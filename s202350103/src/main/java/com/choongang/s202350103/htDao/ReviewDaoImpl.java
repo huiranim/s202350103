@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
 import lombok.RequiredArgsConstructor;
@@ -15,18 +17,6 @@ import lombok.RequiredArgsConstructor;
 public class ReviewDaoImpl implements ReviewDao {
 	private final SqlSession session;
 
-	
-	@Override
-	public int reviewInsert(Review review) {
-		System.out.println("ReviewDaoImpl reviewInsert() Start....");
-		int result = 0;
-		try {
-			result = session.insert("htReviewInsert", review);
-		} catch (Exception e) {
-			System.out.println("ReviewDaoImpl reviewInsert() Exception-->" + e.getMessage());
-		}
-		return result;
-	}
 
 	@Override
 	public List<Review> listReview(Review review) {
@@ -76,6 +66,114 @@ public class ReviewDaoImpl implements ReviewDao {
 			System.out.println("ReviewDaoImpl reviewAverage() average--> " + average);
 		}
 		return average;
+	}
+
+	@Override
+	public List<Orderr> reviewWriteList(Orderr orderr) {
+		System.out.println("ReviewDaoImpl reviewWriteList() Start...");
+		List<Orderr> list2 = null;
+		try {
+			list2 = session.selectList("htMyReviewList", orderr);
+			System.out.println("ReviewDaoImpl reviewWriteList() list2-> " + list2);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewWriteList() Exception-->" + e.getMessage());
+		}
+		return list2;
+	}
+
+	@Override
+	public int myReviewTotal(Orderr orderr) {
+		System.out.println("ReviewDaoImpl myReviewTotal() Start....");
+		int total = 0;
+		try {
+			total = session.selectOne("htMyReviewCnt", orderr);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl myReviewTotal() total--> " + total);
+		}
+		return total;
+	}
+
+	
+	@Override
+	public int reviewInsert(Review review) {
+		System.out.println("ReviewDaoImpl reviewInsert() Start....");
+		int result = 0;
+		try {
+			result = session.insert("htReviewInsert", review);
+		} catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewInsert() Exception-->" + e.getMessage());
+		}
+		return result;
+	}
+
+
+	@Override
+	public int myReviewedTotal(Review review) {
+		System.out.println("ReviewDaoImpl myReviewedTotal() Start....");
+		int total = 0;
+		try {
+			total = session.selectOne("htMyReviewedCnt", review);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl myReviewedTotal() total--> " + total);
+		}
+		return total;
+	}
+
+
+	@Override
+	public List<Review> reviewedWriteList(Review review) {
+		System.out.println("ReviewDaoImpl reviewedWriteList() Start...");
+		List<Review> list = null;
+		try {
+			list = session.selectList("htMyReviewedList", review);
+			System.out.println("ReviewDaoImpl reviewedWriteList() list-> " + list);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewedWriteList() Exception-->" + e.getMessage());
+		}
+		return list;
+	}
+
+
+	@Override
+	public Review writedReview(Review review) {
+		System.out.println("ReviewDaoImpl writedReview() Start....");
+		Review writedReview = null;
+		try {
+			writedReview = session.selectOne("htWritedReview",review);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl writedReview() Exception--> " + e.getMessage());
+		}
+		return writedReview;
+	}
+
+
+	@Override
+	public int reviewUpdate(Review review) {
+		System.out.println("ReviewDaoImpl reviewUpdate() Start....");
+		int result = 0;
+		try {
+			System.out.println("ReviewDaoImpl reviewUpdate review--> "+ review );
+			result = session.update("htReviewUpdate", review);
+			System.out.println("ReviewDaoImpl reviewUpdate() result--> " + result);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewUpdate() Exception--> " + e.getMessage());
+		}
+		return result;
+	}
+
+
+	@Override
+	public int reviewDelete(Review review) {
+		System.out.println("ReviewDaoImpl reviewDelete() Start....");
+		int result = 0;
+		try {
+			System.out.println("ReviewDaoImpl reviewDelete review--> "+ review );
+			result = session.delete("htReviewDelete", review);
+			System.out.println("ReviewDaoImpl reviewDelete() result--> " + result);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewDelete() Exception--> " + e.getMessage());
+		}
+		return result;
 	}
 
 }

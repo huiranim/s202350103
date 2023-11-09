@@ -9,7 +9,7 @@ public class Paging {
 	// 페이징 모듈
 	
 	private int currentPage = 1;	//	현재 페이지 번호 기본값 1
-	private int rowPage   = 10;		// 	한 페이지당 표시항목 기본값 10 
+	private int rowPage   = 15;		// 	한 페이지당 표시항목 기본값 10 
 
 	private int pageBlock = 10;		//	한번에 표시할 페이지 블록 
 //	ex) 1부터10 다음페이지는 11 부터 20

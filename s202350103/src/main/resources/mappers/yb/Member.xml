@@ -8,17 +8,21 @@
 	</select>
 	
 	<select id="ybTotalCart" parameterType="Member" resultType="int">
-		Select sum(c_count) from cart  WHERE m_num = #{m_num}
+		SELECT sum(c_count) FROM cart  WHERE m_num = #{m_num}
 	</select>
 	
 	<select id="ybTotalWishList" parameterType="Member" resultType="int">
-		Select sum(w_wish) from wishlist  WHERE m_num = #{m_num} and w_wish = 1
+		SELECT sum(w_wish) FROM wishlist  WHERE m_num = #{m_num} and w_wish = 1
+	</select>
+	
+	<select id="ybTotalSellCnt" parameterType="Member" resultType="int">
+		SELECT count(*) FROM oldbook WHERE m_num = #{m_num}
 	</select>
 	
 	<select id="ybTotalPrice" parameterType="cart" resultType="int">
 		SELECT sum(c.c_count * n.nb_price) totalPrice 
 		FROM   cart c, newbook n
-		where  c.nb_num = n.nb_num
+		WHERE  c.nb_num = n.nb_num
 		and    c.m_num = #{m_num}  
 	</select>
 	
@@ -28,9 +32,9 @@
 		(
 				SELECT rownum rn, a.*
 				FROM
-							(select c.nb_num, c.c_count, n.nb_title, n.nb_price, n.nb_writer, n.nb_publisher, n.nb_image  
-                             From cart c, newbook n
-                             where c.nb_num = n.nb_num
+							(SELECT c.nb_num, c.c_count, n.nb_title, n.nb_price, n.nb_writer, n.nb_publisher, n.nb_image  
+                             FROM cart c, newbook n
+                             WHERE c.nb_num = n.nb_num
                              and   c.m_num = #{m_num}) a
 		)
 		WHERE   rn BETWEEN #{start} and #{end}
@@ -42,25 +46,67 @@
 		(
 				SELECT rownum rn, a.*
 				FROM
-							(select w.nb_num, w.w_wish, n.nb_image,  n.nb_title, n.nb_price, n.nb_writer, n.nb_publisher
-                             From wishlist w, newbook n
-                             where w.nb_num = n.nb_num
+							(SELECT w.nb_num, w.w_wish, n.nb_image,  n.nb_title, n.nb_price, n.nb_writer, n.nb_publisher
+                             FROM wishlist w, newbook n
+                             WHERE w.nb_num = n.nb_num
                              and   w.m_num = #{m_num}
                              and   w.w_wish = 1) a
 		)
 		WHERE   rn BETWEEN #{start} and #{end}
 	</select>
 	
-	<select id="ybMemberWithdraw" parameterType="Member" resultType="int">
-		UPDATE FROM member SET m_wd = 1 WHERE m_num = #{m_num}
+	<select id="ybMemberQuizList" parameterType="PointList" resultType="PointList">
+		SELECT  q.q_title title, p.m_point point, p.a_par_pdate date1, p.p_list_type type1 
+		FROM    point_list p, quiz q
+		WHERE   p.q_num = q.q_num
+		AND     m_num = #{m_num}
+		UNION
+		SELECT  to_char(o.o_order_num) title, p.m_point point, p.a_par_pdate date1, p.p_list_type type1
+		FROM    point_list p, orderr o
+		WHERE   p.o_order_num = o.o_order_num
+		AND     p.m_num = #{m_num}
+		UNION
+		SELECT  a.a_title title,  p.m_point date1, p.a_par_pdate point, p.p_list_type type1
+		FROM    point_list p,attendance a
+		WHERE   p.a_num = a.a_num
+		AND     m_num = #{m_num}
+		ORDER   by date1
+	</select>
+	
+	<select id="ybOldBookSellList" parameterType="OldBook" resultType="OldBook">
+		SELECT *
+		FROM
+		(
+				SELECT rownum rn, a.*
+				FROM
+							(SELECT n.nb_title, o.ob_grade, o.ob_pur_price, o.ob_sell_price, o.ob_write_date, n.nb_publisher, n.nb_writer, n.nb_image,n.nb_num
+							 FROM   newbook n, oldbook o
+						     WHERE  n.nb_num = o.nb_num
+							 AND    m_num = #{m_num}) a
+							 ORDER BY ob_write_date
+		)
+		WHERE   rn BETWEEN #{start} and #{end}
+	</select>
+	
+	<select id="ybMemberWithdraw" parameterType="Member" resultType="Member">
+		UPDATE member SET m_wd = 1 WHERE m_num = #{m_num}
 	</select>
 	
 	<select id="ybMemberPw" parameterType="Member" resultType="String">
 		SELECT FROM member m_pw WHERE m_id = #{m_id}
 	</select>
 	
+	<select id="ybMemberChk" parameterType="String" resultType="Member">
+		SELECT * FROM member WHERE m_id = #{chk_Id}
+	</select>
 	
+	<select id="ybFindEmail" parameterType="String" resultType="Member">
+		SELECT * FROM member WHERE m_email = #{memberMail}
+	</select>
 	
+	<select id="ybMemberPwUpdate" parameterType="String" resultType="Member">
+		UPDATE member SET m_pw = #{m_pw} WHERE m_id = #{m_id}
+	</select>
 	
 	
 	

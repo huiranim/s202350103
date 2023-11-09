@@ -2,6 +2,7 @@ package com.choongang.s202350103.shDao;
 
 import java.util.List;
 
+import com.choongang.s202350103.model.AttJoin;
 import com.choongang.s202350103.model.Attendance;
 
 public interface AttendanceDao {
@@ -12,5 +13,8 @@ public interface AttendanceDao {
 	List<Attendance> listEvent(Attendance attendance);
 	int 			 divideAttNum(int eNum);
 	Attendance 		 attendance(int eNum);
+	int 			 startMonth(int eNum);
+	int 			 startYear(int eNum);
+	int 			 createAtt(Attendance attendance);
 
 }

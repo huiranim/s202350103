@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Insert title here</title>
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
 	
 	function category2Click() {
@@ -20,6 +20,30 @@
 		location.href = "/searchNewbookList?nb_category2="+category2Value +"&orderType="
 				+orderTypeValue+"&search_type="+'${search_Newbook.search_type}'+"&search_keyword="+'${search_Newbook.search_keyword}';
 
+	}
+	
+	function wishlist(pNb_num) {
+		alert("pNb_num ->"+pNb_num);
+		
+		$.ajax({
+			url : "/wish/wishclick", 
+			data : {nb_num : pNb_num},
+			dataType : 'text',
+			success : function(data){
+						if (data == '0') {
+							alert ("찜 취소 되었습니다.");
+							location.reload();
+						} 
+						else if(data == '1') {
+							alert ("찜 되었습니다.");
+							location.reload();
+						} 
+						else {
+							location.href = data ;
+						}
+										
+				  }
+			});
 	}
 </script>
 </head>
@@ -63,6 +87,8 @@
                    <option value=3 <c:if test ="${search_Newbook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
                    <option value=4 <c:if test ="${search_Newbook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
                    <option value=5 <c:if test ="${search_Newbook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
+                   <option value=6 <c:if test ="${search_Newbook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
+                   <option value=7 <c:if test ="${search_Newbook.nb_category2 eq '7'}"> selected="selected"</c:if>>문학</option>
      			</select>
              </div>
              
@@ -93,7 +119,7 @@
 			              <!-- col -->
 			              <div class="col-md-4 col-12">
 			                 <div class="text-center position-relative ">
-			                    <a href="shop-single.html">
+			                    <a href="newbookDetail?nb_num=${searchNewbook.nb_num }">
 			                       <!-- 도서 이미지 -->
 			                       <img src="${searchNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
 			                    </a>
@@ -101,7 +127,7 @@
 			              </div>
 			              <div class="col-md-8 col-12 flex-grow-1">
 			                 <!-- 도서 제목 -->
-			                 <h1 class="fs-2 mb-3"><a href="shop-single.html" class="text-inherit text-decoration-none">${searchNewbook.nb_title}</a>
+			                 <h1 class="fs-2 mb-3"><a href="newbookDetail?nb_num=${searchNewbook.nb_num }" class="text-inherit text-decoration-none">${searchNewbook.nb_title}</a>
 			                 </h1>
 			                 <!-- 지은이, 출판사, 출판일 -->
 			                 <h3 class="fs-6 mb-3">${searchNewbook.nb_writer} | ${searchNewbook.nb_publisher} | ${searchNewbook.nb_publi_date}
@@ -132,9 +158,18 @@
 			                    <!-- 찜, 바로구매,  장바구니 버튼 -->
 			                    <div class="mt-2">
 			                       <!-- 찜하기 버튼 -->	
-			                       <a href="shop-wishlist.html" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
-			                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist"><i
-			                          class="bi bi-heart"></i></a>
+			                       <c:choose>
+			                       	<c:when test="${searchNewbook.w_wish == 0}">
+				                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+				                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
+				                          <i id="wishbtn" class="bi bi-heart"></i></a>
+				                    </c:when>
+				                    <c:when test="${searchNewbook.w_wish == 1}">
+				                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+				                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
+				                          <i id="wishbtn" class="bi bi-heart-fill"></i></a>
+				                    </c:when>
+			                       </c:choose>
 			                       <!-- 바로구매 버튼 -->   
 			                       <a href="#!" class="btn btn-primary ">
 			                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -177,7 +212,7 @@
 	        <!-- 이전버튼 -->
 	        <c:if test="${page.startPage > page.pageLimit}">
 		        <li class="page-item">
-		          <a class="page-link  mx-1 " href="innewbookList?currentPage=${page.startPage-page.pageLimit}&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}" aria-label="Previous">
+		          <a class="page-link  mx-1 " href="searchNewbookList?currentPage=${page.startPage-page.pageLimit}&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}" aria-label="Previous">
 		            <i class="feather-icon icon-chevron-left"></i>
 		          </a>
 		        </li>
@@ -185,7 +220,7 @@
 	        
 	        <!-- 페이지 넘버 -->
 	        <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-	        	<li class="page-item"><a class="page-link mx-1 text-body" href="innewbookList?currentPage=${i }&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}">${i }</a></li>
+	        	<li class="page-item"><a class="page-link mx-1 text-body" href="searchNewbookList?currentPage=${i }&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}">${i }</a></li>
 	        </c:forEach>
 	        
 	        
@@ -198,7 +233,7 @@
 	        <!-- 다음 버튼 -->
 	        <c:if test="${page.endPage < page.totalPage}">
 		        <li class="page-item">
-		          <a class="page-link mx-1 text-body" href="innewbookList?currentPage=${page.startPage+page.pageLimit }&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}" aria-label="Next">
+		          <a class="page-link mx-1 text-body" href="searchNewbookList?currentPage=${page.startPage+page.pageLimit }&nb_category2=${search_Newbook.nb_category2 }&orderType=${search_Newbook.orderType}&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}" aria-label="Next">
 		            <i class="feather-icon icon-chevron-right"></i>
 		          </a>
 		        </li>

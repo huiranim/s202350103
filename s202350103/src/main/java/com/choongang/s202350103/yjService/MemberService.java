@@ -3,6 +3,7 @@ package com.choongang.s202350103.yjService;
 import java.util.List;
 
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.MemberQ;
 
 public interface MemberService {
 	
@@ -28,6 +29,18 @@ public interface MemberService {
 	List<Member> memberMyOrder(int m_num);
 	// 전체 회원 카운트 
 	int totalMember();
+	// 회원 이메일 검증 
+	String memberEmailFind(String m_email);
+	// 이메일 인증 후 회원정보 상세 
+	Member memberFindGetIdEmail(String m_email);
+	// 문의 등록
+	int memberQInsert(MemberQ memberQ);
+	// 문의 리스트
+	List<MemberQ> memberQnaList(MemberQ memberQ);
+	// 문의 카운트
+	int mqCount();
+	// 문의 상세 
+	MemberQ memberQInfo(int mq_num);
 
 	
 }

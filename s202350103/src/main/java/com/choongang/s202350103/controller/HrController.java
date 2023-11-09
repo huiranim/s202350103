@@ -1,16 +1,19 @@
 package com.choongang.s202350103.controller;
 
 import java.util.List;
-
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.choongang.s202350103.hrService.MemberService;
+import com.choongang.s202350103.hrService.NewbookService;
 import com.choongang.s202350103.hrService.OrderService;
 import com.choongang.s202350103.hrService.Paging;
+import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
+import com.choongang.s202350103.model.OrderDetail;
+import com.choongang.s202350103.model.OrderGift;
 import com.choongang.s202350103.model.Orderr;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j 
 public class HrController {
-	public final MemberService ms;
-	public final OrderService os;
+	private final MemberService ms;
+	private final OrderService os;
+	private final NewbookService ns;
 	
 	@RequestMapping(value = "helloFo")
 	public String memTot1(Model model) {
@@ -69,20 +73,20 @@ public class HrController {
 	// BO 주문상세
 	// boOrderDetail.jsp
 	@RequestMapping(value = "boOrderDetail")
-	public String selectOrderr(Model model, long o_order_num) {
-		System.out.println("HrController selectOrderr() start..");
+	public String selectOrderrBo(Model model, long o_order_num) {
+		System.out.println("HrController selectOrderrBo() start..");
 		
 		Orderr orderr = new Orderr();
 		orderr = os.selectOrderr(o_order_num);
-		System.out.println("HrController selectOrderr() orderr.getM_name() -> "+orderr.getM_name());
+		System.out.println("HrController selectOrderrBo() orderr.getM_name() -> "+orderr.getM_name());
 		
 		model.addAttribute("orderr", orderr);
 		
-		System.out.println("HrController selectOrderr() end..");
+		System.out.println("HrController selectOrderrBo() end..");
 		return "/hr/boOrderDetail";
 	}
 	
-	// BO 주문상세 - 취소처리
+	// BO 주문상세 - 취소처리 (1 -> 5)
 	// 주문 접수 상태일 때, 취소처리 버튼 클릭 시 주문상태값 취소로 변경
 	@ResponseBody
 	@RequestMapping("/statusCancellation")
@@ -97,7 +101,7 @@ public class HrController {
 		System.out.println("HrController statusCancellation() end..");
 		return stringResult;
 	}
-	// BO 주문상세 - 배송완료
+	// BO 주문상세 - 배송완료 (2 -> 3)
 	// 배송중 상태일 때, 배송완료 버튼 클릭 시 주문상태값 배송완료로 변경
 	@ResponseBody
 	@RequestMapping("/statusDelivered")
@@ -112,7 +116,7 @@ public class HrController {
 		System.out.println("HrController statusDelivered() end..");
 		return stringResult;
 	}
-	// BO 주문상세 - 구매확정
+	// BO 주문상세 - 구매확정 (3 -> 4)
 	// 배송완료 상태일 때, 구매확정 버튼 클릭 시 주문상태값 구매확정로 변경
 	@ResponseBody
 	@RequestMapping("/statusConfirmation")
@@ -137,7 +141,7 @@ public class HrController {
 		System.out.println("HrController boShippingPopup() end..");
 		return "/hr/boShippingPopup";
 	}
-	// BO 주문상세 - 발송처리
+	// BO 주문상세 - 발송처리 (1 -> 2)
 	@ResponseBody
 	@RequestMapping("/statusShipping")
 	public String statusShipping(Orderr orderr) {
@@ -161,7 +165,7 @@ public class HrController {
 		System.out.println("HrController boExchangePopup() end..");
 		return "/hr/boExchangePopup";
 	}
-	// BO 주문상세 - 교환처리
+	// BO 주문상세 - 교환처리 (3 -> 6)
 	@ResponseBody
 	@RequestMapping("/statusExchange")
 	public String statusExchange(Orderr orderr) {
@@ -185,7 +189,7 @@ public class HrController {
 		System.out.println("HrController boReturnPopup() end..");
 		return "/hr/boReturnPopup";
 	}
-	// BO 주문상세 - 반품처리
+	// BO 주문상세 - 반품처리 (3 -> 7)
 	@ResponseBody
 	@RequestMapping("/statusReturn")
 	public String statusReturn(Orderr orderr) {
@@ -198,5 +202,89 @@ public class HrController {
 		
 		System.out.println("HrController statusReturn() end..");
 		return stringResult;
+	}
+	// BO 주문상세 - 상품목록
+	// boOrderProductPopup.jsp
+	@RequestMapping("/boOrderDetail/List")
+	public String selectOrderProduct(Model model, long o_order_num) {
+		System.out.println("HrController selectOrderProduct() start..");
+		
+		List<OrderDetail> orderDetailList = os.selectOrderProduct(o_order_num);
+		System.out.println("HrController orderDetailList.size() -> "+ orderDetailList.size());
+
+		model.addAttribute("cnt", orderDetailList.size());
+		model.addAttribute("orderDetailList", orderDetailList);
+
+		System.out.println("HrController selectOrderProduct() end..");
+		return "/hr/boOrderProductPopup";
+	}
+	
+	
+	// FO 주문상세
+	// foOrderDetail.jsp
+	@RequestMapping(value = "foOrderDetail")
+	public String selectOrderrFo(Model model, long o_order_num) {
+		System.out.println("HrController selectOrderrFo() start..");
+		
+		Orderr orderr = new Orderr();
+		orderr = os.selectOrderr(o_order_num);
+		System.out.println("HrController selectOrderrFo() orderr.getM_name() -> "+orderr.getM_name());
+		
+		model.addAttribute("orderr", orderr);
+		
+		System.out.println("HrController selectOrderrFo() end..");
+		return "/hr/foOrderDetail";
+	}
+	
+	// FO 선물하기 - 화면
+	// foGivingGift.jsp
+	@RequestMapping("foGivingGift")
+	public String givingGift(Model model, Member member, HttpSession session, int nb_num, int quantity) {
+		System.out.println("HrController givingGift() start..");
+		
+		// model에 회원 정보 저장
+		member = (Member) session.getAttribute("member");
+		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
+		model.addAttribute("member", member);
+		
+		// model에 상품 정보 저장
+		NewBook newbook = ns.selectNewbook(nb_num);
+		System.out.println("HrController givingGift() newbook.getNb_title()"+newbook.getNb_title());
+		model.addAttribute("newbook", newbook);
+		
+		// model에 선택 수량 저장
+		model.addAttribute("quantity", quantity);
+		
+		System.out.println("HrController givingGift() end..");
+		return "/hr/foGivingGift";
+	}
+	
+	// FO 선물하기 - 액션
+	@RequestMapping("foGivingGiftAction")
+	public String givingGiftAction(Model model, Member member, HttpSession session, Orderr orderr, OrderGift orderGift) {
+		System.out.println("HrController givingGiftAction() start..");
+		
+		// model에 회원 정보 저장
+		member = (Member) session.getAttribute("member");
+		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
+		model.addAttribute("member", member);
+		
+		// INSERT - ORDERR
+		// int oResult = os.insertOrderr(orderr);
+		
+		// INSERT - ORDER_DETAIL
+		// int odResult = os.insertOrderDetail(orderr);
+		
+		// INSERT - ORDER_GIFT
+		// int ogResult = os.insertOrderGift(orderGift);
+		
+		// UPDATE - MEMBER
+		// int mResult = os.updateMember(member);
+		
+		// INSERT - POINT_LIST
+		// int plResult = insertPointList(member, orderr);
+		
+		System.out.println("HrController givingGiftAction() end..");
+		return "/hr/foGivingGiftAction";
 	}
 }

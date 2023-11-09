@@ -16,5 +16,5 @@ public class Quiz {					//퀴즈
 	private String 	q_select2;		//객관식선지2
 	private String 	q_select3;		//객관식선지3
 	private String 	q_select4;		//객관식선지4
-	private int    	q_answer;		//객관식정답
+	private int    	q_answer;		//객관식정답 
 }

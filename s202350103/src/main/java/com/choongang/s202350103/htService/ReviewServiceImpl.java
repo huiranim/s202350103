@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.htDao.ReviewDao;
+import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
 import lombok.RequiredArgsConstructor;
@@ -53,6 +55,59 @@ public class ReviewServiceImpl implements ReviewService {
 		double average = rd.reviewAverage();
 		System.out.println("ReviewServiceImpl reviewAverage() average--> " + average);
 		return average;
+	}
+
+	@Override
+	public List<Orderr> reviewWriteList(Orderr orderr) {
+		System.out.println("ReviewServiceImpl reviewWriteList() Start...");
+		List<Orderr> reviewWriteList = rd.reviewWriteList(orderr);
+		System.out.println("ReviewServiceImpl reviewWriteList() reviewWriteList.getO_order_num --> "+ reviewWriteList.size());
+		return reviewWriteList;
+	}
+
+	@Override
+	public int totalReviewCnt(Orderr orderr) {
+		System.out.println("ReviewServiceImpl totalReviewCnt() Start..." );
+		int total = rd.myReviewTotal(orderr);
+		System.out.println("ReviewServiceImpl totalReviewCnt() total--> " + total);
+		return total;
+	}
+
+	@Override
+	public int totalReviewedCnt(Review review) {
+		System.out.println("ReviewServiceImpl totalReviewedCnt() Start..." );
+		int total = rd.myReviewedTotal(review);
+		System.out.println("ReviewServiceImpl totalReviewedCnt() total--> " + total);
+		return total;
+	}
+
+	@Override
+	public List<Review> reviewedWriteList(Review review) {
+		System.out.println("ReviewServiceImpl reviewedWriteList() Start...");
+		List<Review> reviewedWriteList = rd.reviewedWriteList(review);
+		System.out.println("ReviewServiceImpl reviewedWriteList() reviewedWriteList.size() --> "+ reviewedWriteList.size());
+		return reviewedWriteList;
+	}
+
+	@Override
+	public Review writedReview(Review review) {
+		System.out.println("ReviewServiceImpl writedReview() Start....");
+		Review writedReview = rd.writedReview(review);
+		return writedReview;
+	}
+
+	@Override
+	public int reviewUpdate(Review review) {
+		System.out.println("ReviewServiceImpl reviewUpdate() Start....");
+		int result = rd.reviewUpdate(review);
+		return result;
+	}
+
+	@Override
+	public int reviewDelete(Review review) {
+		System.out.println("ReviewServiceImpl reviewDelete() Start....");
+		int result = rd.reviewDelete(review);
+		return result;
 	}
 
 	

@@ -126,14 +126,13 @@ function valiForm() {
     }
 
     // 유효성 검사 통과 시  폼 제출
-    var con = confirm("수정하시겠습니까?")
+    var con = confirm("수정하시겠습니까? : 재 로그인 필요");
     
     if(con == true){
     	
-    	alert("수정 되었습니다.");
+    	alert("수정 되었습니다. 다시 로그인 해주세요.");
 	    return true;
     }else{
-    	
     	return false;
     }
     
@@ -143,6 +142,39 @@ function valiForm() {
 </script>
 
 
+<script type="text/javascript">
+	
+	// 회원 이미지 선택 팝업창
+	function memberImageSelect() {
+
+		// 화면 중앙 팝업창
+		var width = 600;
+		var height = 400;
+		var left = (window.innerWidth - width) / 2;
+		var top = (window.innerHeight - height) / 2;
+		
+		window.open("memberImageSelect", "이미지 선택", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+	}
+
+</script>
+
+
+<script type="text/javascript">
+
+	// 선택한 이미지로 변경
+	function changeImage(imageUrl) {
+	    var imageElement = document.getElementById("memberImage"); //  이미지의 ID를 가져옴
+	    imageElement.src = imageUrl; // 이미지의 src 속성을 선택한 이미지의 url 로 변경
+		
+	    // 변경한 이미지 url 을 임시 저장
+	    m_image = imageUrl;
+	    
+	    // input 태그에 이미지 url 노출
+	    var inputElement = document.getElementById("m_image");	// input 태그의 ID를 가져옴
+	    inputElement.value = m_image; // input 태그의 value 속성에 이미지 url 추가
+	}
+
+</script>
 
 </head>
 <body>
@@ -161,10 +193,36 @@ function valiForm() {
 	       </div>
 				</div>
 
-
 				<form action="memberUpdate" method="post" id="frm"
 					onsubmit="return valiForm();">
 					<input type="hidden" name="m_num" value="${member.m_num }">
+					<input type="hidden" id="m_image" name="m_image" value="${member.m_image }">
+					
+					<div class="col-lg-4">
+						<div class="input-group mb-8">
+								
+								<c:if test="${member.m_image == null}">
+									<span class="rounded border border-primary">
+										<a onclick="memberImageSelect();">
+											<img id="memberImage" src="../assets/images/memberImage/basick.jpg" width="180px" height="180px" alt="회원이미지" class="rounded">
+										</a>
+									</span>
+								</c:if>
+								
+								<c:if test="${member.m_image != null}">
+									<span class="rounded border border-primary">
+										<a onclick="memberImageSelect();">
+											<img id="memberImage" src="${member.m_image }" width="180px" height="180px" alt="회원이미지" class="rounded">
+										</a>
+									</span>
+								</c:if>
+								
+								
+						</div>
+					</div>
+					
+					
+					
 					<div class="col-lg-4">
 						<div class="input-group mb-8">
 							아이디 &nbsp;&nbsp; 
@@ -284,7 +342,7 @@ function valiForm() {
 						</div>
 					</div>
 					<hr>
-
+					<a href="memberQna?m_num=${member.m_num }">관리자문의</a>
 					<div class="btn btn-ghost-primary mb-2 d-grid gap-2 col-6 mx-auto ">
 						<button class="btn btn-primary" type="submit">회원 정보변경</button>
 					</div>
@@ -369,8 +427,7 @@ function valiForm() {
 			}
 		});
 	</script>
-
-
+	
 
 	<%@ include file="../common/footerFo.jsp"%>
 

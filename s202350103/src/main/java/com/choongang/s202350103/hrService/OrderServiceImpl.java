@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl selectOrderr() end..");
 		return orderr;
 	}
-	// BO 주문상세 - 취소처리
+	// BO 주문상세 - 취소처리 (1 -> 5)
 	@Override
 	public int statusCancellation(long o_order_num) {
 		System.out.println("OrderServiceImpl statusCancellation() start..");
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl statusCancellation() end..");
 		return result;
 	}
-	// BO 주문상세 - 배송완료
+	// BO 주문상세 - 배송완료 (2 -> 3)
 	@Override
 	public int statusDelivered(long o_order_num) {
 		System.out.println("OrderServiceImpl statusDelivered() start..");
@@ -71,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl statusDelivered() end..");
 		return result;
 	}
-	// BO 주문상세 - 구매확정
+	// BO 주문상세 - 구매확정 (3 -> 4)
 	@Override
 	public int statusConfirmation(long o_order_num) {
 		System.out.println("OrderServiceImpl statusConfirmation() start..");
@@ -82,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl statusConfirmation() end..");
 		return result;
 	}
-	// BO 주문상세 - 발송처리
+	// BO 주문상세 - 발송처리 (1 -> 2)
 	@Override
 	public int statusShipping(Orderr orderr) {
 		System.out.println("OrderServiceImpl statusShipping() start..");
@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl statusShipping() end..");
 		return result;
 	}
-	// BO 주문상세 - 교환처리
+	// BO 주문상세 - 교환처리 (3 -> 6)
 	@Override
 	public int statusExchange(Orderr orderr) {
 		System.out.println("OrderServiceImpl statusExchange() start..");
@@ -104,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl statusExchange() end..");
 		return result;
 	}
-	// BO 주문상세 - 반품처리
+	// BO 주문상세 - 반품처리 (3 -> 7)
 	@Override
 	public int statusReturn(Orderr orderr) {
 		System.out.println("OrderServiceImpl statusReturn() start..");
@@ -114,6 +114,21 @@ public class OrderServiceImpl implements OrderService {
 		
 		System.out.println("OrderServiceImpl statusReturn() end..");
 		return result;
+	}
+	// BO 주문상세 - 상품목록
+	@Override
+	public List<OrderDetail> selectOrderProduct(long o_order_num) {
+		System.out.println("OrderServiceImpl selectOrderProduct() start..");
+		
+		List<OrderDetail> orderDetailList = od.selectOrderProduct(o_order_num);
+		
+		System.out.println("OrderServiceImpl orderDetailList.size() -> "+ orderDetailList.size());
+		for(OrderDetail orderDetail : orderDetailList) {
+			System.out.println("selectOrderProduct nb_title->"+orderDetail.getNb_title());
+			System.out.println("selectOrderProduct o_de_count->"+orderDetail.getO_de_count());
+	    }
+		System.out.println("OrderServiceImpl selectOrderProduct() end..");
+		return orderDetailList;
 	}
 
 

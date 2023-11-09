@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.oracle.oBootTest.AttendanceMapper">
+<mapper namespace="com.choongang.s202350103.AttendanceMapper">
 	<select id="shTotalAtt" resultType="int">
 		Select Count(*) From attendance
 	</select>
@@ -27,4 +27,17 @@
 	<select id="shAttendance" parameterType="int" resultType="Attendance">
 		Select * From attendance Where a_num=#{eNum}
 	</select>
+	
+	<select id="shStartMonth" parameterType="int" resultType="int">
+		Select substr(a_sdate,6,2) From attendance Where a_num=#{eNum}
+	</select>
+	
+	<select id="shStartYear" parameterType="int" resultType="int">
+		Select substr(a_sdate,1,4) From attendance Where a_num=#{eNum}
+	</select>
+	
+	<insert id="shCreateAtt" parameterType="attendance">
+		Insert into attendance Values (event_num_seq.nextval, #{a_title}, #{a_sdate},#{a_edate},#{a_image},#{a_point},#{a_add},#{a_addpoint})
+	</insert>
+	
 </mapper>

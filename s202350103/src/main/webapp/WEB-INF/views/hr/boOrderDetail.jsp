@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../common/headerBo.jsp" %>
 
 <!DOCTYPE html> 
@@ -122,6 +120,15 @@
 				alert('배송완료 상태일 때만 반품 처리 가능합니다.')
 			}
 		}
+		
+		// 주문상품목록
+		function ProductPopup(p_order_num) {
+			alert("ProductPopup p_order_num -> "+p_order_num);
+			
+			window.open("/boOrderDetail/List?o_order_num=${orderr.o_order_num}",
+					"주문 상품 목록",
+					"width=500 height=400");
+		}
 	</script>
 </head>
 <body>
@@ -135,12 +142,12 @@
          <!-- table -->
            <!-- Button -->
            <div class="order-operating-buttons">
-              <input type="button" class="btn btn-success mb-2" value="발송" onclick="statusShipping(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="발송"    onclick="statusShipping(${orderr.o_order_num})">
               <input type="button" class="btn btn-success mb-2" value="배송완료" onclick="statusDelivered(${orderr.o_order_num})">
               <input type="button" class="btn btn-success mb-2" value="구매확정" onclick="statusConfirmation(${orderr.o_order_num})">
-              <input type="button" class="btn btn-success mb-2" value="취소" onclick="statusCancellation(${orderr.o_order_num})">
-              <input type="button" class="btn btn-success mb-2" value="교환" onclick="statusExchange(${orderr.o_order_num})">
-              <input type="button" class="btn btn-success mb-2" value="반품" onclick="statusReturn(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="취소"    onclick="statusCancellation(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="교환"    onclick="statusExchange(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="반품"    onclick="statusReturn(${orderr.o_order_num})">
            </div>
            
          <!-- 주문 정보 -->
@@ -194,7 +201,11 @@
             <table class="table text-nowrap">
             <tr>
                      <th class="table-light">대표 상품명</th>
-                     <td class="align-middle">${orderr.nb_title}</td>
+                     <td class="align-middle">
+                        <div>
+                        	<h5 class="fs-6 mb-0" onclick="ProductPopup(${orderr.o_order_num})"><a class="text-inherit">${orderr.nb_title}</a></h5>
+                         </div>
+                     </td>                     
                      <th class="table-light">주문수량</th>
                      <td class="align-middle"><fmt:formatNumber value="${orderr.o_order_count}" groupingUsed="true"/></td>
             </tr>
@@ -240,6 +251,9 @@
             </tr>
             </table>
          </div>
+         <!-- 목록 버튼 -->
+         <!-- <input type="button" value="목록" class="btn btn-secondary mb-2"
+         		onclick="location.href='/boOrderList'"> -->
  </div>
  </div>
  </div>
