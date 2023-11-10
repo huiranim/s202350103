@@ -244,12 +244,12 @@ public class HrController {
 		
 		// model에 회원 정보 저장
 		member = (Member) session.getAttribute("member");
-		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
+		System.out.println("HrController givingGift() member.getM_name() -> "+member.getM_name());
 		model.addAttribute("member", member);
 		
 		// model에 상품 정보 저장
 		NewBook newbook = ns.selectNewbook(nb_num);
-		System.out.println("HrController givingGift() newbook.getNb_title()"+newbook.getNb_title());
+		System.out.println("HrController givingGift() newbook.getNb_title() -> "+newbook.getNb_title());
 		model.addAttribute("newbook", newbook);
 		
 		// model에 선택 수량 저장
