@@ -37,12 +37,12 @@
 								html += "<div class='col-md-4 col-12'>";
 								html += "<div class='text-center position-relative'>";
 								/* 도서 이미지 */
-								html += "<a href='newbookDetail?nb_num="+this.ob_num+"'>";
+								html += "<a href='foOldBookDetail?ob_num="+this.ob_num+"'>";
 								html += "<img src='"+this.nb_image+"' alt='도서 썸네일' class='mb-3 img-fluid' style='width: 13rem;'>";
 								html += "</a></div></div>";
 								html += "<div class='col-md-8 col-12 flex-grow-1'>";
 								/* 도서 제목 */
-								html += "<h1 class='fs-3 mb-3'><a href='newbookDetail?nb_num="+this.ob_num+"' class='text-inherit text-decoration-none'>"+this.nb_title+"</a></h1>";
+								html += "<h1 class='fs-3 mb-3'><a href='foOldBookDetail?ob_num="+this.ob_num+"' class='text-inherit text-decoration-none'>"+this.nb_title+"</a></h1>";
 								/* 도서 지은이, 출판사, 출간일 */
 								html += "<h3 class='fs-6 mb-3'>"+this.nb_writer +" | "+ this.nb_publisher +" | "+ this.nb_publi_date +"</h3>";
 								html += "<div><div class='mt-8 mb-3'> <div>";
@@ -152,7 +152,15 @@
 		 <div class="product" id="product" style="width: 20rem;">
 		    <div class="zoom" onmousemove="zoom(event)"
 		       style="background-image: url(${newbook.nb_image})">
-		       <!-- img --><img src="${newbook.nb_image}" alt="${newbook.nb_title}">
+		       <c:set var="nb_image" value="${newbook.nb_image }"/>
+		       <c:choose>
+               	<c:when test="${fn:contains(nb_image, 'http')}">
+               		<img src="${newbook.nb_image}" alt="${newbook.nb_title}">
+               	</c:when>
+               	<c:otherwise>
+               		<img src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" alt="${newbook.nb_title}">
+               	</c:otherwise>
+               </c:choose>
 		    </div>
 		 </div>
 	  </div>
