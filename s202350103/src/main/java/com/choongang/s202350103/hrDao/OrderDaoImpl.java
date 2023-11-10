@@ -205,6 +205,12 @@ public class OrderDaoImpl implements OrderDao {
 			// INSERT - POINT_LIST
 			plResult = session.insert("hrInsertPointListG", orderr);
 			
+			System.out.println("OrderDaoImpl givingGiftAction() oResult -> "+oResult);
+			System.out.println("OrderDaoImpl givingGiftAction() odResult -> "+odResult);
+			System.out.println("OrderDaoImpl givingGiftAction() ogResult -> "+ogResult);
+			System.out.println("OrderDaoImpl givingGiftAction() mResult -> "+mResult);
+			System.out.println("OrderDaoImpl givingGiftAction() plResult -> "+plResult);
+			
 			if(oResult == 1 && odResult == 1 && ogResult == 1
 					 && mResult == 1 && plResult == 1) {
 				result = 1;
