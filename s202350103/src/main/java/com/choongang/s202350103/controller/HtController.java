@@ -88,8 +88,8 @@ public class HtController {
 			return "yb/loginForm";
 		}
 
-		int reviewTotal = rs.reviewTotal();
-		double reviewAverage = rs.reviewAverage();
+		int reviewTotal = rs.reviewTotal(review);
+		double reviewAverage = rs.reviewAverage(review);
 
 		review.setR_review_average(reviewAverage);
 		review.setR_review_total(reviewTotal);
@@ -124,7 +124,8 @@ public class HtController {
 		System.out.println("Controller Start review.getEnd->" + review.getEnd());
 
 		List<Review> listReview = rs.listReview(review);
-
+		
+		model.addAttribute("member",member);
 		model.addAttribute("listReview", listReview);
 		model.addAttribute("review", review);
 		// model.addAttribute("reviewTotal", reviewTotal);
@@ -162,7 +163,7 @@ public class HtController {
 		 
 		model.addAttribute("page", page);
 		model.addAttribute("reviewWriteList", reviewWriteList);
-		 
+		model.addAttribute("member",member); 
 		  
 		return "/ht/boMyReviewList";
 	}
@@ -184,10 +185,13 @@ public class HtController {
 		 // orderr 전체 Count ?
 		 int totalReviewedCnt = rs.totalReviewedCnt(review);
 		 System.out.println("totalReviewedCnt--> " + totalReviewedCnt);
-		  
+		 System.out.println("currentPage--> " + currentPage);
+		 
 		 // Paging 작업 
 		 Paging page = new Paging(totalReviewedCnt, currentPage);
 		 //Parameter orderr --> Page만 추가 setting
+		 System.out.println("Start--> " + page.getStart());
+		 System.out.println("End--> " + page.getEnd());
 		 review.setStart(page.getStart());//시작시 1 
 		 review.setEnd(page.getEnd()); // 시작시 5
 		 
@@ -199,7 +203,7 @@ public class HtController {
 		 
 		 model.addAttribute("page", page);
 		 model.addAttribute("reviewedWriteList", reviewedWriteList);
-		 
+		 model.addAttribute("member",member);
 		  
 		 return "/ht/boMyReviewedList";
 	}
@@ -216,8 +220,11 @@ public class HtController {
 			return "yb/loginForm";
 		}
 		
+		Review reviewOne = rs.reviewOne(review);
 		
+		model.addAttribute("member",member);
 		model.addAttribute("review", review);
+		model.addAttribute("reviewOne", reviewOne);
 		
 		return "/ht/boReviewWriteForm";
 	}
@@ -238,6 +245,7 @@ public class HtController {
 		System.out.println("HtController reviewInsert result-->" + result);
 		
 		model.addAttribute("result", result);
+		model.addAttribute("member",member);
 		
 		return "/ht/boReviewWritePro";
 	}
@@ -259,7 +267,7 @@ public class HtController {
 		writedReview.setCurrentPage(review.getCurrentPage());
 		
 		model.addAttribute("writedReview", writedReview);
-		
+		model.addAttribute("member",member);
 		
 		return "/ht/boReviewUpdateForm";
 	}
@@ -283,7 +291,7 @@ public class HtController {
 		
 		model.addAttribute("result", result);
 		model.addAttribute("review", review);
-		
+		model.addAttribute("member",member);
 		
 		return "/ht/boReviewUpdatePro";
 	}
@@ -305,7 +313,7 @@ public class HtController {
 		
 		model.addAttribute("result", result);
 		model.addAttribute("review", review);
-		
+		model.addAttribute("member",member);
 		
 		return "/ht/boReviewDelete";
 	}

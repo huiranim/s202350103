@@ -22,17 +22,24 @@
 	</insert>
 	
 	<select id="htReviewTotal" parameterType="Review" resultType="int">
-		SELECT count(*) FROM Review
+		SELECT count(*) 
+		FROM   Review
+		WHERE  nb_num = ${nb_num}
 	</select>
 	
 	
 	<select id="htReviewRating" parameterType="Review" resultType="int">
-		SELECT count(*) FROM Review Where r_rating = #{r_rating}
+		SELECT count(*) 
+		FROM   Review 
+		Where  r_rating = #{r_rating}
+		AND    nb_num = ${nb_num}
 	</select>	
 	
 	
-	<select id="htReviewAverage"  resultType="double">
-		SELECT ROUND(AVG(r_rating),0) FROM review
+	<select id="htReviewAverage" parameterType="Review" resultType="double">
+		SELECT ROUND(AVG(r_rating),0) 
+		FROM   review
+		WHERE  nb_num = ${nb_num}
 	</select>	
 	
 	
@@ -42,7 +49,7 @@
 		(
 			SELECT rownum rn , a.*
 			FROM
-                (SELECT r.*,m.m_name,nb.nb_image
+                (SELECT r.*, m.m_name, m.m_image
                  FROM 
 					 Review r	
                     ,orderr o
@@ -109,18 +116,23 @@
 	 </select>
 	 
 	 <select id="htMyReviewedList" parameterType="Review" resultType="Review">
-		SELECT r.*, n.nb_title, n.nb_image, od.o_de_count, o.o_order_date
-		FROM   review        r,
-		       orderr        o,
-		       newbook       n,
-		       order_detail  od
-		WHERE  r.o_order_num = o.o_order_num
-		AND    o.o_order_num = od.o_order_num
-		AND    r.nb_num      = n.nb_num
-		AND    o.o_order_num IN (SELECT oo.o_order_num
-		                         FROM   orderr oo
-		                         WHERE  oo.m_num = #{m_num})
-		order by o_order_date
+		SELECT *
+		FROM
+		( 
+			SELECT rownum rn, r.*, n.nb_title, n.nb_image, od.o_de_count, o.o_order_date
+			FROM   review        r,
+			       orderr        o,
+			       newbook       n,
+			       order_detail  od
+			WHERE  r.o_order_num = o.o_order_num
+			AND    o.o_order_num = od.o_order_num
+			AND    r.nb_num      = n.nb_num
+			AND    o.o_order_num IN (SELECT oo.o_order_num
+			                         FROM   orderr oo
+			                         WHERE  oo.m_num = #{m_num})
+			order by o_order_date
+		    )a
+		WHERE rn BETWEEN #{start} and #{end}
 	 </select>
 	 
 	 <select id="htMyReviewedCnt" parameterType="Review" resultType="int">
@@ -165,5 +177,15 @@
 		WHERE  o_order_num = #{o_order_num}
 		AND    nb_num      = #{nb_num}
 	 </delete>
+	 
+	  <select id="htReviewOne" parameterType="Review" resultType="Review">
+		   SELECT o.o_order_num, nb.nb_title, nb.nb_image
+			FROM   order_detail  od,
+			       newbook       nb,
+			       orderr        o
+			WHERE  o.o_order_num   =  od.o_order_num
+			AND    od.nb_num       =  nb.nb_num
+			AND    o.o_order_num   =  #{o_order_num}
+	  </select>
 	
 </mapper>

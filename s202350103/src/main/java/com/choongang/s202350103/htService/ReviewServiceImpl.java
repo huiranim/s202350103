@@ -34,9 +34,9 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 	
 	@Override
-	public int reviewTotal() {
+	public int reviewTotal(Review review) {
 		System.out.println("ReviewServiceImpl reviewTotal() Start..." );
-		int total = rd.reviewTotal();
+		int total = rd.reviewTotal(review);
 		System.out.println("ReviewServiceImpl reviewTotal() total--> " + total);
 		return total;
 	}
@@ -50,9 +50,9 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public double reviewAverage() {
+	public double reviewAverage(Review review) {
 		System.out.println("ReviewServiceImpl reviewAverage() Start..." );
-		double average = rd.reviewAverage();
+		double average = rd.reviewAverage(review);
 		System.out.println("ReviewServiceImpl reviewAverage() average--> " + average);
 		return average;
 	}
@@ -108,6 +108,13 @@ public class ReviewServiceImpl implements ReviewService {
 		System.out.println("ReviewServiceImpl reviewDelete() Start....");
 		int result = rd.reviewDelete(review);
 		return result;
+	}
+
+	@Override
+	public Review reviewOne(Review review) {
+		System.out.println("ReviewServiceImpl reviewOne() Start....");
+		Review reviewOne = rd.reviewOne(review);
+		return reviewOne;
 	}
 
 	
