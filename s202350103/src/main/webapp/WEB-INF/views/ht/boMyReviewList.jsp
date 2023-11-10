@@ -54,7 +54,8 @@
 	                      <div class="ms-4">
 	                          <h5 class="mb-0 h6 h6">${orderList.nb_title}</h5>
 	                         <p class="mb-0 small">수량 : ${orderList.o_de_count}
-	                         <p class="mb-0 small">구매일자 : ${orderList.o_order_date}
+	                         <p class="mb-0 small">구매일자 :
+	                         <fmt:formatDate value="${orderList.o_order_date}" pattern="yyyy-MM-dd"/>
 	                        </p>
 	                      </div>
 	                   </div>
