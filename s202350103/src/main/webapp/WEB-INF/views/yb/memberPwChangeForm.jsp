@@ -7,6 +7,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style type="text/css">
+	#passwordToggler {
+		border: 0px;
+		background: none;
+	}
+</style>
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
    function passwordChk(m_pw, m_pw2) {
@@ -45,36 +51,76 @@
 </script>
 
 <body>		
-<%@ include file="../common/sideFo.jsp" %>
-
-		<hr class="my-10">
-           <div class="container" style="text-align: center;">
-             <h5 class="mb-4">비밀번호 변경하기</h5>
-             <div class=" row row-cols-2 row-cols-lg-2" action="memberPwChange">
-             	<div>
-	               <div class="mb-3 col">
-	                 <label class="form-label">새 비밀번호</label>
-	                 <input type="password" class="form-control" placeholder="**********" id="m_pw" name="m_pw" required="required">
-	               </div> <p>
-	               <div class="mb-3 col">
-	              	 <label class="form-label">비밀번호 확인</label>
-	                 <input type="password" class="form-control" placeholder="**********" id="m_pw2" name="m_pw2" required="required"> 
-	                 <input type="hidden" name="m_num" value="${m_num }" id="m_num"> 
-	               </div>
-	               <button class="btn btn btn-primary btn-sm" 
-	                 		onclick="passwordChk(m_pw.value, m_pw2.value)" >비밀번호 확인</button>
-	               <div id="msg" style="text-align: center;"></div>
-	               <div class="col-12">
-	                 <p class="mb-4">Can’t remember your current password?<a href="#"> Reset your password.</a></p>
-	                 <button type="submit" class="btn btn btn-primary btn-sm" id="passwordSave" value="비밀번호 저장" disabled="true" onclick="passwordSave(m_num.value, m_pw.value)">비밀번호 저장</button>
-	               </div>
-             	</div>
-             </div>
-           </div>
-
-
+<section class="my-lg-14 my-8" style="width: 150%; ">
+    <div class="container">
+      <!-- row -->
+      <div class="row justify-content-center align-items-center">
+        <!-- col -->
+        
+        <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1" style="align-items: center;">
+          <div class="mb-lg-9 mb-5">
+            <h1 class="mb-1 h2 fw-bold" style="text-align: center;">비밀번호 변경</h1>
+            <p></p>
+          </div>
+		  <div id="msg" style="text-align: center;"></div><p>
+<!-- 		<form action="memberLogin" method="get" name="frm" onsubmit="loginChk(m_id.value, m_pw.value)"> -->
+            <div class="row g-3">
+              <!-- row -->
+			  <div>새 비밀번호 </div>
+              <div class="col-12">
+                <!-- input -->
+                <input type="password" placeholder="**********" id="m_pw" name="m_pw" required="required" class="form-control">
+              </div>
+              <div class="col-12">
+	                <!-- input -->
+	              <div>비밀번호 확인</div>
+	              <div class="password-field position-relative">
+	      			<input type="password" placeholder="**********" id="m_pw2" name="m_pw2" required="required" class="form-control">
+	      			<input type="hidden" name="m_num" value="${m_num }" id="m_num">
+	      			<span><button id="passwordToggler" class="bi bi-eye-slash"></button></span>
+	    		  </div>
+              </div>
+     		  <div class="col-12 d-grid"> <button class="btn btn-primary" onclick="passwordChk(m_pw.value, m_pw2.value)" id="">비밀번호 확인</button>
+             	 <!-- link -->
+           	  </div>
+			  <div id="msg" style="text-align: center;"></div>	
+             
+<!--               <div class="col-12 d-grid"><input type="submit" class="btn btn-primary"  value="로그인"></div> -->
+              <!-- btn -->
+             <div class="col-12 d-grid"> <button class="btn btn-primary" onclick="passwordChk(m_pw.value, m_pw2.value)" id="passwordSave" disabled="true">비밀번호 저장</button>
+             	 <!-- link -->
+           	 </div>
+            
+              
+<!-- 		</form> -->
+             
+        
+        </div>
+       </div>
+      </div>
+   </div>
+</section>
 
 
 <%@ include file="../common/footerFo.jsp" %>
 </body>
+<script type="text/javascript">
+
+	// 비밀번호 type 바꾸기
+	const passwordToggler = document.getElementById("passwordToggler");
+	const pwInput = document.getElementById("m_pw2");
+	
+	passwordToggler.addEventListener("click", function() {
+	
+	  const currentType = pwInput.type;
+	
+	  if (currentType === "text") {
+		  pwInput.type = "password";
+	  } else if (currentType === "password") {
+		  pwInput.type = "text";
+	  }
+	});
+
+</script>
+
 </html>

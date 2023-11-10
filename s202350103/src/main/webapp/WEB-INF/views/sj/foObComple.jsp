@@ -21,7 +21,8 @@
 		신청날짜 :    ${oldBook.ob_report_date }			 <br>
 		판매 택배회사: ${oldBook.ob_trans_com }				<br>
 		판매 운송장 번호:	${oldBook.ob_trans_num }			<br>			
-				
+		회원번호 : ${oldBook.m_num }	<br>
+			
  </p>
  
 			<p class="text-center fs-4 ">

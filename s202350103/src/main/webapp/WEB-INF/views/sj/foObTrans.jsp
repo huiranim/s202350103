@@ -18,12 +18,12 @@
 
 <form action="writeOb" method="post">
 <p class="text-center fs-1 ">중고 도서 운송장 등록 </p>
-					
+		<input type="hidden" name="m_num" value="${oldBook.m_num }">
 		<input type="hidden" name="nb_num" value="${oldBook.nb_num }">
-
+		<input type="hidden" name="ob_status" value="1">
 		<input type="hidden" name="ob_acc_num" value="${oldBook.ob_acc_num }">
 		<input type="hidden" name="ob_acc_name" value="${oldBook.ob_acc_name }">
-<%-- 	<input type="date" name="ob_report_date" value="${oldBook.ob_report_date }" >
+<%-- 	<input type="hidden" name="ob_report_date" value="${oldBook.ob_report_date }" >
  --%>		
          <input type="hidden" name="nb_num" value="${oldBook.nb_num }">
 		
@@ -43,7 +43,8 @@
 		</select> 
  
 
-  <input type="number" name="ob_trans_num" class="form-control" placeholder="운송장 번호를 입력해주세요" aria-label="Text input with dropdown button">
+  <input type="number" name="ob_trans_num" class="form-control" placeholder="운송장 번호를 입력해주세요" 
+    required="required" aria-label="Text input with dropdown button">
  </div> 
  
 <br>

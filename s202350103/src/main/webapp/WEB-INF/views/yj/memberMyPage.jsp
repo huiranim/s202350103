@@ -17,7 +17,7 @@
      
       <div class="col-md-4">
         <div class="card mb-3">
-       		 <a href="memberPointList?m_num=${member.m_point }">
+       		 <a href="memberPointList?m_num=${member.m_num }">
           <div class="card-body">
          	<div class="group mb-10 ">
 		       

@@ -249,6 +249,18 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return memberPwChange;
 	}
+	@Override
+	public int memCount() {
+		System.out.println("MemberDaoImpl1 memCount() start...");
+		int memCount = 0;
+		try {
+			memCount = session.selectOne("ybMemCount");
+			System.out.println("MemberDaoImpl1 memCount() memCount -> " + memCount);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memCount() Exception -> " +e.getMessage());
+		}
+		return memCount;
+	}
 }
 	
 

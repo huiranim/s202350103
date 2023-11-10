@@ -11,7 +11,7 @@
 
 	<select id="totObCnt2" resultType="int">
 		SELECT Count(*) FROM oldbook
-		where ob_status = 2
+		where ob_status = 3
 	</select>
 
 	<select id="sjObListAll" resultType="OldBook" parameterType="OldBook">
@@ -19,8 +19,8 @@
 				SELECT *
 				FROM
 				(
-			        SELECT rownum rn , a.nb_title, a.nb_price ,
-			        a.nb_writer, a.nb_publisher , a.nb_image , a.nb_publi_date,
+			        SELECT rownum rn , a.nb_title, a.nb_price , a.m_num ,
+			        a.nb_writer, a.nb_publisher , a.nb_image , TO_CHAR(a.nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date,
 			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
 			         a.nb_page , a.nb_size,
 				        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
@@ -31,7 +31,7 @@
 	                   WHERE  n.nb_num = o.nb_num 
 	                           order by o.ob_num) a  
 				 )  
-		 		WHERE ob_status IN  2
+		 		WHERE ob_status IN  3
 	
 	 	  ]]>	
 	
@@ -80,8 +80,8 @@ select *
 	
 	<insert id="insertOldBook" parameterType="OldBook">
 		Insert into 
-		   oldbook(    ob_num,                     nb_num,    ob_acc_name,    ob_acc_num,     ob_trans_com,   ob_trans_num,   ob_report_date ) 
-		   values ( OLDBOOK_OB_NUM_SEQ.nextval , #{nb_num} ,#{ob_acc_name} , #{ob_acc_num},  #{ob_trans_com},#{ob_trans_num} , sysdate )
+		   oldbook(    ob_num,                     nb_num,    m_num    ,     ob_acc_name,    ob_acc_num, ob_status ,      ob_trans_com,   ob_trans_num,   ob_report_date ) 
+		   values ( OLDBOOK_OB_NUM_SEQ.nextval , #{nb_num} , #{m_num} , #{ob_acc_name} , #{ob_acc_num},#{ob_status} ,  #{ob_trans_com},#{ob_trans_num} , sysdate )
 	</insert>
 
 	<select id="SelectAcc" resultType="OldBook">

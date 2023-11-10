@@ -20,12 +20,31 @@
 	.rate input input:checked ~ label:hover,
 	.rate input:checked ~ .rate label:hover ~ label,  
 	.rate label:hover ~ input:checked ~ label { color: #f73c32 !important;  } 
+	  #ht img {
+			    width: 200px; /* 이미지의 가로 크기 조절 */
+			    height: auto; /* 세로 크기를 가로 크기에 맞게 자동으로 조절 */
+ 			  }
+  	#ht .text-truncate {
+    					font-size: 18px; /* 텍스트 크기 조절 */
+  						}
+   .text-truncate {
+    font-weight: bold;
+  					}
 </style>
 </head>
 <body>
  <form action="reviewWritePro">
  	 <input type="hidden" name="o_order_num" value="${review.o_order_num}">
  	 <input type="hidden" name="currentPage" value="${review.currentPage}">
+ 	 
+ 	
+    <div id="ht" class="card-body py-8 text-left">
+      <img src="${reviewOne.nb_image}" alt="Grocery Ecommerce Template"
+        class="mb-3">
+      <div class="text-truncate">${reviewOne.nb_title}</div>
+    </div>
+	
+ 	 
 	 <div>
 	   <!-- rating -->
 	   <h3 class="mb-5">리뷰 작성</h3>

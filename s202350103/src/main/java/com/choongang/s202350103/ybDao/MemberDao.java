@@ -38,5 +38,7 @@ public interface MemberDao {
 
 	Member 				memberPwChange(String m_num, String m_pw);
 
+	int       			memCount();
+
 
 }

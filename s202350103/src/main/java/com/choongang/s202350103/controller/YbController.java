@@ -68,10 +68,55 @@ public class YbController {
 	
 	// 로그인 창 이동
 	@GetMapping(value = "loginForm")
-	public String loginForm() {
+	public String loginForm(Member member, Model model) {
 		System.out.println("YbController login() start... ");
+		member =(Member) session.getAttribute("member");
+		if(member != null) {
+			model.addAttribute("member", member);
+			return "main";
+		}
+		
 		return "yb/loginForm";
 	}
+	
+	// 로그인 시 회원 체크 Ajax
+		@ResponseBody
+		@RequestMapping("/memberChk")
+		public String memberLoginChk(Member member, String chk_Id, String chk_Pw) {
+			System.out.println("YbController memberChk() start...");
+			member = ms.memberChk(chk_Id);
+			if(member != null ) {
+				System.out.println("YbController memberLoginChk member.m_id -> " + member.getM_id());
+				System.out.println("YbController memberLoginChk member.m_pw -> " + member.getM_pw());
+				System.out.println("YbContorller memberLoginChk member.m_wd -> " + member.getM_wd());
+				int m_wd = member.getM_wd();
+				String m_id = member.getM_id();
+				String m_pw = member.getM_pw();
+				System.out.println("YbController memberLoginChk m_id -> " + m_id);
+				System.out.println("YbController memberLoginChk m_pw -> " + m_pw);
+				System.out.println("YbController memberLoginChk chk_id -> " + chk_Id);
+				System.out.println("YbController memberLoginChk chk_Pw -> " + chk_Pw);
+				int result = 0;
+
+				if(chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 0) {
+					result = 1;
+					session.setAttribute("member", member);
+					System.out.println("YbController memberLoginChk member -> " + session.getId());
+				} else if(chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 1) {
+					result = 2;		
+				} else {
+					result = 0;
+				}
+		
+				System.out.println("YbController memberLoginChk result -> " + result);
+		
+				String strResult = Integer.toString(result);
+				return strResult;
+			
+			}else {
+				return "0";
+			}		
+		}
 	
 	// cookieSeession 이용 로그인
 	
@@ -110,7 +155,6 @@ public class YbController {
 		if (member != null) {
 			session.setAttribute("member", member);
 			System.out.println("YbController login() session -> " + session.getId());
-			
 			return "redirect:/";
 		} else {
 			 return "yb/loginForm";
@@ -136,17 +180,8 @@ public class YbController {
 	         System.out.println("logout Exception -> "+e.getMessage());
 	      }
 	      return "redirect:/";
-	   }
-	
-	
-	
-	// 마이페이지 이동
-	@GetMapping(value = "memberMyPage1")
-	public String memberMyPage1() {
-		System.out.println("YbController memberMyPage1() start...");
-		
-		return "yb/memberMyPage1";
 	}
+
 	// 비밀번호 찾기 페이지 이동
 	@GetMapping(value = "memberFindPwForm")
 	public String findMemberPw() {
@@ -253,12 +288,17 @@ public class YbController {
 		System.out.println("YbController memberPointList() start...");
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
-
+		
+		System.out.println("memberPointList member.getM_id -> " + member.getM_id());
+		System.out.println("memberPointList session -> " + session.getAttribute("member"));
+		
 		System.out.println("YbController memberPointList() member.getM_point -> " + member.getM_point());
 		// 포인트 리스트
 		List<PointList> memberPointList = ms.memberPointList(pointList);
 		System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
 		System.out.println("YbController memberPointList() point.type -> " + pointList.getType1());
+		
+		
 		model.addAttribute("memberPointList", memberPointList);
 		model.addAttribute("member", member);
 		return "yb/memberPointList";
@@ -331,44 +371,7 @@ public class YbController {
           return memberPw;
     }	
 	
-	// 로그인 시 회원 체크 Ajax
-	@ResponseBody
-	@RequestMapping("/memberChk")
-	public String memberLoginChk(Member member, String chk_Id, String chk_Pw) {
-		System.out.println("YbController memberChk() start...");
-		member = ms.memberChk(chk_Id);
-		if(member != null ) {
-			System.out.println("YbController memberLoginChk member.m_id -> " + member.getM_id());
-			System.out.println("YbController memberLoginChk member.m_pw -> " + member.getM_pw());
-			System.out.println("YbContorller memberLoginChk member.m_wd -> " + member.getM_wd());
-			int m_wd = member.getM_wd();
-			String m_id = member.getM_id();
-			String m_pw = member.getM_pw();
-			System.out.println("YbController memberLoginChk m_id -> " + m_id);
-			System.out.println("YbController memberLoginChk m_pw -> " + m_pw);
-			System.out.println("YbController memberLoginChk chk_id -> " + chk_Id);
-			System.out.println("YbController memberLoginChk chk_Pw -> " + chk_Pw);
-			int result = 0;
-
-			if(chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 0) {
-				result = 1;
-				session.setAttribute("member", member);
-				System.out.println("YbController memberLoginChk member -> " + session.getId());
-			} else if(chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 1) {
-				result = 2;		
-			} else {
-				result = 0;
-			}
 	
-			System.out.println("YbController memberLoginChk result -> " + result);
-	
-			String strResult = Integer.toString(result);
-			return strResult;
-		
-		}else {
-			return "0";
-		}		
-	}
 	// 인증 랜덤번호 발송 메서드
     private String certiNum() {
     	Random random = new Random();
@@ -477,7 +480,7 @@ public class YbController {
 		model.addAttribute("m_num", m_num);
 		return "yb/memberPwChangeForm";
 	}
-	// 비
+	// 인증 후 비밀번호 변경 
 	@GetMapping(value = "memberPwChange")
 	public String memberPwChange(String m_num, String m_pw, Member member) {
 		System.out.println("YbController memberPwChange() start..");
@@ -490,7 +493,8 @@ public class YbController {
 		session.invalidate(); // 세션 초기화
 		return "main"; 
 	}
-
+	
+	
 }
 	
 

@@ -33,6 +33,7 @@
               <div class="col-md-4 col-12">
                  <div class="text-center position-relative " >
                     <div class=" position-absolute top-0">
+                    <input type="hidden" name="m_num" value="${oldBook.m_num }">
                        <!-- badge --> <span class="badge bg-danger">새상품</span>
                        <input type="hidden"  name="nb_num" value="${oldBook.nb_num }" >
                     </div>
