@@ -24,7 +24,20 @@ public class OldBookServiceImpl implements OldbookService {
 			
 		return totObCnt;
 	}
+	@Override
+	public int totalOb2() {
+		
+		System.out.println("OldBookServiceImpl start total..");
 
+		int totObCnt2 = obd.totalOb2();
+		System.out.println("OldBookServiceImpl totalOb2 totObCnt2->"+totObCnt2);
+			
+		return totObCnt2;
+		
+		
+	}
+	
+	
 	@Override
 	public List<OldBook> listOb(OldBook oldBook) {
 		List<OldBook> Oblist = null;
@@ -98,6 +111,29 @@ public class OldBookServiceImpl implements OldbookService {
 		return oldBook;
 	}
 
+	@Override 
+	public List<OldBook> listObFo(OldBook oldBook) {
+		
+			List<OldBook> OblistFo = null;
+			System.out.println("OldBookServiceImpl listOb Start...");
+			OblistFo = obd.listObFo(oldBook);
+			System.out.println("OldBookServiceImpl listOb OldBooklist.size()"+OblistFo.size());
+			return OblistFo;
+		}
+	@Override
+	public int updateObComp(OldBook oldBook) {
+		System.out.println("sjServiceImpl updateObComp...");
+		
+		int updateCount = 0;
+		
+		updateCount = obd.updateObComp(oldBook);
+		System.out.println("sjServiceImpl updateObComp oldBook" +oldBook);
+		
+		return updateCount;
+	}
+
+
+	}
+
 	
-	
-}
+

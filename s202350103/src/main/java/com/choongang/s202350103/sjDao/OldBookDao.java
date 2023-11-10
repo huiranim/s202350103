@@ -14,6 +14,9 @@ public interface OldBookDao {
 	List<OldBook>       oldBookAcc();
 	List<OldBook>       listMoOb(OldBook oldBook);
 	OldBook             ModetailNb(int nb_num);
+	List<OldBook>       listObFo(OldBook oldBook);
+	int                 totalOb2();
+	int                 updateObComp(OldBook oldBook);
  
 	 
 	 

@@ -22,15 +22,32 @@ public class OldBookDaoImpl implements OldBookDao {
 		System.out.println("OldBookDaoImpl start total ");
 		try {
 			totObCount = session.selectOne("totObCnt");
-			System.out.println("OldBookDaoImpl totalEmp totObCnt"+ totObCount);
+			System.out.println("OldBookDaoImpl totalOb2 totObCnt->"+ totObCount);
 		} catch (Exception e) {
-			System.out.println("OldBookDaoImpl totalEmp Exception->"+e.getMessage());
+			System.out.println("OldBookDaoImpl totalOb2 Exception->"+e.getMessage());
 		}
 		
 		
 		return totObCount;
 	}
 
+	@Override
+	public int totalOb2() {
+		int totObCount2 =0;
+		
+		System.out.println("OldBookDaoImpl start totalOb2 ");
+		try {
+			totObCount2 = session.selectOne("totObCnt2");
+			System.out.println("OldBookDaoImpl totalOb2 totObCnt2->"+ totObCount2);
+		} catch (Exception e) {
+			System.out.println("OldBookDaoImpl totalOb2 Exception->"+e.getMessage());
+		}
+		
+		
+		return totObCount2;
+	}
+	
+	
 	@Override
 	public List<OldBook> listOb(OldBook oldBook) {
 		List<OldBook> obList = null;
@@ -149,6 +166,41 @@ public class OldBookDaoImpl implements OldBookDao {
 		
 		return oldBook;
 	}
+
+	@Override
+	public List<OldBook> listObFo(OldBook oldBook) {
+		List<OldBook> OblistFo = null;
+		System.out.println("OldBookDaoImpl listObFo start...");
+		try {
+			
+			OblistFo = session.selectList("sjObListAll", oldBook);
+			System.out.println("OldBookDaoImpl listObFo obList.size()"+OblistFo.size());
+			
+			
+		} catch (Exception e) {
+			System.out.println("OldBookDaoImpl listObFo e.getMessage()->" +e.getMessage());
+		}
+		
+		
+		return OblistFo;
+	}
+
+	@Override
+	public int updateObComp(OldBook oldBook) {
+		System.out.println("sjDaoImpl updateObComp Start...");
+		int updateCount = 0;
+		try {
+			updateCount = session.update("sjObUpdateComple",oldBook);
+			System.out.println("OldBookDaoImpl oldBook..."+oldBook);
+			System.out.println("OldBookDaoImpl updateCount..."+updateCount);
+		} catch (Exception e) {
+			System.out.println("sjDaoImpl updateObComp Exception->"+e.getMessage());
+		}
+
+		return updateCount;
+	}
+
+
 
 	
 
