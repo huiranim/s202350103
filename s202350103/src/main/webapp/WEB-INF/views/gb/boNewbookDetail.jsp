@@ -55,12 +55,20 @@
 			 <div class="product" id="product" style="width: 20rem;">
 			 	<div class="product" id="product" style="width: 20rem;">
 			    	<div>
-			    		<img id="preview" src="${newbook.nb_image}" alt="${newbook.nb_title}" style="border: 1px solid black; width: 18rem; height: 400px;">
+			    	   <c:set var="nb_image" value="${newbook.nb_image }"/>
+	                   <c:choose>
+	                   	<c:when test="${fn:contains(nb_image, 'http')}">
+	                   		<img id="preview" src="${newbook.nb_image}" alt="${newbook.nb_title}" style="border: 1px solid black; width: 18rem; height: 400px;">
+	                   	</c:when>
+	                   	<c:otherwise>
+	                   		<img id="preview" src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" alt="${newbook.nb_title}" style="border: 1px solid black; width: 18rem; height: 400px;">
+	                   	</c:otherwise>
+	                   </c:choose>
 			    	</div>
 			 </div>
 			 <!-- 파일 선택 -->
 			 <div class="input-group">
-	    		<input type="file" name="nb_image" id="img_select" onchange="setImageFromFile(this);" class="form-control mt-3" aria-label="Upload">
+	    		<input type="file" name="file1" id="img_select" onchange="setImageFromFile(this);" class="form-control mt-3" aria-label="Upload">
 	  		 </div>
 		  </div>
 		 </div>
@@ -101,7 +109,7 @@
 			    <!-- 도서제목 -->
 			    <div class="mb-3">
 	                  <span class="form-label">제목 : </span>
-	                  <input type="text" value="${newbook.nb_title}" class="form-control">
+	                  <input type="text" name="nb_title" value="${newbook.nb_title}" class="form-control">
 	            </div>
 	            <!-- 도서가격 -->
 			    <div class="mb-3">

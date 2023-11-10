@@ -22,5 +22,7 @@ public interface NewBookService {
 	List<NewBook> selectSearchBoNewBookList(NewBook newbook);
 	NewBook selectBoNewBookDetail(NewBook newbook);
 	int updateBoNewbook(NewBook newbook);
+	List<NewBook> selectBoNewBookList(NewBook newbook);
+	int deleteBoNewbook(int nb_num);
 
 }

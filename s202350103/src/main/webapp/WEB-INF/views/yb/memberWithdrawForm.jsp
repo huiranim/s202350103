@@ -80,7 +80,7 @@
  			</div>
 		<hr>
 			<div class="d-grid gap-2 col-6 mx-auto ">
-			<button type="submit" class="btn btn-primary" id="button_dw">탈퇴하기</button>
+			<button type="submit" class="btn btn-primary" id="button_dw" disabled="true">탈퇴하기</button>
 			</div>
 			
 	

@@ -20,34 +20,40 @@
             <!-- nav -->
             <ul class="nav nav-category" id="categoryCollapseMenu">
               
-              <!--  카테고리1  -->
+              <!--  국내도서  -->
               <li class="nav-item border-bottom w-100 " ><a href="#"
                   class="nav-link collapsed" data-bs-toggle="collapse"
-                  data-bs-target="#categoryFlushOne" aria-expanded="false" aria-controls="categoryFlushOne">카테고리 대분류 1 <i class="feather-icon icon-chevron-right"></i></a>
+                  data-bs-target="#categoryFlushOne" aria-expanded="false" aria-controls="categoryFlushOne">국내도서 <i class="feather-icon icon-chevron-right"></i></a>
                 <!-- accordion collapse -->
                 <div id="categoryFlushOne" class="accordion-collapse collapse"
                   data-bs-parent="#categoryCollapseMenu">
                   <div>
                     <!-- nav -->
 				
-				<!--  카테고리 1 분류 -->
+				<!--  국내도서 분류 -->
                     <ul class="nav flex-column ms-3">
                       <!-- nav item -->
-                      <li class="nav-item"><a href="#!" class="nav-link">제목1 </a></li>
+                      <li class="nav-item"><a href="innewbookList?nb_category1=1&nb_category2=1" class="nav-link">경제/경영 </a></li>
                       <!-- nav item -->
-                      <li class="nav-item"><a href="#!" class="nav-link">제목2</a></li>
+                      <li class="nav-item"><a href="innewbookList?nb_category1=1&nb_category2=2" class="nav-link">과학</a></li>
+                      <!-- nav item -->
+                      <li class="nav-item"><a href="innewbookList?nb_category1=1&nb_category2=3" class="nav-link">소설</a></li>
+                      <!-- nav item -->
+                      <li class="nav-item"><a href="innewbookList?nb_category1=1&nb_category2=4" class="nav-link">역사/문화</a></li>
+                      <!-- nav item -->
+                      <li class="nav-item"><a href="innewbookList?nb_category1=1&nb_category2=5" class="nav-link">인문</a></li>
                     </ul>
                   </div>
                 </div>
 
               </li>
               
-             <!--  카테고리 2 -->
+             <!--  해외도서 -->
               <!-- nav item -->
               <li class="nav-item border-bottom w-100 " ><a href="#"
                   class="nav-link collapsed" data-bs-toggle="collapse"
                   data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                  카테고리 대분류 2
+                  	해외도서
                   <i class="feather-icon icon-chevron-right"></i>
                 </a>
 
@@ -58,22 +64,20 @@
 
                     <ul class="nav flex-column ms-3">
                       <!-- nav item -->
-                      <li class="nav-item"><a href="#!" class="nav-link">제목1</a></li>
+                      <li class="nav-item"><a href="innewbookList?nb_category1=2&nb_category2=6" class="nav-link">과학/기술</a></li>
                       <!-- nav item -->
-                      <li class="nav-item"><a href="#!" class="nav-link">제목2</a></li>
+                      <li class="nav-item"><a href="innewbookList?nb_category1=2&nb_category2=7" class="nav-link">문학</a></li>
                     </ul>
-
-
                   </div>
                 </div>
 
               </li>
               
-              <!-- 카테고리 3 -->
+              <!-- 중고국내도서 -->
               <li class="nav-item border-bottom w-100 " > <a
                   href="#" class="nav-link collapsed" data-bs-toggle="collapse"
                   data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                  카테고리 대분류 3 
+                 	중고국내도서
                   <i class="feather-icon icon-chevron-right"></i></a>
 
                 <!-- collapse -->
@@ -81,25 +85,28 @@
                   data-bs-parent="#categoryCollapseMenu">
                   <div>
 				
+                    <!--  국내도서 분류 -->
                     <ul class="nav flex-column ms-3">
                       <!-- nav item -->
-                      <li class="nav-item">
-                        <a class="nav-link" href="#!">제목1</a>
-                      </li>
+                      <li class="nav-item"><a href="folistOb?nb_category1=1&nb_category2=1" class="nav-link">경제/경영 </a></li>
                       <!-- nav item -->
-                      <li class="nav-item">
-                        <a class="nav-link" href="#!">제목2</a>
-                      </li>
+                      <li class="nav-item"><a href="folistOb?nb_category1=1&nb_category2=2" class="nav-link">과학</a></li>
+                      <!-- nav item -->
+                      <li class="nav-item"><a href="folistOb?nb_category1=1&nb_category2=3" class="nav-link">소설</a></li>
+                      <!-- nav item -->
+                      <li class="nav-item"><a href="folistOb?nb_category1=1&nb_category2=4" class="nav-link">역사/문화</a></li>
+                      <!-- nav item -->
+                      <li class="nav-item"><a href="folistOb?nb_category1=1&nb_category2=5" class="nav-link">인문</a></li>
                     </ul>
                   </div>
                 </div>
               </li>
 
-			<!-- 카테고리  4 -->	
+			<!-- 중고해외도서 -->	
               <li class="nav-item border-bottom w-100 "> <a
                   href="#" class="nav-link collapsed"  data-bs-toggle="collapse"
                   data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                  카테고리 대분류 4
+                  	중고해외도서
                   <i class="feather-icon icon-chevron-right"></i></a>
 
                 <!-- collapse -->
@@ -108,64 +115,14 @@
                   <div>
                     <ul class="nav flex-column ms-3">
                       <!-- nav item -->
-                      <li class="nav-item"><a href="#!" class="nav-link">제목1</a></li>
+                      <li class="nav-item"><a href="folistOb?nb_category1=2&nb_category2=6" class="nav-link">과학/기술</a></li>
                       <!-- nav item -->
-                      <li class="nav-item"><a href="#!" class="nav-link">제목2</a></li>
+                      <li class="nav-item"><a href="folistOb?nb_category1=2&nb_category2=7" class="nav-link">문학</a></li>
                     </ul>
                   </div>
                 </div>
               </li>
-
-			<!--  카테고리 5 -->
-              <li class="nav-item border-bottom w-100 " > <a
-                  href="#" class="nav-link collapsed" data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
-                  카테고리 대분류 5 
-                  <i class="feather-icon icon-chevron-right"></i></a>
-
-                <!-- collapse -->
-                <div id="flush-collapseFive" class="accordion-collapse collapse"
-                  data-bs-parent="#categoryCollapseMenu">
-                  <div>
-					
-                    <ul class="nav flex-column ms-3">
-                      <!-- nav item -->
-                      <li class="nav-item">
-                        <a class="nav-link" href="#!">제목1</a>
-                      </li>
-                      <!-- nav item -->
-                      <li class="nav-item">
-                        <a class="nav-link" href="#!">제목2</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-
             </ul>
-          </div>
-
-
-
-          <div class="mb-8">
-
-            <h5 class="mb-3">검색</h5>
-            <div class="my-4">
-
-			<!--  검색 인풋 -->
-			
-			
-              <input type="search" class="form-control" placeholder="검색어를 입력하세요">
-            </div>
-           
-            <!-- 쓸거면 쓰고 -->
-            <div class="form-check mb-2">
-              <!-- input -->
-              <input class="form-check-input" type="checkbox" value="" id="eGrocery" checked>
-              <label class="form-check-label" for="eGrocery">
-                체크
-              </label>
-            </div>
           </div>
           
 		<!-- 광고 배너 -->            

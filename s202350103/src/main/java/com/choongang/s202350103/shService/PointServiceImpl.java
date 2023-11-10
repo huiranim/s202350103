@@ -192,4 +192,11 @@ public class PointServiceImpl implements PointService {
 		ajd.searchAddAtt(attJoin);
 	}
 
+	@Override
+	public int createQuiz(Quiz quiz) {
+		System.out.println("PointService createQuiz() Start..");
+		int result = qd.createQuiz(quiz);
+		return result;
+	}
+
 }

@@ -148,9 +148,21 @@ public class MemberServiceImpl1 implements MemberService {
 	@Override
 	public int memberPwUpdate(String m_pw, Member member) {
 		System.out.println("MemberServiceImpl1 memberPwUpdate start...");
-		int memberPwUpdate = md.memberPwUpdate(m_pw, member);
+		member =(Member) session.getAttribute("member");
+		System.out.println("MemberServiceImpl1 memberPwUpdate member.getM_id -> " +member.getM_id());
 		System.out.println("MemberServiceImpl1 memberPwUpdate m_pw -> " + m_pw);
+		
+		int memberPwUpdate = md.memberPwUpdate(m_pw, member);	
 		return memberPwUpdate;
+	}
+
+	@Override
+	public Member memberPwChange(String m_num, String m_pw) {
+		System.out.println("MemberServiceImpl1 memberPwChange start...");
+		System.out.println("MemberServiceImpl1 memberPwChange() m_num -> " + m_num);
+		System.out.println("MemberServiceImpl1 memberPwChange() m_pw -> " + m_pw);
+		Member memberPwChange = md.memberPwChange(m_num, m_pw);
+		return memberPwChange;
 	}
 
 	

@@ -1,9 +1,13 @@
 package com.choongang.s202350103.hrService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.choongang.s202350103.hrDao.OrderDao;
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
+import com.choongang.s202350103.model.OrderGift;
 import com.choongang.s202350103.model.Orderr;
 import lombok.RequiredArgsConstructor;
 
@@ -129,6 +133,21 @@ public class OrderServiceImpl implements OrderService {
 	    }
 		System.out.println("OrderServiceImpl selectOrderProduct() end..");
 		return orderDetailList;
+	}
+	
+	// FO 선물하기 - 액션
+	@Override
+	public int givingGiftAction(Member member, Orderr orderr, OrderGift orderGift) {
+		System.out.println("OrderServiceImpl givingGiftAction() start..");
+		
+		// 
+		orderGift.setO_gift_name(orderr.getO_rec_name());
+		orderGift.setO_gift_ph(orderr.getO_rec_mail());
+		
+		int result = od.givingGiftAction(member, orderr, orderGift);
+		
+		System.out.println("OrderServiceImpl givingGiftAction() end..");
+		return result;
 	}
 
 

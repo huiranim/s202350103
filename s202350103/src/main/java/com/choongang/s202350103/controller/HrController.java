@@ -261,7 +261,7 @@ public class HrController {
 	
 	// FO 선물하기 - 액션
 	@RequestMapping("foGivingGiftAction")
-	public String givingGiftAction(Model model, Member member, HttpSession session, Orderr orderr, OrderGift orderGift) {
+	public String givingGiftAction(Model model, HttpSession session, Member member, Orderr orderr, OrderGift orderGift) {
 		System.out.println("HrController givingGiftAction() start..");
 		
 		// model에 회원 정보 저장
@@ -269,20 +269,37 @@ public class HrController {
 		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
 		model.addAttribute("member", member);
 		
-		// INSERT - ORDERR
-		// int oResult = os.insertOrderr(orderr);
-		
-		// INSERT - ORDER_DETAIL
-		// int odResult = os.insertOrderDetail(orderr);
-		
-		// INSERT - ORDER_GIFT
-		// int ogResult = os.insertOrderGift(orderGift);
-		
-		// UPDATE - MEMBER
-		// int mResult = os.updateMember(member);
-		
-		// INSERT - POINT_LIST
-		// int plResult = insertPointList(member, orderr);
+		// value 확인
+		// ORDERR
+			// m_num -> O
+			System.out.println("member.getM_num()->"+member.getM_num());
+			System.out.println("orderr.getM_num()->"+orderr.getM_num());
+			// o_pay_price -> O
+			System.out.println("orderr.getO_pay_price()->"+orderr.getO_pay_price());
+			// o_deliv_price -> O
+			System.out.println("orderr.getO_deliv_price()->"+orderr.getO_deliv_price());
+			// o_point -> O
+			System.out.println("orderr.getO_point()->"+orderr.getO_point());
+			// o_rec_name
+			System.out.println("orderr.getO_rec_name()->"+orderr.getO_rec_name());
+			// o_rec_mail
+			System.out.println("orderr.getO_rec_mail()->"+orderr.getO_rec_mail());
+			// o_rec_ph
+			System.out.println("orderr.getO_rec_ph()->"+orderr.getO_rec_ph());
+			// nb_num
+			System.out.println("orderr.getNb_num()->"+orderr.getNb_num());
+			// o_de_count
+			System.out.println("orderr.getO_de_count()->"+orderr.getO_de_count());
+
+			// ORDER_GIFT
+			// o_gift_card
+			System.out.println("orderGift.getO_gift_card()->"+orderGift.getO_gift_card());
+			// o_gift_msg
+			System.out.println("orderGift.getO_gift_msg()->"+orderGift.getO_gift_msg());
+			
+		// Service Method 실행 후 model에 result 저장
+		int result = os.givingGiftAction(member, orderr, orderGift);
+		model.addAttribute("result", result);
 		
 		System.out.println("HrController givingGiftAction() end..");
 		return "/hr/foGivingGiftAction";
