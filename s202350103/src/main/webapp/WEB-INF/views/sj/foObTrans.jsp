@@ -33,14 +33,13 @@
 <p class="text-center fs-1 "> 발송 운송장 정보  </p>
  <div class="input-group mb-3">
  
- 
+
   <select name="ob_trans_com" >
 				<option value="1">CJ 대한통운 </option>
-				<option value="2">우체국  택배</option>
+				<option value="2">우체국    택배</option>
 				<option value="3">로젠     택배</option>
 				<option value="4">한진     택배</option>
-				<option value="5">롯데     택배</option>
-			
+				<option value="5">롯데     택배</option>		
 		</select> 
  
 

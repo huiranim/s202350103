@@ -91,7 +91,8 @@
 			    	$("#totalSum5").val('kkk');
 			    }
 			 
-			    // totalNum 
+			    // totalNum view에 보여질거고 
+			    //1 리턴된걸 value로 넣고싶어요
 			    if(totalNumStr == '0'){
 			    	$("#totalSum6").val(totalCal1);
 			    	totalCalculVal = totalCal1;
@@ -109,18 +110,17 @@
 			    	totalCalculVal = 0;
 			    }
 			    	
+			    
+			    
+			    
 			 	//calcul의 그릇  --> 리턴으로 value값 전달
 			 	$("#totalCalculVal").val(totalCalculVal);
 				
 			    $("#totalCalculValSell").val(parseInt(totalCalculVal*1.1));
 			     
-			 
-			
-			    
-			    //target_btn버튼 활성화 
 			    const target = document.getElementById('target_btn');
 				  target.disabled = false;
-			    
+
 			}
 </script>
 <head>
@@ -130,7 +130,7 @@
 <body>
 
 <form action="updateOb" method="post">
-<p class="fs-1 text-center">중고 검수등록 1 </p>
+<p class="fs-1 text-center">중고 검수 등록 </p>
 
 <input type="hidden" name="ob_report_date" value="${oldBook.ob_report_date }">
 <table class="table table-bordered">
@@ -161,11 +161,11 @@
 	     <tr>
 			      <td>중고매입가격 </td>
 			      <td colspan="2">
-			   		<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price*0.6}"/>원 
+			   	<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price *0.6}"/>원   
 			      </td>
 	       </tr>
 	     <tr>					
-	      <td rowspan="3"> 검수내역 </td>
+	      <td rowspan="3"> 검수내역  </td>
 		      <td>찢김</td>
 		      <td>
 		        <input class="form-check-input" type="checkbox" onclick="toggleChk(1)">
@@ -219,11 +219,10 @@
 		   		 	<input type="hidden"  name="ob_pur_price" id="totalCalculVal" value="0" > 
       		 		<input type="hidden"  name="ob_sell_price" id="totalCalculValSell" value=""> 
       		 	<div>	
-      		 	<input type="button"  	class="btn btn-ghost-secondary mb-2"   id="totalSum6" > 
-      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum7">
-      		   	<input type="button"  	class="btn btn-ghost-secondary mb-2"   id="totalSum8">
-      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum9"> 
-
+      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum6"> 
+      		 	 <input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum7">
+      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum8">
+      		 	 <input type="button"	class="btn btn-ghost-secondary mb-2"   id="totalSum9"> 
 				 </div>
 		 <!-- 위에서 이미 if 돌렸음   -->
 	<%--       <c:choose>
