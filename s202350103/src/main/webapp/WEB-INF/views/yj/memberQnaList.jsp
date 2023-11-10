@@ -16,19 +16,47 @@
 		
 	}
 
+</script>
+
+<script type="text/javascript">
+	function QnaForm(){
+		
+			alert("로그인 후 이용 가능합니다.");
+        }
+	
+	
 
 </script>
+
 
 </head>
 <body>
 	
 	<div class="row">
 <div class="col-lg-12">
-      <div class="mb-8">
+
+      <div class="mb-2">
          <!-- heading -->
          <h1 class="mb-1">Q & A</h1>
          <p>요청 또는 문의 사항을 남겨주세요.</p>
+         </div>
       </div>
+      
+      <div class="mb-2" style="display: flex; justify-content: space-between; align-items: center;">
+    <!-- 전체 문의글 텍스트 -->
+	    <p style="margin: 0;">전체 문의글 : ${mqCount }</p>
+
+    <!-- 버튼 -->
+		 <c:if test="${sessionScope.member != null }">
+	    	<a  class="btn btn-primary" href="memberQna?m_num=${member.m_num}">문의등록</a>
+		</c:if>
+		
+		 <c:if test="${sessionScope.member == null }">
+	    	<a onclick="QnaForm();" class="btn btn-primary">문의등록</a>
+		</c:if>
+		
+	</div>
+      
     <c:set var="num" value="${page.total-page.start+1 }"></c:set>
 	  
       <div>
