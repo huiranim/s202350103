@@ -682,7 +682,9 @@ public class YjController {
 	  
 	  // 내문의 
 	  @GetMapping("/memberMyOna")
-	  public String memberMyOna() {
+	  public String memberMyOna(@RequestParam int m_num ,Model model) {
+		  
+		  System.out.println(m_num);
 		  
 		  return "yj/memberMyOna";
 	  }

@@ -304,8 +304,13 @@ public class GbController {
 		newbook.setEnd(page.getEndRow());
 		System.out.println("GbController page.getStartRow() -> "+page.getStartRow());
 		
-		// 국내도서 검색 리스트
+		// 국내도서 리스트
 		List<NewBook> listBoNewbook = nbs.selectBoNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
+		
+		for (int i=0; i < listBoNewbook.size(); i++) {
+			String nb_register_date1 = listBoNewbook.get(i).getNb_register_date().substring(0,10);
+			listBoNewbook.get(i).setNb_register_date(nb_register_date1);
+		}
 		
 		model.addAttribute("listBoNewbook", listBoNewbook);
 		model.addAttribute("page", page);
@@ -335,6 +340,11 @@ public class GbController {
 		// 국내도서 검색 리스트
 		List<NewBook> listSearchBoNewbook = nbs.selectSearchBoNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
 		System.out.println("GbController selectBoNewbookList listSearchBoNewbook.size() -> "+listSearchBoNewbook.size());
+		
+		for (int i=0; i < listSearchBoNewbook.size(); i++) {
+			String nb_register_date1 = listSearchBoNewbook.get(i).getNb_register_date().substring(0,10);
+			listSearchBoNewbook.get(i).setNb_register_date(nb_register_date1);
+		}
 		
 		model.addAttribute("search_Newbook", newbook);
 		model.addAttribute("listBoNewbook", listSearchBoNewbook);

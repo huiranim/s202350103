@@ -41,7 +41,7 @@
 	<div class="col-lg-12 col-md-12 col-12 d-block">
 	     <div class="py-6 p-md-6 p-lg-10">
 	        <!-- heading -->
-	       <p class="fs-1 text-center">중고 리스트 </p>
+	       <p class="fs-1 text-center">중고 판매 신청 목록 </p>
 	        <div class="table-responsive border-0">
 	           <!-- Table -->
 	           	<c:set var="num" value="${page.totalOb-page.start+1 }"></c:set>
@@ -90,7 +90,6 @@
 							<input type="button" class="btn-primary" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 						</c:when>
 						<c:otherwise><c:out value=""/>
-						<input type="button" value="등록하기" name="ob_num" onclick="#">
 						<input type="button" class="btn-primary" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 						</c:otherwise>
 				

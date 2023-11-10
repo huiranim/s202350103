@@ -32,7 +32,7 @@
 	
 	
 	<select id="htReviewAverage"  resultType="double">
-		SELECT ROUND(AVG(r_rating),1) FROM review
+		SELECT ROUND(AVG(r_rating),0) FROM review
 	</select>	
 	
 	

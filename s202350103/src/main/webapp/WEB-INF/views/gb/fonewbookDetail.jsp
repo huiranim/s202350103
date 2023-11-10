@@ -105,18 +105,27 @@
 			}
 		});
 	}
-	
-	function reviewChange(start,end) {
+/* 	
+	function reviewChange(start,end,p_status) {
 		//var sendData = $('form').serialize();
 		var r_reviewSelect = $('#reviewSel').val();
-		var sendData = 'r_reviewSelect='+r_reviewSelect+'&start='+start+'&end='+end;
+		var sendData = 'r_reviewSelect='+r_reviewSelect+'&start='+start+'&end='+end+'&p_status='+p_status;
 	
 		location.href="newbookDetail?"+sendData;
 	}  
 
+ */	
+ 	$(function() {
+		$('#chk2').change(function() {
+				var sendData = $('form').serialize();
+				document.getElementById("reviewList").focus();
+				location.href="newbookDetail?"+sendData;
+		 });
+	})
 	
 	function reviewListFocus(p_status){
     	if(p_status == 1) {
+    		//document.getElementById("reviewLists").focus(); //reviewList로 이동
    		 var reviewsTab = new bootstrap.Tab(document.getElementById("reviews-tab"));
          reviewsTab.show();
          document.getElementById("reviewFocus").scrollIntoView();
@@ -340,12 +349,14 @@
 					             <!-- title -->
 					             <h4 class="mb-3">고객 리뷰</h4>
 					             <span>
-					                <!-- rating --> <small class="text-warning"> <i class="bi bi-star-fill"></i>
-					                <i class="bi bi-star-fill"></i>
-					                <i class="bi bi-star-fill"></i>
-					                <i class="bi bi-star-fill"></i>
-					                <i class="bi bi-star-half"></i></small><span class="ms-3">${review.r_review_average } out of 5</span><small
-					                   class="ms-3">리뷰 총 수량 : ${review.r_review_total}</small>
+					                <!-- rating -->
+					                <small class="text-warning"> <i class="bi bi-star-fill"></i>
+						                <i class="bi bi-star-fill"></i>
+						                <i class="bi bi-star-fill"></i>
+						                <i class="bi bi-star-fill"></i>
+						                <i class="bi bi-star-half"></i>
+					                </small><span class="ms-3">${review.r_review_average } out of 5</span>
+					                <small class="ms-3">리뷰 총 수량 : ${review.r_review_total}</small>
 					             </span>
 					          </div>
 					          <div class="mb-8">
@@ -432,16 +443,13 @@
 					             </div>
 					             <div>
 					             	<form action="" >
-					             	   <select name="r_reviewSelect" id="reviewSel" 
+					             	   <select name="r_reviewSelect" id="chk2" 
 					                	        class="form-select" 
 					                	        aria-label="Default select example"
-					                	        onchange="reviewChange(1,5)"
-					                	>
+					                	        > <!-- onchange="reviewChange(1,5,1)" -->
 						                   <option value="1" <c:if test="${review.r_reviewSelect == '1' }">selected</c:if> >최신순</option>
 						                   <option value="2" <c:if test="${review.r_reviewSelect == '2' }">selected</c:if> >별점순</option>
 						                </select>
-					                
-					             	
 					                </form>
 					             </div>
 					           </div>
@@ -457,7 +465,9 @@
 							                </h6>
 							                <!-- select option -->
 							                <!-- content -->
-							                <p class="small"> <span class="text-muted">${reviews.r_create_date}</span>
+							                <p class="small"> <span class="text-muted">
+							                <fmt:formatDate value="${reviews.r_create_date}" pattern="yyyy-MM-dd"/>
+							                </span>
 							                </p>
 							                <!-- rating -->
 							                <div class=" mb-2">

@@ -4,22 +4,22 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class NewBook {				// 새상품
-	private int nb_num;				// 상품번호
-	private String nb_title;		// 제목
-	private String nb_summary;		// 줄거리
-	private int nb_price;			// 가격
-	private String nb_writer;		// 작가
-	private String nb_publisher;	// 출판사
-	private String nb_publi_date;	// 출간일
-	private String nb_isbn;			// ISBN
-	private int nb_page;			// 쪽수
-	private String nb_size;			// 책 크기
-	private int nb_category1;		// 카테고리1
-	private int nb_category2;		// 카테고리2
-	private String nb_image;		// 책 이미지
-	private int nb_readcnt;			// 조회수
-	private Date nb_register_date;	// 등록일자
+public class NewBook {					// 새상품
+	private int nb_num;					// 상품번호
+	private String nb_title;			// 제목
+	private String nb_summary;			// 줄거리
+	private int nb_price;				// 가격
+	private String nb_writer;			// 작가
+	private String nb_publisher;		// 출판사
+	private String nb_publi_date;		// 출간일
+	private String nb_isbn;				// ISBN
+	private int nb_page;				// 쪽수
+	private String nb_size;				// 책 크기
+	private int nb_category1;			// 카테고리1
+	private int nb_category2;			// 카테고리2
+	private String nb_image;			// 책 이미지
+	private int nb_readcnt;				// 조회수
+	private String nb_register_date;	// 등록일자
 	
 	// 조회용
 	private int w_wish;				// 찜여부

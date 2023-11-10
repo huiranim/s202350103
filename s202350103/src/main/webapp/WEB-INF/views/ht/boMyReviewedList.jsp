@@ -54,10 +54,17 @@
 	                      <div class="ms-4">
 	                          <h5 class="mb-0 h6 h6">${reviewedList.nb_title}</h5>
 	                         <p class="mb-0 small">수량 : ${reviewedList.o_de_count}
-	                         <p class="mb-0 small">구매일자 : ${reviewedList.o_order_date}
+	                         <p class="mb-0 small">구매일자 :
+	                         <fmt:formatDate value="${reviewedList.o_order_date}" pattern="yyyy-MM-dd"/>
 	                         <p style="margin: 10px;">
-	                         <p class="mb-0 small">리뷰 작성일자 : ${reviewedList.r_create_date}
+	                         <p class="mb-0 small">리뷰 작성일자 :
+	                         <fmt:formatDate value="${reviewedList.r_create_date}" pattern="yyyy-MM-dd"/>
 	                        </p>
+	                        <p class="mb-0 small">리뷰 제목 : ${reviewedList.r_title}
+	                        <p style="margin: 10px;">
+	                        <p class="mb-0 small">리뷰 내용 : ${reviewedList.r_content}
+	                        <p style="margin: 10px;">
+	                        
 	                      </div>
 	                   </div>
 	                   <div style="display: flex; justify-content: center; align-items: center;">

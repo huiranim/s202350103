@@ -54,7 +54,7 @@
 	
 	<select id="gbSelectInNbList" parameterType="NewBook" resultType="NewBook">
 		SELECT nb_num, nb_title, nb_price, nb_writer, nb_publisher, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') as nb_publi_date, 
-			   nb_category1, nb_category2, nb_image, reviewCnt, r_ratingAvg, <if test="#{m_num}!=null">w_wish</if>
+			   nb_category1, nb_category2, nb_readcnt, nb_register_date, nb_image, reviewCnt, r_ratingAvg, <if test="#{m_num}!=null">w_wish</if>
 		FROM (
 		    SELECT rownum rn, nbre.*
 		    FROM(
