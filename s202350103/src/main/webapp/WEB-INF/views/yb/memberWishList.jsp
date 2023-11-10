@@ -6,6 +6,56 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript">
+		function cart(pNb_num) {
+			var m_num = '${member.m_num}';
+			$.ajax({
+				url : "/cart/cartclick",
+				data : {nb_num : pNb_num},
+				dataType : 'text',
+				success : function(data){
+					if (data == '0') {
+						if(confirm("장바구니에 이미 등록된 상품입니다. \n장바구니로 이동하시겠습니까?")){
+							location.href = "memberCartList?m_num"+m_num;
+						}
+					} 
+					else if(data == '1') {
+						if(confirm("장바구니에 등록되었습니다. \n장바구니로 이동하시겠습니까?")){
+							location.href = "memberCartList?m_num"+m_num;
+						}
+					} 
+					else {
+						location.href = data ;
+					}
+				}
+			});
+		}
+			
+		function wishlist(pNb_num) {
+			alert("pNb_num ->"+pNb_num);
+			
+			$.ajax({
+				url : "/wish/wishclick", 
+				data : {nb_num : pNb_num},
+				dataType : 'text',
+				success : function(data){
+							if (data == '0') {
+								alert ("찜 취소 되었습니다.");
+								location.reload();
+							} 
+							else if(data == '1') {
+								alert ("찜 되었습니다.");
+								location.reload();
+							} 
+							else {
+								location.href = data ;
+							}
+											
+					  }
+				});
+		}
+</script>
 </head>
 <body>
 <%@ include file="../common/sideFo.jsp" %>
@@ -22,8 +72,10 @@
 				               총 상품 개수 : ${totalWishList }		
 			      	</div>
 		          <div>
+		          	<c:if test="${memberWishList.size() != 0 }">
 		            <!-- table -->
 		            <div class="table-responsive">
+		            
 		              <table class="table text-nowrap table-with-checkbox">
 		              
 		                <thead class="table-light">
@@ -36,6 +88,7 @@
 		                    <th>삭제</th>
 		                  </tr>
 		                </thead>
+		                
 		                <tbody>
 		                <c:forEach var="wishList" items="${memberWishList }">
 		                  <tr>
@@ -53,20 +106,27 @@
 		                    <td class="align-middle"> ${wishList.nb_publisher }</td>
 		                    <td class="align-middle"><fmt:formatNumber value="${wishList.nb_price }" pattern="#,###" /></td>
 		                    <td class="align-middle">
-		                      <div class="btn btn-primary btn-sm">장바구니 추가</div>
+		                      <div class="btn btn-primary btn-sm" onclick="cart(${wishList.nb_num })">장바구니 추가</div>
 		                    </td>
-		                    <td class="align-middle "><a href="#" class="text-muted" data-bs-toggle="tooltip"
+		                    <td class="align-middle "><a onclick="wishlist(${wishList.nb_num })" class="text-muted" data-bs-toggle="tooltip"
 		                        data-bs-placement="top" title="Delete">
 		                        <i class="feather-icon icon-trash-2"></i>
 		                      </a></td>
 		                  </tr>
 		                  </c:forEach>
 		                </tbody>
-		               
+		              
 		              </table>
 		            </div>
-		
+				  </c:if>
 		          </div>
+		          <c:if test="${memberWishList.size() == 0 }">
+					<div class="col-lg-8 col-md-7">
+			          <div class="py-3">
+			         	<button class="btn btn-primary justify-content-between align-items-center" onclick="bookListPage()">상품 보러가기</button>
+			          </div>
+					</div>
+				  </c:if>
 		        </div>
 		
 		      </div>

@@ -32,11 +32,11 @@ public class ReviewDaoImpl implements ReviewDao {
     
 	
 	@Override
-	public int reviewTotal() {
+	public int reviewTotal(Review review) {
 		System.out.println("ReviewDaoImpl reviewTotal() Start....");
 		int total = 0;
 		try {
-			total = session.selectOne("htReviewTotal");
+			total = session.selectOne("htReviewTotal", review);
 		}catch (Exception e) {
 			System.out.println("ReviewDaoImpl reviewTotal() total--> " + total);
 		}
@@ -56,11 +56,11 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public double reviewAverage() {
+	public double reviewAverage(Review review) {
 		System.out.println("ReviewDaoImpl reviewAverage() Start....");
 		double average = 0;
 		try {
-			average = session.selectOne("htReviewAverage");
+			average = session.selectOne("htReviewAverage", review);
 			System.out.println("ReviewDaoImpl reviewAverage() average->"+average);
 		}catch (Exception e) {
 			System.out.println("ReviewDaoImpl reviewAverage() average--> " + average);
@@ -174,6 +174,22 @@ public class ReviewDaoImpl implements ReviewDao {
 			System.out.println("ReviewDaoImpl reviewDelete() Exception--> " + e.getMessage());
 		}
 		return result;
+	}
+
+
+	@Override
+	public Review reviewOne(Review review) {
+		System.out.println("ReviewDaoImpl reviewOne() Start....");
+		System.out.println("reviewOne--->"+review);
+		
+		Review reviewOne2 = null;
+		try {
+			reviewOne2 = session.selectOne("htReviewOne",review);
+			System.out.println("reviewOne review--> " + review);
+		}catch (Exception e) {
+			System.out.println("ReviewDaoImpl reviewOne() Exception--> " + e.getMessage());
+		}
+		return reviewOne2;
 	}
 
 }

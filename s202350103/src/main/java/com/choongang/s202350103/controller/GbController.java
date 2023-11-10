@@ -154,10 +154,12 @@ public class GbController {
 		int same_obCnt = nbods.selectSameOldBookList(newbook.getNb_num()).size();
 		selectNewbook.setSame_obCnt(same_obCnt);
 		
+		//리뷰 코딩
+		
 		// 총 리뷰 개수 가져오기
-		int reviewTotal = rs.reviewTotal(); 
+		int reviewTotal = rs.reviewTotal(review); 
 		// 리뷰 평균 값 가져오기
-		double reviewAverage = rs.reviewAverage();
+		double reviewAverage = rs.reviewAverage(review);
 
 		review.setR_review_average(reviewAverage);
 		review.setR_review_total(reviewTotal);
@@ -200,11 +202,8 @@ public class GbController {
 		
 		model.addAttribute("member", member);
 		model.addAttribute("newbook", selectNewbook);
-		System.out.println("kkk Controller newbookDetail listReview.size()-->" + listReview.size());
-		System.out.println("kkk Controller newbookDetail view->gb/fonewbookDetail" + review.getEnd());
-		System.out.println("kkk Controller newbookDetail getP_status -> " + review.getP_status());
 		
-		return "gb/fonewbookDetail"; 
+		return "gb/fonewbookDetail";
 	}
 	
 	// 동일한 중고도서 목록 리스트

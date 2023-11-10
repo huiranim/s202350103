@@ -86,11 +86,6 @@
 		                   <option value=4 >역사/문화</option>
 		                   <option value=5 >인문</option>
 		     			</select>
-	     		
-		                <%-- <select name="nb_category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
-		                   <option value=6 <c:if test ="${newbook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
-		                   <option value=7 <c:if test ="${newbook.nb_category2 eq '7'}"> selected="selected"</c:if>>문학</option>
-		     			</select> --%>
 	             </div>
 	          </div>
 			    <!-- 도서제목 -->
