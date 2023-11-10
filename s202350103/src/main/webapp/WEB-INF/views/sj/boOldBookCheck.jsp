@@ -91,8 +91,7 @@
 			    	$("#totalSum5").val('kkk');
 			    }
 			 
-			    // totalNum view에 보여질거고 
-			    //1 리턴된걸 value로 넣고싶어요
+			    // totalNum 
 			    if(totalNumStr == '0'){
 			    	$("#totalSum6").val(totalCal1);
 			    	totalCalculVal = totalCal1;
@@ -115,7 +114,13 @@
 				
 			    $("#totalCalculValSell").val(parseInt(totalCalculVal*1.1));
 			     
-			    //alert ("z"+$("#totalSum"));
+			 
+			
+			    
+			    //target_btn버튼 활성화 
+			    const target = document.getElementById('target_btn');
+				  target.disabled = false;
+			    
 			}
 </script>
 <head>
@@ -135,7 +140,7 @@
 	    </tr>
 	     <tr>
 		      <td>중고상품번호 </td>
-		      <td colspan="2"><input type="hidden"  value="${oldBook.ob_num }">${oldBook.ob_num } </td>
+		      <td colspan="2"><input type="hidden" name="ob_num" value="${oldBook.ob_num }">${oldBook.ob_num } </td>
 	    </tr>
 	      <tr>
 		      <td>검수매입상태</td>
@@ -156,11 +161,11 @@
 	     <tr>
 			      <td>중고매입가격 </td>
 			      <td colspan="2">
-			   		${oldBook.nb_price *0.6} 
+			   		<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price*0.6}"/>원 
 			      </td>
 	       </tr>
 	     <tr>					
-	      <td rowspan="3"> 검수내역 <button type="button" class="btn btn-dark mb-2" onclick="btnActive()">등록하기</button> </td>
+	      <td rowspan="3"> 검수내역 </td>
 		      <td>찢김</td>
 		      <td>
 		        <input class="form-check-input" type="checkbox" onclick="toggleChk(1)">
@@ -214,10 +219,11 @@
 		   		 	<input type="hidden"  name="ob_pur_price" id="totalCalculVal" value="0" > 
       		 		<input type="hidden"  name="ob_sell_price" id="totalCalculValSell" value=""> 
       		 	<div>	
-      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum6"> 
-      		 	 <input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum7">
-      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum8">
-      		 	 <input type="button"	class="btn btn-ghost-secondary mb-2"   id="totalSum9"> 
+      		 	<input type="button"  	class="btn btn-ghost-secondary mb-2"   id="totalSum6" > 
+      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum7">
+      		   	<input type="button"  	class="btn btn-ghost-secondary mb-2"   id="totalSum8">
+      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum9"> 
+
 				 </div>
 		 <!-- 위에서 이미 if 돌렸음   -->
 	<%--       <c:choose>
@@ -232,7 +238,7 @@
 	</table>
 	 
 	 	<div class="d-grid gap-2">
-		    <button class="btn btn-dark" id="target_btn" type="submit" disabled="disabled" >등록하기</button>
+		    <button class="btn btn-dark" id="target_btn" type="submit" disabled="disabled"  >등록하기</button>
 		</div>
 	</form>
         <div class="d-grid gap-2">
