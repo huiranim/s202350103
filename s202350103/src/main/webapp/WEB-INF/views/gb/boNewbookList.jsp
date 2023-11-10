@@ -94,6 +94,8 @@
 		                   <th>출간일</th>
 		                   <th>국내/해외</th>
 		                   <th>카테고리</th>
+		                   <th>조회수</th>
+		                   <th>등록일</th>
 		                   <th colspan='2'>삭제</th>
 		                </tr>
 		             </thead>
@@ -138,6 +140,8 @@
 										<c:when test="${newbook.nb_category2 eq 7}"> 문학</c:when>
 									</c:choose>
 								</td>
+								<td class="align-middle">${newbook.nb_readcnt}</td>
+								<td class="align-middle">${newbook.nb_register_date}</td>
 			                   <td colspan='2' class="align-middle">
 			                      <div class="btn btn-secondary mb-2" onclick="deleteBoNewbook(${status.index})">삭제</div>
 			                   </td>
