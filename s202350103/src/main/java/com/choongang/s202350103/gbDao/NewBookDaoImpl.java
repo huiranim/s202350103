@@ -49,7 +49,7 @@ public class NewBookDaoImpl implements NewBookDao {
 		int searchNewbookCnt = 0;
 		try {
 			System.out.println("NewBookDaoImpl selectSearchNewBookCnt Start...");
-			searchNewbookCnt = session.selectOne("gbSelectInNbCnt", newbook);
+			searchNewbookCnt = session.selectOne("gbSearchSelectInNbCnt", newbook);
 			System.out.println("NewBookDaoImpl selectSearchNewBookCnt searchNewbookCnt -> "+searchNewbookCnt);
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectSearchNewBookCnt -> "+e.getMessage());
