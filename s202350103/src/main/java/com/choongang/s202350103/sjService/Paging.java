@@ -13,6 +13,7 @@ public class Paging {
 	private int startPage;			private int endPage;
 	private int totalOb;			private int totalObPage;
     
+
 	//                23             null(2)
 	public Paging(int totalOb, String currentPage1) {
 		this.totalOb = totalOb;    // 23
@@ -32,4 +33,6 @@ public class Paging {
 			endPage = totalObPage;
 		}
 	}
+
+	
 }

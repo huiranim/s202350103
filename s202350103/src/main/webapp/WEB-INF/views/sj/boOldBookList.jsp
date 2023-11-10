@@ -65,12 +65,12 @@
 	                       <span><small class="text-muted"></small></span>
 	                    </td>
 	                    <td class="align-middle border-top-0">
-	                       <a href="#" class="text-inherit">${oldBook.ob_num }</a>
+	                      ${oldBook.ob_num }
 	                    </td>
 	                    <td class="align-middle border-top-0">
-	                    <a href="#" class="fw-semi-bold text-inherit">
+	                    
 	                     	  ${oldBook.ob_acc_num }
-	                        </a>
+	                       
 	                    </td>
 	                    <td class="align-middle border-top-0">
 	     		<c:choose>
@@ -84,14 +84,13 @@
       			 <c:choose>
 					<c:when test="${oldBook.ob_status eq '0' }"><c:out value=""/>
 							<input type="button" value="검수하기" name="ob_num" onclick="location.href='BoupdateObDetailCheck?ob_num=${oldBook.ob_num}'">								
-							<input type="button" value="등록하기" name="ob_num"  onclick="#">
 							<input type="button" class="btn-primary" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 						</c:when>
 							<c:when test="${oldBook.ob_status eq '1' }"><c:out value=""/>
-							<input type="button" value="등록하기" onclick="#">
 							<input type="button" class="btn-primary" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 						</c:when>
 						<c:otherwise><c:out value=""/>
+						<input type="button" value="등록하기" name="ob_num" onclick="#">
 						<input type="button" class="btn-primary" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 						</c:otherwise>
 				

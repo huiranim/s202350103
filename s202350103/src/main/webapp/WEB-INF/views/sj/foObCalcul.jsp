@@ -26,18 +26,23 @@
 	  <br>
   <hr>
   <p class="text-start fs-4 ">정산 계좌    </p>
+
  <div class="input-group mb-3">
-  <button type="button">
-  <select name="ob_acc_name" >
-				<option value="1">국민은행</option>
-				<option value="2">신한은행</option>
-				<option value="3">농협은행</option>
-				<option value="4">기업은행</option>
-				<option value="5">하나은행</option>
-				<option value="6">수협은행</option>
+  
+ 
+ 	 <select name="ob_acc_name">
+				<option value="1">기업은행</option>
+				<option value="2">우리은행</option>
+				<option value="3">하나은행</option>
+				<option value="4">제일은행</option>
+				<option value="5">농      협</option>
+				<option value="6">신한은행</option>
+				<option value="7">국민은행</option>
+				<option value="8">카카오뱅크</option>
+				<option value="9">토스   뱅크</option>
 		</select> 
  
-  </button>
+ 
 
   <input type="number" name="ob_acc_num" class="form-control" placeholder="계좌 번호를 입력해주세요" aria-label="Text input with dropdown button">
  </div> 

@@ -13,15 +13,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="" class="col-lg-12 d-block">
-<p class="fs-1 text-center">중고 검수 상세 내역 My페이지</p>
+
+<p class="fs-1 text-center">중고 검수 상세내역</p>
 
 <input type="hidden" name="ob_num" value="${oldBook.ob_num }">
 
 <table class="table table-bordered">
     <tr>
 	      <td scope="col">신청 일자</td>
-	      <td scope="col" colspan="2"><fmt:formatDate value="${oldBook.ob_report_date }" pattern="yyyy-MM-dd KK:mm:ss"></fmt:formatDate></td> 
+	      <td scope="col" colspan="2">${oldBook.ob_report_date }</td> 
     </tr>
     <tr>
 	      <td>중고상품번호 </td>
@@ -34,7 +34,7 @@
 				<c:when test="${oldBook.ob_status eq '0' }"><c:out value="검수중"/></c:when>
 				<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수완료"/></c:when>
 				<c:otherwise><c:out value="매입완료"/></c:otherwise>
-				<input type="hidden" name="ob_status" value="2">
+				
 		</c:choose>
       </td>
     </tr>
@@ -102,16 +102,16 @@
 	       </td>
 	    </tr>
 	    <tr>
-	      <td>중고 판매가</td>
-	      <td colspan="2"> <fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.ob_sell_price}" />원</td>
+	      <td>정산 가격 </td>
+	      <td colspan="2"> <fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.ob_pur_price}" />원</td>
 	    </tr>
 	</table>
-	
+	<form action="foObUpComple" method="post">
 	<div class="d-grid gap-2">
-		    <button class="btn btn-dark" type="button" onclick="">정산받기</button>
+		    <button class="btn btn-dark" type="submit" >정산받기</button>
+		    <input type="hidden" name="ob_status" value="2">
+		    <input type="hidden" name="ob_num" value="${oldBook.ob_num }">
 	</div>
-   
-	
 	</form>		
 			 <div class="d-grid gap-2">
 		    <button class="btn btn-dark" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
