@@ -45,12 +45,12 @@
 	        <div class="col-lg-8 col-md-7">
 	          <div class="py-3">
 	          	<div class="table-responsive">
-			        <table class="table text-nowrap table-with-checkbox">
+			        <table class="table text-nowrap table-with-checkbox" style="margin-bottom: 0px;">
 			                <thead class="table-light">
 			                  <tr>
 			                    <th></th>
 			                    <th style="padding-left: 70px;">제목</th>
-			                    <th></th>
+			                    <th>카테고리</th>
 			                    <th></th>    
 			                    <th></th>
 			                    <th>수량</th>
@@ -128,8 +128,9 @@
               <!-- heading -->
               	<h5>상품금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
               	<h5>배송비 <span>
-              	<c:if test="${totalPrice > 50000 }"><fmt:formatNumber value="0" pattern="#,###" /> 원</c:if>
-              	<c:if test="${totalPrice <= 50000 }"><fmt:formatNumber value="3000" pattern="#,###" /> 원</c:if></span></h5> 
+              	<c:if test="${totalPrice >= 50000 || totalPrice == 0 }"><fmt:formatNumber value="0" pattern="#,###" /> 원</c:if>
+              	<c:if test="${totalPrice < 50000 && totalPrice > 0 }"><fmt:formatNumber value="3000" pattern="#,###" /> 원</c:if></span></h5>
+              	
               <hr>
               	<h5>결제예정금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
               <div class="d-grid mb-1 mt-4">

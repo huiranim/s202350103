@@ -69,10 +69,25 @@
 			         <!-- heading -->
 				         <h2 class="mb-2">찜목록</h2>
 				         <p><a href="#">${member.m_id } 님의 찜 목록입니다.</a></p>
-				               총 상품 개수 : ${totalWishList }		
+				         <c:if test="${memberWishList.size() != 0 }">총 상품 개수 : ${totalWishList }</c:if>
+				         <c:if test="${memberWishList.size() == 0 }">
+				         	찜한 상품이 없습니다!!!!
+				         	<div class="col-lg-8 col-md-7">
+					          <div class="py-3">
+					         	<button class="btn btn-primary justify-content-between align-items-center" onclick="bookListPage()">상품 보러가기</button>
+					          </div>
+							</div>
+				         </c:if>
+				         	
 			      	</div>
 		          <div>
-		          	<c:if test="${memberWishList.size() != 0 }">
+		          <c:if test="${memberWishList.size() == 0 }">
+					 <div class="mb-8">
+					 
+					            
+				      </div>
+				  </c:if>
+		          	
 		            <!-- table -->
 		            <div class="table-responsive">
 		            
@@ -88,7 +103,7 @@
 		                    <th>삭제</th>
 		                  </tr>
 		                </thead>
-		                
+		                <c:if test="${memberWishList.size() != 0 }">
 		                <tbody>
 		                <c:forEach var="wishList" items="${memberWishList }">
 		                  <tr>
@@ -115,18 +130,10 @@
 		                  </tr>
 		                  </c:forEach>
 		                </tbody>
-		              
+		               </c:if>
 		              </table>
 		            </div>
-				  </c:if>
 		          </div>
-		          <c:if test="${memberWishList.size() == 0 }">
-					<div class="col-lg-8 col-md-7">
-			          <div class="py-3">
-			         	<button class="btn btn-primary justify-content-between align-items-center" onclick="bookListPage()">상품 보러가기</button>
-			          </div>
-					</div>
-				  </c:if>
 		        </div>
 		
 		      </div>
