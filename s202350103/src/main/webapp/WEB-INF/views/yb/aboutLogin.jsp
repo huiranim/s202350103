@@ -62,14 +62,13 @@
 	    }
 	    return unescape(cookieValue);
 	}
-	
-
-	function submitName(e) {
-	    if (e.code === 'Enter') {
-	        document.getElementById('btnSearch').click();
-	    }
-	}
-	
+		
+	// 로그인 버튼 엔터키 동작
+	document.getElementById("m_pw").addEventListener("keyup", function(event) {
+  		if (event.key === "Enter") {
+    		document.getElementById("btnSearch").click();
+  		}
+	});
 	
 	function loginChk(m_id, m_pw) {		
 	
@@ -106,7 +105,7 @@
 		
 	} 
 
-
+	
 
 
 </script>

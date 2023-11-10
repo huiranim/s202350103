@@ -22,8 +22,10 @@
 				               총 상품 개수 : ${totalWishList }		
 			      	</div>
 		          <div>
+		          	<c:if test="${memberWishList.size() != 0 }">
 		            <!-- table -->
 		            <div class="table-responsive">
+		            
 		              <table class="table text-nowrap table-with-checkbox">
 		              
 		                <thead class="table-light">
@@ -36,6 +38,7 @@
 		                    <th>삭제</th>
 		                  </tr>
 		                </thead>
+		                
 		                <tbody>
 		                <c:forEach var="wishList" items="${memberWishList }">
 		                  <tr>
@@ -62,11 +65,18 @@
 		                  </tr>
 		                  </c:forEach>
 		                </tbody>
-		               
+		              
 		              </table>
 		            </div>
-		
+				  </c:if>
 		          </div>
+		          <c:if test="${memberWishList.size() == 0 }">
+					<div class="col-lg-8 col-md-7">
+			          <div class="py-3">
+			         	<button class="btn btn-primary justify-content-between align-items-center" onclick="bookListPage()">상품 보러가기</button>
+			          </div>
+					</div>
+				  </c:if>
 		        </div>
 		
 		      </div>
