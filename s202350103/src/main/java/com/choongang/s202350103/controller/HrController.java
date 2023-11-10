@@ -1,7 +1,10 @@
 package com.choongang.s202350103.controller;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j 
 public class HrController {
-	private final MemberService ms;
-	private final OrderService os;
+	private final MemberService  ms;
+	private final OrderService 	 os;
 	private final NewbookService ns;
+	private final JavaMailSender mailSender;
 	
 	@RequestMapping(value = "helloFo")
 	public String memTot1(Model model) {
@@ -301,7 +305,31 @@ public class HrController {
 		int result = os.givingGiftAction(member, orderr, orderGift);
 		model.addAttribute("result", result);
 		
+		// 메일 발송을 위해 주요 객체 model에 저장
+		model.addAttribute("member", member);
+		model.addAttribute("orderr", orderr);
+		model.addAttribute("orderGift", orderGift);
+		
 		System.out.println("HrController givingGiftAction() end..");
+		return "redirect:giftMailing";
+	}
+	
+	// FO 선물하기 - 메일 발송
+	@RequestMapping("giftMailing")
+	public String giftMailing(HttpServletRequest request, Model model) {
+		System.out.println("HrController giftMailing() start..");
+
+		// 받는 사람
+		String tomail = ((Orderr) model.getAttribute("orderr")).getO_rec_mail();
+		System.out.println("HrController giftMailing() tomail -> "+tomail);
+		
+		// 보내는사람
+		String setfrom = "gml2511@gmail.com";
+		
+		// 제목
+		String title = "[DADOK] "+"님으로부터 선물이 도착했습니다!";
+		
+		System.out.println("HrController giftMailing() end..");		
 		return "/hr/foGivingGiftAction";
 	}
 }
