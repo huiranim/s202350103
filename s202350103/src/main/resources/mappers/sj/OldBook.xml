@@ -19,7 +19,7 @@
 				SELECT *
 				FROM
 				(
-			        SELECT rownum rn , a.nb_title, a.nb_price ,
+			        SELECT rownum rn , a.nb_title, a.nb_price , a.m_num ,
 			        a.nb_writer, a.nb_publisher , a.nb_image , a.nb_publi_date,
 			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
 			         a.nb_page , a.nb_size,
@@ -80,8 +80,8 @@ select *
 	
 	<insert id="insertOldBook" parameterType="OldBook">
 		Insert into 
-		   oldbook(    ob_num,                     nb_num,    ob_acc_name,    ob_acc_num,     ob_trans_com,   ob_trans_num,   ob_report_date ) 
-		   values ( OLDBOOK_OB_NUM_SEQ.nextval , #{nb_num} ,#{ob_acc_name} , #{ob_acc_num},  #{ob_trans_com},#{ob_trans_num} , sysdate )
+		   oldbook(    ob_num,                     nb_num,    m_num    ,     ob_acc_name,    ob_acc_num,     ob_trans_com,   ob_trans_num,   ob_report_date ) 
+		   values ( OLDBOOK_OB_NUM_SEQ.nextval , #{nb_num} , #{m_num} , #{ob_acc_name} , #{ob_acc_num},  #{ob_trans_com},#{ob_trans_num} , sysdate )
 	</insert>
 
 	<select id="SelectAcc" resultType="OldBook">
