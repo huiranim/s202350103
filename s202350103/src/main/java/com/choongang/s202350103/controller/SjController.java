@@ -287,8 +287,7 @@ public class SjController {
 		model.addAttribute("uptCnt",updateCount);    // Test Controller간 Data 전달
 		model.addAttribute("oldBook",oldBook);
 		
-   		return "redirect:folistOb";   
-        
+   		return "redirect:folistOb";    
 	}
 		
 }
