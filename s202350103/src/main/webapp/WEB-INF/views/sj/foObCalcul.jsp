@@ -41,8 +41,9 @@
 		</select> 
  
 
-
-  <input type="number" name="ob_acc_num" class="form-control" placeholder="계좌 번호를 입력해주세요" aria-label="Text input with dropdown button">
+	<input type="hidden" name="ob_status" value="1">
+  <input type="number" name="ob_acc_num" class="form-control" placeholder="계좌 번호를 입력해주세요" 
+  required="required" aria-label="Text input with dropdown button">
  </div> 
  
  <br>

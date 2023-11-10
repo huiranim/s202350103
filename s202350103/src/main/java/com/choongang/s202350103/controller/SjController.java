@@ -289,7 +289,14 @@ public class SjController {
 		
    		return "redirect:folistOb";    
 	}
+	@RequestMapping(value = "index")
+	public String main22(Model model) {
 		
+		
+		return "common/mainBo";
+	}
+	
+	
 }
 	
 	

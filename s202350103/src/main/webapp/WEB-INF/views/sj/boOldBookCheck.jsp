@@ -146,11 +146,11 @@
 		      <td>검수매입상태</td>
 		      <td colspan="2">
 	      	<c:choose>		
-					<c:when test="${oldBook.ob_status eq '0' }"><c:out value="검수중"/></c:when>
-					<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수완료"/></c:when>
+					<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수중"/></c:when>
+					<c:when test="${oldBook.ob_status eq '2' }"><c:out value="검수완료"/></c:when>
 					<c:otherwise><c:out value="매입완료"/></c:otherwise>
 			</c:choose>
-			<input type="hidden" name="ob_status"  value="1">
+			<input type="hidden" name="ob_status"  value="2">
 	      </td>
 	    </tr>
 	     <tr>
@@ -235,11 +235,14 @@
     	</tr>
   
 	</table>
-	 
+	 	<br>
+	 	<br>
 	 	<div class="d-grid gap-2">
 		    <button class="btn btn-dark" id="target_btn" type="submit" disabled="disabled"  >등록하기</button>
 		</div>
 	</form>
+	
+	 	<br> 
         <div class="d-grid gap-2">
 		    <button class="btn btn-dark" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
 		</div>

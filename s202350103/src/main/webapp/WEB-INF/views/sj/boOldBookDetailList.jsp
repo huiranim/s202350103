@@ -94,9 +94,10 @@
 	      <td>검수매입상태</td>
 	      <td colspan="2">
       	<c:choose>		
-				<c:when test="${oldBook.ob_status eq '0' }"><c:out value="검수중"/></c:when>
-				<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수완료"/></c:when>
-				<c:otherwise><c:out value="매입완료"/></c:otherwise>
+				<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수중"/></c:when>
+				<c:when test="${oldBook.ob_status eq '2' }"><c:out value="검수완료"/></c:when>
+				<c:when test="${oldBook.ob_status eq '3' }"><c:out value="매입완료"/></c:when>
+				<c:otherwise><c:out value=""/></c:otherwise>
 		</c:choose>
 				
       </td>

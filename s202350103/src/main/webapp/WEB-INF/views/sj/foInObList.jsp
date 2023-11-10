@@ -114,7 +114,7 @@
 							${oldBook.nb_title}</a>
 		                 </h1>
 		                 <!-- 지은이, 출판사, 출판일 -->
-		                 <h3 class="fs-6 mb-3">${oldBook.nb_writer} | ${oldBook.nb_publisher} | ${inNewbook.nb_publi_date}
+		                 <h3 class="fs-6 mb-3">${oldBook.nb_writer} | ${oldBook.nb_publisher} | ${oldBook.nb_publi_date}
 		                 </h3>
 		              <div>
 	                    <!-- 별점 -->
