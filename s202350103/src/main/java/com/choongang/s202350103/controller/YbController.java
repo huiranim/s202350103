@@ -477,7 +477,7 @@ public class YbController {
 		model.addAttribute("m_num", m_num);
 		return "yb/memberPwChangeForm";
 	}
-	// 비
+	// 인증 후 비밀번호 변경 
 	@GetMapping(value = "memberPwChange")
 	public String memberPwChange(String m_num, String m_pw, Member member) {
 		System.out.println("YbController memberPwChange() start..");
@@ -490,7 +490,8 @@ public class YbController {
 		session.invalidate(); // 세션 초기화
 		return "main"; 
 	}
-
+	
+	
 }
 	
 

@@ -165,6 +165,14 @@ public class MemberServiceImpl1 implements MemberService {
 		return memberPwChange;
 	}
 
+	@Override
+	public int memCount() {
+		System.out.println("MemberServiceImpl1 memCount start...");
+		int memCount = md.memCount();
+		
+		return memCount;
+	}
+
 	
 
 	

@@ -31,10 +31,12 @@
 		                  <tr>
 		                    <th></th>
 		                    <th>제목</th>
-		                    <th>등급</th>
+		                    <th>상태</th>
+		                    <th style="padding-left: 10px;">등급</th>
 		                    <th>매입가</th>
 		                    <th>판매 예상가</th>
-		                    <th>등록일자</th>
+		                    <th style="padding-left: 10px;">등록일자</th>
+		                    <th style="padding-left: 0px; padding-right: 10px;"></th>
 		                  </tr>
 		                </thead>
 		                <tbody>
@@ -51,10 +53,27 @@
 		                         <small>${oldbook.nb_publisher }</small><br>
 		                      </div>
 		                    </td>
-		                    <td class="align-middle">${oldbook.ob_grade }등급</td>
+		                    <td class="align-middle">
+		                    	<c:choose>
+										<c:when test="${oldbook.ob_status == 1}"><span>검수중</span></c:when>
+										<c:when test="${oldbook.ob_status == 2}"><span>검수완료</span></c:when>
+										<c:when test="${oldbook.ob_status == 3}"><span>매입완료</span></c:when>
+								</c:choose>
+		                 	</td>
+		                    <td class="align-middle" style="padding-left: 10px;">
+		                    	<c:choose>
+										<c:when test="${oldbook.ob_grade == 0}"><span>A 등급</span></c:when>
+										<c:when test="${oldbook.ob_grade == 1}"><span>B 등급</span></c:when>
+										<c:when test="${oldbook.ob_grade == 2}"><span>C 등급</span></c:when>
+										<c:when test="${oldbook.ob_grade == 3}"><span>D 등급</span></c:when>
+								</c:choose>
+		                 	</td>
 		                    <td class="align-middle"><fmt:formatNumber value="${oldbook.ob_pur_price }" pattern="#,###" /> 원</td>
 		                    <td class="align-middle"><fmt:formatNumber value="${oldbook.ob_sell_price }" pattern="#,###" /> 원</td>
-		                    <td class="align-middle"><fmt:formatDate value="${oldbook.ob_write_date }" pattern="yyyy년MM월dd일"/></td>
+		                    <td class="align-middle" style="padding-left: 10px;"><fmt:formatDate value="${oldbook.ob_write_date }" pattern="yyyy년MM월dd일"/></td>
+		                    <td style="padding-left: 0px; padding-right: 10px;"><div class="d-flex justify-content-between mt-4">
+					              <button class="btn btn-dark btn-sm">상세보기</button>
+					            </div>
 		                  </tr>
 		                  </c:forEach>
 		                </tbody>
