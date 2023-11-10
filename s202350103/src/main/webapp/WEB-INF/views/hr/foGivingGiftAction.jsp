@@ -10,10 +10,8 @@
 </head>
 <body>
 
-안녕안녕
-
 <c:choose>
-	<c:when test="${result = 1 }">
+	<c:when test="${result == 1 }">
 		선물 성공
 	</c:when>
 	<c:otherwise>

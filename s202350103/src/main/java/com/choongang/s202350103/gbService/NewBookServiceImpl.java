@@ -161,5 +161,13 @@ public class NewBookServiceImpl implements NewBookService {
 		return result;
 	}
 
+	@Override
+	public int insertBoNewbook(NewBook newbook) {
+		System.out.println("NewBookServiceImpl insertBoNewbook start...");
+		int result = nbd.insertBoNewbook(newbook);
+		System.out.println("NewBookServiceImpl insertBoNewbook result ->"+result);
+		return result;
+	}
+
 
 }

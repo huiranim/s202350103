@@ -214,5 +214,17 @@ public class NewBookDaoImpl implements NewBookDao {
 		return result;
 	}
 
+	@Override
+	public int insertBoNewbook(NewBook newbook) {
+		System.out.println("NewBookDaoImpl insertBoNewbook Start...");
+		int result = 0;
+		try {
+			result = session.insert("gbInsertBoNewbook", newbook);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl insertBoNewbook -> "+e.getMessage());
+		}
+		return result;
+	}
+
 }
 

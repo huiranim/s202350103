@@ -304,8 +304,13 @@ public class GbController {
 		newbook.setEnd(page.getEndRow());
 		System.out.println("GbController page.getStartRow() -> "+page.getStartRow());
 		
-		// 국내도서 검색 리스트
+		// 국내도서 리스트
 		List<NewBook> listBoNewbook = nbs.selectBoNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
+		
+		for (int i=0; i < listBoNewbook.size(); i++) {
+			String nb_register_date1 = listBoNewbook.get(i).getNb_register_date().substring(0,10);
+			listBoNewbook.get(i).setNb_register_date(nb_register_date1);
+		}
 		
 		model.addAttribute("listBoNewbook", listBoNewbook);
 		model.addAttribute("page", page);
@@ -335,6 +340,11 @@ public class GbController {
 		// 국내도서 검색 리스트
 		List<NewBook> listSearchBoNewbook = nbs.selectSearchBoNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
 		System.out.println("GbController selectBoNewbookList listSearchBoNewbook.size() -> "+listSearchBoNewbook.size());
+		
+		for (int i=0; i < listSearchBoNewbook.size(); i++) {
+			String nb_register_date1 = listSearchBoNewbook.get(i).getNb_register_date().substring(0,10);
+			listSearchBoNewbook.get(i).setNb_register_date(nb_register_date1);
+		}
 		
 		model.addAttribute("search_Newbook", newbook);
 		model.addAttribute("listBoNewbook", listSearchBoNewbook);
@@ -424,6 +434,39 @@ public class GbController {
 		System.out.println("GbController deleteBoNewbook result -> "+result);
 		
 		return result;
+	}
+	
+	// 상품 등록하는 화면으로 이동
+	@GetMapping("bonewbookInsert")
+	public String insertFormMove() {
+		System.out.println("GbController insertFormMove start...");
+		
+		return "gb/boNewbookInsertForm";
+		
+	}
+	
+	// 상품 등록
+	@PostMapping("insertBoNewbook")
+	public String insertBoNewbook(HttpServletRequest request, MultipartFile file1, NewBook newbook, Model model) throws IOException {
+		System.out.println("GbController insertBoNewbook start...");
+		int result = 0;
+		
+		// 만약 file에 담겨진 값이 있다면 파일 이름 생성
+		if(file1.getOriginalFilename().length() > 0) {
+			// 업로드 경로를 만들어야함.
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			System.out.println("GbController uploadPath->"+uploadPath);
+			
+			System.out.println("GbController uploadForm Post Start");
+			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+			System.out.println("GbController updateBoNewbook Post savedName ->"+savedName);
+			newbook.setNb_image(savedName);
+			System.out.println("GbController updateBoNewbook Post nb_image ->"+newbook.getNb_image());
+		}
+		
+		result = nbs.insertBoNewbook(newbook);
+		
+		return "redirect:bonewbookList?result="+result;
 	}
 	 
 }
