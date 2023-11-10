@@ -29,7 +29,7 @@ public class SjController {
 	public String test(Model model) {
 		
 		
-		return "sj/foModalList";
+		return "sj/test";
 	}
 	
 	
@@ -108,7 +108,7 @@ public class SjController {
 		model.addAttribute("oldBook",oldBook);
 //		model.addAttribute("kk3","Message Test");    // Test Controller간 Data 전달
    		//return "forward:boOldBookList";   
-   		return "redirect:boOldBookCheck";   
+   		return "redirect:BolistOb";   
 	}
 	
 	@RequestMapping(value = "writeFormObReport" ,method = RequestMethod.GET )
@@ -220,7 +220,7 @@ public class SjController {
 	
 	}
 	
-	@GetMapping(value = "BodetailObFo")
+	@GetMapping(value = "FodetailOb")
 	public String detailObFo (int ob_num, Model model) {
 		System.out.println("SjController Start detailOb...");
 		
@@ -241,21 +241,21 @@ public class SjController {
 		
 		System.out.println("SjController Start ");
 		
-		int totalOb = obs.totalOb();
+		int totalOb2 = obs.totalOb2();
 		//Paging 작업
-		Paging  page = new Paging(totalOb, currentPage);
+		Paging  page = new Paging(totalOb2, currentPage);
 		
 		oldBook.setStart(page.getStart());
 		oldBook.setEnd(page.getEnd());
 		
-		List<OldBook> listOb = obs.listOb(oldBook);
+		List<OldBook> OblistFo = obs.listObFo(oldBook);
 		
 		
-		model.addAttribute("totalOb", totalOb);
-		model.addAttribute("listOb" , listOb);
+		model.addAttribute("totalOb2", totalOb2);
+		model.addAttribute("listObFo" , OblistFo);
 		model.addAttribute("page" , page);
 		
-		return "sj/test";
+		return "sj/foInObList";
 		
 	}
 	
@@ -272,11 +272,23 @@ public class SjController {
 		
 		model.addAttribute("oldBook",oldBook);
 		
-		return "sj/boOldBookDetailList";
+		return "sj/foOldBookDetail";
 	
 	}
 	
+	//용빈 정산받기 버튼 컨트롤러
+	@PostMapping(value = "foObUpComple")
+	public String FoupdateObComple(OldBook oldBook, Model model) {
+        log.info("FoupdateObComple Start...");
 	
+        
+        int updateCount = obs.updateObComp(oldBook);
+    	System.out.println("SjController updateCount-->"+updateCount);
+		model.addAttribute("uptCnt",updateCount);    // Test Controller간 Data 전달
+		model.addAttribute("oldBook",oldBook);
+		
+   		return "redirect:folistOb";    
+	}
 		
 }
 	

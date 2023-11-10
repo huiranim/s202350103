@@ -110,12 +110,17 @@
 			    	totalCalculVal = 0;
 			    }
 			    	
+			    
+			    
+			    
 			 	//calcul의 그릇  --> 리턴으로 value값 전달
 			 	$("#totalCalculVal").val(totalCalculVal);
 				
 			    $("#totalCalculValSell").val(parseInt(totalCalculVal*1.1));
 			     
-			    //alert ("z"+$("#totalSum"));
+			    const target = document.getElementById('target_btn');
+				  target.disabled = false;
+
 			}
 </script>
 <head>
@@ -125,7 +130,7 @@
 <body>
 
 <form action="updateOb" method="post">
-<p class="fs-1 text-center">중고 검수등록 1 </p>
+<p class="fs-1 text-center">중고 검수 등록 </p>
 
 <input type="hidden" name="ob_report_date" value="${oldBook.ob_report_date }">
 <table class="table table-bordered">
@@ -135,7 +140,7 @@
 	    </tr>
 	     <tr>
 		      <td>중고상품번호 </td>
-		      <td colspan="2"><input type="hidden"  value="${oldBook.ob_num }">${oldBook.ob_num } </td>
+		      <td colspan="2"><input type="hidden" name="ob_num" value="${oldBook.ob_num }">${oldBook.ob_num } </td>
 	    </tr>
 	      <tr>
 		      <td>검수매입상태</td>
@@ -156,11 +161,11 @@
 	     <tr>
 			      <td>중고매입가격 </td>
 			      <td colspan="2">
-			   		${oldBook.nb_price *0.6} 
+			   	<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price *0.6}"/>원   
 			      </td>
 	       </tr>
 	     <tr>					
-	      <td rowspan="3"> 검수내역 <button type="button" class="btn btn-dark mb-2" onclick="btnActive()">등록하기</button> </td>
+	      <td rowspan="3"> 검수내역  </td>
 		      <td>찢김</td>
 		      <td>
 		        <input class="form-check-input" type="checkbox" onclick="toggleChk(1)">
@@ -232,7 +237,7 @@
 	</table>
 	 
 	 	<div class="d-grid gap-2">
-		    <button class="btn btn-dark" id="target_btn" type="submit" disabled="disabled" >등록하기</button>
+		    <button class="btn btn-dark" id="target_btn" type="submit" disabled="disabled"  >등록하기</button>
 		</div>
 	</form>
         <div class="d-grid gap-2">

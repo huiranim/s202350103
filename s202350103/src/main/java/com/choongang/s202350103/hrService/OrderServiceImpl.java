@@ -140,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
 	public int givingGiftAction(Member member, Orderr orderr, OrderGift orderGift) {
 		System.out.println("OrderServiceImpl givingGiftAction() start..");
 		
-		// 
+		// 선물 받는사람 정보 저장
 		orderGift.setO_gift_name(orderr.getO_rec_name());
 		orderGift.setO_gift_ph(orderr.getO_rec_mail());
 		

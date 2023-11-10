@@ -9,20 +9,31 @@
 	
 	</select>
 
+	<select id="totObCnt2" resultType="int">
+		SELECT Count(*) FROM oldbook
+		where ob_status = 2
+	</select>
+
 	<select id="sjObListAll" resultType="OldBook" parameterType="OldBook">
-			SELECT *
-			FROM
-			(
-        SELECT rownum rn , a.nb_title, a.nb_price , a.ob_num, a.ob_acc_name, a.ob_acc_num, 
-        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, a.ob_report_date, 
-        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
-        FROM
-          (select *
-          from  newbook n , oldbook o
-          WHERE  n.nb_num = o.nb_num 
-                   order by o.ob_num) a
-			)  	
-	 		WHERE  rn BETWEEN #{start} and #{end} 
+			     <![CDATA[
+				SELECT *
+				FROM
+				(
+			        SELECT rownum rn , a.nb_title, a.nb_price ,
+			        a.nb_writer, a.nb_publisher , a.nb_image , a.nb_publi_date,
+			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
+			         a.nb_page , a.nb_size,
+				        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
+				        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
+				        FROM
+	                   (select *
+	                   from  newbook n , oldbook o
+	                   WHERE  n.nb_num = o.nb_num 
+	                           order by o.ob_num) a  
+				 )  
+		 		WHERE ob_status IN  2
+	
+	 	  ]]>	
 	
 	</select>
 	<select id="sjObSelOne" parameterType="int" resultType="OldBook">	        
@@ -39,7 +50,8 @@ select *
 				(
 			        SELECT rownum rn , a.nb_title, a.nb_price ,
 			        a.nb_writer, a.nb_publisher , a.nb_image , a.nb_publi_date,
-			        a.ob_num, a.ob_acc_name, a.ob_acc_num, 
+			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
+			         a.nb_page , a.nb_size,
 				        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
 				        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
 				        FROM
@@ -63,7 +75,7 @@ select *
 		    ob_smeary = #{ob_smeary}, 
 		    ob_grade = #{ob_grade},
 		    ob_sell_price =#{ob_sell_price}
-			WHERE ob_num
+			WHERE ob_num =#{ob_num}
 	</update>
 	
 	<insert id="insertOldBook" parameterType="OldBook">
@@ -89,6 +101,14 @@ select *
 			From newbook
 			where nb_num = #{nb_num}
 	</select>
+	<update id="sjObUpdateComple"  parameterType="OldBook" >
+		UPDATE oldbook 
+		SET 
+			ob_status = #{ob_status}
+			WHERE ob_num =#{ob_num}
+	</update>
+
+
 
 
 

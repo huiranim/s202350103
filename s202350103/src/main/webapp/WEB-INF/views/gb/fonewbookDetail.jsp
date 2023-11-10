@@ -115,16 +115,12 @@
 	}  
 
 	
-	function reviewListFocus(pStatus){
-		alert("리뷰 더보기 포커스 이동 start...");
-		alert("리뷰 더보기 포커스 pStatus---> " + pStatus);
-    	if(pStatus == 1) {
-    		//document.getElementById("reviewList").focus(); //reviewList로 이동
-    		alert("리뷰 더보기 포커스 이동");
-    	} else {
-    		alert("리뷰 더보기 포커스 이동 실패");
-    	}
-        
+	function reviewListFocus(p_status){
+    	if(p_status == 1) {
+   		 var reviewsTab = new bootstrap.Tab(document.getElementById("reviews-tab"));
+         reviewsTab.show();
+         document.getElementById("reviewFocus").scrollIntoView();
+    	} 
     }
 
 	$(function() {
@@ -140,7 +136,7 @@
 </script>
 </head>
 <body onload="reviewListFocus(${review.p_status})">
-	<h3>조회수 : ${newbook.nb_readcnt } pStatus : ${review.p_status}</h3>
+	<h3>조회수 : ${newbook.nb_readcnt }</h3>
 	<div class="row">
 	  <div class="col-md-6 row justify-content-center">
 		<!-- 도서 이미지 -->
@@ -337,161 +333,160 @@
                 <!-- row -->
                  <!-- 형택이꺼 -->
                 <div class="row" id="reviewList">
- <body>
-<div class="row">
- <div class="col-md-4">
-       <div class="me-lg-12 mb-6 mb-md-0">
-          <div class="mb-5">
-             <!-- title -->
-             <h4 class="mb-3">고객 리뷰</h4>
-             <span>
-                <!-- rating --> <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i></small><span class="ms-3">${review.r_review_average } out of 5</span><small
-                   class="ms-3">리뷰 총 수량 : ${review.r_review_total}</small>
-             </span>
-          </div>
-          <div class="mb-8">
-             <!-- progress -->
-             <div class="d-flex align-items-center mb-2">
-                <div class="text-nowrap me-3 text-muted"><span
-                   class="d-inline-block align-middle text-muted">5</span><i
-                   class="bi bi-star-fill ms-1 small text-warning"></i></div>
-                <div class="w-100">
-                   <div class="progress" style="height: 6px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating5+20}%;"
-                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                   </div>
-                </div>
-                <span class="text-muted ms-3">${review.r_rating5}%</span>
-             </div>
-             <!-- progress -->
-             <div class="d-flex align-items-center mb-2">
-                <div class="text-nowrap me-3 text-muted"><span
-                   class="d-inline-block align-middle text-muted">4</span><i
-                   class="bi bi-star-fill ms-1 small text-warning"></i></div>
-                <div class="w-100">
-                   <div class="progress" style="height: 6px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating4+20}%;"
-                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="50"></div>
-                   </div>
-                </div>
-                <span class="text-muted ms-3">${review.r_rating4}%</span>
-             </div>
-             <!-- progress -->
-             <div class="d-flex align-items-center mb-2">
-                <div class="text-nowrap me-3 text-muted"><span
-                   class="d-inline-block align-middle text-muted">3</span><i
-                   class="bi bi-star-fill ms-1 small text-warning"></i></div>
-                <div class="w-100">
-                   <div class="progress" style="height: 6px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating3+20}%;"
-                        aria-valuenow="35" aria-valuemin="0" aria-valuemax="35"></div>
-                   </div>
-                </div>
-                <span class="text-muted ms-3">${review.r_rating3}%</span>
-             </div>
-             <!-- progress -->
-             <div class="d-flex align-items-center mb-2">
-                <div class="text-nowrap me-3 text-muted"><span
-                   class="d-inline-block align-middle text-muted">2</span><i
-                   class="bi bi-star-fill ms-1 small text-warning"></i></div>
-                <div class="w-100">
-                   <div class="progress" style="height: 6px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating2+20}%;"
-                     aria-valuenow="22" aria-valuemin="0" aria-valuemax="22"></div>
-                   </div>
-                </div>
-                <span class="text-muted ms-3">${review.r_rating2}%</span>
-             </div>
-             <!-- progress -->
-             <div class="d-flex align-items-center mb-2">
-                <div class="text-nowrap me-3 text-muted"><span
-                   class="d-inline-block align-middle text-muted">1</span><i
-                   class="bi bi-star-fill ms-1 small text-warning"></i></div>
-                <div class="w-100">
-                   <div class="progress" style="height: 6px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating1+20}%;"
-                    aria-valuenow="14" aria-valuemin="0" aria-valuemax="14"></div>
-                   </div>
-                </div>
-                <span class="text-muted ms-3">${review.r_rating1}%</span>
-             </div>
-          </div>
-          <div class="d-grid">
-             <h4>해당 상품 리뷰</h4>
-             <p class="mb-0">다른 고객분들을 위해서 리뷰를 작성해주세요.</p>
-             <a href="MyReviewList" class="btn btn-outline-gray-400 mt-4 text-muted">리뷰 작성하기</a>
-          </div>
-       </div>
-    </div>
-    <!-- col -->
-    <div class="col-md-8">
-       <div class="mb-10">
-          <div class="d-flex justify-content-between align-items-center mb-8">
-             <div>
-                <!-- heading -->
-                <h4>리뷰</h4>
-             </div>
-             <div>
-             	<form action="" >
-             	   <select name="r_reviewSelect" id="reviewSel" 
-                	        class="form-select" 
-                	        aria-label="Default select example"
-                	        onchange="reviewChange(1,5)"
-                	>
-	                   <option value="1" <c:if test="${review.r_reviewSelect == '1' }">selected</c:if> >최신순</option>
-	                   <option value="2" <c:if test="${review.r_reviewSelect == '2' }">selected</c:if> >별점순</option>
-	                </select>
-                
-             	
-                </form>
-             </div>
-         
-          </div>
-	            <c:forEach var="reviews" items="${listReview}" >
-		          <div class="d-flex border-bottom pb-6 mb-6">
-		             <!-- img -->
-		             <img src="${reviews.nb_image}" alt="product_image"
-		                class="rounded-circle avatar-lg">
-		             <div class="ms-5">
-		                <h6 class="mb-1">
-		                 ${reviews.m_name }
-		                </h6>
-		                <!-- select option -->
-		                <!-- content -->
-		                <p class="small"> <span class="text-muted">${reviews.r_create_date}</span>
-		                </p>
-		                <!-- rating -->
-		                <div class=" mb-2">
-							<c:forEach begin="1" end="${reviews.r_rating}">
-			                   <i class="bi bi-star-fill text-warning"></i>
-			                </c:forEach>
-		                   <span class="ms-3 text-dark fw-bold">${reviews.r_title}</span>
-		                </div>
-		                <!-- text-->
-		                <p>${reviews.r_content}</p>
-		             </div>
-		          </div>
-                </c:forEach>
-          	
-                <form action="">
-           	       <input type="hidden" name="start"   value="1">
-          	       <input type="hidden" name="end"     value="${review.end + 5}">
-          	       <input type="hidden" name="pStatus" value="1">   
-            	   <input type="button" id="chk1" class="btn btn-outline-gray-400 text-muted" value="리뷰 더보기">
-				</form>
-				<!-- 형택이꺼 -->
-                </div>
-              </div>
-            </div>
-            
-          </div>
-        </div>
-      </div>
-    </div>
+					<div class="row">
+					 <div class="col-md-4">
+					       <div class="me-lg-12 mb-6 mb-md-0">
+					          <div class="mb-5">
+					             <!-- title -->
+					             <h4 class="mb-3">고객 리뷰</h4>
+					             <span>
+					                <!-- rating --> <small class="text-warning"> <i class="bi bi-star-fill"></i>
+					                <i class="bi bi-star-fill"></i>
+					                <i class="bi bi-star-fill"></i>
+					                <i class="bi bi-star-fill"></i>
+					                <i class="bi bi-star-half"></i></small><span class="ms-3">${review.r_review_average } out of 5</span><small
+					                   class="ms-3">리뷰 총 수량 : ${review.r_review_total}</small>
+					             </span>
+					          </div>
+					          <div class="mb-8">
+					             <!-- progress -->
+					             <div class="d-flex align-items-center mb-2">
+					                <div class="text-nowrap me-3 text-muted"><span
+					                   class="d-inline-block align-middle text-muted">5</span><i
+					                   class="bi bi-star-fill ms-1 small text-warning"></i></div>
+					                <div class="w-100">
+					                   <div class="progress" style="height: 6px;">
+					                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating5+20}%;"
+					                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+					                   </div>
+					                </div>
+					                <span class="text-muted ms-3">${review.r_rating5}%</span>
+					             </div>
+					             <!-- progress -->
+					             <div class="d-flex align-items-center mb-2">
+					                <div class="text-nowrap me-3 text-muted"><span
+					                   class="d-inline-block align-middle text-muted">4</span><i
+					                   class="bi bi-star-fill ms-1 small text-warning"></i></div>
+					                <div class="w-100">
+					                   <div class="progress" style="height: 6px;">
+					                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating4+20}%;"
+					                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="50"></div>
+					                   </div>
+					                </div>
+					                <span class="text-muted ms-3">${review.r_rating4}%</span>
+					             </div>
+					             <!-- progress -->
+					             <div class="d-flex align-items-center mb-2">
+					                <div class="text-nowrap me-3 text-muted"><span
+					                   class="d-inline-block align-middle text-muted">3</span><i
+					                   class="bi bi-star-fill ms-1 small text-warning"></i></div>
+					                <div class="w-100">
+					                   <div class="progress" style="height: 6px;">
+					                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating3+20}%;"
+					                        aria-valuenow="35" aria-valuemin="0" aria-valuemax="35"></div>
+					                   </div>
+					                </div>
+					                <span class="text-muted ms-3">${review.r_rating3}%</span>
+					             </div>
+					             <!-- progress -->
+					             <div class="d-flex align-items-center mb-2">
+					                <div class="text-nowrap me-3 text-muted"><span
+					                   class="d-inline-block align-middle text-muted">2</span><i
+					                   class="bi bi-star-fill ms-1 small text-warning"></i></div>
+					                <div class="w-100">
+					                   <div class="progress" style="height: 6px;">
+					                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating2+20}%;"
+					                     aria-valuenow="22" aria-valuemin="0" aria-valuemax="22"></div>
+					                   </div>
+					                </div>
+					                <span class="text-muted ms-3">${review.r_rating2}%</span>
+					             </div>
+					             <!-- progress -->
+					             <div class="d-flex align-items-center mb-2">
+					                <div class="text-nowrap me-3 text-muted"><span
+					                   class="d-inline-block align-middle text-muted">1</span><i
+					                   class="bi bi-star-fill ms-1 small text-warning"></i></div>
+					                <div class="w-100">
+					                   <div class="progress" style="height: 6px;">
+					                      <div class="progress-bar bg-warning" role="progressbar" style="width: ${review.r_rating1+20}%;"
+					                    aria-valuenow="14" aria-valuemin="0" aria-valuemax="14"></div>
+					                   </div>
+					                </div>
+					                <span class="text-muted ms-3">${review.r_rating1}%</span>
+					             </div>
+					          </div>
+					          <div class="d-grid">
+					             <h4>해당 상품 리뷰</h4>
+					             <p class="mb-0">다른 고객분들을 위해서 리뷰를 작성해주세요.</p>
+					             <a href="MyReviewList" class="btn btn-outline-gray-400 mt-4 text-muted">리뷰 작성하기</a>
+					          </div>
+					       </div>
+					    </div>
+					    <!-- col -->
+					    <div class="col-md-8">
+					       <div class="mb-10">
+					          <div class="d-flex justify-content-between align-items-center mb-8">
+					             <div>
+					                <!-- heading -->
+					                <h4>리뷰</h4>
+					             </div>
+					             <div>
+					             	<form action="" >
+					             	   <select name="r_reviewSelect" id="reviewSel" 
+					                	        class="form-select" 
+					                	        aria-label="Default select example"
+					                	        onchange="reviewChange(1,5)"
+					                	>
+						                   <option value="1" <c:if test="${review.r_reviewSelect == '1' }">selected</c:if> >최신순</option>
+						                   <option value="2" <c:if test="${review.r_reviewSelect == '2' }">selected</c:if> >별점순</option>
+						                </select>
+					                
+					             	
+					                </form>
+					             </div>
+					           </div>
+					           <div id="reviewFocus">
+						            <c:forEach var="reviews" items="${listReview}" >
+							          <div class="d-flex border-bottom pb-6 mb-6">
+							             <!-- img -->
+							             <img src="${reviews.nb_image}" alt="product_image"
+							                class="rounded-circle avatar-lg">
+							             <div class="ms-5">
+							                <h6 class="mb-1">
+							                 ${reviews.m_name }
+							                </h6>
+							                <!-- select option -->
+							                <!-- content -->
+							                <p class="small"> <span class="text-muted">${reviews.r_create_date}</span>
+							                </p>
+							                <!-- rating -->
+							                <div class=" mb-2">
+												<c:forEach begin="1" end="${reviews.r_rating}">
+								                   <i class="bi bi-star-fill text-warning"></i>
+								                </c:forEach>
+							                   <span class="ms-3 text-dark fw-bold">${reviews.r_title}</span>
+							                </div>
+							                <!-- text-->
+							                <p>${reviews.r_content}</p>
+							             </div>
+							          </div>
+					                </c:forEach>
+					          	
+					                <form action="">
+					           	       <input type="hidden" name="start"   value="1">
+					          	       <input type="hidden" name="end"     value="${review.end + 5}">
+					          	       <input type="hidden" name="p_status" value="1">   
+					            	   <input type="button" id="chk1" class="btn btn-outline-gray-400 text-muted" value="리뷰 더보기">
+									</form>
+									<!-- 형택이꺼   reviewFocus -->
+					               </div>
+					            </div>
+					          </div>
+					            
+					          </div>
+					        </div>
+					      </div>
+					    </div>
 </body>
 <%@ include file="../common/footerFo.jsp" %>
 </html>
