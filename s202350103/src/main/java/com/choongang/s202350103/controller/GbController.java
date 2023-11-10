@@ -425,5 +425,38 @@ public class GbController {
 		
 		return result;
 	}
+	
+	// 상품 등록하는 화면으로 이동
+	@GetMapping("bonewbookInsert")
+	public String insertFormMove() {
+		System.out.println("GbController insertFormMove start...");
+		
+		return "gb/boNewbookInsertForm";
+		
+	}
+	
+	// 상품 등록
+	@PostMapping("insertBoNewbook")
+	public String insertBoNewbook(HttpServletRequest request, MultipartFile file1, NewBook newbook, Model model) throws IOException {
+		System.out.println("GbController insertBoNewbook start...");
+		int result = 0;
+		
+		// 만약 file에 담겨진 값이 있다면 파일 이름 생성
+		if(file1.getOriginalFilename().length() > 0) {
+			// 업로드 경로를 만들어야함.
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			System.out.println("GbController uploadPath->"+uploadPath);
+			
+			System.out.println("GbController uploadForm Post Start");
+			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+			System.out.println("GbController updateBoNewbook Post savedName ->"+savedName);
+			newbook.setNb_image(savedName);
+			System.out.println("GbController updateBoNewbook Post nb_image ->"+newbook.getNb_image());
+		}
+		
+		result = nbs.insertBoNewbook(newbook);
+		
+		return "redirect:bonewbookList?result="+result;
+	}
 	 
 }
