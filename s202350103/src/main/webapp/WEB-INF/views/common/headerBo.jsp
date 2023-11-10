@@ -118,7 +118,7 @@
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="adminMemberList"> 회원조회 </a></li>
+										href="adminMemberList"> 회원목록 </a></li>
 									<!-- Nav item -->
 								</ul>
 							</div></li>

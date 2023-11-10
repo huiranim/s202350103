@@ -205,7 +205,7 @@
 			               	<c:if test="${member.m_image != null}">
 				               	<div class="list-inline-item me-5">
 									<!-- 내 아이콘 -->
-									<a href="memberMyPage?m_num=${member.m_num }" class="">
+									<a href="memberMyInfo?m_num=${member.m_num }" class="">
 									<img  src="${member.m_image }" width="55px" height="55px" alt="회원이미지" class="rounded-circle">
 	
 										<span class="visually-hidden">unread mes</span>
@@ -312,7 +312,7 @@
                     <rect x="14" y="3" width="7" height="7"></rect>
                     <rect x="14" y="14" width="7" height="7"></rect>
                     <rect x="3" y="14" width="7" height="7"></rect>
-                  </svg></span> 메인메뉴 버튼
+                  </svg></span> 메인메뉴
               </a>
               <!-- 작은화면 메인메뉴 버튼 클릭시 옵션 -->
               <div class="collapse mt-2" id="collapseExample">
@@ -342,7 +342,7 @@
                     <rect x="14" y="3" width="7" height="7"></rect>
                     <rect x="14" y="14" width="7" height="7"></rect>
                     <rect x="3" y="14" width="7" height="7"></rect>
-                  </svg></span> 메인메뉴 버튼
+                  </svg></span> 메인메뉴
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li><a class="dropdown-item" href="innewbookList?nb_category1=1">국내도서

@@ -4,7 +4,7 @@
 
 <c:forEach var="image" items="${imageList }">
     <span class="rounded border border-primary">
-        <img src="${image}" onclick="selectImage('${image}')" width="170px" alt="회원이미지" class="rounded">
+        <img src="${image}" onclick="selectImage('${image}')" width="170px" height="170px" alt="회원이미지" class="rounded">
     </span>
 </c:forEach>
 

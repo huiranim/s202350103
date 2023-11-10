@@ -157,16 +157,21 @@ public class YjController {
 	// 마이 페이지 이동
 		@RequestMapping ("/memberMyPage")
 		public String memberMyPage(int m_num, Model model, HttpSession session) {
+
 			Member member = new Member();
 			member =(Member) session.getAttribute("member");
+			
+
 			int totalWishList = ys.totalWishList(member);
 			int totalSellCnt = ys.totalSellCnt(member);
 			
-			System.out.println("Controller " + totalSellCnt);
+			System.out.println("마이페이지 회원 넘버 ->"+m_num);
+			int totalOrderCnt = ms.totalOrderCnt(m_num);
+			
 			
 			model.addAttribute("totalWishList", totalWishList);
 			model.addAttribute("totalSellCnt", totalSellCnt);
-			
+			model.addAttribute("totalOrderCnt",totalOrderCnt);
 			
 			System.out.println("Controller sadasdasd" + totalWishList);
 			
@@ -484,6 +489,9 @@ public class YjController {
 		  
 		  List<Member> memberMyOrder = ms.memberMyOrder(m_num);
 		  
+		  int totalOrderCnt = ms.totalOrderCnt(m_num);
+			
+		  model.addAttribute("totalOrderCnt",totalOrderCnt);
 		  model.addAttribute("memberMyOrder",memberMyOrder);
 		  
 		  return "yj/memberMyOrder";
@@ -538,6 +546,9 @@ public class YjController {
 		  imageUrl.add("../assets/images/memberImage/16.jpg");
 		  imageUrl.add("../assets/images/memberImage/17.jpg");
 		  imageUrl.add("../assets/images/memberImage/18.jpg");
+		  imageUrl.add("../assets/images/memberImage/19.jpg");
+		  imageUrl.add("../assets/images/memberImage/default2.png");
+		  imageUrl.add("../assets/images/memberImage/20.jpg");
 		  
 		  return imageUrl;
 	  }
@@ -631,9 +642,6 @@ public class YjController {
 		  return "yj/memberQnaOne";
 	  }
 	 
-	 // yml 설정 파일  프로퍼티 소스 로드 (사용자 입력 이메일)
-//	 @Value("${mail.sender-email}")
-//	 private String senderEmail;
 	  
 	  // 1 : 1 문의 이메일 전송
 	  @PostMapping("/memberOneMail")
@@ -650,8 +658,6 @@ public class YjController {
 		  System.out.println(mq_title);
 		  System.out.println(mq_content);
 		  
-//		  System.out.println("입력이메일 검증 ->" +senderEmail);
-		  
 		  try {
 			  
 		  	MimeMessage message2 = mailSender.createMimeMessage();
@@ -662,7 +668,6 @@ public class YjController {
 			String tomail = "ayj8487@naver.com";   		// 받는 사람 이메일
 			String title = mq_title;  	// 제목
 			
-//			messageHelper.setFrom(senderEmail);
 			messageHelper2.setFrom(setfrom);    		// 보내는 사람 이메일 (생략시 오류)
 			messageHelper2.setTo(tomail);       		// 받는사람 이메일
 			messageHelper2.setSubject(title);   		// 메일제목 (생략 가능) -> 생략시 try 안걸어줘도됨
@@ -686,9 +691,42 @@ public class YjController {
 		  
 		  System.out.println(m_num);
 		  
+		  List<MemberQ> memberMyQnaList = ms.memberMyQnaList(m_num);
+		  
+		  model.addAttribute("memberMyQnaList",memberMyQnaList);
+		  
 		  return "yj/memberMyOna";
 	  }
 	  
+	  // 관리자 - 회원상세 
+	  @GetMapping("/adminMemberInfo")
+	  public String adminMemberInfo(@RequestParam int m_num , Model model) {
+		  
+			Member member = ms.memberInfo(m_num);
+			
+			model.addAttribute("member",member);
+			
+			return "yj/adminMemberInfo";
+	  }
+	  
+	  // 관리자 - 회원정보 업데이트 
+	  @PostMapping("/adminMemberUpdate")
+	  public String adminMemberUpdate(@ModelAttribute Member member, HttpSession session, Model model) {
+		  
+		  int adminMemberUpdate = ms.adminMemberUpdate(member);
+		  
+		  if(adminMemberUpdate > 0) {
+			  
+			  Member current = (Member) session.getAttribute("member");
+			  
+			  session.setAttribute("member", current);
+		  }
+		  
+		  model.addAttribute("adminMemberUpdate",adminMemberUpdate);
+		  
+		  return "yj/adminMemberInfo";
+		  
+	  }
 	  
 	  
 }

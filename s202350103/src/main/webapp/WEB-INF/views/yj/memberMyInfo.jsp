@@ -201,22 +201,27 @@ function valiForm() {
 					<div class="col-lg-4">
 						<div class="input-group mb-8">
 								
-								<c:if test="${member.m_image == null}">
+								<c:set var="basick" value="../assets/images/memberImage/default2.png"/>
+								
+						<c:choose>
+   							 <c:when test="${member.m_image == basick}">
 									<span class="rounded border border-primary">
 										<a onclick="memberImageSelect();">
 											<img id="memberImage" src="../assets/images/memberImage/basick.jpg" width="180px" height="180px" alt="회원이미지" class="rounded">
 										</a>
 									</span>
-								</c:if>
+								</c:when>
 								
-								<c:if test="${member.m_image != null}">
+																
+  								<c:otherwise>
 									<span class="rounded border border-primary">
 										<a onclick="memberImageSelect();">
 											<img id="memberImage" src="${member.m_image }" width="180px" height="180px" alt="회원이미지" class="rounded">
 										</a>
 									</span>
-								</c:if>
+								</c:otherwise>
 								
+							</c:choose>	
 								
 						</div>
 					</div>
@@ -327,7 +332,7 @@ function valiForm() {
 							<div class="input-group mb-10 ">
 								상세주소입력 &nbsp;&nbsp; <input type="text" class="form-control"
 									name="m_addr" id="sample6_detailAddress"
-									 required="required" placeholder="${splitAddr[2] }">
+									 required="required" value="${splitAddr[2] }">
 								<p>
 							</div>
 						</div>
@@ -342,7 +347,7 @@ function valiForm() {
 						</div>
 					</div>
 					<hr>
-					<a href="memberQna?m_num=${member.m_num }">관리자문의</a>
+					<a href="memberQna?m_num=${member.m_num }" style="font-size: 16px; color: green;">관리자문의</a>
 					<div class="btn btn-ghost-primary mb-2 d-grid gap-2 col-6 mx-auto ">
 						<button class="btn btn-primary" type="submit">회원 정보변경</button>
 					</div>

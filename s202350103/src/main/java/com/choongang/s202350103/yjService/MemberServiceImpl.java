@@ -118,6 +118,24 @@ public class MemberServiceImpl implements MemberService{
 		MemberQ memberQInfo = md.memberQInfo(mq_num);
 		return memberQInfo;
 	}
+	// 내 문의 리스트
+	@Override
+	public List<MemberQ> memberMyQnaList(int m_num) {
+		List<MemberQ> memberMyQnaList = md.memberMyQnaList(m_num);
+		return memberMyQnaList;
+	}
+	// 내 주문 카운트
+	@Override
+	public int totalOrderCnt(int m_num) {
+		int totalOrderCnt = md.totalOrderCnt(m_num);
+		return totalOrderCnt;
+	}
+	// 관리자 회원 정보 수정
+	@Override
+	public int adminMemberUpdate(Member member) {
+		int adminMemberUpdate = md.adminMemberUpdate(member);
+		return adminMemberUpdate;
+	}
 
 	
 }

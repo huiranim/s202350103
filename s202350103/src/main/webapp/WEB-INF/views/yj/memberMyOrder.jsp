@@ -20,6 +20,7 @@
          <!-- heading -->
          <h2 class="mb-2">주문 현황</h2>
          <p><a href="#">${member.m_id } 님의 주문 목록입니다.</a></p>
+         <p>총 주문 건수 : ${totalOrderCnt }</p>
       </div>
       <div>
          <!-- table -->
@@ -92,7 +93,7 @@
 				                        
 				                        <p></p>
 				                        <a href="foOrderDetail?o_order_num=${myOrder.o_order_num}"  class="btn btn-soft-success mb-2">상세조회</a>
-				                        <button onclick="#" class="btn btn-soft-success mb-2">리뷰작성</button>
+				                        <a href="reviewForm?o_order_num=${myOrder.o_order_num}"  class="btn btn-soft-success mb-2">리뷰작성</a>
 				                        
             	        	    	</div>
                 	   		  </td>
