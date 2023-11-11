@@ -49,9 +49,10 @@
 
 </head>
 <body>
+ 	<c:set var="num" value="${page.totalOb-page.start+1 }"></c:set>
 <div class="row">
  <div class="col-12">
-       <div class="py-3">
+       <div class="py-5">
       	  <p class="text-center fs-1 ">새상품 도서 내역 </p>
           <ul class="list-group list-group-flush">
              <!-- list group -->
@@ -63,7 +64,7 @@
                       <!-- img --> <img src="${oldBook.nb_image}" alt="Ecommerce" class="img-fluid">
                   	<input type="hidden" name="nb_image" value="${oldBook.nb_image }">
                    </div>
-                   <div class="col-4 col-md-5">
+                   <div class="col-3 col-md-4">
                       <!-- title -->
                       
                         <h6 class="mb-0"><input type="hidden" name="nb_num" value="${oldBook.nb_num}"> 
@@ -72,32 +73,59 @@
                           </h6>
                  
                       <span><small class="text-muted">
-	                      <input type="hidden" disabled="disabled" name="nb_writer" value="${oldBook.nb_writer}"> ${oldBook.nb_writer}
-	                       / 
-	                      <input type="hidden"  name="nb_publisher" value="${oldBook.nb_publisher }">${oldBook.nb_publisher } 
+	                      <input type="hidden" disabled="disabled" name="nb_writer" value="${oldBook.nb_writer}"> 지은이: ${oldBook.nb_writer}
+	                        <br>
+	                      <input type="hidden"  name="nb_publisher" value="${oldBook.nb_publisher }"> 출판사: ${oldBook.nb_publisher }
+	                      <br>
+                    	<input type="hidden" name="nb_publi_date" value="${oldBook.nb_publi_date }"> 출간일: ${oldBook.nb_publi_date  }
                       </small></span>
                       
                       
                       <!-- text -->
                     </div>
                       <!-- input group -->
-                   <div class="col-3 col-md-3 col-lg-3">
+                   <div class="col-2 col-md-3 col-lg-3">
                       <!-- input -->
    						<input type="hidden" name="nb_price" value="${oldBook.nb_price }"> 
    						<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price}"/>원   
                    </div>
                    <!-- 넣기 -->
-              <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-             <span class="fw-bold"> <input type="submit" value="선택" onclick="location.href='ModetailNb?nb_num=${oldBook.nb_num}'"></span>	
+              <div class="col-1 text-start col-md-1">
+             <span class="fw-bold"> <input type="button" class="btn btn-primary mb-1" value="선택" onclick="location.href='ModetailNb?nb_num=${oldBook.nb_num}'"></span>	
                </div>
                 </div>
              </li>
+   
              </c:forEach>
+                     <c:set var="num" value="${num - 1 }"></c:set>
+           	 <nav aria-label="Page navigation example">
+		    <ul class="pagination justify-content-center">
+
+			 	<c:if test="${page.startPage > page.pageBlock }">
+					 <li class="pagination justify-content-center">					
+						<a class="page-link" href="ModalList?currentPage=${page.startPage-page.pageBlock}">이전</a>
+					</li>
+				</c:if>
+ 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+					 <li class="pagination justify-content-center">
+ 						<a class="page-link" href="ModalList?currentPage=${i}">${i}</a>&nbsp;&nbsp;
+					</li>
+				</c:forEach>
+					
+				<c:if test="${page.endPage < page.totalObPage }">
+					 <li class="pagination justify-content-center">		 
+						<a class="page-link" href="ModalList?currentPage=${page.startPage+page.pageBlock}">다음</a>
+					</li>
+				</c:if>
+		</ul>
+	</nav>
              </ul>
+   
            
        </div> 
     </div>
-</div>
+</div> 
+
 
 
 
