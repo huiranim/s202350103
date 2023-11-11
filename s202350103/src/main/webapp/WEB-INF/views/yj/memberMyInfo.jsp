@@ -198,25 +198,25 @@ function valiForm() {
 					<input type="hidden" name="m_num" value="${member.m_num }">
 					<input type="hidden" id="m_image" name="m_image" value="${member.m_image }">
 					
-					<div class="col-lg-4">
+					<div class="offset-lg-5">
 						<div class="input-group mb-8">
 								
 								<c:set var="basick" value="../assets/images/memberImage/default2.png"/>
 								
 						<c:choose>
    							 <c:when test="${member.m_image == basick}">
-									<span class="rounded border border-primary">
+									<span class="rounded-circle border border-primary">
 										<a onclick="memberImageSelect();">
-											<img id="memberImage" src="../assets/images/memberImage/basick.jpg" width="180px" height="180px" alt="회원이미지" class="rounded">
+											<img id="memberImage" src="../assets/images/memberImage/basick.jpg" width="160px" height="160px" alt="회원이미지" class="rounded-circle">
 										</a>
 									</span>
 								</c:when>
 								
 																
   								<c:otherwise>
-									<span class="rounded border border-primary">
+									<span class="rounded-circle border border-primary">
 										<a onclick="memberImageSelect();">
-											<img id="memberImage" src="${member.m_image }" width="180px" height="180px" alt="회원이미지" class="rounded">
+											<img id="memberImage" src="${member.m_image }" width="160px" height="160px" alt="회원이미지" class="rounded-circle">
 										</a>
 									</span>
 								</c:otherwise>

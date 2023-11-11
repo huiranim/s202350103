@@ -12,7 +12,7 @@
 <script type="text/javascript">
 	function adminCon(){
 		
-		alert("관리자만 접근가능한 게시물 입니다. ");
+		alert("관리자와 본인만 접근가능한 게시물 입니다. ");
 		
 	}
 
@@ -84,12 +84,12 @@
  					      <td class="align-middle">
  					      	<i class="bi bi-lock-fill"></i>  &nbsp;
  					      	 <c:if test="${sessionScope.member != null }">
-                 			 	  <c:if test="${member.m_admin == 1 }">
+                 			 	  <c:if test="${member.m_admin == 1 || member.m_id eq mq.m_id}">
             	          			  <a href="memberQInfo?mq_num=${mq.mq_num }" style="color: #5c6c75;">비밀 글 입니다.</a>
                    				 </c:if>
 
 
-                  				  <c:if test="${member.m_admin != 1 }">
+                  				  <c:if test="${member.m_admin != 1 && member.m_id ne mq.m_id}">
 			                        <a href="javascript:void(0);" style="color: #5c6c75;" onclick="adminCon();">비밀 글 입니다.</a>
         			            </c:if>
                 			</c:if>

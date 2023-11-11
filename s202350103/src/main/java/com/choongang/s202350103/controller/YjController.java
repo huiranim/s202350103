@@ -8,11 +8,8 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -34,7 +31,6 @@ import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
-import retrofit2.http.GET;
 
 @Controller
 @Slf4j
@@ -83,13 +79,14 @@ public class YjController {
 	System.out.println(resultId);
 	
 	if(resultId > 0) {
-		model.addAttribute("no","중복된 ID 입니다. 다시 입력해주세요.");
+		model.addAttribute("no","중복된 ID 입니다. 로그인을 진행해주세요.");
+		
 	}else {
 		model.addAttribute("m_id",m_id);
 		model.addAttribute("ok",m_id + " 는 사용 할 수 있는 ID 입니다.");
 	}
-	
 	return "yj/memberJoinForm";
+	
 	}
 	
 	// 회원가입 
@@ -110,7 +107,7 @@ public class YjController {
 									@RequestParam("m_addr2") String m_addr2,
 									@RequestParam("m_addr") String m_addr,
 									
-									@ModelAttribute Member member, Model model) {
+									@ModelAttribute Member member, Model model, HttpSession session) {
 	
 			
 		
@@ -144,8 +141,15 @@ public class YjController {
 		model.addAttribute("joinResult",joinResult);
 		System.out.println("joinResult ->" + joinResult);
 		
-		return  "yj/memberJoinOk";
+		return  "redirect:/memberJoinOk";
 	}
+	
+	// 회원 가입 완료 
+	@GetMapping("/memberJoinOk")
+	public String memberJoinOk() {
+		return "yj/memberJoinOk";
+	}
+	
 	
 	// 회원 가입시 추천인  포인트 적립
 	@PostMapping("memberJoinPoint")
@@ -711,22 +715,66 @@ public class YjController {
 	  
 	  // 관리자 - 회원정보 업데이트 
 	  @PostMapping("/adminMemberUpdate")
-	  public String adminMemberUpdate(@ModelAttribute Member member, HttpSession session, Model model) {
+	  public String adminMemberUpdate(@ModelAttribute Member member,@RequestParam int m_num, 
+			  						 Model model) {
 		  
+		  // 회원정보 수정 
 		  int adminMemberUpdate = ms.adminMemberUpdate(member);
-		  
-		  if(adminMemberUpdate > 0) {
-			  
-			  Member current = (Member) session.getAttribute("member");
-			  
-			  session.setAttribute("member", current);
-		  }
-		  
 		  model.addAttribute("adminMemberUpdate",adminMemberUpdate);
+		
+		  // 수정된 회원 정보 
+		  Member updateMember = ms.memberInfo(m_num);
+		  model.addAttribute("member",updateMember);
+		  
 		  
 		  return "yj/adminMemberInfo";
 		  
 	  }
 	  
+	  // 내 문의 삭제 
+	  @GetMapping("/myMqDelete")
+	  public String myMqDelete(@RequestParam int mq_num,@RequestParam int m_num,  Model model) {
+		  System.out.println("yj myDel ->" + mq_num);
+		  System.out.println("yj myDel ->" + m_num);
+		  
+		  int myMqDelete = ms.myMqDelete(mq_num);
+		  
+		  List<MemberQ> memberMyQnaList = ms.memberMyQnaList(m_num);
+			
+		  model.addAttribute("myMqDelete",myMqDelete);
+		  model.addAttribute("memberMyQnaList",memberMyQnaList);
+		  
+		  return "yj/memberMyOna";
+	  }
 	  
+	  // 내 문의 수정
+	  @PostMapping("/myMqUpdate")
+	  public String myMqUpdate(	@ModelAttribute MemberQ memberQ ,
+			  					@RequestParam int mq_num, 
+			  					@RequestParam int m_num, 
+			  						Model model) {
+		  
+		  System.out.println("yj myUpdate ->" + mq_num);
+		  System.out.println("yj myUpdate ->" +m_num);
+		  
+		  int myMqUpdate = ms.myMqUpdate(memberQ);
+		  
+		  List<MemberQ> memberMyQnaList = ms.memberMyQnaList(m_num);
+		  
+		  model.addAttribute("myMqUpdate",myMqUpdate);
+		  model.addAttribute("memberMyQnaList",memberMyQnaList);
+		  
+		  return "yj/memberMyOna";
+	  }
+	  
+	  // 관리자 - 회원 삭제 
+	  @GetMapping("/adminMemberDelete")
+	  public String adminMemberDelete(@RequestParam int m_num, Model model) {
+		  
+		  System.out.println(m_num);
+		  
+		  int adminMemberDelete = ms.adminMemberDelete(m_num);
+		  
+		  return "redirect:/adminMemberList";
+	  }
 }

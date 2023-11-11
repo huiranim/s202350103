@@ -21,12 +21,26 @@
 			return false;
 		}
 		
-		
 	}
 
 
 </script>
 
+<script type="text/javascript">
+	
+	function adminMemberDelete(){
+		var delcon = confirm("해당 회원을 삭제하시겠습니까?");
+		
+		if(delcon == true){
+			alert("삭제 처리 되었습니다.");
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+
+</script>
 
 <script type="text/javascript">
 	
@@ -69,10 +83,10 @@
          <!-- heading -->
           <p class="fs-1 mb-3"><strong>${member.m_name} 님 (${member.m_id })</strong> 
           	<c:if test="${member.m_admin == 1}">
-          		<span style="color: green; font-size: 18px;">- 해당 회원은 관리자 입니다.</span>
+          		<span style="color: green; font-size: 18px;"> * 해당 회원은 관리자 입니다.*</span>
           	</c:if>
           </p>
-			  <p class="fs-4 mb-5">회원번호 : <mark >${member.m_num}</mark></p>
+			  <p class="fs-4 mb-5">회원번호 : <mark >${member.m_num}</mark></p>	
 			  <p> 가입일 : 
 			  <span class="mb-9" style="color: red;">
 				 <fmt:formatDate value="${member.m_date }" pattern="yyyy-MM-dd 일  HH:ss 분"/>
@@ -106,7 +120,16 @@
    	      <input type="hidden" id="m_image" name="m_image" value="${member.m_image }">
    	      <input type="hidden" id="m_admin" name="m_admin" value="${member.m_admin }">
          
-          <div class="col-md-12 mb-8 text-center">    
+          <div class="col-md-12 mb-8 text-center">   
+          
+           <div class="mb-1">
+            <div style="text-align: right;">
+           		 <a href="adminMemberDelete?m_num=${member.m_num }" onclick="return adminMemberDelete();">
+	            	<i style="font-size: 30px; color: #581313;" class="bi bi-x-circle"></i>
+            	</a>
+	          </div>
+            </div>
+           
 		  <div class="mb-3">
         	  	<a onclick="memberImageSelect();">
     	            <img src="${member.m_image }" id="memberImage" alt="회원이미지" class="rounded-circle"  style="max-width: 100%; height: auto;">

@@ -377,9 +377,33 @@ function valiForm() {
 </div>
 <hr>
 
-	<div class="btn btn-ghost-primary mb-2 d-grid gap-2 col-6 mx-auto ">
-		<button class="btn btn-primary" type="submit">회원 가입하기</button>
+<c:choose>
+	
+	<c:when test="${not empty no}">
+		<div class="mb-3 d-grid gap-2 col-4 mx-auto ">
+		<a class="btn btn-primary" href="loginForm">로그인 하러가기</a>
 	</div>
+			
+	  <div class="mb-2 d-grid gap-1 col-6 mx-auto text-center">
+		<strong>가입된 회원입니다. 로그인을 진행해 주세요</strong>
+	</div>
+	</c:when>
+	
+	<c:when test="${not empty ok}">
+		<div class="btn btn-ghost-primary mb-2 d-grid gap-2 col-6 mx-auto ">
+			<button class="btn btn-primary" type="submit">회원 가입하기</button>
+		</div>
+	</c:when>
+	
+	<c:otherwise>
+		 <div class="mb-2 d-grid gap-1 col-6 mx-auto text-center">
+			<strong>ID 중복 확인을 진행해 주세요.</strong>
+		</div>
+	
+	</c:otherwise>
+		
+</c:choose>
+
 </form>
    
    
@@ -419,13 +443,11 @@ function valiForm() {
 	    // 직접 입력 옵션이 선택되었을 때 m_email2 input 태그의 값을 설정
 	    if (emailSelect.value === "직접 입력") {
 	        mEmail2.removeAttribute("disabled");
-	        mEmail2.value = mEmail2.value; // 직접 입력한 값을 그대로 설정
+		     // m_email2 input 태그에 설정
+		     var customEmail = mEmail2.value;
+		     document.getElementById("m_email2").value = customEmail; 
 	    }
-	    // 폼 제출
-	   //  e.preventDefault(); // 이 줄을 주석 처리하면 폼이 제출됨.
-	});
-	
-	
+	});	
 </script>
 
 <script type="text/javascript">
