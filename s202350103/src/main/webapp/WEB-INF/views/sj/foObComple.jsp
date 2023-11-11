@@ -16,16 +16,12 @@
 			<br><br>
 			<br>
 			<br>
-		정산계좌번호 : ${oldBook.ob_acc_num }      		    <br>
-		정산 은행명 :  ${oldBook.ob_acc_name }    			 <br>
-		신청날짜 :    ${oldBook.ob_report_date }			 <br>
-		판매 택배회사: ${oldBook.ob_trans_com }				<br>
-		판매 운송장 번호:	${oldBook.ob_trans_num }			<br>			
-		회원번호 : ${oldBook.m_num }	<br>
+	
+		회원번호 : ${oldBook.m_num }구현해야함	<br>
 			
  </p>
  
-			<p class="text-center fs-4 ">
+			<p class="text-center fs-1 ">
 			신청이 완료 되었습니다 . <br>
 			이용해 주셔서 감사합니다 . <br>
 			검수및 정산결과는 마이페이지에서 가능합니다.	

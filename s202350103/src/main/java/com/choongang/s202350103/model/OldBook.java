@@ -34,6 +34,9 @@ public class OldBook {					//중고상품
 	private String  nb_isbn;			// ISBN
 	private int 	nb_page;			// 쪽수
 	private String  nb_size;			// 책 크기
+	private int nb_category1;
+	private int nb_category2;
+	
 	
 	
 	//페이지 , 검색용

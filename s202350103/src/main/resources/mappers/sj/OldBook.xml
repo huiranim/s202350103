@@ -22,6 +22,7 @@
 			        SELECT rownum rn , a.nb_title, a.nb_price , a.m_num ,
 			        a.nb_writer, a.nb_publisher , a.nb_image , TO_CHAR(a.nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date,
 			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
+			        a.nb_category1 , a.nb_category2 ,
 			         a.nb_page , a.nb_size,
 				        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
 				        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
@@ -37,7 +38,7 @@
 	
 	</select>
 	<select id="sjObSelOne" parameterType="int" resultType="OldBook">	        
-select *
+select * 
    from  oldbook o , newbook n  
    WHERE o.nb_num = n.nb_num
     AND o.ob_num = #{ob_num}
@@ -49,7 +50,7 @@ select *
 				FROM
 				(
 			        SELECT rownum rn , a.nb_title, a.nb_price ,
-			        a.nb_writer, a.nb_publisher , a.nb_image , a.nb_publi_date,
+			        a.nb_writer, a.nb_publisher , a.nb_image , TO_CHAR(a.nb_publi_date, 'YYYY-MM-DD')AS nb_publi_date,
 			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
 			         a.nb_page , a.nb_size,
 				        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
@@ -92,12 +93,12 @@ select *
 	
 	<select id="sjObMoListAll" parameterType="Oldbook" resultType="Oldbook">
 			SELECT nb_num, nb_title, nb_price,nb_writer,
-			nb_publisher ,nb_image
+			nb_publisher ,nb_image, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date
 			From newbook
 	</select>
 	<select id="sjObSelNb" parameterType="int" resultType="OldBook">	        
 			SELECT nb_num, nb_title, nb_price, nb_writer,
-			nb_publisher , nb_image
+			nb_publisher , nb_image,TO_CHAR(nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date
 			From newbook
 			where nb_num = #{nb_num}
 	</select>

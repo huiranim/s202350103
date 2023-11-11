@@ -101,10 +101,11 @@
             <tr>
                      <th class="table-light">주문상태</th>
                      <td class="align-middle" id="o_status">
-                     	<c:if test="${orderr.o_status == 1}">주문접수</c:if>
+                     	<c:if test="${orderr.o_status == 0}">주문접수</c:if>
+                     	<c:if test="${orderr.o_status == 1}">주문확정</c:if>
                      	<c:if test="${orderr.o_status == 2}">배송중</c:if>
                      	<c:if test="${orderr.o_status == 3}">배송완료</c:if>
-                     	<c:if test="${orderr.o_status == 4}">주문확정</c:if>
+                     	<c:if test="${orderr.o_status == 4}">구매확정</c:if>
                      	<c:if test="${orderr.o_status == 5}">취소</c:if>
                      	<c:if test="${orderr.o_status == 6}">교환</c:if>
                      	<c:if test="${orderr.o_status == 7}">반품</c:if>

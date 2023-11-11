@@ -24,30 +24,28 @@
 		       <!-- img --><img src="${oldBook.nb_image}" alt="${oldBook.nb_title}">
 		    </div>
 		 </div>
-	  </div>
-
-	
- 
-<%--     <!-- 도서 간략 정보 -->
-	 <div class="col-md-6">
-		 <div class="ps-lg-10 mt-6 mt-md-0">
+	  <!-- 도서 간략 정보 -->
+	  <div class="col-md-6 text-end">
+		 <div class="ps-lg-4 mt-4 mt-md-0">
 		    <!-- 카테고리 -->
 		   <span class="mb-4 d-block">
 		    	<c:choose>
-					<c:when test="${newbook.nb_category1 eq 1}">국내도서 </c:when>
-					<c:when test="${newbook.nb_category1 eq 2}">해외도서 </c:when>
+					<c:when test="${oldBook.nb_category1 eq 1}">국내도서 </c:when>
+					<c:when test="${oldBook.nb_category1 eq 2}">해외도서 </c:when>
 				</c:choose>
 				>
 				<c:choose>
-					<c:when test="${newbook.nb_category2 eq 1}"> 경제/경영</c:when>
-					<c:when test="${newbook.nb_category2 eq 2}"> 과학</c:when>
-					<c:when test="${newbook.nb_category2 eq 3}"> 소설</c:when>
-					<c:when test="${newbook.nb_category2 eq 4}"> 역사/문화</c:when>
-					<c:when test="${newbook.nb_category2 eq 5}"> 인문</c:when>
-					<c:when test="${newbook.nb_category2 eq 6}"> 과학/기술</c:when>
-					<c:when test="${newbook.nb_category2 eq 7}"> 문학</c:when>
+					<c:when test="${oldBook.nb_category2 eq 1}"> 경제/경영</c:when>
+					<c:when test="${oldBook.nb_category2 eq 2}"> 과학</c:when>
+					<c:when test="${oldBook.nb_category2 eq 3}"> 소설</c:when>
+					<c:when test="${oldBook.nb_category2 eq 4}"> 역사/문화</c:when>
+					<c:when test="${oldBook.nb_category2 eq 5}"> 인문</c:when>
+					<c:when test="${oldBook.nb_category2 eq 6}"> 과학/기술</c:when>
+					<c:when test="${oldBook.nb_category2 eq 7}"> 문학</c:when>
 				</c:choose>
-		    </span>  --%>
+		    </span>  
+	  
+	  
 		    <!-- 도서명 -->
 		    <h1 class="mb-1 text-center">
 	      	<c:choose>
@@ -58,19 +56,7 @@
 					<c:otherwise><c:out value="kkk"/></c:otherwise>
 			</c:choose>
 		    ${oldBook.nb_title}</h1>
-		    <!-- 별점 -->
-		<%--     <div class="mb-4">
-                <div class="text-warning">
-                	<c:forEach var="i" begin="1" end="${newbook.r_ratingAvg }">
-                		<i class="bi bi-star-fill"></i>
-                	</c:forEach>
-                	<c:forEach var="i" begin="${newbook.r_ratingAvg + 1}" end="5">
-                		<i class="bi bi-star"></i>
-                	</c:forEach>
-                 <span class="text-muted small" style="margin-left: 10px;">${newbook.r_ratingAvg }(${newbook.reviewCnt }건)</span>
-          		</div>
-		    </div> --%>
-		    <!-- 도서 가격 -->
+	    <!-- 도서 가격 -->
 		    <div class="fs-4 text-center">
 		       <!-- 가격 -->
 		       <span class="fw-bold text-dark"><fmt:formatNumber value="${oldBook.ob_sell_price}" groupingUsed="true"/>원</span>
@@ -79,10 +65,12 @@
 		       		적립포인트 : <fmt:formatNumber value="${oldBook.ob_sell_price * 0.01}" pattern="#"/>p
 		       </small></span>
 		    </div>
-		    
+	  
+	     
 		    <!-- 한 줄 긋기 -->
 		    <hr class="my-6">
-		    
+	  </div>
+	    
 		    <!-- 도서 간략 내용 -->
 		    <div>
 		       <!-- table -->
@@ -100,12 +88,15 @@
 		                <td>출간일:</td>
 		                <td>${oldBook.nb_publi_date }</td>
 		             </tr>
+		                <tr>
+		                <td>매입번호 :</td>
+		                <td>${oldBook.ob_num }</td>
+		             </tr>
 		          </tbody>
 		       </table>
 		    </div>
 		    
-		    <!-- 한 줄 긋기 -->
-		    <hr class="my-6">
+		
 		    
 		   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 		       <!-- 수량 선택 버튼 및 구매 버튼, 찜하기 버튼 -->
@@ -119,30 +110,38 @@
 				  <div class="g-2 align-items-center">
 				     <div style="margin-left: 15px;">
 				        <!-- 구매 버튼 -->
-				        <input type="submit" value="선물하기" class="btn btn-warning" onclick="javascript: form.action='/foGivingGift';"><i class="feather-icon icon-shopping-bag me-2"></i>
-				        <button type="button" class="btn btn-secondary" onclick="cart(${oldBook.ob_num })"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
+				     
 		  			    <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button>
-				        <!-- 찜하기 버튼 -->	
-             <%--            <c:choose>
-                       	  <c:when test="${newbook.w_wish == 0}">
-	                         <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
-	                            data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${newbook.nb_num })">
-	                            <i id="wishbtn" class="bi bi-heart"></i></a>
-	                      </c:when>
-	                      <c:when test="${newbook.w_wish == 1}">
-	                         <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
-	                            data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${newbook.nb_num })">
-	                            <i id="wishbtn" class="bi bi-heart-fill"></i></a>
-	                      </c:when>
-                       </c:choose> --%>
 				     </div>
 		    	  </div>
 		      </div>
 		      </form>
 		   </div>
 		 </div>
-	<!--   </div>
-	 </div> -->
+	  
+	  
+	  
+</div>
+	
+ 
+   
+	 
+		    <!-- 별점 -->
+		<%--     <div class="mb-4">
+                <div class="text-warning">
+                	<c:forEach var="i" begin="1" end="${newbook.r_ratingAvg }">
+                		<i class="bi bi-star-fill"></i>
+                	</c:forEach>
+                	<c:forEach var="i" begin="${newbook.r_ratingAvg + 1}" end="5">
+                		<i class="bi bi-star"></i>
+                	</c:forEach>
+                 <span class="text-muted small" style="margin-left: 10px;">${newbook.r_ratingAvg }(${newbook.reviewCnt }건)</span>
+          		</div>
+		    </div> --%>
+		    <!-- 도서 가격 -->
+		
+		 
+		  
 	
 	<div class="container">
       <div class="row justify-content-center">
@@ -220,14 +219,14 @@
                 <!-- row -->
                 <div class="row">
 					<%@ include file="../ht/boProductReviewList.jsp" %>
-					
+					</div>
                 </div>
               </div>
             </div>
-            
+            </div>
           </div>
         </div>
-      </div>
+
     </div>
 </body>
 <%@ include file="../common/footerFo.jsp" %>

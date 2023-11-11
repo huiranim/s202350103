@@ -121,7 +121,7 @@ public class SjController {
 		return "sj/foObReport";
 	}
 	
-	@RequestMapping(value = "writeFormObCal" ,method = RequestMethod.GET )
+	@RequestMapping(value = "writeFormObCal" ,method = RequestMethod.POST )
 	public String writeFormObCal(OldBook oldBook,Model model) {
 		System.out.println("sjController writeFormObCal start...");
 		
@@ -132,7 +132,7 @@ public class SjController {
 		return "sj/foObCalcul";
 	}
 	
-	@RequestMapping(value = "writeFormObTrans" , method = RequestMethod.GET )
+	@RequestMapping(value = "writeFormObTrans" , method = RequestMethod.POST )
 	public String writeFormObTrans(OldBook oldBook, Model model) {
 		System.out.println("sjController writeFormObTrans start...");
 		
@@ -195,7 +195,6 @@ public class SjController {
 		oldBook.setStart(page.getStart());
 		oldBook.setEnd(page.getEnd());
 		
-		
 		List<OldBook> listMoOb = obs.listMoOb(oldBook);
 		model.addAttribute("listMoOb" , listMoOb);
 		model.addAttribute("totalOb", totalOb);
@@ -211,7 +210,7 @@ public class SjController {
 		System.out.println("SjController Start ModetailNb...");
 		
 		OldBook oldBook = obs.ModetailNb(nb_num);
-		System.out.println("SjController OldBook ModetailNb"+oldBook);
+		System.out.println("SjController OldBook ModetailNb->"+oldBook);
 	
 		
 		model.addAttribute("oldBook",oldBook);

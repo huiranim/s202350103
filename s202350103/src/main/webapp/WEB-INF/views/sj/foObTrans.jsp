@@ -52,7 +52,7 @@
  <br>
  <hr>
 	 <div class="d-grid gap-2">
-	    <button class="btn btn-dark" type="submit">중고 판매 등록</button>
+	    <button class="btn btn-success mb-2" type="submit">중고 판매 등록</button>
 	 
 	 </div>
  

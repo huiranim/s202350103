@@ -11,13 +11,13 @@
 </head>
 <body>
 
-<form action="writeFormObTrans" method="get">
+<form action="writeFormObTrans" method="post">
 <p class="text-center fs-1 ">중고 도서 정산 안내 </p>
 					<input type="hidden" name="m_num" value="${oldBook.m_num }">
 					<input type="hidden" name="nb_num" value="${oldBook.nb_num }">	
 <br>
 <hr>
-	<p class="text-center fs-1 ">중고 도서 정산 기준 </p>
+	<p class="text-center fs-1 ">정산 예정 금액  </p>
 			<p class="text-end fs-5 ">원본 책 가격 	<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price}"/>원    </p> 
 			<p class="text-end fs-5 ">A등급 		<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price *0.6}"/>원    </p>
 			<p class="text-end fs-5 ">B등급 		<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price *0.5}"/>원   </p>
@@ -49,7 +49,7 @@
  <br>
  <hr>
  <div class="d-grid gap-2">
-	    <button class="btn btn-dark" type="submit">판매 계속</button>
+	    <button class="btn btn-success mb-2" type="submit">판매 계속</button>
 	 
 	 </div>
  </form>

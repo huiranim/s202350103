@@ -119,7 +119,7 @@
             <div class="col-md-12 mb-3">
             	<input type="radio" name="o_gift_card" value="1"><img alt="card1" src="../assets/images/gift/giftcard1.png"><br>
             	<input type="radio" name="o_gift_card" value="2"><img alt="card2" src="../assets/images/gift/giftcard2.png"><br><p><p>
-            	<textarea rows="3" name="o_gift_msg" class="form-control" placeholder="메시지를 입력해주세요."></textarea>
+            	<textarea rows="3" name="o_gift_msg" class="form-control" placeholder="메시지를 입력해주세요." required></textarea>
             </div>
             
             <p><p><hr><p><p>

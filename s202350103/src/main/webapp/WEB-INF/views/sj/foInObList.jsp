@@ -9,8 +9,8 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
-/* 	
-	function category2Click() {
+
+/* 	function category2Click() {
 		// 클릭한 카테고리명
 		var category2Value = $("#category2").val();
 		var orderTypeValue = $("#orderType").val();
@@ -47,29 +47,29 @@
                 </a>
              </div>
           </div>
-           <%--      <div class="d-flex mt-2 mt-lg-0">
+                <div class="d-flex mt-2 mt-lg-0">
              <div class="me-2 flex-grow-1">
                <!-- 카테고리 검색 -->
                 <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
-                   <option value=0 <c:if test ="${newbook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
-                   <option value=1 <c:if test ="${newbook.nb_category2 eq '1'}"> selected="selected"</c:if>>경제/경영</option>
-                   <option value=2 <c:if test ="${newbook.nb_category2 eq '2'}"> selected="selected"</c:if>>과학</option>
-                   <option value=3 <c:if test ="${newbook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
-                   <option value=4 <c:if test ="${newbook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
-                   <option value=5 <c:if test ="${newbook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
+                   <option value=0 <c:if test ="${oldBook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
+                   <option value=1 <c:if test ="${oldBook.nb_category2 eq '1'}"> selected="selected"</c:if>>경제/경영</option>
+                   <option value=2 <c:if test ="${oldBook.nb_category2 eq '2'}"> selected="selected"</c:if>>과학</option>
+                   <option value=3 <c:if test ="${oldBook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
+                   <option value=4 <c:if test ="${oldBook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
+                   <option value=5 <c:if test ="${oldBook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
      			</select>
              </div>
              
              <div>
                 <!-- 정렬 조건 -->
-                <select id="orderType" class="form-select" aria-label="Default select example" onchange="category2Click()">
-                   <option value="recently" <c:if test ="${newbook.orderType eq 'recently'}"> selected="selected"</c:if>>최신순</option>
-                   <option value="highreview" <c:if test ="${newbook.orderType eq 'highreview'}"> selected="selected"</c:if>>높은별점순</option>
-                   <option value="highprice" <c:if test ="${newbook.orderType eq 'highprice'}"> selected="selected"</c:if>>높은가격순 </option>
-                   <option value="lowprice" <c:if test ="${newbook.orderType eq 'lowprice'}"> selected="selected"</c:if>>낮은가격순</option>
-                </select>
+          <%--       <select id="orderType" class="form-select" aria-label="Default select example" onchange="category2Click()">
+                   <option value="recently" <c:if test ="${oldBook.orderType eq 'recently'}"> selected="selected"</c:if>>최신순</option>
+                   <option value="highreview" <c:if test ="${oldBook.orderType eq 'highreview'}"> selected="selected"</c:if>>높은별점순</option>
+                   <option value="highprice" <c:if test ="${oldBook.orderType eq 'highprice'}"> selected="selected"</c:if>>높은가격순 </option>
+                   <option value="lowprice" <c:if test ="${oldBook.orderType eq 'lowprice'}"> selected="selected"</c:if>>낮은가격순</option>
+                </select> --%>
              </div>
-          </div> --%>
+          </div> 
        </div>
     </div>
  </div>
@@ -114,7 +114,8 @@
 							${oldBook.nb_title}</a>
 		                 </h1>
 		                 <!-- 지은이, 출판사, 출판일 -->
-		                 <h3 class="fs-6 mb-3">${oldBook.nb_writer} | ${oldBook.nb_publisher} | ${oldBook.nb_publi_date}
+		                 <h3 class="fs-6 mb-3">${oldBook.nb_writer} | ${oldBook.nb_publisher} | ${oldBook.nb_publi_date}<br>
+		                 매입번호 : ${oldBook.ob_num }
 		                 </h3>
 		              <div>
 	                    <!-- 별점 -->
@@ -170,17 +171,31 @@
 
 
 
+<br><br>
 
 <!-- 페이징 처리 -->
-      <c:if test="${page.startPage > page.pageBlock }">
-					<a href="folistOb?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
-					</c:if>
-  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-					<a href="folistOb?currentPage=${i}">[${i}]</a>
-					</c:forEach>
-						<c:if test="${page.endPage < page.totalObPage }">
-					<a href="folistOb?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
-				</c:if>	
+	 <nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center">
+
+			 	<c:if test="${page.startPage > page.pageBlock }">
+					 <li class="pagination justify-content-center">					
+						<a class="page-link" href="folistOb?currentPage=${page.startPage-page.pageBlock}">이전</a>
+					</li>
+				</c:if>
+ 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+					 <li class="pagination justify-content-center">
+ 						<a class="page-link" href="folistOb?currentPage=${i}">${i}</a>&nbsp;&nbsp;
+					</li>
+				</c:forEach>
+					
+				<c:if test="${page.endPage < page.totalObPage }">
+					 <li class="pagination justify-content-center">		 
+						<a class="page-link" href="folistOb?currentPage=${page.startPage+page.pageBlock}">다음</a>
+					</li>
+				</c:if>
+		</ul>
+	</nav>
+
 </body>
 <%@ include file="../common/footerFo.jsp" %>
 </html>

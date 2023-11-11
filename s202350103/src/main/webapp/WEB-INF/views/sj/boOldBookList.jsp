@@ -26,7 +26,7 @@
 	                 <tr>  
 		                    <th class="border-0">신청일자</th>
 		                    <th class="border-0">매입 번호</th>
-		                    <th class="border-0">중고 상품</th>
+		                    <th class="border-0 text-center" >중고 상품</th>
 		                    <th class="border-0">매입상태</th>
 		                    <th class="border-0 text-center">검수/등록하기</th>
 	                 </tr>
@@ -44,7 +44,7 @@
 	                    </td>
 	                    <td class="align-middle">
 	                    
-	                     	  ${oldBook.ob_acc_num }
+	                     	  ${oldBook.nb_title }
 	                       
 	                    </td>
 	                    <td class="align-middle">
@@ -59,27 +59,22 @@
 	                    <td class="align-middle">
 		      			 <c:choose>
 							<c:when test="${oldBook.ob_status eq '1' }"><c:out value=""/>
-									<input type="button" value="검수하기" name="ob_num" onclick="location.href='BoupdateObDetailCheck?ob_num=${oldBook.ob_num}'">								
-									<input type="button" class="btn-primary" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+									<input type="button" class="btn btn-soft-success mb-2" value="검수하기" name="ob_num" onclick="location.href='BoupdateObDetailCheck?ob_num=${oldBook.ob_num}'">								
+									<input type="button" class="btn btn-soft-success mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:when test="${oldBook.ob_status eq '2' }"><c:out value=""/>
-									<input type="button" class="btn-primary" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+									<input type="button" class="btn btn-soft-success mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:when test="${oldBook.ob_status eq '3' }"><c:out value=""/>
-									<input type="button" class="btn-primary" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+									<input type="button" class="btn btn-soft-success mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:otherwise><c:out value=""/>
-
 								</c:otherwise>
-						
 						</c:choose>
-	                
 		                   </td>
 		                </tr>
-		               
 		   			<c:set var="num" value="${num - 1 }"></c:set>
 		       	</c:forEach> 
-		       	 
 		       	<hr>
 		    </tbody>
 		           
@@ -108,7 +103,7 @@
 		</ul>
 	</nav>
 						 <div class="d-grid gap-2">
-					    <button class="btn btn-dark" type="submit" onclick="location.href='index'">메인화면가기</button>
+					    <button class="btn btn-soft-success mb-2" type="submit" onclick="location.href='index'">메인화면가기</button>
 					</div>	
 				</div>
 			</div>
