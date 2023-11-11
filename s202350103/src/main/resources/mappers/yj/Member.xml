@@ -11,14 +11,14 @@
 	</select>
 
 	<insert id="joinResult" parameterType="Member">
-		
+	
 		insert into member    
 		values
 			( MEMBER_M_NUM_SEQ.nextval , #{m_id}, #{m_name} ,
 	 		 #{m_pw},    #{m_ph},    #{m_addr}, 
-	 		 #{m_email}, #{m_birth}, sysdate, 300, 0, 0, null)
+	 		 #{m_email}, #{m_birth}, sysdate, 300, 0, 0, '../assets/images/memberImage/default2.png')
 		
-	
+		
 	</insert>
 
 	<update id="memberJoinPoint" parameterType="String">
@@ -147,7 +147,7 @@
 		  select rownum rn, m.*
 		  from (
 		    select  m.m_num , m.m_id,  m.m_name,  
-		            m.m_email, m.m_ph,
+		            m.m_email, m.m_ph, m.m_admin ,
 		            
 		            mq.mq_num,  mq.mq_title, mq.mq_content, 
 		            mq.mq_date, mq.mq_hidden
@@ -163,5 +163,37 @@
 		]]>
 	
 	</select>
+	
+	<select id="memberQInfo" parameterType="int" resultType="MemberQ">
+		
+		select * from 
+		memberq mq
+		join member m
+		on mq.m_num = m.m_num 
+		where mq_num = #{mq_num}
+			
+	</select>
+	
+	<select id="memberMyQnaList" parameterType="int" resultType="MemberQ">
+		
+		select * from memberq where m_num = #{m_num}
+	
+	</select>
+	
+	<select id="totalOrderCnt" parameterType="int" resultType="int">
+		select count(*) from orderr where m_num = #{m_num}
+	</select>
+	
+	<update id="adminMemberUpdate" parameterType="Member">
+	
+	update member set
+		 m_id = #{m_id} , m_name = #{m_name},
+	    m_email = #{m_email}, m_ph = #{m_ph}, 
+	    m_addr = #{m_addr}, m_birth = #{m_birth}, m_pw = #{m_pw},
+	    m_admin = #{m_admin} ,m_wd = #{m_wd}, m_image=#{m_image}
+	where m_num = #{m_num}
+	
+	</update>
+	
 	
 </mapper>

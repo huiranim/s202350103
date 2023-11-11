@@ -49,7 +49,7 @@ public class NewBookDaoImpl implements NewBookDao {
 		int searchNewbookCnt = 0;
 		try {
 			System.out.println("NewBookDaoImpl selectSearchNewBookCnt Start...");
-			searchNewbookCnt = session.selectOne("gbSelectSearchNbCnt", newbook);
+			searchNewbookCnt = session.selectOne("gbSearchSelectInNbCnt", newbook);
 			System.out.println("NewBookDaoImpl selectSearchNewBookCnt searchNewbookCnt -> "+searchNewbookCnt);
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectSearchNewBookCnt -> "+e.getMessage());
@@ -175,6 +175,55 @@ public class NewBookDaoImpl implements NewBookDao {
 			System.out.println("NewBookDaoImpl selectBoNewBookDetail -> "+e.getMessage());
 		}
 		return bonewbook;
+	}
+
+	@Override
+	public int updateBoNewbook(NewBook newbook) {
+		System.out.println("NewBookDaoImpl updateBoNewbook Start...");
+		int result = 0;
+		try {
+			result = session.update("gbUpdateBoNewbook", newbook);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl updateBoNewbook -> "+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<NewBook> selectBoNewBookList(NewBook newbook) {
+		List<NewBook> listBoNewbook = null;
+		try {
+			System.out.println("NewBookDaoImpl selectBoNewBookList Start...");
+			listBoNewbook = session.selectList("gbSelectInNbList", newbook);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl selectBoNewBookList -> "+e.getMessage());
+		}
+		
+		return listBoNewbook;
+	}
+
+	@Override
+	public int deleteBoNewbook(int nb_num) {
+		System.out.println("NewBookDaoImpl deleteBoNewbook Start...");
+		int result = 0;
+		try {
+			result = session.delete("gbDeleteBoNewbook", nb_num);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl deleteBoNewbook -> "+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int insertBoNewbook(NewBook newbook) {
+		System.out.println("NewBookDaoImpl insertBoNewbook Start...");
+		int result = 0;
+		try {
+			result = session.insert("gbInsertBoNewbook", newbook);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl insertBoNewbook -> "+e.getMessage());
+		}
+		return result;
 	}
 
 }

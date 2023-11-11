@@ -16,7 +16,7 @@
 
 </script>
 <style>
-    img {
+    #ht {
         width: 150px; /* Set the desired width */
         height: 200px; /* Set the desired height */
     }
@@ -49,12 +49,16 @@
 	                <div class="d-flex justify-content-between">
 	                   <div class="d-flex">
 	                      <!-- img -->
-	                      <img src="${orderList.nb_image}" alt="bookImage">
+	                      <img id="ht" src="${orderList.nb_image}" alt="bookImage">
 	                      <!-- text -->
 	                      <div class="ms-4">
-	                          <h5 class="mb-0 h6 h6">${orderList.nb_title}</h5>
+	                         <h5 class="mb-0 h6 h6">${orderList.nb_title}</h5>
+	                         <p style="margin: 10px;">
 	                         <p class="mb-0 small">수량 : ${orderList.o_de_count}
-	                         <p class="mb-0 small">구매일자 : ${orderList.o_order_date}
+	                         <p style="margin: 10px;">
+	                         <p class="mb-0 small">구매일자 :
+	                         <fmt:formatDate value="${orderList.o_order_date}" pattern="yyyy-MM-dd"/>
+	                         
 	                        </p>
 	                      </div>
 	                   </div>

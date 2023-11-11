@@ -62,14 +62,8 @@
 	    }
 	    return unescape(cookieValue);
 	}
-	
+		
 
-	function submitName(e) {
-	    if (e.code === 'Enter') {
-	        document.getElementById('btnSearch').click();
-	    }
-	}
-	
 	
 	function loginChk(m_id, m_pw) {		
 	
@@ -105,8 +99,7 @@
 		
 		
 	} 
-
-
+	
 
 
 </script>

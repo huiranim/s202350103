@@ -9,7 +9,7 @@
 	</select>
 	
 	<select id="shSubDate" parameterType="AttJoin" resultType="int" >
-		Select substr(a_par_pdate,7,2) day from att_join Where a_num = #{a_num} and m_num = #{m_num}
+		Select substr(a_par_pdate,7,2) day from att_join Where a_num = #{a_num} and m_num = #{m_num} Group by substr(a_par_pdate, 7, 2)
 	</select>
 	
 	<insert id="shStampAtt" parameterType="AttJoin">
@@ -39,25 +39,31 @@
 	</insert> 
 	
 	<select id="shAddAtt" parameterType="AttJoin" resultType="int">
+		<![CDATA[
 		Select 
 	    (Select count(*)
 	     From att_join
-	     Where m_num = 1001
-	     And a_num = 60030
-	     And to_date(a_par_pdate, 'yy-MM-dd') = trunc(sysdate)) +
+	     Where m_num = #{a_num}
+	     And a_num = #{m_num}
+	     And to_date(a_par_pdate, 'yy-MM-dd') = trunc(sysdate)
+	     And rownum <= 1) +
 	    
 	    (Select count(*)
 	     From att_join
-	     Where m_num = 1001
-	     And a_num = 60030
-	     And to_date(a_par_pdate, 'yy-MM-dd') = trunc(sysdate) - 1) +
+	     Where m_num = #{a_num}
+	     And a_num = #{m_num}
+	     And to_date(a_par_pdate, 'yy-MM-dd') = trunc(sysdate) - 1
+	     And rownum <= 1) +
 	    
 	    (Select count(*)
 	     From att_join
-	     Where m_num = 1001
-	     And a_num = 60030
-	     And to_date(a_par_pdate, 'yy-MM-dd') = trunc(sysdate) - 2) As total_count
+	     Where m_num = #{a_num}
+	     And a_num = #{m_num}
+	     And to_date(a_par_pdate, 'yy-MM-dd') = trunc(sysdate) - 2
+	     And rownum <= 1) 
+	     As total_count
 		From dual
+		]]>
 	</select>
 	
 	<insert id="shStampAddAtt" parameterType="AttJoin">

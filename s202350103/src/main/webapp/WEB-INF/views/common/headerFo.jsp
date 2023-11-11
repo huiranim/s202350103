@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +33,7 @@
 <!-- Google tag (gtag.js) -->
 
 <!-- End Tag 금비 -->
-<script type="text/javascript" src="js/jquery.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 	function search() {
 		var search_type = $("#search_type").val();
@@ -203,7 +205,7 @@
 			               	<c:if test="${member.m_image != null}">
 				               	<div class="list-inline-item me-5">
 									<!-- 내 아이콘 -->
-									<a href="memberMyPage?m_num=${member.m_num }" class="">
+									<a href="memberMyInfo?m_num=${member.m_num }" class="">
 									<img  src="${member.m_image }" width="55px" height="55px" alt="회원이미지" class="rounded-circle">
 	
 										<span class="visually-hidden">unread mes</span>
@@ -211,22 +213,28 @@
 				               	</div><p>
 			               	</c:if>
 			               	
-			               	<c:if test="${member.m_admin == 1 }">
-				               	<div class="list-inline-item me-5"  >
-									<a href="mainBo" class="list-inline"><strong>
-				               		<i class="bi bi-universal-access-circle me-1" ></i>
-									 관리자 페이지 </strong></a>
-				               		<span class="visually-hidden">unread mes</span>
-				               	</div>
-			               	</c:if><p>
 			               	<div>
 								<a href="memberMyPage?m_num=${member.m_num }" style="color: #002b63;"><strong>
 								${member.m_name }(${member.m_id })</strong></a>
-								님<p> 환영합니다.
-								
+								님 환영합니다.
 								<p>
 
 			               	</div>
+			               	<div>
+								<a href="memberMyPage?m_num=${member.m_num }" style="color: #002b63;"><strong>
+								<i class="bi bi-person-circle"></i>&nbsp;
+								마이페이지</strong></a>
+								<p>
+
+			               	</div>
+			               	
+			             <c:if test="${member.m_admin == 1 }">
+			               		<div>
+									<a href="mainBo" style="color: #581313;"><strong>
+				               		<i class="bi bi-universal-access-circle me-1" ></i>
+									 관리자 페이지 </strong></a>
+				               	</div>
+			             </c:if>
 			               	
 			               	
 			               	
@@ -304,7 +312,7 @@
                     <rect x="14" y="3" width="7" height="7"></rect>
                     <rect x="14" y="14" width="7" height="7"></rect>
                     <rect x="3" y="14" width="7" height="7"></rect>
-                  </svg></span> 메인메뉴 버튼
+                  </svg></span> 메인메뉴
               </a>
               <!-- 작은화면 메인메뉴 버튼 클릭시 옵션 -->
               <div class="collapse mt-2" id="collapseExample">
@@ -334,16 +342,27 @@
                     <rect x="14" y="3" width="7" height="7"></rect>
                     <rect x="14" y="14" width="7" height="7"></rect>
                     <rect x="3" y="14" width="7" height="7"></rect>
-                  </svg></span> 메인메뉴 버튼
+                  </svg></span> 메인메뉴
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="./pages/shop-grid.html">바로가기1</a></li>
-                <li><a class="dropdown-item" href="./pages/shop-grid.html">바로가기2</a></li>
-                <li><a class="dropdown-item" href="./pages/shop-grid.html">바로가기3</a></li>
-                <li><a class="dropdown-item" href="./pages/shop-grid.html">바로가기4</a></li>
-                <li><a class="dropdown-item" href="./pages/shop-grid.html">바로가기5</a></li>
-                <li><a class="dropdown-item" href="./pages/shop-grid.html">바로가기6</a></li>
-                <li><a class="dropdown-item" href="./pages/shop-grid.html">바로가기7</a></li>
+                <li><a class="dropdown-item" href="innewbookList?nb_category1=1">국내도서
+                <i class="bi bi-dot"></i>
+                </a></li>
+                <li><a class="dropdown-item" href="innewbookList?nb_category1=2">해외도서
+                <i class="bi bi-dot"></i>
+                </a></li>
+                <li><a class="dropdown-item" href="folistOb">중고도서
+                <i class="bi bi-dot"></i>
+                </a></li>
+                <li><a class="dropdown-item" href="writeFormObReport">중고판매
+                <i class="bi bi-dot"></i>
+                </a></li>
+                <li><a class="dropdown-item" href="eventList">이벤트
+                <i class="bi bi-dot"></i>
+                </a></li>
+                <li><a class="dropdown-item" href="memberQnaList">고객센터
+                <i class="bi bi-dot"></i>
+                </a></li>
               </ul>
             </div>
             
@@ -353,101 +372,65 @@
                 <li class="nav-item dropdown w-100 w-lg-auto">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    도서상품
+                      도서상품
                   </a>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="innewbookList?nb_category1=1">국내도서</a></li>
                     <li><a class="dropdown-item" href="innewbookList?nb_category1=2">해외도서</a></li>
+                    <li><a class="dropdown-item" href="folistOb">중고도서</a></li>
                   </ul>
                 </li>
-                <li class="nav-item dropdown w-100 w-lg-auto">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    중고도서
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="BolistOb">카테고리 메뉴 1</a></li>
-                    <li><a class="dropdown-item" href="./pages/shop-grid-3-column.html">메뉴 2</a></li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown w-100 w-lg-auto">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-					포인트
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="eventList">메뉴1</a></li>
-                    <li><a class="dropdown-item" href="./pages/store-grid.html">메뉴2</a></li>
-                    <li><a class="dropdown-item" href="./pages/store-single.html">메뉴3</a></li>
-                  </ul>
-                </li>
+             
 
-
-				<li class="nav-item dropdown w-100 w-lg-auto">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-					고객센터
+                 <li class="nav-item w-100 w-lg-auto">
+                  <a class="nav-link" href="writeFormObReport">
+       		   중고판매 
+       		   <i class="bi bi-dot"></i>
                   </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="memberQnaList">Q & A</a></li>
-                    
-                 <c:if test="${sessionScope.member != null }">
-                    <li><a class="dropdown-item" href="memberQna?m_num=${member.m_num }">문의하기</a></li>
-                    <li><a class="dropdown-item" href="?m_num=${member.m_num }">1:1 문의</a></li>
-                    <li><a class="dropdown-item" href="?m_num=${member.m_num }">내 문의</a></li>
-                  
-                  </c:if>  
-                    
-                  </ul>
                 </li>
-
-                <li class="nav-item dropdown w-100 w-lg-auto">
-                  <a class="nav-link dropdown-toggle" href="reviewList" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-					리뷰 작성하기
+               
+               
+                 <li class="nav-item w-100 w-lg-auto">
+                  <a class="nav-link" href="eventList">
+               	이벤트 
+               	<i class="bi bi-dot"></i>
                   </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="reviewList">메뉴1</a></li>
-                    <li><a class="dropdown-item" href="./pages/store-grid.html">메뉴2</a></li>
-                    <li><a class="dropdown-item" href="./pages/store-single.html">메뉴3</a></li>
-                  </ul>
                 </li>
-                
+               
                 
                 <!-- 상세 메뉴 -->
                 <li class="nav-item dropdown w-100 w-lg-auto dropdown-fullwidth">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    상세 메뉴 바로가기
+                    도서 카테고리
                   </a>
                   <div class=" dropdown-menu pb-0">
                     <div class="row p-2 p-lg-4">
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0">
-                        <h6 class="text-primary ps-3">대제목1</h6>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목1</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목2</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목8</a>
+                        <h6 class="text-primary ps-3">국내도서</h6>
+                        <a class="dropdown-item" href="innewbookList?nb_category2=1">경제/경영</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category2=2">과학</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category2=3">소설</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category2=4">역사/문화</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category2=5">인문</a>
                       </div>
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0">
-                        <h6 class="text-primary ps-3">대제목2</h6>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목1</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목7</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목8</a>
+                        <h6 class="text-primary ps-3">해외도서</h6>
+                        <a class="dropdown-item" href="innewbookList?nb_category2=6">과학/기술</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category2=7">문학</a>
                       </div>
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0">
-                        <h6 class="text-primary ps-3">대제목3</h6>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목1</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목2</a>
-                        <a class="dropdown-item" href="./pages/shop-grid.html">소제목7</a>
+                        <h6 class="text-primary ps-3">중고도서</h6>
+                        <a class="dropdown-item" href="folistOb">도서목록</a>
                       </div>
   					
   					<!-- 상세 배너 이미지 -->
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0">
                         <div class="card border-0">
-                          <img src="../assets/images/banner/menu-banner.jpg" alt="eCommerce HTML Template"
+                          <img src="" alt="최근 등록한 새상품 이미지"
                             class="img-fluid">
                           <div class="position-absolute ps-6 mt-8">
-                            <h5 class=" mb-0 ">이미지<br>빼도 되고 넣어도되고</h5>
+                            <h5 class=" mb-0 ">최근등록한<br>새상품 이미지 넣자 금비야</h5>
                             <a href="#" class="btn btn-primary btn-sm mt-3">구매 바로가기</a>
                           </div>
                         </div>
@@ -458,16 +441,27 @@
                 </li>
                 
                 
- 
-				<!-- 
-                <li class="nav-item w-100 w-lg-auto">
-                  <a class="nav-link" href="./dashboard/index.html">
-                 		   바로가기 6
+                
+				<li class="nav-item dropdown w-100 w-lg-auto">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+				고객센터
                   </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="memberQnaList">Q & A</a></li>
+                    
+                 <c:if test="${sessionScope.member != null }">
+                    <li><a class="dropdown-item" href="memberQna?m_num=${member.m_num }">문의하기</a></li>
+                    <li><a class="dropdown-item" href="memberQnaOne?m_num=${member.m_num }">1 : 1 문의</a></li>
+                    <li><a class="dropdown-item" href="memberMyOna?m_num=${member.m_num }">내 문의</a></li>
+                  
+                  </c:if>  
+                    
+                  </ul>
                 </li>
-				 -->
-
-				
+                
+                
+                
               </ul>
             </div>
           </div>
@@ -670,7 +664,6 @@
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Current Page</li>
             </ol>
           </nav>
         </div>

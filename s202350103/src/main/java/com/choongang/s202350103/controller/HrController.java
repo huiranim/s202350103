@@ -1,7 +1,10 @@
 package com.choongang.s202350103.controller;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j 
 public class HrController {
-	private final MemberService ms;
-	private final OrderService os;
+	private final MemberService  ms;
+	private final OrderService 	 os;
 	private final NewbookService ns;
+	private final JavaMailSender mailSender;
 	
 	@RequestMapping(value = "helloFo")
 	public String memTot1(Model model) {
@@ -244,12 +248,12 @@ public class HrController {
 		
 		// model에 회원 정보 저장
 		member = (Member) session.getAttribute("member");
-		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
+		System.out.println("HrController givingGift() member.getM_name() -> "+member.getM_name());
 		model.addAttribute("member", member);
 		
 		// model에 상품 정보 저장
 		NewBook newbook = ns.selectNewbook(nb_num);
-		System.out.println("HrController givingGift() newbook.getNb_title()"+newbook.getNb_title());
+		System.out.println("HrController givingGift() newbook.getNb_title() -> "+newbook.getNb_title());
 		model.addAttribute("newbook", newbook);
 		
 		// model에 선택 수량 저장
@@ -261,7 +265,7 @@ public class HrController {
 	
 	// FO 선물하기 - 액션
 	@RequestMapping("foGivingGiftAction")
-	public String givingGiftAction(Model model, Member member, HttpSession session, Orderr orderr, OrderGift orderGift) {
+	public String givingGiftAction(Model model, HttpSession session, Member member, Orderr orderr, OrderGift orderGift) {
 		System.out.println("HrController givingGiftAction() start..");
 		
 		// model에 회원 정보 저장
@@ -269,22 +273,63 @@ public class HrController {
 		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
 		model.addAttribute("member", member);
 		
-		// INSERT - ORDERR
-		// int oResult = os.insertOrderr(orderr);
+		// value 확인
+		// ORDERR
+			// m_num -> O
+			System.out.println("member.getM_num()->"+member.getM_num());
+			System.out.println("orderr.getM_num()->"+orderr.getM_num());
+			// o_pay_price -> O
+			System.out.println("orderr.getO_pay_price()->"+orderr.getO_pay_price());
+			// o_deliv_price -> O
+			System.out.println("orderr.getO_deliv_price()->"+orderr.getO_deliv_price());
+			// o_point -> O
+			System.out.println("orderr.getO_point()->"+orderr.getO_point());
+			// o_rec_name
+			System.out.println("orderr.getO_rec_name()->"+orderr.getO_rec_name());
+			// o_rec_mail
+			System.out.println("orderr.getO_rec_mail()->"+orderr.getO_rec_mail());
+			// o_rec_ph
+			System.out.println("orderr.getO_rec_ph()->"+orderr.getO_rec_ph());
+			// nb_num
+			System.out.println("orderr.getNb_num()->"+orderr.getNb_num());
+			// o_de_count
+			System.out.println("orderr.getO_de_count()->"+orderr.getO_de_count());
+
+			// ORDER_GIFT
+			// o_gift_card
+			System.out.println("orderGift.getO_gift_card()->"+orderGift.getO_gift_card());
+			// o_gift_msg
+			System.out.println("orderGift.getO_gift_msg()->"+orderGift.getO_gift_msg());
+			
+		// Service Method 실행 후 model에 result 저장
+		int result = os.givingGiftAction(member, orderr, orderGift);
+		model.addAttribute("result", result);
 		
-		// INSERT - ORDER_DETAIL
-		// int odResult = os.insertOrderDetail(orderr);
-		
-		// INSERT - ORDER_GIFT
-		// int ogResult = os.insertOrderGift(orderGift);
-		
-		// UPDATE - MEMBER
-		// int mResult = os.updateMember(member);
-		
-		// INSERT - POINT_LIST
-		// int plResult = insertPointList(member, orderr);
+		// 메일 발송을 위해 주요 객체 model에 저장
+		model.addAttribute("member", member);
+		model.addAttribute("orderr", orderr);
+		model.addAttribute("orderGift", orderGift);
 		
 		System.out.println("HrController givingGiftAction() end..");
+		return "redirect:giftMailing";
+	}
+	
+	// FO 선물하기 - 메일 발송
+	@RequestMapping("giftMailing")
+	public String giftMailing(HttpServletRequest request, Model model) {
+		System.out.println("HrController giftMailing() start..");
+
+		// 받는 사람
+		String tomail = ((Orderr) model.getAttribute("orderr")).getO_rec_mail();
+		System.out.println("HrController giftMailing() tomail -> "+tomail);
+		
+		// 보내는사람
+		String setfrom = "gml2511@gmail.com";
+		
+		// 제목
+		String title = "[DADOK] "+"님으로부터 선물이 도착했습니다!";
+		
+		System.out.println("HrController giftMailing() end..");		
 		return "/hr/foGivingGiftAction";
 	}
 }

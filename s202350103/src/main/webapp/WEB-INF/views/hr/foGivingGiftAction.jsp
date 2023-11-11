@@ -10,8 +10,15 @@
 </head>
 <body>
 
-안녕안녕
+<c:choose>
+	<c:when test="${result == 1 }">
+		선물 성공
+	</c:when>
+	<c:otherwise>
+		선물 실패
+	</c:otherwise>
+</c:choose>
 
-<%@ include file="common/footerFo.jsp" %>
+<%@ include file="../common/footerFo.jsp" %>
 </body>
 </html>

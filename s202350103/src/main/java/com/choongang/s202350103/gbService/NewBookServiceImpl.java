@@ -136,5 +136,38 @@ public class NewBookServiceImpl implements NewBookService {
 		return bonewbook;
 	}
 
+	@Override
+	public int updateBoNewbook(NewBook newbook) {
+		System.out.println("NewBookServiceImpl updateBoNewbook start...");
+		int result = nbd.updateBoNewbook(newbook);
+		System.out.println("NewBookServiceImpl updateBoNewbook result ->"+result);
+		return result;
+	}
+
+	@Override
+	public List<NewBook> selectBoNewBookList(NewBook newbook) {
+		System.out.println("NewBookServiceImpl selectBoNewBookList start...");
+		List<NewBook> listBoNewbook = nbd.selectBoNewBookList(newbook);
+		System.out.println("NewBookServiceImpl selectBoNewBookList listBoNewbook.size()->"+listBoNewbook.size());
+		
+		return listBoNewbook;
+	}
+
+	@Override
+	public int deleteBoNewbook(int nb_num) {
+		System.out.println("NewBookServiceImpl deleteBoNewbook start...");
+		int result = nbd.deleteBoNewbook(nb_num);
+		System.out.println("NewBookServiceImpl deleteBoNewbook result ->"+result);
+		return result;
+	}
+
+	@Override
+	public int insertBoNewbook(NewBook newbook) {
+		System.out.println("NewBookServiceImpl insertBoNewbook start...");
+		int result = nbd.insertBoNewbook(newbook);
+		System.out.println("NewBookServiceImpl insertBoNewbook result ->"+result);
+		return result;
+	}
+
 
 }

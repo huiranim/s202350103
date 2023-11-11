@@ -9,24 +9,36 @@
 	
 	</select>
 
+	<select id="totObCnt2" resultType="int">
+		SELECT Count(*) FROM oldbook
+		where ob_status = 3
+	</select>
+
 	<select id="sjObListAll" resultType="OldBook" parameterType="OldBook">
-			SELECT *
-			FROM
-			(
-        SELECT rownum rn , a.nb_title, a.nb_price , a.ob_num, a.ob_acc_name, a.ob_acc_num, 
-        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, a.ob_report_date, 
-        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
-        FROM
-          (select *
-          from  newbook n , oldbook o
-          WHERE  n.nb_num = o.nb_num 
-                   order by o.ob_num) a
-			)  	
-	 		WHERE  rn BETWEEN #{start} and #{end} 
+			     <![CDATA[
+				SELECT *
+				FROM
+				(
+			        SELECT rownum rn , a.nb_title, a.nb_price , a.m_num ,
+			        a.nb_writer, a.nb_publisher , a.nb_image , TO_CHAR(a.nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date,
+			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
+			        a.nb_category1 , a.nb_category2 ,
+			         a.nb_page , a.nb_size,
+				        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
+				        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
+				        FROM
+	                   (select *
+	                   from  newbook n , oldbook o
+	                   WHERE  n.nb_num = o.nb_num 
+	                           order by o.ob_num) a  
+				 )  
+		 		WHERE ob_status IN  3
+	
+	 	  ]]>	
 	
 	</select>
 	<select id="sjObSelOne" parameterType="int" resultType="OldBook">	        
-select *
+select * 
    from  oldbook o , newbook n  
    WHERE o.nb_num = n.nb_num
     AND o.ob_num = #{ob_num}
@@ -34,37 +46,71 @@ select *
 	
    <select id="sjObListAll2"   parameterType="OldBook"   resultType="OldBook">
 	     <![CDATA[
-			SELECT *
-			FROM
-			(
-			        SELECT rownum rn , a.nb_title, a.nb_price ,a.ob_num, a.ob_acc_name, a.ob_acc_num, 
-			        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, a.ob_report_date, 
-			        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
-			        FROM
-			                   (select *
-			                   from  newbook n , oldbook o
-			                   WHERE  n.nb_num = o.nb_num 
-                               order by o.ob_num) a  
-			 )  
-	 		WHERE  rn >=  #{start} 
-	 		and    rn <=  #{end} 
+				SELECT *
+				FROM
+				(
+			        SELECT rownum rn , a.nb_title, a.nb_price ,
+			        a.nb_writer, a.nb_publisher , a.nb_image , TO_CHAR(a.nb_publi_date, 'YYYY-MM-DD')AS nb_publi_date,
+			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
+			         a.nb_page , a.nb_size,
+				        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
+				        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
+				        FROM
+	                   (select *
+	                   from  newbook n , oldbook o
+	                   WHERE  n.nb_num = o.nb_num 
+	                           order by o.ob_num) a  
+				 )  
+		 		WHERE  rn >=  #{start}
+		 		and    rn <=  #{end}
 	 	  ]]>		
      </select>
      	
 	<update id="sjObUpdate"  parameterType="OldBook" >
 		UPDATE oldbook 
 		SET 
-			ob_status = #{ob_status}, 
-			nb_title = #{nb_title}, 
+			ob_status = #{ob_status},
 			ob_pur_price = #{ob_pur_price},
 			ob_ripped = #{ob_ripped}, 
 			ob_scribble = #{ob_scribble}, 
 		    ob_smeary = #{ob_smeary}, 
-		    ob_grade = #{ob_grade}
-		    ob_pur_price = #{ob_pur_price}
-		    nb_title= # {nb_title}
-		    nb_price= # {nb_price}
-		WHERE ob_num = #{ob_num}
+		    ob_grade = #{ob_grade},
+		    ob_sell_price =#{ob_sell_price}
+			WHERE ob_num =#{ob_num}
 	</update>
+	
+	<insert id="insertOldBook" parameterType="OldBook">
+		Insert into 
+		   oldbook(    ob_num,                     nb_num,    m_num    ,     ob_acc_name,    ob_acc_num, ob_status ,      ob_trans_com,   ob_trans_num,   ob_report_date ) 
+		   values ( OLDBOOK_OB_NUM_SEQ.nextval , #{nb_num} , #{m_num} , #{ob_acc_name} , #{ob_acc_num},#{ob_status} ,  #{ob_trans_com},#{ob_trans_num} , sysdate )
+	</insert>
+
+	<select id="SelectAcc" resultType="OldBook">
+		SELECT * 
+		FROM   oldbook
+		WHERE ob_num in (select ob_acc_name from oldbook)
+	</select>
+	
+	<select id="sjObMoListAll" parameterType="Oldbook" resultType="Oldbook">
+			SELECT nb_num, nb_title, nb_price,nb_writer,
+			nb_publisher ,nb_image, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date
+			From newbook
+	</select>
+	<select id="sjObSelNb" parameterType="int" resultType="OldBook">	        
+			SELECT nb_num, nb_title, nb_price, nb_writer,
+			nb_publisher , nb_image,TO_CHAR(nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date
+			From newbook
+			where nb_num = #{nb_num}
+	</select>
+	<update id="sjObUpdateComple"  parameterType="OldBook" >
+		UPDATE oldbook 
+		SET 
+			ob_status = #{ob_status}
+			WHERE ob_num =#{ob_num}
+	</update>
+
+
+
+
 
 </mapper>

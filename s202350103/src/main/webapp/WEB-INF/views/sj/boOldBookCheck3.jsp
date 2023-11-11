@@ -21,14 +21,14 @@ function btnActive()  {
 </head>
 <body>
 
-<form action="updateOb" method="post">
+<form action="" method="post">
 <p class="fs-1 text-center">중고 검수등록 1 </p>
 
 <table class="table table-bordered">
 
   <tr>
 	      <td scope="col">신청 일자</td>
-	      <td scope="col" colspan="2"><input type="hidden" name="ob_report_date" value="${oldBook.ob_report_date }"></td> 
+	      <td scope="col" colspan="2"><input type="hidden"  value="${oldBook.ob_report_date }"></td> 
     </tr>
     <tr>
 	      <td>중고상품번호 </td>
@@ -39,9 +39,10 @@ function btnActive()  {
 	      <td colspan="2">
 	      <input type="hidden" name="ob_status" value="${oldBook.ob_status }">
       	<c:choose>		
-				<c:when test="${oldBook.ob_status eq '0' }"><c:out value="검수중"/></c:when>
-				<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수완료"/></c:when>
-				<c:otherwise><c:out value="매입완료"/></c:otherwise>
+				<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수중"/></c:when>
+				<c:when test="${oldBook.ob_status eq '2' }"><c:out value="검수완료"/></c:when>
+				<c:when test="${oldBook.ob_status eq '3' }"><c:out value="매입완료"/></c:when>
+				<c:otherwise><c:out value=""/></c:otherwise>
 		</c:choose>
       </td>
     </tr>

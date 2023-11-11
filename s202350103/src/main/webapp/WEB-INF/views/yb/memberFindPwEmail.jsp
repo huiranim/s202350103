@@ -16,18 +16,21 @@
 	    alert("인증번호 전송중... 잠시만 기다려주세요.");
 	    
 	    $.ajax({
+	       type:"get",
 	       url:"<%=request.getContextPath()%>/mailTransport",
 	       data : {memberMail : m_email},
-	       dataType : 'text',
+	       dataType : 'json',
 	       success : function(strResult) {
-	          //alert('strResult -> '+strResult);
-	          if(strResult != null){
-	        	 alert(strResult);
+	    	   var jsonStr = JSON.stringify(strResult);
+	          alert('jsonStr -> '+jsonStr);
+	          if(jsonStr != null){
+	        	 alert(jsonStr);
+	        	 alert(jsonStr[0].certiNum);
 	             $('#msg').html("인증번호 전송 성공! 인증번호를 입력해주세요.");
 	             $('#msg').css("color", "red");
-	             $('input[name=certiNum]').attr('value',strResult);
+	             $('input[name=certiNum]').attr('value',jsonStr[1].);
 	             return true;
-	          } else if (strResult == null){
+	          } else if (jsonStr == null){
 	             alert("가입할때 사용하신 이메일을 입력해주세요.");
 	             $('#msg').html("가입할때 사용한 이메일을 입력해주세요.");
 	             $('#msg').css("color", "red");
@@ -75,6 +78,7 @@
 					<form action="certiNumChk" method="post">
 						<div class="mb-2">
 							<input type="hidden" name="certiNum" value="${certiNum }" >
+							<input type="text" name="m_email" value="${m_email }" >
 							<input type="text" class="form-control"
 								 required placeholder="인증번호를 입력해주세요" name="inputNum" id="inputNum">
 						</div>

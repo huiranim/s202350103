@@ -20,6 +20,7 @@
          <!-- heading -->
          <h2 class="mb-2">주문 현황</h2>
          <p><a href="#">${member.m_id } 님의 주문 목록입니다.</a></p>
+         <p>총 주문 건수 : ${totalOrderCnt }</p>
       </div>
       <div>
          <!-- table -->
@@ -56,8 +57,12 @@
             	        	    	   <p>배송상태 : 
 				                        <c:choose>
 
-			                        	    <c:when test="${myOrder.o_status == 1}">
+			                        	    <c:when test="${myOrder.o_status == 0}">
 								               <span>주문접수</span>
+				                            </c:when>
+				                            
+                         				     <c:when test="${myOrder.o_status == 1}">
+								               <span>주문확정</span>
 				                            </c:when>
 				                            
 				                            <c:when test="${myOrder.o_status == 2}">
@@ -69,7 +74,7 @@
 				                            </c:when>
 				                            
 				                            <c:when test="${myOrder.o_status == 4}">
-								               <span>주문확정</span>
+								               <span><strong>구매확정</strong></span>
 				                            </c:when>
 				                            
 				                            <c:when test="${myOrder.o_status == 5}">
@@ -88,7 +93,7 @@
 				                        
 				                        <p></p>
 				                        <a href="foOrderDetail?o_order_num=${myOrder.o_order_num}"  class="btn btn-soft-success mb-2">상세조회</a>
-				                        <button onclick="#" class="btn btn-soft-success mb-2">리뷰작성</button>
+				                        <a href="reviewForm?o_order_num=${myOrder.o_order_num}"  class="btn btn-soft-success mb-2">리뷰작성</a>
 				                        
             	        	    	</div>
                 	   		  </td>

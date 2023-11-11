@@ -6,9 +6,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -24,13 +28,16 @@ import com.choongang.s202350103.model.MemberQ;
 import com.choongang.s202350103.yjService.MemberService;
 import com.choongang.s202350103.yjService.Paging;
 
+import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
+import retrofit2.http.GET;
 
 @Controller
+@Slf4j
 public class YjController {
 
 	private final com.choongang.s202350103.ybService.MemberService ys;
@@ -40,7 +47,7 @@ public class YjController {
 	final DefaultMessageService messageService; // 문자전송 API
 	
 	private final JavaMailSender mailSender;	// 메일 전송 객체
-
+	
 	public YjController(MemberService ms,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys ) {
 		this.ms = ms;
 		// 문자 전송 API 							API 키, API Secret Key
@@ -150,16 +157,21 @@ public class YjController {
 	// 마이 페이지 이동
 		@RequestMapping ("/memberMyPage")
 		public String memberMyPage(int m_num, Model model, HttpSession session) {
+
 			Member member = new Member();
 			member =(Member) session.getAttribute("member");
+			
+
 			int totalWishList = ys.totalWishList(member);
 			int totalSellCnt = ys.totalSellCnt(member);
 			
-			System.out.println("Controller " + totalSellCnt);
+			System.out.println("마이페이지 회원 넘버 ->"+m_num);
+			int totalOrderCnt = ms.totalOrderCnt(m_num);
+			
 			
 			model.addAttribute("totalWishList", totalWishList);
 			model.addAttribute("totalSellCnt", totalSellCnt);
-			
+			model.addAttribute("totalOrderCnt",totalOrderCnt);
 			
 			System.out.println("Controller sadasdasd" + totalWishList);
 			
@@ -477,6 +489,9 @@ public class YjController {
 		  
 		  List<Member> memberMyOrder = ms.memberMyOrder(m_num);
 		  
+		  int totalOrderCnt = ms.totalOrderCnt(m_num);
+			
+		  model.addAttribute("totalOrderCnt",totalOrderCnt);
 		  model.addAttribute("memberMyOrder",memberMyOrder);
 		  
 		  return "yj/memberMyOrder";
@@ -531,6 +546,9 @@ public class YjController {
 		  imageUrl.add("../assets/images/memberImage/16.jpg");
 		  imageUrl.add("../assets/images/memberImage/17.jpg");
 		  imageUrl.add("../assets/images/memberImage/18.jpg");
+		  imageUrl.add("../assets/images/memberImage/19.jpg");
+		  imageUrl.add("../assets/images/memberImage/default2.png");
+		  imageUrl.add("../assets/images/memberImage/20.jpg");
 		  
 		  return imageUrl;
 	  }
@@ -598,8 +616,117 @@ public class YjController {
 		  return "yj/memberQnaList";
 	  }
 	  
+	  // 문의 상세조회
+	  @GetMapping("/memberQInfo")
+	  public String memberQInfo(@RequestParam int mq_num, 
+			  					String currentPage, Model model) {
+		  
+		  System.out.println("yj controller mqNum ->" +mq_num);
+		  
+		  MemberQ memberQInfo  = ms.memberQInfo(mq_num);
+		  model.addAttribute("memberQInfo",memberQInfo);
+		  
+		  return "yj/memberQInfo";
+	  }
 	  
 	  
+	  // 1 : 1 문의 폼
+	  @GetMapping("/memberQnaOne")
+	  public String memberQnaOne(@RequestParam int m_num, Model model) {
+		  
+		  System.out.println(m_num);
+		  
+		  Member member = ms.memberInfo(m_num);
+		  model.addAttribute("member",member);
+		  
+		  return "yj/memberQnaOne";
+	  }
+	 
+	  
+	  // 1 : 1 문의 이메일 전송
+	  @PostMapping("/memberOneMail")
+	  public String memberOneMail(@RequestParam int m_num,
+			  					@RequestParam String m_email,	
+			  					@RequestParam String m_id,
+			  					@RequestParam String mq_title,
+			  					@RequestParam String mq_content,
+			  					Model model) {
+		  	
+		  System.out.println(m_num);
+		  System.out.println(m_email);		  
+		  System.out.println(m_id);
+		  System.out.println(mq_title);
+		  System.out.println(mq_content);
+		  
+		  try {
+			  
+		  	MimeMessage message2 = mailSender.createMimeMessage();
+			// 메일전송 객체 
+			MimeMessageHelper messageHelper2 = new MimeMessageHelper(message2, true , "UTF-8");
+			
+			String setfrom = m_email;	// 보내는 사람 이메일 (생략시 오류)
+			String tomail = "ayj8487@naver.com";   		// 받는 사람 이메일
+			String title = mq_title;  	// 제목
+			
+			messageHelper2.setFrom(setfrom);    		// 보내는 사람 이메일 (생략시 오류)
+			messageHelper2.setTo(tomail);       		// 받는사람 이메일
+			messageHelper2.setSubject(title);   		// 메일제목 (생략 가능) -> 생략시 try 안걸어줘도됨
+													
+			// 메일 내용 
+			messageHelper2.setText("(" +m_id +") 님의 발신 : " + mq_content); 
+			// 메일 전송
+			mailSender.send(message2);
+			
+			// 전송 후 
+		  } catch (MessagingException e) {
+			  e.printStackTrace();
+		  }
+		  
+		  return "yj/memberQnaOne";
+	  }
+	  
+	  // 내문의 
+	  @GetMapping("/memberMyOna")
+	  public String memberMyOna(@RequestParam int m_num ,Model model) {
+		  
+		  System.out.println(m_num);
+		  
+		  List<MemberQ> memberMyQnaList = ms.memberMyQnaList(m_num);
+		  
+		  model.addAttribute("memberMyQnaList",memberMyQnaList);
+		  
+		  return "yj/memberMyOna";
+	  }
+	  
+	  // 관리자 - 회원상세 
+	  @GetMapping("/adminMemberInfo")
+	  public String adminMemberInfo(@RequestParam int m_num , Model model) {
+		  
+			Member member = ms.memberInfo(m_num);
+			
+			model.addAttribute("member",member);
+			
+			return "yj/adminMemberInfo";
+	  }
+	  
+	  // 관리자 - 회원정보 업데이트 
+	  @PostMapping("/adminMemberUpdate")
+	  public String adminMemberUpdate(@ModelAttribute Member member, HttpSession session, Model model) {
+		  
+		  int adminMemberUpdate = ms.adminMemberUpdate(member);
+		  
+		  if(adminMemberUpdate > 0) {
+			  
+			  Member current = (Member) session.getAttribute("member");
+			  
+			  session.setAttribute("member", current);
+		  }
+		  
+		  model.addAttribute("adminMemberUpdate",adminMemberUpdate);
+		  
+		  return "yj/adminMemberInfo";
+		  
+	  }
 	  
 	  
 }

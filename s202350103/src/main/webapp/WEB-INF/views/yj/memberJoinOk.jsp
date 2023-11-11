@@ -23,7 +23,7 @@
 			    <a href="loginForm" class="btn btn-primary">로그인 하러가기</a>
 			  </div>
 			  <div class="card-footer text-muted">
-			    1566-1142 고객센터 문의
+			    1566-1142 <a href="memberQnaList">고객센터 문의</a>
 			  </div>
 			</div>
 		</c:if>

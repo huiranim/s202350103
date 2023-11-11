@@ -39,6 +39,14 @@ public interface MemberDao {
 	List<MemberQ> memberQnaList(MemberQ memberQ);
 	// 문의 카운트
 	int mqCount();
+	// 문의 상세 
+	MemberQ memberQInfo(int mq_num);
+	// 내 문의 리스트
+	List<MemberQ> memberMyQnaList(int m_num);
+	// 내 주문 카운트
+	int totalOrderCnt(int m_num);
+	// 관리자 - 회원 정보 수정
+	int adminMemberUpdate(Member member);
 	
 	
 }

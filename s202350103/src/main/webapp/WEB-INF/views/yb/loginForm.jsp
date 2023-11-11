@@ -8,11 +8,17 @@
 <!DOCTYPE html>
 <html>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	#passwordToggler {
+		border: 0px;
+		background: none;
+	}
+</style>
 </head>
+
 <body>
 	 <!-- section -->
   <section class="my-lg-14 my-8" style="width: 150%; ">
@@ -39,7 +45,7 @@
                 <!-- input -->
               <div class="password-field position-relative">
       			<input type="password" id="m_pw"  name="m_pw" placeholder="비밀번호를 입력하세요" class="form-control" required >
-      			<span><i id="passwordToggler"class="bi bi-eye-slash"></i></span>
+      			<span><button id="passwordToggler" class="bi bi-eye-slash"></button></span>
     		  </div>
 
               </div>
@@ -68,10 +74,39 @@
              
         
         </div>
+       </div>
       </div>
+   </div>
 </section>
 	
 
 <%@ include file="../common/footerFo.jsp"  %>
 </body>
+<script type="text/javascript">
+	// 비밀번호 type 바꾸기
+	const passwordToggler = document.getElementById("passwordToggler");
+	const pwInput = document.getElementById("m_pw");
+	
+	passwordToggler.addEventListener("click", function() {
+
+	  const currentType = pwInput.type;
+
+	  if (currentType === "text") {
+		  pwInput.type = "password";
+	  } else if (currentType === "password") {
+		  pwInput.type = "text";
+	  }
+	});
+	
+	// 버튼 요소와 input 요소를 가져옵니다.
+	const btnSearch = document.getElementById("btnSearch");
+	const m_pw = document.getElementById("m_pw");
+
+	// input 요소에서 엔터 키를 누를 때 버튼을 클릭하도록 설정합니다.
+	m_pw.addEventListener("keyup", function(event) {
+	  if (event.key === "Enter") {
+		  btnSearch.click();
+	  }
+	});
+</script>
 </html>

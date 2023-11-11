@@ -13,9 +13,10 @@ public class Review {			  // 리뷰
 	private int    r_rating;	  // 별점
 	
 	// 조회용
-	private int    start;	private int end;  private int currentPage;
+	private int    start = 1;	private int end = 5;  private int currentPage;
 	private int	    m_num;	     // 회원번호
 	private String 	m_name;      // 회원이름
+	private String  m_image;	// 회원 이미지
 	private String  nb_image;    // 상품 이미지
 	private String  nb_title;    // 상품 제목
 	private int     o_de_count;  // 주문 수량
@@ -30,4 +31,6 @@ public class Review {			  // 리뷰
 	private int    r_review_total;   // 리뷰 총수량
 	private double r_review_average; // 리뷰 평균
 	private int    r_reviewSelect ;  // 리뷰 리스트 조회선택(1-> 최신순, 2-> 별점순)
+
+	private int    p_status;         // 제품 상세페이지에서 리뷰 페이지로 포커스 이동할 경우 사용
 }

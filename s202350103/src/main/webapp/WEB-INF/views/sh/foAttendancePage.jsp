@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javaScript">
-	function checkAtt(a_num, m_num){	
+	function checkAtt(a_num, m_num){
 			if(${chance}==0){
 				alert("출석 체크 완료");
 				location.href="checkAtt?a_num="+a_num+"&m_num="+m_num;
@@ -27,22 +27,19 @@
 	
 	function addAtt(a_num, m_num){
 		$.ajax({
-			url : "/addAtt";
+			url : "/addAtt",
 			data : {a_num:a_num, m_num:m_num},
 			dataType:"text",
 			success : function(totalCount){
 				if(totalCount == 3){
 					alert("3일 연속 출석 하셨습니다!");
-				} else {
-					alert("연속 출석 자격 미달입니다.");
 				}
-			},
+			}, 
 			error : function(){
 				alert("오류발생");
-			}
-		});
-	}
-	
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -101,7 +98,32 @@
 	    </c:forEach>
 	</tbody>
 </table>
-		<button onclick="checkAtt(${a_num},${m_num }),">출석체크</button>
+	<input type="submit" id="subButton" onsubmit="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num })" disabled="disabled">
+<script type="text/javascript">
+	$(function(){
+		var curDate = new Date();
+		var curDate1 = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
+		var a_sdate = '${attendance.a_sdate}';
+		var a_edate = '${attendance.a_edate}';
+		var sysdate = new Date(curDate1);
+		var sdate = convertToDate(a_sdate);
+		var edate = convertToDate(a_edate);
+		var target = document.getElementById("subButton");
+		alert(sysdate);
+		alert(sdate);
+		alert(edate);
+		if(sysdate>=sdate&&sysdate<= edate){
+		target.disabled = false;
+		} else{
+		target.disabled = true;	
+		}
+		
+		function convertToDate(dateStr) {
+			  var parts = dateStr.split('-');
+			  return new Date(parts[0], parts[1] - 1, parts[2]);
+			}
+	});
+</script>
 <%@ include file="../common/footerFo.jsp" %>
 </body>
 </html>

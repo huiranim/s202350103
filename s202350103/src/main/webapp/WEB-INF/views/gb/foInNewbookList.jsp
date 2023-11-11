@@ -79,7 +79,7 @@
  <div class="col-12">
     <div class="d-lg-flex justify-content-between align-items-center">
        <div class="mb-3 mb-lg-0">
-          <p class="mb-0"> <span class="text-dark">${inNewbookCnt} </span> Products found </p>  
+          <p class="mb-0"> 총 <span class="text-dark">${inNewbookCnt} </span> 개 </p>  
        </div>
        
        <!-- icon -->
@@ -157,7 +157,15 @@
 			                 </c:if>
 		                    <a href="newbookDetail?nb_num=${inNewbook.nb_num }">
 		                       <!-- 도서 이미지 -->
-		                       <img src="${inNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+		                       <c:set var="nb_image" value="${inNewbook.nb_image }"/>
+		                       <c:choose>
+			                   	<c:when test="${fn:contains(nb_image, 'http')}">
+			                   		<img src="${inNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+			                   	</c:when>
+			                   	<c:otherwise>
+			                   		<img src="${pageContext.request.contextPath}/upload/${inNewbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+			                   	</c:otherwise>
+			                   </c:choose>
 		                    </a>
 		                 </div>
 		              </div>

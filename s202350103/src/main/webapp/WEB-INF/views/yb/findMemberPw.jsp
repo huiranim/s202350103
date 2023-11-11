@@ -51,7 +51,6 @@
     function view(arg) {
 		var tb1 = document.getElementById("tb1");
 		var tb2 = document.getElementById("tb2");
-		
 
 		
 		if(arg == 1) {

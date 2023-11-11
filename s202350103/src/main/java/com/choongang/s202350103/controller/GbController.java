@@ -22,10 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
+import com.choongang.s202350103.htService.ReviewService;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.NewBookOldBook;
+import com.choongang.s202350103.model.Review;
 import com.choongang.s202350103.model.WishList;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,7 @@ public class GbController {
 	
 	private final NewBookService nbs;
 	private final NewBookOldBookService nbods;
+	private final ReviewService rs;
 	
 	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
@@ -130,7 +133,7 @@ public class GbController {
 	
 	// 상품 상페 페이지
 	@RequestMapping("newbookDetail")
-	public String selectNewbookDetail(NewBook newbook, HttpSession session, Member member, Model model) {
+	public String selectNewbookDetail(NewBook newbook, Review review, HttpSession session, Member member, Model model) {
 		System.out.println("GbController selectNewbookDetail start...");
 		System.out.println("GbController selectNewbookDetail newbook.getNb_num()"+newbook.getNb_num());
 		
@@ -151,10 +154,56 @@ public class GbController {
 		int same_obCnt = nbods.selectSameOldBookList(newbook.getNb_num()).size();
 		selectNewbook.setSame_obCnt(same_obCnt);
 		
+		//리뷰 코딩
+		
+		// 총 리뷰 개수 가져오기
+		int reviewTotal = rs.reviewTotal(review); 
+		// 리뷰 평균 값 가져오기
+		double reviewAverage = rs.reviewAverage(review);
+
+		review.setR_review_average(reviewAverage);
+		review.setR_review_total(reviewTotal);
+
+		for (int i = 1; i < 6; i++) {
+			review.setR_rating(i);
+			int reviewRatingCnt = rs.reviewRating(review);
+			switch (i) {
+			case 1:
+				review.setR_rating1((int) (((double) reviewRatingCnt / reviewTotal) * 100));
+				break;
+			case 2:
+				review.setR_rating2((int) (((double) reviewRatingCnt / reviewTotal) * 100));
+				break;
+			case 3:
+				review.setR_rating3((int) (((double) reviewRatingCnt / reviewTotal) * 100));
+				break;
+			case 4:
+				review.setR_rating4((int) (((double) reviewRatingCnt / reviewTotal) * 100));
+				break;
+			case 5:
+				review.setR_rating5((int) (((double) reviewRatingCnt / reviewTotal) * 100));
+				break;
+			}
+		}
+
+		if (review.getEnd() == 0) {
+			review.setEnd(5);
+		}
+		
+		System.out.println("Controller Start review.getStart->" + review.getStart());
+		System.out.println("Controller Start review.getEnd->" + review.getEnd());
+
+		List<Review> listReview = rs.listReview(review); 
+		
+		System.out.println("review.getP_status()--->"+review.getP_status());
+		
+		model.addAttribute("listReview", listReview);
+		model.addAttribute("review", review);
+		
 		model.addAttribute("member", member);
 		model.addAttribute("newbook", selectNewbook);
 		
-		return "gb/fonewbookDetail"; 
+		return "gb/fonewbookDetail";
 	}
 	
 	// 동일한 중고도서 목록 리스트
@@ -222,6 +271,7 @@ public class GbController {
 		
 	}
 	
+	// 장바구니 삭제
 	@RequestMapping("deleteCart")
 	public String deleteCart(Cart cart, HttpSession session, Member member, Model model) {
 		// 로그인한 멤버 값 불러오기 
@@ -233,9 +283,14 @@ public class GbController {
 		return "redirect:memberCartList";
 	}
 	
+	// 관리자페이지 상품 목록
 	@RequestMapping("bonewbookList")
-	public String selectboNewbookList(NewBook newbook, String currentPage, Model model) {
+	public String selectboNewbookList(NewBook newbook, String currentPage, String result, Model model) {
 		System.out.println("GbController selectboNewbookList start...");
+		String result1 = null;
+		if(result != null) {
+			result1 = result;
+		}
 		
 		// 도서 총 개수
 		int boNewbookCnt = nbs.selectInNewBookCnt(newbook); // 새 상품 도서의 총 개수를 구한다.
@@ -248,17 +303,24 @@ public class GbController {
 		newbook.setEnd(page.getEndRow());
 		System.out.println("GbController page.getStartRow() -> "+page.getStartRow());
 		
-		// 국내도서 검색 리스트
-		List<NewBook> listBoNewbook = nbs.selectSearchNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
+		// 국내도서 리스트
+		List<NewBook> listBoNewbook = nbs.selectBoNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
+		
+		for (int i=0; i < listBoNewbook.size(); i++) {
+			String nb_register_date1 = listBoNewbook.get(i).getNb_register_date().substring(0,10);
+			listBoNewbook.get(i).setNb_register_date(nb_register_date1);
+		}
 		
 		model.addAttribute("listBoNewbook", listBoNewbook);
 		model.addAttribute("page", page);
+		model.addAttribute("result", result1);
 		model.addAttribute("StartRow",page.getStartRow());
+		model.addAttribute("boNewbookCnt", boNewbookCnt);
 		
 		return "gb/boNewbookList";
 	}
 	
-	// 검색 도서 리스트 조회
+	// 관리자페이지 검색 도서 리스트 조회
 	@GetMapping("boSearchNewbookList")
 	// form에서 파라미터 값을 받아올 떄에는 DTO에 변수와 동일하게 작성하면 자동으로 DTO의 변수와 매핑되어 가져온다.
 	public String selectBoNewbookList(NewBook newbook, String currentPage, Model model) {
@@ -278,9 +340,15 @@ public class GbController {
 		List<NewBook> listSearchBoNewbook = nbs.selectSearchBoNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
 		System.out.println("GbController selectBoNewbookList listSearchBoNewbook.size() -> "+listSearchBoNewbook.size());
 		
+		for (int i=0; i < listSearchBoNewbook.size(); i++) {
+			String nb_register_date1 = listSearchBoNewbook.get(i).getNb_register_date().substring(0,10);
+			listSearchBoNewbook.get(i).setNb_register_date(nb_register_date1);
+		}
+		
 		model.addAttribute("search_Newbook", newbook);
 		model.addAttribute("listBoNewbook", listSearchBoNewbook);
 		model.addAttribute("page", page);
+		model.addAttribute("searchBoNewbookCnt", searchBoNewbookCnt);
 		model.addAttribute("StartRow",page.getStartRow());
 		
 		return "gb/boNewbookList";
@@ -301,29 +369,43 @@ public class GbController {
 		return "gb/boNewbookDetail";
 	}
 	
+	// 관리자페이지 상품 수정
 	@PostMapping("updateNewbook")
 	public String updateBoNewbook(HttpServletRequest request, MultipartFile file1, NewBook newbook, Model model) throws IOException {
 		System.out.println("GbController updateBoNewbook start...");
+		System.out.println("GbController updateBoNewbook file1 -> "+file1.getOriginalFilename());
+		System.out.println("GbController updateBoNewbook nb_publi_date -> "+newbook.getNb_publi_date());
 		
-		// 업로드 경로를 만들어야함.
-		String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
-		System.out.println("GbController uploadPath->"+uploadPath);
+		// 만약 file에 담겨진 값이 있다면 파일 이름 생성
+		if(file1.getOriginalFilename().length() > 0) {
+			// 업로드 경로를 만들어야함.
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			System.out.println("GbController uploadPath->"+uploadPath);
+			
+			System.out.println("GbController uploadForm Post Start");
+			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+			System.out.println("GbController updateBoNewbook Post savedName ->"+savedName);
+			newbook.setNb_image(savedName);
+			System.out.println("GbController updateBoNewbook Post nb_image ->"+newbook.getNb_image());
+		}
 		
-		System.out.println("GbController uploadForm Post Start");
-		String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
-		System.out.println("GbController updateBoNewbook Post savedName ->"+savedName);
+		// 생성된 파일명과 상품 정보를 수정
+		int result = nbs.updateBoNewbook(newbook);
+		System.out.println("GbController updateBoNewbook result -> "+result);
 		
-		// model.addAttribute("savedName", savedName);
+		model.addAttribute("result", result);
 		
-		return "gb/boNewbookList";
+		return "redirect:bonewbookList?result="+result;
 	}
-
+	
+	// 파일 생성하고 파일 이름 리턴하는 메소드
 	private String uploadFile(String originalName, byte[] fileData, String uploadPath) throws IOException {
 		UUID uid = UUID.randomUUID();
 		
 		System.out.println("uploadFile ->"+uploadPath);
 		File fileDirectory = new File(uploadPath);
 		
+		// 파일경로가 존재하지 않으면 폴더를 생성
 		if(!fileDirectory.exists()) {
 			// 신규 폴더(Directory 생성)
 			fileDirectory.mkdirs();
@@ -337,6 +419,53 @@ public class GbController {
 		
 		return savedName;
 
+	}
+	
+	// 관리자페이지 상품 삭제
+	@ResponseBody
+	@RequestMapping("deleteBoNewbook")
+	public String deleteBoNewbook(NewBook newbook) {
+		System.out.println("GbController deleteBoNewbook start...");
+		
+		String result = null;
+		
+		result = Integer.toString(nbs.deleteBoNewbook(newbook.getNb_num()));
+		System.out.println("GbController deleteBoNewbook result -> "+result);
+		
+		return result;
+	}
+	
+	// 상품 등록하는 화면으로 이동
+	@GetMapping("bonewbookInsert")
+	public String insertFormMove() {
+		System.out.println("GbController insertFormMove start...");
+		
+		return "gb/boNewbookInsertForm";
+		
+	}
+	
+	// 상품 등록
+	@PostMapping("insertBoNewbook")
+	public String insertBoNewbook(HttpServletRequest request, MultipartFile file1, NewBook newbook, Model model) throws IOException {
+		System.out.println("GbController insertBoNewbook start...");
+		int result = 0;
+		
+		// 만약 file에 담겨진 값이 있다면 파일 이름 생성
+		if(file1.getOriginalFilename().length() > 0) {
+			// 업로드 경로를 만들어야함.
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			System.out.println("GbController uploadPath->"+uploadPath);
+			
+			System.out.println("GbController uploadForm Post Start");
+			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+			System.out.println("GbController updateBoNewbook Post savedName ->"+savedName);
+			newbook.setNb_image(savedName);
+			System.out.println("GbController updateBoNewbook Post nb_image ->"+newbook.getNb_image());
+		}
+		
+		result = nbs.insertBoNewbook(newbook);
+		
+		return "redirect:bonewbookList?result="+result;
 	}
 	 
 }

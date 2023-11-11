@@ -3,9 +3,9 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%-- 
+
 <%@ include file="../common/headerFo.jsp" %>
- --%>
+
 <!DOCTYPE html>
 
 <html>
@@ -184,8 +184,8 @@
                	   <input type="button" id="chk1" class="btn btn-outline-gray-400 text-muted" value="리뷰 더보기">
 				</form>
 
-<%-- 
+
 <%@ include file="../common/footerFo.jsp" %>
- --%>
+
 </body>
 </html>

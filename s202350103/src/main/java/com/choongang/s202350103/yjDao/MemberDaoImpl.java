@@ -113,5 +113,29 @@ public class MemberDaoImpl implements MemberDao{
 		int mqCount = session.selectOne("mqCount");
 		return mqCount;
 	}
+	// 문의 상세
+	@Override
+	public MemberQ memberQInfo(int mq_num) {
+		MemberQ memberQInfo = session.selectOne("memberQInfo",mq_num);
+		return memberQInfo;
+	}
+	// 내 문의 리스트
+	@Override
+	public List<MemberQ> memberMyQnaList(int m_num) {
+		List<MemberQ> memberMyQnaList = session.selectList("memberMyQnaList",m_num);
+		return memberMyQnaList;
+	}
+	// 내 주문 카운트
+	@Override
+	public int totalOrderCnt(int m_num) {
+		int totalOrderCnt = session.selectOne("totalOrderCnt",m_num);
+		return totalOrderCnt;
+	}
+	// 관리자 - 회원 정보 수정
+	@Override
+	public int adminMemberUpdate(Member member) {
+		int adminMemberUpdate = session.update("adminMemberUpdate",member);
+		return adminMemberUpdate;
+	}
 
 }

@@ -16,7 +16,7 @@
 
 </script>
 <style>
-    img {
+    #ht {
         width: 150px; /* Set the desired width */
         height: 200px; /* Set the desired height */
     }
@@ -49,15 +49,31 @@
 	                <div class="d-flex justify-content-between">
 	                   <div class="d-flex">
 	                      <!-- img -->
-	                      <img src="${reviewedList.nb_image}" alt="bookImage">
+	                      <img id="ht" src="${reviewedList.nb_image}" alt="bookImage">
 	                      <!-- text -->
 	                      <div class="ms-4">
-	                          <h5 class="mb-0 h6 h6">${reviewedList.nb_title}</h5>
-	                         <p class="mb-0 small">수량 : ${reviewedList.o_de_count}
-	                         <p class="mb-0 small">구매일자 : ${reviewedList.o_order_date}
+	                         <h5 class="mb-0 h6 h6">${reviewedList.nb_title}</h5>
 	                         <p style="margin: 10px;">
-	                         <p class="mb-0 small">리뷰 작성일자 : ${reviewedList.r_create_date}
+	                         <p class="mb-0 small">구매 수량 : ${reviewedList.o_de_count}
+	                         <p class="mb-0 small">구매일자 :
+	                         <fmt:formatDate value="${reviewedList.o_order_date}" pattern="yyyy-MM-dd"/>
+	                         <p style="margin: 10px;">
+	                         <p class="mb-0 small">리뷰 작성일자 :
+	                         <fmt:formatDate value="${reviewedList.r_create_date}" pattern="yyyy-MM-dd"/>
 	                        </p>
+	                        <p style="margin: 10px;">
+	                        <p style="margin: 10px;">
+	                        <p class="mb-0 small">리뷰 제목 : ${reviewedList.r_title}
+	                        <p style="margin: 10px;">
+	                        <p class="mb-0 small">리뷰 내용 : ${reviewedList.r_content}
+	                        <p style="margin: 10px;">
+	                       	<p class="mb-0 small">리뷰 별점 :
+	                        <small class="text-warning">
+			                	<c:forEach begin="0" end="${reviewedList.r_rating - 1}">
+			                		<i class="bi bi-star-fill"></i>
+				                </c:forEach>
+			                </small>
+	                        
 	                      </div>
 	                   </div>
 	                   <div style="display: flex; justify-content: center; align-items: center;">
@@ -72,13 +88,13 @@
        </div>
          <div style="text-align: center;">
 	        <c:if test="${page.startPage > page.pageBlock}">
-				<a href="MyReviewList?currentPage=${page.startPage-page.pageBlock}"style="font-size: 19px;">[이전]</a>
+				<a href="MyReviewedList?currentPage=${page.startPage-page.pageBlock}"style="font-size: 19px;">[이전]</a>
 			</c:if>
 			<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-				<a href="MyReviewList?currentPage=${i}"style="font-size: 19px;">[${i}]</a>
+				<a href="MyReviewedList?currentPage=${i}"style="font-size: 19px;">[${i}]</a>
 			</c:forEach>
 			<c:if test="${page.endPage < page.totalPage}">
-				<a href="MyReviewList?currentPage=${page.startPage+page.pageBlock}"style="font-size: 19px;">[다음]</a>
+				<a href="MyReviewedList?currentPage=${page.startPage+page.pageBlock}"style="font-size: 19px;">[다음]</a>
 			</c:if>
 		 </div>
    	   </div>

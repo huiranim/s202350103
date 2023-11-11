@@ -118,7 +118,7 @@
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="adminMemberList"> 회원조회 </a></li>
+										href="adminMemberList"> 회원목록 </a></li>
 									<!-- Nav item -->
 								</ul>
 							</div></li>
@@ -135,10 +135,10 @@
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-list.html"> 메뉴1 </a></li>
+										href="bonewbookList"> 상품목록 </a></li>
 									<!-- Nav item -->
 									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-single.html"> 메뉴2 </a></li>
+										href="bonewbookInsert"> 상품등록 </a></li>
 								</ul>
 							</div></li>
 
@@ -149,17 +149,17 @@
 							aria-controls="navCategoriesOrders">
 								<div class="d-flex align-items-center">
 									<span class="nav-link-icon"><i class="bi bi-journal"></i></span>
-									<span class="nav-link-text">중고상품관리</span>
+									<span class="nav-link-text">중고 관리</span>
 								</div>
 						</a>
 							<div id="navOldProducts" class="collapse "
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-list.html"> 메뉴1 </a></li>
+										href="BolistOb"> 판매 신청 목록 </a></li>
 									<!-- Nav item -->
-									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-single.html"> 메뉴2 </a></li>
+									<!-- <li class="nav-item "><a class="nav-link "
+										href="../dashboard/order-single.html"> 메뉴2 </a></li> -->
 								</ul>
 							</div></li>
 
@@ -176,10 +176,10 @@
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-list.html"> 메뉴1 </a></li>
+										href="boOrderList"> 주문목록 </a></li>
 									<!-- Nav item -->
-									<li class="nav-item "><a class="nav-link "
-										href="../dashboard/order-single.html"> 메뉴2 </a></li>
+									<!-- <li class="nav-item "><a class="nav-link "
+										href="../dashboard/order-single.html"> 메뉴2 </a></li> -->
 								</ul>
 							</div></li>
 
@@ -195,10 +195,13 @@
 							<div id="navEvent" class="collapse " data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="../sh/boAttendance.jsp"> 메뉴1 </a></li>
+										href="/"> 이벤트목록 </a></li>
 									<!-- Nav item -->
 									<li class="nav-item "><a class="nav-link "
-										href="../sh/boAttendance.jsp"> 메뉴2 </a></li>
+										href="boAttendance"> 출석체크 등록 </a></li>
+									<!-- Nav item -->
+									<li class="nav-item "><a class="nav-link "
+										href="boQuiz"> 퀴즈 등록 </a></li>
 								</ul>
 							</div></li>
 
