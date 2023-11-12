@@ -119,7 +119,6 @@ public class GbController {
 		System.out.println("GbController selectSearchNewbookList m_num -> "+newbook.getM_num());
 		List<NewBook> listSearchNewbook = nbs.selectSearchNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
 		System.out.println("GbController selectSearchNewbookList listSearchNewbook.size() -> "+listSearchNewbook.size());
-		System.out.println("GbController selectSearchNewbookList listSearchNewbook.w_wish -> "+listSearchNewbook.get(0).getW_wish());
 		
 		model.addAttribute("member", member);
 		model.addAttribute("search_Newbook", newbook);

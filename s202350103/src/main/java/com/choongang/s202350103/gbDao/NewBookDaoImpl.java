@@ -65,7 +65,6 @@ public class NewBookDaoImpl implements NewBookDao {
 			System.out.println("NewBookDaoImpl selectSearchNewBookList Start...");
 			listSearchNewbook = session.selectList("gbSelectSearchBList", newbook);
 			System.out.println("NewBookDaoImpl selectSearchNewBookList listSearchNewbook.size() -> "+listSearchNewbook.size());
-			System.out.println("NewBookDaoImpl selectSearchNewBookList listSearchNewbook.w_wish -> "+listSearchNewbook.get(0).getW_wish());
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectSearchNewBookList -> "+e.getMessage());
 		}

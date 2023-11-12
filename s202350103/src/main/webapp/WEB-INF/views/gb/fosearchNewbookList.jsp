@@ -108,100 +108,107 @@
 	</div>
 	
 	<!-- 국내도서 리스트 -->
-	<c:forEach var="searchNewbook" items="${listSearchNewbook }">
-		<div class="row g-4  row-cols-1 mt-2">
-			<div class="row">
-			  <div class="col-12">
-			     <div class="card card-product">
-			        <!-- 한 개 도서상품 내용  -->
-			        <div class="card-body">
-			           <div class=" row align-items-center">
-			              <!-- col -->
-			              <div class="col-md-4 col-12">
-			                 <div class="text-center position-relative ">
-			                    <a href="newbookDetail?nb_num=${searchNewbook.nb_num }">
-			                       <!-- 도서 이미지 -->
-			                       <img src="${searchNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
-			                    </a>
-			                 </div>
-			              </div>
-			              <div class="col-md-8 col-12 flex-grow-1">
-			                 <!-- 도서 제목 -->
-			                 <h1 class="fs-2 mb-3"><a href="newbookDetail?nb_num=${searchNewbook.nb_num }" class="text-inherit text-decoration-none">${searchNewbook.nb_title}</a>
-			                 </h1>
-			                 <!-- 지은이, 출판사, 출판일 -->
-			                 <h3 class="fs-6 mb-3">${searchNewbook.nb_writer} | ${searchNewbook.nb_publisher} | ${searchNewbook.nb_publi_date}
-			                 </h3>
-			              <div>
-		                    <!-- 별점 -->
-		                    <div class="text-warning">
-		                    	<c:forEach var="i" begin="1" end="${searchNewbook.r_ratingAvg }">
-		                    		<i class="bi bi-star-fill"></i>
-		                    	</c:forEach>
-		                    	<c:forEach var="i" begin="${searchNewbook.r_ratingAvg + 1}" end="5">
-		                    		<i class="bi bi-star"></i>
-		                    	</c:forEach>
-			                    <span class="text-muted small" style="margin-left: 10px;">${searchNewbook.r_ratingAvg }(${searchNewbook.reviewCnt })</span>
-		              		</div>
-			              </div>
-			                 
-			                 <!-- 도서가격 + 버튼들 -->
-			                 <div class="  mt-8 mb-3">
-			                     <!-- 도서 가격 -->
-			                    <div>
-			                     <span class="text-dark fs-3"><fmt:formatNumber value="${searchNewbook.nb_price}" groupingUsed="true"/>원</span>
-			                     <span id="price_point" class="text-muted ml-5">
-			                     		적립포인트 : <fmt:formatNumber value="${searchNewbook.nb_price * 0.01}" pattern="#"/>p
-			                     </span>
-			                    </div>
-			                    
-			                    <!-- 찜, 바로구매,  장바구니 버튼 -->
-			                    <div class="mt-2">
-			                       <!-- 찜하기 버튼 -->	
-			                       <c:choose>
-			                       	<c:when test="${searchNewbook.w_wish == 0}">
-				                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
-				                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
-				                          <i id="wishbtn" class="bi bi-heart"></i></a>
-				                    </c:when>
-				                    <c:when test="${searchNewbook.w_wish == 1}">
-				                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
-				                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
-				                          <i id="wishbtn" class="bi bi-heart-fill"></i></a>
-				                    </c:when>
-			                       </c:choose>
-			                       <!-- 바로구매 버튼 -->   
-			                       <a href="#!" class="btn btn-primary ">
-			                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-			                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-			                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
-				                  	   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-				                  	   <line x1="3" y1="6" x2="21" y2="6"></line>
-				                       <path d="M16 10a4 4 0 0 1-8 0"></path>
-			                 	   </svg>
-			                  		바로구매
-			                       </a>
-			                       <!-- 장바구니 버튼 -->
-			                       <a href="#!" class="btn btn-secondary ">
-			                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-			                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-			                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
-				                  	   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-				                  	   <line x1="3" y1="6" x2="21" y2="6"></line>
-				                       <path d="M16 10a4 4 0 0 1-8 0"></path>
-			                 	   </svg>
-			                  		장바구니
-			                       </a>
-			                    </div>
-			                 </div>
-			              </div>
-			           </div>
-			        </div>
-			     </div>
-			  </div>
-			 </div>
-		</div>    
-	</c:forEach>   
+	<c:choose>
+		<c:when test="${listSearchNewbook.size() > 0}">
+			<c:forEach var="searchNewbook" items="${listSearchNewbook }">
+				<div class="row g-4  row-cols-1 mt-2">
+					<div class="row">
+					  <div class="col-12">
+					     <div class="card card-product">
+					        <!-- 한 개 도서상품 내용  -->
+					        <div class="card-body">
+					           <div class=" row align-items-center">
+					              <!-- col -->
+					              <div class="col-md-4 col-12">
+					                 <div class="text-center position-relative ">
+					                    <a href="newbookDetail?nb_num=${searchNewbook.nb_num }">
+					                       <!-- 도서 이미지 -->
+					                       <img src="${searchNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+					                    </a>
+					                 </div>
+					              </div>
+					              <div class="col-md-8 col-12 flex-grow-1">
+					                 <!-- 도서 제목 -->
+					                 <h1 class="fs-2 mb-3"><a href="newbookDetail?nb_num=${searchNewbook.nb_num }" class="text-inherit text-decoration-none">${searchNewbook.nb_title}</a>
+					                 </h1>
+					                 <!-- 지은이, 출판사, 출판일 -->
+					                 <h3 class="fs-6 mb-3">${searchNewbook.nb_writer} | ${searchNewbook.nb_publisher} | ${searchNewbook.nb_publi_date}
+					                 </h3>
+					              <div>
+				                    <!-- 별점 -->
+				                    <div class="text-warning">
+				                    	<c:forEach var="i" begin="1" end="${searchNewbook.r_ratingAvg }">
+				                    		<i class="bi bi-star-fill"></i>
+				                    	</c:forEach>
+				                    	<c:forEach var="i" begin="${searchNewbook.r_ratingAvg + 1}" end="5">
+				                    		<i class="bi bi-star"></i>
+				                    	</c:forEach>
+					                    <span class="text-muted small" style="margin-left: 10px;">${searchNewbook.r_ratingAvg }(${searchNewbook.reviewCnt })</span>
+				              		</div>
+					              </div>
+					                 
+					                 <!-- 도서가격 + 버튼들 -->
+					                 <div class="  mt-8 mb-3">
+					                     <!-- 도서 가격 -->
+					                    <div>
+					                     <span class="text-dark fs-3"><fmt:formatNumber value="${searchNewbook.nb_price}" groupingUsed="true"/>원</span>
+					                     <span id="price_point" class="text-muted ml-5">
+					                     		적립포인트 : <fmt:formatNumber value="${searchNewbook.nb_price * 0.01}" pattern="#"/>p
+					                     </span>
+					                    </div>
+					                    
+					                    <!-- 찜, 바로구매,  장바구니 버튼 -->
+					                    <div class="mt-2">
+					                       <!-- 찜하기 버튼 -->	
+					                       <c:choose>
+					                       	<c:when test="${searchNewbook.w_wish == 0}">
+						                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+						                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
+						                          <i id="wishbtn" class="bi bi-heart"></i></a>
+						                    </c:when>
+						                    <c:when test="${searchNewbook.w_wish == 1}">
+						                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+						                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
+						                          <i id="wishbtn" class="bi bi-heart-fill"></i></a>
+						                    </c:when>
+					                       </c:choose>
+					                       <!-- 바로구매 버튼 -->   
+					                       <a href="#!" class="btn btn-primary ">
+					                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+					                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+					                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
+						                  	   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+						                  	   <line x1="3" y1="6" x2="21" y2="6"></line>
+						                       <path d="M16 10a4 4 0 0 1-8 0"></path>
+					                 	   </svg>
+					                  		바로구매
+					                       </a>
+					                       <!-- 장바구니 버튼 -->
+					                       <a href="#!" class="btn btn-secondary ">
+					                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+					                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+					                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
+						                  	   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+						                  	   <line x1="3" y1="6" x2="21" y2="6"></line>
+						                       <path d="M16 10a4 4 0 0 1-8 0"></path>
+					                 	   </svg>
+					                  		장바구니
+					                       </a>
+					                    </div>
+					                 </div>
+					              </div>
+					           </div>
+					        </div>
+					     </div>
+					  </div>
+					 </div>
+				</div>    
+			</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<h2>검색된 도서가 없습니다.</h2>
+		</c:otherwise>
+	</c:choose>   
 	
 	<!-- 페이징 처리 -->
 	<div class="row mt-8">
