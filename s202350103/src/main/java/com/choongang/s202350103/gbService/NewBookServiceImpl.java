@@ -47,7 +47,6 @@ public class NewBookServiceImpl implements NewBookService {
 		System.out.println("NewBookServiceImpl selectSearchNewBookList start...");
 		List<NewBook> listSearchNewbook = nbd.selectSearchNewBookList(newbook);
 		System.out.println("NewBookServiceImpl selectSearchNewBookList listSearchNewbook.size()->"+listSearchNewbook.size());
-		System.out.println("NewBookServiceImpl selectSearchNewBookList listSearchNewbook.w_wish -> "+listSearchNewbook.get(0).getW_wish());
 		
 		return listSearchNewbook;
 	}
