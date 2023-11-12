@@ -53,6 +53,12 @@ public interface MemberService {
 	int myMqUpdate(MemberQ memberQ);
 	// 관리자 - 회원 삭제 
 	int adminMemberDelete(int m_num);
+	// 관리자 - 검색 후 회원 카운트
+	int memberSearchCnt(Member member);
+	// 관리자 - 회원 검색
+	List<Member> adminMemberSearch(Member member);
+	// 관리자 - 회원주소 간편조회 AJAX
+	String adminAddrSearch(int m_num);
 
 	
 }

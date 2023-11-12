@@ -154,6 +154,24 @@ public class MemberServiceImpl implements MemberService{
 		int adminMemberDelete = md.adminMemberDelete(m_num);
 		return adminMemberDelete;
 	}
+	// 관리자 - 검색후 회원 카운트
+	@Override
+	public int memberSearchCnt(Member member) {
+		int totalMember = md.memberSearchCnt(member);
+		return totalMember;
+	}
+	// 관리자 - 회원 검색
+	@Override
+	public List<Member> adminMemberSearch(Member member) {
+		List<Member> adminMemberSearch = md.adminMemberSearch(member);
+		return adminMemberSearch;
+	}
+	// 관리자 - 회원 주소 간편조회 AJAX
+	@Override
+	public String adminAddrSearch(int m_num) {
+		
+		return  md.adminAddrSearch(m_num);
+	}
 
 	
 }

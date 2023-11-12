@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.MemberQ;
@@ -501,7 +502,7 @@ public class YjController {
 		  return "yj/memberMyOrder";
 	  }
 	  
-	  // 관리자 회원 전체 조회
+	  // 관리자-회원 전체 조회
 	  @GetMapping("adminMemberList")
 	  public String adminMemberList(Member member, String currentPage, Model model ) {
 		  // 전체회원 count
@@ -521,7 +522,7 @@ public class YjController {
 		  return "yj/adminMemberList";
 	  }
 	
-	  // 관리자 페이지 이동
+	  // 관리자-페이지 이동
 	  @RequestMapping("mainBo")
 	  public String mainBo() {
 		  return "common/mainBo";
@@ -777,4 +778,47 @@ public class YjController {
 		  
 		  return "redirect:/adminMemberList";
 	  }
+	  
+	  // 관리자 - 회원 검색
+	  @GetMapping("memberSearch")
+	  public String memberSearch(Member member, String currentPage, Model model) {
+		  // 전체회원 count
+		  int totalMember = ms.memberSearchCnt(member);
+		  
+		  System.out.println(totalMember);
+		  		  // 페이징
+		  Paging page = new Paging(totalMember, currentPage);
+		  member.setStart(page.getStart());
+		  member.setEnd(page.getEnd());
+		 
+		  List<Member> adminMemberSearch = ms.adminMemberSearch(member);
+		  
+		  model.addAttribute("totalMember",totalMember);
+		  model.addAttribute("adminMemberList", adminMemberSearch);
+		  model.addAttribute("page", page);
+		  
+		  return "yj/adminMemberList";
+	  
+	  }
+	  
+	  // 404  테스트
+	  @GetMapping("/cutom404")
+	  public String cutom404() {
+		  return "yj/yjCustom404";
+	  }
+	  
+	  // 관리자 - 회원 주소 간편조회 
+	  @ResponseBody 
+	  @RequestMapping(value = "adminMemberAddr")
+	  public String adminMemberAddr(int m_num) {
+		  	System.out.println("yj Ajax m_num ->" + m_num);
+			
+			String m_addr = ms.adminAddrSearch(m_num);
+			
+		  	System.out.println("yj Ajax m_addr ->" + m_addr);
+			
+			return m_addr;
+	  }
+	  
+	  
 }
