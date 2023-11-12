@@ -1,8 +1,10 @@
 package com.choongang.s202350103.shService;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.choongang.s202350103.shDao.AttJoinDao;
 import com.choongang.s202350103.shDao.AttendanceDao;
@@ -198,5 +200,33 @@ public class PointServiceImpl implements PointService {
 		int result = qd.createQuiz(quiz);
 		return result;
 	}
+
+	@Override
+	public List<Attendance> boEventList(Attendance attendance) {
+		System.out.println("PointService boEventList() Start...");
+		List<Attendance> attendanceList = ad.boEventList(attendance);
+		return attendanceList;
+	}
+
+//	@Override
+//	public int checkAddAttCount(AttJoin attJoin) {
+//		Optional<AttJoin> latestAttendance = ajd.findAttendanceDate(attJoin);
+//		
+//		return latestAttendance.map(AttJoin::checkAddAttCount).orElse(0);
+//	}
+//	
+//	@Override
+//	@Transactional
+//	public void checkAddAtt(AttJoin attJoin) {
+//		int addAttCount = checkAddAttCount(attJoin);
+//		
+//		if(addAttCount < 3) {
+//			attJoin = ajd.cehckAddAtt(attJoin)
+//					.orElseGet(() -> new attJoin(attJoin.getM_num(), attJoin.getA_num(), 0));
+//		
+//		ajd.incrementAttCount();
+//		}
+//		
+//	}
 
 }

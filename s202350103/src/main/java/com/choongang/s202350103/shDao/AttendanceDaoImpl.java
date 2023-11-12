@@ -17,37 +17,36 @@ public class AttendanceDaoImpl implements AttendanceDao {
 	
 	@Override
 	public int totalAtt() {
-		System.out.println("AttendanceDaoImpl totalAtt() Start..");
+		System.out.println("AttendanceDao totalAtt() Start..");
 		int totalAtt = 0;
 		try {
 			totalAtt = session.selectOne("shTotalAtt");
 		} catch (Exception e) {
-			System.out.println("AttendanceDaoImpl totalAtt() Exception->"+e.getMessage());
+			System.out.println("AttendanceDao totalAtt() Exception->"+e.getMessage());
 		}
 		return totalAtt;
 	}
 
 	@Override
 	public List<Attendance> listEvent(Attendance attendance) {
-		System.out.println("AttendanceDaoImpl listEvent Start..");
+		System.out.println("AttendanceDao listEvent Start..");
 		List<Attendance> eventList = null;
 		try {
 			eventList = session.selectList("shEventList",attendance);
 		} catch (Exception e) {
-			System.out.println("AttendanceDaoImpl listEvent Exception->"+e.getMessage());
+			System.out.println("AttendanceDao listEvent Exception->"+e.getMessage());
 		}
 		return eventList;
 	}
 
 	@Override
 	public int divideAttNum(int eNum) {
-		System.out.println("AttendanceDaoImpl divideAttNum() Start..");
+		System.out.println("AttendanceDao divideAttNum() Start..");
 		int num = 0;
 		try {
 			num = session.selectOne("shDivideAttNum", eNum);
-			System.out.println("AttendanceDaoImpl divideAttNum() eNum->"+num);
 		} catch (Exception e) {
-			System.out.println("AttendanceDaoImpl divideAttNum() Exception->"+e.getMessage());
+			System.out.println("AttendanceDao divideAttNum() Exception->"+e.getMessage());
 		}
 		return num;
 	}
@@ -55,48 +54,62 @@ public class AttendanceDaoImpl implements AttendanceDao {
 	
 	@Override
 	public Attendance attendance(int eNum) {
-		System.out.println("AttendanceDaoImpl listAttendance() Start..");
+		System.out.println("AttendanceDao listAttendance() Start..");
 		Attendance attendance = null;
-		System.out.println("eNum"+eNum);
 		try {
 			attendance = session.selectOne("shAttendance",eNum);
 		} catch (Exception e) {
-			System.out.println("AttendanceDaoImpl listAttendance() Exception ->"+e.getMessage());
+			System.out.println("AttendanceDao listAttendance() Exception ->"+e.getMessage());
 		}
 		return attendance;
 	}
 
 	@Override
 	public int startMonth(int eNum) {
+		System.out.println("AttendanceDao startMonth() Start..");
 		int sMonth = 0;
 		try {
 			sMonth = session.selectOne("shStartMonth",eNum);
 		} catch (Exception e) {
-			System.out.println("AttendanceDaoImpl startMonth() Exception ->"+e.getMessage());
+			System.out.println("AttendanceDao startMonth() Exception ->"+e.getMessage());
 		}
 		return sMonth;
 	}
 
 	@Override
 	public int startYear(int eNum) {
+		System.out.println("AttendanceDao startYear() Start..");
 		int sYear = 0;
 		try {
 			sYear = session.selectOne("shStartYear",eNum);
 		} catch (Exception e) {
-			System.out.println("AttendanceDaoImpl startYear() Exception ->"+e.getMessage());
+			System.out.println("AttendanceDao startYear() Exception ->"+e.getMessage());
 		}
 		return sYear;
 	}
 
 	@Override
 	public int createAtt(Attendance attendance) {
+		System.out.println("AttendanceDao createAtt() Start..");
 		int result = 0;
 		try {
 			result = session.insert("shCreateAtt",attendance);
 		} catch (Exception e) {
-			System.out.println("AttendanceDaoImpl createAtt() Exception ->"+e.getMessage());
+			System.out.println("AttendanceDao createAtt() Exception ->"+e.getMessage());
 		}
 		return result;
+	}
+
+	@Override
+	public List<Attendance> boEventList(Attendance attendance) {
+		System.out.println("AttendanceDao boEventList() Start..");
+		List<Attendance> attendanceList = null;
+		try {
+			attendanceList = session.selectList("shBoEventList");
+		} catch (Exception e) {
+			System.out.println("AttendanceDao boEventList() Exception ->"+e.getMessage());
+		}
+		return attendanceList;
 	}
 
 }

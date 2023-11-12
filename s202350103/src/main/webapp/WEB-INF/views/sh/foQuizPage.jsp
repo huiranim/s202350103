@@ -108,9 +108,6 @@
 		var sdate = convertToDate(a_sdate);
 		var edate = convertToDate(a_edate);
 		var target = document.getElementById("subButton");
-		alert(sysdate);
-		alert(sdate);
-		alert(edate);
 		if(sysdate>=sdate&&sysdate<=edate){
 		target.disabled = false;
 		} else{

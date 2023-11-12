@@ -14,35 +14,11 @@
 <title>Insert title here</title>
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javaScript">
-	function checkAtt(a_num, m_num){
-			if(${chance}==0){
-				alert("출석 체크 완료");
-				location.href="checkAtt?a_num="+a_num+"&m_num="+m_num;
-				return true;
-			} else {
-				alert("금일 참여하셨습니다.");
-				return false;
-			}
-	}
 	
-	function addAtt(a_num, m_num){
-		$.ajax({
-			url : "/addAtt",
-			data : {a_num:a_num, m_num:m_num},
-			dataType:"text",
-			success : function(totalCount){
-				if(totalCount == 3){
-					alert("3일 연속 출석 하셨습니다!");
-				}
-			}, 
-			error : function(){
-				alert("오류발생");
-		}
-	});
-}
 </script>
 </head>
 <body>
+<a href="boPointList">${a_num}</a>
 <h1>${month}월 출석 이벤트</h1>
 <caption>${attendance.a_sdate } ~ ${attendance.a_edate }</caption>
 <table border="1" width="100%" cellspacing="0">
@@ -98,7 +74,7 @@
 	    </c:forEach>
 	</tbody>
 </table>
-	<input type="submit" id="subButton" onsubmit="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num })" disabled="disabled">
+	<input type="button" id="subButton" onClick="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num })" disabled="disabled" value="제출">
 <script type="text/javascript">
 	$(function(){
 		var curDate = new Date();
@@ -109,9 +85,6 @@
 		var sdate = convertToDate(a_sdate);
 		var edate = convertToDate(a_edate);
 		var target = document.getElementById("subButton");
-		alert(sysdate);
-		alert(sdate);
-		alert(edate);
 		if(sysdate>=sdate&&sysdate<= edate){
 		target.disabled = false;
 		} else{
@@ -123,6 +96,33 @@
 			  return new Date(parts[0], parts[1] - 1, parts[2]);
 			}
 	});
+	
+	function checkAtt(a_num, m_num){
+		if(${chance}==0){
+			alert("출석 체크 완료");
+			location.href="checkAtt?a_num="+a_num+"&m_num="+m_num;
+			return true;
+		} else {
+			alert("금일 참여하셨습니다.");
+			return false;
+		}
+}
+
+function addAtt(a_num, m_num){
+	$.ajax({
+		url : "/checkAddAtt",
+		data : {a_num:a_num, m_num:m_num},
+		dataType:"text",
+		success : function(totalCount){
+			if(totalCount == 3){
+				alert("3일 연속 출석 하셨습니다!");
+			}
+		}, 
+		error : function(){
+			alert("오류발생");
+	}
+});
+}
 </script>
 <%@ include file="../common/footerFo.jsp" %>
 </body>

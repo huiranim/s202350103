@@ -125,13 +125,13 @@ import com.choongang.s202350103.model.AttJoin;
 		
 		//출석부 연속 출선 메소드 (ajax)
 		@ResponseBody
-		@RequestMapping(value = "addAtt")
-		public int addAtt(@RequestParam("a_num") int a_num, @RequestParam("m_num") int m_num) {
-			System.out.println("PointController addAtt() Start..");
+		@RequestMapping(value = "checkAddAtt")
+		public int checkAddAtt(@RequestParam("a_num") int a_num, @RequestParam("m_num") int m_num) {
+//			System.out.println("PointController addAtt() Start..");
 //			AttJoin attJoin = new AttJoin();
 //			attJoin.setA_num(a_num);
 //			attJoin.setM_num(m_num);
-//			int count = 0;
+//			ps.checkAddAtt(attJoin);	
 			
 			AttJoin attJoin = new AttJoin();
 			attJoin.setA_num(a_num);
@@ -197,11 +197,6 @@ import com.choongang.s202350103.model.AttJoin;
 			return "sh/boAttendance";
 		}
 		
-		@RequestMapping(value = "boQuiz")
-		public String boQuiz() {
-			return "sh/boQuiz";
-		}
-		
 		//관리자 페이지 출석이벤트 생성
 		@RequestMapping(value = "createAtt")
 		public String createAtt(@RequestParam("a_title") String a_title, @RequestParam("a_sdate")String a_sdate, @RequestParam("a_edate")String a_edate,
@@ -219,6 +214,11 @@ import com.choongang.s202350103.model.AttJoin;
 			int result = ps.createAtt(attendance);
 			
 			return	"redirect:/boAttendance";
+		}
+		
+		@RequestMapping(value = "boQuiz")
+		public String boQuiz() {
+			return "sh/boQuiz";
 		}
 		
 		@RequestMapping(value = "createQuiz")
@@ -240,4 +240,36 @@ import com.choongang.s202350103.model.AttJoin;
 			int result = ps.createQuiz(quiz);
 			return "redirect:/boQuiz";
 	}
+		//관리자 페이지 이벤트 목록 
+		@RequestMapping(value = "boEventList")
+		public String  boEventList(Model model) {
+			System.out.println("PointController boEventList() Start...");
+			
+			 Attendance attendance = new Attendance(); 
+			 List<Attendance> attendanceList = ps.boEventList(attendance); 
+			 model.addAttribute("event",attendanceList);
+			 
+			return "sh/boEventList";
+		}
+		
+		@RequestMapping(value = "boEventDetail")
+		public String boEventDetail(@RequestParam("eNum") int eNum, Model model) {
+			System.out.println("PointController boEventDetail() Start..");
+			int num = ps.divideAttNum(eNum);
+		    if(num == eNum) {
+		    	Attendance attendance = new Attendance();
+		    	attendance = ps.detailAttendance(eNum);
+		    	
+		    	model.addAttribute("attendance",attendance);
+		    	
+		    	return "sh/boAttendancePopUp";
+		    } else {
+				Quiz quiz = new Quiz();
+				quiz = ps.detailQuiz(eNum);
+				
+				model.addAttribute("quiz",quiz);
+				
+				return "sh/boQuizPopUp";
+		    }
+		}
 }

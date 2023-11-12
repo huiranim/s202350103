@@ -14,6 +14,7 @@ public class Attendance {				//출석부
 	private int    	 a_addpoint;		//추가지급포인트
 	
 	//이벤트 조회용(Quiz)
+	private int 	rn;				//count(row)
 	private int    	q_num;			//이벤트번호
 	private String 	q_title;		//이벤트제목
 	private String 	q_sdate;		//시작일자

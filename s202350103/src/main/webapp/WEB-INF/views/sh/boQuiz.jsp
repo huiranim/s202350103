@@ -22,10 +22,10 @@
 		4.<input type="text" name="q_select4" required="required">							<p>
 		정답 : 																				<p>
 		<select name="q_answer" required="required">
-			<option id="select" value="1" selected="selected">
-			<option id="select" value="2">
-			<option id="select" value="3">
-			<option id="select" value="4">
+			<option id="select" value="1" selected="selected">1
+			<option id="select" value="2">2
+			<option id="select" value="3">3
+			<option id="select" value="4">4
 		</select>																			<p>
 		<input type="submit" value="생성">													<p>
 	</form>
