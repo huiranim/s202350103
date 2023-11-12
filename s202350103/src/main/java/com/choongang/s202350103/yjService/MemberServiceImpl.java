@@ -136,6 +136,24 @@ public class MemberServiceImpl implements MemberService{
 		int adminMemberUpdate = md.adminMemberUpdate(member);
 		return adminMemberUpdate;
 	}
+	// 내 문의 삭제 
+	@Override
+	public int myMqDelete(int mq_num) {
+		int myMqDelete = md.myMqDelete(mq_num);
+		return myMqDelete;
+	}
+	// 내 문의 수정
+	@Override
+	public int myMqUpdate(MemberQ memberQ) {
+		int myMqUpdate = md.myMqUpdate(memberQ);
+		return myMqUpdate;
+	}
+	// 관리자 - 회원 삭제
+	@Override
+	public int adminMemberDelete(int m_num) {
+		int adminMemberDelete = md.adminMemberDelete(m_num);
+		return adminMemberDelete;
+	}
 
 	
 }

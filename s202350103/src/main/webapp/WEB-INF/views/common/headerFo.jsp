@@ -408,16 +408,16 @@
                     <div class="row p-2 p-lg-4">
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0">
                         <h6 class="text-primary ps-3">국내도서</h6>
-                        <a class="dropdown-item" href="innewbookList?nb_category2=1">경제/경영</a>
-                        <a class="dropdown-item" href="innewbookList?nb_category2=2">과학</a>
-                        <a class="dropdown-item" href="innewbookList?nb_category2=3">소설</a>
-                        <a class="dropdown-item" href="innewbookList?nb_category2=4">역사/문화</a>
-                        <a class="dropdown-item" href="innewbookList?nb_category2=5">인문</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category1=1&nb_category2=1">경제/경영</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category1=1&nb_category2=2">과학</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category1=1&nb_category2=3">소설</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category1=1&nb_category2=4">역사/문화</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category1=1&nb_category2=5">인문</a>
                       </div>
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0">
                         <h6 class="text-primary ps-3">해외도서</h6>
-                        <a class="dropdown-item" href="innewbookList?nb_category2=6">과학/기술</a>
-                        <a class="dropdown-item" href="innewbookList?nb_category2=7">문학</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category1=2&nb_category2=6">과학/기술</a>
+                        <a class="dropdown-item" href="innewbookList?nb_category1=2&nb_category2=7">문학</a>
                       </div>
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0">
                         <h6 class="text-primary ps-3">중고도서</h6>

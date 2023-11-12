@@ -47,6 +47,12 @@ public interface MemberDao {
 	int totalOrderCnt(int m_num);
 	// 관리자 - 회원 정보 수정
 	int adminMemberUpdate(Member member);
+	// 내 문의 삭제 
+	int myMqDelete(int mq_num);
+	// 내 문의 수정
+	int myMqUpdate(MemberQ memberQ);
+	// 관리자 - 회원삭제
+	int adminMemberDelete(int m_num);
 	
 	
 }

@@ -20,20 +20,18 @@
 			<c:set var="num" value="${page.total-page.start+1 }"></c:set>
       </div>
   <div class="row justify-content-center">
-<div class="col-xl-8 col-lg-8 col-md-8 col-8 mb-6">
   <div class="col-lg-12 col-md-12 col-12 d-block  container">
          <!-- table -->
          <div class="table-responsive">
             <table class="table text-nowrap">
                <thead class="table-light">
                      <tr>
-					<th class="rounded-start">No.</th>
-					<th class="rounded-start">회원번호</th>
-					<th class="rounded-start" >가입일</th>
-					<th class="rounded-start">아이디</th>
-					<th class="rounded-start">이름</th>
-					<th class="rounded-start">보유포인트</th>
-					<th class="rounded-start">상세조회</th>
+					<th class="rounded-start">No. 가입일</th>
+					<th class="rounded-0 ">회원번호</th>
+					<th class="rounded-0 ">아이디</th>
+					<th class="rounded-0 ">이름</th>
+					<th class="rounded-0 ">보유포인트</th>
+					<th class="rounded-end">상세조회</th>
 					</tr>
                </thead>
                
@@ -41,9 +39,11 @@
                		<c:forEach items="${adminMemberList }" var="member">
                
                   <tr>
-                   		<td class="align-middle ">${num }</td>
+                   		<td class="align-middle ">
+                   		${num } / &nbsp;&nbsp;
+                   		<fmt:formatDate value="${member.m_date }" pattern="yyyy-MM-dd" />
+                   		</td>
 						<td class="align-middle">${member.m_num }</td>
-						<td class="align-middle " ><fmt:formatDate value="${member.m_date }" pattern="yyyy-MM-dd" /></td>
 						<td class="align-middle ">${member.m_id }</td>
 						<td class="align-middle ">${member.m_name }</td>
 						<td class="align-middle ">${member.m_point } <span style="color: red;">P</span></td>
@@ -59,7 +59,6 @@
    
    
    </div>
- </div>
  </div>
  </div>
 
