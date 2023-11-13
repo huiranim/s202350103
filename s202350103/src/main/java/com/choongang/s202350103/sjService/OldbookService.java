@@ -17,6 +17,7 @@ public interface OldbookService {
 	List<OldBook>        listObFo(OldBook oldBook);
 	int                  totalOb2();
 	int                  updateObComp(OldBook oldBook);
+	int                  totNbCnt3();
 
 	  
 		  

@@ -51,7 +51,7 @@
                        <input type="hidden"  name="nb_num" value="${oldBook.nb_num }" >
                     </div>
                        <!-- img --><img src="${oldBook.nb_image }"
-                         alt="" class="mb-3 img-fluid">
+                         alt="" class="mb-3 img" style="width: 110px ">
                          <input type="hidden" name="nb_image" value="${oldBook.nb_image }">
                  </div>
               </div>
@@ -59,20 +59,20 @@
                  <!-- heading -->
                  <div class="text-small mb-1">
                  </div>
-                 <h2 class="fs-6">
+                 <h2 class="fs-6 text-start">
                  <br>
                  	책 제목 : ${oldBook.nb_title}
                  <input type="hidden" name="nb_title" id="nb_ti" value="${oldBook.nb_title }" required="required">
                  </h2>
-                 <div>
-                  <span><small class="text-muted"><input type="hidden" name="nb_writer" value="${oldBook.nb_writer}">지은이 : ${oldBook.nb_writer}/ 
+                 <div class="text-start">
+                  <span><small class="text-muted "><input type="hidden" name="nb_writer" value="${oldBook.nb_writer}">지은이 : ${oldBook.nb_writer}/ 
                       <input type="hidden"  name="nb_publisher" value="${oldBook.nb_publisher }">출판사 : ${oldBook.nb_publisher }  
                          <input type="hidden" name="nb_publi_date" value="${oldBook.nb_publi_date }"> 출간일: ${oldBook.nb_publi_date }
                       </small></span>
                  </div>
                  <div class=" mt-6">
                     <!-- price -->
-                      <div>
+                      <div class="text-start">
                       <span class="text-dark"> 가격 : <fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price}"/>원    	  <input type="hidden" name="nb_price" value="${oldBook.nb_price }">  </span> 
                       
                     </div>
@@ -100,6 +100,15 @@
             </div>
             <!-- 모달 바디 -->
             <div class="modal-body">
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 
             </div>
             <div class="modal-footer">

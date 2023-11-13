@@ -24,6 +24,8 @@ public class OldBookServiceImpl implements OldbookService {
 			
 		return totObCnt;
 	}
+	
+	
 	@Override
 	public int totalOb2() {
 		
@@ -36,6 +38,17 @@ public class OldBookServiceImpl implements OldbookService {
 		
 		
 	}
+	@Override
+	public int totNbCnt3() {	
+		System.out.println("OldBookServiceImpl start total..");
+		int totNbCnt3 = obd.totNbCnt3();
+		System.out.println("OldBookServiceImpl totalOb totNbCnt3->"+totNbCnt3);
+			
+		return totNbCnt3;
+		
+		
+	}
+	
 	
 	
 	@Override
@@ -94,9 +107,9 @@ public class OldBookServiceImpl implements OldbookService {
 	@Override
 	public List<OldBook> listMoOb(OldBook oldBook) {
 		List<OldBook> ObMolist = null;
-		System.out.println("OldBookServiceImpl listOb Start...");
+		System.out.println("OldBookServiceImpl ObMolist Start...");
 		ObMolist = obd.listMoOb(oldBook);
-		System.out.println("OldBookServiceImpl listOb OldBooklist.size()"+ObMolist.size());
+		System.out.println("OldBookServiceImpl ObMolist OldBooklist.size()"+ObMolist.size());
 		return ObMolist;
 	}
 
@@ -106,7 +119,7 @@ public class OldBookServiceImpl implements OldbookService {
 		
 		OldBook oldBook = null;
 		oldBook = obd.ModetailNb(nb_num);
-		System.out.println("OldBookServiceImpl detailOb getOb_pur_price()->"+oldBook.getOb_pur_price());
+		System.out.println("OldBookServiceImpl ModetailNb oldBook->"+oldBook);
 		
 		return oldBook;
 	}
@@ -115,11 +128,12 @@ public class OldBookServiceImpl implements OldbookService {
 	public List<OldBook> listObFo(OldBook oldBook) {
 		
 			List<OldBook> OblistFo = null;
-			System.out.println("OldBookServiceImpl listOb Start...");
+			System.out.println("OldBookServiceImpl listObFo Start...");
 			OblistFo = obd.listObFo(oldBook);
-			System.out.println("OldBookServiceImpl listOb OldBooklist.size()"+OblistFo.size());
+			System.out.println("OldBookServiceImpl listObFo OldBooklist.size()->"+OblistFo.size());
 			return OblistFo;
 		}
+	
 	@Override
 	public int updateObComp(OldBook oldBook) {
 		System.out.println("sjServiceImpl updateObComp...");

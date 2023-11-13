@@ -73,14 +73,14 @@
 						</c:choose>
 		                   </td>
 		                </tr>
-		   			<c:set var="num" value="${num - 1 }"></c:set>
+		   			
 		       	</c:forEach> 
 		       	<hr>
 		    </tbody>
 		           
 		</table>
 		<hr>		
-		
+<c:set var="num" value="${num - 1 }"></c:set>		
 		 <nav aria-label="Page navigation example">
 		  <ul class="pagination justify-content-center">
 
@@ -89,9 +89,10 @@
 						<a class="page-link" href="BolistOb?currentPage=${page.startPage-page.pageBlock}">이전</a>
 					</li>
 				</c:if>
+				
  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 					 <li class="pagination justify-content-center">
- 						<a class="page-link" href="BolistOb?currentPage=${i}">${i}</a>&nbsp;&nbsp;
+ 						<a class="page-link" href="BolistOb?currentPage=${i}">${i}</a>
 					</li>
 				</c:forEach>
 					

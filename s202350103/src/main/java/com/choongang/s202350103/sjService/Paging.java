@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Paging {
-	//                        2
+	//                        
 	private int currentPage = 1;	private int rowPage   = 10;
 	private int pageBlock = 10;		
 	private int start;				private int end;
@@ -14,7 +14,7 @@ public class Paging {
 	private int totalOb;			private int totalObPage;
     
 
-	//                23             null(2)
+	//                23             
 	public Paging(int totalOb, String currentPage1) {
 		this.totalOb = totalOb;    // 23
 		if (currentPage1 != null) {
@@ -24,15 +24,16 @@ public class Paging {
 		start = (currentPage - 1) * rowPage + 1;  // 시작시 1     11   
 		end   = start + rowPage - 1;              // 시작시 10    20   
 		                 //                 23     /   10 
-		totalObPage = (int) Math.ceil((double)totalOb / rowPage);  // 시작시 3  
+		totalObPage = (int) Math.ceil((double)totalOb / rowPage);   // 시작시 3  
 		            //   2          2
-		startPage = currentPage - (currentPage - 1) % pageBlock; // 시작시 1    
-		endPage = startPage + pageBlock - 1;  // 10
+		startPage = currentPage - (currentPage - 1) % pageBlock;    // 시작시 1    
+		endPage = startPage + pageBlock - 1;                         // 10
 		//    10        14
 		if (endPage > totalObPage) {
 			endPage = totalObPage;
 		}
 	}
+	
 
 	
 }

@@ -49,16 +49,22 @@
 
 </head>
 <body>
- 	<c:set var="num" value="${page.totalOb-page.start+1 }"></c:set>
+ 	<c:set var="num" value="${page.totNbCnt3-page.start+1 }"></c:set>
+
 <div class="row">
+
  <div class="col-12">
+      
        <div class="py-5">
       	  <p class="text-center fs-1 ">새상품 도서 내역 </p>
           <ul class="list-group list-group-flush">
+          
              <!-- list group -->
-         	<c:forEach var="oldBook" items="${listMoOb }"> 
+         	
              <li class="list-group-item py-3 py-lg-0 px-0 border-top">
+               
                 <!-- row -->
+                <c:forEach var="oldBook" items="${listMoOb }"> 
                 <div class="row align-items-center">
                    <div class="col-3 col-md-2">
                       <!-- img --> <img src="${oldBook.nb_image}" alt="Ecommerce" class="img-fluid">
@@ -94,38 +100,64 @@
              <span class="fw-bold"> <input type="button" class="btn btn-primary mb-1" value="선택" onclick="location.href='ModetailNb?nb_num=${oldBook.nb_num}'"></span>	
                </div>
                 </div>
+            </c:forEach>
              </li>
    
-             </c:forEach>
-                     <c:set var="num" value="${num - 1 }"></c:set>
-           	 <nav aria-label="Page navigation example">
+           
+                     
+	 <nav aria-label="Page navigation example">                     
+           <c:set var="num" value="${num - 1 }"></c:set>
 		    <ul class="pagination justify-content-center">
 
 			 	<c:if test="${page.startPage > page.pageBlock }">
+
 					 <li class="pagination justify-content-center">					
-						<a class="page-link" href="ModalList?currentPage=${page.startPage-page.pageBlock}">이전</a>
+						<a class="page-link" href="#?currentPage=${page.startPage-page.pageBlock}">이전</a>
 					</li>
 				</c:if>
+				
  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 					 <li class="pagination justify-content-center">
- 						<a class="page-link" href="ModalList?currentPage=${i}">${i}</a>&nbsp;&nbsp;
+ 						<a class="page-link" href="#?currentPage=${i}">${i}</a>&nbsp;&nbsp;
 					</li>
 				</c:forEach>
 					
-				<c:if test="${page.endPage < page.totalObPage }">
+				<c:if test="${page.endPage < page.totalNbPage }">
 					 <li class="pagination justify-content-center">		 
-						<a class="page-link" href="ModalList?currentPage=${page.startPage+page.pageBlock}">다음</a>
+						<a class="page-link" href="#?currentPage=${page.startPage+page.pageBlock}">다음</a>
 					</li>
 				</c:if>
 		</ul>
+
 	</nav>
+    
              </ul>
    
-           
+    
        </div> 
     </div>
 </div> 
 
+
+ <!-- Javascript-->
+  <script src="../assets/libs/nouislider/dist/nouislider.min.js"></script>
+  <script src="../assets/libs/wnumb/wNumb.min.js"></script>
+  
+  <!-- Libs JS -->
+<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/libs/simplebar/dist/simplebar.min.js"></script>
+
+<!-- Theme JS -->
+<script src="../assets/js/theme.min.js"></script>
+<script src="../assets/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+<script src="../assets/js/vendors/tns-slider.js"></script>
+<script src="../assets/js/vendors/zoom.js"></script>
+<script src="../assets/js/vendors/increment-value.js"></script>
+<script src="./assets/libs/jquery-countdown/dist/jquery.countdown.min.js"></script>
+<script src="./assets/js/vendors/countdown.js"></script>
+<script src="./assets/libs/slick-carousel/slick/slick.min.js"></script>
+<script src="./assets/js/vendors/slick-slider.js"></script>
 
 
 
