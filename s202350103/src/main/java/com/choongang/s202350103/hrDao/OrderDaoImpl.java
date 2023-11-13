@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
-
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
 import com.choongang.s202350103.model.OrderGift;
 import com.choongang.s202350103.model.Orderr;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Repository
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OrderDaoImpl implements OrderDao {
 	private final SqlSession session;
 
@@ -223,6 +222,39 @@ public class OrderDaoImpl implements OrderDao {
 		
 		System.out.println("OrderDaoImpl givingGiftAction() end..");
 		return result;
+	}
+	
+	// FO 선물받기 - 화면 - orderr 객체 조회
+	@Override
+	public Orderr selectOrderr_GiftType(long o_order_num) {
+		System.out.println("OrderDaoImpl selectOrderr_GiftType() start..");
+
+		Orderr orderr = new Orderr();
+		try {
+			orderr = session.selectOne("hrSelectOrderrGiftType", o_order_num);
+			System.out.println("OrderDaoImpl selectOrderr_GiftType() orderr.getM_name() -> "+orderr.getM_name());
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl selectOrderr_GiftType() e.getMessage() -> "+e.getMessage());
+		}
+		
+		System.out.println("OrderDaoImpl selectOrderr_GiftType() end..");
+		return orderr;
+	}
+	// FO 선물받기 - 화면 - orderGift 객체 조회
+	@Override
+	public OrderGift selectOrderGift(long o_order_num) {
+		System.out.println("OrderDaoImpl selectOrderGift() start..");
+
+		OrderGift orderGift = new OrderGift();
+		try {
+			orderGift = session.selectOne("hrSelectOrderGift", o_order_num);
+			System.out.println("OrderDaoImpl selectOrderGift() orderGift.getO_gift_num() -> "+orderGift.getO_gift_num());		
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl selectOrderGift() e.getMessage() -> "+e.getMessage());
+		}
+		
+		System.out.println("OrderDaoImpl selectOrderGift() end..");
+		return orderGift;
 	}
 
 
