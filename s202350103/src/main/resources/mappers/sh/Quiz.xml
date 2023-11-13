@@ -10,4 +10,21 @@
 	<select id="shQuiz" parameterType="int" resultType="Quiz">
 		Select * From quiz Where q_num = #{eNum}
 	</select>
+	
+	<update id="shUpdateQuiz" parameterType="Quiz">
+		Update Quiz 
+		Set 
+		q_title=#{q_title},
+		q_sdate=#{q_sdate},
+		q_edate=#{q_edate},
+		q_image=#{q_image, jdbcType=VARCHAR},
+		q_point=#{q_point},
+		q_question=#{q_question},
+		q_select1=#{q_select1},
+		q_select2=#{q_select2},
+		q_select3=#{q_select3},
+		q_select4=#{q_select4},
+		q_answer=#{q_answer}
+		Where q_num = #{q_num}
+	</update>
 </mapper>

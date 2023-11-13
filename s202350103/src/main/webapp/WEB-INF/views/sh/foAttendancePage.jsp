@@ -10,6 +10,36 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+        table {
+            border-collapse: collapse; /* 테이블 셀 병합 */
+            width: 100%;
+        }
+
+        table, td {
+            border: 1px dashed #889397; /* 테두리 선 */
+        }
+
+        td {
+        	height: 150px;
+            font-size: 17px;
+            font: bold;
+            
+        }
+        
+         th {
+           font-size: 19px;
+           font: bold;
+            
+        }
+        
+        
+        tbody td {
+            width: 14.3%;
+        }
+    </style>
+
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
@@ -18,10 +48,19 @@
 </script>
 </head>
 <body>
+<!-- 회원 번호 굳이 노출 할 필요 없을 듯 해서 주석 해놓을겡 -->
+<!-- 
 <a href="boPointList">${a_num}</a>
-<h1>${month}월 출석 이벤트</h1>
-<caption>${attendance.a_sdate } ~ ${attendance.a_edate }</caption>
-<table border="1" width="100%" cellspacing="0">
+ -->
+
+<p class="fs-1 mb-5">${month}월 출석 이벤트</p>
+
+<div class="fs-2 mb-2" style="text-align: center; color: #0aad0a;">
+    ${attendance.a_sdate } ~ ${attendance.a_edate }
+</div>
+
+<div class="table-responsive">
+<table  cellspacing="0" class="table ">
 	<colgroup>
 		<col width="14.3%"/>
 		<col width="14.3%"/>
@@ -33,15 +72,15 @@
 	</colgroup>	
 	<thead>
 		<c:forEach var="day" begin="1" end="7">
-			<th>
+			<th style="text-align: center;" class="rounded">
 	    	<c:choose>
-			    <c:when test="${day eq 1}">일요일</c:when>
+			    <c:when test="${day eq 1}"><span style="color: red;">일요일</span></c:when>
 			    <c:when test="${day eq 2}">월요일</c:when>
 			    <c:when test="${day eq 3}">화요일</c:when>
 				<c:when test="${day eq 4}">수요일</c:when>
 			    <c:when test="${day eq 5}">목요일</c:when>
 			    <c:when test="${day eq 6}">금요일</c:when>
-			    <c:when test="${day eq 7}">토요일</c:when>
+			    <c:when test="${day eq 7}"><span style="color: #368AFF;">토요일</span></c:when>
 			</c:choose>
 			</th>
 		</c:forEach>
@@ -57,8 +96,8 @@
 	    </c:forEach>
 	
 	    <c:forEach var="i" begin="1" end="${lastday}">
-	        <td>
-	            <span>${i}</span>
+	        <td style="text-align: left; vertical-align: top;">
+	            <span>${i}</span><hr>
 	            <div>
 	            <c:forEach var="date" items="${date }">
 	    	        <c:if test="${date == i}">
@@ -74,7 +113,12 @@
 	    </c:forEach>
 	</tbody>
 </table>
-	<input type="button" id="subButton" onClick="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num })" disabled="disabled" value="제출">
+</div>
+
+<div class="d-grid gap-2 col-6 mx-auto mt-5">
+<input type="button" id="subButton" onClick="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num })" disabled="disabled" value="출석" class="btn btn-soft-success">
+</div>
+
 <script type="text/javascript">
 	$(function(){
 		var curDate = new Date();

@@ -139,9 +139,12 @@ public class NewBookDaoImpl implements NewBookDao {
 	}
 
 	@Override
-	public void updateCartCount(Cart cart) {
+	public int updateCartCount(Cart cart) {
 		System.out.println("NewBookDaoImpl updateCartCount start...");
-		session.update("gbUpdateCartCount", cart);	
+		int result = session.update("gbUpdateCartCount", cart);
+		System.out.println("NewBookDaoImpl updateCartCount result->"+result);
+		
+		return result;
 	}
 
 	@Override

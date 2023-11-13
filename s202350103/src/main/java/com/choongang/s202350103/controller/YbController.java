@@ -5,34 +5,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
@@ -53,6 +41,15 @@ public class YbController {
 	private final MemberService ms;
 	private final HttpSession session;
 	private final JavaMailSender mailSender;
+	
+//	private Member getSession( Model model, Member member) {
+//		Member member1 = new Member();
+//		member = ms.login(member1);
+//		member =(Member) session.getAttribute("member");
+//		
+//		model.addAttribute("member", member);
+//		return member;
+//	}
 	
 	// Main Page
 	@RequestMapping(value = "/")
@@ -219,6 +216,8 @@ public class YbController {
 		if(member == null) {
 			return "yb/loginForm";
 		}
+		
+//		getSession(model, member);
 	
 		System.out.println("YbController memberCartList() member.m_id -> " + member.getM_id());
 		// 회원별 장바구니 총 개수
@@ -238,7 +237,7 @@ public class YbController {
 		
 		int totalPrice = ms.totalPrice(member);
 		model.addAttribute("totalCart", totalCart);
-		model.addAttribute("member", member);
+//		model.addAttribute("member", member);
 		model.addAttribute("listCart", listCart);
 		model.addAttribute("totalPrice", totalPrice);
 		

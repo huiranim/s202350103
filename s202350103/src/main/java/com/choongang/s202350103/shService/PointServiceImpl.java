@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.choongang.s202350103.shDao.AttJoinDao;
 import com.choongang.s202350103.shDao.AttendanceDao;
+import com.choongang.s202350103.shDao.PointListDao;
 import com.choongang.s202350103.shDao.QuizDao;
 import com.choongang.s202350103.shDao.QuizJoinDao;
 import com.choongang.s202350103.model.AttJoin;
 import com.choongang.s202350103.model.Attendance;
+import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.Quiz;
 import com.choongang.s202350103.model.QuizJoin;
 
@@ -25,6 +27,7 @@ public class PointServiceImpl implements PointService {
 	private final QuizDao		qd;
 	private final AttJoinDao	ajd;
 	private final QuizJoinDao	qjd;
+	private final PointListDao  pld;
 	
 	@Override
 	public int totalAtt() {
@@ -206,6 +209,34 @@ public class PointServiceImpl implements PointService {
 		System.out.println("PointService boEventList() Start...");
 		List<Attendance> attendanceList = ad.boEventList(attendance);
 		return attendanceList;
+	}
+
+	@Override
+	public int updateQuiz(Quiz quiz) {
+		System.out.println("PointService updateQuiz() Start..");
+		int result = qd.updateQuiz(quiz);
+		return result;
+	}
+
+	@Override
+	public int updateAttendance(Attendance attendance) {
+		System.out.println("PointService updateAttendance() Start..");
+		int result = ad.updateAttendance(attendance);
+		return result;
+	}
+
+	@Override
+	public List<Attendance> searchEvent(Attendance attendance) {
+		System.out.println("PointService searchEvent() Start..");
+		List<Attendance> boEventList = ad.searchEvent(attendance);
+		return boEventList;
+	}
+
+	@Override
+	public List<PointList> selectMemberPoint(int a_num) {
+		System.out.println("PointService selectMemberPoint() Start..");
+		List<PointList> memberPointList = pld.selectMemberPoint(a_num);
+		return memberPointList;
 	}
 
 //	@Override

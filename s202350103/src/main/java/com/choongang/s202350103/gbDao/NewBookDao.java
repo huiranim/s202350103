@@ -18,7 +18,7 @@ public interface NewBookDao {
 	int 			selectWishStatus(WishList wishlist);
 	int 			InsertUpdateWish(WishList wishlist);
 	int 			insertCart(Cart cart);
-	void 			updateCartCount(Cart cart);
+	int 			updateCartCount(Cart cart);
 	void 			deleteCart(Cart cart);
 	List<NewBook> selectSearchBoNewBookList(NewBook newbook);
 	NewBook selectBoNewBookDetail(NewBook newbook);

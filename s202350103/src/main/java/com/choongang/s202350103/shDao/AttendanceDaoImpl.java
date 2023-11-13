@@ -112,4 +112,28 @@ public class AttendanceDaoImpl implements AttendanceDao {
 		return attendanceList;
 	}
 
+	@Override
+	public int updateAttendance(Attendance attendance) {
+		System.out.println("AttendanceDao updateAttendance() Start..");
+		int result = 0;
+		try {
+			result = session.update("shUpdateAttendance",attendance);
+		} catch (Exception e) {
+			System.out.println("updateAttendance Exception ->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Attendance> searchEvent(Attendance attendance) {
+		System.out.println("AttendanceDao searchEvent() Start..");
+		List<Attendance> boEventList = null;
+		try {
+			boEventList = session.selectList("shBoSearchEvent",attendance);
+		} catch (Exception e) {
+			System.out.println("AttendanceDao searchEvent() Exception->"+e.getMessage());
+		}
+		return boEventList;
+	}
+
 }

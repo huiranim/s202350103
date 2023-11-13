@@ -102,10 +102,13 @@ public class NewBookServiceImpl implements NewBookService {
 	}
 
 	@Override
-	public void updateCartCount(Cart cart) {
+	public int updateCartCount(Cart cart) {
 		System.out.println("NewBookServiceImpl updateCartCount start...");
 		// 장바구니 화면에 수량 수정하기
-		nbd.updateCartCount(cart);
+		int result = nbd.updateCartCount(cart);
+		System.out.println("NewBookServiceImpl updateCartCount result ->"+result);
+		
+		return result;
 		
 	}
 
