@@ -185,7 +185,7 @@
               <span class="text-danger">*</span>
               </label><p>
               	 ${member.m_point } <span style="color: red;">P</span>
-					&nbsp;&nbsp;<a href="#" class="btn btn-primary">포인트 조정</a>
+					&nbsp;&nbsp;<a href="selectMemberPoint" class="btn btn-primary">포인트 조정</a>
             </div>
             
               <div class="col-md-12 mb-8">
