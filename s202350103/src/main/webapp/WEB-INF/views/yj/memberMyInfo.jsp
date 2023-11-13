@@ -381,25 +381,19 @@ function valiForm() {
 			// "직접 입력" 옵션을 선택한 경우 m_email2 입력 필드를 활성화하고 포커스를 설정
 			if (selectedOption === "직접 입력") {
 				mEmail2.removeAttribute("disabled");
+
 				mEmail2.value = ""; // 입력 필드 초기화
 				mEmail2.focus();
+				
 			} else {
 				// 다른 옵션을 선택한 경우 m_email2 입력 필드를 비활성화하고 선택한 옵션 값이 설정됩니다.
-				mEmail2.setAttribute("disabled", "disabled");
-				mEmail2.value = selectedOption;
+				 mEmail2.setAttribute("disabled", "disabled");
+			     mEmail2.value = selectedOption;
 			}
+		
+		
 		});
-
-		// 직접 입력시 폼 제출 
-		document.getElementById("frm").addEventListener("submit", function(e) {
-			// 직접 입력 옵션이 선택되었을 때 m_email2 input 태그의 값을 설정
-			if (emailSelect.value === "직접 입력") {
-				mEmail2.removeAttribute("disabled");
-				mEmail2.value = mEmail2.value; // 직접 입력한 값을 그대로 설정
-			}
-			// 폼 제출
-			// e.preventDefault(); // 이 줄을 주석 처리하면 폼이 제출됨.
-		});
+		
 	</script>
 
 	<script type="text/javascript">
