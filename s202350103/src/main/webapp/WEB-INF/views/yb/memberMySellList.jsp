@@ -62,6 +62,7 @@
 		                 	</td>
 		                    <td class="align-middle" style="padding-left: 10px;">
 		                    	<c:choose>
+		                    			<c:when test="${oldbook.ob_status == 1}"><span></span></c:when>
 										<c:when test="${oldbook.ob_grade == 0}"><span>A 등급</span></c:when>
 										<c:when test="${oldbook.ob_grade == 1}"><span>B 등급</span></c:when>
 										<c:when test="${oldbook.ob_grade == 2}"><span>C 등급</span></c:when>

@@ -54,6 +54,7 @@ public class YbController {
 	// Main Page
 	@RequestMapping(value = "/")
 	public String main(Member member,HttpServletRequest request, Model model) {
+		System.out.println("YbController main() start... ");
 		member =(Member) session.getAttribute("member");
 		if(member == null) {
 			return "main";
@@ -237,7 +238,7 @@ public class YbController {
 		
 		int totalPrice = ms.totalPrice(member);
 		model.addAttribute("totalCart", totalCart);
-//		model.addAttribute("member", member);
+		model.addAttribute("member", member);
 		model.addAttribute("listCart", listCart);
 		model.addAttribute("totalPrice", totalPrice);
 		
@@ -480,7 +481,7 @@ public class YbController {
 		return "yb/memberPwChangeForm";
 	}
 	// 인증 후 비밀번호 변경 
-	@GetMapping(value = "memberPwChange")
+	@PostMapping(value = "memberPwChange")
 	public String memberPwChange(String m_num, String m_pw, Member member) {
 		System.out.println("YbController memberPwChange() start..");
 		System.out.println("YbController memberPwChange() m_num -> " + m_num);
@@ -492,7 +493,6 @@ public class YbController {
 		session.invalidate(); // 세션 초기화
 		return "main"; 
 	}
-	
 	
 }
 	
