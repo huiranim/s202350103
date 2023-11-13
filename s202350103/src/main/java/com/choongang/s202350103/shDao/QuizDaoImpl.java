@@ -44,5 +44,17 @@ public class QuizDaoImpl implements QuizDao {
 		}
 		return result;
 	}
+
+	@Override
+	public int updateQuiz(Quiz quiz) {
+		System.out.println("QuizDao updateQuiz() Start...");
+		int result = 0;
+		try {
+			result = session.update("shUpdateQuiz",quiz);
+		} catch (Exception e) {
+			System.out.println("QuizDao updateQuiz() Exception->"+e.getMessage());
+		}
+		return result;
+	}
 	
 }

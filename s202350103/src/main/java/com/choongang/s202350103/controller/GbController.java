@@ -119,7 +119,6 @@ public class GbController {
 		System.out.println("GbController selectSearchNewbookList m_num -> "+newbook.getM_num());
 		List<NewBook> listSearchNewbook = nbs.selectSearchNewBookList(newbook); // startRow, endRow, orderType, nb_category2, search_type, search_keyword 컬럼을 담고 리스트를 출력하러 감.
 		System.out.println("GbController selectSearchNewbookList listSearchNewbook.size() -> "+listSearchNewbook.size());
-		System.out.println("GbController selectSearchNewbookList listSearchNewbook.w_wish -> "+listSearchNewbook.get(0).getW_wish());
 		
 		model.addAttribute("member", member);
 		model.addAttribute("search_Newbook", newbook);
@@ -252,22 +251,22 @@ public class GbController {
 	}
 	
 	// 장바구니 화면에서 수정버튼 클릭 시
-	@PostMapping("cartList")
-	public String cartList(@RequestParam int[] nb_num, @RequestParam int[] quantity, 
+	@ResponseBody
+	@RequestMapping("cartList")
+	public String cartList(@RequestParam int nb_num, @RequestParam int quantity, 
 							HttpSession session, Member member, Model model) {
 		// 로그인한 멤버 값 불러오기 
 		member =(Member) session.getAttribute("member");
 		
 		// 장바구니에 담긴 상품 리스트
-		for (int i=0; i<nb_num.length; i++) {
-			Cart cart = new Cart();
-			cart.setM_num(member.getM_num());
-			cart.setC_count(quantity[i]);
-			cart.setNb_num(nb_num[i]);
-			nbs.updateCartCount(cart);
-		}
+		Cart cart = new Cart();
+		cart.setM_num(member.getM_num());
+		cart.setC_count(quantity);
+		cart.setNb_num(nb_num);
+		String result = String.valueOf(nbs.updateCartCount(cart));
+		System.out.println("GbController cartList result ->"+result);
 		
-		return "redirect:memberCartList";
+		return result;
 		
 	}
 	

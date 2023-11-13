@@ -249,6 +249,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return memberPwChange;
 	}
+
 	@Override
 	public int memCount() {
 		System.out.println("MemberDaoImpl1 memCount() start...");

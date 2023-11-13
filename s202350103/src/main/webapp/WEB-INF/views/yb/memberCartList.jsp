@@ -9,6 +9,48 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
+	
+	function cartQuantityPlus(pIndex) {
+		var pNb_num = $('#nb_num'+pIndex).val();
+		var pQuantity = Number($("#quantity"+pIndex).val())+1;
+		alert("pQuantity -> "+pQuantity);
+		
+		$.ajax({
+					url : "cartList",
+					data : {quantity : pQuantity, nb_num : pNb_num},
+					dataType : 'text',
+					success : function(data){
+							if (data == '1'){
+								alert("수정되었습니다.");
+								location.reload();
+							}else {
+								alert("수정되지 않았습니다.")
+							}
+					}
+		});
+	}
+	
+	function cartQuantityMinus(pIndex) {
+		var pNb_num = $('#nb_num'+pIndex).val();
+		var pQuantity = Number($("#quantity"+pIndex).val())-1;
+		alert("pQuantity -> "+pQuantity);
+		
+		$.ajax({
+					url : "cartList",
+					data : {quantity : pQuantity, nb_num : pNb_num},
+					dataType : 'text',
+					success : function(data){
+							if (data == '1'){
+								alert("수정되었습니다.");
+								location.reload();
+							}else {
+								alert("수정되지 않았습니다.")
+							}
+					}
+		});
+	}
+	
+
 	function deleteCart(pNb_num){
 		if(confirm("삭제하시겠습니까?")){
 			location.href = "deleteCart?nb_num="+pNb_num;
@@ -61,7 +103,7 @@
 			    </div>
 	       		<form action="cartList" method="post">
 		          <c:forEach var="cart" items="${listCart }" varStatus="status">   
-		          	<input type="hidden" name="nb_num" value="${cart.nb_num }">
+		          	<input type="hidden" id="nb_num${status.index }" name="nb_num" value="${cart.nb_num }">
 		            <ul id="cart${status.index }" class="list-group list-group-flush">
 		             <li class="list-group-item py-3 py-lg-0 px-0 border-top">  
 		              <div class="row align-items-center">
@@ -89,12 +131,12 @@
 		                  <div class="col-4 col-md-3 col-lg-3">
 		                       <!-- input -->
 		                  	<div class="input-group input-spinner  ">
-		                    	<input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity">
-					            <input type="number" step="1" max="10" value="${cart.c_count }" name="quantity" class="quantity-field form-control-sm form-input">
-					            <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity">
+		                    	<input type="button" id="minus${status.index }" value="-" class="button-minus btn btn-sm " data-field="quantity" onclick="cartQuantityMinus(${status.index})">
+					            <input type="number" id="quantity${status.index}" step="1" max="10" value="${cart.c_count }" name="quantity" class="quantity-field form-control-sm form-input">
+					            <input type="button" id="plus${status.index }" value="+" class="button-plus btn btn-sm " data-field="quantity" onclick="cartQuantityPlus(${status.index})">
 		                  	</div>
 		                  </div>
-		                    <!-- price -->
+		                    <!-- 도서가격 -->
 		                  <div class="col-2 text-lg-end text-start text-md-end col-md-2" style="padding-left: 0px;">
 		                    <span class="fw-bold"><fmt:formatNumber value="${cart.nb_price * cart.c_count}" pattern="#,###" />원</span>
 		                  </div>
@@ -103,10 +145,10 @@
 					  </ul>
 		             </c:forEach>    
 		                 
-		            <!-- btn -->
+		            <!--
 		            <div class="d-flex justify-content-between mt-4">
 		              <button type="submit" class="btn btn-dark">수정하기</button>
-		            </div>
+		            </div> -->
 	            </form>
 	          </div>
 	          <!-- section -->
@@ -129,7 +171,10 @@
               	<h5>상품금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
               	<h5>배송비 <span>
               	<c:if test="${totalPrice >= 50000 || totalPrice == 0 }"><fmt:formatNumber value="0" pattern="#,###" /> 원</c:if>
-              	<c:if test="${totalPrice < 50000 && totalPrice > 0 }"><fmt:formatNumber value="3000" pattern="#,###" /> 원</c:if></span></h5>
+              	<c:if test="${totalPrice < 50000 && totalPrice > 0 }"><fmt:formatNumber value="3000" pattern="#,###" />
+              	 원
+              	 <h5 style="color: red; font-size: 15px; margin-top: 5px;">50,000원 이상 무료 배송</h5>
+              	 </c:if></span></h5>
               	
               <hr>
               	<h5>결제예정금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 

@@ -16,5 +16,8 @@ public interface AttendanceDao {
 	int 			 startMonth(int eNum);
 	int 			 startYear(int eNum);
 	int 			 createAtt(Attendance attendance);
+	List<Attendance> boEventList(Attendance attendance);
+	int 			 updateAttendance(Attendance attendance);
+	List<Attendance> searchEvent(Attendance attendance);
 
 }

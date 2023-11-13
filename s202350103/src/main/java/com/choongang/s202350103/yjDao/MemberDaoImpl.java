@@ -1,6 +1,8 @@
 package com.choongang.s202350103.yjDao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -137,5 +139,42 @@ public class MemberDaoImpl implements MemberDao{
 		int adminMemberUpdate = session.update("adminMemberUpdate",member);
 		return adminMemberUpdate;
 	}
+	// 내 문의 삭제 
+	@Override
+	public int myMqDelete(int mq_num) {
+		int myMqDelete = session.delete("myMqDelete",mq_num);
+		return myMqDelete;
+	}
+	// 내 문의 수정
+	@Override
+	public int myMqUpdate(MemberQ memberQ) {
+		int myMqUpdate = session.update("myMqUpdate",memberQ);
+		return myMqUpdate;
+	}
+	// 관리자 - 회원 삭제
+	@Override
+	public int adminMemberDelete(int m_num) {
+		int adminMemberDelete = session.delete("adminMemberDelete",m_num);
+		return adminMemberDelete;
+	}
+	// 관리자 - 검색 후 회원 카운트
+	@Override
+	public int memberSearchCnt(Member member) {
+		int totalMember = session.selectOne("memberSearchCnt",member);
+		return totalMember;
+	}
+	// 관리자 - 회원 검색
+	@Override
+	public List<Member> adminMemberSearch(Member member) {
+		List<Member> adminMemberSearch = session.selectList("adminMemberSearch", member);
+		return adminMemberSearch;
+	}
+	// 관리자 - 회원주소 간편조회 AJAX 
+	@Override
+	public String adminAddrSearch(int m_num) {
+		String adminAddrSearch = session.selectOne("adminAddrSearch",m_num);
+		return adminAddrSearch;
+	}
+
 
 }

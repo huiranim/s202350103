@@ -44,9 +44,12 @@
    }
    
    function passwordSave(m_num, m_pw) {
-	   alert("변경하시겠습니까?");
-	   location.href = "memberPwChange?m_num="+m_num+"&m_pw="+m_pw;
-   }
+		if (confirm("변경하시겠습니까?") == true){   
+			location.href = "memberPwChange?m_num="+m_num+"&m_pw="+m_pw;
+		 }else{   
+		     return false;
+		 }
+	}
 	
 </script>
 
@@ -87,7 +90,7 @@
              
 <!--               <div class="col-12 d-grid"><input type="submit" class="btn btn-primary"  value="로그인"></div> -->
               <!-- btn -->
-             <div class="col-12 d-grid"> <button class="btn btn-primary" onclick="passwordChk(m_pw.value, m_pw2.value)" id="passwordSave" disabled="true">비밀번호 저장</button>
+             <div class="col-12 d-grid"> <button class="btn btn-primary" onclick="passwordSave(m_num.value, m_pw.value)" id="passwordSave" disabled="true">비밀번호 저장</button>
              	 <!-- link -->
            	 </div>
             

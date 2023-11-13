@@ -47,7 +47,6 @@ public class NewBookServiceImpl implements NewBookService {
 		System.out.println("NewBookServiceImpl selectSearchNewBookList start...");
 		List<NewBook> listSearchNewbook = nbd.selectSearchNewBookList(newbook);
 		System.out.println("NewBookServiceImpl selectSearchNewBookList listSearchNewbook.size()->"+listSearchNewbook.size());
-		System.out.println("NewBookServiceImpl selectSearchNewBookList listSearchNewbook.w_wish -> "+listSearchNewbook.get(0).getW_wish());
 		
 		return listSearchNewbook;
 	}
@@ -103,10 +102,13 @@ public class NewBookServiceImpl implements NewBookService {
 	}
 
 	@Override
-	public void updateCartCount(Cart cart) {
+	public int updateCartCount(Cart cart) {
 		System.out.println("NewBookServiceImpl updateCartCount start...");
 		// 장바구니 화면에 수량 수정하기
-		nbd.updateCartCount(cart);
+		int result = nbd.updateCartCount(cart);
+		System.out.println("NewBookServiceImpl updateCartCount result ->"+result);
+		
+		return result;
 		
 	}
 

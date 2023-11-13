@@ -124,6 +124,7 @@
              <h4>해당 상품 리뷰</h4>
              <p class="mb-0">다른 고객분들을 위해서 리뷰를 작성해주세요.</p>
              <a href="MyReviewList" class="btn btn-outline-gray-400 mt-4 text-muted">리뷰 작성하기</a>
+             <a href="kakaoPayStart" class="btn btn-outline-gray-400 mt-4 text-muted">결제하기</a>
           </div>
        </div>
     </div>

@@ -176,7 +176,7 @@
 	
 	<select id="memberMyQnaList" parameterType="int" resultType="MemberQ">
 		
-		select * from memberq where m_num = #{m_num}
+		select * from memberq where m_num = #{m_num} order by mq_date desc
 	
 	</select>
 	
@@ -194,6 +194,81 @@
 	where m_num = #{m_num}
 	
 	</update>
+	
+	<delete id="myMqDelete" parameterType="int">
+		
+		delete memberq where mq_num = #{mq_num}
+		
+	</delete>
+	
+	<update id="myMqUpdate" parameterType="MemberQ">
+		
+		update memberq set mq_title = #{mq_title} , mq_content = #{mq_content} where mq_num = #{mq_num}
+	
+	</update>
+	
+	<delete id="adminMemberDelete" parameterType="int">
+
+		delete	member where m_num = #{m_num}
+
+	</delete>
+	
+	<select id="memberSearchCnt" parameterType="Member" resultType="int">
+	  select count(*) 
+ 		from member
+		<where>
+    	 <choose>
+           <when test="keyword != null and keyword != ''">
+
+            and (
+               m_num like '%' || #{keyword} || '%'
+               or m_id like '%' || #{keyword} || '%'
+               or m_name like '%' || #{keyword} || '%'
+               or m_addr like '%' || #{keyword} || '%'
+               or m_email like '%' || #{keyword} || '%'
+            )
+
+          </when>
+     	 </choose>
+	   </where>
+	</select>
+	
+	
+	<select id="adminMemberSearch" parameterType="Member" resultType="Member">
+		
+			select * from (	
+				
+				select rownum rn , m.* 
+				
+				from (select * from member order by m_num desc) m
+			)
+			
+			where rn BETWEEN #{start} and #{end}
+			
+	    	 <choose>
+	           <when test="keyword != null and keyword != ''">
+	
+	            and (
+	               m_num like '%' || #{keyword} || '%'
+	               or m_id like '%' || #{keyword} || '%'
+	               or m_name like '%' || #{keyword} || '%'
+	               or m_addr like '%' || #{keyword} || '%'
+	               or m_email like '%' || #{keyword} || '%'
+	            )
+	
+	          </when>
+     	 </choose>
+
+	</select>
+	
+	
+	<select id="adminAddrSearch" parameterType="int" resultType="String">
+		
+		select m_addr from member where m_num = #{m_num}
+	
+	</select>
+		
+	
 	
 	
 </mapper>

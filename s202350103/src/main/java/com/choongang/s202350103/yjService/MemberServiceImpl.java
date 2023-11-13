@@ -136,6 +136,42 @@ public class MemberServiceImpl implements MemberService{
 		int adminMemberUpdate = md.adminMemberUpdate(member);
 		return adminMemberUpdate;
 	}
+	// 내 문의 삭제 
+	@Override
+	public int myMqDelete(int mq_num) {
+		int myMqDelete = md.myMqDelete(mq_num);
+		return myMqDelete;
+	}
+	// 내 문의 수정
+	@Override
+	public int myMqUpdate(MemberQ memberQ) {
+		int myMqUpdate = md.myMqUpdate(memberQ);
+		return myMqUpdate;
+	}
+	// 관리자 - 회원 삭제
+	@Override
+	public int adminMemberDelete(int m_num) {
+		int adminMemberDelete = md.adminMemberDelete(m_num);
+		return adminMemberDelete;
+	}
+	// 관리자 - 검색후 회원 카운트
+	@Override
+	public int memberSearchCnt(Member member) {
+		int totalMember = md.memberSearchCnt(member);
+		return totalMember;
+	}
+	// 관리자 - 회원 검색
+	@Override
+	public List<Member> adminMemberSearch(Member member) {
+		List<Member> adminMemberSearch = md.adminMemberSearch(member);
+		return adminMemberSearch;
+	}
+	// 관리자 - 회원 주소 간편조회 AJAX
+	@Override
+	public String adminAddrSearch(int m_num) {
+		
+		return  md.adminAddrSearch(m_num);
+	}
 
 	
 }
