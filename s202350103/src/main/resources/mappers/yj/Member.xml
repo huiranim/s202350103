@@ -27,6 +27,24 @@
 			where m_id = #{m_reid}
 		</if>
 	</update>
+	
+	<insert id="memberJoinPointList" parameterType="String">
+		<if test="m_reid != null">
+			insert into point_list (p_num, m_num, a_par_pdate, p_list_type, m_point )
+			values
+				( POINTLIST_P_NUM_SEQ.nextval, (
+                    select m_num
+                    FROM   member 
+                    where  m_id = #{m_reid}
+                ), sysdate, 5, 500 )
+		</if>
+	</insert>
+	
+	<insert id="joinPoint" parameterType="Member">
+		insert into point_list (p_num, m_num, a_par_pdate, p_list_type, m_point )
+		values 
+			( POINTLIST_P_NUM_SEQ.nextval, #{m_num}, sysdate, 4, 300 )
+	</insert>
 
 	<select id="memberInfo" parameterType="int" resultType="Member">
 		

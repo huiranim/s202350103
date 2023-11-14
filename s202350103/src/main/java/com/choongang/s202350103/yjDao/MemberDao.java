@@ -13,6 +13,10 @@ public interface MemberDao {
 	int joinResult(Member member);
 	// 추천인 포인트 적립
 	int memberJoinPoint(String m_reid);
+	// 추천인 포인트 리스트 Insert
+	int memberJoinPointList(String m_reid);
+	// 회원가입 포인트
+	int joinPoint(Member member);
 	// 회원 상세
 	Member memberInfo(int m_num);
 	// 회원 정보 수정
@@ -59,6 +63,8 @@ public interface MemberDao {
 	List<Member> adminMemberSearch(Member member);
 	// 관리자 - 회원 주소 간편조회 AJAX
 	String adminAddrSearch(int m_num);
+
+	
 	
 	
 }

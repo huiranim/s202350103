@@ -138,7 +138,7 @@
 <!-- FO 선물받기 - 화면
 	 foGettingGift.jsp -->
 	 <select id="hrSelectOrderrGiftType" parameterType="long" resultType="Orderr">
-	 	SELECT o.o_rec_name, o.o_rec_email o_rec_mail, o.o_rec_ph
+	 	SELECT o.o_order_num, o.o_rec_name, o.o_rec_email o_rec_mail, o.o_rec_ph
                , m.m_name, m.m_ph
                , nb.nb_image, nb.nb_title, od.o_de_count
 	 	FROM   orderr o, member m, newbook nb, order_detail od
@@ -153,4 +153,18 @@
 	 	FROM   order_gift
 	 	WHERE  o_order_num = #{o_order_num}
 	 </select>
+	 
+<!-- FO 선물받기 - 액션
+	 foGettingGiftAction.jsp -->
+	 <update id="hrUpdateOrderrGiftType" parameterType="Orderr">
+	 	UPDATE orderr
+		SET    o_status = 1, o_rec_name = #{o_rec_name}, o_rec_email = #{o_rec_mail}
+			   , o_rec_ph = #{o_rec_ph}, o_rec_addr = #{o_rec_addr}, o_rec_msg = #{o_rec_msg}
+		WHERE  o_order_num = #{o_order_num}
+	 </update>
+	 <update id="hrUpdateOrderGift" parameterType="OrderGift">
+	 	UPDATE order_gift
+		SET    o_gift_name = #{o_gift_name}, o_gift_ph = #{o_gift_ph}, o_gift_accept = 1
+		WHERE  o_order_num = #{o_order_num}
+	 </update>
 </mapper>
