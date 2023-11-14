@@ -170,6 +170,18 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl selectOrderGift() end..");
 		return orderGift;
 	}
+	
+	// FO 선물하기 - 액션
+	@Override
+	public int gettingGiftAction(Orderr orderr, OrderGift orderGift) {
+		System.out.println("OrderServiceImpl gettingGiftAction() start..");
+		
+		int result = od.gettingGiftAction(orderr, orderGift);
+		System.out.println("OrderServiceImpl gettingGiftAction() result -> "+result);		
+		
+		System.out.println("OrderServiceImpl gettingGiftAction() end..");
+		return result;
+	}
 
 
 
