@@ -19,5 +19,6 @@ public interface AttendanceDao {
 	List<Attendance> boEventList(Attendance attendance);
 	int 			 updateAttendance(Attendance attendance);
 	List<Attendance> searchEvent(Attendance attendance);
+	int 			 checkAddAtt(int a_num);
 
 }

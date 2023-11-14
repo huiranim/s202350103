@@ -69,6 +69,13 @@
 		Where a_num = #{a_num}
 	</update>
 	
+	<select id="shCheckAddAtt" parameterType="int" resultType="int">
+		Select a_add
+		From attendance
+		Where a_num = #{a_num}
+	</select>
+	
+	
 	<select id="shBoSearchEvent" parameterType="Attendance" resultType="Attendance">
 		<![CDATA[
 		Select rownum rn, a.* 
