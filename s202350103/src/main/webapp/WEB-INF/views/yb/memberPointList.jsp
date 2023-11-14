@@ -29,7 +29,7 @@
 		          <p><p><p>
 		            <!-- table -->
 		            <div class="table-responsive">
-		              <table class="table text-nowrap table-with-checkbox" style="text-align: center;" id="pointTable">
+		              <table class="table text-nowrap table-with-checkbox" style="text-align: center;">
 		              
 		                <thead class="table-light">
 		                  <tr>
@@ -41,7 +41,7 @@
 		                </thead>
 		                <tbody>
 		                <c:forEach var="point" items="${memberPointList }">
-		                  <tr>
+		                  <tr id="pointTable">
 		                     <td class="align-middle"; style="padding-right: 100px; padding-left: 50px;">
 		                      <div>
 		                        <h5 class="fs-6 mb-0">
@@ -49,18 +49,26 @@
 										<c:when test="${point.type1 == 1}"><span>주문 적립</span></c:when>
 										<c:when test="${point.type1 == 2}"><span>출석 적립</span></c:when>
 										<c:when test="${point.type1 == 3}"><span>퀴즈 적립</span></c:when>
+										<c:when test="${point.type1 == 4}"><span>회원가입 적립</span></c:when>
+										<c:when test="${point.type1 == 5}"><span>추천인 적립</span></c:when>
 									</c:choose>
 								</h5>
 		                      </div>
 		                    </td>
 		                     <td class="align-middle">
 		                      <div>
-		                        <h5 class="fs-6 mb-0">${point.title }</h5>
+		                        <h5 class="fs-6 mb-0">
+			                      	<c:choose>
+											<c:when test="${point.title != null}"><span>${point.title }</span></c:when>
+											<c:when test="${point.type1 == 5}"><span>추천인 이벤트</span></c:when>
+											<c:when test="${point.type1 == 4}"><span>회원가입 축하~</span></c:when>
+									</c:choose>
+								</h5>
 		                      </div>
 		                    </td>
 		                    <td class="align-middle">
 		                      <div>
-		                        <h5 class="fs-6 mb-0">${point.point }P</h5>
+		                        <h5 class="fs-6 mb-0">+${point.point }P</h5>
 		                      </div>
 		                    </td>
 		    				 <td class="align-middle">

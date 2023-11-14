@@ -15,6 +15,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		// 로그인 관련 InterCeptor
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/mainBo");
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/adminMemberList");
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberPointList");
+		
 		
 		
 		// 로그인 후 관리자 권한 InterCeptor

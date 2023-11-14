@@ -139,6 +139,11 @@ public class YjController {
 		}
 		
 		int joinResult = ms.joinResult(member);
+		
+		System.out.println("회원가입 id -> " + member);
+		// 회원 가입 포인트
+		int joinPoint = ms.joinPoint(member);
+		
 		model.addAttribute("joinResult",joinResult);
 		System.out.println("joinResult ->" + joinResult);
 		
@@ -148,6 +153,8 @@ public class YjController {
 	// 회원 가입 완료 
 	@GetMapping("/memberJoinOk")
 	public String memberJoinOk() {
+		
+		
 		return "yj/memberJoinOk";
 	}
 	
@@ -156,7 +163,10 @@ public class YjController {
 	@PostMapping("memberJoinPoint")
 	public void memberJoinPoint(String m_reid) {
 		int memberJoinPoint = ms.memberJoinPoint(m_reid);
+		
+		int memberJoinPointList = ms.memberJoinPointList(m_reid);
 	}
+	
 	
 		
 	// 마이 페이지 이동
