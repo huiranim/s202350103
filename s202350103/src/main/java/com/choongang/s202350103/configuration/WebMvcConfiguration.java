@@ -24,13 +24,13 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberQnaOne");	// 1:1 문의
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOna");	// 내 질문
 		
-		//	비밀글 조회 처리 전
+		// 영준 비밀글 조회 처리 전 -> (수정 중)
 		
 		// 로그인 후 관리자 권한 InterCeptor
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/mainBo");
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminMemberList");
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminMemberInfo");
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/memberSearch");
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/mainBo");			// 관리자 메인
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminMemberList");	// 관리자 회원조회
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminMemberInfo");	// 관리자 회원정보상세
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/memberSearch");		// 관리자 회원검색
 		
 	}
 }

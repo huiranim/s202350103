@@ -18,9 +18,14 @@ public class AdminAuthorityInterCeptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         // login처리를 담당하는 사용자 정보를 담고 있는 객체를 가져옴
         Object obj = session.getAttribute("member");
-
+        
+       	//  비 로그인 시 
+    	if(obj == null) {
+			response.sendRedirect("/loginForm");
+			return false;
+		}
+        
         if(obj != null) {
-        	
         	// 로그인 후 관리자 아니면 관리자 페이지 접근 X
         	Member member = (Member) session.getAttribute("member");
         	if(member.getM_admin() != 1) {

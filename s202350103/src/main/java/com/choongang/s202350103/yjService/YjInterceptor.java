@@ -30,7 +30,7 @@ public class YjInterceptor implements HandlerInterceptor{
 			response.sendRedirect("/custom404");
 			return false;
 		}
-
+		
 		return true;
 	}
 	
