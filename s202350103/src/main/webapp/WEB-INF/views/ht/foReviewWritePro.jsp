@@ -17,7 +17,7 @@
 		</c:if>
 		<c:if test="${result == 0}">
 			<script type="text/javascript">
-				alert("리뷰를 다시 작성해주세요....!! ");
+				alert("이미 작성한 리뷰 입니다. ");
 				location.href="MyReviewList?currentPage=${review.currentPage}";
 			</script>
 		</c:if>

@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class KakaoPayApprovalVO {
+public class KakaoPayApprovalVO { // 카카오페이에서 결과값 받는 DTO
 	//response
     private String aid;
     private String tid; //결제 고유번호, 결제 준비 API 응답에 포함

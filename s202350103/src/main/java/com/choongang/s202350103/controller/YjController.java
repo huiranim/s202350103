@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.mail.javamail.JavaMailSender;
@@ -36,23 +37,22 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 @Controller
 @Slf4j
 public class YjController {
-
-	private final com.choongang.s202350103.ybService.MemberService ys;
 	
-	private final MemberService ms;
-
+	private final HttpSession session;	// 세션
+	private final com.choongang.s202350103.ybService.MemberService ys; // 용빈 서비스
+	private final MemberService ms;			// 서비스
+	private final JavaMailSender mailSender;	// 메일 전송 객체
 	final DefaultMessageService messageService; // 문자전송 API
 	
-	private final JavaMailSender mailSender;	// 메일 전송 객체
-	
-	public YjController(MemberService ms,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys ) {
+	public YjController(MemberService ms,HttpSession session,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys ) {
+		// 세션
+		this.session = session;
+		// 서비스
 		this.ms = ms;
 		// 문자 전송 API 							API 키, API Secret Key
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
-		
 		// 메일 전송 객체
 		this.mailSender = mailSender;
-		
 		// 마이페이지 용빈 멤버서비스
 		this.ys = ys;
 		
@@ -94,7 +94,8 @@ public class YjController {
 	// @RequestParam -> 특정 파라미터
 	// @ModelAttribute -> 객체 바인딩 
 	@PostMapping("/memberJoinAction")
-	public String memberJoinAction(@RequestParam("m_email1") String m_email1, 
+	public String memberJoinAction(	
+									@RequestParam("m_email1") String m_email1, 
 									@RequestParam("m_email") String m_email, 
 									
 									@RequestParam("m_ph1") String m_ph1,
@@ -110,8 +111,6 @@ public class YjController {
 									
 									@ModelAttribute Member member, Model model, HttpSession session) {
 	
-			
-		
 		System.out.println("memberJoinAction Start ...");
 		
 		member.setM_email(m_email1+"@"+m_email);	// 이메일 병합
@@ -137,8 +136,12 @@ public class YjController {
 			
 			memberJoinPoint(m_reid);
 		}
-		
+		// 회원 가입
 		int joinResult = ms.joinResult(member);
+		
+		// 회원 가입시  포인트 이력에 insert 
+		int joinPoint = ms.joinPoint();
+		
 		model.addAttribute("joinResult",joinResult);
 		System.out.println("joinResult ->" + joinResult);
 		
@@ -155,8 +158,13 @@ public class YjController {
 	// 회원 가입시 추천인  포인트 적립
 	@PostMapping("memberJoinPoint")
 	public void memberJoinPoint(String m_reid) {
+		// 추천인 포인트 적립 
 		int memberJoinPoint = ms.memberJoinPoint(m_reid);
+		
+		//  추천인 입력시 포인트 이력에 insert
+		int memberJoinPointList = ms.memberJoinPointList(m_reid);
 	}
+	
 	
 		
 	// 마이 페이지 이동
@@ -490,7 +498,12 @@ public class YjController {
 	  
 	  // 내 주문 리스트
 	  @GetMapping("memberMyOrder")
-	  public String memberMyOrder(@RequestParam int m_num, Model model) {
+	  public String memberMyOrder(Member member , @RequestParam int m_num, Model model) {
+		  
+		  member = (Member) session.getAttribute("member");
+		  if(member == null) {
+			  return "yb/loginForm";
+		  }
 		  
 		  List<Member> memberMyOrder = ms.memberMyOrder(m_num);
 		  
@@ -498,6 +511,7 @@ public class YjController {
 			
 		  model.addAttribute("totalOrderCnt",totalOrderCnt);
 		  model.addAttribute("memberMyOrder",memberMyOrder);
+		  model.addAttribute("member",member);
 		  
 		  return "yj/memberMyOrder";
 	  }
@@ -624,14 +638,34 @@ public class YjController {
 	  // 문의 상세조회
 	  @GetMapping("/memberQInfo")
 	  public String memberQInfo(@RequestParam int mq_num, 
-			  					String currentPage, Model model) {
-		  
-		  System.out.println("yj controller mqNum ->" +mq_num);
+			  					String currentPage, Model model, HttpServletRequest request) {
 		  
 		  MemberQ memberQInfo  = ms.memberQInfo(mq_num);
-		  model.addAttribute("memberQInfo",memberQInfo);
 		  
+		  int mq_hidden = memberQInfo.getMq_hidden();
+		  int m_num = memberQInfo.getM_num();
+		  int m_admin = memberQInfo.getM_admin();
+
+		  System.out.println(mq_hidden);
+		  System.out.println(m_num);
+		  System.out.println(m_admin);
+		  
+		  // 비밀글로 일 때  
+		  if(mq_hidden == 1) {
+			  // 세션에 저장된 회원을 호출
+			  Member member = (Member) session.getAttribute("member");
+			  // 회원이 일반 회원 일 경우 
+			  if(member.getM_admin() == 0) {
+				  // 세션의 회원 번호와 게시글의 회원번호가 일치하지 않을때 
+				  if(member.getM_num() != memberQInfo.getM_num()) {
+					  return "redirect:/custom404";
+				  }
+			  }
+		  }
+		 
+		  model.addAttribute("memberQInfo",memberQInfo);
 		  return "yj/memberQInfo";
+		  
 	  }
 	  
 	  
@@ -781,7 +815,8 @@ public class YjController {
 	  
 	  // 관리자 - 회원 검색
 	  @GetMapping("memberSearch")
-	  public String memberSearch(Member member, String currentPage, Model model) {
+	  public String memberSearch(Member member, String currentPage, Model model, HttpServletRequest request) {
+		  
 		  // 전체회원 count
 		  int totalMember = ms.memberSearchCnt(member);
 		  
@@ -802,7 +837,7 @@ public class YjController {
 	  }
 	  
 	  // 404  테스트
-	  @GetMapping("/cutom404")
+	  @GetMapping("/custom404")
 	  public String cutom404() {
 		  return "yj/yjCustom404";
 	  }

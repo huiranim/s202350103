@@ -6,4 +6,19 @@
 	<select id="htOrderTotal" parameterType="Orderr" resultType="int">
 		SELECT count(*) FROM member
 	</select>
+	
+	<select id="htOrderOne" parameterType="NewBook" resultType="NewBook">
+		SELECT *
+		FROM   newbook
+		WHERE  nb_num = #{nb_num}
+	</select>
+	
+	<select id="htOrderList" parameterType="Cart" resultType="Cart">
+		SELECT c.*, n.nb_title, n.nb_price, n.nb_image, n.nb_publisher
+		FROM   cart c, newbook n
+		WHERE  c.nb_num = n.nb_num
+		AND    m_num = #{m_num}
+	</select>
+	
+	
 </mapper>

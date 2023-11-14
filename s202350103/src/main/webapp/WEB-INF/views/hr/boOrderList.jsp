@@ -7,6 +7,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript">
+		$('input[name="checkBox"]:checked').each(function(index){
+			var value += $(this).val() + ", ";
+			alert(value);
+		});
+	</script>
 </head>
 <body>
 <div class="row">
@@ -51,12 +58,12 @@
                   </tr>
                </thead>
                <tbody>
-               <c:forEach var="orderr" items="${orderrList }">
+               <c:forEach var="orderr" items="${orderrList }" varStatus="status">
                   <tr>
                      <td class="align-middle">
                         <!-- form check -->
                         <div class="form-check">
-                            <!-- input --><input class="form-check-input" type="checkbox" value="" id="chechboxTwo">
+                            <!-- input --><input class="form-check-input" type="checkbox" value="" id="check${status.index }" name="checkBox">
                             <!-- label --><label class="form-check-label" for="chechboxTwo">
                             </label>
                         </div>
@@ -67,6 +74,7 @@
                      <td class="align-middle">
                         <div>
                         <h5 class="fs-6 mb-0"><a href="/boOrderDetail?o_order_num=${orderr.o_order_num}" class="text-inherit">${orderr.o_order_num}</a></h5>
+                        <input type="hidden" id="o_order_num${status.index }" value="${orderr.o_order_num}">
                         </div>
                      </td>
                      <!-- 주문상태 -->

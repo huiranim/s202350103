@@ -67,11 +67,21 @@
 			WHERE   p.o_order_num = o.o_order_num
 			AND     p.m_num = #{m_num}
 			UNION
-			SELECT  a.a_title title,  p.m_point date1, p.a_par_pdate point, p.p_list_type type1
+			SELECT  a.a_title title,  p.m_point point, p.a_par_pdate date1, p.p_list_type type1
 			FROM    point_list p,attendance a
 			WHERE   p.a_num = a.a_num
 			AND     m_num = #{m_num}
-			ORDER   by date1
+			UNION
+			SELECT  '추천인 적립' title, m_point point, a_par_pdate date1, p_list_type type1
+            FROM    point_list 
+            WHERE   m_num = #{m_num}
+            AND 	p_list_type = 5 
+            UNION
+            SELECT  '회원가입 적립' title, m_point point, a_par_pdate date1, p_list_type type1
+            From    point_list 
+            WHERE   m_num = #{m_num}
+            AND 	p_list_type = 4
+            ORDER   by date1
 		</select>
 		
 		<select id="ybOldBookSellList" parameterType="OldBook" resultType="OldBook">

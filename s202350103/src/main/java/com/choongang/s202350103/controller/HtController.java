@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-//import com.choongang.s202350103.htService.KakaoPay;
+import com.choongang.s202350103.htService.KakaoPay;
 import com.choongang.s202350103.htService.OrderrService;
 import com.choongang.s202350103.htService.Paging;
 import com.choongang.s202350103.htService.ReviewService;
@@ -323,30 +323,30 @@ public class HtController {
 	}
 
 	// 카카오페이
-//	 @Setter(onMethod_ = @Autowired)
-//	 private KakaoPay kakaopay;  // Service
-//
-//	 @RequestMapping("kakaoPayStart")
-//	 public String kakaoButton() {
-//		 System.out.println("kakaoPayStart-->");
-//		 return "/ht/kakaoPay";
-//	 }
-//
-//	 @PostMapping("/kakaoPay")
-//	 public String kakaoPay() {
-//		 log.info("kakaoPay post............................................");
-//   
-//		 return "redirect:" + kakaopay.kakaoPayReady();
-//	 }
-//   
-//	 @GetMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
-//	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
-//		 System.out.println("kakaoPaySuccess get............................................");
-//		 System.out.println("kakaoPaySuccess pg_token : " + pg_token);
-//	  
-//		 model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
-//		 
-//		 return "/ht/kakaoPaySuccess";
-//	 }
+	 @Setter(onMethod_ = @Autowired)
+	 private KakaoPay kakaopay;  // Service
+
+	 @RequestMapping("kakaoPayStart")
+	 public String kakaoButton() {
+		 System.out.println("kakaoPayStart-->");
+		 return "/ht/kakaoPay";
+	 }
+
+	 @PostMapping("/kakaoPay")
+	 public String kakaoPay() {
+		 log.info("kakaoPay post............................................");
+   
+		 return "redirect:" + kakaopay.kakaoPayReady();
+	 }
+   
+	 @GetMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
+	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
+		 System.out.println("kakaoPaySuccess get............................................");
+		 System.out.println("kakaoPaySuccess pg_token : " + pg_token);
+	  
+		 model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
+		 
+		 return "/ht/kakaoPaySuccess";
+	 }
 	 
 }
