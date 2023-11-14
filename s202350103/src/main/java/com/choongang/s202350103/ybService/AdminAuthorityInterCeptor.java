@@ -25,7 +25,7 @@ public class AdminAuthorityInterCeptor implements HandlerInterceptor {
         	Member member = (Member) session.getAttribute("member");
         	if(member.getM_admin() != 1) {
         		System.out.println("AdminAuthorityInterCeptor Start... You do not have permission. Just Administrator allow");
-                response.sendRedirect("loginForm");
+                response.sendRedirect("custom404");
                 return false; // 더이상 컨트롤러 요청으로 가지 않도록 false로 반환함
         	}
        
