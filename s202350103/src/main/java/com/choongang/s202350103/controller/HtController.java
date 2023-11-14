@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,9 @@ import com.choongang.s202350103.htService.KakaoPay;
 import com.choongang.s202350103.htService.OrderrService;
 import com.choongang.s202350103.htService.Paging;
 import com.choongang.s202350103.htService.ReviewService;
+import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
@@ -51,7 +54,7 @@ public class HtController {
 		int total = os.orderTotal();
 		model.addAttribute("total", total);
 		System.out.println("Controller test() orderTotal--> " + total);
-		return "/ht/boOrderForm";
+		return "/ht/foOrderForm";
 	}
 	
 	@Data
@@ -134,7 +137,7 @@ public class HtController {
 		model.addAttribute("review", review);
 		// model.addAttribute("reviewTotal", reviewTotal);
 
-		return "/ht/boProductReviewList";
+		return "/ht/foProductReviewList";
 	}
 
 	 @GetMapping("/MyReviewList")
@@ -148,6 +151,7 @@ public class HtController {
 		if(member == null) {
 			return "yb/loginForm";
 		}
+		
 		
 		orderr.setM_num(member.getM_num());
 		
@@ -169,7 +173,7 @@ public class HtController {
 		model.addAttribute("reviewWriteList", reviewWriteList);
 		model.addAttribute("member",member); 
 		  
-		return "/ht/boMyReviewList";
+		return "/ht/foMyReviewList";
 	}
 	 
 	 @GetMapping("/MyReviewedList")
@@ -209,7 +213,7 @@ public class HtController {
 		 model.addAttribute("reviewedWriteList", reviewedWriteList);
 		 model.addAttribute("member",member);
 		  
-		 return "/ht/boMyReviewedList";
+		 return "/ht/foMyReviewedList";
 	}
 	  
 	 @RequestMapping("/reviewForm")
@@ -230,7 +234,7 @@ public class HtController {
 		model.addAttribute("review", review);
 		model.addAttribute("reviewOne", reviewOne);
 		
-		return "/ht/boReviewWriteForm";
+		return "/ht/foReviewWriteForm";
 	}
 
 	 @RequestMapping("/reviewWritePro")
@@ -251,7 +255,7 @@ public class HtController {
 		model.addAttribute("result", result);
 		model.addAttribute("member",member);
 		
-		return "/ht/boReviewWritePro";
+		return "/ht/foReviewWritePro";
 	}
 	 
 	 @RequestMapping("/reviewUpdateForm")
@@ -273,7 +277,7 @@ public class HtController {
 		model.addAttribute("writedReview", writedReview);
 		model.addAttribute("member",member);
 		
-		return "/ht/boReviewUpdateForm";
+		return "/ht/foReviewUpdateForm";
 	}
 	 
 	 @RequestMapping("/reviewUpdatePro")
@@ -297,7 +301,7 @@ public class HtController {
 		model.addAttribute("review", review);
 		model.addAttribute("member",member);
 		
-		return "/ht/boReviewUpdatePro";
+		return "/ht/foReviewUpdatePro";
 	}
 	 
 	 @RequestMapping("/reviewDelete")
@@ -319,10 +323,81 @@ public class HtController {
 		model.addAttribute("review", review);
 		model.addAttribute("member",member);
 		
-		return "/ht/boReviewDelete";
+		return "/ht/foReviewDelete";
 	}
+	// 결제 폼
+	 @RequestMapping("/orderForm")
+	 public String orderForm(Model model, HttpSession session, Member member, NewBook newBook, Cart cart) {
+		System.out.println("Controller Start orderForm...");
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		String[] splitPh   = member.getM_ph().split("-");
+		String[] splitAddr = member.getM_addr().split("/");
+		
+		System.out.println("newBook.getNb_num(--> "+ newBook.getNb_num());
+		
+		if (newBook.getPaymentType() == 1) {
+			// 바로 결제(1개)
+			NewBook orderOne = os.orderOne(newBook);
+			System.out.println("orderOne--->" + orderOne);
+			model.addAttribute("orderList", orderOne);
+		} else {
+			// 장바구니 결제(여러개)
+			List<Cart> orderList = os.orderList(cart);
+			System.out.println("orderList--->" + orderList);
+			model.addAttribute("orderList", orderList);
+		}
+		
+		model.addAttribute("member",member);
+		model.addAttribute("splitPh",splitPh);
+		model.addAttribute("splitAddr",splitAddr);
+		
+		return "/ht/foOrderForm";
+	}
+	 
+	 
+	 @PostMapping("/orderAction")
+	 public String orderAction(
+							     @RequestParam("m_ph1") String m_ph1,
+								 @RequestParam("m_ph2") String m_ph2,
+								 @RequestParam("m_ph3") String m_ph3,
+				 
+				 				 @RequestParam("m_addr1") String m_addr1,
+								 @RequestParam("m_addr2") String m_addr2,
+								 @RequestParam("m_addr") String m_addr,
+								 @ModelAttribute Model model, HttpSession session, Member member, NewBook newBook) {
+		System.out.println("Controller Start orderForm...");
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
+		member.setM_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
+		
+		System.out.println("newBook.getNb_num(--> "+ newBook.getNb_num());
+		
+		//상품 정보 조회
+		//NewBook orderOne = os.orderList(newBook);
+		
+		//model.addAttribute("orderOne", orderOne);
+		model.addAttribute("member",member);
+		
+		return "/ht/foOrderForm";
+	}
+	
+	 
 
-	// 카카오페이
+	 // 카카오페이
 	 @Setter(onMethod_ = @Autowired)
 	 private KakaoPay kakaopay;  // Service
 

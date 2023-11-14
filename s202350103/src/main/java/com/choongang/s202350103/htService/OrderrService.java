@@ -1,8 +1,15 @@
 package com.choongang.s202350103.htService;
 
+import java.util.List;
+
+import com.choongang.s202350103.model.Cart;
+import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.Review;
 
 public interface OrderrService {
 	
-	int        orderTotal();
+	int           orderTotal();
+	NewBook       orderOne(NewBook newBook);
+	List<Cart>    orderList(Cart cart);
 }
