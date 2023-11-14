@@ -339,11 +339,6 @@ function valiForm() {
 						
 						<hr>
 						
-						<div>
-							<a href="cutom404">404 테스트</a>
-						</div>
-						
-						
 						<div class="col-lg-15">
 							<div class="input-group mb-5 ">
 								<a href="memberWithdrawForm" style="font-size: 16px; color: red;" class="">회원 탈퇴 </a>
