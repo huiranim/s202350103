@@ -12,9 +12,11 @@
 		function changeChk(p_point){
 			//alert("변경!");
 			//alert("보유 포인트 : ${member.m_point }");
+			//alert("보유 포인트 type : "+typeof("${member.m_point }"));
 			//alert("입력 포인트 : "+p_point);
+			//alert("입력 포인트 type : "+typeof(p_point));
 			
-			if(p_point <= '${member.m_point }'){
+			if(Number(p_point) <= Number('${member.m_point }')){
 				//alert("사용 가능합니다.");
 				$("#pointMsg").html("사용 가능합니다.");
 				
@@ -26,8 +28,8 @@
 				// 결제정보의 최종결제금액에 반영
 				const p_deliv_price = Number(document.getElementById("o_deliv_price").value);
 				//alert("p_deliv_price : "+p_deliv_price);
-				const nb_price_num = Number('${newbook.nb_price}');
-				const p_pay_price = (nb_price_num + p_deliv_price - p_point);
+				const nb_price_sum_num = Number('${newbook.nb_price * quantity}');
+				const p_pay_price = (nb_price_sum_num + p_deliv_price - p_point);
 				//alert("p_pay_price : "+p_pay_price);
 				const p_pay_price_result = p_pay_price.toLocaleString();
 				//alert("p_pay_price_result : "+p_pay_price_result);
@@ -43,6 +45,7 @@
 				//alert("보유 포인트보다 많이 사용할 수 없습니다.");
 				$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
 				$("#o_point").val("");
+				$("#o_point_result").html(0);
 			}
 		}
 	</script>
@@ -67,7 +70,7 @@
           
 <!-- 배송비 결정 -->
 <c:choose>
-	<c:when test="${newbook.nb_price > 50000}">
+	<c:when test="${newbook.nb_price * quantity > 50000}">
 		<c:set var="o_deliv_price" value="0"/>
 		<c:set var="o_deliv_price_express" value="무료 배송"/>
 	</c:when>
@@ -146,7 +149,7 @@
 				                 <div class="text-small mb-1"><small><fmt:formatNumber value="${quantity}" groupingUsed="true"/>개</small></div>
 				                 <div class=" mt-6">
 				                    <!-- price -->
-				                    <div><span class="text-dark"><fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/>원</span></div>
+				                    <div><span class="text-dark"><fmt:formatNumber value="${newbook.nb_price * quantity}" groupingUsed="true"/>원</span></div>
 				                 </div>
 				              </div>
 				           </div>
@@ -175,7 +178,7 @@
             	<table style="width: 100%;">
             		<tr height="40px">
             			<td class="form-label" width="70%">상품금액</td>
-            			<td class="h6" width="30%" align="right"><fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/> 원</td>
+            			<td class="h6" width="30%" align="right"><fmt:formatNumber value="${newbook.nb_price * quantity}" groupingUsed="true"/> 원</td>
             		</tr>
             		<tr height="40px">
             			<td class="form-label" width="70%">배송비</td>
@@ -191,7 +194,7 @@
             			<td class="text-danger" width="70%">최종 결제 금액</td>
             			<td class="text-danger" width="30%" align="right">
             				<span id="o_pay_price">
-            					<fmt:formatNumber value="${newbook.nb_price + o_deliv_price}" groupingUsed="true"/>
+            					<fmt:formatNumber value="${newbook.nb_price * quantity + o_deliv_price}" groupingUsed="true"/>
             				</span> 원
             			</td>
             		</tr>
@@ -199,7 +202,7 @@
             			<td class="form-label" width="70%">적립 혜택</td>
             			<td class="h6" width="30%" align="right">
             				<span id="o_point_save">
-            					<fmt:formatNumber value="${(newbook.nb_price + o_deliv_price) * 0.01}" groupingUsed="true"/>
+            					<fmt:formatNumber value="${(newbook.nb_price * quantity + o_deliv_price) * 0.01}" groupingUsed="true"/>
             				</span> 원
             			</td>
             		</tr>
