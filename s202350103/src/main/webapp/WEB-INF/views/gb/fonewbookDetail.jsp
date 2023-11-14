@@ -310,7 +310,17 @@
                     <!-- 구매 버튼 -->
                     <input type="submit" value="선물하기" class="btn btn-warning" onclick="javascript: form.action='/foGivingGift';"><i class="feather-icon icon-shopping-bag me-2"></i>
                     <button type="button" class="btn btn-secondary" onclick="cart(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
-                     <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button>
+                     <!-- <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button> -->
+                     <a href="orderForm?nb_num=${newbook.nb_num }&paymentType=1" class="btn btn-primary ">
+		                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+		                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+		                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
+			                  	   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+			                  	   <line x1="3" y1="6" x2="21" y2="6"></line>
+			                       <path d="M16 10a4 4 0 0 1-8 0"></path>
+		                 	   </svg>
+		                  		바로구매
+		                       </a>
                     <!-- 찜하기 버튼 -->   
                         <c:choose>
                             <c:when test="${newbook.w_wish == 0}">

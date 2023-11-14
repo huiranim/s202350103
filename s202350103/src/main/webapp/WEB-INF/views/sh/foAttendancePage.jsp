@@ -120,6 +120,7 @@
 </div>
 
 <script type="text/javascript">
+	//이벤트 기간 체크 function (자동)
 	$(function(){
 		var curDate = new Date();
 		var curDate1 = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
@@ -140,7 +141,7 @@
 			  return new Date(parts[0], parts[1] - 1, parts[2]);
 			}
 	});
-	
+	//당일 출석 참여 유무 function
 	function checkAtt(a_num, m_num){
 		if(${chance}==0){
 			alert("출석 체크 완료");
@@ -150,23 +151,24 @@
 			alert("금일 참여하셨습니다.");
 			return false;
 		}
-}
-
-function addAtt(a_num, m_num){
-	$.ajax({
-		url : "/checkAddAtt",
-		data : {a_num:a_num, m_num:m_num},
-		dataType:"text",
-		success : function(totalCount){
-			if(totalCount == 3){
-				alert("3일 연속 출석 하셨습니다!");
-			}
-		}, 
-		error : function(){
-			alert("오류발생");
 	}
-});
-}
+
+	//연속 출석 function 
+	function addAtt(a_num, m_num){
+		$.ajax({
+			url : "/checkAddAtt",
+			data : {a_num:a_num, m_num:m_num},
+			dataType:"text",
+			success : function(totalCount){
+				if(result == 1){
+					alert("3일 연속 출석 하셨습니다!");
+				}
+			}, 
+			error : function(){
+				alert("오류발생");
+			}
+		});
+	}
 </script>
 <%@ include file="../common/footerFo.jsp" %>
 </body>

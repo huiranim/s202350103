@@ -10,13 +10,16 @@ public class Cart {				// 장바구니
 
 	// 조회용
 	private String  nb_title;
-	private String	nb_price;
+	private int  	nb_price;
 	private String	nb_writer;
 	private String  nb_publisher;
 	private String 	nb_image;
-	private int  	totalPrice;
+	private int  	totalPrice;    // 총 결제 금액
+	private int  	o_deliv_price; // 배송비
 	// 페이징 작업용
 	private String  pageNum;	// 페이지	
 	private int     start;		
 	private int 	end;
+	
+	
 }

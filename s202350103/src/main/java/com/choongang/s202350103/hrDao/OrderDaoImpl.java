@@ -256,6 +256,32 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl selectOrderGift() end..");
 		return orderGift;
 	}
+	
+	// FO 선물하기 - 액션
+	@Override
+	public int gettingGiftAction(Orderr orderr, OrderGift orderGift) {
+		System.out.println("OrderDaoImpl gettingGiftAction() start..");
+		
+		int result = 0, oResult = 0, ogResult = 0;
+		try {
+			oResult = session.update("hrUpdateOrderrGiftType", orderr);
+			ogResult = session.update("hrUpdateOrderGift", orderGift);
+			
+			System.out.println("OrderDaoImpl gettingGiftAction() oResult -> "+oResult);
+			System.out.println("OrderDaoImpl gettingGiftAction() ogResult -> "+ogResult);
+			if(oResult == 1 && ogResult == 1) {
+				result = 1;
+			} else {
+				result = 0;
+			}
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl gettingGiftAction() e.getMessage() -> "+e.getMessage());
+
+		}
+		
+		System.out.println("OrderDaoImpl gettingGiftAction() start..");
+		return result;
+	}
 
 
 }
