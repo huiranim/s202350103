@@ -38,12 +38,12 @@
             <h5 class="h5">보내는 사람</h5><p>
               <!-- input -->
             <div class="col-md-12 mb-3">
-              <label class="form-label"> 이름</label>
+              <label class="form-label">이름</label>
               <h6 class="h6">${orderr.m_name }</h6>
             </div>
             <div class="col-md-12 mb-3">
               <!-- input -->
-              <label class="form-label"> 휴대전화</label>
+              <label class="form-label">휴대전화</label>
               <h6 class="h6">${orderr.m_ph }</h6>
             </div>
             
@@ -54,22 +54,27 @@
             </h5><p>
               <!-- input -->
             <div class="col-md-12 mb-3">
-              <label class="form-label" for="o_rec_name"> 이름<span class="text-danger">*</span></label>
+              <label class="form-label" for="o_rec_name">이름<span class="text-danger">*</span></label>
               <input type="text" id="o_rec_name" class="form-control" name="o_rec_name" value="${orderr.o_rec_name }" required>
             </div>
             <div class="col-md-12 mb-3">
-              <label class="form-label" for="o_rec_mail"> 이메일<span class="text-danger">*</span></label>
+              <label class="form-label" for="o_rec_mail">이메일<span class="text-danger">*</span></label>
               <input type="text" id="o_rec_mail" class="form-control" name="o_rec_mail" value="${orderr.o_rec_mail }" required>
             </div>
             <div class="col-md-12 mb-3">
               <!-- input -->
-              <label class="form-label" for="o_rec_ph"> 휴대전화<span class="text-danger">*</span></label>
+              <label class="form-label" for="o_rec_ph">휴대전화<span class="text-danger">*</span></label>
               <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control" value="${orderr.o_rec_ph }" required>
             </div>
             <div class="col-md-12 mb-3">
               <!-- input -->
-              <label class="form-label" for="o_rec_addr"> 주소<span class="text-danger">*</span></label>
+              <label class="form-label" for="o_rec_addr">주소<span class="text-danger">*</span></label>
               <input type="text" id="o_rec_addr" name="o_rec_addr" class="form-control" value="${orderr.o_rec_addr }" required>
+            </div>
+            <div class="col-md-12 mb-3">
+              <!-- input -->
+              <label class="form-label" for="o_rec_msg">배송 메시지<span class="text-danger">*</span></label>
+              <input type="text" id="o_rec_msg" name="o_rec_msg" class="form-control" value="${orderr.o_rec_msg }" required>
             </div>
             
             <p><p><hr><p><p>
@@ -107,6 +112,12 @@
             <div class="d-grid gap-2">
 	            <input class="btn btn-primary" type="submit" value="선물받기">
             </div>
+<!-- hidden value -->
+<input type="text" name="o_order_num" value="${orderr.o_order_num }"> 
+<input type="hidden" name="m_name" value="${orderr.m_name }"> 
+<input type="hidden" name="m_ph" value="${orderr.m_ph }"> 
+<input type="hidden" name="nb_title" value="${orderr.nb_title }"> 
+<input type="hidden" name="o_de_count" value="${orderr.o_de_count }"> 
           </form>
         </div>
       </div>

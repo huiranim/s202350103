@@ -36,13 +36,13 @@ public class OrderrDaoImpl implements OrderrDao {
 	}
 
 	@Override
-	public NewBook orderOne(NewBook newBook) {
+	public List<NewBook> orderOne(NewBook newBook) {
 		System.out.println("OrderDaoImpl orderOne() Start...");
 		
-		NewBook orderOne = null;
+		List<NewBook> orderOne = null;
 		try {
-			orderOne = session.selectOne("htOrderOne", newBook);
-			System.out.println("orderOne--> "+ orderOne);
+			orderOne = session.selectList("htOrderOne", newBook);
+			System.out.println("OrderrDaoImpl orderOne--> "+ orderOne);
 		}catch (Exception e) {
 			System.out.println("OrderrDaoImpl orderOne Exception -> " + e.getMessage());
 		}
@@ -50,9 +50,10 @@ public class OrderrDaoImpl implements OrderrDao {
 	}
 
 	@Override
-	public List<Cart> orderList(Cart cart) {
+	public List<Cart> orderList(Cart cart, Member member) {
 		System.out.println("OrderDaoImpl orderList() Start...");
-		
+		member =(Member) https.getAttribute("member");
+		cart.setM_num(member.getM_num());
 		List<Cart> orderList = null;
 		try {
 			orderList = session.selectList("htOrderList", cart);

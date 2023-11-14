@@ -9,6 +9,6 @@ import com.choongang.s202350103.model.Review;
 
 public interface OrderrDao {
 	int           orderTotal();
-	NewBook       orderOne(NewBook newBook);
-	List<Cart>    orderList(Cart cart);
+	List<NewBook> orderOne(NewBook newBook);
+	List<Cart>    orderList(Cart cart, Member member);
 }

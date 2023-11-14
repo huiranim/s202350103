@@ -82,4 +82,8 @@
 		Values (pointlist_p_num_seq.nextval, #{a_num}, #{m_num},#{a_par_pdate},2,
 			   (Select a_addPoint From attendance Where a_num=#{a_num}))
 	</insert>
+	
+	<select id="shCountAttRow" parameterType="AttJoin" resultType="int">
+		Select count(*) From att_join Where m_num=#{m_num} And a_num=#{a_num} And To_char(a_par_pdate, 'yy-MM-dd') = To_char(#{strCheckTime}, 'yy-MM-dd')
+	</select>
 </mapper>

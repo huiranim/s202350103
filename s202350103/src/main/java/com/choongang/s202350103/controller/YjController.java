@@ -36,23 +36,22 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 @Controller
 @Slf4j
 public class YjController {
-
-	private final com.choongang.s202350103.ybService.MemberService ys;
 	
-	private final MemberService ms;
-
+	private final HttpSession session;	// 세션
+	private final com.choongang.s202350103.ybService.MemberService ys; // 용빈 서비스
+	private final MemberService ms;			// 서비스
+	private final JavaMailSender mailSender;	// 메일 전송 객체
 	final DefaultMessageService messageService; // 문자전송 API
 	
-	private final JavaMailSender mailSender;	// 메일 전송 객체
-	
-	public YjController(MemberService ms,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys ) {
+	public YjController(MemberService ms,HttpSession session,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys ) {
+		// 세션
+		this.session = session;
+		// 서비스
 		this.ms = ms;
 		// 문자 전송 API 							API 키, API Secret Key
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
-		
 		// 메일 전송 객체
 		this.mailSender = mailSender;
-		
 		// 마이페이지 용빈 멤버서비스
 		this.ys = ys;
 		
@@ -500,7 +499,12 @@ public class YjController {
 	  
 	  // 내 주문 리스트
 	  @GetMapping("memberMyOrder")
-	  public String memberMyOrder(@RequestParam int m_num, Model model) {
+	  public String memberMyOrder(Member member , @RequestParam int m_num, Model model) {
+		  
+		  member = (Member) session.getAttribute("member");
+		  if(member == null) {
+			  return "yb/loginForm";
+		  }
 		  
 		  List<Member> memberMyOrder = ms.memberMyOrder(m_num);
 		  
@@ -508,6 +512,7 @@ public class YjController {
 			
 		  model.addAttribute("totalOrderCnt",totalOrderCnt);
 		  model.addAttribute("memberMyOrder",memberMyOrder);
+		  model.addAttribute("member",member);
 		  
 		  return "yj/memberMyOrder";
 	  }
@@ -812,7 +817,7 @@ public class YjController {
 	  }
 	  
 	  // 404  테스트
-	  @GetMapping("/cutom404")
+	  @GetMapping("/custom404")
 	  public String cutom404() {
 		  return "yj/yjCustom404";
 	  }

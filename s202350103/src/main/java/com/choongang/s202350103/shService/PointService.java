@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.choongang.s202350103.model.AttJoin;
 import com.choongang.s202350103.model.Attendance;
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.Quiz;
 import com.choongang.s202350103.model.QuizJoin;
@@ -38,12 +39,19 @@ public interface PointService {
 	void 			 searchAddAtt(AttJoin attJoin);				//연속 출석 이력(포인트 이력) 
 	int 			 createQuiz(Quiz quiz);
 	List<Attendance> boEventList(Attendance attendane);
-//	void 			 checkAddAtt(AttJoin attJoin);
-//	int 			 checkAddAttCount(AttJoin attJoin);
 	int 			 updateQuiz(Quiz quiz);						//퀴즈 이벤트 정보 수정
 	int 			 updateAttendance(Attendance attendance);
 	List<Attendance> searchEvent(Attendance attendance);		//관리자페이지 이벤트목록 조건검색 메소드
-	List<PointList>  selectMemberPoint(int a_num);
+	List<PointList>  selectMemberPoint(int m_num);
+	int 			 pointSum(int m_num);
+	int 			 boUpdatePlusPoint(Member member);
+	int 			 boInsertPlusPoint(Member member);
+	int 			 boInsertMinusPoint(Member member);
+	int 			 boUpdateMinusPoint(Member member);
+	int 			 checkAddAtt(int a_num);					//attendance 연속출석조건 일수 확인 메소드
+	int 			 checkAddAtt1(AttJoin attJoin);
+	int 			 checkAddAtt2(AttJoin attJoin);
+	int 			 countAttRow(AttJoin attJoin);
 	
 	
 	
