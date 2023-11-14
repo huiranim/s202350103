@@ -25,5 +25,6 @@ public interface NewBookService {
 	List<NewBook> 	selectBoNewBookList(NewBook newbook);
 	int 			deleteBoNewbook(int nb_num);
 	int 			insertBoNewbook(NewBook newbook);
+	NewBook 		selectRecentBookList(int nb_num); 
 
 }

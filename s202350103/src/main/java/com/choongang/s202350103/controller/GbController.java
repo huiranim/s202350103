@@ -2,10 +2,12 @@ package com.choongang.s202350103.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.query.criteria.internal.expression.function.SubstringFunction;
@@ -19,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.choongang.s202350103.gbService.CookieManager;
 import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
+import com.choongang.s202350103.gbService.RecentlyBook;
 import com.choongang.s202350103.htService.ReviewService;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
@@ -39,6 +43,7 @@ public class GbController {
 	private final NewBookService nbs;
 	private final NewBookOldBookService nbods;
 	private final ReviewService rs;
+	private final RecentlyBook rb;
 	
 	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
@@ -132,7 +137,9 @@ public class GbController {
 	
 	// 상품 상페 페이지
 	@RequestMapping("newbookDetail")
-	public String selectNewbookDetail(NewBook newbook, Review review, HttpSession session, Member member, Model model) {
+	public String selectNewbookDetail(NewBook newbook, Review review, HttpSession session, 
+									  HttpServletResponse response, HttpServletRequest request, Member member, Model model) {
+		
 		System.out.println("GbController selectNewbookDetail start...");
 		System.out.println("GbController selectNewbookDetail newbook.getNb_num()"+newbook.getNb_num());
 		
@@ -152,6 +159,12 @@ public class GbController {
 		// 동일한 중고도서 개수
 		int same_obCnt = nbods.selectSameOldBookList(newbook.getNb_num()).size();
 		selectNewbook.setSame_obCnt(same_obCnt);
+		
+		// session에 최근 본 상품 담기
+		// ArrayList<String> recentlyList = rb.RecentlyBookList(String.valueOf(newbook.getNb_num()));
+		// System.out.println("recentlyList.size -> "+recentlyList.size());
+		session.setAttribute("recentBookNum", newbook.getNb_num());
+		System.out.println("세션 값 -> "+session.getAttribute("recentBookNum"));
 		
 		//리뷰 코딩
 		
@@ -465,6 +478,44 @@ public class GbController {
 		result = nbs.insertBoNewbook(newbook);
 		
 		return "redirect:bonewbookList?result="+result;
+	}
+	
+	// 최근 본 상품 보여주기
+	@RequestMapping("recentBook")
+	public String selectRecentBookList(HttpSession session, Model model) {
+		// ArrayList<String> recentBookList = (ArrayList<String>) session.getAttribute("recentlyList");
+		int result = 0;
+		System.out.println("세션 num 값" + session.getAttribute("recentBookNum"));
+		
+//		if(recentBookList.size() > 0) {
+//			for(int i=0; i<recentBookList.size();i++) {
+//				nb_num[i] = Integer.parseInt(recentBookList.get(i));
+//				NewBook recentBook = nbs.selectRecentBookList(nb_num[i]);
+//				recentBookList1.add(recentBook);
+//			}
+//			result = 1;
+//			model.addAttribute("recentBookList", recentBookList1);
+//			model.addAttribute("result", result);
+//			
+//		}else {
+//			model.addAttribute("result", result);
+//		}
+		
+		if(session.getAttribute("recentBookNum") != null) {
+			int nb_num = (int) session.getAttribute("recentBookNum");
+			System.out.println("GbController selectRecentBookList nb_num -> "+nb_num);
+			
+			NewBook recentBook = nbs.selectRecentBookList(nb_num);
+			System.out.println("GbController selectRecentBookList recentBook -> "+recentBook);
+			
+			result = 1;
+			model.addAttribute("newbook", recentBook);
+			model.addAttribute("result", result);
+		}else {
+			model.addAttribute("result", result);
+		}
+		
+		return "common/sideFo";
 	}
 	 
 }

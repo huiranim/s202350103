@@ -1,9 +1,19 @@
+<%@page import="java.net.URLDecoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 
- 
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+		/* $(window).load(function(){
+			location.href = "recentBook";
+		}) */
+</script>
+
         <!-- col -->
         <aside class="col-lg-3 col-md-4 mb-6 mb-md-0">
           <div class="offcanvas offcanvas-start offcanvas-collapse w-md-50 " tabindex="-1" id="offcanvasCategory" aria-labelledby="offcanvasCategoryLabel">
@@ -125,25 +135,72 @@
             </ul>
           </div>
           
-		<!-- 광고 배너 -->            
-          <div class="mb-8 position-relative">
-            <div class="position-absolute p-5 py-8">
-              <h3 class="mb-0">광고배너 </h3>
-              <p>광고내용</p>
-              <a href="#" class="btn btn-dark">
-				구매하러가기
-              <i class="feather-icon icon-arrow-right ms-1"></i></a>
-            </div>
-			
-            <img src="../assets/images/banner/assortment-citrus-fruits.png" alt=""
-              class="img-fluid rounded ">
-          </div>
-          
-          </div>
+		<!-- 최근 본 상품 리스트 -->
+		
+		<div style="border:1px solid black">
+			<h6>최근 본 상품</h6>
+				<!-- 최근 본 상품이 있을 때 -->
+				<c:if test="${result == 1}">
+					
+						<div class="col-lg-4">
+						  <div class="card card-product">
+						     <div class="card-body">
+						       <!-- 도서 이미지 -->
+						       <div class="text-center position-relative ">
+						         <a href="#!">
+						         	<c:choose>
+									     <c:when test="${fn:contains(newbook.nb_image, 'http')}">
+									        <img src="${newbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+									     </c:when>
+									     <c:otherwise>
+									        <img src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+									     </c:otherwise>
+									</c:choose> 
+						         </a>
+						       </div>
+						       <!-- 도서 카테고리 -->
+						       <div class="text-small mb-1">
+						       	<a href="#!" class="text-decoration-none text-muted">
+						       		<small>
+						       			<c:choose>
+							               <c:when test="${newbook.nb_category1 eq 1}">국내도서 </c:when>
+							               <c:when test="${newbook.nb_category1 eq 2}">해외도서 </c:when>
+							            </c:choose>
+							            >
+							            <c:choose>
+							               <c:when test="${newbook.nb_category2 eq 1}"> 경제/경영</c:when>
+							               <c:when test="${newbook.nb_category2 eq 2}"> 과학</c:when>
+							               <c:when test="${newbook.nb_category2 eq 3}"> 소설</c:when>
+							               <c:when test="${newbook.nb_category2 eq 4}"> 역사/문화</c:when>
+							               <c:when test="${newbook.nb_category2 eq 5}"> 인문</c:when>
+							               <c:when test="${newbook.nb_category2 eq 6}"> 과학/기술</c:when>
+							               <c:when test="${newbook.nb_category2 eq 7}"> 문학</c:when>
+							            </c:choose>
+						       		</small>
+						       	</a>
+						       </div>
+						       <!-- 도서 제목 -->	
+						       <h2 class="fs-6">
+						       		<a href="#" class="text-inherit text-decoration-none">${newbook.nb_title }</a>
+						       </h2>
+						       <!-- 도서 가격 -->
+						       <div class="d-flex justify-content-between align-items-center mt-3">
+						         <div>
+						         	<span class="text-dark">${newbook.nb_price }</span> 
+						         </div>
+						       </div>
+						     </div>
+						   </div>
+						 </div>
+					 
+					</c:if>
+			 	</div> 
+			 <!-- 최근 본 상품이 없을 때 --> 
+			 <c:if test="${result == 0 }">
+			 	<h6>최근 본 도서가 없습니다.</h6>
+			 </c:if>               
         </div>
-        </aside>
-
-
-
+       </div>
+      </aside>
     	  <section class="col-lg-9 col-md-12">
 
