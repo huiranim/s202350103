@@ -384,16 +384,24 @@ public class HrController {
 	// FO 선물받기 - 화면
 	// foGettingGift.jsp
 	@RequestMapping("foGettingGift")
-	public String gettingGift(Model model, long o_order_num) {
+	public String gettingGift(Model model , long o_order_num) {
 		System.out.println("HrController gettingGift() start..");
 		
-		// 카드&메시지
+		// o_order_num -> orderr 객체 조회
+		// 기본 컬럼 : o_rec_name, o_rec_mail, o_rec_ph
+		// 조인 컬럼 : m_name, m_ph, nb_image, nb_title, o_de_count
+		Orderr orderr = os.selectOrderr_GiftType(o_order_num);
+		System.out.println("HrController gettingGift() orderr.getM_name() -> "+orderr.getM_name());
 		
-		// 보내는 사람
+		// o_order_num -> orderGift 객체 조회
+		// 기본 컬럼 : o_gift_card, o_gift_msg
+		OrderGift orderGift = os.selectOrderGift(o_order_num);
+		System.out.println("HrController gettingGift() orderGift.getO_gift_num() -> "+orderGift.getO_gift_num());		
 		
-		// 받는 사람
-		
-		// 주문 상품
+		// model에 orderr, orderGift 객체 저장
+		model.addAttribute("orderr", orderr);
+		model.addAttribute("orderGift", orderGift);
+
 		
 		System.out.println("HrController gettingGift() end..");
 		return "/hr/foGettingGift";

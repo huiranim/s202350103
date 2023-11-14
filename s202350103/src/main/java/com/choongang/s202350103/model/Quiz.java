@@ -17,4 +17,7 @@ public class Quiz {					//퀴즈
 	private String 	q_select3;		//객관식선지3
 	private String 	q_select4;		//객관식선지4
 	private int    	q_answer;		//객관식정답 
+	
+	//컨트럴용 이벤트 번호
+	private int eNum;
 }

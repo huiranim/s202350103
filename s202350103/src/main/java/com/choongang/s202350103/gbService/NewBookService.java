@@ -17,13 +17,13 @@ public interface NewBookService {
 	int 			selectHitNbNum();
 	int 			insertUpdateWish(WishList wishlist);
 	int 			insertCart(Cart cart);
-	void 			updateCartCount(Cart cart);
+	int 			updateCartCount(Cart cart);
 	void 			deleteCart(Cart cart);
-	List<NewBook> selectSearchBoNewBookList(NewBook newbook);
-	NewBook selectBoNewBookDetail(NewBook newbook);
-	int updateBoNewbook(NewBook newbook);
-	List<NewBook> selectBoNewBookList(NewBook newbook);
-	int deleteBoNewbook(int nb_num);
-	int insertBoNewbook(NewBook newbook);
+	List<NewBook> 	selectSearchBoNewBookList(NewBook newbook);
+	NewBook 		selectBoNewBookDetail(NewBook newbook);
+	int 			updateBoNewbook(NewBook newbook);
+	List<NewBook> 	selectBoNewBookList(NewBook newbook);
+	int 			deleteBoNewbook(int nb_num);
+	int 			insertBoNewbook(NewBook newbook);
 
 }

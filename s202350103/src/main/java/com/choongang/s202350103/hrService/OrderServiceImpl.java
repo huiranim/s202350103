@@ -1,7 +1,5 @@
 package com.choongang.s202350103.hrService;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.choongang.s202350103.hrDao.OrderDao;
@@ -9,10 +7,10 @@ import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
 import com.choongang.s202350103.model.OrderGift;
 import com.choongang.s202350103.model.Orderr;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 	private final OrderDao od;
 
@@ -148,6 +146,29 @@ public class OrderServiceImpl implements OrderService {
 		
 		System.out.println("OrderServiceImpl givingGiftAction() end..");
 		return result;
+	}
+	
+	// FO 선물받기 - 화면 - orderr 객체 조회
+	@Override
+	public Orderr selectOrderr_GiftType(long o_order_num) {
+		System.out.println("OrderServiceImpl selectOrderr_GiftType() start..");
+
+		Orderr orderr = od.selectOrderr_GiftType(o_order_num);
+		System.out.println("OrderServiceImpl selectOrderr_GiftType() orderr.getM_name() -> "+orderr.getM_name());
+		
+		System.out.println("OrderServiceImpl selectOrderr_GiftType() end..");
+		return orderr;
+	}
+	// FO 선물받기 - 화면 - orderGift 객체 조회
+	@Override
+	public OrderGift selectOrderGift(long o_order_num) {
+		System.out.println("OrderServiceImpl selectOrderGift() start..");
+		
+		OrderGift orderGift = od.selectOrderGift(o_order_num);
+		System.out.println("OrderServiceImpl selectOrderGift() orderGift.getO_gift_num() -> "+orderGift.getO_gift_num());		
+		
+		System.out.println("OrderServiceImpl selectOrderGift() end..");
+		return orderGift;
 	}
 
 

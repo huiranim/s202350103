@@ -19,6 +19,8 @@ public interface OrderService {
 	int 		 	  statusReturn(Orderr orderr);
 	List<OrderDetail> selectOrderProduct(long o_order_num);
 	int 			  givingGiftAction(Member member, Orderr orderr, OrderGift orderGift);
+	Orderr 			  selectOrderr_GiftType(long o_order_num);
+	OrderGift 		  selectOrderGift(long o_order_num);
 
 
 	

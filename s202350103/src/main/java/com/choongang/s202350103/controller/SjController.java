@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.sjService.OldbookService;
 import com.choongang.s202350103.sjService.Paging;
-
+import com.choongang.s202350103.sjService.PagingNb;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -184,20 +184,20 @@ public class SjController {
 	}
 	
 	@GetMapping(value = "ModalList")
-	public String listMoOb(OldBook oldBook,String currentPage, Model model) {
+	public String listMoOb(OldBook oldBook,String currentPage, Model model, String currentPage3) {
 		
 		System.out.println("SjController Start ");
 		
-		int totalOb = obs.totalOb();
+		int totNbCnt3 = obs.totNbCnt3();
 		//Paging 작업
-		Paging  page = new Paging(totalOb, currentPage);
+		PagingNb  page = new PagingNb(totNbCnt3, currentPage3);
 		
 		oldBook.setStart(page.getStart());
 		oldBook.setEnd(page.getEnd());
 		
 		List<OldBook> listMoOb = obs.listMoOb(oldBook);
 		model.addAttribute("listMoOb" , listMoOb);
-		model.addAttribute("totalOb", totalOb);
+		model.addAttribute("totNbCnt3", totNbCnt3);
 		model.addAttribute("page" , page);
 		
 		

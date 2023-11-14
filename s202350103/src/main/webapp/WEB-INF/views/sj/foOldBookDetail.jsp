@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../common/headerFo.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -86,7 +87,10 @@
 		             </tr>
 		             <tr>
 		                <td>출간일:</td>
-		                <td>${oldBook.nb_publi_date }</td>
+		                <td> 
+		                   <c:set var="dateVal" value="${oldBook.nb_publi_date }" />
+		              		 ${fn:substring(dateVal,0,10) }
+		                </td>
 		             </tr>
 		                <tr>
 		                <td>매입번호 :</td>

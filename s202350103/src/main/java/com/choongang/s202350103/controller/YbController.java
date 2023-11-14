@@ -5,34 +5,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
@@ -54,9 +42,19 @@ public class YbController {
 	private final HttpSession session;
 	private final JavaMailSender mailSender;
 	
+//	private Member getSession( Model model, Member member) {
+//		Member member1 = new Member();
+//		member = ms.login(member1);
+//		member =(Member) session.getAttribute("member");
+//		
+//		model.addAttribute("member", member);
+//		return member;
+//	}
+	
 	// Main Page
 	@RequestMapping(value = "/")
 	public String main(Member member,HttpServletRequest request, Model model) {
+		System.out.println("YbController main() start... ");
 		member =(Member) session.getAttribute("member");
 		if(member == null) {
 			return "main";
@@ -219,6 +217,8 @@ public class YbController {
 		if(member == null) {
 			return "yb/loginForm";
 		}
+		
+//		getSession(model, member);
 	
 		System.out.println("YbController memberCartList() member.m_id -> " + member.getM_id());
 		// 회원별 장바구니 총 개수
@@ -481,7 +481,7 @@ public class YbController {
 		return "yb/memberPwChangeForm";
 	}
 	// 인증 후 비밀번호 변경 
-	@GetMapping(value = "memberPwChange")
+	@PostMapping(value = "memberPwChange")
 	public String memberPwChange(String m_num, String m_pw, Member member) {
 		System.out.println("YbController memberPwChange() start..");
 		System.out.println("YbController memberPwChange() m_num -> " + m_num);
@@ -493,7 +493,6 @@ public class YbController {
 		session.invalidate(); // 세션 초기화
 		return "main"; 
 	}
-	
 	
 }
 	

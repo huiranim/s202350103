@@ -16,19 +16,14 @@
 </script>
 <body>
 <h1>이벤트 목록</h1>
-	<div>
-		이벤트 번호	: 
-		제목		:
-		이벤트 종류 :
-	</div>
 <table>
 	<tr>
 		<th>번호</th><th>이벤트 번호</th><th>제목</th><th>시작일</th><th>종료일</th><th>포인트</th><th>연속출석</th><th>관리</th>
 	</tr>
 		<c:forEach var="event" items="${event }">
 			<tr>
-				<td>${event.rn }</td>
-				<td>${event.a_num }</td>
+				<td>${event.rn }	 </td>
+				<td>${event.a_num }	 </td>
 				<td>${event.a_title }</td>
 				<td>${event.a_sdate }</td>
 				<td>${event.a_edate }</td>

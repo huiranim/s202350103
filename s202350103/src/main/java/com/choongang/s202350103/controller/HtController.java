@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.htService.KakaoPay;
+//import com.choongang.s202350103.htService.KakaoPay;
 import com.choongang.s202350103.htService.OrderrService;
 import com.choongang.s202350103.htService.Paging;
 import com.choongang.s202350103.htService.ReviewService;
@@ -394,10 +395,8 @@ public class HtController {
 		
 		return "/ht/foOrderForm";
 	}
-	
-	 
 
-	 // 카카오페이
+	// 카카오페이
 	 @Setter(onMethod_ = @Autowired)
 	 private KakaoPay kakaopay;  // Service
 

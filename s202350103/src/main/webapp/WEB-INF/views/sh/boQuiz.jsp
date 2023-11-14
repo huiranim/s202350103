@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h1>Quiz 이벤트</h1>
-	<form action="createQuiz">
+	<form action="updateQuiz">
 		이벤트 이름 : <input type="text" name="q_title" required="required">						<p>
 		이벤트 기간 : <input type="date" name="q_sdate" required="required">~<input type="date" name="q_edate" required="required"><p>
 		사진 등록 :  <input type="file" name="q_image" required="required">						<p>

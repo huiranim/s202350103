@@ -114,13 +114,81 @@
        });
    })
    
-   function reviewListFocus(p_status){
+   // 페이지가 로드될 때 실행되는 함수
+   function onPageLoad(p_status){
+    	
        if(p_status == 1) {
           //document.getElementById("reviewLists").focus(); //reviewList로 이동
           var reviewsTab = new bootstrap.Tab(document.getElementById("reviews-tab"));
          reviewsTab.show();
          document.getElementById("reviewFocus").scrollIntoView();
        } 
+       
+      /*  // 최근 본 상품의 nb_num을 담는다.
+       var url = window.location.href;
+       var nb_numCookie = getProductIDFromURL(url); // getProductIDFromURL(url) -> url에서 nb_num을 가져오는 함수 
+       alert("nb_numCookie -> "+nb_numCookie);
+       
+       if(nb_numCookie){ // nb_numCookie 값이 있으면 실행
+    	   var recentProducts = getCookie('recent_products');
+       	   // 삼항 연산자 -> 				조건식 	 ? 	참(split(/): /를 기준으로 문자열을 분할) 	: 거짓
+       	   var recentProductIds = recentProducts ? recentProducts.split('/') : [];
+       	   
+       	   if(!recentProductIds.includes(nb_numCookie)){ // 최근 본 상품 리스트에 nb_num이 없다면 실행
+       			recentProductIds.push(nb_numCookie);	// recentProductIds 리스트에 nb_num 값을 넣어라
+       		}
+       	   
+       	   // 최대 5개까지만 유지
+       	   if(recentProductIds.length > 5) {
+       			recentProductIds.shift();
+       	   }
+       	   
+       	   recentProducts = recentProductIds.join('/'); // 문자열들을 / 를 붙여 반환한다.
+       		
+       	   // 24시간 후의 시간 객체 생성
+       	   var expirationDate = new Date();
+       		expirationDate.setTime(expirationDate.getTime() + (24*60*60*1000));
+       		console.log("expirationDate -> "+expirationDate);
+       		
+       		// 쿠키에 recent_products 저장 (유효기간 24시간)
+       		setCookie('recent_products', recentProducts, expirationDate);
+       }       */ 
+       
+    }
+    
+    // url에서 nb_num만 따로 추출하는 함수
+    function getProductIDFromURL(url){
+    	var regex = /[?&]nb_num=(\d+)/; // nb_num을 따로 추출할 수 있도록 하는 정규식
+    	var match = regex.exec(url);	// exe(str) -> 처음 일치하는 부분 하나만 배열에 넣어서 return
+    	if(match && match[1]){			// match = ?nb_num=100042, 100042
+    		return match[1];			// match[0] = ?nb_num=100042
+    	}								// match[1] = 100042
+    	return null;
+    }
+    
+    // 쿠키를 저장하는 메소드
+    function setCookie(cookieName, value, expirationDate){
+    	// escape -> 알파벳과 숫자 및 특수문자를 제외한 모든 문자를 16진수로 인코딩
+    	var cookieValue = escape(value) + ((expirationDate == null) ? '' : '; expires=' + expirationDate.toUTCString());
+    	document.cookie = cookieName + '=' + cookieValue;
+    }
+    
+    // 쿠기 값을 가지고 오는 메소드
+    function getCookie(cookieName){
+    	var name = cookieName + '=';
+    	var decodedCookie = decodeURIComponent(document.cookie);
+    	var cookieArray = decodedCookie.split(';');
+    	
+    	for (var i = 0; i<cookieArray.length; i++){
+    		var cookie = cookieArray[i];
+    		while (cookie.charAt(0) == ''){
+    			cookie = cookie.substring(1);
+    		}
+    		if(cookie.indexOf(name) == 0){
+    			return cookie.substring(name.length, cookie.length);
+    		}
+    	}
+    	return '';
     }
 
    $(function() {
@@ -135,7 +203,7 @@
 
 </script>
 </head>
-<body onload="reviewListFocus(${review.p_status})">
+<body onload="onPageLoad(${review.p_status})">
    <h3>조회수 : ${newbook.nb_readcnt }</h3>
    <div class="row">
      <div class="col-md-6 row justify-content-center">

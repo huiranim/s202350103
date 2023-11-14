@@ -195,7 +195,7 @@
 							<div id="navEvent" class="collapse " data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="/"> 이벤트목록 </a></li>
+										href="boEventList"> 이벤트목록 </a></li>
 									<!-- Nav item -->
 									<li class="nav-item "><a class="nav-link "
 										href="boAttendance"> 출석체크 등록 </a></li>

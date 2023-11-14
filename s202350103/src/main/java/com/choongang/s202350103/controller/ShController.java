@@ -16,7 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.AttJoin;
 	import com.choongang.s202350103.model.Attendance;
-	import com.choongang.s202350103.model.Quiz;
+import com.choongang.s202350103.model.PointList;
+import com.choongang.s202350103.model.Quiz;
 	import com.choongang.s202350103.model.QuizJoin;
 	import com.choongang.s202350103.shService.Paging;
 	import com.choongang.s202350103.shService.PointService;
@@ -221,7 +222,8 @@ import com.choongang.s202350103.model.AttJoin;
 			return "sh/boQuiz";
 		}
 		
-		@RequestMapping(value = "createQuiz")
+		//관리자 페이지 퀴즈이벤트 생성
+		@RequestMapping(value = "createQuiz", method=RequestMethod.GET)
 		public String createQuiz(int q_num, String q_title, String q_sdate, String q_edate, String q_image, int q_point, String q_question, String q_select1, String q_select2, String q_select3, String q_select4, int q_answer) {
 			System.out.println("PointController createQuiz() Start..");
 			Quiz quiz = new Quiz();
@@ -261,15 +263,53 @@ import com.choongang.s202350103.model.AttJoin;
 		    	attendance = ps.detailAttendance(eNum);
 		    	
 		    	model.addAttribute("attendance",attendance);
-		    	
+		    	model.addAttribute("eNum",eNum);
 		    	return "sh/boAttendancePopUp";
 		    } else {
 				Quiz quiz = new Quiz();
 				quiz = ps.detailQuiz(eNum);
 				
 				model.addAttribute("quiz",quiz);
-				
+				model.addAttribute("eNum",eNum);
 				return "sh/boQuizPopUp";
 		    }
+		}
+		
+		//관리자 페이지 퀴즈 이벤트 정보 수정
+		@ResponseBody
+		@RequestMapping(value = "updateQuiz")
+		public int updateQuiz(@RequestBody Quiz quiz) {
+			System.out.println("PointController updateQuiz() Start..");
+			int result = ps.updateQuiz(quiz);
+			return result;
+		}
+		//관리자 페이지 출석 이벤트 정보 수정
+		@ResponseBody
+		@RequestMapping(value = "updateAttendance")
+		public int updateAttendance(@RequestBody Attendance attendance) throws Exception {
+			System.out.println("PointController updateAttendance() Start..");
+			int result = ps.updateAttendance(attendance);
+			return result;
+		}
+		
+		@RequestMapping(value = "boSearchEvent")
+		public String boSearchEvent(@RequestParam("eNum") int eNum, @RequestParam("a_title") String a_title,Model model) {
+			System.out.println("PointController boSearchEvent() Start..");
+			Attendance attendance = new Attendance();
+			attendance.setA_num(eNum);
+			attendance.setA_title(a_title);
+			List<Attendance> boEventList = ps.searchEvent(attendance);
+			
+			model.addAttribute("event",attendance);
+			
+			return "forward:/boEventList";
+		}
+		
+		@RequestMapping(value="selectMemberPoint")
+		public String selectMemberPoint(@RequestParam("a_num") int a_num, Model model) {
+			System.out.println("PointController updateMemberPoint() Start...");
+			List<PointList> memberPointList = ps.selectMemberPoint(a_num);
+			
+			return "sh/boMemberPointList";
 		}
 }

@@ -6,4 +6,5 @@ public interface QuizDao {
 	int 		totalQuiz();
 	Quiz 		quiz(int eNum);
 	int 		createQuiz(Quiz quiz);
+	int 		updateQuiz(Quiz quiz);
 }

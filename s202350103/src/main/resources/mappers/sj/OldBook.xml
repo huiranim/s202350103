@@ -6,14 +6,17 @@
 
 	<select id="totObCnt" resultType="int">
 		SELECT Count(*) FROM oldbook
-	
 	</select>
 
 	<select id="totObCnt2" resultType="int">
 		SELECT Count(*) FROM oldbook
 		where ob_status = 3
 	</select>
-
+	
+	<select id="totNbCnt3" resultType="int">
+		SELECT Count(*) from newbook
+	</select>
+	
 	<select id="sjObListAll" resultType="OldBook" parameterType="OldBook">
 			     <![CDATA[
 				SELECT *
@@ -33,17 +36,13 @@
 	                           order by o.ob_num) a  
 				 )  
 		 		WHERE ob_status IN  3
-	
+		 		and ( rn >=  #{start}
+		 		and    rn <=  #{end})
+				
 	 	  ]]>	
 	
 	</select>
-	<select id="sjObSelOne" parameterType="int" resultType="OldBook">	        
-select * 
-   from  oldbook o , newbook n  
-   WHERE o.nb_num = n.nb_num
-    AND o.ob_num = #{ob_num}
-	</select>
-	
+
    <select id="sjObListAll2"   parameterType="OldBook"   resultType="OldBook">
 	     <![CDATA[
 				SELECT *
@@ -65,7 +64,13 @@ select *
 		 		and    rn <=  #{end}
 	 	  ]]>		
      </select>
-     	
+	<select id="sjObSelOne" parameterType="int" resultType="OldBook">	        
+	   select *
+	   from  oldbook o , newbook n  
+	   WHERE o.nb_num = n.nb_num
+	   AND o.ob_num = #{ob_num}
+	</select>
+
 	<update id="sjObUpdate"  parameterType="OldBook" >
 		UPDATE oldbook 
 		SET 
@@ -92,14 +97,23 @@ select *
 	</select>
 	
 	<select id="sjObMoListAll" parameterType="Oldbook" resultType="Oldbook">
-			SELECT nb_num, nb_title, nb_price,nb_writer,
-			nb_publisher ,nb_image, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date
-			From newbook
+		<![CDATA[
+		SELECT * 
+		FROM
+		(
+			SELECT rownum rn,  a.*
+			from (
+			 SELECT  nb_num, nb_title, nb_price, nb_writer,
+			nb_publisher , nb_image, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date
+			From newbook) a 
+			) 
+		WHERE rn BETWEEN #{start} and #{end}
+		 ]]>		
 	</select>
-	<select id="sjObSelNb" parameterType="int" resultType="OldBook">	        
-			SELECT nb_num, nb_title, nb_price, nb_writer,
+	<select id="sjObSelNb" parameterType="int" resultType="OldBook">
+			SELECT  nb_num, nb_title, nb_price, nb_writer,
 			nb_publisher , nb_image,TO_CHAR(nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date
-			From newbook
+			From newbook 
 			where nb_num = #{nb_num}
 	</select>
 	<update id="sjObUpdateComple"  parameterType="OldBook" >
@@ -108,9 +122,6 @@ select *
 			ob_status = #{ob_status}
 			WHERE ob_num =#{ob_num}
 	</update>
-
-
-
 
 
 </mapper>
