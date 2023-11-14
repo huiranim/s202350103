@@ -1,10 +1,14 @@
 package com.choongang.s202350103.controller;
 
-	import java.util.Calendar;
+	import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,13 +20,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.AttJoin;
 	import com.choongang.s202350103.model.Attendance;
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.Quiz;
 	import com.choongang.s202350103.model.QuizJoin;
 	import com.choongang.s202350103.shService.Paging;
 	import com.choongang.s202350103.shService.PointService;
+import com.choongang.s202350103.yjService.MemberService;
 
-	import lombok.RequiredArgsConstructor;
+import lombok.RequiredArgsConstructor;
 	import lombok.extern.slf4j.Slf4j;
 
 	@Controller
@@ -31,6 +37,7 @@ import com.choongang.s202350103.model.Quiz;
 	public class ShController {
 		
 		private final PointService ps;
+		private final MemberService ms;
 		
 		//fo
 		
@@ -128,24 +135,36 @@ import com.choongang.s202350103.model.Quiz;
 		@ResponseBody
 		@RequestMapping(value = "checkAddAtt")
 		public int checkAddAtt(@RequestParam("a_num") int a_num, @RequestParam("m_num") int m_num) {
-//			System.out.println("PointController addAtt() Start..");
-//			AttJoin attJoin = new AttJoin();
-//			attJoin.setA_num(a_num);
-//			attJoin.setM_num(m_num);
-//			ps.checkAddAtt(attJoin);	
+			System.out.println("PointController addAtt() Start..");
 			
 			AttJoin attJoin = new AttJoin();
 			attJoin.setA_num(a_num);
 			attJoin.setM_num(m_num);
-			int totalCount = ps.addAtt(attJoin);
-			if(totalCount == 3) {
+			
+			int result=0;
+			int add = ps.checkAddAtt(a_num);		// 연속출석 일자		
+			
+			for(int i = 0; i < add; i++) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.add(Calendar.DAY_OF_MONTH,-i);
+				Date checkTime = calendar.getTime();
+				attJoin.setA_par_pdate(checkTime);
+				int rowCount = ps.countAttRow(attJoin);
+				if(rowCount == 1) {
+					result = 1;
+					continue;
+				}else {
+					result = 0;
+					break;
+				}
+			}
+			if(result == 1) {
 				ps.stampAddAtt(attJoin);
 				ps.saveAddAtt(attJoin);
 				ps.searchAddAtt(attJoin);
-			} else {
-				totalCount = 0;
 			}
-			return totalCount;
+			return result;
+			
 		}
 				
 		//Quiz Page
@@ -306,10 +325,40 @@ import com.choongang.s202350103.model.Quiz;
 		}
 		
 		@RequestMapping(value="selectMemberPoint")
-		public String selectMemberPoint(@RequestParam("a_num") int a_num, Model model) {
-			System.out.println("PointController updateMemberPoint() Start...");
-			List<PointList> memberPointList = ps.selectMemberPoint(a_num);
-			
+		public String selectMemberPoint(@RequestParam int m_num, Model model) {
+			System.out.println("PointController selectMemberPoint() Start...");
+			List<PointList> memberPointList = ps.selectMemberPoint(m_num);
+			Member member = ms.memberInfo(m_num);
+			int sum = ps.pointSum(m_num);
+			System.out.println("memberPointList.size()->"+memberPointList.size());
+			model.addAttribute("memberPoint",memberPointList);
+			model.addAttribute("member",member);
+			model.addAttribute("sum",sum);
+			model.addAttribute("m_num",m_num);
 			return "sh/boMemberPointList";
+		}
+		
+		@RequestMapping(value = "boPlusPoint")
+		public String boPlusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+			System.out.println("PointController boPlusPoint() Start..");
+			Member member = new Member();
+			member.setM_num(m_num);
+			member.setM_point(point);
+			int insertPointList = ps.boInsertPlusPoint(member);
+			int updateResult = ps.boUpdatePlusPoint(member);
+			
+			return "redirect:/selectMemberPoint?m_num="+m_num;
+		}
+		
+		@RequestMapping(value = "boMinusPoint")
+		public String boMinusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+			System.out.println("PointController boMinusPoint() Start..");
+			Member member = new Member();
+			member.setM_num(m_num);
+			member.setM_point(point);
+			int insertPointList = ps.boInsertMinusPoint(member);
+			int updateResult = ps.boUpdateMinusPoint(member);
+			
+			return "redirect:/selectMemberPoint?m_num="+m_num;
 		}
 }

@@ -136,4 +136,16 @@ public class AttendanceDaoImpl implements AttendanceDao {
 		return boEventList;
 	}
 
+	@Override
+	public int checkAddAtt(int a_num) {
+		System.out.println("AttendanceDao checkAddAtt() Start..");
+		int addAtt = 0;
+		try {
+			addAtt = session.selectOne("shCheckAddAtt",a_num);
+		} catch (Exception e) {
+			System.out.println("AttendanceDao checkAddAtt() Exception->"+e.getMessage());
+		}
+		return addAtt;
+	}
+
 }

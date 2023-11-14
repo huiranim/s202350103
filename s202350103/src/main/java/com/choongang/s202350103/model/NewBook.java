@@ -32,9 +32,10 @@ public class NewBook {					// 새상품
 	private String orderType;		// 정렬기준
 	private String search_keyword;	// 검색어
 	private String search_type;		// 검색조건
+	private int  	totalPrice;    // 총 결제 금액
+	private int  	o_deliv_price; // 배송비
 	private String pageNum;			// 페이징번호
 	private int start;				// 페이징 시작번호
 	private int end;				// 페이징 종료번호
-	private int paymentType = 1;    // 1-> 바로 결제, 2-> 장바구니 결제 
 	
 }
