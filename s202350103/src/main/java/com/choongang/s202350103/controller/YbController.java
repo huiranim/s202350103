@@ -1,9 +1,7 @@
 package com.choongang.s202350103.controller;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -30,26 +28,38 @@ import com.choongang.s202350103.model.WishList;
 import com.choongang.s202350103.ybService.MemberService;
 import com.choongang.s202350103.ybService.Paging;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Controller
-@RequiredArgsConstructor
 @Slf4j
 public class YbController {
 	
 	private final MemberService ms;
 	private final HttpSession session;
 	private final JavaMailSender mailSender;
-	
-//	private Member getSession( Model model, Member member) {
-//		Member member1 = new Member();
-//		member = ms.login(member1);
-//		member =(Member) session.getAttribute("member");
-//		
-//		model.addAttribute("member", member);
-//		return member;
-//	}
+	final DefaultMessageService messageService; //  A
+
+	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender) {
+		this.ms = ms;
+		this.session = session;
+		this.mailSender = mailSender;
+		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
+	}
+	private Member getSession(Member member) {
+		Member member1 = new Member();
+		member = ms.login(member1);
+		member =(Member) session.getAttribute("member");
+
+		return member;
+	}
 	
 	// Main Page
 	@RequestMapping(value = "/")
@@ -350,7 +360,7 @@ public class YbController {
 								 @RequestParam("m_pw") String m_pw) { 
 		System.out.println("YbController memberWithdraw() start..."); 
 		member =(Member) session.getAttribute("member");
-			
+		
 		member = ms.memberWithdraw(member); 
 		session.removeAttribute("member"); 
 		session.invalidate(); // 세션 초기화
@@ -382,23 +392,27 @@ public class YbController {
     	
     	return String.valueOf(certiNum);
     }
+    
+    // 이메일 전송 내장 클래스
+    @Data
+	@AllArgsConstructor
+    class sendMailData {
+    	private String certiNum;
+    	private String m_email;
+    }
+    
 	// 이메일 전송
 	@SuppressWarnings("unused")
 	@ResponseBody
 	@RequestMapping(value = "/mailTransport")
-	public HashMap<String, Object> mailTransport(Model model, Member member, String memberMail) throws MessagingException {
+	public sendMailData mailTransport(Model model, String memberMail) throws MessagingException {
 		System.out.println("YbController mailTransport start...");
 		System.out.println("YbController mail memberMail -> " + memberMail); 
-		member = ms.findEmail(memberMail);
-		
-		System.out.println("YbController findMail member.getMail -> " + member.getM_email());
+		Member findEmail = ms.findEmail(memberMail);
 		String certiNum = null;
-		HashMap<String, Object> jsonMap = new HashMap<String, Object>();
-		if(member != null) {
-			String m_email = member.getM_email();
-			
-			if(memberMail.equals(m_email)) {
-				String tomail = member.getM_email();	// 받는 사람 email
+
+		if(findEmail!=null) {
+				String tomail = memberMail;	// 받는 사람 email
 				System.out.println("YbController mailTransport memberMail -> " + tomail);
 				String setfrom = "96dydqls@gmail.com";
 				String title = "DADOK 인증번호 입니다.";	// 제목
@@ -412,21 +426,16 @@ public class YbController {
 				messageHelper.setText("인증번호는 [ " + certiNum + " ]입니다." );	// 메일 내용
 				System.out.println("인증번호입니다." + certiNum);
 				mailSender.send(message);
-				
-				jsonMap.put("certiNum", certiNum);
-				jsonMap.put("m_email", m_email);
-				
-				model.addAttribute("m_email", m_email);
-				member =(Member) session.getAttribute("member");
-				
-			} else {
-				return jsonMap;
-			}
-			return jsonMap;
+			
+				model.addAttribute("memberMail", memberMail);
+					
+				return new sendMailData(certiNum, memberMail);
 		} else {
-			return jsonMap;
+
+			return new sendMailData(certiNum, memberMail);
 		}	
 	}
+	
 	// 인증번호 체크
 	@PostMapping(value = "certiNumChk") 
 	public String certiNumChk(Member member, Model model,
@@ -440,26 +449,43 @@ public class YbController {
 			
 			System.out.println("YbController certiNumChk Success! Change your Password.");
 			System.out.println("YbController certiNumChk m_email -> " + m_email);
+			model.addAttribute("m_email", m_email);
 			model.addAttribute("member", member);
-			return "yb/memberPwChange";
+			return "yb/memberPwChangeForm1";
 		} else {
 			System.out.println("YbController certiNumChk fail... try again!");
 			model.addAttribute("msg", "인증번호를 다시 입력해주세요");
 			return "yb/memberFindPwEmail";
 		}
-		
+	}
+	// 아이디 찾기 -> 인증 후 비밀번호 변경 페이지
+	@GetMapping(value = "memberPwChangeForm")
+	public String memberPwChangeForm(String m_num, Model model) {
+		System.out.println("YbController memberPwChangeForm() start..");
+
+		System.out.println("YbController memberPwChangeForm() member.m_num -> " + m_num);
+
+		model.addAttribute("m_num", m_num);
+		return "yb/memberPwChangeForm";
+	}
+	// 내장 클래스
+	@Data
+	@AllArgsConstructor
+	class Result {
+		private final String strResult;
 	}
 	
-	
+//	@RequestParam("m_email") String m_email
 	// 인증번호 성공 후 비밀번호 변경 페이지
 	@ResponseBody
 	@RequestMapping(value = "changePwChk")
-	public String changePwChk(Member member, @RequestParam("m_pw")  String m_pw,
-											 @RequestParam("m_pw2") String m_pw2) {
+	public Result changePwChk(Member member, @RequestParam("m_pw")  String m_pw,
+											 @RequestParam("m_pw2") String m_pw2
+											 ) {
 		System.out.println("YbController changePwChk() start..");
 		int result = 0;
-	
-		System.out.println("");
+		
+//		System.out.println("YbController changePwChk m_email -> " + m_email);
 		if(m_pw.equals(m_pw2) && m_pw.matches((("^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")))) {
 			result = 1;
 		} else if(m_pw.equals(m_pw2) && !m_pw.matches((("^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")))){
@@ -469,29 +495,130 @@ public class YbController {
 		}
 		String strResult = Integer.toString(result);
 
-		return strResult;
+		return new Result(strResult);
 	}
-	
-	// 인증 후 비밀번호 변경 페이지
-	@GetMapping(value = "memberPwChangeForm")
-	public String memberPwChangeForm(String m_num, Model model) {
-		System.out.println("YbController memberPwChangeForm() start..");
-		System.out.println("YbController memberPwChangeForm() member.m_num -> " + m_num);
-		model.addAttribute("m_num", m_num);
-		return "yb/memberPwChangeForm";
-	}
-	// 인증 후 비밀번호 변경 
+
+	// 아이디 찾기 -> 인증 후 비밀번호 변경 
 	@PostMapping(value = "memberPwChange")
 	public String memberPwChange(String m_num, String m_pw, Member member) {
 		System.out.println("YbController memberPwChange() start..");
 		System.out.println("YbController memberPwChange() m_num -> " + m_num);
 		System.out.println("YbController memberPwChange() m_pw -> " + m_pw);
-
 		Member memberPwChange = ms.memberPwChange(m_num, m_pw);
 		
 		session.removeAttribute("member"); 
 		session.invalidate(); // 세션 초기화
 		return "main"; 
+	}
+	
+	// 비밀번호 변경 -> email 인증 후 비밀번호 변경 
+	@PostMapping(value = "memberPwChange1")
+	public String memberPwChange1(Member member, @RequestParam("m_pw") String m_pw,
+												 @RequestParam("m_email") String m_email) {
+		System.out.println("YbController memberPwChange1() start..");
+		System.out.println("YbController memberPwChange1() m_num -> " + m_email);
+		System.out.println("YbController memberPwChange1() m_pw -> " + m_pw);
+		Member memberPwChange1 = ms.memberPwChange1(m_email, m_pw);
+		
+		session.removeAttribute("member"); 
+		session.invalidate(); // 세션 초기화
+		return "main"; 
+	}
+	// 비밀번호 변경 -> ph 인증 후 변경
+	@PostMapping(value = "memberPwChangeByPh")
+	public String memberPwChangeByPh(Member member, @RequestParam("m_pw") String m_pw,
+												 	@RequestParam("m_ph") String m_ph) {
+		System.out.println("YbController memberPwChangeByPh() start..");
+		System.out.println("YbController memberPwChangeByPh() m_num -> " + m_ph);
+		System.out.println("YbController memberPwChangeByPh() m_pw -> " + m_pw);
+		Member memberPwChangeByPh = ms.memberPwChangeByPh(m_ph, m_pw);
+		
+		session.removeAttribute("member"); 
+		session.invalidate(); // 세션 초기화
+		return "main"; 
+	}
+	// 전화번호 하이픈 - 추가 	
+	private String phoneHyphen(String m_ph) {
+		
+		StringBuilder phoneHyphen = new StringBuilder();
+		
+		int phLength = m_ph.length();
+		for(int i = 0; i < phLength; i++) {
+			// 전화번호의 마지막자리까지 인덱스 부여 
+			char digit = m_ph.charAt(i);
+			
+			// 전화번호에 하이픈을 추가할 위치 
+			if(i == 3 || i == 7) {
+				phoneHyphen.append('-');
+			}
+			phoneHyphen.append(digit);
+		}
+		return phoneHyphen.toString();
+	}
+	
+	// 내장 클래스
+	@Data
+	@AllArgsConstructor
+	class sendData {
+		private final String m_ph;
+		private final String certiNum;
+		private final Member memberFindPh;
+	}
+	
+	// 문자 통한 비밀번호 찾기
+	@ResponseBody
+	@RequestMapping(value = "/textTransport")
+	public sendData textTransport(String memberPh, Member member, Model model) {
+		
+		System.out.println("YbController textTransport() start..");
+		System.out.println("YbController textTransport() m_ph -> " + memberPh);
+		String phoneHyphen = phoneHyphen(memberPh);
+		
+		Member memberFindPh = ms.memberFindPh(phoneHyphen);
+		System.out.println("YbController textTransport memberFindPh -> " + memberFindPh);
+		String certiNum = null;
+
+		if(memberFindPh != null) {
+			Message message = new Message();
+			certiNum = certiNum();
+			System.out.println("YbController textTransport certiNum -> " + certiNum);
+			
+			message.setFrom("01024846106");
+			message.setTo(memberPh);
+			message.setText("[(주)DADOK] ["+certiNum+"] 인증번호를 정확히 입력해주세요.");
+			  
+			SingleMessageSentResponse response = 
+					this.messageService.sendOne(new SingleMessageSendingRequest(message)); 
+			System.out.println(response);
+			model.addAttribute("memberPh", memberPh);
+			
+			return new sendData(memberPh, certiNum, memberFindPh);
+		} else {
+			return new sendData(memberPh, certiNum, memberFindPh);
+		}
+	}
+	
+	// 인증번호 체크
+	@PostMapping(value = "phCertiNumChk") 
+	public String phCertiNumChk(Member member, Model model,
+											   @RequestParam("certiNum") String certiNum,
+											   @RequestParam("inputNum") String inputNum,
+											   @RequestParam("m_ph")  String m_ph) {
+		System.out.println("YbController phCertiNumChk() start..");
+		System.out.println("certiNum -> " + certiNum);
+		System.out.println("inputNum -> " + inputNum);
+		if(certiNum.equals(inputNum)) {
+			
+			System.out.println("YbController phCertiNumChk Success! Change your Password.");
+			System.out.println("YbController phCertiNumChk m_ph -> " + m_ph);
+			model.addAttribute("m_ph", m_ph);
+			model.addAttribute("member", member);
+			return "yb/memberPwChangeByPhForm";
+		} else {
+			System.out.println("YbController certiNumChk fail... try again!");
+			model.addAttribute("msg", "인증번호를 다시 입력해주세요");
+			return "yb/memberFindPwPh";
+		}
 	}
 	
 }

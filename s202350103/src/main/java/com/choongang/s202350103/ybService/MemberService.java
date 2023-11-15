@@ -40,6 +40,12 @@ public interface MemberService {
 
 	int 			memCount();
 
+	Member 			memberPwChange1(String m_email, String m_pw);
+
+	Member 			memberFindPh(String phoneHyphen);
+
+	Member 			memberPwChangeByPh(String m_ph, String m_pw);
+
 
 
 	
