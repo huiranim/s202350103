@@ -1,13 +1,21 @@
 package com.choongang.s202350103.controller;
 
-	import java.time.LocalDate;
+	import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
-	import org.springframework.stereotype.Controller;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.AttJoin;
@@ -212,28 +221,65 @@ import lombok.RequiredArgsConstructor;
 		
 		//bo
 		
+		private String uploadFile(String originalName, byte[] fileDate, String uploadPath) throws IOException {
+			//universally unique identifier(UUID)
+			UUID uid = UUID.randomUUID();
+			//requestPath = requestPath + "/resources/image";
+			System.out.println("uploadPath->"+uploadPath);
+			//Directory 생성
+			File fileDirectory = new File(uploadPath);
+			if (!fileDirectory.exists()) {
+				//신규폴더(Directory) 생성
+				fileDirectory.mkdir();
+				System.out.println("업로드용 폴더 생성 : "+uploadPath);
+			}
+			
+			String savedName = uid.toString()+"_"+originalName;
+			log.info("savedName : "+savedName);
+			File target = new File(uploadPath,savedName);
+			//File target = new File(uploadPath,savedName);
+			//FIle Upload --> uploadPath / UUID+_+originalName
+			FileCopyUtils.copy(fileDate, target);	//org.springframework.util.FileCopyUtils
+			
+			return savedName;
+		}
+		
 		@RequestMapping(value = "boAttendance")
 		public String boAttendance() {
 			return "sh/boAttendance";
 		}
 		
 		//관리자 페이지 출석이벤트 생성
-		@RequestMapping(value = "createAtt")
-		public String createAtt(@RequestParam("a_title") String a_title, @RequestParam("a_sdate")String a_sdate, @RequestParam("a_edate")String a_edate,
-				@RequestParam("a_image") String a_image, @RequestParam("a_point") int a_point, @RequestParam("a_add") int a_add, @RequestParam("a_addpoint") int a_addpoint ) {
+		@RequestMapping(value = "createAtt", method= RequestMethod.POST)
+		public String createAtt(@RequestParam("a_title") String a_title
+							   ,@RequestParam("a_sdate")String a_sdate
+							   ,@RequestParam("a_edate")String a_edate
+							   ,@RequestParam("a_point") int a_point
+							   ,@RequestParam("a_add") int a_add
+							   ,@RequestParam("a_addpoint") int a_addpoint
+							   ,HttpServletRequest request
+							   ,@RequestParam("file1") MultipartFile file1
+							   ,Model model) throws IOException {
 			System.out.println("PointController createAtt() Start..");
 			Attendance attendance = new Attendance();
 			attendance.setA_title(a_title);
 			attendance.setA_sdate(a_sdate);
 			attendance.setA_edate(a_edate);	
-			attendance.setA_image(a_image);
 			attendance.setA_point(a_point);
 			attendance.setA_add(a_add);
 			attendance.setA_addpoint(a_addpoint);
+			
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			System.out.println("PointController uploadPath->"+uploadPath);
+			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+			attendance.setA_image(savedName);
+			
 			// 생성 확인 용
 			int result = ps.createAtt(attendance);
 			
-			return	"redirect:/boAttendance";
+			model.addAttribute("result",result);
+
+			return	"redirect:/boEventList";
 		}
 		
 		@RequestMapping(value = "boQuiz")
@@ -242,14 +288,25 @@ import lombok.RequiredArgsConstructor;
 		}
 		
 		//관리자 페이지 퀴즈이벤트 생성
-		@RequestMapping(value = "createQuiz", method=RequestMethod.GET)
-		public String createQuiz(int q_num, String q_title, String q_sdate, String q_edate, String q_image, int q_point, String q_question, String q_select1, String q_select2, String q_select3, String q_select4, int q_answer) {
+		@RequestMapping(value = "createQuiz", method=RequestMethod.POST)
+		public String createQuiz(@RequestParam("q_title") 	String q_title
+								,@RequestParam("q_sdate") 	String q_sdate
+								,@RequestParam("q_edate") 	String q_edate
+								,@RequestParam("q_point") 	int q_point
+								,@RequestParam("q_question") String q_question
+								,@RequestParam("q_select1") String q_select1
+								,@RequestParam("q_select2") String q_select2
+								,@RequestParam("q_select3") String q_select3
+								,@RequestParam("q_select4") String q_select4
+								,@RequestParam("q_answer") 	int q_answer
+								, HttpServletRequest request
+								,@RequestParam("file1") MultipartFile file1
+							    ,Model model) throws IOException {
 			System.out.println("PointController createQuiz() Start..");
 			Quiz quiz = new Quiz();
 			quiz.setQ_title(q_title);;
 			quiz.setQ_sdate(q_sdate);
 			quiz.setQ_edate(q_edate);
-			quiz.setQ_image(q_image);
 			quiz.setQ_point(q_point);
 			quiz.setQ_question(q_question);
 			quiz.setQ_select1(q_select1);
@@ -258,8 +315,16 @@ import lombok.RequiredArgsConstructor;
 			quiz.setQ_select4(q_select4);
 			quiz.setQ_answer(q_answer);
 			
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			System.out.println("PointController uploadPath->"+uploadPath);
+			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+			quiz.setQ_image(savedName);
+			
 			int result = ps.createQuiz(quiz);
-			return "redirect:/boQuiz";
+			
+			model.addAttribute("result",result);
+			
+			return "redirect:/boEventList";
 	}
 		//관리자 페이지 이벤트 목록 
 		@RequestMapping(value = "boEventList")
@@ -305,9 +370,26 @@ import lombok.RequiredArgsConstructor;
 		//관리자 페이지 출석 이벤트 정보 수정
 		@ResponseBody
 		@RequestMapping(value = "updateAttendance")
-		public int updateAttendance(@RequestBody Attendance attendance) throws Exception {
+		public int updateAttendance(@RequestBody Attendance attendanceData,
+						            HttpServletRequest request,
+						            Model model) throws Exception {
 			System.out.println("PointController updateAttendance() Start..");
+			Attendance attendance = new Attendance();
+			attendance.setA_num(attendanceData.getA_num());
+			attendance.setA_title(attendanceData.getA_title());
+			attendance.setA_sdate(attendanceData.getA_sdate());
+			attendance.setA_edate(attendanceData.getA_edate());	
+			attendance.setA_point(attendanceData.getA_point());
+			attendance.setA_add(attendanceData.getA_add());
+			attendance.setA_addpoint(attendanceData.getA_addpoint());
+			
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			System.out.println("PointController uploadPath->"+uploadPath);
+			String savedName = uploadFile(attendanceData.getFile1().getOriginalFilename(), attendanceData.getFile1().getBytes(), uploadPath);
+			attendance.setA_image(savedName);
+			
 			int result = ps.updateAttendance(attendance);
+			
 			return result;
 		}
 		
@@ -360,5 +442,21 @@ import lombok.RequiredArgsConstructor;
 			int updateResult = ps.boUpdateMinusPoint(member);
 			
 			return "redirect:/selectMemberPoint?m_num="+m_num;
+		}
+		
+		@ResponseBody
+		@RequestMapping(value = "deleteAtt")
+		public int deleteAtt(@RequestParam("a_num") int a_num) {
+			System.out.println("PointController deleteAtt() start..");
+			int result = ps.deleteAtt(a_num);
+			return result;
+		}
+		
+		@ResponseBody
+		@RequestMapping(value = "deleteQuiz")
+		public int deleteQuiz(@RequestParam("q_num") int q_num) {
+			System.out.println("Pointcontroller deleteQuiz() Start...");
+			int result = ps.deleteQuiz(q_num);
+			return result;
 		}
 }

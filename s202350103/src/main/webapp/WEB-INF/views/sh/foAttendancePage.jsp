@@ -159,7 +159,7 @@
 			url : "/checkAddAtt",
 			data : {a_num:a_num, m_num:m_num},
 			dataType:"text",
-			success : function(totalCount){
+			success : function(result){
 				if(result == 1){
 					alert("3일 연속 출석 하셨습니다!");
 				}

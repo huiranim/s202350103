@@ -1,5 +1,7 @@
 package com.choongang.s202350103.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -24,4 +26,7 @@ public class Attendance {				//출석부
 	//페이징용(Paging)
 	private int start;
 	private int end;
+	
+	//이벤트 정보 수정용
+	private MultipartFile file1;
 }
