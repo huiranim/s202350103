@@ -33,7 +33,7 @@
  <div class="offset-lg-1 col-lg-10 col-12">
     <div class="mb-8">
        <!-- heading -->
-       <h1 class="h3">비밀번호 변경하기</h1>
+       <h1 class="h3">비밀번호 찾기</h1>
        <p class="lead mb-0"><a class="">가입 하신 본인명의 전화번호와 이메일 인증을 통하여 비밀번호를 변경하실 수 있습니다.</a>
        </p>
     </div>

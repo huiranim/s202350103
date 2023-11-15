@@ -51,6 +51,9 @@
 										<c:when test="${point.type1 == 3}"><span>퀴즈 적립</span></c:when>
 										<c:when test="${point.type1 == 4}"><span>회원가입 적립</span></c:when>
 										<c:when test="${point.type1 == 5}"><span>추천인 적립</span></c:when>
+										<c:when test="${point.type1 == 6}"><span>포인트 사용</span></c:when>
+										<c:when test="${point.type1 == 7}"><span>관리자에 의한 조정</span></c:when>
+										
 									</c:choose>
 								</h5>
 		                      </div>
@@ -59,16 +62,23 @@
 		                      <div>
 		                        <h5 class="fs-6 mb-0">
 			                      	<c:choose>
-											<c:when test="${point.title != null}"><span>${point.title }</span></c:when>
-											<c:when test="${point.type1 == 5}"><span>추천인 이벤트</span></c:when>
-											<c:when test="${point.type1 == 4}"><span>회원가입 축하~</span></c:when>
+										<c:when test="${point.title != null}"><span>${point.title }</span></c:when>
+										<c:when test="${point.type1 == 4}"><span>회원가입 축하~</span></c:when>
+										<c:when test="${point.type1 == 5}"><span>추천인 이벤트</span></c:when>
+										<c:when test="${point.type1 == 6}"><span>주문으로 인한 포인트 차감</span></c:when>
+										<c:when test="${point.type1 == 7}"><span>관리자에 의한 조정</span></c:when>
 									</c:choose>
 								</h5>
 		                      </div>
 		                    </td>
 		                    <td class="align-middle">
 		                      <div>
-		                        <h5 class="fs-6 mb-0">+${point.point }P</h5>
+		                        <h5 class="fs-6 mb-0">
+		                        	<c:choose>
+											<c:when test="${point.point > 0 }"><span>+${point.point }P</span></c:when>
+											<c:when test="${point.point < 0 }"><span>${point.point }P</span></c:when>
+									</c:choose>
+		                        </h5>
 		                      </div>
 		                    </td>
 		    				 <td class="align-middle">

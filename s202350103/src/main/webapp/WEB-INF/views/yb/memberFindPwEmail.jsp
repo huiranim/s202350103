@@ -13,7 +13,7 @@
 
 
 	function emailChk(m_email) {
-	    alert("인증번호 전송중... 잠시만 기다려주세요.");
+	    
 	    
 	    $.ajax({
 	       type:"get",
@@ -23,14 +23,16 @@
 	       success : function(strResult) {
 	    	   var jsonStr = JSON.stringify(strResult);
 	          alert('jsonStr -> '+jsonStr);
-	          if(jsonStr != null){
-	        	 alert(jsonStr);
-	        	 alert(jsonStr[0].certiNum);
+	          if(strResult['certiNum'] != null){
+	        	 alert("인증번호 전송중... 잠시만 기다려주세요.");
+	        	 alert(strResult['certiNum']);
+	        	 alert(strResult['m_email']);
 	             $('#msg').html("인증번호 전송 성공! 인증번호를 입력해주세요.");
 	             $('#msg').css("color", "red");
-	             $('input[name=certiNum]').attr('value',jsonStr[1].);
+	             $('input[name=certiNum]').attr('value',strResult['certiNum']);
+	             $('input[name=m_email]').attr('value',strResult['m_email']);
 	             return true;
-	          } else if (jsonStr == null){
+	          } else {
 	             alert("가입할때 사용하신 이메일을 입력해주세요.");
 	             $('#msg').html("가입할때 사용한 이메일을 입력해주세요.");
 	             $('#msg').css("color", "red");
@@ -40,8 +42,7 @@
 	       }
 	    });
 	 }
-	 
-	
+
 </script>
 
 
@@ -77,8 +78,8 @@
 					
 					<form action="certiNumChk" method="post">
 						<div class="mb-2">
-							<input type="hidden" name="certiNum" value="${certiNum }" >
-							<input type="text" name="m_email" value="${m_email }" >
+							<input type="hidden" name="certiNum" value="" >
+							<input type="hidden" name="m_email" value="" >
 							<input type="text" class="form-control"
 								 required placeholder="인증번호를 입력해주세요" name="inputNum" id="inputNum">
 						</div>

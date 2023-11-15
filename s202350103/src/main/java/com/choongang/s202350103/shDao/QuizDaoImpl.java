@@ -56,5 +56,17 @@ public class QuizDaoImpl implements QuizDao {
 		}
 		return result;
 	}
+
+	@Override
+	public int deleteQuiz(int q_num) {
+		System.out.println("QuizDao deleteQuiz() Start...");
+		int result = 0;
+		try {
+			result = session.delete("shDeleteQuiz",q_num);
+		} catch (Exception e) {
+			System.out.println("QuizDao deleteQuiz() Exception ->"+e.getMessage());
+		}
+		return result;
+	}
 	
 }
