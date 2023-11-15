@@ -56,7 +56,10 @@ function cart(pNb_num) {
 			
 			<c:forEach var="order" items="${memberMyOrder }">
 			
-			<fmt:formatDate value="${order.o_order_date }" pattern="yyyy. MM. dd"/>주문		  
+			<h4 class="mb-2"><a href="#" class="link-success">
+				<fmt:formatDate value="${order.o_order_date }" pattern="yyyy. MM. dd"/>&nbsp; 주문		  
+			</a></h4>
+				
 			<div class="card card-product mb-9">
 		        <div class="card-body mb-4 row align-items-center">
 
@@ -105,9 +108,9 @@ function cart(pNb_num) {
 	                        </c:choose>
 		                 </h1>
 		                 
-		                 <div class="text-small mb-1"><a href="#!" class="text-decoration-none text-muted"><small>
+		                 <div class="text-small mb-1"><small>
 		                 ${order.nb_writer }
-		                 </small></a>
+		                 </small>
 		                 </div>
 		                 
 		                 <h2 class="fs-6">
@@ -122,7 +125,7 @@ function cart(pNb_num) {
 
 						 <div class=" mt-3">
 		                    <div>
-		                    <button onclick="cart(${order.nb_num })" class="btn btn-primary">
+		                    <button onclick="cart(${order.nb_num })" class="btn btn-soft-primary">
 		                    		장바구니 
 		                    </button>
 			                 </div>
@@ -130,41 +133,39 @@ function cart(pNb_num) {
 		              	</div>
 		           </div>
 		           
-		             <div class="col-md-4 col-12">
-                       <div class="d-flex" style="height: 200px; background: #dfe2e1;">
-						   <div class="vr text-center"></div>
-						   
-						   <div class=" mt-3">
-						 	<h1 class="fs-6">${order.o_rec_name }</h1>
-						   </div>
-						   
-						 
-						  <div class=" mt-3">
-		                    <div>
-		                    <button onclick="cart(${order.nb_num })" class="btn btn-primary">
-		                    		장바구니 
-		                    </button>
-			                 </div>
+                       <div class="col-md-1 col-1 d-flex" style="height: 200px; color : #dfe2e1;">
+						   <div class="vr"></div><p>
 		                 </div>
+						
+						
+						 <div class="col-md-2">
+						 
+						   <div class="flex-column  text-center">
+		                   	
+		              	 	 <h2 class="fs-6" >
+								수령인
+			                 </h2>
+		                   		
+		              	 	 <h2 class="fs-5 mb-3" >
+								${order.o_rec_name }
+			                 </h2>
+
+							 	<p><a href="foOrderDetail?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-3">주문상세</a></p>
+                            	<p><a href="reviewForm?o_order_num=${order.o_order_num}"  class="btn btn-soft-success">리뷰작성</a></p>
 		                 
-		                  <div class=" mt-3">
-		                    <div>
-		                    <button onclick="cart(${order.nb_num })" class="btn btn-primary">
-		                    		장바구니 
-		                    </button>
-			                 </div>
-		                 </div>
-						 
+		                   </div> 
 						 
 						 </div>
-		           			
+		                   
 		                 
+					    
+	      		  
+	      		  
+				</div> 
 		           			
 		           			
-	      		  </div>
-       			 </div>
-				</div>
-			</c:forEach>
+			</div>
+		</c:forEach>
 
        </div>
     </div>
