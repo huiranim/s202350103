@@ -42,10 +42,10 @@ public class MemberDaoImpl implements MemberDao{
 		int memberJoinPointList = session.insert("memberJoinPointList", m_reid);
 		return memberJoinPointList;
 	}
-	// 회원가입 포인트
+	// 회원가입 포인트 이력에 insert
 	@Override
-	public int joinPoint(Member member) {
-		int joinPoint = session.insert("joinPoint", member);
+	public int joinPoint() {
+		int joinPoint = session.insert("joinPoint");
 		return joinPoint;
 	}
 	// 회원 상세 

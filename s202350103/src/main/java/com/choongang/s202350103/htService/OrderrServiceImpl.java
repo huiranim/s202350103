@@ -26,16 +26,16 @@ public class OrderrServiceImpl implements OrderrService {
 	}
 
 	@Override
-	public NewBook orderOne(NewBook newBook) {
+	public List<NewBook> orderOne(NewBook newBook) {
 		System.out.println("HtService orderOne Start...");
-		NewBook orderOne = od.orderOne(newBook);
+		List<NewBook> orderOne = od.orderOne(newBook);
 		return orderOne;
 	}
 
 	@Override
-	public List<Cart> orderList(Cart cart) {
+	public List<Cart> orderList(Cart cart, Member member) {
 		System.out.println("HtService orderList Start...");
-		List<Cart> orderList = od.orderList(cart);
+		List<Cart> orderList = od.orderList(cart, member);
 		return orderList;
 	}
 
