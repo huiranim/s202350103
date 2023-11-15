@@ -2,6 +2,7 @@ package com.choongang.s202350103.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.sjService.OldbookService;
 import com.choongang.s202350103.sjService.Paging;
@@ -112,8 +114,15 @@ public class SjController {
 	}
 	
 	@RequestMapping(value = "writeFormObReport" ,method = RequestMethod.GET )
-	public String writeFormObReport(OldBook oldBook,Model model) {
+	public String writeFormObReport(HttpSession session,Member member , OldBook oldBook,Model model) {
 		System.out.println("sjController writeFormObReport start...");
+		
+		//멤버값 불러오기 
+		member = (Member) session.getAttribute("member");
+		if(member != null) {
+			oldBook.setM_num(member.getM_num());
+		}
+		
 		
 		List<OldBook> oldbookList = obs.oldBookAcc();
 		model.addAttribute("oldBookAcc",oldbookList);
@@ -184,20 +193,20 @@ public class SjController {
 	}
 	
 	@GetMapping(value = "ModalList")
-	public String listMoOb(OldBook oldBook,String currentPage, Model model, String currentPage3) {
+	public String listMoOb(OldBook oldBook, Model model, String currentPage2) {
 		
 		System.out.println("SjController Start ");
 		
-		int totNbCnt3 = obs.totNbCnt3();
+		int totalNb = obs.totalNb();
 		//Paging 작업
-		PagingNb  page = new PagingNb(totNbCnt3, currentPage3);
+		PagingNb  page = new PagingNb(totalNb, currentPage2);
 		
 		oldBook.setStart(page.getStart());
 		oldBook.setEnd(page.getEnd());
 		
 		List<OldBook> listMoOb = obs.listMoOb(oldBook);
 		model.addAttribute("listMoOb" , listMoOb);
-		model.addAttribute("totNbCnt3", totNbCnt3);
+		model.addAttribute("totalNb", totalNb);
 		model.addAttribute("page" , page);
 		
 		

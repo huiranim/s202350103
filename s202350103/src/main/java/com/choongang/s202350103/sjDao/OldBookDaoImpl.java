@@ -45,17 +45,17 @@ public class OldBookDaoImpl implements OldBookDao {
 		return totObCount2;
 	}
 	@Override
-	public int totNbCnt3() {
-		int totNbCnt3 =0;
+	public int totalNb() {
+		int totNbCnt =0;
 		
 		System.out.println("OldBookDaoImpl start totNbCnt3 ");
 		try {
-			totNbCnt3 = session.selectOne("totNbCnt3");
-			System.out.println("OldBookDaoImpl totNbCnt3 totNbCnt3->"+ totNbCnt3);
+			totNbCnt = session.selectOne("totNbCnt");
+			System.out.println("OldBookDaoImpl totNbCnt3 totNbCnt3->"+ totNbCnt);
 		} catch (Exception e) {
 			System.out.println("OldBookDaoImpl totNbCnt3 Exception->"+e.getMessage());
 		}
-		return totNbCnt3;
+		return totNbCnt;
 	}
 	
 	

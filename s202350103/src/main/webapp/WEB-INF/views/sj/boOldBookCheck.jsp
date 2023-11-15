@@ -5,7 +5,9 @@
 <html>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
-		   function btnActive()  {
+
+
+		function btnActive()  {
 			  const target = document.getElementById('target_btn');
 			  target.disabled = false;
 			}
@@ -80,13 +82,13 @@
 			    
 			    //grade 값에 따른 등급 
 			    if(totalNum == '0'){
-			    	$("#totalSum1").val('A');
+			    	$("#totalSum1").html('A등급');
 			    } else if(totalNum == '1'){
-			    	$("#totalSum2").val('B');
+			    	$("#totalSum1").html('B등급');
 			    } else if(totalNum == '2'){
-			    	$("#totalSum3").val('C');
+			    	$("#totalSum1").html('C등급');
 			    } else if(totalNum == '3'){
-			    	$("#totalSum4").val('D');
+			    	$("#totalSum1").html('D등급');
 			    } else {
 			    	$("#totalSum5").val('kkk');
 			    }
@@ -111,16 +113,16 @@
 			    }
 			    	
 			    
-			    
-			    
+			
 			 	//calcul의 그릇  --> 리턴으로 value값 전달
 			 	$("#totalCalculVal").val(totalCalculVal);
-				
+			 	$("#totalCalculVal2").val(totalCalculVal);
 			    $("#totalCalculValSell").val(parseInt(totalCalculVal*1.1));
 			     
 			    const target = document.getElementById('target_btn');
 				  target.disabled = false;
-
+				
+				  
 			}
 </script>
 <head>
@@ -165,7 +167,7 @@
 			      </td>
 	       </tr>
 	     <tr>					
-	      <td rowspan="3"> 검수내역  </td>
+	      <td rowspan="3"> 검수내역 <input type="button" value="RESET" onclick="location.reload(true)" >    </td>
 		      <td>찢김</td>
 		      <td>
 		        <input class="form-check-input" type="checkbox" onclick="toggleChk(1)">
@@ -195,10 +197,12 @@
       <td colspan="2">
        		 	<input type="hidden" name="ob_grade" id="totalSum" value="0" >
    		 	<div>
-      		 	<input type="button" class="btn btn-ghost-secondary mb-2" 		id="totalSum1" value="" >
+      		
+      		<div id="totalSum1"></div>
+      		<!--  	<input type="button" class="btn btn-ghost-secondary mb-2" 		id="totalSum1" value="" >
       		 	<input type="button" 	class="btn btn-ghost-secondary mb-2" 	id="totalSum2" value="" >
       		 	<input type="button" class="btn btn-ghost-secondary mb-2" 		id="totalSum3" value="" >
-      		 	<input type="button"	class="btn btn-ghost-secondary mb-2"	id="totalSum4" value="" >
+      		 	<input type="button"	class="btn btn-ghost-secondary mb-2"	id="totalSum4" value="" > -->
    		 	</div>
 
 	<%-- 	 	<c:set var="grade" id="totalSum" value=""></c:set>
@@ -217,13 +221,14 @@
 		  <!--      <input type="button"  class="btn btn-dark mb-2" value="정산가격 계산" onclick="togglecalcul()"> -->
 		 <td colspan="2">
 		   		 	<input type="hidden"  name="ob_pur_price" id="totalCalculVal" value="0" > 
-      		 		<input type="hidden"  name="ob_sell_price" id="totalCalculValSell" value=""> 
-      		 	<div>	
-      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum6"> 
-      		 	 <input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum7">
-      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum8">
-      		 	 <input type="button"	class="btn btn-ghost-secondary mb-2"   id="totalSum9"> 
-				 </div>
+      		 		<input type="hidden"  name="ob_sell_price" id="totalCalculValSell" value="0"> 
+      		 	<div >	
+      		 <input type="text"   disabled="disabled"  id="totalCalculVal2" style="border: none; background: transparent; width: 45px;"/>원
+	      	<!-- 	 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum6"> 
+	      		 	 <input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum7">
+	      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum8">
+	      		 	 <input type="button"	class="btn btn-ghost-secondary mb-2"   id="totalSum9">  -->
+			</div>
 		 <!-- 위에서 이미 if 돌렸음   -->
 	<%--       <c:choose>
 			<c:when test="${# eq '0'}"  > <c:out value="${oldBook.nb_price *0.6 }"/>원 </c:when>

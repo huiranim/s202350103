@@ -34,10 +34,10 @@ public class OldBook {					//중고상품
 	private String  nb_isbn;			// ISBN
 	private int 	nb_page;			// 쪽수
 	private String  nb_size;			// 책 크기
-	private int nb_category1;
-	private int nb_category2;
-	
-	
+	private int 	nb_category1;		//카테고리
+	private int 	nb_category2;		//카테고리
+	private String	m_name;				//회원이름
+	private String	m_id; 				//회원아이디
 	
 	//페이지 , 검색용
 	private String search;   	private String keyword;
