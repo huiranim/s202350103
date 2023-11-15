@@ -15,8 +15,8 @@ public interface MemberService {
 	int memberJoinPoint(String m_reid);
 	// 추천인 포인트 리스트 Insert
 	int memberJoinPointList(String m_reid);
-	// 회원가입 포인트
-	int joinPoint(Member member);
+	// 회원가입 포인트 이력에 insert
+	int joinPoint();
 	// 회원 상세 
 	Member memberInfo(int m_num);
 	// 회원정보 수정

@@ -20,10 +20,11 @@ public interface NewBookDao {
 	int 			insertCart(Cart cart);
 	int 			updateCartCount(Cart cart);
 	void 			deleteCart(Cart cart);
-	List<NewBook> selectSearchBoNewBookList(NewBook newbook);
-	NewBook selectBoNewBookDetail(NewBook newbook);
-	int updateBoNewbook(NewBook newbook);
-	List<NewBook> selectBoNewBookList(NewBook newbook);
-	int deleteBoNewbook(int nb_num);
-	int insertBoNewbook(NewBook newbook);
+	List<NewBook> 	selectSearchBoNewBookList(NewBook newbook);
+	NewBook 		selectBoNewBookDetail(NewBook newbook);
+	int 			updateBoNewbook(NewBook newbook);
+	List<NewBook> 	selectBoNewBookList(NewBook newbook);
+	int 			deleteBoNewbook(int nb_num);
+	int 			insertBoNewbook(NewBook newbook);
+	NewBook 		selectRecentBookList(int nb_num); 
 } 

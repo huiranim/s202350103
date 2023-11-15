@@ -48,16 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HtController {
 	private final OrderrService os;
 	private final ReviewService rs;
-//
-//	@RequestMapping("/orderTotal")
-//	public String test(Model model) {
-//		System.out.println("Controller Start...");
-//		int total = os.orderTotal();
-//		model.addAttribute("total", total);
-//		System.out.println("Controller test() orderTotal--> " + total);
-//		return "/ht/foOrderForm";
-//	}
-//	
+
 	@Data
 	@AllArgsConstructor
 	class Result<T>{ 
@@ -329,7 +320,7 @@ public class HtController {
 	// 결제 폼
 	 @RequestMapping("/orderForm")
 	 public String orderForm(Model model, HttpSession session, Member member, NewBook newBook, Cart cart, int paymentType) {
-		System.out.println("Controller Start orderForm kkk...");
+		System.out.println("Controller Start orderForm ...");
 		int totalPrice = 0;
 		
 		// 로그인한 멤버 값 불러오기
@@ -342,7 +333,7 @@ public class HtController {
 		String[] splitPh   = member.getM_ph().split("-");
 		String[] splitAddr = member.getM_addr().split("/");
 		
-		System.out.println("newBook.getNb_num kkk--> "+ newBook.getNb_num());
+		System.out.println("newBook.getNb_num --> "+ newBook.getNb_num());
 		System.out.println("paymentType--> "+ paymentType);
 		
 		// paymentType 1--> 바로결제, 2--> 장바구니 결제
