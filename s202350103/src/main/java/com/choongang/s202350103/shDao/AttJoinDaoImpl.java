@@ -35,7 +35,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		try {
 			dateList = session.selectList("shSubDate",attJoin);
 		} catch (Exception e) {
-			System.out.println("AttJoinDaoImpl subDate() Exception ->"+e.getMessage());
+			System.out.println("AttJoinDao subDate() Exception ->"+e.getMessage());
 		}
 		return dateList;
 	}
@@ -68,7 +68,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		try {
 			chance = session.selectOne("shAttChance",attJoin);
 		} catch (Exception e) {
-			System.out.println("AttendanceImpl checkChance() Exception->"+e.getMessage());
+			System.out.println("AttJoinDao checkChance() Exception->"+e.getMessage());
 		}
 		return chance;
 	}
@@ -78,7 +78,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		try {
 			session.insert("shAttPointList",attJoin);
 		} catch (Exception e) {
-			System.out.println("AttendanceImpl checkChance() Exception->"+e.getMessage());
+			System.out.println("AttJoinDao checkChance() Exception->"+e.getMessage());
 		}
 	}
 
@@ -87,7 +87,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		try {
 			attJoin = session.selectOne("shSearchAtt",attJoin);
 		} catch (Exception e) {
-			System.out.println("AttendanceImpl searchAtt() Exception->"+e.getMessage());
+			System.out.println("AttJoinDao searchAtt() Exception->"+e.getMessage());
 		}
 		return attJoin;
 	}
@@ -99,7 +99,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		try {
 			count = session.selectOne("shAddAtt",attJoin);
 		} catch (Exception e) {
-			System.out.println("AttendanceImpl addAtt() Exception->"+e.getMessage());
+			System.out.println("AttJoinDao addAtt() Exception->"+e.getMessage());
 		}
 		return count;
 	}
@@ -110,7 +110,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		try {
 			session.insert("shStampAddAtt",attJoin);
 		} catch (Exception e) {
-			System.out.println("AttendanceImpl stampAddAtt() Exception->"+e.getMessage());
+			System.out.println("AttJoinDao stampAddAtt() Exception->"+e.getMessage());
 		}
 	}
 	
@@ -120,7 +120,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		try {
 			session.update("shSaveAddAtt",attJoin);
 		} catch (Exception e) {
-			System.out.println("AttendanceImpl saveAddAtt() Exception->"+e.getMessage());
+			System.out.println("AttJoinDao saveAddAtt() Exception->"+e.getMessage());
 		}
 	}
 
@@ -130,7 +130,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		try {
 			session.insert("shSearchAddAtt",attJoin);
 		} catch (Exception e) {
-			System.out.println("AttendanceImpl searchAddAtt() Exception->"+e.getMessage());
+			System.out.println("AttJoinDao searchAddAtt() Exception->"+e.getMessage());
 		}
 	}
 
@@ -153,7 +153,7 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		try {
 			rowCount = session.selectOne("shCountAttRow",attJoin);
 		} catch (Exception e) {
-			System.out.println("AttendanceImpl countAttRow() Exception->"+e.getMessage());
+			System.out.println("AttJoinDao countAttRow() Exception->"+e.getMessage());
 		}
 		return rowCount;
 	}

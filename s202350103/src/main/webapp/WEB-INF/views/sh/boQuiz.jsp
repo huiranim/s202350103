@@ -9,10 +9,10 @@
 </head>
 <body>
 	<h1>Quiz 이벤트</h1>
-	<form action="updateQuiz">
+	<form action="createQuiz" enctype="multipart/form-data" method="post">
 		이벤트 이름 : <input type="text" name="q_title" required="required">						<p>
 		이벤트 기간 : <input type="date" name="q_sdate" required="required">~<input type="date" name="q_edate" required="required"><p>
-		사진 등록 :  <input type="file" name="q_image" required="required">						<p>
+		사진 등록 :  <input type="file" name="file1" required="required">						<p>
 		출석 혜택지급 : 지급 포인트 :	<input type="number" name="q_point" required="required">point	<p>
 		질문<br/>
 		<textarea name="q_question" required="required"></textarea>							<p>

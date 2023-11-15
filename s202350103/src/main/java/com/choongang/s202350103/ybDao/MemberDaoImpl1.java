@@ -185,6 +185,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		
 	}
+	// 중고책 판매 리스트
 	@Override
 	public List<OldBook> oldBookSellList(OldBook oldbook) {
 		System.out.println("MemberDaoImpl1 oldBookSellList() start...");
@@ -200,6 +201,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return oldBookSellList;
 	}
+	// 회원 이메일 
 	@Override
 	public Member findEmail(String memberMail) {
 		System.out.println("MemberDaoImpl1 findEmail() start...");
@@ -218,6 +220,7 @@ public class MemberDaoImpl1 implements MemberDao {
 			return member;
 		}
 	}
+	//  
 	@Override
 	public int memberPwUpdate(String m_pw, Member member) {
 		System.out.println("MemberDaoImpl1 memberPwUpdate() start...");
@@ -262,6 +265,54 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return memCount;
 	}
+	@Override
+	public Member memberPwChange1(String m_email, String m_pw) {
+		System.out.println("MemberDaoImpl1 memberPwChange1() start...");
+		Member memberPwChange1 = null;
+		try {
+			System.out.println("MemberDaoImpl1 memberPwChange1() m_num -> " + m_email);
+			System.out.println("MemberDaoImpl1 memberPwChange1() m_pw -> " + m_pw);
+			HashMap<String, Object> mapUpdate = new HashMap<>();
+			mapUpdate.put("m_email", m_email);
+			mapUpdate.put("m_pw", m_pw);
+			
+			memberPwChange1 = session.selectOne("ybMemberPwUpdate2", mapUpdate);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberPwChange1() Exception -> " + e.getMessage());
+		}
+		return memberPwChange1;
+	}
+	@Override
+	public Member memberFindPh(String phoneHyphen) {
+		System.out.println("MemberDaoImpl1 memberFindPh() start...");
+		Member memberFindPh = null;
+		try {
+			System.out.println("MemberDaoImpl1 memberFindPh() phoneHyphen -> " + phoneHyphen);
+			memberFindPh = session.selectOne("ybMemberFindPh", phoneHyphen);
+			System.out.println("MemberDaoImpl1 memberFindPh() memberFindPh -> " + memberFindPh);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberFindPh() Exception -> " + e.getMessage());
+		}
+		return memberFindPh;
+	}
+	@Override
+	public Member memberPwChangeByPh(String m_ph, String m_pw) {
+		System.out.println("MemberDaoImpl1 memberPwChangeByPh() start...");
+		Member memberPwChangeByPh = null;
+		try {
+			System.out.println("MemberDaoImpl1 memberPwChangeByPh() m_ph -> " + m_ph);
+			System.out.println("MemberDaoImpl1 memberPwChangeByPh() m_pw -> " + m_pw);
+			HashMap<String, Object> mapUpdate = new HashMap<>();
+			mapUpdate.put("m_ph", m_ph);
+			mapUpdate.put("m_pw", m_pw);
+			
+			memberPwChangeByPh = session.selectOne("ybMemberPwChangeByPh", mapUpdate);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberPwChangeByPh() Exception -> " + e.getMessage());
+		}
+		return memberPwChangeByPh;
+	}
+
 }
 	
 
