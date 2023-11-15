@@ -43,8 +43,8 @@
 		</select> 
  
 
-  <input type="number" name="ob_trans_num" class="form-control" placeholder="운송장 번호를 입력해주세요" 
-    required="required" aria-label="Text input with dropdown button">
+  <input type="text" name="ob_trans_num" maxlength="12" pattern="[0-9]+" class="form-control" placeholder="운송장 번호를 입력해주세요" 
+    required="required" aria-label="Text input with dropdown button" oninvalid="this.setCustomValidity('숫자만 입력하세요')">
  </div> 
  
 <br>

@@ -148,4 +148,16 @@ public class AttendanceDaoImpl implements AttendanceDao {
 		return addAtt;
 	}
 
+	@Override
+	public int deleteAtt(int a_num) {
+		System.out.println("AttendanceDao deleteAtt() Start...");
+		int result = 0;
+		try {
+			result = session.delete("shDeleteAtt",a_num);
+		} catch (Exception e) {
+			System.out.println("AttendanceDao deleteAtt() Exception ->"+e.getMessage());
+		}
+		return result;
+	}
+
 }

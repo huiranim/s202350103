@@ -42,8 +42,8 @@
  
 
 	<input type="hidden" name="ob_status" value="1">
-  <input type="number" name="ob_acc_num" class="form-control" placeholder="계좌 번호를 입력해주세요" 
-  required="required" aria-label="Text input with dropdown button">
+  <input type="text" name="ob_acc_num"  maxlength="12" pattern="[0-9]+" class="form-control" placeholder="계좌 번호를 입력해주세요" 
+  required="required" oninvalid="this.setCustomValidity('숫자만 입력하세요')" aria-label="Text input with dropdown button">
  </div> 
  
  <br>

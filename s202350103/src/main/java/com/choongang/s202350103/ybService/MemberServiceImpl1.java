@@ -144,7 +144,7 @@ public class MemberServiceImpl1 implements MemberService {
 			return null;
 		}	
 	}
-
+	// 회원 비밀번호 수정
 	@Override
 	public int memberPwUpdate(String m_pw, Member member) {
 		System.out.println("MemberServiceImpl1 memberPwUpdate start...");
@@ -155,7 +155,7 @@ public class MemberServiceImpl1 implements MemberService {
 		int memberPwUpdate = md.memberPwUpdate(m_pw, member);	
 		return memberPwUpdate;
 	}
-
+	// 회원 비밀번호 변경
 	@Override
 	public Member memberPwChange(String m_num, String m_pw) {
 		System.out.println("MemberServiceImpl1 memberPwChange start...");
@@ -164,13 +164,38 @@ public class MemberServiceImpl1 implements MemberService {
 		Member memberPwChange = md.memberPwChange(m_num, m_pw);
 		return memberPwChange;
 	}
-
+	// 
 	@Override
 	public int memCount() {
 		System.out.println("MemberServiceImpl1 memCount start...");
 		int memCount = md.memCount();
 		
 		return memCount;
+	}
+	// 회원 비밀번호 변경
+	@Override
+	public Member memberPwChange1(String m_email, String m_pw) {
+		System.out.println("MemberServiceImpl1 memberPwChange start...");
+		System.out.println("MemberServiceImpl1 memberPwChange() m_num -> " + m_email);
+		System.out.println("MemberServiceImpl1 memberPwChange() m_pw -> " + m_pw);
+		Member memberPwChange1 = md.memberPwChange1(m_email, m_pw);
+		return memberPwChange1;
+	}
+	// 회원 핸드폰 번호 찾기
+	@Override
+	public Member memberFindPh(String phoneHyphen) {
+		System.out.println("MemberServiceImpl1 memberFindPh start...");
+		Member memberFindPh = md.memberFindPh(phoneHyphen);
+		return memberFindPh;
+	}
+
+	@Override
+	public Member memberPwChangeByPh(String m_ph, String m_pw) {
+		System.out.println("MemberServiceImpl1 memberPwChangeByPh start...");
+		System.out.println("MemberServiceImpl1 memberPwChangeByPh() m_ph -> " + m_ph);
+		System.out.println("MemberServiceImpl1 memberPwChangeByPh() m_pw -> " + m_pw);
+		Member memberPwChangeByPh = md.memberPwChangeByPh(m_ph, m_pw);
+		return memberPwChangeByPh;
 	}
 
 	

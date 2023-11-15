@@ -26,9 +26,10 @@
 	                 <tr>  
 		                    <th class="border-0">신청일자</th>
 		                    <th class="border-0">매입 번호</th>
+		                    <th class="border-0">신청자 명 </th>
 		                    <th class="border-0 text-center" >중고 상품</th>
 		                    <th class="border-0">매입상태</th>
-		                    <th class="border-0 text-center">검수/등록하기</th>
+		                    <th class="border-0 text-center">검수하기/상세보기</th>
 	                 </tr>
 	              </thead>
 	              <c:forEach var="oldBook" items="${listOb }">
@@ -41,6 +42,9 @@
 	                    </td>
 	                    <td class="align-middle">
 	                      ${oldBook.ob_num }
+	                    </td>
+	                    <td class="align-middle">
+	                    	${oldBook.m_name }
 	                    </td>
 	                    <td class="align-middle">
 	                    
@@ -59,8 +63,7 @@
 	                    <td class="align-middle">
 		      			 <c:choose>
 							<c:when test="${oldBook.ob_status eq '1' }"><c:out value=""/>
-									<input type="button" class="btn btn-soft-success mb-2" value="검수하기" name="ob_num" onclick="location.href='BoupdateObDetailCheck?ob_num=${oldBook.ob_num}'">								
-									<input type="button" class="btn btn-soft-success mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+									<input type="button" class="btn btn-soft-success mb-2" value="검수하기" name="ob_num" onclick="location.href='BoupdateObDetailCheck?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:when test="${oldBook.ob_status eq '2' }"><c:out value=""/>
 									<input type="button" class="btn btn-soft-success mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
@@ -81,9 +84,8 @@
 		</table>
 		<hr>		
 <c:set var="num" value="${num - 1 }"></c:set>		
-		 <nav aria-label="Page navigation example">
+		 <nav >
 		  <ul class="pagination justify-content-center">
-
 			 	<c:if test="${page.startPage > page.pageBlock }">
 					 <li class="pagination justify-content-center">					
 						<a class="page-link" href="BolistOb?currentPage=${page.startPage-page.pageBlock}">이전</a>
