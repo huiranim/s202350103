@@ -5,6 +5,34 @@
 
 <!DOCTYPE html>
 <html>
+<script type="text/javascript">
+
+function cart(pNb_num) {
+	var m_num = '${member.m_num}';
+	$.ajax({
+		url : "/cart/cartclick",
+		data : {nb_num : pNb_num},
+		dataType : 'text',
+		success : function(data){
+			if (data == '0') {
+				if(confirm("장바구니에 이미 등록된 상품입니다. \n장바구니로 이동하시겠습니까?")){
+					location.href = "memberCartList?m_num"+m_num;
+				}
+			} 
+			else if(data == '1') {
+				if(confirm("장바구니에 등록되었습니다. \n장바구니로 이동하시겠습니까?")){
+					location.href = "memberCartList?m_num"+m_num;
+				}
+			} 
+			else {
+				location.href = data ;
+			}
+		}
+	});
+}
+
+</script>
+
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -22,95 +50,131 @@
          <p><a href="#">${member.m_id } 님의 주문 목록입니다.</a></p>
          <p>총 주문 건수 : ${totalOrderCnt }</p>
       </div>
-      <div>
-         <!-- table -->
-         <div class="table-responsive">
-            <table class="table text-nowrap">
-               <thead class="table-light">
-                  <tr>
-                     <th>주문일자 </th>
-                     <th>수령인</th>
-                     <th></th>
-                     <th>내용</th>
-                  
-                  </tr>
-               </thead>
-                <tbody>
-    				<c:forEach items="${memberMyOrder }" var="myOrder">
-	    				<tr class="align-middle">
-							<td><fmt:formatDate value="${myOrder.o_order_date }" pattern="yyyy-MM-dd"/></td>	     					
-		                    <td>${myOrder.o_rec_name }</td>	     					
-	                       
-	                       <td class="align-middle">
-                       			<img src="${myOrder.nb_image }" style="width: 80px;" alt="썸네일">
-	   	                  </td>
+      
+  <div class="card">
+       <div class="card-body p-6">
+			
+			<c:forEach var="order" items="${memberMyOrder }">
+			
+			<fmt:formatDate value="${order.o_order_date }" pattern="yyyy. MM. dd"/>주문		  
+			<div class="card card-product mb-9">
+		        <div class="card-body mb-4 row align-items-center">
 
-	                       <td class="align-middle">
-	                	        <div>
-    	                    	<h5 class="fs-6 mb-0">
-    	                    		<a href="#" class="text-inherit">${myOrder.nb_title } <small>( ${myOrder.nb_writer } )</small></a>
-    	                    	</h5><p>
-			        	        	        결제 금액 : 
-		        	        	        <mark><small style="font-size: 18px;">
-	        	            	   			<fmt:formatNumber value="${myOrder.o_pay_price }" pattern="#,###" />원
-			        	                </small></mark><p>
-            	        	    	   <p>배송상태 : 
-				                        <c:choose>
+		              <div class="col-md-4 col-12">
+		                 <div class="text-center position-relative ">
 
-			                        	    <c:when test="${myOrder.o_status == 0}">
-								               <span>주문접수</span>
-				                            </c:when>
-				                            
-                         				     <c:when test="${myOrder.o_status == 1}">
-								               <span>주문확정</span>
-				                            </c:when>
-				                            
-				                            <c:when test="${myOrder.o_status == 2}">
-	                        		         	<span style="color: red;">배송중</span>
-				                            </c:when>
-				                            
-				                            <c:when test="${myOrder.o_status == 3}">
-								               <span><strong>배송완료</strong></span>
-				                            </c:when>
-				                            
-				                            <c:when test="${myOrder.o_status == 4}">
-								               <span><strong>구매확정</strong></span>
-				                            </c:when>
-				                            
-				                            <c:when test="${myOrder.o_status == 5}">
-								               <span style="color: gray;">취소</span>
-				                            </c:when>
-				                            
-				                            <c:when test="${myOrder.o_status == 6}">
-								               <span>교환</span>
-				                            </c:when>
-				                            
-				                            <c:when test="${myOrder.o_status == 7}">
-	                        		         	<span>반품</span>
-				                            </c:when>
+		                      <img src="${order.nb_image }" alt="썸네일" class="mb-3 img-fluid" width="130px" height="150px">
+		                 </div>
+		              </div>
 
-				                        </c:choose>
-				                        
-				                        <p></p>
-				                        <a href="foOrderDetail?o_order_num=${myOrder.o_order_num}"  class="btn btn-soft-success mb-2">상세조회</a>
-				                        <a href="reviewForm?o_order_num=${myOrder.o_order_num}"  class="btn btn-soft-success mb-2">리뷰작성</a>
-				                        
-            	        	    	</div>
-                	   		  </td>
-								     				
-	     				</tr>
-	     			
-    				</c:forEach>
-     			
-     			</tbody>
- 
- 
- 			  </table>
- 			  
-		   </div>
-		 </div>
+		              <div class="col-md-4 col-12">
+		                 
+		                 <h1 class="fs-5">
+							 <c:choose>
+	                       	    <c:when test="${order.o_status == 0}">
+					               <span>주문접수</span>
+	                            </c:when>
+	                            
+	                     	    <c:when test="${order.o_status == 1}">
+					               <span>주문확정</span>
+	                            </c:when>
+	                            
+	                            <c:when test="${order.o_status == 2}">
+	                     			<span style="color: red;">배송중</span>
+	                            </c:when>
+	                            
+	                            <c:when test="${order.o_status == 3}">
+					               <span>배송완료</span>
+	                            </c:when>
+	                            
+	                            <c:when test="${order.o_status == 4}">
+					               <span>구매확정</span>
+	                            </c:when>
+	                            
+	                            <c:when test="${order.o_status == 5}">
+					               <span style="color: gray;">취소</span>
+	                            </c:when>
+	                            
+	                            <c:when test="${order.o_status == 6}">
+					               <span>교환</span>
+	                            </c:when>
+	                            
+	                            <c:when test="${order.o_status == 7}">
+	                     		   <span>반품</span>
+	                            </c:when>
+	                        </c:choose>
+		                 </h1>
+		                 
+		                 <div class="text-small mb-1"><a href="#!" class="text-decoration-none text-muted"><small>
+		                 ${order.nb_writer }
+		                 </small></a>
+		                 </div>
+		                 
+		                 <h2 class="fs-6">
+							${order.nb_title }
+		                 </h2>
+		                 
+		                 <div class=" mt-3">
+		                    <div><span class="text-dark">
+		                    <fmt:formatNumber value="${order.o_pay_price }" pattern="#,###" />원
+		                    </span> 
+		                    </div>
+
+						 <div class=" mt-3">
+		                    <div>
+		                    <button onclick="cart(${order.nb_num })" class="btn btn-primary">
+		                    		장바구니 
+		                    </button>
+			                 </div>
+		                 </div>
+		              	</div>
+		           </div>
+		           
+		             <div class="col-md-4 col-12">
+                       <div class="d-flex" style="height: 200px; background: #dfe2e1;">
+						   <div class="vr text-center"></div>
+						   
+						   <div class=" mt-3">
+						 	<h1 class="fs-6">${order.o_rec_name }</h1>
+						   </div>
+						   
+						 
+						  <div class=" mt-3">
+		                    <div>
+		                    <button onclick="cart(${order.nb_num })" class="btn btn-primary">
+		                    		장바구니 
+		                    </button>
+			                 </div>
+		                 </div>
+		                 
+		                  <div class=" mt-3">
+		                    <div>
+		                    <button onclick="cart(${order.nb_num })" class="btn btn-primary">
+		                    		장바구니 
+		                    </button>
+			                 </div>
+		                 </div>
+						 
+						 
+						 </div>
+		           			
+		                 
+		           			
+		           			
+	      		  </div>
+       			 </div>
+				</div>
+			</c:forEach>
+
+       </div>
+    </div>
+
+
+
+
+
 	 </div>
- </div> <p></p>
+  </div><p></p>
 
 <nav aria-label="Page navigation example">
 	  <ul class="pagination justify-content-center">

@@ -516,6 +516,8 @@ public class YjController {
 		  return "yj/memberMyOrder";
 	  }
 	  
+	  
+	  
 	  // 관리자-회원 전체 조회
 	  @GetMapping("adminMemberList")
 	  public String adminMemberList(Member member, String currentPage, Model model ) {
@@ -817,15 +819,16 @@ public class YjController {
 	  @GetMapping("memberSearch")
 	  public String memberSearch(Member member, String currentPage, Model model, HttpServletRequest request) {
 		  
+
 		  // 전체회원 count
 		  int totalMember = ms.memberSearchCnt(member);
 		  
 		  System.out.println(totalMember);
-		  		  // 페이징
+		  // 페이징
 		  Paging page = new Paging(totalMember, currentPage);
 		  member.setStart(page.getStart());
 		  member.setEnd(page.getEnd());
-		 
+		  
 		  List<Member> adminMemberSearch = ms.adminMemberSearch(member);
 		  
 		  model.addAttribute("totalMember",totalMember);
