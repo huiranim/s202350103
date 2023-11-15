@@ -167,7 +167,7 @@
               <label class="form-label" for="o_point"> 사용 포인트  (보유 : <fmt:formatNumber value="${member.m_point }" groupingUsed="true"/>원)</label>
               <span class="text-danger" id="pointMsg" ></span>
               <input type="text" id="o_point" class="form-control" name="o_point"
-              		 onchange="changeChk(o_point.value)">
+              		 onchange="changeChk(o_point.value)" value="0">
             </div>
 				
             <p><p><hr><p><p>
@@ -225,7 +225,7 @@
 
 <!-- hidden value -->
 <input type="hidden" name="m_num" value="${member.m_num }"> 
-<input type="hidden" name="o_pay_price" value="" id="o_pay_price_val"> <!-- ajax 통해 삽입 -->
+<input type="hidden" name="o_pay_price" value="${newbook.nb_price * quantity + o_deliv_price}" id="o_pay_price_val"> <!-- ajax 통해 삽입 -->
 <input type="hidden" name="nb_num" value="${newbook.nb_num }"> 
 <input type="hidden" name="o_de_count" value="${quantity}"> 
 

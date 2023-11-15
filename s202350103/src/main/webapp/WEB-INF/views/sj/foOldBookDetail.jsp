@@ -109,7 +109,7 @@
 		       <div class="input-group input-spinner" >
 		       	  <!-- 수량 선택 버튼 -->
 		          <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
-		          <input id="c_count" type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" style="height: 42px;width: 40px;">
+		          <input id="c_count" type="number" min="1" step="1"  max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" style="height: 42px;width: 40px;">
 		          <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
 				  <div class="g-2 align-items-center">
 				     <div style="margin-left: 15px;">
@@ -221,15 +221,13 @@
             <div class="tab-pane fade" id="reviews-tab-pane" role="tabpanel" aria-labelledby="reviews-tab" tabindex="0">
               <div class="my-8">
                 <!-- row -->
-                <div class="row">
-					<%@ include file="../ht/boProductReviewList.jsp" %>
-					</div>
-                </div>
+            
               </div>
             </div>
             </div>
           </div>
         </div>
+</div>
 
     </div>
 </body>

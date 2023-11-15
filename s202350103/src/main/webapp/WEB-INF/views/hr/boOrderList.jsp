@@ -9,10 +9,43 @@
 <title>Insert title here</title>
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
-		$('input[name="checkBox"]:checked').each(function(index){
-			var value += $(this).val() + ", ";
-			alert(value);
-		});
+		// 체크박스 checked 확인용
+		function cbChecked(index) {
+			$('input[name="checkBox"]:checked').each(function(){
+				alert($('#o_order_num'+index).val());
+			});
+		}
+		
+		// 발송처리 (1 -> 2)
+		function statusShipping() {
+			alert("체크 수 : " + $('input[name="checkBox"]:checked').length);
+			
+			// 체크 수 = 1일 때만 동작
+			if($('input[name="checkBox"]:checked').length == 1){
+				// 체크된 row의 o_order_num GET
+				//var o_order_num = $('input[name="checkBox"]:checked').val();
+				//alert("statusShipping o_order_num -> "+o_order_num);
+				
+				// 체크된 row의 index GET
+				$('input[name="checkBox"]:checked').each(function(){
+					//alert("statusShipping o_order_num -> "+$(this).val);
+					alert("statusShipping index -> "+$(this).getIndex());
+				});
+				
+				// 
+				/* if($('#o_status'+index).val() == 1) {
+					window.open("/boShippingPopup?o_order_num="+$('#o_order_num'+index).val(),
+								"발송처리",
+								"width=500 height=400");
+				} else {
+					alert('주문접수 상태일 때만 발송 처리 가능합니다.');
+				} */
+			} else {
+				
+				alert("발송처리는 1건씩 가능합니다.");
+			}
+		}
+
 	</script>
 </head>
 <body>
@@ -27,13 +60,13 @@
          <!-- table -->
   			<!-- Button -->
   			<div class="order-operating-buttons">
-	  			<button type="button" class="btn btn-success mb-2">발송</button>
-	  			<button type="button" class="btn btn-success mb-2">배송완료</button>
-	  			<button type="button" class="btn btn-success mb-2">구매확정</button>
-	  			<button type="button" class="btn btn-success mb-2">취소</button>
-	  			<button type="button" class="btn btn-success mb-2">교환</button>
-	  			<button type="button" class="btn btn-success mb-2">반품</button>
-  			</div>
+              <input type="button" class="btn btn-success mb-2" value="발송"    onclick="statusShipping()">
+              <input type="button" class="btn btn-success mb-2" value="배송완료" onclick="statusDelivered(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="구매확정" onclick="statusConfirmation(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="취소"    onclick="statusCancellation(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="교환"    onclick="statusExchange(${orderr.o_order_num})">
+              <input type="button" class="btn btn-success mb-2" value="반품"    onclick="statusReturn(${orderr.o_order_num})">
+   			</div>
          <div class="table-responsive">
          	<c:set var="num" value="${page.total-page.start+1 }"></c:set>
             <table class="table text-nowrap">
@@ -63,9 +96,8 @@
                      <td class="align-middle">
                         <!-- form check -->
                         <div class="form-check">
-                            <!-- input --><input class="form-check-input" type="checkbox" value="" id="check${status.index }" name="checkBox">
-                            <!-- label --><label class="form-check-label" for="chechboxTwo">
-                            </label>
+                            <!-- input --><input class="form-check-input" type="checkbox" value="${orderr.o_order_num}" id="check${status.index }" name="checkBox" onclick="cbChecked(${status.index })">
+                            <!-- label --><label class="form-check-label" for="chechboxTwo"></label>
                         </div>
                      </td>
                      <!-- No. -->
@@ -87,6 +119,7 @@
                      	<c:if test="${orderr.o_status == 5}">취소</c:if>
                      	<c:if test="${orderr.o_status == 6}">교환</c:if>
                      	<c:if test="${orderr.o_status == 7}">반품</c:if>
+                        <input type="hidden" id="o_status${status.index }" value="${orderr.o_status}">
                      </td>
                      <!-- 주문일시 -->
                      <td class="align-middle"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>

@@ -25,11 +25,9 @@
 </script>
 <body>
 	<div class="tbody">
-		<h1>${member.m_num}</h1>
-		
 			<c:forEach var="event" items="${eventList }">
 					<div class="tr" style="border: 1px solid black; margin-bottom: 30px;">
-						<span>${event.a_image }</span>
+						<span><img src="${pageContext.request.contextPath}/upload/${event.a_image}" onclick="eventClick('${member.m_num}',${event.a_num})"" width="500" height="200"></span>
 						<span>
 							<span>${event.a_title }</span>
 							<span>${event.a_sdate }~${event.a_edate }</span>
