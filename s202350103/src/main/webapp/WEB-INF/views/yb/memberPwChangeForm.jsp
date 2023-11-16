@@ -12,6 +12,8 @@
 		border: 0px;
 		background: none;
 	}
+	
+	#passwordSave {display: none;}
 </style>
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
@@ -34,17 +36,17 @@
             if(strResult['strResult'] == 1) {
 				$('#msg').html("비밀번호가 일치합니다.");
 				$('#msg').css("color", "#0aad0a");
-				$('#passwordSave').attr("disabled", false);
+				$('#passwordSave').css("display", "block").prop("disabled", false);
             } else if(strResult['strResult'] == 2) {
             	$('#msg').html("비밀번호는 영문, 숫자, 특수문자 조합으로 8자에서 20자 사이여야 합니다. 다시 입력해주세요");
 				$('#msg').css("color", "red");
 				$('#m_pw2').val('');
-				$('#passwordSave').attr("disabled", true);
+				$('#passwordSave').css("display", "none").prop("disabled", true);
             } else if(strResult['strResult'] == 0){
             	$('#msg').html("비밀번호가 일치하지 않습니다. 다시 입력해주세요");
 				$('#msg').css("color", "red");
 				$('#m_pw2').val('');
-				$('#passwordSave').attr("disabled", true);
+				$('#passwordSave').css("display", "none").prop("disabled", true);
             }
          }
          

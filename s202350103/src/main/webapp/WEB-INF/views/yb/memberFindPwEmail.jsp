@@ -8,6 +8,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	#certiChk {
+		display: none;
+	}
+	#inputNum {
+		display: none;
+	}
+</style>
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
 
@@ -21,8 +29,7 @@
 	       data : {memberMail : m_email},
 	       dataType : 'json',
 	       success : function(strResult) {
-	    	   var jsonStr = JSON.stringify(strResult);
-	          alert('jsonStr -> '+jsonStr);
+	    	  var jsonStr = JSON.stringify(strResult);
 	          if(strResult['certiNum'] != null){
 	        	 alert("인증번호 전송중... 잠시만 기다려주세요.");
 	        	 alert(strResult['certiNum']);
@@ -31,17 +38,23 @@
 	             $('#msg').css("color", "red");
 	             $('input[name=certiNum]').attr('value',strResult['certiNum']);
 	             $('input[name=m_email]').attr('value',strResult['m_email']);
+	             $('#certiChk').css("display", "block").prop("disabled", false);
+	             $('#inputNum').css("display", "block");
 	             return true;
 	          } else {
 	             alert("가입할때 사용하신 이메일을 입력해주세요.");
 	             $('#msg').html("가입할때 사용한 이메일을 입력해주세요.");
 	             $('#msg').css("color", "red");
 	             $('#m_email').val('');
+	             $('#certiChk').css("display", "none").prop("disabled", true);
+	             $('#inputNum').css("display", "none");
 				 return false;
 	          } 
 	       }
 	    });
 	 }
+	
+
 
 </script>
 
@@ -71,7 +84,7 @@
 					<div id="msg" style="text-align: center"></div>
 			
 					<div class="d-grid mb-8" >
-						<button class="btn btn-primary" onclick="emailChk(m_email.value)">
+						<button class="btn btn-primary" onclick="emailChk(m_email.value)" >
 						인증 메일발송
 						</button>
 					</div>
@@ -86,7 +99,8 @@
 					
 						
 						<div class="d-grid mb-8" >
-							<input type="submit" name="numChk" value="인증번호 확인" class="btn btn-primary">
+							<input type="submit" name="numChk" value="인증번호 확인" class="btn btn-primary" 
+								   id="certiChk" disabled="true" >
 						</div>
                     </form>
 					<div class="mt-4">
