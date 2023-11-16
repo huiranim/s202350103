@@ -229,11 +229,11 @@ public class NewBookDaoImpl implements NewBookDao {
 	}
 
 	@Override
-	public NewBook selectRecentBookList(int nb_num) {
+	public NewBook selectRecentBookList(int book_num) {
 		System.out.println("NewBookDaoImpl selectRecentBookList Start...");
 		NewBook recentBook = null;
 		try {
-			recentBook = session.selectOne("gbselectBoNewBookDetail", nb_num);
+			recentBook = session.selectOne("gbSelectRecentBookList", book_num);
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectRecentBookList -> "+e.getMessage());
 		}

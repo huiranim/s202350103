@@ -53,14 +53,35 @@ function cart(pNb_num) {
       
   <div class="card">
        <div class="card-body p-6">
+       
+       		<!-- 1. 주문일 내림차순 order by 정렬   -->
+			<!-- 2. 이전 주문일 초기화 -->
+			<c:set var="absolOrderDate" value=""/>
 			
 			<c:forEach var="order" items="${memberMyOrder }">
 			
-			<h4 class="mb-2"><a href="#" class="link-success">
-				<fmt:formatDate value="${order.o_order_date }" pattern="yyyy. MM. dd"/>&nbsp; 주문		  
-			</a></h4>
+			<!-- 3. 새로운 주문시작시 주문일 표시 -->
+			<c:if test="${!order.o_order_date.equals(absolOrderDate) }">
+			
+				<h4 class="mb-1"><a href="#" class="link-success">
+					<fmt:formatDate value="${order.o_order_date }" pattern="yyyy. MM. dd"/>&nbsp; 주문		  
+				</a></h4>
 				
-			<div class="card card-product mb-9">
+			  	<span style="float: right; margin-right: 20px; font: bold;" class="mb-3">
+	         	 <a href="#" class="link-success">주문상세보기
+	         	 <i class="bi bi-arrow-right-short"></i>
+	         	 </a>
+	    	   </span>
+	   			  
+	   			  <div style="clear: both;"></div>
+				
+				<!-- 현재 주문일을 이전 주문일로  -->
+				<c:set var="absolOrderDate" value="${order.o_order_date }"/>
+	
+			</c:if>
+			
+			<!-- 주문정보 -->				
+			<div class="card card-product mb-6">
 		        <div class="card-body mb-4 row align-items-center">
 
 		              <div class="col-md-4 col-12">
@@ -150,7 +171,7 @@ function cart(pNb_num) {
 								${order.o_rec_name }
 			                 </h2>
 
-							 	<p><a href="foOrderDetail?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-3">주문상세</a></p>
+							 	<p><a href="foOrderDetail?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-3">상세보기</a></p>
                             	<p><a href="reviewForm?o_order_num=${order.o_order_num}"  class="btn btn-soft-success">리뷰작성</a></p>
 		                 
 		                   </div> 
