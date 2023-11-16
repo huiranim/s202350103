@@ -105,7 +105,7 @@ public class NewBookDaoImpl implements NewBookDao {
 		
 		try {
 			hit_nb_num = session.selectList("gbSelectHitNbNum");
-			System.out.println("NewBookDaoImpl selectNewBookDetail hit_nb_num->"+hit_nb_num);
+			// System.out.println("NewBookDaoImpl selectNewBookDetail hit_nb_num->"+hit_nb_num);
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectHitNbNum -> "+e.getMessage());
 		}

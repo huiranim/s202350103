@@ -510,8 +510,8 @@
 	</delete>
 	
 	<insert id="gbInsertBoNewbook" parameterType="NewBook">
-		INSERT INTO newbook VALUES(newbook_nb_num_seq.nextval, #{nb_title}, #{nb_summary}, #{nb_price}, #{nb_writer}, #{nb_publisher},
-		#{nb_publi_date}, #{nb_isbn}, #{nb_page}, #{nb_size}, #{nb_category1}, #{nb_category2}, #{nb_image}, 0, sysdate)
+		INSERT INTO newbook VALUES(newbook_nb_num_seq.nextval, #{nb_title}, #{nb_price}, #{nb_writer}, #{nb_publisher},
+		#{nb_publi_date}, #{nb_isbn}, #{nb_page}, #{nb_size}, #{nb_category1}, #{nb_category2}, #{nb_image}, 0, sysdate, #{nb_summary})
 	</insert>
 	
 	<select id="gbSelectRecentBookList" parameterType="int" resultType="NewBook">

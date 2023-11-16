@@ -83,7 +83,7 @@ public class GbController {
 		// 카테고리별 최대 조회수 도서 상품 리스트 구하기
 		List<NewBook> hitList = nbs.selectHitNbNum();
 		// newbook.setHit_nb_num(hit_nb_num);
-		System.out.println("hitList -> "+hitList);
+		// System.out.println("hitList -> "+hitList);
 		
 		// 다독 전체 최대 조회수 도서 상품 리스트
 		int hitBook1 = nbs.selectAllHitNbNum();
