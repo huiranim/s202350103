@@ -28,40 +28,48 @@
 	
  
  <script type="text/javascript">
- 	function updateAtt(){
-		alert("updateAttendance start..");
-		var attendanceForm = $("#attendanceForm");
-		var attendanceData = {
-				a_num	  :	parseInt(attendanceForm.find("input[name='a_num']").val(),10),
-				a_title	  :	attendanceForm.find("input[name='a_title']").val(),
-				a_sdate	  :	attendanceForm.find("input[name='a_sdate']").val(),
-				a_edate   :	attendanceForm.find("input[name='a_edate']").val(),
-				file1     : attendanceForm.find("input[name='file1']").val(),
-				a_point	  :	parseInt(attendanceForm.find("input[name='a_point']").val(),10),
-				a_add	  :	parseInt(attendanceForm.find("input[name='a_add']").val(),10),
-				a_addpoint: parseInt(attendanceForm.find("input[name='a_addpoint']").val(),10)
-		};
-		
-		
-		alert(JSON.stringify(attendanceData));
-		
-		$.ajax({
-			url:"updateAttendance",
-			data:JSON.stringify(attendanceData),
-			contentType:"application/json",
-			type: "POST",
-			success: function(result){
-				if (result == 1){
-					if(confirm("수정 성공, 창을 닫으시겠습니까?")){
-					alert("수정 성공");	
-					window.close();
-					}
-				}else{
-					alert("수정 실패");
-					return false;
-				}
-			}
-		});
+ function updateAtt() {
+	    alert("updateAttendance start..");
+	    var attendanceForm = $("#attendanceForm");
+	    
+	    // 파일이 선택되었는지 여부 확인
+	    var fileInput = attendanceForm.find("input[name='file1']");
+	    var isFileSelected = fileInput[0].files.length > 0;
+
+	    // 파일 정보 설정
+	    var fileValue = isFileSelected ? fileInput.val() : null;
+
+	    var attendanceData = {
+	        a_num: parseInt(attendanceForm.find("input[name='a_num']").val(), 10),
+	        a_title: attendanceForm.find("input[name='a_title']").val(),
+	        a_sdate: attendanceForm.find("input[name='a_sdate']").val(),
+	        a_edate: attendanceForm.find("input[name='a_edate']").val(),
+	        file1: fileValue,
+	        a_point: parseInt(attendanceForm.find("input[name='a_point']").val(), 10),
+	        a_add: parseInt(attendanceForm.find("input[name='a_add']").val(), 10),
+	        a_addpoint: parseInt(attendanceForm.find("input[name='a_addpoint']").val(), 10),
+	        a_image: "${attendance.a_image}" // 기존 값 가져오기
+	    };
+
+	    alert(JSON.stringify(attendanceData));
+
+	    $.ajax({
+	        url: "updateAttendance",
+	        data: JSON.stringify(attendanceData),
+	        contentType: "application/json",
+	        type: "POST",
+	        success: function (result) {
+	            if (result == 1) {
+	                if (confirm("수정 성공, 창을 닫으시겠습니까?")) {
+	                    alert("수정 성공");
+	                    window.close();
+	                }
+	            } else {
+	                alert("수정 실패");
+	                return false;
+	            }
+	        }
+	    });
 	}
 	
 	function deleteAtt(p_a_num, p_a_title){
