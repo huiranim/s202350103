@@ -120,7 +120,9 @@
 			nb_publisher , nb_image, TO_CHAR(nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date
 			From newbook) a 
 			) 
-		WHERE rn BETWEEN #{start} and #{end}
+		WHERE rn >= #{start}
+		and   rn <= #{end}
+ 					
 		 ]]>		
 	</select>
 	<select id="sjObSelNb" parameterType="int" resultType="OldBook">

@@ -48,12 +48,12 @@ public class OldBookDaoImpl implements OldBookDao {
 	public int totalNb() {
 		int totNbCnt =0;
 		
-		System.out.println("OldBookDaoImpl start totNbCnt3 ");
+		System.out.println("OldBookDaoImpl start totNbCnt ");
 		try {
 			totNbCnt = session.selectOne("totNbCnt");
-			System.out.println("OldBookDaoImpl totNbCnt3 totNbCnt3->"+ totNbCnt);
+			System.out.println("OldBookDaoImpl totNbCnt totNbCnt->"+ totNbCnt);
 		} catch (Exception e) {
-			System.out.println("OldBookDaoImpl totNbCnt3 Exception->"+e.getMessage());
+			System.out.println("OldBookDaoImpl totNbCnt Exception->"+e.getMessage());
 		}
 		return totNbCnt;
 	}

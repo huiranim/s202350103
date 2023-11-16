@@ -84,7 +84,7 @@
 		</table>
 		<hr>		
 <c:set var="num" value="${num - 1 }"></c:set>		
-		 <nav >
+		
 		  <ul class="pagination justify-content-center">
 			 	<c:if test="${page.startPage > page.pageBlock }">
 					 <li class="pagination justify-content-center">					
@@ -104,7 +104,7 @@
 					</li>
 				</c:if>
 		</ul>
-	</nav>
+
 						 <div class="d-grid gap-2">
 					    <button class="btn btn-soft-success mb-2" type="submit" onclick="location.href='index'">메인화면가기</button>
 					</div>	
