@@ -110,6 +110,7 @@
 	<select id="memberMyOrder" resultType="Member" parameterType="int">
 		
 			select ord.o_order_num,
+				   ord.m_num,
 			       ord.o_order_date,
 			       ord.o_rec_name,
 			       ord.o_pay_price,
