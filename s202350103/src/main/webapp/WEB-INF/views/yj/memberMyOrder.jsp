@@ -54,17 +54,10 @@ function cart(pNb_num) {
   <div class="card">
        <div class="card-body p-6">
        
-       		<!-- 1. 주문일 내림차순 order by 정렬   -->
-			<!-- 2. 이전 주문일 초기화 -->
-			<c:set var="absolOrderDate" value=""/>
-			
-			<c:forEach var="order" items="${memberMyOrder }">
-			
-			<!-- 3. 새로운 주문시작시 주문일 표시 -->
-			<c:if test="${!order.o_order_date.equals(absolOrderDate) }">
+			<c:forEach var="orderDate" items="${orderNumGroups.keySet() }">
 			
 				<h4 class="mb-1"><a href="#" class="link-success">
-					<fmt:formatDate value="${order.o_order_date }" pattern="yyyy. MM. dd"/>&nbsp; 주문		  
+					${orderDate }&nbsp; 주문		  
 				</a></h4>
 				
 			  	<span style="float: right; margin-right: 20px; font: bold;" class="mb-3">
@@ -72,14 +65,12 @@ function cart(pNb_num) {
 	         	 <i class="bi bi-arrow-right-short"></i>
 	         	 </a>
 	    	   </span>
+	    	   
 	   			  
 	   			  <div style="clear: both;"></div>
 				
-				<!-- 현재 주문일을 이전 주문일로  -->
-				<c:set var="absolOrderDate" value="${order.o_order_date }"/>
-	
-			</c:if>
-			
+			<c:forEach var="order" items="${orderNumGroups[orderDate] }">
+					
 			<!-- 주문정보 -->				
 			<div class="card card-product mb-6">
 		        <div class="card-body mb-4 row align-items-center">
@@ -186,6 +177,7 @@ function cart(pNb_num) {
 		           			
 		           			
 			</div>
+			</c:forEach>
 		</c:forEach>
 
        </div>

@@ -174,6 +174,7 @@
 <br><br>
 
 <!-- 페이징 처리 -->
+<c:set var="num" value="${num - 1 }"></c:set>
 	 <nav aria-label="Page navigation example">
 		  <ul class="pagination justify-content-center">
 
