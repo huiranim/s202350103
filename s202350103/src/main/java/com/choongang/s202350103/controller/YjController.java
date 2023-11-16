@@ -630,17 +630,17 @@ public class YjController {
 		  //LinkedHashMap  맵의 키-값 쌍 을 유지 시켜 삽입 순서 보장 -> 키와 값을 순서대로 유지하고 순서기반 접근
 		  Map<String, List<Member>> orderNumGroups = new LinkedHashMap<>();
 		  
-		  
 		  for(Member member : memberMyOrder) {
 			  String orderDate = formatDate(member.getO_order_date());
-			  if(!orderNumGroups.containsKey(orderDate)) {
-				  orderNumGroups.put(orderDate, new ArrayList<Member>());
+			  String orderNum = String.valueOf(member.getO_order_num());
+
+			  if(!orderNumGroups.containsKey(orderNum)) {
+				  orderNumGroups.put(orderNum, new ArrayList<Member>());
 			  }
-			  orderNumGroups.get(orderDate).add(member);
+			  orderNumGroups.get(orderNum).add(member);
 		  }
 
 		  System.out.println(orderNumGroups);
-		  
 		  
 		  int totalOrderCnt = ms.totalOrderCnt(m_num);
 			
