@@ -119,40 +119,62 @@ public class SjController {
 		
 		//멤버값 불러오기 
 		member = (Member) session.getAttribute("member");
-		if(member != null) {
+		if(member == null) {
+			return "yb/loginForm";
+		}else {
 			oldBook.setM_num(member.getM_num());
+			oldBook.setM_id(member.getM_id());
+			oldBook.setM_name(member.getM_name());
 		}
 		
+		System.out.println("member getM_num() ->"+member.getM_num());
+		System.out.println("member getM_id() ->"+member.getM_id());
+		System.out.println("member getM_name() ->"+member.getM_name());
 		
 		List<OldBook> oldbookList = obs.oldBookAcc();
 		model.addAttribute("oldBookAcc",oldbookList);
+		model.addAttribute("member", member);
+		model.addAttribute("oldBook",oldBook);
 		
 		return "sj/foObReport";
 	}
 	
 	@RequestMapping(value = "writeFormObCal" ,method = RequestMethod.POST )
-	public String writeFormObCal(OldBook oldBook,Model model) {
+	public String writeFormObCal(HttpSession session,Member member ,OldBook oldBook,Model model) {
 		System.out.println("sjController writeFormObCal start...");
+		member = (Member) session.getAttribute("member");
 		
 		List<OldBook> oldbookList = obs.oldBookAcc();
 		model.addAttribute("oldBookAcc",oldbookList);
+		model.addAttribute("member", member);
+		model.addAttribute("oldBook",oldBook);
 		System.out.println("sjController writeFormObCal oldbookList.size()->"+oldbookList.size());
+		System.out.println("member getM_num() ->"+member.getM_num());
+		System.out.println("member getM_id() ->"+member.getM_id());
+		System.out.println("member getM_name() ->"+member.getM_name());
 		
 		return "sj/foObCalcul";
 	}
 	
 	@RequestMapping(value = "writeFormObTrans" , method = RequestMethod.POST )
-	public String writeFormObTrans(OldBook oldBook, Model model) {
+	public String writeFormObTrans(HttpSession session,Member member ,OldBook oldBook, Model model) {
 		System.out.println("sjController writeFormObTrans start...");
 		
+		
+		member = (Member) session.getAttribute("member");
 		List<OldBook> oldbookList = obs.oldBookAcc();
 		model.addAttribute("oldBookAcc",oldbookList);
+		model.addAttribute("member", member);
+		model.addAttribute("oldBook",oldBook);
 		System.out.println("sjController writeFormObTrans oldBook.getOb_acc_num()->"+oldBook.getOb_acc_num());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_acc_name()->"+oldBook.getOb_acc_name());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_report_date()->"+oldBook.getOb_report_date());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_num()->"+oldBook.getOb_num());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_trans_com()->"+oldBook.getOb_trans_com());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_trans_num()->"+oldBook.getOb_trans_num());
+		System.out.println("member getM_num() ->"+member.getM_num());
+		System.out.println("member getM_id() ->"+member.getM_id());
+		System.out.println("member getM_name() ->"+member.getM_name());
 		
 		return "sj/foObTrans";
 	}
@@ -177,12 +199,17 @@ public class SjController {
 	 */
 	
 	@PostMapping(value = "writeOb")
-	public String writeOb(OldBook oldBook, Model model) {
+	public String writeOb(HttpSession session,Member member ,OldBook oldBook, Model model) {
 		System.out.println("sjController start writeOb...");
+		
+		
+		member = (Member) session.getAttribute("member");
 		
 		int insertResult = obs.insertOldBook(oldBook);
 		System.out.println("sjController oldBook->"+oldBook);
-		System.out.println("insertResult"+insertResult);
+		System.out.println("insertResult->>"+insertResult);
+		model.addAttribute("member", member);
+		model.addAttribute("oldBook",oldBook);
 		
 		if (insertResult > 0) return "sj/foObComple";
 		else {
