@@ -75,14 +75,25 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl statusCancellation() start..");
 		
 		int result1, result2, result = 0;
+
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		
 		try {
 			result1 = session.update("hrStatusCancellation", o_order_num);
 			result2 = session.insert("hrInsertCancellation", o_order_num);
 			if(result1 == 1 && result2 == 1) {
 				result = 1;
 			}
-			System.out.println("OrderDaoImpl statusCancellation() result -> "+result);					
+			System.out.println("OrderDaoImpl statusCancellation() result -> "+result);		
+			
+			// COMMIT
+			transactionManager.commit(txStatus);
 		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+			
 			System.out.println("OrderDaoImpl statusCancellation() e.getMessage() -> "+e.getMessage());
 		}
 		System.out.println("OrderDaoImpl statusCancellation() end..");
@@ -139,6 +150,11 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl statusExchange() start..");
 		
 		int result1, result2, result = 0;
+
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		
 		try {
 			result1 = session.update("hrStatusExchange", orderr);
 			result2 = session.insert("hrInsertExchange", orderr);
@@ -146,7 +162,13 @@ public class OrderDaoImpl implements OrderDao {
 				result = 1;
 			}
 			System.out.println("OrderDaoImpl statusExchange() result -> "+result);					
+
+			// COMMIT
+			transactionManager.commit(txStatus);
 		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+			
 			System.out.println("OrderDaoImpl statusExchange() e.getMessage() -> "+e.getMessage());
 		}
 		System.out.println("OrderDaoImpl statusExchange() end..");
@@ -158,6 +180,11 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl statusReturn() start..");
 		
 		int result1, result2, result = 0;
+		
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+
 		try {
 			result1 = session.update("hrStatusReturn", orderr);
 			result2 = session.insert("hrInsertReturn", orderr);
@@ -165,7 +192,13 @@ public class OrderDaoImpl implements OrderDao {
 				result = 1;
 			}
 			System.out.println("OrderDaoImpl statusReturn() result -> "+result);					
+
+			// COMMIT
+			transactionManager.commit(txStatus);
 		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+
 			System.out.println("OrderDaoImpl statusReturn() e.getMessage() -> "+e.getMessage());
 		}
 		System.out.println("OrderDaoImpl statusReturn() end..");
