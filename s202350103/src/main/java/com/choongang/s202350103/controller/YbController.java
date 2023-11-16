@@ -53,13 +53,17 @@ public class YbController {
 		this.mailSender = mailSender;
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
 	}
-	private Member getSession(Member member) {
-		Member member1 = new Member();
-		member = ms.login(member1);
-		member =(Member) session.getAttribute("member");
+	
 
-		return member;
-	}
+//	private Model getSession(Member member, Model model) {
+//		Member member1 = new Member();
+//		member = ms.login(member1);
+//		member =(Member) session.getAttribute("member");
+//		
+//		model.addAttribute("member", member);
+//		
+//		return model;
+//	}
 	
 	// Main Page
 	@RequestMapping(value = "/")
@@ -159,10 +163,12 @@ public class YbController {
 
 		System.out.println("YbController login() session -> " + session);
 		Member member = ms.login(member1);
+//		getSession(member, model);
 		
 		if (member != null) {
 			session.setAttribute("member", member);
 			System.out.println("YbController login() session -> " + session.getId());
+			System.out.println("YbController login() member.getId -> " + member.getM_id());
 			return "redirect:/";
 		} else {
 			 return "yb/loginForm";
@@ -222,7 +228,7 @@ public class YbController {
 		System.out.println("YbController memberCartList() start...");
 
 		// 로그인한 멤버 값 불러오기
-		member =(Member) session.getAttribute("member");
+//		getSession(member, model);
 		
 		if(member == null) {
 			return "yb/loginForm";
@@ -264,6 +270,7 @@ public class YbController {
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
+//		getSession(member, model);
 		
 		if(member == null) {
 			return "yb/loginForm";

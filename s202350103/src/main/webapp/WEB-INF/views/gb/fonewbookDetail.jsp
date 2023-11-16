@@ -124,36 +124,6 @@
          document.getElementById("reviewFocus").scrollIntoView();
        } 
        
-      /*  // 최근 본 상품의 nb_num을 담는다.
-       var url = window.location.href;
-       var nb_numCookie = getProductIDFromURL(url); // getProductIDFromURL(url) -> url에서 nb_num을 가져오는 함수 
-       alert("nb_numCookie -> "+nb_numCookie);
-       
-       if(nb_numCookie){ // nb_numCookie 값이 있으면 실행
-    	   var recentProducts = getCookie('recent_products');
-       	   // 삼항 연산자 -> 				조건식 	 ? 	참(split(/): /를 기준으로 문자열을 분할) 	: 거짓
-       	   var recentProductIds = recentProducts ? recentProducts.split('/') : [];
-       	   
-       	   if(!recentProductIds.includes(nb_numCookie)){ // 최근 본 상품 리스트에 nb_num이 없다면 실행
-       			recentProductIds.push(nb_numCookie);	// recentProductIds 리스트에 nb_num 값을 넣어라
-       		}
-       	   
-       	   // 최대 5개까지만 유지
-       	   if(recentProductIds.length > 5) {
-       			recentProductIds.shift();
-       	   }
-       	   
-       	   recentProducts = recentProductIds.join('/'); // 문자열들을 / 를 붙여 반환한다.
-       		
-       	   // 24시간 후의 시간 객체 생성
-       	   var expirationDate = new Date();
-       		expirationDate.setTime(expirationDate.getTime() + (24*60*60*1000));
-       		console.log("expirationDate -> "+expirationDate);
-       		
-       		// 쿠키에 recent_products 저장 (유효기간 24시간)
-       		setCookie('recent_products', recentProducts, expirationDate);
-       }       */ 
-       
     }
     
     // url에서 nb_num만 따로 추출하는 함수
@@ -205,6 +175,11 @@
 </head>
 <body onload="onPageLoad(${review.p_status})">
    <h3>조회수 : ${newbook.nb_readcnt }</h3>
+   <!-- 도서 목록 돌아가기 버튼 -->
+   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+	  <button class="btn btn-soft-primary mb-2" type="button" 
+	  		onclick="location.href='innewbookList?nb_category1=${newbook.nb_category1}&nb_category2=${newbook.nb_category2}'">도서목록</button>
+   </div>
    <div class="row">
      <div class="col-md-6 row justify-content-center">
       <!-- 도서 이미지 -->

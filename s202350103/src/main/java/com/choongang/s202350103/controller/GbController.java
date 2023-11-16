@@ -54,6 +54,10 @@ public class GbController {
 		if (member != null) {
 			newbook.setM_num(member.getM_num());
 		}
+
+	 	// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		
 		
 		// 정렬 유형, 초기값(null)이면 --> recently
 		String orderType_default = "recently";
@@ -85,7 +89,7 @@ public class GbController {
 		model.addAttribute("inNewbookCnt", inNewbookCnt);
 		model.addAttribute("page", page);
 		model.addAttribute("newbook", newbook);
-		
+		model.addAttribute("recentBookList", recentBookList);
 		
 		return "gb/foInNewbookList";
 	}
@@ -134,7 +138,7 @@ public class GbController {
 		
 	}
 	
-	// 상품 상페 페이지
+	// 상품 상세 페이지
 	@RequestMapping("newbookDetail")
 	public String selectNewbookDetail(NewBook newbook, Review review, HttpSession session, 
 									  HttpServletResponse response, HttpServletRequest request, Member member, Model model) {
@@ -159,11 +163,13 @@ public class GbController {
 		int same_obCnt = nbods.selectSameOldBookList(newbook.getNb_num()).size();
 		selectNewbook.setSame_obCnt(same_obCnt);
 		
-		// session에 최근 본 상품 담기
-		// ArrayList<String> recentlyList = rb.RecentlyBookList(String.valueOf(newbook.getNb_num()));
-		// System.out.println("recentlyList.size -> "+recentlyList.size());
-		session.setAttribute("recentBookNum", newbook.getNb_num());
-		System.out.println("세션 값 -> "+session.getAttribute("recentBookNum"));
+		// 세션에 nb_num을 저장하는 서비스 실행
+		rb.sessionSave(session, newbook.getNb_num());
+		
+		System.out.println("session.getAtt nb_num ->"+session.getAttribute("recentBookNum0"));
+		
+//		session.setAttribute("recentBookNum", newbook.getNb_num());
+//		System.out.println("세션 값 -> "+session.getAttribute("recentBookNum"));
 		
 		//리뷰 코딩
 		
@@ -477,44 +483,6 @@ public class GbController {
 		result = nbs.insertBoNewbook(newbook);
 		
 		return "redirect:bonewbookList?result="+result;
-	}
-	
-	// 최근 본 상품 보여주기
-	@RequestMapping("recentBook")
-	public String selectRecentBookList(HttpSession session, Model model) {
-		// ArrayList<String> recentBookList = (ArrayList<String>) session.getAttribute("recentlyList");
-		int result = 0;
-		System.out.println("세션 num 값" + session.getAttribute("recentBookNum"));
-		
-//		if(recentBookList.size() > 0) {
-//			for(int i=0; i<recentBookList.size();i++) {
-//				nb_num[i] = Integer.parseInt(recentBookList.get(i));
-//				NewBook recentBook = nbs.selectRecentBookList(nb_num[i]);
-//				recentBookList1.add(recentBook);
-//			}
-//			result = 1;
-//			model.addAttribute("recentBookList", recentBookList1);
-//			model.addAttribute("result", result);
-//			
-//		}else {
-//			model.addAttribute("result", result);
-//		}
-		
-		if(session.getAttribute("recentBookNum") != null) {
-			int nb_num = (int) session.getAttribute("recentBookNum");
-			System.out.println("GbController selectRecentBookList nb_num -> "+nb_num);
-			
-			NewBook recentBook = nbs.selectRecentBookList(nb_num);
-			System.out.println("GbController selectRecentBookList recentBook -> "+recentBook);
-			
-			result = 1;
-			model.addAttribute("newbook", recentBook);
-			model.addAttribute("result", result);
-		}else {
-			model.addAttribute("result", result);
-		}
-		
-		return "common/sideFo";
 	}
 	 
 }

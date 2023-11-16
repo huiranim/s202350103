@@ -90,7 +90,7 @@
 						</div>
                     </form>
 					<div class="mt-4">
-						<small> <a href="#">메일이 오지 않으세요?</a> <a href="#"
+						<small> <a href="#">메일이 오지 않으세요?</a> <a href="memberQnaList"
 							class="ms-3">1544-1125 고객센터 문의</a>
 						</small>
 					</div>
