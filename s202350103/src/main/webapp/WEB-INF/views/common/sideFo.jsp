@@ -133,7 +133,7 @@
           
 		<!-- 최근 본 상품 리스트 -->
 		
-		<div style="border:1px solid gray;">
+		<div>
 			<h5 class="mb-3 mt-5" style="user-select: auto;">최근 본 상품</h5>
 				<c:choose>
 					<c:when test="${recentBookList.size() > 0}">
@@ -187,7 +187,7 @@
 						 </c:forEach>
 						</c:when>
 					 <c:otherwise>
-					 	<h6>최근 본 도서가 없습니다.</h6>
+					 	<h6 style="color: #198754">최근 조회된 도서가 없습니다.</h6>
 					 </c:otherwise>          
 			 	</c:choose> 
 			</div> 
