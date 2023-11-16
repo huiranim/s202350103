@@ -7,9 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-	#pointTable:hover {
-		border-color: #0aad0a;
-		border: 1px;
+	#first::first-letter {
+		color:blue;
 	}
 </style>
 </head>
@@ -75,7 +74,7 @@
 		                      <div>
 		                        <h5 class="fs-6 mb-0">
 		                        	<c:choose>
-											<c:when test="${point.point > 0 }"><span>+${point.point }P</span></c:when>
+											<c:when test="${point.point > 0 }"><span id=first>+${point.point }P</span></c:when>
 											<c:when test="${point.point < 0 }"><span>${point.point }P</span></c:when>
 									</c:choose>
 		                        </h5>

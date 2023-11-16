@@ -53,12 +53,16 @@ public class YbController {
 		this.mailSender = mailSender;
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
 	}
-	private Member getSession(Member member) {
+	
+
+	private Model getSession(Member member, Model model) {
 		Member member1 = new Member();
 		member = ms.login(member1);
 		member =(Member) session.getAttribute("member");
-
-		return member;
+		
+		model.addAttribute("member", member);
+		
+		return model;
 	}
 	
 	// Main Page
@@ -154,15 +158,17 @@ public class YbController {
 	
 	// 로그인
 	@RequestMapping(value = "memberLogin")
-	public String login(Member member1, HttpSession session, HttpServletRequest request, Model model) {
+	public String login(Member member, HttpSession session, HttpServletRequest request, Model model) {
 		log.info("Login page");
 
-		System.out.println("YbController login() session -> " + session);
-		Member member = ms.login(member1);
+//		System.out.println("YbController login() session -> " + session);
+//		Member member = ms.login(member1);
+		getSession(member, model);
 		
 		if (member != null) {
 			session.setAttribute("member", member);
 			System.out.println("YbController login() session -> " + session.getId());
+			System.out.println("YbController login() member.getId -> " + member.getM_id());
 			return "redirect:/";
 		} else {
 			 return "yb/loginForm";
@@ -222,7 +228,7 @@ public class YbController {
 		System.out.println("YbController memberCartList() start...");
 
 		// 로그인한 멤버 값 불러오기
-		member =(Member) session.getAttribute("member");
+		getSession(member, model);
 		
 		if(member == null) {
 			return "yb/loginForm";
@@ -248,7 +254,7 @@ public class YbController {
 		
 		int totalPrice = ms.totalPrice(member);
 		model.addAttribute("totalCart", totalCart);
-		model.addAttribute("member", member);
+//		model.addAttribute("member", member);
 		model.addAttribute("listCart", listCart);
 		model.addAttribute("totalPrice", totalPrice);
 		
@@ -263,7 +269,8 @@ public class YbController {
 		System.out.println("YbController memberWishList() start...");
 		
 		// 로그인한 멤버 값 불러오기
-		member =(Member) session.getAttribute("member");
+//		member =(Member) session.getAttribute("member");
+		getSession(member, model);
 		
 		if(member == null) {
 			return "yb/loginForm";
@@ -285,7 +292,7 @@ public class YbController {
 		List<WishList> memberWishList = ms.memberWishList(wishList);
 		System.out.println("YbController memberCartList listCart.size() -> " + memberWishList.size());
 		System.out.println("YbController memberCartList listCart.title -> " + wishList.getNb_title());
-		model.addAttribute("member", member);
+//		model.addAttribute("member", member);
 		model.addAttribute("memberWishList", memberWishList);
 		model.addAttribute("totalWishList", totalWishList);
 		model.addAttribute("wishList", wishList);
