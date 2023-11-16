@@ -424,10 +424,9 @@ public class HtController {
 		
 		int result = os.orderInsert(orderr);
 		
-		//상품 정보 조회
-		//NewBook orderOne = os.orderList(newBook);
+		System.out.println("HtController orderInsert() result-->"+result);
 		
-		//model.addAttribute("orderOne", orderOne);
+		model.addAttribute("result", result);
 		model.addAttribute("member",member);
 		
 		return "/ht/foOrderForm";

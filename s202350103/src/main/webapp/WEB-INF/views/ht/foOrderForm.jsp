@@ -137,7 +137,7 @@
 		var fail_total_price 	= (p_total_price + p_deliv_price).toLocaleString();					// 총 결제 금액(성공)
 		var fail_save_point 	= ((p_total_price + p_deliv_price) * 0.01).toLocaleString();  		// 적립금(실패)
 		
-		if(p_point <= '${member.m_point}' ){
+		if(Number(p_point) <= Number('${member.m_point}') ){
 			// 가능 여부 메세지
 			$("#pointMsg").html("사용 가능합니다.");
 			// 포인트 사용값
