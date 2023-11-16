@@ -1,7 +1,9 @@
 package com.choongang.s202350103.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.choongang.s202350103.gbService.RecentlyBook;
+import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.sjService.OldbookService;
 import com.choongang.s202350103.sjService.Paging;
@@ -24,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SjController {
 
 	private final OldbookService obs;
+	private final RecentlyBook rb;
 	
 	@RequestMapping(value = "test")
 	public String test(Model model) {
@@ -112,38 +118,68 @@ public class SjController {
 	}
 	
 	@RequestMapping(value = "writeFormObReport" ,method = RequestMethod.GET )
-	public String writeFormObReport(OldBook oldBook,Model model) {
+	public String writeFormObReport(HttpSession session,Member member , OldBook oldBook,Model model) {
 		System.out.println("sjController writeFormObReport start...");
+		
+		//멤버값 불러오기 
+		member = (Member) session.getAttribute("member");
+		if(member == null) {
+			return "yb/loginForm";
+		}else {
+			oldBook.setM_num(member.getM_num());
+			oldBook.setM_id(member.getM_id());
+			oldBook.setM_name(member.getM_name());
+		}
+		
+		System.out.println("member getM_num() ->"+member.getM_num());
+		System.out.println("member getM_id() ->"+member.getM_id());
+		System.out.println("member getM_name() ->"+member.getM_name());
 		
 		List<OldBook> oldbookList = obs.oldBookAcc();
 		model.addAttribute("oldBookAcc",oldbookList);
+		model.addAttribute("member", member);
+		model.addAttribute("oldBook",oldBook);
 		
 		return "sj/foObReport";
 	}
 	
 	@RequestMapping(value = "writeFormObCal" ,method = RequestMethod.POST )
-	public String writeFormObCal(OldBook oldBook,Model model) {
+	public String writeFormObCal(HttpSession session,Member member ,OldBook oldBook,Model model) {
 		System.out.println("sjController writeFormObCal start...");
+		member = (Member) session.getAttribute("member");
 		
 		List<OldBook> oldbookList = obs.oldBookAcc();
 		model.addAttribute("oldBookAcc",oldbookList);
+		model.addAttribute("member", member);
+		model.addAttribute("oldBook",oldBook);
 		System.out.println("sjController writeFormObCal oldbookList.size()->"+oldbookList.size());
+		System.out.println("member getM_num() ->"+member.getM_num());
+		System.out.println("member getM_id() ->"+member.getM_id());
+		System.out.println("member getM_name() ->"+member.getM_name());
 		
 		return "sj/foObCalcul";
 	}
 	
 	@RequestMapping(value = "writeFormObTrans" , method = RequestMethod.POST )
-	public String writeFormObTrans(OldBook oldBook, Model model) {
+	public String writeFormObTrans(HttpSession session,Member member ,OldBook oldBook, Model model) {
 		System.out.println("sjController writeFormObTrans start...");
 		
+		
+		member = (Member) session.getAttribute("member");
 		List<OldBook> oldbookList = obs.oldBookAcc();
 		model.addAttribute("oldBookAcc",oldbookList);
+		
+		model.addAttribute("member", member);
+		model.addAttribute("oldBook",oldBook);
 		System.out.println("sjController writeFormObTrans oldBook.getOb_acc_num()->"+oldBook.getOb_acc_num());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_acc_name()->"+oldBook.getOb_acc_name());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_report_date()->"+oldBook.getOb_report_date());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_num()->"+oldBook.getOb_num());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_trans_com()->"+oldBook.getOb_trans_com());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_trans_num()->"+oldBook.getOb_trans_num());
+		System.out.println("member getM_num() ->"+member.getM_num());
+		System.out.println("member getM_id() ->"+member.getM_id());
+		System.out.println("member getM_name() ->"+member.getM_name());
 		
 		return "sj/foObTrans";
 	}
@@ -168,12 +204,18 @@ public class SjController {
 	 */
 	
 	@PostMapping(value = "writeOb")
-	public String writeOb(OldBook oldBook, Model model) {
+	public String writeOb(HttpSession session,Member member ,OldBook oldBook, Model model) {
 		System.out.println("sjController start writeOb...");
 		
+		
+		member = (Member) session.getAttribute("member");
+		
 		int insertResult = obs.insertOldBook(oldBook);
+		
 		System.out.println("sjController oldBook->"+oldBook);
-		System.out.println("insertResult"+insertResult);
+		System.out.println("insertResult->>"+insertResult);
+		model.addAttribute("member", member);
+		model.addAttribute("oldBook",oldBook);
 		
 		if (insertResult > 0) return "sj/foObComple";
 		else {
@@ -184,20 +226,20 @@ public class SjController {
 	}
 	
 	@GetMapping(value = "ModalList")
-	public String listMoOb(OldBook oldBook,String currentPage, Model model, String currentPage3) {
+	public String listMoOb(OldBook oldBook, Model model, String currentPage2) {
 		
 		System.out.println("SjController Start ");
 		
-		int totNbCnt3 = obs.totNbCnt3();
+		int totalNb = obs.totalNb();
 		//Paging 작업
-		PagingNb  page = new PagingNb(totNbCnt3, currentPage3);
+		PagingNb  page = new PagingNb(totalNb, currentPage2);
 		
 		oldBook.setStart(page.getStart());
 		oldBook.setEnd(page.getEnd());
 		
 		List<OldBook> listMoOb = obs.listMoOb(oldBook);
 		model.addAttribute("listMoOb" , listMoOb);
-		model.addAttribute("totNbCnt3", totNbCnt3);
+		model.addAttribute("totalNb", totalNb);
 		model.addAttribute("page" , page);
 		
 		
@@ -236,7 +278,14 @@ public class SjController {
 	}
 	
 	@GetMapping(value = "folistOb")
-	public String folistOb(OldBook oldBook, String currentPage, Model model) {
+	public String folistOb(HttpSession session , OldBook oldBook, String currentPage, Model model) {
+		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+		
+		
+		
 		
 		System.out.println("SjController Start ");
 		
@@ -259,8 +308,14 @@ public class SjController {
 	}
 	
 	@GetMapping(value = "foOldBookDetail")
-	public String foOldBookDetail (int ob_num, Model model) {
+	public String foOldBookDetail (HttpSession session , NewBook newbook,  int ob_num, Model model) {
 		System.out.println("SjController Start detailOb...");
+		
+		// 세션에 nb_num을 저장하는 서비스 실행
+		
+		rb.sessionSave(session, ob_num);
+		
+		
 		
 		OldBook oldBook = obs.detailOb(ob_num);
 		System.out.println("SjController detailOb getOb_pur_price()->"+oldBook.getOb_pur_price());
@@ -277,15 +332,19 @@ public class SjController {
 	
 	//용빈 정산받기 버튼 컨트롤러
 	@PostMapping(value = "foObUpComple")
-	public String FoupdateObComple(OldBook oldBook, Model model) {
+	public String FoupdateObComple(HttpSession session, Member member , OldBook oldBook, Model model) {
         log.info("FoupdateObComple Start...");
 	
+        member = (Member) session.getAttribute("member");
+        
+        
         
         int updateCount = obs.updateObComp(oldBook);
     	System.out.println("SjController updateCount-->"+updateCount);
 		model.addAttribute("uptCnt",updateCount);    // Test Controller간 Data 전달
 		model.addAttribute("oldBook",oldBook);
-		
+		model.addAttribute("member", member);
+	
    		return "redirect:folistOb";    
 	}
 	@RequestMapping(value = "index")

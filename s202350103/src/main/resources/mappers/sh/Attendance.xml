@@ -94,4 +94,8 @@
 		Order by rn DESC
         ]]>
 	</select>
+	
+	<delete id="shDeleteAtt" parameterType="int">
+		Delete From Attendance Where a_num=#{a_num} 
+	</delete>
 </mapper>

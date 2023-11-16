@@ -109,7 +109,14 @@
 		             <li class="list-group-item py-3 py-lg-0 px-0 border-top">  
 		              <div class="row align-items-center">
 		             	<div class="col-3 col-md-2">
-		                    <a href="newbookDetail?nb_num=${cart.nb_num }"><img src="${cart.nb_image}" alt="Ecommerce" class="img-fluid"></a>
+		                	<c:choose>
+	                           <c:when test="${fn:contains(cart.nb_image, 'http')}">
+	                              <img src="${cart.nb_image}" alt="Ecommerce"  width="75px" height="110px">
+	                           </c:when>
+	                           <c:otherwise>
+	                              <img src="${pageContext.request.contextPath}/upload/${cart.nb_image}" alt="Ecommerce"  width="75px" height="110px">
+	                           </c:otherwise>
+                        	</c:choose>
 		                </div>
 		  				<div class="col-4 col-md-5">
 		                    <!-- 도서 제목 -->

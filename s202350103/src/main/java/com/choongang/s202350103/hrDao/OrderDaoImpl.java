@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
 import com.choongang.s202350103.model.OrderGift;
@@ -14,6 +18,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class OrderDaoImpl implements OrderDao {
 	private final SqlSession session;
+	
+	// Transaction 관리
+	private final PlatformTransactionManager transactionManager;
 
 	// BO 주문목록 - total
 	// boOrderList.jsp
@@ -188,6 +195,11 @@ public class OrderDaoImpl implements OrderDao {
 		
 		int result = 0, oResult = 0, odResult = 0,
 				ogResult = 0, mResult = 0, plResult = 0;
+		
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		
 		try {
 			// INSERT - ORDERR
 			oResult = session.insert("hrInsertOrderrG", orderr);
@@ -216,7 +228,13 @@ public class OrderDaoImpl implements OrderDao {
 			} else {
 				result = 0;
 			}
+			
+			// COMMIT
+			transactionManager.commit(txStatus);
 		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+			
 			System.out.println("OrderDaoImpl givingGiftAction() e.getMessage() -> "+e.getMessage());
 		}
 		
@@ -263,6 +281,11 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl gettingGiftAction() start..");
 		
 		int result = 0, oResult = 0, ogResult = 0;
+		
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+
 		try {
 			oResult = session.update("hrUpdateOrderrGiftType", orderr);
 			ogResult = session.update("hrUpdateOrderGift", orderGift);
@@ -274,9 +297,13 @@ public class OrderDaoImpl implements OrderDao {
 			} else {
 				result = 0;
 			}
+			// COMMIT
+			transactionManager.commit(txStatus);
 		} catch (Exception e) {
-			System.out.println("OrderDaoImpl gettingGiftAction() e.getMessage() -> "+e.getMessage());
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
 
+			System.out.println("OrderDaoImpl gettingGiftAction() e.getMessage() -> "+e.getMessage());
 		}
 		
 		System.out.println("OrderDaoImpl gettingGiftAction() start..");

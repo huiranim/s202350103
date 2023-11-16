@@ -11,6 +11,10 @@
 		Select * From quiz Where q_num = #{eNum}
 	</select>
 	
+	<insert id="shCreateQuiz" parameterType="Quiz">
+		Insert into Quiz Values (event_num_seq.nextval,#{q_title},#{q_sdate},#{q_edate},#{q_image},#{q_point},#{q_question},#{q_select1},#{q_select2},#{q_select3},#{q_select4},#{q_answer})
+	</insert>
+	
 	<update id="shUpdateQuiz" parameterType="Quiz">
 		Update Quiz 
 		Set 
@@ -27,4 +31,9 @@
 		q_answer=#{q_answer}
 		Where q_num = #{q_num}
 	</update>
+	
+	<delete id="shDeleteQuiz" parameterType="int">
+		Delete From quiz Where q_num = #{q_num}
+	</delete>
+	
 </mapper>

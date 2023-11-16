@@ -13,28 +13,34 @@
 		where ob_status = 3
 	</select>
 	
-	<select id="totNbCnt3" resultType="int">
+	<select id="totNbCnt" resultType="int">
 		SELECT Count(*) from newbook
 	</select>
 	
 	<select id="sjObListAll" resultType="OldBook" parameterType="OldBook">
 			     <![CDATA[
-				SELECT *
+		   SELECT *
 				FROM
 				(
-			        SELECT rownum rn , a.nb_title, a.nb_price , a.m_num ,
-			        a.nb_writer, a.nb_publisher , a.nb_image , TO_CHAR(a.nb_publi_date, 'YYYY-MM-DD') AS nb_publi_date,
+			        SELECT rownum rn ,  a.nb_title, a.nb_price , a.m_num, a.m_name , a.m_id , 
+			        a.nb_writer, a.nb_publisher , a.nb_image , TO_CHAR(a.nb_publi_date, 'YYYY-MM-DD')AS nb_publi_date,
 			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
-			        a.nb_category1 , a.nb_category2 ,
 			         a.nb_page , a.nb_size,
 				        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
 				        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
 				        FROM
-	                   (select *
-	                   from  newbook n , oldbook o
-	                   WHERE  n.nb_num = o.nb_num 
-	                           order by o.ob_num) a  
-				 )  
+	                   (select   n.nb_title, n.nb_price , m.m_num as m_num , o.m_num as om_num , m.m_id as m_id , 
+                       m.m_name as m_name , 
+			        n.nb_writer, n.nb_publisher , n.nb_image , n.nb_publi_date,
+			        o.ob_num, o.ob_acc_name, o.ob_acc_num, n.nb_summary , n.nb_isbn ,
+			         n.nb_page , n.nb_size,
+				        o.ob_grade, o.ob_pur_price, o.ob_status, o.ob_sell_price, o.ob_report_date, 
+				        o.ob_trans_com,o.ob_trans_num , o.ob_ripped, o.ob_scribble, o.ob_smeary, o.ob_write_date, o.ob_readcnt
+	                   from  newbook n , oldbook o , member m 
+	                   WHERE  o.nb_num = n.nb_num 
+						and   m.m_num= o.m_num(+) 	                   		  
+	                        order by o.ob_num) a  
+				 )
 		 		WHERE ob_status IN  3
 		 		and ( rn >=  #{start}
 		 		and    rn <=  #{end})
@@ -45,21 +51,28 @@
 
    <select id="sjObListAll2"   parameterType="OldBook"   resultType="OldBook">
 	     <![CDATA[
-				SELECT *
+		      SELECT *
 				FROM
 				(
-			        SELECT rownum rn , a.nb_title, a.nb_price ,
+			        SELECT rownum rn ,  a.nb_title, a.nb_price , a.m_num, a.m_name ,
 			        a.nb_writer, a.nb_publisher , a.nb_image , TO_CHAR(a.nb_publi_date, 'YYYY-MM-DD')AS nb_publi_date,
 			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
 			         a.nb_page , a.nb_size,
 				        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
 				        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
 				        FROM
-	                   (select *
-	                   from  newbook n , oldbook o
-	                   WHERE  n.nb_num = o.nb_num 
-	                           order by o.ob_num) a  
-				 )  
+	                   (select   n.nb_title, n.nb_price , m.m_num as m_num , o.m_num as om_num ,
+                       m.m_name as m_name , 
+			        n.nb_writer, n.nb_publisher , n.nb_image , n.nb_publi_date,
+			        o.ob_num, o.ob_acc_name, o.ob_acc_num, n.nb_summary , n.nb_isbn ,
+			         n.nb_page , n.nb_size,
+				        o.ob_grade, o.ob_pur_price, o.ob_status, o.ob_sell_price, o.ob_report_date, 
+				        o.ob_trans_com,o.ob_trans_num , o.ob_ripped, o.ob_scribble, o.ob_smeary, o.ob_write_date, o.ob_readcnt
+	                   from  newbook n , oldbook o , member m 
+	                   WHERE  o.nb_num = n.nb_num 
+						and   m.m_num= o.m_num(+) 	                   		  
+	                        order by o.ob_num) a  
+				 )
 		 		WHERE  rn >=  #{start}
 		 		and    rn <=  #{end}
 	 	  ]]>		
@@ -86,8 +99,8 @@
 	
 	<insert id="insertOldBook" parameterType="OldBook">
 		Insert into 
-		   oldbook(    ob_num,                     nb_num,    m_num    ,     ob_acc_name,    ob_acc_num, ob_status ,      ob_trans_com,   ob_trans_num,   ob_report_date ) 
-		   values ( OLDBOOK_OB_NUM_SEQ.nextval , #{nb_num} , #{m_num} , #{ob_acc_name} , #{ob_acc_num},#{ob_status} ,  #{ob_trans_com},#{ob_trans_num} , sysdate )
+		   oldbook(    ob_num,                     nb_num,     m_num    ,     ob_acc_name,    ob_acc_num, ob_status ,      ob_trans_com,   ob_trans_num,   ob_report_date , ob_pur_price) 
+		   values ( OLDBOOK_OB_NUM_SEQ.nextval , #{nb_num} , #{m_num} , #{ob_acc_name} , #{ob_acc_num},#{ob_status} ,  #{ob_trans_com},#{ob_trans_num} , sysdate ,        #{ob_pur_price} )
 	</insert>
 
 	<select id="SelectAcc" resultType="OldBook">

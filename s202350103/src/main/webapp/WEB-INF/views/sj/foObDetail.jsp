@@ -110,12 +110,12 @@
 	<form action="foObUpComple" method="post">
 	<div class="d-grid gap-2">
 		    <button class="btn btn-dark" type="submit" >정산받기</button>
-		    <input type="hidden" name="ob_status" value="2">
+		    <input type="hidden" name="ob_status" value="3">
 		    <input type="hidden" name="ob_num" value="${oldBook.ob_num }">
 	</div>
 	</form>		
 			 <div class="d-grid gap-2">
-		    <button class="btn btn-dark" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
+		    <button class="btn btn-dark" type="button" onclick="location.href='memberMyPage?m_num=${member.m_num }'">마이페이지 이동</button>
 		</div>
 
 </body>

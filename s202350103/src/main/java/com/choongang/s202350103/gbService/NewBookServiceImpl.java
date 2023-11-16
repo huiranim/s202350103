@@ -172,10 +172,10 @@ public class NewBookServiceImpl implements NewBookService {
 	}
 
 	@Override
-	public NewBook selectRecentBookList(int nb_num) {
+	public NewBook selectRecentBookList(int book_num) {
 		System.out.println("NewBookServiceImpl selectRecentBookList start...");
 		// 최근 본 상품 정보 가져오기
-		NewBook recentBook = nbd.selectRecentBookList(nb_num);
+		NewBook recentBook = nbd.selectRecentBookList(book_num);
 		
 		return recentBook;
 	}
