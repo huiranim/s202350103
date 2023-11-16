@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -380,39 +381,57 @@ public class HtController {
 		return "/ht/foOrderForm";
 	}
 
-//	 
-//	 @PostMapping("/orderAction")
-//	 public String orderAction(
-//							     @RequestParam("m_ph1") String m_ph1,
-//								 @RequestParam("m_ph2") String m_ph2,
-//								 @RequestParam("m_ph3") String m_ph3,
-//				 
-//				 				 @RequestParam("m_addr1") String m_addr1,
-//								 @RequestParam("m_addr2") String m_addr2,
-//								 @RequestParam("m_addr") String m_addr,
-//								 @ModelAttribute Model model, HttpSession session, Member member, NewBook newBook) {
-//		System.out.println("Controller Start orderForm...");
-//		
-//		// 로그인한 멤버 값 불러오기
-//		member =(Member) session.getAttribute("member");
-//		
-//		if(member == null) {
-//			return "yb/loginForm";
-//		}
-//		
-//		member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
-//		member.setM_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
-//		
-//		System.out.println("newBook.getNb_num(--> "+ newBook.getNb_num());
-//		
-//		//상품 정보 조회
-//		//NewBook orderOne = os.orderList(newBook);
-//		
-//		//model.addAttribute("orderOne", orderOne);
-//		model.addAttribute("member",member);
-//		
-//		return "/ht/foOrderForm";
-//	}
+	 
+	 @RequestMapping("/orderAction")
+	 public String orderAction(
+			 
+							 	 String m_email1, 
+								 String m_email, 
+	 
+							     String m_ph1,
+								 String m_ph2,
+								 String m_ph3,
+				 
+				 				 String m_addr1,
+								 String m_addr2,
+								 String m_addr,
+								 
+								 int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
+								 Model model, HttpSession session, Member member, Orderr orderr
+								 ) {
+		System.out.println("Controller orderAction Start...");
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		orderr.setM_num(member.getM_num());
+		
+		if(destination == 2) {
+			orderr.setO_rec_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr );	// 우편번호 주소 상세주소 병합
+			orderr.setO_rec_mail(m_email1+"@"+m_email);						// 이메일 병합
+			orderr.setO_rec_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);					// 전화번호 병합
+			System.out.println("HtController orderAction orderr--> "+ orderr);
+			System.out.println("HtController getO_rec_ph --> "+ orderr.getO_rec_ph());
+			System.out.println("HtController o_rec_addr --> "+ orderr.getO_rec_addr());
+		}
+		
+		
+		System.out.println("HtController orderr-->"+orderr);
+		
+		int result = os.orderInsert(orderr);
+		
+		//상품 정보 조회
+		//NewBook orderOne = os.orderList(newBook);
+		
+		//model.addAttribute("orderOne", orderOne);
+		model.addAttribute("member",member);
+		
+		return "/ht/foOrderForm";
+	}
 
 	// 카카오페이
 	 @Setter(onMethod_ = @Autowired)

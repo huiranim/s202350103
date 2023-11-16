@@ -67,14 +67,16 @@ public class YbController {
 	
 	// Main Page
 	@RequestMapping(value = "/")
-	public String main(Member member,HttpServletRequest request, Model model) {
+	public String main(Member member,HttpServletRequest request, Model model, Cart cart) {
 		System.out.println("YbController main() start... ");
 		member =(Member) session.getAttribute("member");
 		if(member == null) {
 			return "main";
 		}
+		int totalCart = ms.totalCart(member);
 		System.out.println("YbController main() start... ");
 		model.addAttribute("member", member);
+		model.addAttribute("totalCart", totalCart);
 		return "main";
 	}
 	
@@ -228,6 +230,7 @@ public class YbController {
 		System.out.println("YbController memberCartList() start...");
 
 		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
 //		getSession(member, model);
 		
 		if(member == null) {

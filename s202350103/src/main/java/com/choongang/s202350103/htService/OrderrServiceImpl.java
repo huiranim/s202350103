@@ -8,6 +8,7 @@ import com.choongang.s202350103.htDao.OrderrDao;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
+import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,13 @@ public class OrderrServiceImpl implements OrderrService {
 		System.out.println("HtService orderList Start...");
 		List<Cart> orderList = od.orderList(cart, member);
 		return orderList;
+	}
+
+	@Override
+	public int orderInsert(Orderr orderr) {
+		System.out.println("HtService orderInsert Start...");
+		int result = od.orderInsert(orderr);
+		return result;
 	}
 
 	

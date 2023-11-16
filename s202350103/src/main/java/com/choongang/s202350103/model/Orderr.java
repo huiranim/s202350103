@@ -1,6 +1,8 @@
 package com.choongang.s202350103.model;
 
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -41,6 +43,11 @@ public class Orderr {				// 주문
 	private int    o_re_deli;		// 반품 택배사
 	private int    o_re_track;		// 반품 송장번호
 	private String nb_image;		// 책 이미지
-
 	
+	@Data
+	public class OrderList {
+	    private List<Orderr> list;
+	}
+	
+
 }

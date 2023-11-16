@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
+import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
 import lombok.RequiredArgsConstructor;
@@ -62,6 +63,19 @@ public class OrderrDaoImpl implements OrderrDao {
 			System.out.println("OrderrDaoImpl orderList Exception -> " + e.getMessage());
 		}
 		return orderList;
+	}
+
+	@Override
+	public int orderInsert(Orderr orderr) {
+		System.out.println("OrderDaoImpl orderList() Start...");
+		int result = 0;
+		try {
+			result = session.insert("htOrderInsert", orderr);
+			System.out.println("orderInsert result--> "+ result);
+		}catch (Exception e) {
+			System.out.println("OrderrDaoImpl orderInsert Exception -> " + e.getMessage());
+		}
+		return result;
 	}
 
 }
