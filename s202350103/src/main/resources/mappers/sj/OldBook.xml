@@ -99,8 +99,8 @@
 	
 	<insert id="insertOldBook" parameterType="OldBook">
 		Insert into 
-		   oldbook(    ob_num,                     nb_num,    m_num    ,     ob_acc_name,    ob_acc_num, ob_status ,      ob_trans_com,   ob_trans_num,   ob_report_date ) 
-		   values ( OLDBOOK_OB_NUM_SEQ.nextval , #{nb_num} , #{m_num} , #{ob_acc_name} , #{ob_acc_num},#{ob_status} ,  #{ob_trans_com},#{ob_trans_num} , sysdate )
+		   oldbook(    ob_num,                     nb_num,     m_num    ,     ob_acc_name,    ob_acc_num, ob_status ,      ob_trans_com,   ob_trans_num,   ob_report_date , ob_pur_price) 
+		   values ( OLDBOOK_OB_NUM_SEQ.nextval , #{nb_num} , #{m_num} , #{ob_acc_name} , #{ob_acc_num},#{ob_status} ,  #{ob_trans_com},#{ob_trans_num} , sysdate ,        #{ob_pur_price} )
 	</insert>
 
 	<select id="SelectAcc" resultType="OldBook">
