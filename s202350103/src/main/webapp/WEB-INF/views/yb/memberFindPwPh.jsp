@@ -8,6 +8,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	#certiChk {
+		display: none;
+	}
+	#inputNum {
+		display: none;
+	}
+</style>
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
 
@@ -28,6 +36,8 @@
 	        	    $('#msg').html("가입할 때 사용한 이메일을 입력해주세요.");
 	        	    $('#msg').css("color", "red");
 	        	    $('#m_ph').val('');
+	        	    $('#certiChk').css("display", "none").prop("disabled", true);
+		            $('#inputNum').css("display", "none");
 	        	    return false;
 	        	} else if (strResult['memberFindPh'] != null) {
 	        		alert("인증번호 전송중... 잠시만 기다려주세요.");
@@ -39,6 +49,8 @@
 	        	    $('#msg').css("color", "red");
 	        	    $('input[name=certiNum]').attr('value', strResult['certiNum']);
 	        	    $('input[name=m_ph]').attr('value', strResult['m_ph']);
+	        	    $('#certiChk').css("display", "block").prop("disabled", false);
+		            $('#inputNum').css("display", "block");
 	        	    return true;
 	        	} 
 	       }
@@ -89,7 +101,7 @@
 					
 						
 						<div class="d-grid mb-8" >
-							<input type="submit" name="numChk" value="인증번호 확인" class="btn btn-primary">
+							<input type="submit" name="numChk" value="인증번호 확인" class="btn btn-primary" id="certiChk">
 						</div>
                     </form>
 					<div class="mt-4">

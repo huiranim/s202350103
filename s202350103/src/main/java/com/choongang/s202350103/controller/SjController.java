@@ -228,16 +228,24 @@ public class SjController {
 	@GetMapping(value = "ModalList")
 	public String listMoOb(OldBook oldBook, Model model, String currentPage2) {
 		
-		System.out.println("SjController Start ");
+		System.out.println("SjController Start modalList ");
 		
 		int totalNb = obs.totalNb();
 		//Paging 작업
 		PagingNb  page = new PagingNb(totalNb, currentPage2);
-		
+		System.out.println("SjController totalNb ->"+totalNb);
+		System.out.println("SjControllerpage.getStart()->"+page.getStart());
+		System.out.println("SjControllerpage.getEnd()->"+page.getEnd());
+		System.out.println("SjControllerpage.getStartPage()->"+page.getStartPage());
+		System.out.println("SjControllerpage.getEndPage()->"+page.getEndPage());
 		oldBook.setStart(page.getStart());
 		oldBook.setEnd(page.getEnd());
 		
+		
+		
 		List<OldBook> listMoOb = obs.listMoOb(oldBook);
+		System.out.println("SjController oldBook->"+oldBook);
+		
 		model.addAttribute("listMoOb" , listMoOb);
 		model.addAttribute("totalNb", totalNb);
 		model.addAttribute("page" , page);
@@ -284,9 +292,6 @@ public class SjController {
 		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
 		model.addAttribute("recentBookList", recentBookList);
 		
-		
-		
-		
 		System.out.println("SjController Start ");
 		
 		int totalOb2 = obs.totalOb2();
@@ -314,8 +319,6 @@ public class SjController {
 		// 세션에 nb_num을 저장하는 서비스 실행
 		
 		rb.sessionSave(session, ob_num);
-		
-		
 		
 		OldBook oldBook = obs.detailOb(ob_num);
 		System.out.println("SjController detailOb getOb_pur_price()->"+oldBook.getOb_pur_price());
