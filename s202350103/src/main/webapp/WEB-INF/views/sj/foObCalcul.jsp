@@ -13,6 +13,8 @@
 
 <form action="writeFormObTrans" method="post">
 <p class="text-center fs-1 ">중고 도서 정산 안내 </p>
+					<input type="hidden" name="m_id" value="${oldBook.m_id}">
+					<input type="hidden" name="m_name" value="${oldBook.m_name}">
 					<input type="hidden" name="m_num" value="${oldBook.m_num }">
 					<input type="hidden" name="nb_num" value="${oldBook.nb_num }">	
 <br>

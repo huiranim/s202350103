@@ -17,8 +17,9 @@
 			<br>
 			<br>
 	
-		회원번호 : ${oldBook.m_num }구현해야함	<br>
-		회원 아이디 : ${oldBook.m_id } <br>
+		회원번호 : ${member.m_num }구현해야함	<br>
+		회원 아이디 : ${member.m_id } <br>
+		
  </p>
  
 			<p class="text-center fs-1 ">
