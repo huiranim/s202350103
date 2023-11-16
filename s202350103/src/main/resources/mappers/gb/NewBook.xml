@@ -504,4 +504,20 @@
 		#{nb_publi_date}, #{nb_isbn}, #{nb_page}, #{nb_size}, #{nb_category1}, #{nb_category2}, #{nb_image}, 0, sysdate)
 	</insert>
 	
+	<select id="gbSelectRecentBookList" parameterType="int" resultType="NewBook">
+		<choose>
+			<when test="book_num gt 0 and book_num lt 200000 ">
+				SELECT nb_num, nb_image, nb_title
+				FROM newbook
+				WHERE nb_num = #{book_num}
+			</when>
+			<otherwise>
+				SELECT ob.ob_num nb_num, nb.nb_image, nb.nb_title
+				FROM newbook nb, oldbook ob
+				WHERE nb.nb_num = ob.nb_num 
+				AND ob.ob_num = #{book_num}
+			</otherwise>
+		</choose>
+	</select>
+	
 </mapper>

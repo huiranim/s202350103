@@ -106,10 +106,10 @@ public class RecentlyBook {
 		ArrayList<NewBook> recentBookList = new ArrayList<NewBook>();
 		
 		for (int i = 0 ; i < 3; i++) {
-			int nb_num = (int) session.getAttribute("recentBookNum"+i);
-			System.out.println("nb_num1111->"+nb_num);
-			if(nb_num != 0) {
-				NewBook recentBook = nbs.selectRecentBookList(nb_num);
+			int book_num = (int) session.getAttribute("recentBookNum"+i);
+			System.out.println("nb_num1111->"+book_num);
+			if(book_num != 0) {
+				NewBook recentBook = nbs.selectRecentBookList(book_num);
 				recentBookList.add(recentBook);
 			}
 		}

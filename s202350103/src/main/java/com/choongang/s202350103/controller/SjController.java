@@ -1,5 +1,6 @@
 package com.choongang.s202350103.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.choongang.s202350103.gbService.RecentlyBook;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.sjService.OldbookService;
 import com.choongang.s202350103.sjService.Paging;
@@ -26,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SjController {
 
 	private final OldbookService obs;
+	private final RecentlyBook rb;
 	
 	@RequestMapping(value = "test")
 	public String test(Model model) {
@@ -164,6 +168,7 @@ public class SjController {
 		member = (Member) session.getAttribute("member");
 		List<OldBook> oldbookList = obs.oldBookAcc();
 		model.addAttribute("oldBookAcc",oldbookList);
+		
 		model.addAttribute("member", member);
 		model.addAttribute("oldBook",oldBook);
 		System.out.println("sjController writeFormObTrans oldBook.getOb_acc_num()->"+oldBook.getOb_acc_num());
@@ -206,6 +211,7 @@ public class SjController {
 		member = (Member) session.getAttribute("member");
 		
 		int insertResult = obs.insertOldBook(oldBook);
+		
 		System.out.println("sjController oldBook->"+oldBook);
 		System.out.println("insertResult->>"+insertResult);
 		model.addAttribute("member", member);
@@ -272,7 +278,14 @@ public class SjController {
 	}
 	
 	@GetMapping(value = "folistOb")
-	public String folistOb(OldBook oldBook, String currentPage, Model model) {
+	public String folistOb(HttpSession session , OldBook oldBook, String currentPage, Model model) {
+		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+		
+		
+		
 		
 		System.out.println("SjController Start ");
 		
@@ -295,8 +308,14 @@ public class SjController {
 	}
 	
 	@GetMapping(value = "foOldBookDetail")
-	public String foOldBookDetail (int ob_num, Model model) {
+	public String foOldBookDetail (HttpSession session , NewBook newbook,  int ob_num, Model model) {
 		System.out.println("SjController Start detailOb...");
+		
+		// 세션에 nb_num을 저장하는 서비스 실행
+		
+		rb.sessionSave(session, ob_num);
+		
+		
 		
 		OldBook oldBook = obs.detailOb(ob_num);
 		System.out.println("SjController detailOb getOb_pur_price()->"+oldBook.getOb_pur_price());
@@ -313,15 +332,19 @@ public class SjController {
 	
 	//용빈 정산받기 버튼 컨트롤러
 	@PostMapping(value = "foObUpComple")
-	public String FoupdateObComple(OldBook oldBook, Model model) {
+	public String FoupdateObComple(HttpSession session, Member member , OldBook oldBook, Model model) {
         log.info("FoupdateObComple Start...");
 	
+        member = (Member) session.getAttribute("member");
+        
+        
         
         int updateCount = obs.updateObComp(oldBook);
     	System.out.println("SjController updateCount-->"+updateCount);
 		model.addAttribute("uptCnt",updateCount);    // Test Controller간 Data 전달
 		model.addAttribute("oldBook",oldBook);
-		
+		model.addAttribute("member", member);
+	
    		return "redirect:folistOb";    
 	}
 	@RequestMapping(value = "index")

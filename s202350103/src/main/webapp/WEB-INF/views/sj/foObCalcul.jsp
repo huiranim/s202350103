@@ -17,6 +17,7 @@
 					<input type="hidden" name="m_name" value="${oldBook.m_name}">
 					<input type="hidden" name="m_num" value="${oldBook.m_num }">
 					<input type="hidden" name="nb_num" value="${oldBook.nb_num }">	
+					<input type="hidden" name="nb_price" value="${oldBook.nb_price }">
 <br>
 <hr>
 	<p class="text-center fs-1 ">정산 예정 금액  </p>
