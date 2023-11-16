@@ -72,29 +72,106 @@
 </script>	
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	function changeChk(p_point){
-		if(p_point <= '${member.m_point}' ){
-			alert("사용 가능합니다.");
-			$("#pointMsg").html("사용 가능합니다.");
+
+
+	function selStatus(selTab) {
+		$('#o_selTab').val(selTab);  // Input Tag
+		
+		if (selTab === 1) {
+            $('#destination1').show();
+            $('#destination2').hide();
+        } else if (selTab === 2) {
+            $('#destination1').hide();
+            $('#destination2').show();
+        }
+	}
+	
+	function orderActionController() {
+		// 공통
+		var sendData1 =  JSON.stringify($('#orderActionForm').serialize());
+		var sendData2;
+		var sendData3;
+		var sendData4;
+		var sendData5;
+		var omessage;
+	
+		var o_selTab = $('#o_selTab').val();
+		if (o_selTab == '1') {
+			sendData2 =  JSON.stringify($('#destination1').serialize());
 			
-			var p_point_result = Number(p_point).toLocaleString();
-			$("#o_point_result").html(p_point_result);
+		}else {
+			sendData2 =  JSON.stringify($('#destination2').serialize());
+
+		}
+		sendData3 = sendData1+"&"+sendData2;
+		// 두개 Form 병합으로 인한 문자열 치환
+		sendData3 = sendData3.replace('"&"', '&');
+		alert('sendData3->'+sendData3)
+		
+		if($('#omessage_select').val() == "직접 입력"){
+			omessage =  $('#omessage').val();
+			alert('omessage->'+omessage)
+			sendData4 = "o_rec_msg=" + omessage;
 		} else {
-			alert("사용 불가능합니다.");
+			sendData4 = "o_rec_msg=" + $('#omessage_select').val();
+			alert('sendData4->'+sendData4)
+			
+		}
+		
+		sendData5 = sendData3+"&"+sendData4;
+		sendData5 = sendData5.replace('"&', '&');
+		alert('sendData5->'+sendData5)
+		
+		location.href= "orderAction?"+sendData5;	
+	}
+
+	
+	
+	function changeChk(p_point){
+		
+		var p_point_result		= Number(p_point);                      							// 사용 포인트
+		var p_total_price		= Number(${cart.totalPrice});										// 총 상품 금액
+		var p_deliv_price 		= Number(${cart.o_deliv_price});									// 배송비
+		var success_total_price = (p_total_price + p_deliv_price - p_point_result).toLocaleString();// 총 결제 금액(성공)
+		var success_save_pointy = ((p_total_price + p_deliv_price - p_point_result) * 0.01).toLocaleString();// 적립금(성공)
+		var fail_total_price 	= (p_total_price + p_deliv_price).toLocaleString();					// 총 결제 금액(성공)
+		var fail_save_point 	= ((p_total_price + p_deliv_price) * 0.01).toLocaleString();  		// 적립금(실패)
+		
+		if(p_point <= '${member.m_point}' ){
+			// 가능 여부 메세지
+			$("#pointMsg").html("사용 가능합니다.");
+			// 포인트 사용값
+			$("#o_point_result").html(p_point_result);
+			// 최종 결제 금액
+			$("#o_pay_price").html(success_total_price);
+			$("#o_pay_price_submit").html(success_total_price);
+			// 적립금(성공)
+			$("#o_point_save").html(success_save_pointy);
+			
+		} else {
 			$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
 			$("#o_point_result").html("");
 			$("#o_point").val("");
+			$("#o_pay_price").html(fail_total_price);
+			$("#o_deliv_price_submit").html(fail_total_price);
+			$("#o_point_save").html(fail_save_point);
+			
 		}
 		
 	}
+	
+	function chk() {
+		return false;
+		
+	}
+	
+	
+	
 		
 </script>
 
-
-
 </head>
 <body>
-
 
   <!-- section -->
 
@@ -109,29 +186,40 @@
             <h3 style="align: center;">배송지</h3><p>
           </div>
           <!-- form -->
-          <form class="row" action="foGivingGiftAction">
-          	
+         
           	<div class="col-md-12 mb-3">
           		<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 				  <li class="nav-item col" id="k">
-				    <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">최근 배송지</a>
+				    <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" 
+				                               role="tab" aria-controls="pills-home" 
+				                               onclick="selStatus(1)"
+				                               aria-selected="true">최근 배송지</a>
 				  </li>
 				  <li class="nav-item col" id="k">
-				    <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">직접 입력</a>
+				    <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" 
+				                        role="tab" aria-controls="pills-profile" 
+				                         onclick="selStatus(2)"
+				                        aria-selected="false">직접 입력</a>
+				                        
 				  </li>
 				</ul>
 				<div class="tab-content" id="pills-tabContent">
 				
 				   <!-- 최근 배송지 -->
+				 <form action="orderAction" id="destination1" style="display: block" >
+				    <input type="hidden" name="o_rec_name"  value="${member.m_name }">
+		            <input type="hidden" name="o_rec_addr"  value="${member.m_addr }">
+		            <input type="hidden" name="o_rec_ph"    value="${member.m_ph }">
+		            <input type="hidden" name="o_rec_mail" value="${member.m_email }">
+		            <input type="hidden" name="destination" value=1>
 				  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-		              <!-- input -->
-		            <input type="hidden" name="m_name" value="${member.m_name }">
-		            <input type="hidden" name="m_addr" value="${member.m_addr }">
-		            <input type="hidden" name="m_ph"   value="${member.m_ph }">
-		            
 		            <div class="col-md-12 mb-3">
 		              <label class="form-label"> 이름</label>
 		              <h6 class="h6">${member.m_name }</h6>
+		            </div>
+		            <div class="col-md-12 mb-3">
+		              <label class="form-label"> 이메일</label>
+		              <h6 class="h6">${member.m_email }</h6>
 		            </div>
 		            <div class="col-md-12 mb-3">
 		              <!-- input -->
@@ -145,56 +233,69 @@
 		              <h6 class="h6">${member.m_ph }</h6>
 		            </div>
 				  </div>
-				  
-				  
-				  
-				   <!-- 직접 입력 -->
+				 </form>
+				   
+				 <!-- 직접 입력 -->
+				 <form action="orderAction" id="destination2" style="display: none">
+				  <input type="hidden" name="destination" value=2>
 				  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 				  	<div class="col-md-12 mb-3">
 		              <label class="form-label" for="o_rec_name"> 이름<span class="text-danger">*</span></label>
-		              <input type="text" id="o_rec_name" class="form-control" name="m_name" placeholder="홍길동" required  style="width: 150px;">
+		              <input type="text" id="o_rec_name" class="form-control" name="o_rec_name" placeholder="홍길동" required  style="width: 150px;">
 		            </div>
 		            <div class="col-md-12 mb-3">
-		              <label class="form-label" for="o_rec_name"> 주소<span class="text-danger">*</span></label><br>
-		            <label class="form-label" for="o_rec_name">
-	                	<input type="text" id="sample6_postcode" class="form-control" placeholder="우편번호">
-	                </label>
-	                <label class="form-label" for="o_rec_name">
-						<input type="button" class="form-control" name="m_addr1" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="background-color: lightgray;">
-					</label><br>
-					<label class="form-label" for="o_rec_name">
-						<input type="text" id="sample6_address" name="m_addr2" class="form-control" placeholder="주소">
-					</label><br>
-					<label class="form-label" for="o_rec_name">
-					<input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" readonly>
-					</label><br>
-					<label class="form-label" for="o_rec_name">
-					<input type="text" id="sample6_detailAddress" name="m_addr" class="form-control" placeholder="상세주소" required="required">
-					</label>
-		            
-		            
-		            
+		              <label class="form-label" for="o_rec_mail"> 이메일<span class="text-danger">*</span></label>
+		              <div class="form-group">
+					    <div class="d-flex">
+					     <input type="text" id="o_rec_mail" name=m_email1 class="form-control" placeholder="abc" required style="width: 200px;"> 
+					     <span class="mx-1"> @ </span>
+					     <input type="text" id="o_rec_mail" name="m_email" class="form-control" placeholder="naver.com" required style="width: 200px;">
+					    </div>
+		              </div>
+		            </div>  
+		              
+		            <div class="col-md-12 mb-3">
+			              <label class="form-label" for="sample6_postcode"> 주소<span class="text-danger">*</span></label><br>
+			            <label class="form-label" for="o_rec_name">
+		                	<input type="text" id="sample6_postcode"  name="m_addr1" class="form-control" placeholder="우편번호">
+		                </label>
+		                <label class="form-label" for="o_rec_name">
+							<input type="button" class="form-control" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="background-color: lightgray;">
+						</label><br>
+						<label class="form-label" for="o_rec_name">
+							<input type="text" id="sample6_address" name="m_addr2" class="form-control" placeholder="주소">
+						</label><br>
+						<label class="form-label" for="o_rec_name">
+							<input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" readonly>
+						</label><br>
+						<label class="form-label" for="o_rec_name">
+							<input type="text" id="sample6_detailAddress" name="m_addr" class="form-control" placeholder="상세주소" required="required">
+						</label>
 		            </div>
+		            
 		            <div class="col-md-12 mb-3">
 		              <!-- input -->
 		              <label class="form-label" for="o_rec_ph"> 휴대전화<span class="text-danger">*</span></label>
 		              <div class="form-group">
 					    <div class="d-flex">
-					     <input type="text" id="o_rec_ph1" name="m_ph1" class="form-control" placeholder="010" required>
+					     <input type="text" id="o_rec_ph" name="m_ph1" class="form-control" placeholder="010" required>
 					     <span class="mx-1">-</span>
-					     <input type="text" id="o_rec_ph2" name="m_ph2" class="form-control" placeholder="0000" required>
+					     <input type="text" id="o_rec_ph" name="m_ph2" class="form-control" placeholder="0000" required>
 					     <span class="mx-1">-</span>
-					     <input type="text" id="o_rec_ph3" name="m_ph3" class="form-control" placeholder="0000" required>
+					     <input type="text" id="o_rec_ph" name="m_ph3" class="form-control" placeholder="0000" required>
 					    </div>
 					  </div>
 		            </div>
 				  </div>
+				 </form>
 				</div>
           	</div>
           	<p><hr><p>
           	
+ <!--  공통으로 보내줘야하는 form -->       	
+        <form action="orderAction"   id="orderActionForm"  onsubmit="return chk()">
           	<div class="mb-3">
-			  <select class="form-select" id="omessage_select" name="o_rec_msg" fw-filter="" fw-label="배송 메세지" fw-msg="">
+			  <select class="form-select" id="omessage_select" name="o_rec_msg" >
 			    <option selected>-- 메시지 선택 (선택사항) --</option>
 			    <option value="배송 전에 미리 연락바랍니다.">배송 전에 미리 연락바랍니다.</option>
 			    <option value="부재 시 경비실에 맡겨주세요.">부재 시 경비실에 맡겨주세요.</option>
@@ -205,33 +306,35 @@
 			  </select>
 			</div>
 			
+			
 			<div class="mb-3">
 			  <div class="ec-shippingInfo-omessageInput gBlank10" style="display:none;">
-			    <textarea class="form-control" id="omessage" name="ec-shippingInfo-omessageInput" fw-filter="" fw-label="배송 메세지" fw-msg="" maxlength="30" cols="50" rows="1"></textarea>
+			    <textarea class="form-control" id="omessage" name="ec-shippingInfo-omessageInput" fw-filter="" fw-label="배송 메세지" fw-msg="" maxlength="30" cols="50" rows="1" ></textarea>
 			  </div>
 			</div>
 			
-			<script>
-			  // 직접입력 선택될 경우, o_rec_msg의 value값이 직접입력에서 textarea의 값으로 바뀌는 작업임
-			  document.getElementById('omessage_select').addEventListener('change', function () {
-			    var textareaDiv = document.querySelector('.ec-shippingInfo-omessageInput');
-			    var selectedOption = this.options[this.selectedIndex].value;
-			    var omessageTextarea = document.getElementById('omessage');
-			    var o_rec_msgInput = document.querySelector('[name="o_rec_msg"]');
+	<script>
+	  // 직접입력 선택될 경우, o_rec_msg의 value값이 직접입력에서 textarea의 값으로 바뀌는 작업임
+	    document.getElementById('omessage_select').addEventListener('change', function () {
+		    var textareaDiv = document.querySelector('.ec-shippingInfo-omessageInput');
+		    var selectedOption = this.options[this.selectedIndex].value;
+		    var omessageTextarea = document.getElementById('omessage');
+		    var o_rec_msgInput = document.querySelector('[name="o_rec_msg"]');
+		
+		    if (selectedOption === '직접 입력') {
+		      textareaDiv.style.display = 'block';
+		      omessageTextarea.required = true; // 직접 입력이 선택되었을 때 필수로 설정
+		      
+		    } else {
+		      textareaDiv.style.display = 'none';
+		      omessageTextarea.required = false; // 직접 입력이 아닌 경우 필수 해제
+		      o_rec_msgInput.value = selectedOption; // 선택된 값을 직접 입력 값으로 설정
+		      omessageTextarea.value = ''; // 값 초기화
+		    }
+		  });
+	</script>
 			
-			    if (selectedOption === '직접 입력') {
-			      textareaDiv.style.display = 'block';
-			      omessageTextarea.required = true; // 직접 입력이 선택되었을 때 필수로 설정
-			    } else {
-			      textareaDiv.style.display = 'none';
-			      omessageTextarea.required = false; // 직접 입력이 아닌 경우 필수 해제
-			      o_rec_msgInput.value = selectedOption; // 선택된 값을 직접 입력 값으로 설정
-			      omessageTextarea.value = ''; // 값 초기화
-			    }
-			  });
-			</script>
-			
-          	
+          
             <p><p><hr class="my-4" style="border-width: 2px; border-color: #333;"><p><p>
             
             <h5 class="h5">주문 상품</h5><p>
@@ -288,24 +391,6 @@
             </div>
 				
             <p><p><hr class="my-4" style="border-width: 2px; border-color: #333;"><p><p>
-   <%-- 
-            <!-- 배송비 -->
-            <c:choose>
-            	<c:when test="${totalPrice > 50000}">
-            		<c:set var="o_deliv_price" value="0"/>
-            	</c:when>
-            	<c:when test="${totalPrice < 50000}">
-            		<c:set var="o_deliv_price" value="3000"/>
-            	</c:when>
-            </c:choose> --%>
-      <%--       
-            <c:if test="${totalPrice >= 50000}">
-            	<c:set var="o_deliv_price" value="0"/>
-            </c:if>
-            <c:if test="${totalPrice < 50000}">
-            	<c:set var="o_deliv_price" value="3000"/>
-            </c:if>
-            	 --%>
             
             <h5 class="h5">결제 정보</h5><p>
               <!-- input -->
@@ -358,17 +443,23 @@
             
             <h5 class="h5">결제 수단</h5><p>
             	<div class="d-grid gap-2 col-6 mx-auto">
-	            	<button type="button" class="btn btn-soft-secondary mb-2">카카오</button>
-	            	<button type="button" class="btn btn-soft-secondary mb-2">토스</button>
+	            	<tr>
+						<td><button type="radio" name="o_pay_type" checked="checked"  value="1" class="btn btn-soft-secondary mb-2">카카오</button>
+							<button type="radio" name="o_pay_type"                    value="2" class="btn btn-soft-secondary mb-2">토스</button>
+						</td>
+					</tr>
             	</div>
             	
             <p><p><hr class="my-4" style="border-width: 2px; border-color: #333;"><p><p>
-            	
+            
+            <input type="hidden" id="o_pay_price_submit"   name="o_pay_price"   value="${cart.totalPrice + cart.o_deliv_price}">
+            <input type="hidden" id="o_deliv_price_submit" name="o_deliv_price" value="${cart.o_deliv_price}">
+            <input type="hidden" name="o_selTab"   id="o_selTab" value="1">
             <div class="d-grid gap-2">
-	            <input class="btn btn-primary" type="submit" value="결제하기">
+	            <input class="btn btn-primary" type="button" value="결제하기" onclick="orderActionController()">
             </div>
-
-          </form>
+<!--  공통으로 보내줘야하는 form -->
+       </form>
 
         </div>
       </div>
