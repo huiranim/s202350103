@@ -80,9 +80,15 @@ public class GbController {
 		List<NewBook> listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
 		System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
 		
-		// 조회수 최대 값 구하기
-		int hit_nb_num = nbs.selectHitNbNum();
-		newbook.setHit_nb_num(hit_nb_num);
+		// 카테고리별 최대 조회수 도서 상품 리스트 구하기
+		List<NewBook> hitList = nbs.selectHitNbNum();
+		// newbook.setHit_nb_num(hit_nb_num);
+		System.out.println("hitList -> "+hitList);
+		
+		// 다독 전체 최대 조회수 도서 상품 리스트
+		int hitBook1 = nbs.selectAllHitNbNum();
+		System.out.println("hitBook1 -> "+hitBook1);
+		System.out.println("newbook.category2 -> "+newbook.getNb_category2());
 		
 		model.addAttribute("member", member);
 		model.addAttribute("listInNewbook", listInNewbook);
@@ -90,6 +96,8 @@ public class GbController {
 		model.addAttribute("page", page);
 		model.addAttribute("newbook", newbook);
 		model.addAttribute("recentBookList", recentBookList);
+		model.addAttribute("hitList", hitList);
+		model.addAttribute("hitBook1", hitBook1);
 		
 		return "gb/foInNewbookList";
 	}
@@ -105,6 +113,9 @@ public class GbController {
 		if (member != null) {
 			newbook.setM_num(member.getM_num());
 		}
+		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
 		
 		// 정렬 유형, 초기값(null)이면 --> recently
 		String orderType_default = "recently";
@@ -133,7 +144,8 @@ public class GbController {
 		model.addAttribute("listSearchNewbook", listSearchNewbook);
 		model.addAttribute("search_NewbookCnt", searchNewbookCnt);
 		model.addAttribute("page", page);
-		
+		model.addAttribute("recentBookList", recentBookList);
+
 		return "gb/fosearchNewbookList";
 		
 	}

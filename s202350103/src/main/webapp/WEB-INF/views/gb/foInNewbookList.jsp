@@ -149,21 +149,63 @@
 		              <!-- col -->
 		              <div class="col-md-4 col-12">
 		                 <div class="text-center position-relative ">
-			                 <c:if test="${inNewbook.nb_num eq newbook.hit_nb_num}">
-			                 	<div class=" position-absolute top-0">
-			                 	   <!-- 조회수가 가장 높은 것 hit로 보여주기 --> 
-			                       <span class="badge bg-danger">Hit</span>
-			                    </div>
-			                 </c:if>
+
+		                 <c:choose>
+		                 	<c:when test="${newbook.nb_category2 ne '0'}">
+			                 	<c:forEach var="hitBook" items="${hitList}">
+				                 	<c:if test="${inNewbook.nb_num eq hitBook.nb_num}">
+					                 	<div class=" position-absolute top-0">
+					                 	   <!-- 카테고리별로 조회수가 가장 높은 것 hit로 보여주기 --> 
+					                       <span class="badge bg-danger">
+					                       <!-- 카테고리별 리스트 -->
+				                       		<c:choose>
+					                       		<c:when test="${inNewbook.nb_category2 eq '1'}">
+					                       			[경제/경영] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '2'}">
+					                       			[과학] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '3'}">
+					                       			[소설] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '4'}">
+					                       			[역사/문화] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '5'}">
+					                       			[인문] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '6'}">
+					                       			[과학/기술] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '7'}">
+					                       			[문학] 1등
+					                       		</c:when>
+					                       	</c:choose> 
+					                       	</span>
+					                    </div>
+					                 </c:if>
+			                 	</c:forEach>
+			                 </c:when>
+			                 <c:otherwise>
+			                 	<c:if test="${inNewbook.nb_num eq hitBook1}">
+				                 	<div class=" position-absolute top-0">
+				                 	   <!-- 전체에서 조회수가 가장 높은 것 hit로 보여주기 --> 
+				                       <span class="badge bg-danger">다독 1등</span>
+				                    </div>
+			                    </c:if>
+			                 </c:otherwise>
+		                 </c:choose>
+		                 	
+		                 	
 		                    <a href="newbookDetail?nb_num=${inNewbook.nb_num }">
 		                       <!-- 도서 이미지 -->
 		                       <c:set var="nb_image" value="${inNewbook.nb_image }"/>
 		                       <c:choose>
 			                   	<c:when test="${fn:contains(nb_image, 'http')}">
-			                   		<img src="${inNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+			                   		<img src="${inNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem; height: 19rem;">
 			                   	</c:when>
 			                   	<c:otherwise>
-			                   		<img src="${pageContext.request.contextPath}/upload/${inNewbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+			                   		<img src="${pageContext.request.contextPath}/upload/${inNewbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem; height: 19rem;">
 			                   	</c:otherwise>
 			                   </c:choose>
 		                    </a>
