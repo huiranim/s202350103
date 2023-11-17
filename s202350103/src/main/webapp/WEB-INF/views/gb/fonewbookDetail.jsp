@@ -125,41 +125,6 @@
        } 
        
     }
-    
-    // url에서 nb_num만 따로 추출하는 함수
-    function getProductIDFromURL(url){
-    	var regex = /[?&]nb_num=(\d+)/; // nb_num을 따로 추출할 수 있도록 하는 정규식
-    	var match = regex.exec(url);	// exe(str) -> 처음 일치하는 부분 하나만 배열에 넣어서 return
-    	if(match && match[1]){			// match = ?nb_num=100042, 100042
-    		return match[1];			// match[0] = ?nb_num=100042
-    	}								// match[1] = 100042
-    	return null;
-    }
-    
-    // 쿠키를 저장하는 메소드
-    function setCookie(cookieName, value, expirationDate){
-    	// escape -> 알파벳과 숫자 및 특수문자를 제외한 모든 문자를 16진수로 인코딩
-    	var cookieValue = escape(value) + ((expirationDate == null) ? '' : '; expires=' + expirationDate.toUTCString());
-    	document.cookie = cookieName + '=' + cookieValue;
-    }
-    
-    // 쿠기 값을 가지고 오는 메소드
-    function getCookie(cookieName){
-    	var name = cookieName + '=';
-    	var decodedCookie = decodeURIComponent(document.cookie);
-    	var cookieArray = decodedCookie.split(';');
-    	
-    	for (var i = 0; i<cookieArray.length; i++){
-    		var cookie = cookieArray[i];
-    		while (cookie.charAt(0) == ''){
-    			cookie = cookie.substring(1);
-    		}
-    		if(cookie.indexOf(name) == 0){
-    			return cookie.substring(name.length, cookie.length);
-    		}
-    	}
-    	return '';
-    }
 
    $(function() {
       // ++5
@@ -306,7 +271,7 @@
                          <c:when test="${newbook.w_wish == 1}">
                             <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
                                data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${newbook.nb_num })">
-                               <i id="wishbtn" class="bi bi-heart-fill"></i></a>
+                               <i id="wishbtn" class="bi bi-heart-fill" style="color:red;"></i></a>
                          </c:when>
                        </c:choose>
                  </div>
@@ -544,9 +509,9 @@
 					               </div>
 					            </div>
 					          </div>
-					            
 					          </div>
 					        </div>
+					        
 					      </div>
 					    </div>
 </body>

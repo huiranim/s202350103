@@ -28,5 +28,5 @@ public class Attendance {				//출석부
 	private int end;
 	
 	//이벤트 정보 수정용
-	private MultipartFile file1;
+	private String file1;
 }
