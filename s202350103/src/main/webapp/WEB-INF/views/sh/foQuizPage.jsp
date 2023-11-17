@@ -37,7 +37,6 @@
 		}
 </script>
 <body>
-<p>${eNum}, ${m_num }<p>
 	<h1>Quiz이벤트</h1>
 	
 	<div>
@@ -45,7 +44,7 @@
 <div class="card card-product mb-8">
     <div class="card-body text-center py-8">
       <h3 class="fs-3 mb-5" style="color: #0a3622;">[오늘의 Quiz]</h3>
-		<p>${quiz.q_sdate}~${quiz.q_edate}</p>
+		<p>${quiz.q_sdate} 00:00 ~${quiz.q_edate} 00:00 </p>
 		<p><mark>퀴즈를 풀고 포인트를 적립해 보세요 !</mark> </p>    
     
 		
@@ -57,24 +56,27 @@
 			<input type="hidden" name="m_num" value="${m_num}">
    			<input type="hidden" name="eNum" value="${eNum}">
 			<input type="hidden" name="answer"   value="${quiz.q_answer}">
-			
-	<div style="display: flex; flex-direction: column; align-items: center;">
-   	
-   	<label>
-         <input class="form-check-input" type="radio" name="select" value="1">${quiz.q_select1}
-    </label><br>
-    
-    <label>
-         <input class="form-check-input" type="radio" name="select" value="2">${quiz.q_select2}
-    </label><br>
-    <label>
-        <input class="form-check-input" type="radio" name="select" value="3">${quiz.q_select3}
-    </label><br>
-    <label>
-         <input class="form-check-input" type="radio" name="select" value="4">${quiz.q_select4}
-    </label><br>
-    <input type="submit" class="btn btn-primary" id="subButton" value="정답 제출" disabled="disabled">
-</div>
+	<c:choose>
+		<c:when test=" ${chance == 0 } }">	
+			<div style="display: flex; flex-direction: column; align-items: center;">
+		   	
+		   	<label>
+		         <input class="form-check-input" type="radio" name="select" value="1">${quiz.q_select1}
+		    </label><br>
+		    
+		    <label>
+		         <input class="form-check-input" type="radio" name="select" value="2">${quiz.q_select2}
+		    </label><br>
+		    <label>
+		        <input class="form-check-input" type="radio" name="select"  value="3">${quiz.q_select3}
+		    </label><br>
+		    <label>
+		         <input class="form-check-input" type="radio" name="select" value="4">${quiz.q_select4}
+		    </label><br>
+		    <input type="submit" class="btn btn-primary" id="subButton" value="정답 제출" disabled="disabled">
+			</div>
+		</c:when>
+	</c:choose>	
 		</form>
 		</div>
 	</div>
@@ -100,24 +102,9 @@
 	
 	<script type="text/javascript">
 	$(function(){
-		var curDate = new Date();
-		var curDate1 = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
-		var a_sdate = '${quiz.q_sdate}';
-		var a_edate = '${quiz.q_edate}';
-		var sysdate = new Date(curDate1);
-		var sdate = convertToDate(a_sdate);
-		var edate = convertToDate(a_edate);
-		var target = document.getElementById("subButton");
-		if(sysdate>=sdate&&sysdate<=edate){
-		target.disabled = false;
-		} else{
-		target.disabled = true;	
+		if(${chance == 1}){
+			alert("이미 참여하셨습니다.");
 		}
-		
-		function convertToDate(dateStr) {
-			  var parts = dateStr.split('-');
-			  return new Date(parts[0], parts[1] - 1, parts[2]);
-			}
 	});
 </script>
 <%@ include file="../common/footerFo.jsp" %>

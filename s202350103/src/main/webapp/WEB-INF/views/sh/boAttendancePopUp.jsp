@@ -15,7 +15,7 @@
 	이벤트 이름  : <input type="text" name="a_title"   value="${attendance.a_title}" required="required">					<p>
 	이벤트 기간  : <input type="date" name="a_sdate"   value="${attendance.a_sdate}" required="required">~
 			  <input type="date" name="a_edate"   value="${attendance.a_edate}" required="required">					<p>
-	사진 등록     : ${attendance.a_image }<input type="file" name="file1">					<p>
+	사진 등록     : ${attendance.a_image}" <input type="file" name="file1">													<p>
 	출석 관리	:																											<p>
 		지급 포인트 : <input type="text" name="a_point" value="${attendance.a_point}" required="required">point				<p>
 	연속 출석 	:																											<p>
@@ -24,10 +24,11 @@
 	<span><input type="button" onclick="updateAtt()" value="수정"></span>
 </form>
 	<button onclick="deleteAtt(${attendance.a_num },${attendance.a_title})">삭제</button>
+	<span style="background-color:yellow">포인트 수령 기록이 있으면 삭제가 되지 않습니다!</span><p>
 	<button id="closeButton">취소</button>
 	
  
- <script type="text/javascript">
+<script type="text/javascript">
  function updateAtt() {
 	    alert("updateAttendance start..");
 	    var attendanceForm = $("#attendanceForm");
@@ -44,13 +45,15 @@
 	        a_title: attendanceForm.find("input[name='a_title']").val(),
 	        a_sdate: attendanceForm.find("input[name='a_sdate']").val(),
 	        a_edate: attendanceForm.find("input[name='a_edate']").val(),
-	        file1: fileValue,
+	        file1: attendanceForm.find("input[name='file1']").val(),
 	        a_point: parseInt(attendanceForm.find("input[name='a_point']").val(), 10),
 	        a_add: parseInt(attendanceForm.find("input[name='a_add']").val(), 10),
 	        a_addpoint: parseInt(attendanceForm.find("input[name='a_addpoint']").val(), 10),
-	        a_image: "${attendance.a_image}" // 기존 값 가져오기
+	        a_image: attendanceForm.find("img[name='a_image']").attr('src')		// 기존 값 가져오기	
 	    };
-
+		
+	    alert("a_image->"+a_image);
+	    
 	    alert(JSON.stringify(attendanceData));
 
 	    $.ajax({
@@ -83,6 +86,8 @@
 					if(result == 1){
 						alert("삭제하였습니다.");
 						location.href="boEventList";
+					} else {
+						alert("삭제가 불가능한 상태입니다.")
 					}
 				}
 			});
@@ -96,7 +101,6 @@
 	closeButton.addEventListener('click',function(){
 		window.close();
 	});
- </script>
-
+</script>
 </body>
 </html>

@@ -15,7 +15,7 @@
 		이벤트 이름 : <input type="text" name="q_title" 	value="${quiz.q_title}" required="required">			<p>
 		이벤트 기간 : <input type="date" name="q_sdate" 	value="${quiz.q_sdate}" required="required">~
 				 <input type="date"  name="q_edate"	value="${quiz.q_edate}" required="required">			<p>
-		사진 등록 :  <input type="file" name="q_image"	value="${quiz.q_image}" required="required">			<p>
+		사진 등록 : <img id="q_image" src="${pageContext.request.contextPath}/upload/${quiz.q_image}"><input type="file" name="q_image">			<p>
 		출석 혜택지급 : 지급 포인트 :	<input type="number" 	value="${quiz.q_point}" required="required">point		<p>
 		질문<br/>
 		<textarea name="q_question" required="required">${quiz.q_question }</textarea>						<p>

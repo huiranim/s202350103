@@ -10,7 +10,6 @@
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
 	function openPopUp(eNum){
-		alert(eNum);
 		window.open("boEventDetail?eNum="+eNum,"width=300,height=300");
 	}
 </script>
