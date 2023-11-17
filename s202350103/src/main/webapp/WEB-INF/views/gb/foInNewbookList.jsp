@@ -201,7 +201,7 @@
 			                 	</c:forEach>
 			                 </c:when>
 			                 <c:otherwise>
-			                 	<c:if test="${inNewbook.nb_num eq hitBook1}">
+			                 	<c:if test="${inNewbook.nb_num eq hitBook1.nb_num}">
 				                 	<div class=" position-absolute top-0">
 				                 	   <!-- 전체에서 조회수가 가장 높은 것 hit로 보여주기 --> 
 				                       <span class="badge bg-danger">다독 1등</span>
@@ -287,7 +287,7 @@
 			                 	</c:forEach>
 			                 </c:when>
 			                 <c:otherwise>
-			                 	<c:if test="${inNewbook.nb_num eq hitBook1}">
+			                 	<c:if test="${inNewbook.nb_num eq hitBook1.nb_num}">
 									  <button id="hit" class="mb-6" type="button">
 										<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
 					              	   <span style="color: white; font-weight: bold;">

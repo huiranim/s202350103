@@ -218,8 +218,8 @@
 		                    )
 	</select>
 	
-	<select id="gbSelectAllHitNbNum" resultType="int">
-		SELECT nb_num
+	<select id="gbSelectAllHitNbNum" resultType="NewBook">
+		SELECT *
 		FROM newbook
 		WHERE nb_readcnt IN (
 		                        SELECT max(nb_readcnt)

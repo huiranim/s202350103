@@ -69,316 +69,142 @@
         <!--  상품 시작 -->
         <!-- slider -->
                <div class="product-slider-second " id="slider-second">
-                  <!-- item -->
+                  <!-- 다독 전체 1등 -->
                   <div class="item">
-                     <!-- item 1-->
+                     <!-- item -->
                      <div class="card card-product mb-lg-4">
                         <div class="card-body">
-                           <!-- badge -->
+                           <!-- 상단 뱃지 -->
                            <div class="text-center position-relative ">
                               <div class=" position-absolute top-0 start-0">
-                                 <span class="badge bg-danger">Sale</span>
+                                 <span class="badge bg-danger">다독 1등</span>
                               </div>
-                              <!-- img -->
-                              <!-- img -->
-                              <a href="#!"> <img src="../assets/images/products/product-img-15.jpg"
-                                 alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                              <!-- action btn -->
-                              <!-- action btn -->
-                              <div class="card-product-action">
-                                 <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                    data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                 <a href="../pages/shop-wishlist.html" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true"
-                                    title="Wishlist"><i class="bi bi-heart"></i></a>
-                                 <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true"
-                                    title="Compare"><i class="bi bi-arrow-left-right"></i></a>
-                              </div>
-                           </div>
-                           <!-- title -->
-                           <div class="text-small mb-1"><a href="#!"
-                              class="text-decoration-none text-muted"><small>Fruits &
-                              Vegetables</small></a>
-                           </div>
-                           <h2 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">Fresh Apple</a>
-                           </h2>
-                           <div>
-                              <!-- rating -->
-                              <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-half"></i></small> <span
-                                 class="text-muted small">4.5(149)</span>
-                           </div>
-                           <!-- price -->
-                           <div class="d-flex justify-content-between align-items-center mt-3">
-                              <div><span class="text-dark">$18</span> <span
-                                 class="text-decoration-line-through text-muted">$24</span>
-                              </div>
-                              <!-- btn -->
-                              <div>
-                                 <a href="#!" class="btn btn-primary btn-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                       stroke-linecap="round" stroke-linejoin="round"
-                                       class="feather feather-plus">
-                                       <line x1="12" y1="5" x2="12" y2="19"></line>
-                                       <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
-                                    Add
-                                 </a>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- item 2-->
-                  <div class="item">
-                     <!-- item -->
-                     <div class="card card-product mb-lg-4">
-                        <div class="card-body">
-                           <div class="text-center position-relative">
-                              <!-- badge -->
-                              <div class=" position-absolute top-0 start-0">
-                                 <span class="badge bg-success">14%</span>
-                              </div>
-                              <!-- img -->
-                              <a href="#!"><img src="../assets/images/products/product-img-16.jpg"
-                                 alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                              <!-- action btn -->
-                              <!-- action btn -->
-                              <div class="card-product-action">
-                                 <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                    data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                 <a href="../pages/shop-wishlist.html" class="btn-action" data-bs-toggle="tooltip"
-                                    data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                 <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true"
-                                    title="Compare"><i class="bi bi-arrow-left-right"></i></a>
-                              </div>
-                           </div>
-                           <!-- title -->
-                           <div class="text-small mb-1"><a href="#!"
-                              class="text-decoration-none text-muted"><small>Fruits &
-                              Vegetables</small></a>
-                           </div>
-                           <!-- title -->
-                           <h2 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">Golden Pineapple
+                              <!-- 도서 이미지 -->
+                              <a href="newbookDetail?nb_num=${hitBook1.nb_num }"> 
+                              	<c:choose>
+								     <c:when test="${fn:contains(hitBook1.nb_image, 'http')}">
+								            <img src="${hitBook1.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid">
+								     </c:when>
+								     <c:otherwise>
+								            <img src="${pageContext.request.contextPath}/upload/${hitBook1.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid">
+								     </c:otherwise>
+								</c:choose>
                               </a>
-                           </h2>
-                           <!-- rating -->
-                           <div class="text-warning">
-                              <!-- rating -->
-                              <small> <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-half"></i></small> <span class="text-muted small">4.5
-                              (25)</span>
                            </div>
-                           <!-- price -->
+                           <!-- 도서 카테고리 -->
+                           <div class="text-small mb-1">
+                           	  <a href="newbookDetail?nb_num=${hitBook1.nb_num }" class="text-decoration-none text-muted">
+                           	  	<small>
+                           	  		<c:choose>
+						               <c:when test="${hitBook1.nb_category1 eq 1}">국내도서 </c:when>
+						               <c:when test="${hitBook1.nb_category1 eq 2}">해외도서 </c:when>
+						            </c:choose>
+						            >
+						            <c:choose>
+						               <c:when test="${hitBook1.nb_category2 eq 1}"> 경제/경영</c:when>
+						               <c:when test="${hitBook1.nb_category2 eq 2}"> 과학</c:when>
+						               <c:when test="${hitBook1.nb_category2 eq 3}"> 소설</c:when>
+						               <c:when test="${hitBook1.nb_category2 eq 4}"> 역사/문화</c:when>
+						               <c:when test="${hitBook1.nb_category2 eq 5}"> 인문</c:when>
+						               <c:when test="${hitBook1.nb_category2 eq 6}"> 과학/기술</c:when>
+						               <c:when test="${hitBook1.nb_category2 eq 7}"> 문학</c:when>
+						            </c:choose>
+                           	  	</small>
+                           	  </a>
+                           </div>
+                           <!-- 도서 제목 -->
+                           <h2 class="fs-6"><a href="newbookDetail?nb_num=${hitBook1.nb_num }" class="text-inherit text-decoration-none">${hitBook1.nb_title }</a>
+                           </h2>
+                           <!-- 도서 가격 -->
                            <div class="d-flex justify-content-between align-items-center mt-3">
-                              <div><span class="text-dark">$24</span>
-                              </div>
-                              <!-- btn -->
                               <div>
-                                 <a href="#!" class="btn btn-primary btn-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                       stroke-linecap="round" stroke-linejoin="round"
-                                       class="feather feather-plus">
-                                       <line x1="12" y1="5" x2="12" y2="19"></line>
-                                       <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
-                                    Add
-                                 </a>
+                              	<span class="text-dark"><fmt:formatNumber value="${hitBook1.nb_price}" groupingUsed="true"/>원</span> 
                               </div>
                            </div>
                         </div>
                      </div>
                   </div>
-                  <!-- item 3-->
-                  <div class="item">
-                     <!-- item -->
-                     <div class="card card-product mb-lg-4">
-                        <div class="card-body">
-                           <div class="text-center position-relative">
-                              <!-- img -->
-                              <a href="#!"><img src="../assets/images/products/product-img-17.jpg"
-                                 alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                              <!-- action btn -->
-                              <div class="card-product-action">
-                                 <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                    data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                 <a href="../pages/shop-wishlist.html" class="btn-action" data-bs-toggle="tooltip"
-                                    data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                 <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true"
-                                    title="Compare"><i class="bi bi-arrow-left-right"></i></a>
-                              </div>
-                           </div>
-                           <!-- title -->
-                           <div class="text-small mb-1"><a href="#!"
-                              class="text-decoration-none text-muted"><small>Fruits &
-                              Vegetables</small></a>
-                           </div>
-                           <h2 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">Fresh Kiwi</a>
-                           </h2>
-                           <!-- rating -->
-                           <div class="text-warning">
-                              <!-- rating -->
-                              <small> <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i></small> <span class="text-muted small">5
-                              (469)</span>
-                           </div>
-                           <!-- rating -->
-                           <div class="d-flex justify-content-between align-items-center mt-3">
-                              <div><span class="text-dark">$32</span> <span
-                                 class="text-decoration-line-through text-muted">$35</span>
-                              </div>
-                              <!-- btn -->
-                              <div>
-                                 <a href="#!" class="btn btn-primary btn-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                       stroke-linecap="round" stroke-linejoin="round"
-                                       class="feather feather-plus">
-                                       <line x1="12" y1="5" x2="12" y2="19"></line>
-                                       <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
-                                    Add
-                                 </a>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- item 4-->
-                  <div class="item">
-                     <!-- item -->
-                     <div class="card card-product mb-lg-4">
-                        <div class="card-body">
-                           <div class="text-center position-relative">
-                              <!-- badge -->
-                              <div class=" position-absolute top-0 start-0">
-                                 <span class="badge bg-danger">Hot</span>
-                              </div>
-                              <!-- img -->
-                              <a href="#!"><img src="../assets/images/products/product-img-18.jpg"
-                                 alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                              <!-- action btn -->
-                              <div class="card-product-action">
-                                 <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                    data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                 <a href="../pages/shop-wishlist.html" class="btn-action" data-bs-toggle="tooltip"
-                                    data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                 <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true"
-                                    title="Compare"><i class="bi bi-arrow-left-right"></i></a>
-                              </div>
-                           </div>
-                           <!-- action btn -->
-                           <div class="text-small mb-1"><a href="#!"
-                              class="text-decoration-none text-muted"><small>Fruits &
-                              Vegetables</small></a>
-                           </div>
-                           <h2 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">Fresh Banana</a>
-                           </h2>
-                           <!-- rating -->
-                           <div class="text-warning">
-                              <!-- rating -->
-                              <small> <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-half"></i>
-                              <i class="bi bi-star"></i></small> <span class="text-muted small">3.5
-                              (456)</span>
-                           </div>
-                           <!-- price -->
-                           <div class="d-flex justify-content-between align-items-center mt-3">
-                              <div><span class="text-dark">$3</span> <span
-                                 class="text-decoration-line-through text-muted">$5</span>
-                              </div>
-                              <!-- btn -->
-                              <div>
-                                 <a href="#!" class="btn btn-primary btn-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                       stroke-linecap="round" stroke-linejoin="round"
-                                       class="feather feather-plus">
-                                       <line x1="12" y1="5" x2="12" y2="19"></line>
-                                       <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
-                                    Add
-                                 </a>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- item 5-->
-                  <div class="item">
-                     <!-- item -->
-                     <div class="card card-product mb-lg-4">
-                        <div class="card-body">
-                           <div class="text-center position-relative">
-                              <!-- img -->
-                              <a href="#!"><img src="../assets/images/products/product-img-19.jpg"
-                                 alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                              <!-- action btn -->
-                              <div class="card-product-action">
-                                 <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                    data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                 <a href="../pages/shop-wishlist.html" class="btn-action" data-bs-toggle="tooltip"
-                                    data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                 <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true"
-                                    title="Compare"><i class="bi bi-arrow-left-right"></i></a>
-                              </div>
-                           </div>
-                           <!-- title -->
-                           <div class="text-small mb-1"><a href="#!"
-                              class="text-decoration-none text-muted"><small>Fruits &
-                              Vegetables</small></a>
-                           </div>
-                           <h2 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">Beatroot</a>
-                           </h2>
-                           <!-- rating -->
-                           <div class="text-warning">
-                              <!-- rating -->
-                              <small> <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-fill"></i>
-                              <i class="bi bi-star-half"></i></small> <span class="text-muted small">4.5
-                              (39)</span>
-                           </div>
-                           <!-- price -->
-                           <div class="d-flex justify-content-between mt-4">
-                              <div><span class="text-dark">$13</span> <span
-                                 class="text-decoration-line-through text-muted">$18</span>
-                              </div>
-                              <!--  btn -->
-                              <div>
-                                 <a href="#!" class="btn btn-primary btn-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                       stroke-linecap="round" stroke-linejoin="round"
-                                       class="feather feather-plus">
-                                       <line x1="12" y1="5" x2="12" y2="19"></line>
-                                       <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
-                                    Add
-                                 </a>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+                  <!-- 카테고리별 1등-->
+                  <c:forEach var="categoryHitBook" items="${hitList }" >
+	                  <div class="item">
+	                     <!-- item -->
+	                     <div class="card card-product mb-lg-4">
+	                        <div class="card-body">
+	                           <div class="text-center position-relative">
+	                              <!-- 상단 뱃지 -->
+	                              <div class=" position-absolute top-0 start-0">
+	                                 <span class="badge bg-success">
+										<c:choose>
+				                       		<c:when test="${categoryHitBook.nb_category2 eq '1'}">
+				                       			[경제/경영] 1등
+				                       		</c:when>
+				                       		<c:when test="${categoryHitBook.nb_category2 eq '2'}">
+				                       			[과학] 1등
+				                       		</c:when>
+				                       		<c:when test="${categoryHitBook.nb_category2 eq '3'}">
+				                       			[소설] 1등
+				                       		</c:when>
+				                       		<c:when test="${categoryHitBook.nb_category2 eq '4'}">
+				                       			[역사/문화] 1등
+				                       		</c:when>
+				                       		<c:when test="${categoryHitBook.nb_category2 eq '5'}">
+				                       			[인문] 1등
+				                       		</c:when>
+				                       		<c:when test="${categoryHitBook.nb_category2 eq '6'}">
+				                       			[과학/기술] 1등
+				                       		</c:when>
+				                       		<c:when test="${categoryHitBook.nb_category2 eq '7'}">
+				                       			[문학] 1등
+				                       		</c:when>
+				                       	</c:choose> 
+									 </span>
+	                              </div>
+	                              <!-- img -->
+	                              <a href="newbookDetail?nb_num=${categoryHitBook.nb_num }">
+	                              	<c:choose>
+									     <c:when test="${fn:contains(categoryHitBook.nb_image, 'http')}">
+									            <img src="${categoryHitBook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid">
+									     </c:when>
+									     <c:otherwise>
+									            <img src="${pageContext.request.contextPath}/upload/${categoryHitBook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid">
+									     </c:otherwise>
+									</c:choose>
+	                              </a>
+	                           </div>
+	                           <!-- 도서 카테고리명 -->
+	                           <div class="text-small mb-1">
+	                           		<a href="newbookDetail?nb_num=${categoryHitBook.nb_num }" class="text-decoration-none text-muted">
+	                           			<small>
+	                           				<c:choose>
+								               <c:when test="${categoryHitBook.nb_category1 eq 1}">국내도서 </c:when>
+								               <c:when test="${categoryHitBook.nb_category1 eq 2}">해외도서 </c:when>
+								            </c:choose>
+								            >
+								            <c:choose>
+								               <c:when test="${categoryHitBook.nb_category2 eq 1}"> 경제/경영</c:when>
+								               <c:when test="${categoryHitBook.nb_category2 eq 2}"> 과학</c:when>
+								               <c:when test="${categoryHitBook.nb_category2 eq 3}"> 소설</c:when>
+								               <c:when test="${categoryHitBook.nb_category2 eq 4}"> 역사/문화</c:when>
+								               <c:when test="${categoryHitBook.nb_category2 eq 5}"> 인문</c:when>
+								               <c:when test="${categoryHitBook.nb_category2 eq 6}"> 과학/기술</c:when>
+								               <c:when test="${categoryHitBook.nb_category2 eq 7}"> 문학</c:when>
+								            </c:choose>
+	                           			</small>
+	                           		</a>
+	                           </div>
+	                           <!-- 도서 제목 -->
+	                           <h2 class="fs-6"><a href="newbookDetail?nb_num=${categoryHitBook.nb_num }" class="text-inherit text-decoration-none">${categoryHitBook.nb_title }
+	                              </a>
+	                           </h2>
+	                           <!-- 도서 가격 -->
+	                           <div class="d-flex justify-content-between align-items-center mt-3">
+	                              <div><span class="text-dark"><fmt:formatNumber value="${categoryHitBook.nb_price}" groupingUsed="true"/>원</span>
+	                              </div>
+	                           </div>
+	                        </div>
+	                     </div>
+	                  </div>
+                  </c:forEach>
                </div>
 		<!-- 상단 이미지 슬라이드 끝 -->
       </div>

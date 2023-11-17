@@ -27,5 +27,5 @@ public interface NewBookDao {
 	int 			deleteBoNewbook(int nb_num);
 	int 			insertBoNewbook(NewBook newbook);
 	NewBook 		selectRecentBookList(int nb_num);
-	int 			selectAllHitNbNum();  
+	NewBook 		selectAllHitNbNum();  
 } 

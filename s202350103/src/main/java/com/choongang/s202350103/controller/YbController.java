@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.choongang.s202350103.model.Community;
+import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
@@ -47,12 +49,14 @@ public class YbController {
 	private final HttpSession session;
 	private final JavaMailSender mailSender;
 	final DefaultMessageService messageService; //  A
+	private final NewBookService nbs;
 
-	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender) {
+	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs) {
 		this.ms = ms;
 		this.session = session;
 		this.mailSender = mailSender;
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
+		this.nbs = nbs;
 	}
 	
 
@@ -68,16 +72,27 @@ public class YbController {
 	
 	// Main Page
 	@RequestMapping(value = "/")
-	public String main(Member member,HttpServletRequest request, Model model, Cart cart) {
+	public String main(Member member, NewBook newbook, HttpServletRequest request, Model model, Cart cart) {
 		System.out.println("YbController main() start... ");
 		member =(Member) session.getAttribute("member");
 		if(member == null) {
 			return "main";
 		}
+		
+		// 카테고리별 최대 조회수 도서 상품 리스트 구하기
+		List<NewBook> hitList = nbs.selectHitNbNum();
+		
+		// 다독 전체 최대 조회수 도서 상품 리스트
+		NewBook hitBook1 = nbs.selectAllHitNbNum();
+		
+		model.addAttribute("hitList", hitList);
+		model.addAttribute("hitBook1", hitBook1);
+		
 		int totalCart = ms.totalCart(member);
 		System.out.println("YbController main() start... ");
 		model.addAttribute("member", member);
 		model.addAttribute("totalCart", totalCart);
+		
 		return "main";
 	}
 	

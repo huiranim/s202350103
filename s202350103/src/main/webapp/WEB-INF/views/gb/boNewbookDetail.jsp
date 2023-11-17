@@ -23,8 +23,8 @@
 		}
 		
 		$('#category2').empty();
-		HTML += "<select name='nb_category1' class='form-select' aria-label='Default select example'>";
-		for (var i=1; i<category2.length+1; i++){
+		HTML += "<select name='nb_category2' class='form-select' aria-label='Default select example'>";
+		for (var i=1; i<=category2.length; i++){
 			HTML += "<option value="+i+">"+category2[i-1]+"</option>";
 		}
 		HTML += "</select>";
@@ -81,7 +81,7 @@
 			    <div class="d-flex mt-2 mt-lg-0 mb-3">
 	             <div class="me-2 flex-grow">
 	               <!-- 카테고리1 검색 -->
-	                <select id="category1" name="nb_category1" class="form-select" aria-label="Default select example" onchange="category1Change()">
+	                <select id="category1" name="nb_category1" class="form-select" aria-label="Default select example" onchange="category1Change()" required="required">
 	                   <option value=1 <c:if test ="${newbook.nb_category1 eq '1'}"> selected="selected"</c:if>>국내도서</option>
 	                   <option value=2 <c:if test ="${newbook.nb_category1 eq '2'}"> selected="selected"</c:if>>해외도서</option>
 	     			</select>
@@ -90,7 +90,7 @@
 	             <div id="category2">
 	                <!-- 카테고리2 -->
 	                <c:if test="${newbook.nb_category1 eq 1 }">
-		                <select name="nb_category2" class="form-select" aria-label="Default select example">
+		                <select name="nb_category2" class="form-select" aria-label="Default select example" required="required">
 		                   <option value=1 <c:if test ="${newbook.nb_category2 eq '1'}"> selected="selected"</c:if>>경제/경영</option>
 		                   <option value=2 <c:if test ="${newbook.nb_category2 eq '2'}"> selected="selected"</c:if>>과학</option>
 		                   <option value=3 <c:if test ="${newbook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
@@ -99,7 +99,7 @@
 		     			</select>
 	     			</c:if>
 	     			<c:if test="${newbook.nb_category1 eq 2 }">
-		                <select name="nb_category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
+		                <select name="nb_category2" class="form-select" aria-label="Default select example" required="required">
 		                   <option value=6 <c:if test ="${newbook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
 		                   <option value=7 <c:if test ="${newbook.nb_category2 eq '7'}"> selected="selected"</c:if>>문학</option>
 		     			</select>
@@ -109,27 +109,27 @@
 			    <!-- 도서제목 -->
 			    <div class="mb-3">
 	                  <span class="form-label">제목 : </span>
-	                  <input type="text" name="nb_title" value="${newbook.nb_title}" class="form-control">
+	                  <input type="text" name="nb_title" value="${newbook.nb_title}" class="form-control" required="required">
 	            </div>
 	            <!-- 도서가격 -->
 			    <div class="mb-3">
 	                  <span class="form-label">가격 : </span>
-	                  <input type="text" name="nb_price" value="${newbook.nb_price}" class="form-control">
+	                  <input type="number" name="nb_price" value="${newbook.nb_price}" class="form-control" required="required">
 	            </div>
 	            <!-- 지은이 -->
 			    <div class="mb-3">
 	                  <span class="form-label">지은이 : </span>
-	                  <input type="text" name="nb_writer" value="${newbook.nb_writer}" class="form-control">
+	                  <input type="text" name="nb_writer" value="${newbook.nb_writer}" class="form-control" required="required">
 	            </div>
 			    <!-- 출판사 -->
 			    <div class="mb-3">
 	                  <span class="form-label">출판사 : </span>
-	                  <input type="text" name="nb_publisher" value="${newbook.nb_publisher}" class="form-control">
+	                  <input type="text" name="nb_publisher" value="${newbook.nb_publisher}" class="form-control" required="required">
 	            </div>
 	            <!-- 출간일 -->
 			    <div class="mb-3">
 	                  <span class="form-label">출간일 : </span>
-	                  <input type="date" name="nb_publi_date" value="${newbook.nb_publi_date}" class="form-control">
+	                  <input type="date" name="nb_publi_date" value="${newbook.nb_publi_date}" class="form-control" required="required">
 	            </div>
 	          </div>
 			</div>
@@ -156,7 +156,7 @@
 	              <div class="my-8">
 	                <div class="mb-5">
 	                  <h3 class="mb-3">줄거리</h3>
-	                  <textarea class="mb-0 fs-5" name="nb_summary" style="width: 100%; height: 400px;">${newbook.nb_summary }</textarea>
+	                  <textarea class="mb-0 fs-5" name="nb_summary" style="width: 100%; height: 400px;" required="required">${newbook.nb_summary }</textarea>
 	                </div>
 	                
 	                <div class="mb-5">
@@ -164,15 +164,15 @@
 	                   <table class="table fs-6" style="width: 25rem;">
 					     <tr>
 					       <th class="table-light text-center">ISBN</th>
-					       <td><input type="text" name="nb_isbn" value="${newbook.nb_isbn}" class="form-control"></td>
+					       <td><input type="text" name="nb_isbn" value="${newbook.nb_isbn}" class="form-control" required="required"></td>
 					     </tr>
 						 <tr>
 					       <th class="table-light text-center">쪽수</th>
-					       <td><input type="text" name="nb_page" value="${newbook.nb_page}" class="form-control"></td>
+					       <td><input type="text" name="nb_page" value="${newbook.nb_page}" class="form-control" required="required"></td>
 					     </tr>
 					     <tr>
 					       <th class="table-light text-center">크기</th>
-					       <td><input type="text" name="nb_size" value="${newbook.nb_size}" class="form-control"></td>
+					       <td><input type="text" name="nb_size" value="${newbook.nb_size}" class="form-control" required="required"></td>
 					     </tr>  
 					   </table>
 	                </div>
@@ -183,7 +183,7 @@
 		 </div>
 	  </div>
 	  <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="border-top: 1px solid gray; margin-right: 10%;">
-	   	<button class="btn btn-primary mt-5 mb-2" type="button" onclick="location.href='bonewbookList'">상품목록</button>
+	   	<button class="btn btn-primary mt-5 mb-2" type="button" onclick="location.href='bonewbookList'" style="margin-right: 2%;">상품목록</button>
 	   	<button class="btn btn-info mt-5 mb-2" type="submit">수정하기</button>
 	  </div>
 	 </form>

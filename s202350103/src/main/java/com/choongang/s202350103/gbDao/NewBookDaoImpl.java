@@ -241,9 +241,9 @@ public class NewBookDaoImpl implements NewBookDao {
 	}
 
 	@Override
-	public int selectAllHitNbNum() {
+	public NewBook selectAllHitNbNum() {
 			System.out.println("NewBookDaoImpl selectHitNbNum Start...");
-			int hitBook = 0;
+			NewBook hitBook = null;
 			
 			try {
 				hitBook = session.selectOne("gbSelectAllHitNbNum");

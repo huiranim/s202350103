@@ -23,8 +23,8 @@
 		}
 		
 		$('#category2').empty();
-		HTML += "<select name='nb_category1' class='form-select' aria-label='Default select example'>";
-		for (var i=1; i<category2.length+1; i++){
+		HTML += "<select name='nb_category2' class='form-select' aria-label='Default select example'>";
+		for (var i=1; i<=category2.length; i++){
 			HTML += "<option value="+i+">"+category2[i-1]+"</option>";
 		}
 		HTML += "</select>";
@@ -44,10 +44,20 @@
 		}
 	}
 	
+	function chk() {
+		if(isNaN(frm.nb_price.value)){
+			alert("도서 가격에 숫자만 입력해주세요.");
+			frm.nb_price.focus;
+			frm.nb_price.value="";	// 입력한 글자 지우기
+			return false;
+		}
+		return true;
+	}
+	
 </script>
 </head>
 <body>
-	<form action="insertBoNewbook" method="post" enctype="multipart/form-data" style="margin-left: 10%; margin-right: 10%;">
+	<form action="insertBoNewbook" name="frm" method="post" enctype="multipart/form-data" onsubmit="return chk()" style="margin-left: 10%; margin-right: 10%;">
 		<div class="row">
 		  <div class="col-md-6 row justify-content-center">
 			<!-- 도서 이미지 -->
@@ -59,7 +69,7 @@
 			 </div>
 			 <!-- 파일 선택 -->
 			 <div class="input-group">
-	    		<input type="file" name="file1" id="img_select" onchange="setImageFromFile(this);" class="form-control mt-3" aria-label="Upload">
+	    		<input type="file" name="file1" id="img_select" onchange="setImageFromFile(this);" class="form-control mt-3" aria-label="Upload" required="required">
 	  		 </div>
 		  </div>
 		 </div>
@@ -96,7 +106,7 @@
 	            <!-- 도서가격 -->
 			    <div class="mb-3">
 	                  <span class="form-label">가격 : </span> 
-	                  <input type="text" name="nb_price" class="form-control" required="required">
+	                  <input type="number" id="nb_price" name="nb_price" class="form-control" required="required">
 	            </div>
 	            <!-- 지은이 -->
 			    <div class="mb-3">
@@ -138,7 +148,7 @@
 	              <div class="my-8">
 	                <div class="mb-5">
 	                  <h3 class="mb-3">줄거리</h3>
-	                  <textarea class="mb-0 fs-5" name="nb_summary" style="width: 100%; height: 400px;"></textarea>
+	                  <textarea class="mb-0 fs-5" name="nb_summary" style="width: 100%; height: 400px;" required="required"></textarea>
 	                </div>
 	                
 	                <div class="mb-5">
@@ -146,15 +156,15 @@
 	                   <table class="table fs-6" style="width: 25rem;">
 					     <tr>
 					       <th class="table-light text-center">ISBN</th>
-					       <td><input type="text" name="nb_isbn" class="form-control"></td>
+					       <td><input type="text" name="nb_isbn" class="form-control" required="required"></td>
 					     </tr>
 						 <tr>
 					       <th class="table-light text-center">쪽수</th>
-					       <td><input type="text" name="nb_page" class="form-control"></td>
+					       <td><input type="text" name="nb_page" class="form-control" required="required"></td>
 					     </tr>
 					     <tr>
 					       <th class="table-light text-center">크기</th>
-					       <td><input type="text" name="nb_size" class="form-control"></td>
+					       <td><input type="text" name="nb_size" class="form-control" required="required"></td>
 					     </tr>  
 					   </table>
 	                </div>
@@ -165,7 +175,7 @@
 		 </div>
 	  </div>
 	  <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="border-top: 1px solid gray; margin-right: 10%;">
-	   	<button class="btn btn-primary mt-5 mb-2" type="button" onclick="location.href='bonewbookList'">상품목록</button>
+	   	<button class="btn btn-primary mt-5 mb-2" type="button" onclick="location.href='bonewbookList'" style="margin-right: 2%;">상품목록</button>
 	   	<button class="btn btn-info mt-5 mb-2" type="submit">등록하기</button>
 	  </div>
 	 </form>

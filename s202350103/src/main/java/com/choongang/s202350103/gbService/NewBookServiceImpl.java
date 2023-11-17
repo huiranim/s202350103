@@ -181,9 +181,9 @@ public class NewBookServiceImpl implements NewBookService {
 	}
 
 	@Override
-	public int selectAllHitNbNum() {
+	public NewBook selectAllHitNbNum() {
 		System.out.println("NewBookServiceImpl selectHitNbNum start...");
-		int hitBook = nbd.selectAllHitNbNum();
+		NewBook hitBook = nbd.selectAllHitNbNum();
 		
 		return hitBook;
 	}
