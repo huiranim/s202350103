@@ -56,6 +56,19 @@
 			WHERE   rn BETWEEN #{start} and #{end}
 		</select>
 		
+		<select id="ybCommnuityList"  resultType="Community">
+			SELECT *
+			FROM
+			(
+					SELECT rownum rn, a.*
+					FROM
+								(SELECT  *
+	                             FROM 	 community 
+	                             )a
+								)
+			WHERE   rn BETWEEN #{start} and #{end}
+		</select>
+		
 		<select id="ybMemberQuizList" parameterType="PointList" resultType="PointList">
 			SELECT  q.q_title title, p.m_point point, p.a_par_pdate date1, p.p_list_type type1 
 			FROM    point_list p, quiz q

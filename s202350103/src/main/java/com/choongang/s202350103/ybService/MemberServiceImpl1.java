@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.model.Cart;
+import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
@@ -49,6 +50,13 @@ public class MemberServiceImpl1 implements MemberService {
 		
 		return listCart;
 	}
+	@Override
+	public List<Community> communityList(Community community) {
+		System.out.println("MemberServiceImpl1 communityList start...");
+		List<Community> communityList = md.communityList(community);
+
+		return communityList;
+	}
 
 	// 장바구니 총 금액
 	@Override
@@ -72,6 +80,14 @@ public class MemberServiceImpl1 implements MemberService {
 		totalWishList = md.totalWishList(member);
 		return totalWishList;
 	}
+	
+	@Override
+	public int comListTotalCnt(Community community) {
+		int comListTotalCnt = 0;
+		comListTotalCnt = md.comListTotalCnt(community);
+		return comListTotalCnt;
+	}
+
 	// 판매 개수
 	@Override
 	public int totalSellCnt(Member member) {
@@ -197,6 +213,9 @@ public class MemberServiceImpl1 implements MemberService {
 		Member memberPwChangeByPh = md.memberPwChangeByPh(m_ph, m_pw);
 		return memberPwChangeByPh;
 	}
+
+	
+
 
 	
 

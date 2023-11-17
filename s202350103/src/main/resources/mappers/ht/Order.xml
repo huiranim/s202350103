@@ -19,7 +19,7 @@
 		WHERE  c.nb_num = n.nb_num
 		AND    m_num = #{m_num}
 	</select>
-	
+<!-- 	
 	<insert id="htOrderInsert" parameterType="Orderr">
 		INSERT INTO orderr (
 							O_ORDER_NUM,
@@ -55,5 +55,15 @@
 					 	    #{o_rec_msg}
 					 	    )
 	</insert>
+	 -->
+	 
+	<select id="htOrderInsert" statementType="CALLABLE" parameterType="Orderr" >
+		{ 
+			call Insert_order_detail(
+					#{m_num       , mode=IN   , jdbcType=INTEGER}
+				   ,#{o_order_num , mode=OUT  , jdbcType=NUMERIC}
+			)
+		}
+	</select>
 	
 </mapper>
