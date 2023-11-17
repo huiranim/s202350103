@@ -1,11 +1,9 @@
 package com.choongang.s202350103.controller;
 
-	import java.io.File;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,31 +13,27 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-	import org.springframework.ui.Model;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.s202350103.model.AttJoin;
-	import com.choongang.s202350103.model.Attendance;
+import com.choongang.s202350103.model.Attendance;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.Quiz;
-	import com.choongang.s202350103.model.QuizJoin;
-	import com.choongang.s202350103.shService.Paging;
-	import com.choongang.s202350103.shService.PointService;
+import com.choongang.s202350103.model.QuizJoin;
+import com.choongang.s202350103.shService.Paging;
+import com.choongang.s202350103.shService.PointService;
 import com.choongang.s202350103.yjService.MemberService;
 
 import lombok.RequiredArgsConstructor;
-	import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 
 	@Controller
 	@RequiredArgsConstructor
@@ -153,21 +147,31 @@ import lombok.RequiredArgsConstructor;
 			
 			int result=0;
 			int add = ps.checkAddAtt(a_num);		// 연속출석 일자		
+			System.out.println("연속 출석 일자 :"+add);
 			
+			
+			Calendar calendar = Calendar.getInstance();
+			Date checkTime = calendar.getTime();
+			attJoin.setA_par_pdate(checkTime);
+		
 			for(int i = 0; i < add; i++) {
-				Calendar calendar = Calendar.getInstance();
+				
 				calendar.add(Calendar.DAY_OF_MONTH,-i);
-				Date checkTime = calendar.getTime();
-				attJoin.setA_par_pdate(checkTime);
+				checkTime = calendar.getTime();
 				int rowCount = ps.countAttRow(attJoin);
 				if(rowCount == 1) {
+					System.out.println("rowCount == 1");
 					result = 1;
 					continue;
 				}else {
+					System.out.println("result = 0");
 					result = 0;
 					break;
 				}
 			}
+			System.out.println("m_num"+attJoin.getM_num());
+			System.out.println("a_num"+attJoin.getA_num());
+			System.out.println("result");
 			if(result == 1) {
 				ps.stampAddAtt(attJoin);
 				ps.saveAddAtt(attJoin);
@@ -221,30 +225,7 @@ import lombok.RequiredArgsConstructor;
 		}
 		
 		//bo
-		
-		private String uploadFile(String originalName, byte[] fileDate, String uploadPath) throws IOException {
-			//universally unique identifier(UUID)
-			UUID uid = UUID.randomUUID();
-			//requestPath = requestPath + "/resources/image";
-			System.out.println("uploadPath->"+uploadPath);
-			//Directory 생성
-			File fileDirectory = new File(uploadPath);
-			if (!fileDirectory.exists()) {
-				//신규폴더(Directory) 생성
-				fileDirectory.mkdir();
-				System.out.println("업로드용 폴더 생성 : "+uploadPath);
-			}
-			
-			String savedName = uid.toString()+"_"+originalName;
-			log.info("savedName : "+savedName);
-			File target = new File(uploadPath,savedName);
-			//File target = new File(uploadPath,savedName);
-			//FIle Upload --> uploadPath / UUID+_+originalName
-			FileCopyUtils.copy(fileDate, target);	//org.springframework.util.FileCopyUtils
-			
-			return savedName;
-		}
-		
+		//관리자 페이지 출석 생성 페이지 이동
 		@RequestMapping(value = "boAttendance")
 		public String boAttendance() {
 			return "sh/boAttendance";
@@ -327,6 +308,32 @@ import lombok.RequiredArgsConstructor;
 			
 			return "redirect:/boEventList";
 	}
+		
+		//이벤트 생성 시 이미지 File type으로 upload
+		private String uploadFile(String originalName, byte[] fileDate, String uploadPath) throws IOException {
+			//universally unique identifier(UUID)
+			UUID uid = UUID.randomUUID();
+			//requestPath = requestPath + "/resources/image";
+			System.out.println("uploadPath->"+uploadPath);
+			//Directory 생성
+			File fileDirectory = new File(uploadPath);
+			if (!fileDirectory.exists()) {
+				//신규폴더(Directory) 생성
+				fileDirectory.mkdir();
+				System.out.println("업로드용 폴더 생성 : "+uploadPath);
+			}
+			
+			String savedName = uid.toString()+"_"+originalName;
+			log.info("savedName : "+savedName);
+			File target = new File(uploadPath,savedName);
+			//File target = new File(uploadPath,savedName);
+			//FIle Upload --> uploadPath / UUID+_+originalName
+			FileCopyUtils.copy(fileDate, target);	//org.springframework.util.FileCopyUtils
+			
+			return savedName;
+		}
+		
+		
 		//관리자 페이지 이벤트 목록 
 		@RequestMapping(value = "boEventList")
 		public String  boEventList(Model model) {
@@ -339,6 +346,7 @@ import lombok.RequiredArgsConstructor;
 			return "sh/boEventList";
 		}
 		
+		//관리자 페이지 이벤트 목록에서 상세정보 누르면 작동하는 메소드
 		@RequestMapping(value = "boEventDetail")
 		public String boEventDetail(@RequestParam("eNum") int eNum, Model model) {
 			System.out.println("shController boEventDetail() Start..");
@@ -369,7 +377,7 @@ import lombok.RequiredArgsConstructor;
 			return result;
 		}
 		
-		//관리자 페이지 출석 이벤트 정보 수정
+		//관리자 페이지 출석 이벤트 정보 수정 진행
 		@ResponseBody
 		@RequestMapping(value = "updateAttendance")
 		public int updateAttendance(@RequestBody Attendance attendanceData,
@@ -385,23 +393,15 @@ import lombok.RequiredArgsConstructor;
 			attendance.setA_add(attendanceData.getA_add());
 			attendance.setA_addpoint(attendanceData.getA_addpoint());
 			
-			String file1 = attendanceData.getFile1();
-			
 			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
 			System.out.println("shController uploadPath->"+uploadPath);
-			 if (file1 != null && !file1.isEmpty()) {
-			        // base64 문자열을 디코딩하고 파일을 저장합니다.
-			        byte[] decodedFile = Base64.getDecoder().decode(file1);
-			        String savedName = uploadFile("yourFileName", decodedFile, uploadPath);
-			        attendance.setA_image(savedName);
-			    } else {
-			    	//attendance.setA_image(a_image);
-			    }
+			String savedName = uploadFile(attendanceData.getFile1().getOriginalFilename(), attendanceData.getFile1().getBytes(), uploadPath);
+			attendance.setA_image(savedName);
 			
 			int result = ps.updateAttendance(attendance);
 			
 			return result;
-		}
+		} 
 		
 		@RequestMapping(value = "boSearchEvent")
 		public String boSearchEvent(@RequestParam("eNum") int eNum, @RequestParam("a_title") String a_title,Model model) {
@@ -430,6 +430,7 @@ import lombok.RequiredArgsConstructor;
 			return "sh/boMemberPointList";
 		}
 		
+		//관리자 이벤트 수정 페이지에서 삭제 버튼 실행 시 작동하는 메소드(출석)
 		@ResponseBody
 		@RequestMapping(value = "deleteAtt")
 		public int deleteAtt(@RequestParam("a_num") int a_num) {
@@ -438,11 +439,34 @@ import lombok.RequiredArgsConstructor;
 			return result;
 		}
 		
+		//관리자 이벤트 수정 페이지에서 삭제 버튼 실행 시 작동하는 메소드(퀴즈)
 		@ResponseBody
 		@RequestMapping(value = "deleteQuiz")
 		public int deleteQuiz(@RequestParam("q_num") int q_num) {
 			System.out.println("shController deleteQuiz() Start...");
 			int result = ps.deleteQuiz(q_num);
 			return result;
+		}
+		
+		@RequestMapping(value = "boPlusPoint")
+		public String boPlusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+			System.out.println("shController boPlusPoint() Start...");
+			Member member = new Member();
+			member.setM_num(m_num);
+			member.setM_point(point);
+			ps.boInsertPlusPoint(member);
+			ps.boUpdatePlusPoint(member);
+			return "redirect:/selectMemberPoint?m_num="+m_num;
+		}
+		
+		@RequestMapping(value = "boMinusPoint")
+		public String boMinusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+			System.out.println("shController boMinusPoint() Start...");
+			Member member = new Member();
+			member.setM_num(m_num);
+			member.setM_point(point);
+			ps.boInsertMinusPoint(member);
+			ps.boUpdateMinusPoint(member);
+			return "redirect:/selectMemberPoint?m_num="+m_num;
 		}
 }

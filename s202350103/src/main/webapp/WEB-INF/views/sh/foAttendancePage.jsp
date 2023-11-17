@@ -48,15 +48,10 @@
 </script>
 </head>
 <body>
-<!-- 회원 번호 굳이 노출 할 필요 없을 듯 해서 주석 해놓을겡 -->
-<!-- 
-<a href="boPointList">${a_num}</a>
- -->
-
 <p class="fs-1 mb-5">${month}월 출석 이벤트</p>
 
 <div class="fs-2 mb-2" style="text-align: center; color: #0aad0a;">
-    ${attendance.a_sdate } ~ ${attendance.a_edate }
+    ${attendance.a_sdate } 00:00 ~ ${attendance.a_edate } 00:00
 </div>
 
 <div class="table-responsive">
