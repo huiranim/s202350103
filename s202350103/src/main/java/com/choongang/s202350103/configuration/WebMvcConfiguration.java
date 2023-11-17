@@ -16,6 +16,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		// 로그인 관련 InterCeptor
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/mainBo");
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/adminMemberList");
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberCartList");
 		
 		// 영준 인터셉터
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOrder"); // 내 주문
