@@ -9,7 +9,25 @@
 <title>Insert title here</title>
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
-		// 체크박스 checked 확인용
+		// 체크박스 전체 체크 & 해제
+		function checkAll(){
+			if($('input[name="checkAll"]').prop("checked")) {
+				$('input[name="checkBox"]').prop("checked", true);
+			} else {
+				$('input[name="checkBox"]').prop("checked", false);
+			}
+		}
+		
+		// 전체 체크 상태에서 일부 해제 시 thead 체크박스 해제
+		function clickCheckbox(){
+			if($('input[name="checkBox"]:checked').length == 10){
+				$('input[name="checkAll"]').prop("checked", true);
+			} else {
+				$('input[name="checkAll"]').prop("checked", false);
+			}
+		}
+		
+		// 체크박스 checked 이벤트 확인용
 		// function cbChecked(index) {
 		// 	$('input[name="checkBox"]:checked').each(function(){
 		// 		alert($('#o_order_num'+index).val());
@@ -43,6 +61,7 @@
 										"width=500 height=400");
 						} else {
 							alert('주문확정 상태일 때만 발송 처리 가능합니다.');
+							return false;
 						}
 					});
 				}
@@ -84,6 +103,7 @@
 										"width=500 height=400");
 						} else {
 							alert('배송완료 상태일 때만 교환 처리 가능합니다.');
+							return false;
 						}
 					});
 				}
@@ -126,6 +146,7 @@
 										"width=500 height=400");
 						} else {
 							alert('배송완료 상태일 때만 반품 처리 가능합니다.');
+							return false;
 						}
 					});
 				}
@@ -173,7 +194,7 @@
 							)
 						} else {
 							alert('주문확정 상태일 때만 취소 처리 가능합니다.');
-							break;
+							return false;
 						}
 					});
 				}
@@ -213,6 +234,7 @@
 							)
 						} else {
 							alert('배송중 상태일 때만 취소 처리 가능합니다.');
+							return false;
 						}
 					});
 				}
@@ -252,6 +274,7 @@
 							)
 						} else {
 							alert('배송완료 상태일 때만 취소 처리 가능합니다.');
+							return false;
 						}
 					});
 				}
@@ -289,7 +312,7 @@
                      <th>
                         <!-- form check -->
                         <div class="form-check">
-                    <!-- input --><input class="form-check-input" type="checkbox" value="" id="checkAll">
+                    <!-- input --><input class="form-check-input" type="checkbox" value="" id="checkAll" name="checkAll" onclick="checkAll()">
                     <!-- label --><label class="form-check-label" for="checkAll">
                     </label>
                         </div>
@@ -310,7 +333,7 @@
                      <td class="align-middle">
                         <!-- form check -->
                         <div class="form-check">
-                            <!-- input --><input class="form-check-input" type="checkbox" value="${status.index }" id="check${status.index }" name="checkBox" <%-- onclick="cbChecked(${status.index })" --%>>
+                            <!-- input --><input class="form-check-input" type="checkbox" value="${status.index }" id="check${status.index }" name="checkBox" onclick="clickCheckbox()">
                             <!-- label --><label class="form-check-label" for="chechboxTwo"></label>
                         </div>
                      </td>

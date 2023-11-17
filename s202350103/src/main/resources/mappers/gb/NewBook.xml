@@ -130,16 +130,16 @@
 					            </choose>
 					            <choose>
 					                <when test="orderType == 'recently'">
-					                    ORDER BY nb.nb_publi_date desc
+					                    ORDER BY nb.nb_publi_date desc, nb.nb_readcnt desc
 					                </when>
 					                <when test="orderType == 'highreview'">
-					                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
+					                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_readcnt desc
 					                </when>
 					                <when test="orderType == 'highprice'">
-					                    ORDER BY nb.nb_price desc
+					                    ORDER BY nb.nb_price desc, nb.nb_readcnt desc
 					                </when>
 					                <when test="orderType == 'lowprice'">
-					                    ORDER BY nb.nb_price asc
+					                    ORDER BY nb.nb_price asc, nb.nb_readcnt desc
 					                </when>
 					            </choose>) a1, 
 								 (SELECT nb_num, w_wish
@@ -189,16 +189,16 @@
 			            </choose>
 			            <choose>
 			                <when test="orderType == 'recently'">
-			                    ORDER BY nb.nb_publi_date desc
+			                    ORDER BY nb.nb_publi_date desc, nb.nb_readcnt desc
 			                </when>
 			                <when test="orderType == 'highreview'">
-			                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_publi_date desc
+			                    ORDER BY re.r_ratingAvg desc NULLS LAST, nb.nb_readcnt desc
 			                </when>
 			                <when test="orderType == 'highprice'">
-			                    ORDER BY nb.nb_price desc
+			                    ORDER BY nb.nb_price desc, nb.nb_readcnt desc
 			                </when>
 			                <when test="orderType == 'lowprice'">
-			                    ORDER BY nb.nb_price asc
+			                    ORDER BY nb.nb_price asc, nb.nb_readcnt desc
 			                </when>
 			            </choose>
 			         </otherwise>
@@ -208,13 +208,23 @@
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
-	<select id="gbSelectHitNbNum" resultType="int">
+	<select id="gbSelectHitNbNum" resultType="NewBook">
+		SELECT *
+		FROM newbook
+		WHERE (nb_category2, nb_readcnt) IN (
+		                        SELECT nb_category2, max(nb_readcnt)
+		                        FROM newbook
+		                        GROUP BY nb_category2
+		                    )
+	</select>
+	
+	<select id="gbSelectAllHitNbNum" resultType="int">
 		SELECT nb_num
 		FROM newbook
 		WHERE nb_readcnt IN (
-								SELECT max(nb_readcnt)
-								FROM newbook
-							)
+		                        SELECT max(nb_readcnt)
+		                        FROM newbook
+		                    )
 	</select>
 	
 	<select id="gbSelectSearchNbCnt" parameterType="NewBook" resultType="int">
@@ -325,16 +335,16 @@
 							            </choose>
 							            <choose>
 							                <when test="orderType == 'recently'">
-							                    ORDER BY alltb.nb_publi_date desc
+							                    ORDER BY alltb.nb_publi_date desc, alltb.nb_readcnt desc
 							                </when>
 							                <when test="orderType == 'highreview'">
-							                    ORDER BY re.r_ratingAvg desc NULLS LAST, alltb.nb_publi_date desc
+							                    ORDER BY re.r_ratingAvg desc NULLS LAST, alltb.nb_readcnt desc
 							                </when>
 							                <when test="orderType == 'highprice'">
-							                    ORDER BY alltb.nb_price desc
+							                    ORDER BY alltb.nb_price desc, alltb.nb_readcnt desc
 							                </when>
 							                <when test="orderType == 'lowprice'">
-							                    ORDER BY alltb.nb_price asc
+							                    ORDER BY alltb.nb_price asc, alltb.nb_readcnt desc
 							                </when>
 							            </choose> ) a1,
 							            (SELECT nb_num, w_wish
@@ -395,16 +405,16 @@
 					            </choose>
 					            <choose>
 					                <when test="orderType == 'recently'">
-					                    ORDER BY alltb.nb_publi_date desc
+					                    ORDER BY alltb.nb_publi_date desc, alltb.nb_readcnt desc
 					                </when>
 					                <when test="orderType == 'highreview'">
 					                    ORDER BY re.r_ratingAvg desc NULLS LAST, alltb.nb_publi_date desc
 					                </when>
 					                <when test="orderType == 'highprice'">
-					                    ORDER BY alltb.nb_price desc
+					                    ORDER BY alltb.nb_price desc, alltb.nb_readcnt desc
 					                </when>
 					                <when test="orderType == 'lowprice'">
-					                    ORDER BY alltb.nb_price asc
+					                    ORDER BY alltb.nb_price asc, alltb.nb_readcnt desc
 					                </when>
 					            </choose>
 			    		</otherwise>
@@ -500,8 +510,8 @@
 	</delete>
 	
 	<insert id="gbInsertBoNewbook" parameterType="NewBook">
-		INSERT INTO newbook VALUES(newbook_nb_num_seq.nextval, #{nb_title}, #{nb_summary}, #{nb_price}, #{nb_writer}, #{nb_publisher},
-		#{nb_publi_date}, #{nb_isbn}, #{nb_page}, #{nb_size}, #{nb_category1}, #{nb_category2}, #{nb_image}, 0, sysdate)
+		INSERT INTO newbook VALUES(newbook_nb_num_seq.nextval, #{nb_title}, #{nb_price}, #{nb_writer}, #{nb_publisher},
+		#{nb_publi_date}, #{nb_isbn}, #{nb_page}, #{nb_size}, #{nb_category1}, #{nb_category2}, #{nb_image}, 0, sysdate, #{nb_summary})
 	</insert>
 	
 	<select id="gbSelectRecentBookList" parameterType="int" resultType="NewBook">
@@ -512,7 +522,7 @@
 				WHERE nb_num = #{book_num}
 			</when>
 			<otherwise>
-				SELECT ob.ob_num nb_num, nb.nb_image, nb.nb_title
+				SELECT ob.ob_num nb_num, nb.nb_image, CONCAT(ob_grade_alpha(ob.ob_grade),nb.nb_title) nb_title
 				FROM newbook nb, oldbook ob
 				WHERE nb.nb_num = ob.nb_num 
 				AND ob.ob_num = #{book_num}

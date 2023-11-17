@@ -133,7 +133,7 @@
           
 		<!-- 최근 본 상품 리스트 -->
 		
-		<div style="border:1px solid gray;">
+		<div>
 			<h5 class="mb-3 mt-5" style="user-select: auto;">최근 본 상품</h5>
 				<c:choose>
 					<c:when test="${recentBookList.size() > 0}">
@@ -143,8 +143,22 @@
 							     <div class="card-body">
 							       <!-- 도서 이미지 -->
 							       <div class="text-center position-relative ">
-							         <a href="newbookDetail?nb_num=${recentBook.nb_num }">
-							         	<c:choose>
+							       <c:choose>
+							       	<c:when test="${recentBook.nb_num < 200000}">
+							       		<a href="newbookDetail?nb_num=${recentBook.nb_num }">
+								       		<c:choose>
+											     <c:when test="${fn:contains(recentBook.nb_image, 'http')}">
+											        <img src="${recentBook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 5rem; height: 8rem;">
+											     </c:when>
+											     <c:otherwise>
+											        <img src="${pageContext.request.contextPath}/upload/${recentBook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+											     </c:otherwise>
+											</c:choose> 
+								         </a>
+							       	</c:when>
+							       	<c:otherwise>
+							       		<a href="foOldBookDetail?ob_num=${recentBook.nb_num }">
+							       		<c:choose>
 										     <c:when test="${fn:contains(recentBook.nb_image, 'http')}">
 										        <img src="${recentBook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 5rem; height: 8rem;">
 										     </c:when>
@@ -153,10 +167,19 @@
 										     </c:otherwise>
 										</c:choose> 
 							         </a>
+							       	</c:otherwise>
+							       </c:choose>
 							       </div>
 							       <!-- 도서 제목 -->	
 							       <h2 class="fs-6" style="text-align: center;">
-							       		<a href="newbookDetail?nb_num=${recentBook.nb_num }" class="text-inherit text-decoration-none">${recentBook.nb_title }</a>
+							       	<c:choose>
+								       	<c:when test="${recentBook.nb_num < 200000}">
+								       		<a href="newbookDetail?nb_num=${recentBook.nb_num }" class="text-inherit text-decoration-none">${recentBook.nb_title }</a>
+								       	</c:when>
+								       	<c:otherwise>
+								       		<a href="foOldBookDetail?ob_num=${recentBook.nb_num }" class="text-inherit text-decoration-none">${recentBook.nb_title }</a>
+								       	</c:otherwise>
+								     </c:choose>
 							       </h2>
 							     </div>
 							   </div>
@@ -164,7 +187,7 @@
 						 </c:forEach>
 						</c:when>
 					 <c:otherwise>
-					 	<h6>최근 본 도서가 없습니다.</h6>
+					 	<h6 style="color: #198754">최근 조회된 도서가 없습니다.</h6>
 					 </c:otherwise>          
 			 	</c:choose> 
 			</div> 

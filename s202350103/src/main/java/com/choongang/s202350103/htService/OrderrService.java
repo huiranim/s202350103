@@ -13,5 +13,6 @@ public interface OrderrService {
 	int           orderTotal();
 	List<NewBook> orderOne(NewBook newBook);
 	List<Cart>    orderList(Cart cart, Member member);
-	int           orderInsert(Orderr orderr);
+	long           orderInsert(Orderr orderr);
+	int           orderDetailInsert(Orderr orderr);
 }

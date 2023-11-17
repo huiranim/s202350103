@@ -41,10 +41,17 @@ public class OrderrServiceImpl implements OrderrService {
 	}
 
 	@Override
-	public int orderInsert(Orderr orderr) {
+	public long orderInsert(Orderr orderr) {
 		System.out.println("HtService orderInsert Start...");
-		int result = od.orderInsert(orderr);
-		return result;
+		long order_result = od.orderInsert(orderr);
+		return order_result;
+	}
+
+	@Override
+	public int orderDetailInsert(Orderr orderr) {
+		System.out.println("HtService orderDetailInsert Start...");
+		int order_detail_result = od.orderDetailInsert(orderr);
+		return order_detail_result;
 	}
 
 	

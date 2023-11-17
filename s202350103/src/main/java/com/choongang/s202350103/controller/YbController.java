@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OldBook;
@@ -231,11 +232,10 @@ public class YbController {
 
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
-//		getSession(member, model);
 		
-		if(member == null) {
-			return "yb/loginForm";
-		}
+//		if(member == null) {
+//			return "yb/loginForm";
+//		} 
 		
 //		getSession(model, member);
 	
@@ -351,6 +351,23 @@ public class YbController {
 		
 		return "yb/memberMySellList";
 	}
+	// 커뮤니티 리스트
+	@GetMapping(value = "memberCommunity")
+	public String memberCommunity(Community community, Model model, String currentPage) {
+		System.out.println("YbController memberCommunity() start..");
+		
+		int comListTotalCnt = ms.comListTotalCnt(community);
+		Paging page = new Paging(comListTotalCnt, currentPage);
+		
+		community.setStart(page.getStart());
+		community.setEnd(page.getEnd());
+		List<Community> communityList = ms.communityList(community);
+		System.out.println("YbController memberCommunity() communityList.size() -> " +communityList.size());
+		model.addAttribute("comListTotalCnt", comListTotalCnt);
+		model.addAttribute("communityList", communityList);
+		return "yb/memberCommunity";
+	}
+	
 	
 	// 회원 탈퇴 페이지 이동
 	@GetMapping(value = "memberWithdrawForm")
@@ -631,6 +648,15 @@ public class YbController {
 		}
 	}
 	
+
+
+	@GetMapping(value = "card")
+	public String card() {
+		
+
+		
+		return "yb/card";
+	}
 }
 	
 

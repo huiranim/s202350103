@@ -422,12 +422,14 @@ public class HtController {
 		
 		System.out.println("HtController orderr-->"+orderr);
 		
-		int result = os.orderInsert(orderr);
+		//Orderr 테이블 insert
+		long result_o_order_num = os.orderInsert(orderr);
+		System.out.println("HtController orderInsert() result_o_order_num-->"+result_o_order_num);
 		
-		//상품 정보 조회
-		//NewBook orderOne = os.orderList(newBook);
+		//Order_detail 테이블 insert
+		//int order_detail_result = os.orderDetailInsert(orderr);
 		
-		//model.addAttribute("orderOne", orderOne);
+		model.addAttribute("result_o_order_num", result_o_order_num);
 		model.addAttribute("member",member);
 		
 		return "/ht/foOrderForm";

@@ -69,9 +69,9 @@ public class NewBookServiceImpl implements NewBookService {
 	}
 
 	@Override
-	public int selectHitNbNum() {
+	public List<NewBook> selectHitNbNum() {
 		System.out.println("NewBookServiceImpl selectHitNbNum start...");
-		int hit_nb_num = nbd.selectHitNbNum();
+		List<NewBook> hit_nb_num = nbd.selectHitNbNum();
 		
 		return hit_nb_num;
 	}
@@ -178,6 +178,14 @@ public class NewBookServiceImpl implements NewBookService {
 		NewBook recentBook = nbd.selectRecentBookList(book_num);
 		
 		return recentBook;
+	}
+
+	@Override
+	public int selectAllHitNbNum() {
+		System.out.println("NewBookServiceImpl selectHitNbNum start...");
+		int hitBook = nbd.selectAllHitNbNum();
+		
+		return hitBook;
 	}
 
 

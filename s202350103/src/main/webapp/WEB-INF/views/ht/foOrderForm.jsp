@@ -137,7 +137,7 @@
 		var fail_total_price 	= (p_total_price + p_deliv_price).toLocaleString();					// 총 결제 금액(성공)
 		var fail_save_point 	= ((p_total_price + p_deliv_price) * 0.01).toLocaleString();  		// 적립금(실패)
 		
-		if(p_point <= '${member.m_point}' ){
+		if(Number(p_point) <= Number('${member.m_point}') ){
 			// 가능 여부 메세지
 			$("#pointMsg").html("사용 가능합니다.");
 			// 포인트 사용값
@@ -352,7 +352,15 @@
 				              <!-- col -->
 				              <div class="col-md-4 col-12">
 				                 <div class="text-center position-relative ">
-				                       <!-- img --><img src="${newbook.nb_image}" alt="${newbook.nb_title}" class="mb-3 img-fluid" style="height: 150px;">
+				                      <%--  <!-- img --><img src="${newbook.nb_image}" alt="${newbook.nb_title}" class="mb-3 img-fluid" style="height: 150px;"> --%>
+				                       <c:choose>
+										     <c:when test="${fn:contains(newbook.nb_image, 'http')}">
+										            <img src="${newbook.nb_image}" alt="도서 ${newbook.nb_title}" class="mb-3 img-fluid" style="height: 150px;">
+										     </c:when>
+										     <c:otherwise>
+										            <img src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 150px;">
+										     </c:otherwise>
+										</c:choose>
 				                 </div>
 				              </div>
 				              <div class="col-md-8 col-12 flex-grow-1">

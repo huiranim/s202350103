@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.choongang.s202350103.model.Cart;
+import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
@@ -71,6 +72,19 @@ public class MemberDaoImpl1 implements MemberDao {
 		return totalSellCnt;
 	}
 	
+	@Override
+	public int comListTotalCnt(Community community) {
+		System.out.println("MemberDaoImpl1 comListTotalCnt() start...");
+		int comListTotalCnt = 0;
+		try {
+			comListTotalCnt = session.selectOne("ybTotalSellCnt", comListTotalCnt);
+			System.out.println("MemberDaoImpl1 comListTotalCnt() totalCart -> " + comListTotalCnt);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 comListTotalCnt() Exception -> " + e.getMessage());
+		}
+		return comListTotalCnt;
+
+	}
 	// 장바구니 총 가격
 	@Override
 	public int totalPrice(Member member) {
@@ -119,6 +133,22 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		
 		return listCart;
+	}
+	// 커뮤니티 리스트
+	@Override
+	public List<Community> communityList(Community community) {
+		List<Community> communityList = new ArrayList<Community>();
+		System.out.println("MemberDaoImpl1 communityList() start...");
+		System.out.println("MemberDaoImpl1 communityList() cart.m_num -> " +community.getM_num());
+		try {
+			communityList = session.selectList("ybCommnuityList", community);
+			
+			System.out.println("MemberDaoImpl1 communityList.size() -> " + communityList.size());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 communityList Exception -> " + e.getMessage());
+		}
+		
+		return communityList;
 	}
 	// 찜 목록 리스트
 	@Override
@@ -312,6 +342,8 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return memberPwChangeByPh;
 	}
+
+	
 
 }
 	

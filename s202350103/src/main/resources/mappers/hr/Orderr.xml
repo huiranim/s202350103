@@ -29,6 +29,9 @@
 			   , (SELECT SUM(o_de_count)
 			  	  FROM order_detail od
 			  	  WHERE o.o_order_num = od.o_order_num) o_order_count
+			   , (SELECT COUNT(nb_num)
+                  FROM order_detail od
+			  	  WHERE o.o_order_num = od.o_order_num) o_book_count
 		FROM   orderr o, member m
 		WHERE  o.m_num = m.m_num(+)
 		AND    o_order_num = #{o_order_num}
@@ -108,21 +111,28 @@
 		AND    od.o_order_num = #{o_order_num}
 	 </select>
 	 
+<!-- 주문번호 생성 -->
+	 <select id="hrSelectTodayOrderr" resultType="long">
+        SELECT NVL(MAX(o_order_num), 0)
+	 	FROM   orderr
+	 	WHERE  SUBSTR(o_order_num, 1, 8) = TO_CHAR(SYSDATE, 'YYYYMMDD')
+	 </select>
+	 
 <!-- FO 선물하기 - 액션
 	 foGivingGiftAction.jsp -->
 	 <insert id="hrInsertOrderrG" parameterType="Orderr">
 	 	INSERT INTO orderr
-	 	VALUES(CONCAT(TO_CHAR(sysdate,'yyyymmdd'), '0001'), #{m_num}, sysdate, 0, 2,
+	 	VALUES(#{o_order_num}, #{m_num}, sysdate, 0, 2,
 	 		   #{o_pay_price}, 1, 1234567890, #{o_deliv_price}, #{o_point},
 	 		   #{o_rec_name}, #{o_rec_mail}, #{o_rec_ph}, '선물 수락 대기 중', '선물 수락 대기 중', null, null)
 	 </insert>
 	 <insert id="hrInsertOrderDetailG" parameterType="Orderr">
 	 	INSERT INTO order_detail
-	 	VALUES(TO_CHAR(sysdate,'yyyymmdd') || '0001', #{nb_num}, #{o_de_count}, 1)
+	 	VALUES(#{o_order_num}, #{nb_num}, #{o_de_count}, 1)
 	 </insert>
 	 <insert id="hrInsertOrderGift" parameterType="OrderGift">
 	 	INSERT INTO order_gift
-	 	VALUES(TO_CHAR(sysdate,'yyyymmdd') || '0001', 'G' || TO_CHAR(sysdate,'yyyymmdd') || '0001',
+	 	VALUES(#{o_order_num}, 'G' || TO_CHAR(sysdate,'yyyymmdd') || '0001',
 	 		   #{o_gift_name}, #{o_gift_ph}, #{o_gift_card}, #{o_gift_msg}, 0)
 	 </insert>
 	 <update id="hrUpdateMemberP" parameterType="Orderr">
@@ -132,13 +142,13 @@
 	 </update>
 	 <insert id="hrInsertPointListG" parameterType="Orderr">
 	 	INSERT INTO point_list
-	 	VALUES(POINTLIST_P_NUM_SEQ.nextval, TO_CHAR(sysdate,'yyyymmdd') || '0001', #{m_num}, null, null, sysdate, 1, (#{o_pay_price} * 0.01))
+	 	VALUES(POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 1, (#{o_pay_price} * 0.01))
 	 </insert>
 	 
 <!-- FO 선물받기 - 화면
 	 foGettingGift.jsp -->
 	 <select id="hrSelectOrderrGiftType" parameterType="long" resultType="Orderr">
-	 	SELECT o.o_order_num, o.o_rec_name, o.o_rec_email o_rec_mail, o.o_rec_ph
+	 	SELECT o.o_order_num, o.o_rec_name, o.o_rec_mail, o.o_rec_ph
                , m.m_name, m.m_ph
                , nb.nb_image, nb.nb_title, od.o_de_count
 	 	FROM   orderr o, member m, newbook nb, order_detail od
@@ -158,7 +168,7 @@
 	 foGettingGiftAction.jsp -->
 	 <update id="hrUpdateOrderrGiftType" parameterType="Orderr">
 	 	UPDATE orderr
-		SET    o_status = 1, o_rec_name = #{o_rec_name}, o_rec_email = #{o_rec_mail}
+		SET    o_status = 1, o_rec_name = #{o_rec_name}, o_rec_mail = #{o_rec_mail}
 			   , o_rec_ph = #{o_rec_ph}, o_rec_addr = #{o_rec_addr}, o_rec_msg = #{o_rec_msg}
 		WHERE  o_order_num = #{o_order_num}
 	 </update>

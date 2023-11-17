@@ -51,37 +51,33 @@ function cart(pNb_num) {
          <p>총 주문 건수 : ${totalOrderCnt }</p>
       </div>
       
-  <div class="card">
-       <div class="card-body p-6">
+       <div class="card-body p-6 ">
        
-       		<!-- 1. 주문일 내림차순 order by 정렬   -->
-			<!-- 2. 이전 주문일 초기화 -->
-			<c:set var="absolOrderDate" value=""/>
-			
-			<c:forEach var="order" items="${memberMyOrder }">
-			
-			<!-- 3. 새로운 주문시작시 주문일 표시 -->
-			<c:if test="${!order.o_order_date.equals(absolOrderDate) }">
-			
-				<h4 class="mb-1"><a href="#" class="link-success">
-					<fmt:formatDate value="${order.o_order_date }" pattern="yyyy. MM. dd"/>&nbsp; 주문		  
-				</a></h4>
+			<c:forEach var="orderNum" items="${orderNumGroups.keySet() }">
 				
-			  	<span style="float: right; margin-right: 20px; font: bold;" class="mb-3">
-	         	 <a href="#" class="link-success">주문상세보기
+				<c:set var="firstOrder" value="${orderNumGroups[orderNum][0] }" />
+    			<c:set var="orderDate" value="${firstOrder.o_order_date }" />
+				
+				<h4 class="mb-1"><a href="#" class="link-success">
+					<fmt:formatDate value="${orderDate }" pattern="yyy. MM. dd "/>
+					&nbsp; 주문		  
+				</a></h4>
+				주문번호 <small style="color: #889397;">${orderNum}</small>
+				
+				
+			  	<span style="float: right; margin-right: 20px; font-weight: bold; color: #044504;" class="mb-3">
+	         	 <a href="#" class="link-success" style="font-size: 14px;">주문상세보기
 	         	 <i class="bi bi-arrow-right-short"></i>
 	         	 </a>
 	    	   </span>
+	    	   
 	   			  
 	   			  <div style="clear: both;"></div>
 				
-				<!-- 현재 주문일을 이전 주문일로  -->
-				<c:set var="absolOrderDate" value="${order.o_order_date }"/>
-	
-			</c:if>
-			
-			<!-- 주문정보 -->				
-			<div class="card card-product mb-6">
+			<c:forEach var="order" items="${orderNumGroups[orderNum] }">
+					
+			<!-- 주문정보 -->
+			<div class="card card-product mb-10">
 		        <div class="card-body mb-4 row align-items-center">
 
 		              <div class="col-md-4 col-12">
@@ -146,9 +142,11 @@ function cart(pNb_num) {
 
 						 <div class=" mt-3">
 		                    <div>
-		                    <button onclick="cart(${order.nb_num })" class="btn btn-soft-primary">
-		                    		장바구니 
-		                    </button>
+		                    
+		                   <h2 class="fs-5" style="color:#581313;">
+								${order.o_rec_name }
+			                 </h2>
+			                
 			                 </div>
 		                 </div>
 		              	</div>
@@ -163,16 +161,26 @@ function cart(pNb_num) {
 						 
 						   <div class="flex-column  text-center">
 		                   	
-		              	 	 <h2 class="fs-6" >
-								수령인
-			                 </h2>
-		                   		
-		              	 	 <h2 class="fs-5 mb-3" >
-								${order.o_rec_name }
-			                 </h2>
+		              	
+							<c:choose>
+								<c:when test="${order.nb_num < 200000 }">
+								
+							 	 <button onclick="cart(${order.nb_num })" class="btn btn-soft-primary mt-2">
+		                    		장바구니 
+			                    </button><p>
+							 	<a href="foOrderDetail?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-2">상세보기</a>
+                            	<a href="reviewForm?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-2">리뷰작성</a>
+								
+								</c:when>
+								
+								<c:otherwise>
 
-							 	<p><a href="foOrderDetail?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-3">상세보기</a></p>
-                            	<p><a href="reviewForm?o_order_num=${order.o_order_num}"  class="btn btn-soft-success">리뷰작성</a></p>
+								<span style="color: #0aad0a; font-weight: bold;">해당 도서는<br> 중고상품 입니다.</span>
+							 	<a href="foOrderDetail?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-3">상세보기</a>
+								
+								</c:otherwise>								
+
+							</c:choose>
 		                 
 		                   </div> 
 						 
@@ -186,6 +194,7 @@ function cart(pNb_num) {
 		           			
 		           			
 			</div>
+			</c:forEach>
 		</c:forEach>
 
        </div>
@@ -196,7 +205,7 @@ function cart(pNb_num) {
 
 
 	 </div>
-  </div><p></p>
+  <p></p>
 
 <nav aria-label="Page navigation example">
 	  <ul class="pagination justify-content-center">
