@@ -220,6 +220,25 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl selectOrderProduct() end..");
 		return orderDetailList;
 	}
+	
+	// 주문번호 생성 - 당일 주문 확인
+	@Override
+	public long selectTodayOrderr() {
+		System.out.println("OrderDaoImpl selectTodayOrderr() start..");
+		
+		long max_order_num = 0;
+		
+		try {
+			max_order_num = session.selectOne("hrSelectTodayOrderr");
+			System.out.println("OrderDaoImpl selectTodayOrderr() max_order_num -> "+ max_order_num);
+			
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl selectTodayOrderr() e.getMessage() -> "+e.getMessage());
+		}
+		
+		System.out.println("OrderDaoImpl selectTodayOrderr() end..");
+		return max_order_num;
+	}
 
 	// FO 선물하기 - 액션
 	@Override
@@ -342,6 +361,7 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl gettingGiftAction() start..");
 		return result;
 	}
+
 
 
 }

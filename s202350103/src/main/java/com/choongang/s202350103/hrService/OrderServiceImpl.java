@@ -1,5 +1,7 @@
 package com.choongang.s202350103.hrService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.choongang.s202350103.hrDao.OrderDao;
@@ -142,6 +144,33 @@ public class OrderServiceImpl implements OrderService {
 		orderGift.setO_gift_name(orderr.getO_rec_name());
 		orderGift.setO_gift_ph(orderr.getO_rec_mail());
 		
+		// 주문번호 생성
+		long o_order_num = 0;
+		
+			// 당일 주문 확인 (없으면 오늘날짜 + '0001', 있으면 해당값 +1)
+			long max_order_num = od.selectTodayOrderr();
+			
+			// 당일 주문 없을 때
+			if(max_order_num == 0) {
+				// 오늘 날짜 Get
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+				Date today = new Date();
+				long longToday = Long.parseLong(sdf.format(today));
+				
+				o_order_num = (longToday * 10000) + 0001;
+				System.out.println("당일 주문 없을 때 o_order_num -> "+o_order_num);
+			
+			// 있을 때
+			} else {
+				o_order_num = max_order_num +1;
+				System.out.println("당일 주문 있을 때 o_order_num -> "+o_order_num);
+			}
+		
+		// 주문번호 저장
+		orderr.setO_order_num(o_order_num);
+		orderGift.setO_order_num(o_order_num);
+		
+		// 주문 INSERT & UPDATE
 		int result = od.givingGiftAction(member, orderr, orderGift);
 		
 		System.out.println("OrderServiceImpl givingGiftAction() end..");
