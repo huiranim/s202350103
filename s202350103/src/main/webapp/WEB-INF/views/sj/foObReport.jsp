@@ -17,11 +17,9 @@
 	
 	
 	function showPopup(){
-		window.open("ModalList","pop","width=1000, height=900, left=300, top=150");
-			
+		window.open("ModalList","pop","width=1000, height=900, left=300, top=150");	
+	
 	}
-	
-	
 	function doAction(){
 	
 		if(frm.nb_title.value == ""){

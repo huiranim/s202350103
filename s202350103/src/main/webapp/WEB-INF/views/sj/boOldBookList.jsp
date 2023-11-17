@@ -14,8 +14,9 @@
 	<div class="col-lg-12 col-md-12 col-12 d-block">
 	     <div class="py-6 p-md-6 p-lg-10">
 	        <!-- heading -->
-	       <p class="fs-1 text-center">중고 판매 신청 목록 </p>
-	        
+	      <div>
+	       <p class="fs-1 text-center">중고 판매 신청 목록    </p>
+	        </div>
 	           <!-- Table -->
 	           	<c:set var="num" value="${page.totalOb-page.start+1 }"></c:set>
 	           	<div class="table">
@@ -66,10 +67,10 @@
 									<input type="button" class="btn btn-soft-success mb-2" value="검수하기" name="ob_num" onclick="location.href='BoupdateObDetailCheck?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:when test="${oldBook.ob_status eq '2' }"><c:out value=""/>
-									<input type="button" class="btn btn-soft-success mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+									<input type="button" class="btn btn-soft-info mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:when test="${oldBook.ob_status eq '3' }"><c:out value=""/>
-									<input type="button" class="btn btn-soft-success mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+									<input type="button" class="btn btn-soft-info mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:otherwise><c:out value=""/>
 								</c:otherwise>
@@ -83,27 +84,27 @@
 		           
 		</table>
 		<hr>		
-<c:set var="num" value="${num - 1 }"></c:set>		
-		
-		  <ul class="pagination justify-content-center">
-			 	<c:if test="${page.startPage > page.pageBlock }">
-					 <li class="pagination justify-content-center">					
-						<a class="page-link" href="BolistOb?currentPage=${page.startPage-page.pageBlock}">이전</a>
-					</li>
-				</c:if>
-				
- 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-					 <li class="pagination justify-content-center">
- 						<a class="page-link" href="BolistOb?currentPage=${i}">${i}</a>
-					</li>
-				</c:forEach>
-					
-				<c:if test="${page.endPage < page.totalObPage }">
-					 <li class="pagination justify-content-center">		 
-						<a class="page-link" href="BolistOb?currentPage=${page.startPage+page.pageBlock}">다음</a>
-					</li>
-				</c:if>
-		</ul>
+							<c:set var="num" value="${num - 1 }"></c:set>		
+									
+									  <ul class="pagination justify-content-center">
+										 	<c:if test="${page.startPage > page.pageBlock }">
+												 <li class="pagination justify-content-center">					
+													<a class="page-link" href="BolistOb?currentPage=${page.startPage-page.pageBlock}">이전</a>
+												</li>
+											</c:if>
+											
+							 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+												 <li class="pagination justify-content-center">
+							 						<a class="page-link" href="BolistOb?currentPage=${i}">${i}</a>
+												</li>
+											</c:forEach>
+												
+											<c:if test="${page.endPage < page.totalObPage }">
+												 <li class="pagination justify-content-center">		 
+													<a class="page-link" href="BolistOb?currentPage=${page.startPage+page.pageBlock}">다음</a>
+												</li>
+											</c:if>
+									</ul>
 
 						 <div class="d-grid gap-2">
 					    <button class="btn btn-soft-success mb-2" type="submit" onclick="location.href='index'">메인화면가기</button>

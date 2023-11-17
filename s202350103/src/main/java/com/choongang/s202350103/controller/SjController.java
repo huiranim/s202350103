@@ -303,9 +303,9 @@ public class SjController {
 		
 		List<OldBook> OblistFo = obs.listObFo(oldBook);
 		
-		
-		model.addAttribute("totalOb2", totalOb2);
 		model.addAttribute("listObFo" , OblistFo);
+		model.addAttribute("totalOb2", totalOb2);
+		
 		model.addAttribute("page" , page);
 		
 		return "sj/foInObList";
