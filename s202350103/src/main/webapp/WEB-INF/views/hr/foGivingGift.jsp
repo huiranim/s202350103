@@ -167,7 +167,7 @@
               <label class="form-label" for="o_point"> 사용 포인트  (보유 : <fmt:formatNumber value="${member.m_point }" groupingUsed="true"/>원)</label>
               <span class="text-danger" id="pointMsg" ></span>
               <input type="text" id="o_point" class="form-control" name="o_point"
-              		 onchange="changeChk(o_point.value)" value="0">
+              		 onchange="changeChk(o_point.value)" value="0" required>
             </div>
 				
             <p><p><hr><p><p>
