@@ -66,14 +66,27 @@ public class OrderrDaoImpl implements OrderrDao {
 	}
 
 	@Override
-	public int orderInsert(Orderr orderr) {
+	public long orderInsert(Orderr orderr) {
 		System.out.println("OrderDaoImpl orderList() Start...");
-		int result = 0;
+		long result = 0;
 		try {
 			result = session.insert("htOrderInsert", orderr);
 			System.out.println("orderInsert result--> "+ result);
 		}catch (Exception e) {
 			System.out.println("OrderrDaoImpl orderInsert Exception -> " + e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int orderDetailInsert(Orderr orderr) {
+		System.out.println("OrderDaoImpl orderDetailInsert() Start...");
+		int result = 0;
+		try {
+			result = session.insert("htOrderDetailInsert", orderr);
+			System.out.println("orderDetailInsert result--> "+ result);
+		}catch (Exception e) {
+			System.out.println("OrderrDaoImpl orderDetailInsert Exception -> " + e.getMessage());
 		}
 		return result;
 	}
