@@ -652,10 +652,19 @@ public class YbController {
 
 	@GetMapping(value = "card")
 	public String card() {
-		
 
-		
 		return "yb/card";
+	}
+	@GetMapping(value = "NewFile")
+	public String NewFile() {
+
+		return "yb/NewFile";
+	}
+	
+	@GetMapping(value = "writeForm")
+	public String writeForm() {
+
+		return "yb/writeForm";
 	}
 }
 	
