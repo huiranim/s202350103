@@ -360,8 +360,11 @@
                      </td>
                      <!-- 주문일시 -->
                      <td class="align-middle"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
-                     <!-- 주문상품 -->
-                     <td class="align-middle">${orderr.nb_title}</td>
+                     <!-- 대표 상품명 -->
+                     <td class="align-middle">
+                     	${orderr.nb_title}
+                     	<c:if test="${orderr.o_book_count != 1}"> 외 ${orderr.o_book_count -1}건</c:if>
+                     </td>
                      <!-- 주문자 -->
                      <td class="align-middle">${orderr.m_name}</td>
                      <!-- 수신자 -->

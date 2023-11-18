@@ -216,7 +216,9 @@
             <tr>
                      <th class="table-light">대표 상품명</th>
                      <td class="align-middle">
-                        ${orderr.nb_title} 외 ${orderr.o_book_count -1}건&nbsp;&nbsp;&nbsp;
+                        ${orderr.nb_title} 
+                        <c:if test="${orderr.o_book_count != 1}"> 외 ${orderr.o_book_count -1}건</c:if>
+                        &nbsp;&nbsp;&nbsp;
                         <button type="button" class="btn btn-soft-success btn-sm mb-2" onclick="ProductPopup(${orderr.o_order_num})">전체 상품 보기</button>
                      </td>                     
                      <th class="table-light">주문수량</th>
