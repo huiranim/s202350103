@@ -76,17 +76,41 @@ public class YbController {
 		System.out.println("YbController main() start... ");
 		member =(Member) session.getAttribute("member");
 		if(member == null) {
+			
+			// 카테고리별 최대 조회수 도서 상품 리스트 구하기
+			List<NewBook> hitList = nbs.selectHitNbNum();
+			System.out.println("hitList -> "+hitList.size());
+			
+			// 다독 전체 최대 조회수 도서 상품 리스트
+			NewBook hitBook1 = nbs.selectAllHitNbNum();
+			System.out.println("hitList -> "+hitList.size());
+			
+			// 출간일 기준 5개의 도서 리스트
+			List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
+			System.out.println("releaseNewbookList -> "+releaseNewbookList.size());
+			
+			model.addAttribute("hitList", hitList);
+			model.addAttribute("hitBook1", hitBook1);
+			model.addAttribute("releaseNewbookList", releaseNewbookList);
+			
 			return "main";
 		}
 		
 		// 카테고리별 최대 조회수 도서 상품 리스트 구하기
 		List<NewBook> hitList = nbs.selectHitNbNum();
+		System.out.println("hitList -> "+hitList.size());
 		
 		// 다독 전체 최대 조회수 도서 상품 리스트
 		NewBook hitBook1 = nbs.selectAllHitNbNum();
+		System.out.println("hitList -> "+hitList.size());
+		
+		// 출간일 기준 5개의 도서 리스트
+		List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
+		System.out.println("releaseNewbookList -> "+releaseNewbookList.size());
 		
 		model.addAttribute("hitList", hitList);
 		model.addAttribute("hitBook1", hitBook1);
+		model.addAttribute("releaseNewbookList", releaseNewbookList);
 		
 		int totalCart = ms.totalCart(member);
 		System.out.println("YbController main() start... ");
