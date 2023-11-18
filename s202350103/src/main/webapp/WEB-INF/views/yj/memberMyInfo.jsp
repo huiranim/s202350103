@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- 카카오  주소 API -->
+<!-- 다음  주소 API -->
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -125,6 +125,14 @@ function valiForm() {
         return false; // 유효성 검사에서 실패한 경우 폼 제출 중단
     }
 
+    // 이메일 직접 입력 값 설정
+    if (emailSelect.value === "직접 입력") {
+    	m_email2.removeAttribute("disabled");
+        var customEmail = m_email2.value;
+        document.getElementById("m_email2").value = customEmail;
+    }
+	
+	
     // 유효성 검사 통과 시  폼 제출
     var con = confirm("수정하시겠습니까? : 재 로그인 필요");
     
