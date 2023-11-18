@@ -51,5 +51,7 @@ public interface MemberDao {
 
 	int 				comListTotalCnt(Community community);
 
+	int 				communityInsert(Community community);
+
 
 }

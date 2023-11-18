@@ -15,6 +15,8 @@
 <body>
 <%@ include file="../common/sideFo.jsp" %>
 	  <!-- row -->
+	  <a href="cont">cont</a>
+	  <a href="memberCommunity">커뮤니티</a> 
 		      <div class="row">
 		        <div class="col-lg-12">
 		          <div class="card py-1 border-0 mb-8">
