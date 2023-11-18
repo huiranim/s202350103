@@ -169,7 +169,7 @@
 						                    <c:when test="${searchNewbook.w_wish == 1}">
 						                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
 						                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
-						                          <i id="wishbtn" class="bi bi-heart-fill"></i></a>
+						                          <i id="wishbtn" class="bi bi-heart-fill" style="color:red;"></i></a>
 						                    </c:when>
 					                       </c:choose>
 					                       <!-- 바로구매 버튼 -->   

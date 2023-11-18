@@ -17,14 +17,6 @@
 		}
 	});
 	
-	function search() {
-		var search_type = $("#search_type").val();
-		var search_keyword = $("#search_keyword").val();
-		alert("내가 선택한 검색 조건 -> "+search_type + " 키워드는 "+search_keyword);
-		
-		location.href = "/boSearchNewbookList?search_type="+search_type+"&search_keyword="+search_keyword;
-	}
-	
 	function boNewbookUpdate(pNb_num) {
 		alert("선택한 도서는 ->" +pNb_num);
 		
@@ -63,20 +55,22 @@
 		    </div>
 		    <div class="row mt-8">
 		    	<!-- 검색 -->
-		        <div class="input-group mb-3" style="width: 60%;">
-					<select id="search_type" class="w-20 rounded" style="border-color: rgb(223, 226, 225);" >
-						<option value="title">도서제목</option>
-						<option value="writer">지은이</option>
-						<option value="publisher">출판사</option>
-					</select>&nbsp;&nbsp;
-		            <input id = "search_keyword" class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요." >
-		            
-		            <!-- 검색 버튼 -->
-		            <div class="col-md-2 col-xxl-2 d-none d-lg-block" style="margin-left: 5px;">
-		              <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
-		                	data-bs-target="#locationModal" onclick="search()">검색  </button>
-		            </div>
-		        </div>
+		    	<form action="boSearchNewbookList">
+			        <div class="input-group mb-3" style="width: 60%;">
+						<select name="search_type" class="w-20 rounded" style="border-color: rgb(223, 226, 225);" >
+							<option value="title" <c:if test ="${search_Newbook.search_type eq 'title'}"> selected="selected"</c:if>>도서제목</option>
+							<option value="writer" <c:if test ="${search_Newbook.search_type eq 'writer'}"> selected="selected"</c:if>>지은이</option>
+							<option value="publisher" <c:if test ="${search_Newbook.search_type eq 'publisher'}"> selected="selected"</c:if>>출판사</option>
+						</select>&nbsp;&nbsp;
+			            <input name = "search_keyword" class="form-control rounded" type="search" value="${search_Newbook.search_keyword }" placeholder="찾으실 도서를 검색해보세요." >
+			            
+			            <!-- 검색 버튼 -->
+			            <div class="col-md-2 col-xxl-2 d-lg-block" style="margin-left: 5px;">
+			              <button type="submit" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
+			                	data-bs-target="#locationModal">검색  </button>
+			            </div>
+			        </div>
+		        </form>
 			</div>
 	            
 		    <div>

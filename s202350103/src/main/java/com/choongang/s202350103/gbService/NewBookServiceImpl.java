@@ -69,9 +69,9 @@ public class NewBookServiceImpl implements NewBookService {
 	}
 
 	@Override
-	public int selectHitNbNum() {
+	public List<NewBook> selectHitNbNum() {
 		System.out.println("NewBookServiceImpl selectHitNbNum start...");
-		int hit_nb_num = nbd.selectHitNbNum();
+		List<NewBook> hit_nb_num = nbd.selectHitNbNum();
 		
 		return hit_nb_num;
 	}
@@ -169,6 +169,23 @@ public class NewBookServiceImpl implements NewBookService {
 		int result = nbd.insertBoNewbook(newbook);
 		System.out.println("NewBookServiceImpl insertBoNewbook result ->"+result);
 		return result;
+	}
+
+	@Override
+	public NewBook selectRecentBookList(int book_num) {
+		System.out.println("NewBookServiceImpl selectRecentBookList start...");
+		// 최근 본 상품 정보 가져오기
+		NewBook recentBook = nbd.selectRecentBookList(book_num);
+		
+		return recentBook;
+	}
+
+	@Override
+	public NewBook selectAllHitNbNum() {
+		System.out.println("NewBookServiceImpl selectHitNbNum start...");
+		NewBook hitBook = nbd.selectAllHitNbNum();
+		
+		return hitBook;
 	}
 
 

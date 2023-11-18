@@ -19,6 +19,51 @@
 		WHERE  c.nb_num = n.nb_num
 		AND    m_num = #{m_num}
 	</select>
-	
+<!-- 	
+	<insert id="htOrderInsert" parameterType="Orderr">
+		INSERT INTO orderr (
+							O_ORDER_NUM,
+						    M_NUM,
+						    O_ORDER_DATE,
+						    O_STATUS,
+						    O_TYPE,
+							O_PAY_PRICE,
+							O_PAY_TYPE,
+						    O_CARD_NUM,
+						    O_DELIV_PRICE,
+							O_POINT,
+							O_REC_NAME,
+						    O_REC_MAIL,
+						    O_REC_PH,
+						    O_REC_ADDR,
+							O_REC_MSG
+							)
+					VALUES (max_orderr_num(),
+					 	    #{m_num},
+					 	    sysdate,
+					 	    1,
+					 	    1,
+					 	    #{o_pay_price},
+					 	    #{o_pay_type},
+					 	    0,
+					 	    #{o_deliv_price},
+					 	    #{o_point},
+					 	    #{o_rec_name},
+					 	    #{o_rec_mail},
+					 	    #{o_rec_ph},
+					 	    #{o_rec_addr},
+					 	    #{o_rec_msg}
+					 	    )
+	</insert>
+	 -->
+	 
+	<select id="htOrderInsert" statementType="CALLABLE" parameterType="Orderr" >
+		{ 
+			call Insert_order_detail(
+					#{m_num       , mode=IN   , jdbcType=INTEGER}
+				   ,#{o_order_num , mode=OUT  , jdbcType=NUMERIC}
+			)
+		}
+	</select>
 	
 </mapper>

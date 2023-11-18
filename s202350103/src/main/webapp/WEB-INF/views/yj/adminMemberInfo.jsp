@@ -89,7 +89,7 @@
 			  <p class="fs-4 mb-5">회원번호 : <mark >${member.m_num}</mark></p>	
 			  <p> 가입일 : 
 			  <span class="mb-9" style="color: red;">
-				 <fmt:formatDate value="${member.m_date }" pattern="yyyy-MM-dd 일  HH:ss 분"/>
+				 <fmt:formatDate value="${member.m_date }" pattern="yyyy-MM-dd 일  HH 시 ss 분"/>
 			  </span>
 			  </p>
 		  

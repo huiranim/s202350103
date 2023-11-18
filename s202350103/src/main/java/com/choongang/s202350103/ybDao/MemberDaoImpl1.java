@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.choongang.s202350103.model.Cart;
+import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
@@ -71,6 +72,19 @@ public class MemberDaoImpl1 implements MemberDao {
 		return totalSellCnt;
 	}
 	
+	@Override
+	public int comListTotalCnt(Community community) {
+		System.out.println("MemberDaoImpl1 comListTotalCnt() start...");
+		int comListTotalCnt = 0;
+		try {
+			comListTotalCnt = session.selectOne("ybTotalSellCnt", comListTotalCnt);
+			System.out.println("MemberDaoImpl1 comListTotalCnt() totalCart -> " + comListTotalCnt);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 comListTotalCnt() Exception -> " + e.getMessage());
+		}
+		return comListTotalCnt;
+
+	}
 	// 장바구니 총 가격
 	@Override
 	public int totalPrice(Member member) {
@@ -119,6 +133,22 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		
 		return listCart;
+	}
+	// 커뮤니티 리스트
+	@Override
+	public List<Community> communityList(Community community) {
+		List<Community> communityList = new ArrayList<Community>();
+		System.out.println("MemberDaoImpl1 communityList() start...");
+		System.out.println("MemberDaoImpl1 communityList() cart.m_num -> " +community.getM_num());
+		try {
+			communityList = session.selectList("ybCommnuityList", community);
+			
+			System.out.println("MemberDaoImpl1 communityList.size() -> " + communityList.size());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 communityList Exception -> " + e.getMessage());
+		}
+		
+		return communityList;
 	}
 	// 찜 목록 리스트
 	@Override
@@ -185,6 +215,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		
 	}
+	// 중고책 판매 리스트
 	@Override
 	public List<OldBook> oldBookSellList(OldBook oldbook) {
 		System.out.println("MemberDaoImpl1 oldBookSellList() start...");
@@ -200,6 +231,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return oldBookSellList;
 	}
+	// 회원 이메일 
 	@Override
 	public Member findEmail(String memberMail) {
 		System.out.println("MemberDaoImpl1 findEmail() start...");
@@ -218,6 +250,7 @@ public class MemberDaoImpl1 implements MemberDao {
 			return member;
 		}
 	}
+	//  
 	@Override
 	public int memberPwUpdate(String m_pw, Member member) {
 		System.out.println("MemberDaoImpl1 memberPwUpdate() start...");
@@ -262,6 +295,56 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return memCount;
 	}
+	@Override
+	public Member memberPwChange1(String m_email, String m_pw) {
+		System.out.println("MemberDaoImpl1 memberPwChange1() start...");
+		Member memberPwChange1 = null;
+		try {
+			System.out.println("MemberDaoImpl1 memberPwChange1() m_num -> " + m_email);
+			System.out.println("MemberDaoImpl1 memberPwChange1() m_pw -> " + m_pw);
+			HashMap<String, Object> mapUpdate = new HashMap<>();
+			mapUpdate.put("m_email", m_email);
+			mapUpdate.put("m_pw", m_pw);
+			
+			memberPwChange1 = session.selectOne("ybMemberPwUpdate2", mapUpdate);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberPwChange1() Exception -> " + e.getMessage());
+		}
+		return memberPwChange1;
+	}
+	@Override
+	public Member memberFindPh(String phoneHyphen) {
+		System.out.println("MemberDaoImpl1 memberFindPh() start...");
+		Member memberFindPh = null;
+		try {
+			System.out.println("MemberDaoImpl1 memberFindPh() phoneHyphen -> " + phoneHyphen);
+			memberFindPh = session.selectOne("ybMemberFindPh", phoneHyphen);
+			System.out.println("MemberDaoImpl1 memberFindPh() memberFindPh -> " + memberFindPh);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberFindPh() Exception -> " + e.getMessage());
+		}
+		return memberFindPh;
+	}
+	@Override
+	public Member memberPwChangeByPh(String m_ph, String m_pw) {
+		System.out.println("MemberDaoImpl1 memberPwChangeByPh() start...");
+		Member memberPwChangeByPh = null;
+		try {
+			System.out.println("MemberDaoImpl1 memberPwChangeByPh() m_ph -> " + m_ph);
+			System.out.println("MemberDaoImpl1 memberPwChangeByPh() m_pw -> " + m_pw);
+			HashMap<String, Object> mapUpdate = new HashMap<>();
+			mapUpdate.put("m_ph", m_ph);
+			mapUpdate.put("m_pw", m_pw);
+			
+			memberPwChangeByPh = session.selectOne("ybMemberPwChangeByPh", mapUpdate);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 memberPwChangeByPh() Exception -> " + e.getMessage());
+		}
+		return memberPwChangeByPh;
+	}
+
+	
+
 }
 	
 

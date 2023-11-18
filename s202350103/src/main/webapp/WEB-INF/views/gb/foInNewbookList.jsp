@@ -6,6 +6,20 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
+<style type="text/css">
+	/* 저작권 영준 */
+	#hit {
+	background: #70e1f5;  
+	background: -webkit-linear-gradient(to right, #ffd194, #70e1f5);  
+	background: linear-gradient(to right, #ffd194, #70e1f5); 
+	border: none;
+	border-radius: 10px 0 10px 0;
+	width: 150px;
+	height: 30px;
+	}
+
+</style>
+
 <title>Insert title here</title>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
@@ -149,27 +163,141 @@
 		              <!-- col -->
 		              <div class="col-md-4 col-12">
 		                 <div class="text-center position-relative ">
-			                 <c:if test="${inNewbook.nb_num eq newbook.hit_nb_num}">
-			                 	<div class=" position-absolute top-0">
-			                 	   <!-- 조회수가 가장 높은 것 hit로 보여주기 --> 
-			                       <span class="badge bg-danger">Hit</span>
-			                    </div>
-			                 </c:if>
+
+		                 <c:choose>
+		                 	<c:when test="${newbook.nb_category2 ne '0'}">
+			                 	<c:forEach var="hitBook" items="${hitList}">
+				                 	<c:if test="${inNewbook.nb_num eq hitBook.nb_num}">
+					                 	<div class=" position-absolute top-0">
+					                 	   <!-- 카테고리별로 조회수가 가장 높은 것 hit로 보여주기 --> 
+					                       <span class="badge bg-danger">
+					                       <!-- 카테고리별 리스트 -->
+				                       		<c:choose>
+					                       		<c:when test="${inNewbook.nb_category2 eq '1'}">
+					                       			[경제/경영] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '2'}">
+					                       			[과학] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '3'}">
+					                       			[소설] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '4'}">
+					                       			[역사/문화] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '5'}">
+					                       			[인문] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '6'}">
+					                       			[과학/기술] 1등
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '7'}">
+					                       			[문학] 1등
+					                       		</c:when>
+					                       	</c:choose> 
+					                       	</span>
+					                    </div>
+					                 </c:if>
+			                 	</c:forEach>
+			                 </c:when>
+			                 <c:otherwise>
+			                 	<c:if test="${inNewbook.nb_num eq hitBook1.nb_num}">
+				                 	<div class=" position-absolute top-0">
+				                 	   <!-- 전체에서 조회수가 가장 높은 것 hit로 보여주기 --> 
+				                       <span class="badge bg-danger">다독 1등</span>
+				                    </div>
+			                    </c:if>
+			                 </c:otherwise>
+		                 </c:choose>
+		                 	
+		                 	
 		                    <a href="newbookDetail?nb_num=${inNewbook.nb_num }">
 		                       <!-- 도서 이미지 -->
 		                       <c:set var="nb_image" value="${inNewbook.nb_image }"/>
 		                       <c:choose>
 			                   	<c:when test="${fn:contains(nb_image, 'http')}">
-			                   		<img src="${inNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+			                   		<img src="${inNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem; height: 19rem;">
 			                   	</c:when>
 			                   	<c:otherwise>
-			                   		<img src="${pageContext.request.contextPath}/upload/${inNewbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+			                   		<img src="${pageContext.request.contextPath}/upload/${inNewbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem; height: 19rem;">
 			                   	</c:otherwise>
 			                   </c:choose>
 		                    </a>
 		                 </div>
 		              </div>
 		              <div class="col-md-8 col-12 flex-grow-1">
+		               
+		               <!-- 영준시작  (왕관 색깔 넣을거면 얘기하셈 이미지라 색처리 안됨 , 검정색도 나름 ㄱㅊ은듯?) -->
+		                   <c:choose>
+		                 	<c:when test="${newbook.nb_category2 ne '0'}">
+			                 	<c:forEach var="hitBook" items="${hitList}">
+				                 	<c:if test="${inNewbook.nb_num eq hitBook.nb_num}">
+				                       		<c:choose>
+					                       		<c:when test="${inNewbook.nb_category2 eq '1'}">
+					                       			<button id="hit" class="mb-6" type="button">
+														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
+									              	   <span style="color: white; font-weight: bold;">
+										              	   경제/경영 Best 1</span>
+									                  </button>
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '2'}">
+					                       			<button id="hit" class="mb-6" type="button">
+														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
+									              	   <span style="color: white; font-weight: bold;">
+										              	  	과학 Best 1</span>
+									                  </button>
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '3'}">
+					                       			<button id="hit" class="mb-6" type="button">
+														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
+									              	   <span style="color: white; font-weight: bold;">
+										              	   소설 Best 1</span>
+									                  </button>
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '4'}">
+					         						<button id="hit" class="mb-6" type="button">
+														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
+									              	   <span style="color: white; font-weight: bold;">
+										              	   역사/문화 Best 1</span>
+									                  </button>
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '5'}">
+					                       				<button id="hit" class="mb-6" type="button">
+														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
+									              	   <span style="color: white; font-weight: bold;">
+										              	 인문 Best 1 </span>
+									                  </button>
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '6'}">
+					                  				<button id="hit" class="mb-6" type="button">
+														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
+									              	   <span style="color: white; font-weight: bold;">
+										              	   과학/기술 Best 1 </span>
+									                  </button>
+					                       		</c:when>
+					                       		<c:when test="${inNewbook.nb_category2 eq '7'}">
+					                       			  <button id="hit" class="mb-6" type="button">
+														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
+									              	   <span style="color: white; font-weight: bold;">
+										              	   문학 Best 1 </span>
+									                  </button>
+					                       		</c:when>
+					                       	</c:choose> 
+					                 </c:if>
+			                 	</c:forEach>
+			                 </c:when>
+			                 <c:otherwise>
+			                 	<c:if test="${inNewbook.nb_num eq hitBook1.nb_num}">
+									  <button id="hit" class="mb-6" type="button">
+										<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
+					              	   <span style="color: white; font-weight: bold;">
+						              	   다독 Best 1 </span>
+					                  </button>
+			                    </c:if>
+			                 </c:otherwise>
+		                 </c:choose>
+            		    <!-- 영준 끝 -->
+		               
 		                 <!-- 도서 제목 -->
 		                 <h1 class="fs-2 mb-3"><a href="newbookDetail?nb_num=${inNewbook.nb_num }" class="text-inherit text-decoration-none">${inNewbook.nb_title}</a>
 		                 </h1>
@@ -211,7 +339,7 @@
 			                    <c:when test="${inNewbook.w_wish == 1}">
 			                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
 			                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${inNewbook.nb_num })">
-			                          <i id="wishbtn" class="bi bi-heart-fill"></i></a>
+			                          <i id="wishbtn" class="bi bi-heart-fill" style="color:red;"></i></a>
 			                    </c:when>
 		                       </c:choose>
 		                       

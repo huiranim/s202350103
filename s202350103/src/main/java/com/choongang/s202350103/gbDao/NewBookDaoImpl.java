@@ -99,13 +99,13 @@ public class NewBookDaoImpl implements NewBookDao {
 	}
 
 	@Override
-	public int selectHitNbNum() {
+	public List<NewBook> selectHitNbNum() {
 		System.out.println("NewBookDaoImpl selectHitNbNum Start...");
-		int hit_nb_num = 0;
+		List<NewBook> hit_nb_num = null;
 		
 		try {
-			hit_nb_num = session.selectOne("gbSelectHitNbNum");
-			System.out.println("NewBookDaoImpl selectNewBookDetail hit_nb_num->"+hit_nb_num);
+			hit_nb_num = session.selectList("gbSelectHitNbNum");
+			// System.out.println("NewBookDaoImpl selectNewBookDetail hit_nb_num->"+hit_nb_num);
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectHitNbNum -> "+e.getMessage());
 		}
@@ -228,5 +228,32 @@ public class NewBookDaoImpl implements NewBookDao {
 		return result;
 	}
 
-}
+	@Override
+	public NewBook selectRecentBookList(int book_num) {
+		System.out.println("NewBookDaoImpl selectRecentBookList Start...");
+		NewBook recentBook = null;
+		try {
+			recentBook = session.selectOne("gbSelectRecentBookList", book_num);
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl selectRecentBookList -> "+e.getMessage());
+		}
+		return recentBook;
+	}
+
+	@Override
+	public NewBook selectAllHitNbNum() {
+			System.out.println("NewBookDaoImpl selectHitNbNum Start...");
+			NewBook hitBook = null;
+			
+			try {
+				hitBook = session.selectOne("gbSelectAllHitNbNum");
+				System.out.println("NewBookDaoImpl selectNewBookDetail hitBook->"+hitBook);
+			} catch (Exception e) {
+				System.out.println("NewBookDaoImpl selectHitNbNum -> "+e.getMessage());
+			}
+			
+			return hitBook;
+		}
+
+	}
 

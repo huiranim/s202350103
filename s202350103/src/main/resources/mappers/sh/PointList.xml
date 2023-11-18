@@ -27,7 +27,7 @@
 	
 	<insert id="shBoInsertPlusPoint" parameterType="Member">
 		Insert into point_list(p_num, m_num, a_par_pdate, p_list_type, m_point)
-		Values (pointlist_p_num_seq.nextval,#{m_num},sysdate,0,#{m_point})
+		Values (pointlist_p_num_seq.nextval,#{m_num},sysdate,7,#{m_point})
 	</insert>
 	
 	<insert id="shBoInsertMinusPoint" parameterType="Member">

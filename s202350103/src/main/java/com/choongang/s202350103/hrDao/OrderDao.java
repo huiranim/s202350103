@@ -23,7 +23,7 @@ public interface OrderDao {
 	Orderr 			  selectOrderr_GiftType(long o_order_num);
 	OrderGift 		  selectOrderGift(long o_order_num);
 	int 			  gettingGiftAction(Orderr orderr, OrderGift orderGift);
-	
+	long 			  selectTodayOrderr();
 	
 	
 	

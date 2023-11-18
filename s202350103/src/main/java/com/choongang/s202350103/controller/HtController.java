@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,16 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HtController {
 	private final OrderrService os;
 	private final ReviewService rs;
-//
-//	@RequestMapping("/orderTotal")
-//	public String test(Model model) {
-//		System.out.println("Controller Start...");
-//		int total = os.orderTotal();
-//		model.addAttribute("total", total);
-//		System.out.println("Controller test() orderTotal--> " + total);
-//		return "/ht/foOrderForm";
-//	}
-//	
+
 	@Data
 	@AllArgsConstructor
 	class Result<T>{ 
@@ -329,7 +321,7 @@ public class HtController {
 	// 결제 폼
 	 @RequestMapping("/orderForm")
 	 public String orderForm(Model model, HttpSession session, Member member, NewBook newBook, Cart cart, int paymentType) {
-		System.out.println("Controller Start orderForm kkk...");
+		System.out.println("Controller Start orderForm ...");
 		int totalPrice = 0;
 		
 		// 로그인한 멤버 값 불러오기
@@ -342,7 +334,7 @@ public class HtController {
 		String[] splitPh   = member.getM_ph().split("-");
 		String[] splitAddr = member.getM_addr().split("/");
 		
-		System.out.println("newBook.getNb_num kkk--> "+ newBook.getNb_num());
+		System.out.println("newBook.getNb_num --> "+ newBook.getNb_num());
 		System.out.println("paymentType--> "+ paymentType);
 		
 		// paymentType 1--> 바로결제, 2--> 장바구니 결제
@@ -389,39 +381,59 @@ public class HtController {
 		return "/ht/foOrderForm";
 	}
 
-//	 
-//	 @PostMapping("/orderAction")
-//	 public String orderAction(
-//							     @RequestParam("m_ph1") String m_ph1,
-//								 @RequestParam("m_ph2") String m_ph2,
-//								 @RequestParam("m_ph3") String m_ph3,
-//				 
-//				 				 @RequestParam("m_addr1") String m_addr1,
-//								 @RequestParam("m_addr2") String m_addr2,
-//								 @RequestParam("m_addr") String m_addr,
-//								 @ModelAttribute Model model, HttpSession session, Member member, NewBook newBook) {
-//		System.out.println("Controller Start orderForm...");
-//		
-//		// 로그인한 멤버 값 불러오기
-//		member =(Member) session.getAttribute("member");
-//		
-//		if(member == null) {
-//			return "yb/loginForm";
-//		}
-//		
-//		member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
-//		member.setM_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
-//		
-//		System.out.println("newBook.getNb_num(--> "+ newBook.getNb_num());
-//		
-//		//상품 정보 조회
-//		//NewBook orderOne = os.orderList(newBook);
-//		
-//		//model.addAttribute("orderOne", orderOne);
-//		model.addAttribute("member",member);
-//		
-//		return "/ht/foOrderForm";
-//	}
+	 
+	 @RequestMapping("/orderAction")
+	 public String orderAction(
+			 
+							 	 String m_email1, 
+								 String m_email, 
+	 
+							     String m_ph1,
+								 String m_ph2,
+								 String m_ph3,
+				 
+				 				 String m_addr1,
+								 String m_addr2,
+								 String m_addr,
+								 
+								 int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
+								 Model model, HttpSession session, Member member, Orderr orderr
+								 ) {
+		System.out.println("Controller orderAction Start...");
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		orderr.setM_num(member.getM_num());
+		
+		if(destination == 2) {
+			orderr.setO_rec_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr );	// 우편번호 주소 상세주소 병합
+			orderr.setO_rec_mail(m_email1+"@"+m_email);						// 이메일 병합
+			orderr.setO_rec_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);					// 전화번호 병합
+			System.out.println("HtController orderAction orderr--> "+ orderr);
+			System.out.println("HtController getO_rec_ph --> "+ orderr.getO_rec_ph());
+			System.out.println("HtController o_rec_addr --> "+ orderr.getO_rec_addr());
+		}
+		
+		
+		System.out.println("HtController orderr-->"+orderr);
+		
+		//Orderr 테이블 insert
+		long result_o_order_num = os.orderInsert(orderr);
+		System.out.println("HtController orderInsert() result_o_order_num-->"+result_o_order_num);
+		
+		//Order_detail 테이블 insert
+		//int order_detail_result = os.orderDetailInsert(orderr);
+		
+		model.addAttribute("result_o_order_num", result_o_order_num);
+		model.addAttribute("member",member);
+		
+		return "/ht/foOrderForm";
+	}
 
 	// 카카오페이
 	 @Setter(onMethod_ = @Autowired)

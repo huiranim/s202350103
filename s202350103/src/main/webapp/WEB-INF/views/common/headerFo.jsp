@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ include file="../yb/aboutLogin2.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -84,31 +84,43 @@
             <div class="d-flex justify-content-between w-100 d-lg-none">
 	
 	<!-- 로고/제목(모바일) -->	
-			<h1>DADOK</h1>
+			  <a href="/">
+				<h1>
+				<img alt="" src="../assets/images/favicon/DADOKLOGO.png" >
+				DADOK
+				</h1>
+			  </a>
               <div class="d-flex align-items-center lh-1">
-		
+				
                 <div class="list-inline me-4">
-                 
-                 
-					<!-- 회원가입 아이콘 -->
-                  <div class="list-inline-item">
-					
-                    <a href="#!" class="text-muted" data-bs-toggle="modal" data-bs-target="#userModal">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="feather feather-user">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                      </svg>
-                    </a>
-                  </div>
-                  
+	               
+                 <!-- 회원가입 아이콘 -->
+                 	<!-- 비로그인시 -->
+                 <c:if test="${sessionScope.member == null }">	
+	                  <div class="list-inline-item">
+	                    <a href="#!" class="text-muted" data-bs-toggle="modal" data-bs-target="#userModal">
+	                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+	                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+	                        class="feather feather-user">
+	                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+	                        <circle cx="12" cy="7" r="4"></circle>
+	                      </svg>
+	                    </a>
+	                  </div>
+                  </c:if>
+                  <c:if test="${sessionScope.member != null }">	
+                  	 <div class="list-inline-item">
+	                    <a href="memberMyPage?m_num=${member.m_num }" class="text-muted" >
+	                      <img alt="" src="${member.m_image }" width="20px" height="20px" class="rounded-circle">
+	                    </a>
+	                  </div>
+                  </c:if>
                   
             <!--  장바구니 아이콘 -->      
                   <div class="list-inline-item">
 
-                    <a class="text-muted position-relative " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                      href="#offcanvasExample" role="button" aria-controls="offcanvasRight">
+                    <a class="text-muted position-relative " data-bs-toggle="" data-bs-target=""
+                      href="memberCartList" role="button" aria-controls="offcanvasRight">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-shopping-bag">
@@ -119,7 +131,8 @@
                       
                       <!-- 항목 아이콘 -->
                       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                        9999
+                      	<c:if test="${sessionScope.member == null }">0</c:if>
+                      	<c:if test="${sessionScope.member != null }">${totalCart }</c:if>
                         <span class="visually-hidden">unread messages</span>
                       </span>
                     
@@ -137,8 +150,14 @@
                       d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
                   </svg>
                 </button>
-
               </div>
+              <c:if test="${member.m_admin == 1 }">
+               		<div>
+						<a href="mainBo" style="color: #581313;"><strong>
+	               		<i class="bi bi-universal-access-circle me-1" ></i>
+						 관리자 페이지 </strong></a>
+	               	</div>
+			    </c:if>
             </div>
 
           </div>
@@ -152,13 +171,16 @@
 					<option value="publisher">출판사</option>
 				</select>&nbsp;&nbsp;
 	            <input id = "search_keyword" class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요." >
+<!-- 	            검색 버튼 -->
+<!-- 	              <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal" -->
+<!-- 	                	data-bs-target="#locationModal" onclick="search()">검색 </button> -->
 	        </div>
 		</div>
-            <!-- 검색 버튼 -->
-            <div class="col-md-2 col-xxl-2 d-none d-lg-block">
-              <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
-                	data-bs-target="#locationModal" onclick="search()">검색  </button>
-            </div>
+        <!-- 검색 버튼 -->
+        <div class="col-md-2 col-xxl-2 d-none d-lg-block">
+          <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
+            	data-bs-target="#locationModal" onclick="search()">검색  </button>
+        </div>
           
           <div class="col-md-2 col-xxl-2 text-end d-none d-lg-block">
 		          	<!-- 비 로그인 시 -->	
@@ -475,51 +497,54 @@
 
 <!-- 마이페이지 아이콘 클릭시  -->
 <!--  로그인 팝업으로 써도 될듯? -->
-<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content p-4">
-      <div class="modal-header border-0">
-        <h5 class="modal-title fs-3 fw-bold" id="userModalLabel">로그인</h5>
+<!-- 비로그인시 -->
+<c:if test="${sessionScope.member == null }">
+	<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered">
+	    <div class="modal-content p-4">
+	      <div class="modal-header border-0">
+	        <h5 class="modal-title fs-3 fw-bold" id="userModalLabel">로그인</h5>
+	
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	
+	      <div class="modal-body">
+<!-- 	        <form action=""> -->
+	          <div class="mb-3">
+	            <label for="fullName" class="form-label">아이디</label>
+	            <input type="text" class="form-control" name="m_id1" id="m_id1" placeholder="아이디를 입력하세요 " required="">
+	          </div>
 
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+	          <div class="mb-5">
+	            <label for="password" class="form-label">비밀번호</label>
+	            <input type="password" class="form-control" name="m_pw1" id="m_pw1" placeholder="비밀번호를 입력하세요" required="">
+	            <input class="form-check-input" type="checkbox" id="idSaveCheck1" name="idSaveCheck" value="remember" >
+                <small class="form-text"> <label class="form-check-label" for="idSaveCheck"> 아이디 기억하기</label></small>
+           
+	            <small class="form-text" style="float: right; "> 계정 찾기 <a href="memberFindAccount">계정 찾기</a></small>
+	          </div>
+<!-- 	 -->
+	          <button type="submit" class="btn btn-primary" onclick="loginChk(m_id1.value, m_pw1.value)" id="btnSearch1">로그인</button>
+<!-- 	        </form> -->
+	      </div>
+	      <div class="modal-footer border-0 justify-content-center">
+	                  계정이 없으신가요? <a href="memberJoin">회원가입</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</c:if>
+<c:if test="${sessionScope.member != null }">
 
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="fullName" class="form-label">이름</label>
-            <input type="text" class="form-control" id="fullName" placeholder="이름을 입력하세요 " required="">
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">이메일 주소</label>
-            <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요" required="">
-          </div>
 
-          <div class="mb-5">
-            <label for="password" class="form-label">비밀번호</label>
-            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요" required="">
-            <small class="form-text"> 어쩌고 저쩌고 <a href="#!">뭐 임펙트 줄라고 쓸때 쓸꺼면 쓰고</a> & <a
-                href="#!">아니면 말고</a></small>
-          </div>
-
-          <button type="submit" class="btn btn-primary">로그인</button>
-        </form>
-      </div>
-      <div class="modal-footer border-0 justify-content-center">
-
-        계정이 없슴? <a href="#">회원가입 ㄱㄱ </a>
-      </div>
-    </div>
-  </div>
-</div>
+</c:if>
 
 <!--  장바구니 아이콘 클릭시 -->
-
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+<%-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header border-bottom">
     <div class="text-start">
       <h5 id="offcanvasRightLabel" class="mb-0 fs-4">장바구니</h5>
-      <small>안영준 님</small>
+      <small>${member.m_name }</small>
     </div>
   <!-- X 버튼 클릭시 사이드바 슬라이드 -->
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -532,26 +557,34 @@
       </div>
 
 <!-- 사이드바 장바구니 메뉴 -->
-      <ul class="list-group list-group-flush">
+      <ul class="list-group list-group-flush" id="cart${status.index }">
 
 	<!-- 장바구니 리스트 -->
+	<c:forEach var="cart" items="${listCart }" varStatus="status"> 
         <li class="list-group-item py-3 ps-0 border-top">
 			
           <div class="row align-items-center">
 
             <div class="col-6 col-md-6 col-lg-7">
               <div class="d-flex">
-            
+            	
             <!--  이미지 1  -->
-              <img src="../assets/images/products/product-img-1.jpg" alt="Ecommerce"
-                class="icon-shape icon-xxl">
+            <c:choose>
+	          <c:when test="${fn:contains(cart.nb_image, 'http')}">
+	              <img src="${cart.nb_image}" alt="Ecommerce"
+	                class="icon-shape icon-xxl">
+	          </c:when>
+	          <c:otherwise>
+	              <img src="${pageContext.request.contextPath}/upload/${cart.nb_image}" alt="Ecommerce"  class="icon-shape icon-xxl">
+	          </c:otherwise>
+            </c:choose>     
                 <div class="ms-3">
 			<!--  이미지 1 제목 -->
               <a href="./pages/shop-single.html" class="text-inherit">
-                <h6 class="mb-0">제목 1</h6>
+                <h6 class="mb-0"><a href="newbookDetail?nb_num=${cart.nb_num }" class="text-inherit">${cart.nb_title }</a></h6>
               </a>
-              <span><small class="text-muted">내용 1</small></span>
-
+              <span><small class="text-muted">${cart.nb_publisher }</small></span>
+			  <span><small class="text-muted">${cart.nb_publisher }</small></span>
 
               <!-- text -->
               <div class="mt-2 small lh-1"> <a href="#!" class="text-decoration-none text-inherit"> <span
@@ -574,69 +607,24 @@
 			
 		<!-- 수량 증 감소 -->	
               <div class="input-group input-spinner  ">
-                <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity">
+                <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" onclick="cartQuantityMinus(${status.index})">
                 <input type="number" step="1" max="10" value="1" name="quantity"
                   class="quantity-field form-control-sm form-input   ">
-                <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity">
+                <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" onclick="cartQuantityPlus(${status.index})">
               </div>
 
             </div>
      
 		<!--  가격 -->
             <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-              <span class="fw-bold">$5.00</span>
+              <span class="fw-bold"><fmt:formatNumber value="${cart.nb_price * cart.c_count}" pattern="#,###" />원</span>
 
             </div>
           </div>
 
         </li>
-       
-		<!-- 장바구니 리스트 2 -->
-        <li class="list-group-item py-3 ps-0 border-bottom">
-          <div class="row align-items-center">
-            <div class="col-6 col-md-6 col-lg-7">
-              <div class="d-flex">
-              <img src="../assets/images/products/product-img-5.jpg" alt="Ecommerce"
-                class="icon-shape icon-xxl">
-                <div class="ms-3">
-			
-              <a href="./pages/shop-single.html" class="text-inherit">
-                <h6 class="mb-0">제목2 </h6>
-              </a>
-              <span><small class="text-muted">내용2</small></span>
-
-              <div class="mt-2 small lh-1"> <a href="#!" class="text-decoration-none text-inherit"> <span
-                    class="me-1 align-text-bottom">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      class="feather feather-trash-2 text-success">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                      </path>
-                      <line x1="10" y1="11" x2="10" y2="17"></line>
-                      <line x1="14" y1="11" x2="14" y2="17"></line>
-                    </svg></span><span class="text-muted">삭제 아이콘</span></a></div>
-                  </div>
-                </div>
-            </div>
-			
-			<!-- 수량 증감소 -->
-            <div class="col-4 col-md-3 col-lg-3">
-              <div class="input-group input-spinner  ">
-                <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity">
-                <input type="number" step="1" max="10" value="1" name="quantity"
-                  class="quantity-field form-control-sm form-input   ">
-                <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity">
-              </div>
-            </div>
-			<!-- 가격 -->
-            <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-              <span class="fw-bold">$15.00</span>
-            </div>
-          </div>
-
-        </li>
-
+       </c:forEach>
+		
       </ul>
 	<!--  장바구니 그룹  버튼 -->
       <div class="d-flex justify-content-between mt-4">
@@ -647,7 +635,7 @@
     </div>
   </div>
 </div>
-
+--%>
 
 <!-- 메인 시작 -->
   <main>

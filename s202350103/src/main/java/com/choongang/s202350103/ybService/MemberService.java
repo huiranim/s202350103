@@ -3,6 +3,7 @@ package com.choongang.s202350103.ybService;
 import java.util.List;
 
 import com.choongang.s202350103.model.Cart;
+import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
@@ -39,6 +40,16 @@ public interface MemberService {
 	Member 			memberPwChange(String m_num, String m_pw);
 
 	int 			memCount();
+
+	Member 			memberPwChange1(String m_email, String m_pw);
+
+	Member 			memberFindPh(String phoneHyphen);
+
+	Member 			memberPwChangeByPh(String m_ph, String m_pw);
+
+	List<Community> communityList(Community community);
+
+	int 			comListTotalCnt(Community community);
 
 
 

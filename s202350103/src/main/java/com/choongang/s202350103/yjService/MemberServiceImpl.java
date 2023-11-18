@@ -40,10 +40,10 @@ public class MemberServiceImpl implements MemberService{
 		int memberJoinPointList = md.memberJoinPointList(m_reid);
 		return memberJoinPointList;
 	}
-	// 회원가입 포인트
+	// 회원가입 포인트 이력에 insert
 	@Override
-	public int joinPoint(Member member) {
-		int joinPoint = md.joinPoint(member);
+	public int joinPoint() {
+		int joinPoint = md.joinPoint();
 		return joinPoint;
 	}
 	// 내정보 상세
@@ -185,7 +185,5 @@ public class MemberServiceImpl implements MemberService{
 		return  md.adminAddrSearch(m_num);
 	}
 	
-	
-
 	
 }

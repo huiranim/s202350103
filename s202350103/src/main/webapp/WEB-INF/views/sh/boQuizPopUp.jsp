@@ -9,12 +9,13 @@
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 
 <body>
+	<h2>Quiz Event 수정</h2>
 	<form id="quizForm" action="javascript:void(0)">
 		이번트 번호 : <input type="text" name="q_num" 	value="${quiz.q_num }" readonly="readonly">				<p>
 		이벤트 이름 : <input type="text" name="q_title" 	value="${quiz.q_title}" required="required">			<p>
 		이벤트 기간 : <input type="date" name="q_sdate" 	value="${quiz.q_sdate}" required="required">~
 				 <input type="date"  name="q_edate"	value="${quiz.q_edate}" required="required">			<p>
-		사진 등록 :  <input type="file" name="q_image"	value="${quiz.q_image}" required="required">			<p>
+		사진 등록 : <img id="q_image" src="${pageContext.request.contextPath}/upload/${quiz.q_image}"><input type="file" name="q_image">			<p>
 		출석 혜택지급 : 지급 포인트 :	<input type="number" 	value="${quiz.q_point}" required="required">point		<p>
 		질문<br/>
 		<textarea name="q_question" required="required">${quiz.q_question }</textarea>						<p>
@@ -31,6 +32,7 @@
 		</select>						
 		<input type="button" onclick="updateQuiz()" value="수정">												<p>																	
 	</form>
+	<button onclick="deleteQuiz(${quiz.q_num },${quiz.q_title})">삭제</button>
 	<button id="closeButton">닫기</button>
 	
 	<script type="text/javascript">
@@ -69,6 +71,26 @@
 			}
 		});
 	}
+	
+	function deleteQuiz(p_q_num, p_q_title){
+		var confirmMessage = p_q_title +"을 삭제하시겠습니까?";
+		if(confirm(confirmMessage)){
+			$.ajax({
+				url:"deleteQuiz",
+				data:{q_num:p_q_num},
+				dataType:"text",
+				success:function(result){
+					if(result == 1){
+						alert("삭제하였습니다.");
+						location.href="boEventList";
+					}
+				}
+			});
+		} else {
+			alert("삭제를 취소하였습니다.");
+			return false;
+			}
+		}
 	
 	var closeButton = document.getElementById("closeButton");
 	closeButton.addEventListener('click',function(){

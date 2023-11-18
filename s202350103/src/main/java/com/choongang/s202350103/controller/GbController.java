@@ -2,10 +2,12 @@ package com.choongang.s202350103.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.query.criteria.internal.expression.function.SubstringFunction;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
+import com.choongang.s202350103.gbService.RecentlyBook;
 import com.choongang.s202350103.htService.ReviewService;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
@@ -39,6 +42,7 @@ public class GbController {
 	private final NewBookService nbs;
 	private final NewBookOldBookService nbods;
 	private final ReviewService rs;
+	private final RecentlyBook rb;
 	
 	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
@@ -50,6 +54,10 @@ public class GbController {
 		if (member != null) {
 			newbook.setM_num(member.getM_num());
 		}
+
+	 	// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		
 		
 		// 정렬 유형, 초기값(null)이면 --> recently
 		String orderType_default = "recently";
@@ -72,16 +80,24 @@ public class GbController {
 		List<NewBook> listInNewbook = nbs.selectInNewBookList(newbook); // startRow, endRow, orderType, nb_category2 컬럼을 담고 리스트를 출력하러 감.
 		System.out.println("GbController selectInNewBookList listNewbook.size() -> "+listInNewbook.size());
 		
-		// 조회수 최대 값 구하기
-		int hit_nb_num = nbs.selectHitNbNum();
-		newbook.setHit_nb_num(hit_nb_num);
+		// 카테고리별 최대 조회수 도서 상품 리스트 구하기
+		List<NewBook> hitList = nbs.selectHitNbNum();
+		// newbook.setHit_nb_num(hit_nb_num);
+		// System.out.println("hitList -> "+hitList);
+		
+		// 다독 전체 최대 조회수 도서 상품 리스트
+		NewBook hitBook1 = nbs.selectAllHitNbNum();
+		System.out.println("hitBook1 -> "+hitBook1);
+		System.out.println("newbook.category2 -> "+newbook.getNb_category2());
 		
 		model.addAttribute("member", member);
 		model.addAttribute("listInNewbook", listInNewbook);
 		model.addAttribute("inNewbookCnt", inNewbookCnt);
 		model.addAttribute("page", page);
 		model.addAttribute("newbook", newbook);
-		
+		model.addAttribute("recentBookList", recentBookList);
+		model.addAttribute("hitList", hitList);
+		model.addAttribute("hitBook1", hitBook1);
 		
 		return "gb/foInNewbookList";
 	}
@@ -97,6 +113,9 @@ public class GbController {
 		if (member != null) {
 			newbook.setM_num(member.getM_num());
 		}
+		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
 		
 		// 정렬 유형, 초기값(null)이면 --> recently
 		String orderType_default = "recently";
@@ -125,14 +144,17 @@ public class GbController {
 		model.addAttribute("listSearchNewbook", listSearchNewbook);
 		model.addAttribute("search_NewbookCnt", searchNewbookCnt);
 		model.addAttribute("page", page);
-		
+		model.addAttribute("recentBookList", recentBookList);
+
 		return "gb/fosearchNewbookList";
 		
 	}
 	
-	// 상품 상페 페이지
+	// 상품 상세 페이지
 	@RequestMapping("newbookDetail")
-	public String selectNewbookDetail(NewBook newbook, Review review, HttpSession session, Member member, Model model) {
+	public String selectNewbookDetail(NewBook newbook, Review review, HttpSession session, 
+									  HttpServletResponse response, HttpServletRequest request, Member member, Model model) {
+		
 		System.out.println("GbController selectNewbookDetail start...");
 		System.out.println("GbController selectNewbookDetail newbook.getNb_num()"+newbook.getNb_num());
 		
@@ -152,6 +174,14 @@ public class GbController {
 		// 동일한 중고도서 개수
 		int same_obCnt = nbods.selectSameOldBookList(newbook.getNb_num()).size();
 		selectNewbook.setSame_obCnt(same_obCnt);
+		
+		// 세션에 nb_num을 저장하는 서비스 실행
+		rb.sessionSave(session, newbook.getNb_num());
+		
+		System.out.println("session.getAtt nb_num ->"+session.getAttribute("recentBookNum0"));
+		
+//		session.setAttribute("recentBookNum", newbook.getNb_num());
+//		System.out.println("세션 값 -> "+session.getAttribute("recentBookNum"));
 		
 		//리뷰 코딩
 		

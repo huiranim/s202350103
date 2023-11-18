@@ -8,10 +8,18 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 /*  modal 에 리스트 불러오는 기능 */
-	function openfoModalList(){
+/* 	function openfoModalList(){
 		$('.modal-content').load("ModalList");
-	}
+	} */
+	opener.parent.location="ModetailNb?nb_num=${oldBook.nb_num}";
 	
+	window.close();
+	
+	
+	function showPopup(){
+		window.open("ModalList","pop","width=1000, height=900, left=300, top=150");	
+	
+	}
 	function doAction(){
 	
 		if(frm.nb_title.value == ""){
@@ -23,7 +31,7 @@
 		}
 	}
 
-
+	/* $("#sss").append('<small class="text-muted "><input type="hidden" name="nb_writer" value="${oldBook.nb_writer}">지은이 : ${oldBook.nb_writer}/ <input type="hidden"  name="nb_publisher" value="${oldBook.nb_publisher }">출판사 : ${oldBook.nb_publisher }  <input type="hidden" name="nb_publi_date" value="${oldBook.nb_publi_date }"> 출간일: ${oldBook.nb_publi_date } </small>'); */
 
 </script>
 <head>
@@ -35,12 +43,14 @@
 <form action="writeFormObCal" name="frm"   method="post"  onsubmit="return doAction()">
 <p class="text-center fs-1 ">중고 도서 판매 신청 </p>
 	
+	
+	
 	<!-- 새상품 서치  -->
 	<div class="row">
   <div class="col-12">
      <div class="card card-product">
         <!-- card body -->
-        <div class="card-body">
+        <div class="card-body" >
            <div class=" row align-items-center">
               <!-- col -->
               <div class="col-md-4 col-12">
@@ -55,6 +65,8 @@
                          <input type="hidden" name="nb_image" value="${oldBook.nb_image }">
                  </div>
               </div>
+      
+      	<c:if test="${oldBook.nb_num  != '0' }">
               <div class="col-md-8 col-12 flex-grow-1 text-center">
                  <!-- heading -->
                  <div class="text-small mb-1">
@@ -65,7 +77,7 @@
                  <input type="hidden" name="nb_title" id="nb_ti" value="${oldBook.nb_title }" required="required">
                  </h2>
                  <div class="text-start">
-                  <span><small class="text-muted "><input type="hidden" name="nb_writer" value="${oldBook.nb_writer}">지은이 : ${oldBook.nb_writer}/ 
+                  <span id="sss"><small class="text-muted "><input type="hidden" name="nb_writer" value="${oldBook.nb_writer}">지은이 : ${oldBook.nb_writer}/ 
                       <input type="hidden"  name="nb_publisher" value="${oldBook.nb_publisher }">출판사 : ${oldBook.nb_publisher }  
                          <input type="hidden" name="nb_publi_date" value="${oldBook.nb_publi_date }"> 출간일: ${oldBook.nb_publi_date }
                       </small></span>
@@ -77,19 +89,24 @@
                       
                     </div>
                     <br>
-
+	</div>
+	</div>
+</c:if>
                     <!-- btn -->
           
                     <!-- btn -->
                     <div class="text-end">
                     
-                  <button type="button" class="btn btn-primary text-end" data-bs-toggle="modal" data-bs-target="#exampleModal-2" 
+               <!--    <button type="button" class="btn btn-primary text-end" data-bs-toggle="modal" data-bs-target="#exampleModal-2" 
                   				onclick="openfoModalList()">
+                  				 -->
+                  <button type="button" class="btn btn-primary text-end"  data-bs-toggle="modal" data-bs-target="#exampleModal-2" 
+                  				onclick="showPopup()">
    					새상품 조회
 					</button>
 					</div>
-<!-- Modal -->
-<div class="modal fade col-lg-8" id="exampleModal-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <!-- Modal -->
+<!-- <div class="modal fade col-lg-8" id="exampleModal-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -98,7 +115,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <!-- 모달 바디 -->
+            모달 바디
             <div class="modal-body">
                 
                 
@@ -117,14 +134,14 @@
             </div>
         </div>
     </div>
-</div>
+</div>  -->
                  </div>
               </div>
            </div>
         </div>
      </div>
-  </div>
- </div>	
+
+
  
 	
 	
@@ -492,6 +509,8 @@ AS 전화번호	고객센터 운영 관리
 		
 		
 		</textarea><p>
+		
+		
 		
 	 <div class="d-grid gap-2">
 	 	  <button type="submit"  class="btn btn-success mb-2">판매 계속</button>

@@ -7,4 +7,5 @@ public interface QuizDao {
 	Quiz 		quiz(int eNum);
 	int 		createQuiz(Quiz quiz);
 	int 		updateQuiz(Quiz quiz);
+	int 		deleteQuiz(int q_num);
 }

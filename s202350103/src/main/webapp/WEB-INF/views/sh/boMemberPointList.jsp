@@ -49,26 +49,26 @@
 	<tr>
 		<th>번호</th><th>포인트번호</th><th>회원번호</th><th>발행페이지 코드</th><th>발행일시</th><th>포인트유형</th><th>지급포인트</th>
 	</tr>
-	<c:forEach var="memberPoint" items="${memberPoint }">
-		<tr>
-			<td>${memberPoint.rn }</td>
-			<td>${memberPoint.p_num }</td>
-			<td>${memberPoint.m_num }</td>
-			<td>
-			<c:choose>
-				<c:when test="${memberPoint.o_order_num != 0}"> ${memberPoint.o_order_num}</c:when>
-				<c:when test="${memberPoint.q_num != 0}">${memberPoint.q_num}</c:when>
-				<c:when test="${memberPoint.a_num != 0}">${memberPoint.a_num}</c:when>
-				<c:otherwise>00000</c:otherwise>
-			</c:choose>
-			</td>
-			<td>
-				<fmt:formatDate pattern="yyyy-MM-dd" value="${memberPoint.a_par_pdate }"/>
-			</td>
-			<td>${memberPoint.p_list_type }</td>
-			<td>${memberPoint.m_point }</td>		
-		</tr>
-	</c:forEach>
+		<c:forEach var="memberPoint" items="${memberPoint }">
+			<tr>
+				<td>${memberPoint.rn }</td>
+				<td>${memberPoint.p_num }</td>
+				<td>${memberPoint.m_num }</td>
+				<td>
+				<c:choose>
+					<c:when test="${memberPoint.o_order_num != 0}"> ${memberPoint.o_order_num}</c:when>
+					<c:when test="${memberPoint.q_num != 0}">${memberPoint.q_num}</c:when>
+					<c:when test="${memberPoint.a_num != 0}">${memberPoint.a_num}</c:when>
+					<c:otherwise>00000</c:otherwise>
+				</c:choose>
+				</td>
+				<td>
+					<fmt:formatDate pattern="yyyy-MM-dd" value="${memberPoint.a_par_pdate }"/>
+				</td>
+				<td>${memberPoint.p_list_type }</td>
+				<td>${memberPoint.m_point }</td>		
+			</tr>
+		</c:forEach>
 </table>
 <br>
 	<h3>포인트 수정하기</h3>

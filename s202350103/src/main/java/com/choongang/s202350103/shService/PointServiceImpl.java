@@ -303,4 +303,18 @@ public class PointServiceImpl implements PointService {
 		return rowCount;
 	}
 
+	@Override
+	public int deleteAtt(int a_num) {
+		System.out.println("PointService deleteAtt() Start...");
+		int result = ad.deleteAtt(a_num);
+		return result;
+	}
+
+	@Override
+	public int deleteQuiz(int q_num) {
+		System.out.println("PointService deleteQuiz() Start..");
+		int result = qd.deleteQuiz(q_num);
+		return result;
+	}
+
 }

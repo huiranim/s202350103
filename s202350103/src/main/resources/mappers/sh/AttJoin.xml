@@ -67,8 +67,7 @@
 	</select>
 	
 	<insert id="shStampAddAtt" parameterType="AttJoin">
-		Insert Into att_join
-		Values (#{m_num},#{a_num},sysdate)
+		Insert Into att_join Values (#{m_num},#{a_num},To_char(sysdate, 'yy-MM-dd'))
 	</insert>
 	
 	<update id="shSaveAddAtt" parameterType="AttJoin">
@@ -79,11 +78,11 @@
 	
 	<insert id="shSearchAddAtt" parameterType="AttJoin">
 		Insert into point_list(p_num, m_num, a_num, a_par_pdate,p_list_type,m_point) 
-		Values (pointlist_p_num_seq.nextval, #{a_num}, #{m_num},#{a_par_pdate},2,
+		Values (pointlist_p_num_seq.nextval, #{m_num}, #{a_num},to_char(sysdate,'yy-MM-dd'),2,
 			   (Select a_addPoint From attendance Where a_num=#{a_num}))
 	</insert>
 	
 	<select id="shCountAttRow" parameterType="AttJoin" resultType="int">
-		Select count(*) From att_join Where m_num=#{m_num} And a_num=#{a_num} And To_char(a_par_pdate, 'yy-MM-dd') = To_char(#{strCheckTime}, 'yy-MM-dd')
+		Select count(*) From att_join Where m_num=#{m_num} And a_num=#{a_num} And To_char(a_par_pdate, 'yy-MM-dd') = To_char(#{a_par_pdate}, 'yy-MM-dd')
 	</select>
 </mapper>

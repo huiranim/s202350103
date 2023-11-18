@@ -5,9 +5,14 @@
 <!-- 운송장 -->    
 <!DOCTYPE html>
 <html>
+<script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 
-
+		function calcul(){
+		var totalCal1 = (${oldBook.nb_price*0.6});
+		
+		$("#Calcul1").val(totalCal1);
+		}
 
 </script>
 <head>
@@ -18,9 +23,10 @@
 
 <form action="writeOb" method="post">
 <p class="text-center fs-1 ">중고 도서 운송장 등록 </p>
-		<input type="hidden" name="m_num" value="${oldBook.m_num }">
+		<input type="hidden" name="m_num" value="${member.m_num }">
 		<input type="hidden" name="nb_num" value="${oldBook.nb_num }">
 		<input type="hidden" name="ob_status" value="1">
+		<input type="hidden" name="ob_pur_price" id="Calcul1" value="0">
 		<input type="hidden" name="ob_acc_num" value="${oldBook.ob_acc_num }">
 		<input type="hidden" name="ob_acc_name" value="${oldBook.ob_acc_name }">
 <%-- 	<input type="hidden" name="ob_report_date" value="${oldBook.ob_report_date }" >
@@ -28,7 +34,7 @@
          <input type="hidden" name="nb_num" value="${oldBook.nb_num }">
 		
 
-</p>
+
 <hr>
 <p class="text-center fs-1 "> 발송 운송장 정보  </p>
  <div class="input-group mb-3">
@@ -43,8 +49,9 @@
 		</select> 
  
 
-  <input type="number" name="ob_trans_num" class="form-control" placeholder="운송장 번호를 입력해주세요" 
-    required="required" aria-label="Text input with dropdown button">
+
+     <input type="text"   name="ob_trans_num"  maxlength="12" pattern="[0-9]+" class="form-control" placeholder="운송장 번호를 입력해주세요" title="숫자만 입력해주세요"
+	    	 required/>
  </div> 
  
 <br>
@@ -52,7 +59,7 @@
  <br>
  <hr>
 	 <div class="d-grid gap-2">
-	    <button class="btn btn-success mb-2" type="submit">중고 판매 등록</button>
+	    <button class="btn btn-success mb-2" type="submit" onclick="calcul()">중고 판매 등록</button>
 	 
 	 </div>
  
