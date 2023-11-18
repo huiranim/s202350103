@@ -105,7 +105,7 @@ public class NewBookDaoImpl implements NewBookDao {
 		
 		try {
 			hit_nb_num = session.selectList("gbSelectHitNbNum");
-			// System.out.println("NewBookDaoImpl selectNewBookDetail hit_nb_num->"+hit_nb_num);
+			System.out.println("hit_nb_num -> "+hit_nb_num.size());
 		} catch (Exception e) {
 			System.out.println("NewBookDaoImpl selectHitNbNum -> "+e.getMessage());
 		}
@@ -247,13 +247,28 @@ public class NewBookDaoImpl implements NewBookDao {
 			
 			try {
 				hitBook = session.selectOne("gbSelectAllHitNbNum");
-				System.out.println("NewBookDaoImpl selectNewBookDetail hitBook->"+hitBook);
+				// System.out.println("NewBookDaoImpl selectNewBookDetail hitBook->"+hitBook);
 			} catch (Exception e) {
 				System.out.println("NewBookDaoImpl selectHitNbNum -> "+e.getMessage());
 			}
 			
 			return hitBook;
 		}
+
+	@Override
+	public List<NewBook> selectReleaseNewbookListNum() {
+		// 최근 신작 도서 5개 도서 리스트
+		System.out.println("NewBookDaoImpl selectReleaseNewbookListNum Start...");
+		List<NewBook> releaseNewbookList = null;
+		
+		try {
+			releaseNewbookList = session.selectList("gbReleaseNewbookList");
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl selectReleaseNewbookListNum -> "+e.getMessage());
+		}
+		
+		return releaseNewbookList;
+	}
 
 	}
 

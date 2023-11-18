@@ -21,6 +21,19 @@ public class RecentlyBook {
 	
 	// 세션에 nb_num 담기
 	public void sessionSave(HttpSession session, int nb_num) {
+		
+		// 세션에 최근 본 상품이 없을 경우 0으로 초기화(메인화면에서 바로 상품 상세페이지 이동해야 해서 여기서도 session에 0값 넣어주어야 함.)
+		if(session.getAttribute("recentBookNum0") == null) {
+			session.setAttribute("recentBookNum0", 0);
+		}
+		if(session.getAttribute("recentBookNum1") == null) {
+			session.setAttribute("recentBookNum1", 0);
+		}
+		if(session.getAttribute("recentBookNum2") == null) {
+			session.setAttribute("recentBookNum2", 0);
+		}
+		
+		
 		if((int)session.getAttribute("recentBookNum0") != 0) { // 3번째 세션까지 모두 찼을 때
 			System.out.println("3번쨰까지 다 참");
 			for(int i=0 ; i< 3; i++) { // i == 0, 1, 2

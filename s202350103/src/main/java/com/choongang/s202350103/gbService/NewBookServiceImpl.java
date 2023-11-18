@@ -72,6 +72,7 @@ public class NewBookServiceImpl implements NewBookService {
 	public List<NewBook> selectHitNbNum() {
 		System.out.println("NewBookServiceImpl selectHitNbNum start...");
 		List<NewBook> hit_nb_num = nbd.selectHitNbNum();
+		System.out.println("hit_nb_num -> "+hit_nb_num.size());
 		
 		return hit_nb_num;
 	}
@@ -182,10 +183,20 @@ public class NewBookServiceImpl implements NewBookService {
 
 	@Override
 	public NewBook selectAllHitNbNum() {
+		// 전체 도서 중 BEST 1 순위 도서 
 		System.out.println("NewBookServiceImpl selectHitNbNum start...");
 		NewBook hitBook = nbd.selectAllHitNbNum();
 		
 		return hitBook;
+	}
+
+	@Override
+	public List<NewBook> selectReleaseNewbookListNum() {
+		// 출간일 기준 신작 도서 5개 도서 리스트
+		System.out.println("NewBookServiceImpl selectReleaseNewbookListNum start...");
+		List<NewBook> releaseNewbookList = nbd.selectReleaseNewbookListNum();
+		
+		return releaseNewbookList;
 	}
 
 

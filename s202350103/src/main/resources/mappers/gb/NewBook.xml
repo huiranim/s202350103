@@ -335,16 +335,16 @@
 							            </choose>
 							            <choose>
 							                <when test="orderType == 'recently'">
-							                    ORDER BY alltb.nb_publi_date desc, alltb.nb_readcnt desc
+							                    ORDER BY alltb.nb_publi_date desc
 							                </when>
 							                <when test="orderType == 'highreview'">
-							                    ORDER BY re.r_ratingAvg desc NULLS LAST, alltb.nb_readcnt desc
+							                    ORDER BY re.r_ratingAvg desc NULLS LAST
 							                </when>
 							                <when test="orderType == 'highprice'">
-							                    ORDER BY alltb.nb_price desc, alltb.nb_readcnt desc
+							                    ORDER BY alltb.nb_price desc
 							                </when>
 							                <when test="orderType == 'lowprice'">
-							                    ORDER BY alltb.nb_price asc, alltb.nb_readcnt desc
+							                    ORDER BY alltb.nb_price asc
 							                </when>
 							            </choose> ) a1,
 							            (SELECT nb_num, w_wish
@@ -528,6 +528,16 @@
 				AND ob.ob_num = #{book_num}
 			</otherwise>
 		</choose>
+	</select>
+	
+	<select id="gbReleaseNewbookList" resultType="NewBook">
+		SELECT *
+		FROM (SELECT rownum rn, nb.*
+		      FROM (SELECT *
+		            FROM newbook
+		            ORDER BY nb_publi_date desc) nb
+						)
+		WHERE rn BETWEEN 1 AND 5
 	</select>
 	
 </mapper>
