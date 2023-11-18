@@ -56,18 +56,18 @@
 			WHERE   rn BETWEEN #{start} and #{end}
 		</select>
 		
-		<select id="ybCommnuityList"  resultType="Community">
-			SELECT *
-			FROM
-			(
-					SELECT rownum rn, a.*
-					FROM
-								(SELECT  *
-	                             FROM 	 community 
-	                             )a
-								)
-			WHERE   rn BETWEEN #{start} and #{end}
-		</select>
+<!-- 		<select id="ybCommnuityList"  resultType="Community"> -->
+<!-- 			SELECT * -->
+<!-- 			FROM -->
+<!-- 			( -->
+<!-- 					SELECT rownum rn, a.* -->
+<!-- 					FROM -->
+<!-- 								(SELECT  * -->
+<!-- 	                             FROM 	 community  -->
+<!-- 	                             )a -->
+<!-- 								) -->
+<!-- 			WHERE   rn BETWEEN #{start} and #{end} -->
+<!-- 		</select> -->
 		
 		<select id="ybMemberQuizList" parameterType="PointList" resultType="PointList">
 			SELECT  q.q_title title, p.m_point point, p.a_par_pdate date1, p.p_list_type type1 
@@ -156,6 +156,11 @@
 		<select id="ybMemberPwChangeByPh" parameterType="map" resultType="Member">
 			UPDATE member set m_pw = #{m_pw} WHERE m_ph = #{m_ph}
 		</select>
+		
+		<insert id="ybCommunityInsert" parameterType="Community">
+			INSERT INTO community values 
+			(COMMNITY_CM_NUM_SEQ.nextval, #{m_num}, #{cm_title}, #{cm_bookTitle}, #{cm_content}, null, 0, sysdate)
+		</insert>
 	</mapper>
 
 

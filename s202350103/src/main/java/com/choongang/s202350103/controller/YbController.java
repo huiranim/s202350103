@@ -48,7 +48,7 @@ public class YbController {
 	private final MemberService ms;
 	private final HttpSession session;
 	private final JavaMailSender mailSender;
-	final DefaultMessageService messageService; //  A
+	final DefaultMessageService messageService; 
 	private final NewBookService nbs;
 
 	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs) {
@@ -701,9 +701,28 @@ public class YbController {
 	}
 	
 	@GetMapping(value = "writeForm")
-	public String writeForm() {
-
+	public String writeForm(Member member, Model model) {
+		member =(Member) session.getAttribute("member");
+		model.addAttribute("member", member);
 		return "yb/writeForm";
+	}
+	@GetMapping(value = "cont")
+	public String cont() {
+		return "yb/cont";
+	}
+	
+	@PostMapping(value = "communityInsert")
+	public String communityInsert(Member member, Community community, Model model, NewBook newbook) {
+		
+		
+		member =(Member) session.getAttribute("member");
+		community.setM_num(member.getM_num());
+		
+		int communityInsert = ms.communityInsert(community);
+		nbs.selectInNewBookList(newbook);
+		model.addAttribute("member", member);
+		return "yb/memberCommunity";
+		
 	}
 }
 	

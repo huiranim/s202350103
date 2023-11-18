@@ -299,7 +299,7 @@ public class HrController {
 			// o_de_count
 			System.out.println("orderr.getO_de_count()->"+orderr.getO_de_count());
 
-			// ORDER_GIFT
+		// ORDER_GIFT
 			// o_gift_card
 			System.out.println("orderGift.getO_gift_card()->"+orderGift.getO_gift_card());
 			// o_gift_msg
@@ -410,7 +410,8 @@ public class HrController {
 	
 	// FO 선물받기 - 액션
 	@RequestMapping("foGettingGiftAction")
-	public String gettingGiftAction(Model model, HttpSession session, Orderr orderr, OrderGift orderGift) {
+	public String gettingGiftAction(Model model, HttpSession session, Orderr orderr, OrderGift orderGift
+									, String o_rec_addr1, String o_rec_addr2, String o_rec_addr3) {
 		System.out.println("HrController gettingGiftAction() start..");
 		
 		// value 확인
@@ -423,12 +424,13 @@ public class HrController {
 			System.out.println("orderr.getO_rec_mail()->"+orderr.getO_rec_mail());
 			// o_rec_ph 
 			System.out.println("orderr.getO_rec_ph()->"+orderr.getO_rec_ph());
-			// o_rec_addr
-			System.out.println("orderr.getO_rec_addr()->"+orderr.getO_rec_addr());
 			
 		// value 세팅
 			orderGift.setO_gift_name(orderr.getO_rec_name());
 			orderGift.setO_gift_ph(orderr.getO_rec_mail());
+			
+			orderr.setO_rec_addr("("+o_rec_addr1+")/"+ o_rec_addr2 +"/"+ o_rec_addr3 );
+			System.out.println("orderr.getO_rec_addr()->"+orderr.getO_rec_addr());
 
 		// Service Method 실행 후 model에 result 저장
 			int result = os.gettingGiftAction(orderr, orderGift);

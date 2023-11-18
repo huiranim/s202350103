@@ -17,12 +17,14 @@
 </style>
 <script type="text/javascript">
 	function openWrite() {
+		
 		var url = "writeForm";
         var name = "writeForm";
-        var option = "width = 500, height = 500, top = 300, left = 500, location = no, toolbars = no,status no"
+        var option = "position= absolute, top= 50%, left= 50%, width= 500, height= 750px, padding= 40px, text-align= center, background-color= rgb(255, 255, 255), border-radius= 10px, box-shadow= 0 2px 3px 0 rgba(34, 36, 38, 0.15), transform= translateX(-50%) translateY(-50%);"
+
+        	
         window.open(url, name, option);
 
-		
 	}
 </script>
 </head>
@@ -32,8 +34,7 @@
         
 <main>
 <%@ include file="../common/headerFo.jsp"  %>
-
-
+	<a href="cont">cont</a>
     <!-- contianer -->
     <div class="container">
       <div class="row">
@@ -157,7 +158,7 @@
                   </div>
                   <div class="text-small mb-1"><a href="#!" class="text-decoration-none text-muted"><small>${community.cm_title}</small></a></div>
 	              <div>
-			            <h2 class="h5"><a href="#!" class="text-inherit">${community.cm_bookTitle}</a></h2>
+<%-- 			            <h2 class="h5"><a href="#!" class="text-inherit">${community.cm_bookTitle}</a></h2> --%>
 			            <p>${community.cm_content }</p>
 			            <div class="d-flex justify-content-between text-muted mt-4"><span><small><fmt:formatDate value="${community.cm_regDate }" pattern="yyyy년MM월dd일"/>
 			                  </small></span><span><small>조회수: <span class="text-dark fw-bold">(${community.cm_readCnt }건)</span></small></span>

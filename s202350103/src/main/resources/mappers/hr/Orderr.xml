@@ -14,6 +14,9 @@
 		SELECT *
 		FROM (SELECT rownum rn, a.*
 			  FROM (SELECT o.*, m.m_name, order_nb_title(o.o_order_num) nb_title
+			  		, (SELECT COUNT(nb_num)
+                 	   FROM order_detail od
+                 	   WHERE o.o_order_num = od.o_order_num) o_book_count
                     FROM   orderr o, member m
                     WHERE  o.m_num = m.m_num(+)
                     ORDER BY o.o_order_date DESC
