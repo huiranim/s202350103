@@ -219,7 +219,7 @@
               <div class="py-10 px-8 rounded"
                 style="background:url(./assets/images/banner/grocery-banner.png)no-repeat; background-size: cover; background-position: center;">
                 <div>
-                  <h3 class="fw-bold mb-1">새상품 목록
+                  <h3 class="fw-bold mb-1">이벤트 바로가기
                   </h3>
                   <p class="mb-4">내용 1 </p>
                   <a href="#!" class="btn btn-dark">바로가기</a>

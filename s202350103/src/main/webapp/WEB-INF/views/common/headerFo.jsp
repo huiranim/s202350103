@@ -171,13 +171,10 @@
 					<option value="publisher">출판사</option>
 				</select>&nbsp;&nbsp;
 	            <input id = "search_keyword" class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요." >
-<!-- 	            검색 버튼 -->
-<!-- 	              <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal" -->
-<!-- 	                	data-bs-target="#locationModal" onclick="search()">검색 </button> -->
 	        </div>
 		</div>
         <!-- 검색 버튼 -->
-        <div class="col-md-2 col-xxl-2 d-none d-lg-block">
+        <div class="col-md-2 col-xxl-2 d-lg-block">
           <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
             	data-bs-target="#locationModal" onclick="search()">검색  </button>
         </div>
@@ -449,11 +446,10 @@
   					<!-- 상세 배너 이미지 -->
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0">
                         <div class="card border-0">
-                          <img src="" alt="최근 등록한 새상품 이미지"
-                            class="img-fluid">
-                          <div class="position-absolute ps-6 mt-8">
-                            <h5 class=" mb-0 ">최근등록한<br>새상품 이미지 넣자 금비야</h5>
-                            <a href="#" class="btn btn-primary btn-sm mt-3">구매 바로가기</a>
+                          <div>
+                            <h5 class=" mb-3 ">이책은 어때요?</h5>
+                            <img src="../assets/images/products/headerBook.jpg" alt="MD 추천 도서" class="img-fluid" style="width:35%;">
+                            <a href="newbookDetail?nb_num=100049" class="btn btn-primary btn-sm mt-3">구매 바로가기</a>
                           </div>
                         </div>
                       </div>
