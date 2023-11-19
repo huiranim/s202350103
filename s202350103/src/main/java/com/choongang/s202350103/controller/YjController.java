@@ -239,6 +239,9 @@ public class YjController {
 		String[] splitPh = member.getM_ph().split("-");
 		String[] splitEmail = member.getM_email().split("@");
 		String[] splitAddr = member.getM_addr().split("/");
+		System.out.println("상세에서 splitEmail -> "+splitEmail[1]);
+		System.out.println("상세에서 email -> "+member.getM_email());
+		
 		
 		model.addAttribute("splitPh",splitPh);
 		model.addAttribute("splitEmail",splitEmail);
@@ -261,7 +264,7 @@ public class YjController {
 								@RequestParam("m_image") String m_image,
 			
 								@RequestParam("m_email1") String m_email1, 
-								@RequestParam("m_email") String m_email, 
+								@RequestParam("m_email2") String m_email2, 
 								
 								@RequestParam("m_ph1") String m_ph1,
 								@RequestParam("m_ph2") String m_ph2,
@@ -276,8 +279,9 @@ public class YjController {
 	
 		System.out.println(m_num);	
 		System.out.println(m_image);
+		System.out.println("m_email2 -> "+m_email2);
 		
-		member.setM_email(m_email1+"@"+m_email);	// 이메일 병합
+		member.setM_email(m_email1+"@"+m_email2);	// 이메일 병합
 		member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
 		member.setM_addr(m_addr1+"/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
 		

@@ -66,7 +66,25 @@
 	}
 </script>
 
+<script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
+
+$(function() {
+	// 선택된 옵션의 값을 가져옴
+	var emailSelect = document.getElementById("emailSelect");
+	var email2 = $('#m_email2').val();
+	var selectedOption = emailSelect.value;
+	// "직접 입력" 옵션을 선택한 경우 m_email2 입력 필드를 활성화하고 포커스를 설정
+	if (email2 != "naver.com" && email2 != "gmail.com" && email2 != "daum.com" && email2 != "hanmail.com" && email2 != "nate.com" && email2 != "yahoo.com") {
+		mEmail2.removeAttribute("disabled");
+		
+	} else {
+		// 다른 옵션을 선택한 경우 m_email2 입력 필드를 비활성화하고 선택한 옵션 값이 설정됩니다.
+		 mEmail2.setAttribute("disabled", "disabled");
+	     mEmail2.value = selectedOption;
+	}
+});
+
 function valiForm() {
 
 	var isValid = true;
@@ -132,6 +150,7 @@ function valiForm() {
         document.getElementById("m_email2").value = customEmail;
     }
 	
+    $("#m_email2").attr("disabled", false);
 	
     // 유효성 검사 통과 시  폼 제출
     var con = confirm("수정하시겠습니까? : 재 로그인 필요");
@@ -271,14 +290,16 @@ function valiForm() {
 								required="required" value="${splitEmail[1] }"> &nbsp;
 							
 							<div class="col-lg-3">
-								<select name="m_email" class="form-select" id="emailSelect">
-									<option value="naver.com">naver.com</option>
-									<option value="gmail.com">gmail.com</option>
-									<option value="daum.com">daum.com</option>
-									<option value="hanmail.com">hanmail.com</option>
-									<option value="nate.com">nate.com</option>
-									<option value="yahoo.com">yahoo.com</option>
-									<option value="직접 입력" selected="selected">직접 입력</option>
+								<select name="m_email_type" class="form-select" id="emailSelect">
+									<option value="naver.com" 	<c:if test ="${splitEmail[1] eq 'naver.com'}"> selected="selected"</c:if>>naver.com</option>
+									<option value="gmail.com" 	<c:if test ="${splitEmail[1] eq 'gmail.com'}"> selected="selected"</c:if>>gmail.com</option>
+									<option value="daum.com" 	<c:if test ="${splitEmail[1] eq 'daum.com'}"> selected="selected"</c:if>>daum.com</option>
+									<option value="hanmail.com" <c:if test ="${splitEmail[1] eq 'hanmail.com'}"> selected="selected"</c:if>>hanmail.com</option>
+									<option value="nate.com" 	<c:if test ="${splitEmail[1] eq 'nate.com'}"> selected="selected"</c:if>>nate.com</option>
+									<option value="yahoo.com" 	<c:if test ="${splitEmail[1] eq 'yahoo.com'}"> selected="selected"</c:if>>yahoo.com</option>
+									<option value="직접 입력" 		<c:if test ="${splitEmail[1] ne 'naver.com' and splitEmail[1] ne 'gmail.com' and 
+																			   splitEmail[1] ne 'daum.com'  and splitEmail[1] ne 'hanmail.com' and
+																			   splitEmail[1] ne 'nate.com'  and splitEmail[1] ne 'yahoo.com'}"> selected="selected"</c:if>>직접 입력</option>
 								</select>
 							</div>
 						</div>
