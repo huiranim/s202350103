@@ -5,14 +5,64 @@
 <mapper namespace="com.choongang.s202350103.OldBookMapper">
 
 	<select id="totObCnt" resultType="int">
-		SELECT Count(*) FROM oldbook
-	</select>
+		    SELECT
+   count (*)
+    FROM
+	(	    SELECT
+                    *
+    FROM oldbook o , newbook n 
+    where o.nb_num = n.nb_num
+    and (nb_category1 =1 or nb_category1 = 2)  
+    ) 
+						<choose>
+								<when test="ob_status == 1">
+									and	 ob_status = 1 
+								</when>
+								<when test="ob_status == 2">
+									and	 ob_status = 2
+								</when>
+								<when test="ob_status == 3">
+									and	 ob_status = 3
+								</when> 
+							</choose>
+					</select>
 
 	<select id="totObCnt2" resultType="int">
 		SELECT Count(*) 
 		FROM oldbook o , newbook n 
-		where o.nb_num = n.nb_num 
-		and o.ob_status = 3 
+		WHERE o.nb_num = n.nb_num
+			<choose>
+				<when test="nb_category1 == 1">
+				AND	 nb_category1 = 1 
+				</when>	
+			 	<when test="nb_category1 == 2 ">
+			 	   AND  	nb_category1 = 2 
+			 	</when>
+			</choose>
+			<choose>
+			   <when test="nb_category2 == 1">
+            AND     nb_category2 = 1
+            </when>
+            <when test="nb_category2 == 2">
+             AND    nb_category2 = 2
+            </when>
+            <when test="nb_category2 == 3">
+              AND   nb_category2 = 3
+            </when>
+            <when test="nb_category2 == 4">
+              AND   nb_category2 = 4
+            </when>
+            <when test="nb_category2 == 5">
+              AND   nb_category2 = 5
+            </when>
+            <when test="nb_category2 == 6">
+              AND   nb_category2 = 6
+            </when>
+            <when test="nb_category2 == 7">
+              AND    nb_category2 = 7
+            </when>
+			</choose>
+		AND o.ob_status = 3 
 	</select>
 	
 	<select id="totNbCnt" resultType="int">
@@ -20,7 +70,7 @@
 	</select>
 	
 	<select id="sjObListAll" resultType="OldBook" parameterType="OldBook">
-			     <![CDATA[
+			   
 		   SELECT *
 				FROM
 				(
@@ -46,39 +96,76 @@
 				 
 		 		WHERE ob_status IN  3
 		 		)
-		 		WHERE  rn >=  #{start}
-		 		and  rn <=  #{end}
-				
-	 	  ]]>	
-	
+		 		WHERE  rn  BETWEEN #{start} AND #{end}
+		 		<choose>
+				<when test="nb_category1 == 1">
+				AND	 nb_category1 = 1 
+				</when>	
+			 	<when test="nb_category1 == 2 ">
+			 	   AND  	nb_category1 = 2 
+			 	</when>
+			</choose>
+			<choose>
+			   <when test="nb_category2 == 1">
+            AND     nb_category2 = 1
+            </when>
+            <when test="nb_category2 == 2">
+             AND    nb_category2 = 2
+            </when>
+            <when test="nb_category2 == 3">
+              AND   nb_category2 = 3
+            </when>
+            <when test="nb_category2 == 4">
+              AND   nb_category2 = 4
+            </when>
+            <when test="nb_category2 == 5">
+              AND   nb_category2 = 5
+            </when>
+            <when test="nb_category2 == 6">
+              AND   nb_category2 = 6
+            </when>
+            <when test="nb_category2 == 7">
+              AND    nb_category2 = 7
+            </when>
+			</choose>
 	</select>
 
    <select id="sjObListAll2"   parameterType="OldBook"   resultType="OldBook">
-	     <![CDATA[
 		      SELECT *
 				FROM
 				(
 			        SELECT rownum rn ,  a.nb_title, a.nb_price , a.m_num, a.m_name ,
 			        a.nb_writer, a.nb_publisher , a.nb_image , TO_CHAR(a.nb_publi_date, 'YYYY-MM-DD')AS nb_publi_date,
 			        a.ob_num, a.ob_acc_name, a.ob_acc_num, a.nb_summary , a.nb_isbn ,
-			         a.nb_page , a.nb_size,
-				        a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
-				        a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
+			        a.nb_page , a.nb_size, 
+				    a.ob_grade, a.ob_pur_price, a.ob_status, a.ob_sell_price, TO_CHAR(a.ob_report_date, 'YYYY-MM-DD') AS ob_report_date, 
+				    a.ob_trans_com, a.ob_trans_num, a.ob_ripped, a.ob_scribble, a.ob_smeary, a.ob_write_date, a.ob_readcnt
 				        FROM
-	                   (select   n.nb_title, n.nb_price , m.m_num as m_num , o.m_num as om_num ,
-                       m.m_name as m_name , 
-			        n.nb_writer, n.nb_publisher , n.nb_image , n.nb_publi_date,
-			        o.ob_num, o.ob_acc_name, o.ob_acc_num, n.nb_summary , n.nb_isbn ,
-			         n.nb_page , n.nb_size,
-				        o.ob_grade, o.ob_pur_price, o.ob_status, o.ob_sell_price, o.ob_report_date, 
-				        o.ob_trans_com,o.ob_trans_num , o.ob_ripped, o.ob_scribble, o.ob_smeary, o.ob_write_date, o.ob_readcnt
-	                   from  newbook n , oldbook o , member m 
-	                   WHERE  o.nb_num = n.nb_num 
-						and   m.m_num= o.m_num(+) 	                   		  
-	                        order by o.ob_num) a  
-				 )
-		 		WHERE  rn BETWEEN #{start} and #{end}
-	 	  ]]>		
+					                   (select   n.nb_title, n.nb_price , m.m_num as m_num , o.m_num as om_num ,
+					                        m.m_name as m_name , 
+									        n.nb_writer, n.nb_publisher , n.nb_image , n.nb_publi_date,
+									        o.ob_num, o.ob_acc_name, o.ob_acc_num, n.nb_summary , n.nb_isbn ,
+									        n.nb_page , n.nb_size, 
+									        o.ob_grade, o.ob_pur_price, o.ob_status, o.ob_sell_price, o.ob_report_date, 
+									        o.ob_trans_com,o.ob_trans_num , o.ob_ripped, o.ob_scribble, o.ob_smeary, o.ob_write_date, o.ob_readcnt
+							                   from  newbook n , oldbook o , member m 
+							                   WHERE  o.nb_num = n.nb_num 
+													and   m.m_num= o.m_num(+) 	                   		  
+															<choose>
+													 	  			<when test="ob_status == 1">
+													 	  			AND ob_status = 1 
+													 	  			</when>
+																	<when test="ob_status == 2">
+																	AND ob_status = 2
+																	</when>
+																	<when test="ob_status == 3">
+																	AND ob_status = 3 
+																	</when>	
+												 	  		</choose>	
+								                        order by o.ob_num) a  
+  			)
+	 	  			WHERE  rn BETWEEN #{start} and #{end}
+	 	  	
      </select>
 	<select id="sjObSelOne" parameterType="int" resultType="OldBook">	        
 	   select *
@@ -140,6 +227,12 @@
 			ob_status = #{ob_status}
 			WHERE ob_num =#{ob_num}
 	</update>
+	<update id="sjUpdateReadCnt" parameterType="int" >
+		UPDATE oldbook 
+		SET ob_readcnt = ob_readcnt+1
+		where ob_num = #{ob_num}
+	</update>
+
 
 
 </mapper>

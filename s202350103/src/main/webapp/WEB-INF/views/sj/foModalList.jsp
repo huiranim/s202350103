@@ -53,8 +53,8 @@
 
 </head>
 <body>
- 	  <p class="text-center fs-1 ">새상품 도서 내역 </p>
- <c:set var="num" value="${page.totalNb-page.start+1 }"></c:set>	  
+	<p class="text-center fs-1 ">새상품 도서 내역 </p>
+ 			<c:set var="num" value="${page.totalNb-page.start+1 }"></c:set>	  
 
 <div class="row">
  <div class="col-12"> 
@@ -100,9 +100,7 @@
              <span class="fw-bold"> <input type="button" class="btn btn-primary mb-1" value="선택" onclick="location.href='ModetailNb?nb_num=${oldBook.nb_num}'"></span>	
                </div>
                 </div>
-       
              </li>
-       
                 </ul>
               </c:forEach>     
           </div> 
