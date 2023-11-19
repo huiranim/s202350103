@@ -41,23 +41,31 @@ public class SjController {
 	
 	
 	@GetMapping(value = "BolistOb")
-	public String listOb(OldBook oldBook, String currentPage, Model model) {
+	public String listOb(HttpSession session ,Member member  ,OldBook oldBook, String currentPage, Model model) {
 		
 		System.out.println("SjController Start ");
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		if (member != null) {
+			oldBook.setM_num(member.getM_num());
+		}
+		
 		
 		int totalOb = obs.totalOb();
 		//Paging 작업
 		Paging  page = new Paging(totalOb, currentPage);
-		
 		oldBook.setStart(page.getStart());
 		oldBook.setEnd(page.getEnd());
 		
+		System.out.println("gpgpgpgpgp"+oldBook.getOb_status());
 		List<OldBook> listOb = obs.listOb(oldBook);
 		
-		
+		model.addAttribute("member" , member);
 		model.addAttribute("totalOb", totalOb);
 		model.addAttribute("listOb" , listOb);
 		model.addAttribute("page" , page);
+		
 		
 		return "sj/boOldBookList";
 		
@@ -312,22 +320,24 @@ public class SjController {
 		
 	}
 	
-	@GetMapping(value = "foOldBookDetail")
-	public String foOldBookDetail (HttpSession session , NewBook newbook,  int ob_num, Model model) {
+	@RequestMapping(value = "foOldBookDetail")
+	public String foOldBookDetail (HttpSession session , NewBook newbook, OldBook oldBook, int ob_num, Model model) {
 		System.out.println("SjController Start detailOb...");
 		
-		// 세션에 nb_num을 저장하는 서비스 실행
+		int obresult = obs.updateReadCnt(oldBook.getOb_num());
+		System.out.println("SjController updateReadCnt obresult "+ obresult);
 		
+		// 세션에 nb_num을 저장하는 서비스 실행
 		rb.sessionSave(session, ob_num);
 		
-		OldBook oldBook = obs.detailOb(ob_num);
-		System.out.println("SjController detailOb getOb_pur_price()->"+oldBook.getOb_pur_price());
-		System.out.println("SjController detailOb ob_ripped()->"+oldBook.getOb_ripped());
-		System.out.println("SjController detailOb ob_scribble()->"+oldBook.getOb_scribble());
-		System.out.println("SjController detailOb ob_smeary()->"+oldBook.getOb_smeary());
+		OldBook oldBook1 = obs.detailOb(ob_num);
+		System.out.println("SjController detailOb getOb_pur_price()->"+oldBook1.getOb_pur_price());
+		System.out.println("SjController detailOb ob_ripped()->"+oldBook1.getOb_ripped());
+		System.out.println("SjController detailOb ob_scribble()->"+oldBook1.getOb_scribble());
+		System.out.println("SjController detailOb ob_smeary()->"+oldBook1.getOb_smeary());
 	
 		
-		model.addAttribute("oldBook",oldBook);
+		model.addAttribute("oldBook",oldBook1);
 		
 		return "sj/foOldBookDetail";
 	

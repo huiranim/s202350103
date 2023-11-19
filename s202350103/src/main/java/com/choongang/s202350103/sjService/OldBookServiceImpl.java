@@ -147,6 +147,18 @@ public class OldBookServiceImpl implements OldbookService {
 	}
 
 
+	@Override
+	public int updateReadCnt(int ob_num) {
+		System.out.println("sjServiceImpl updateReadCnt  start ...");
+		int obresult  = obd.updateReadCnt(ob_num);
+		
+		System.out.println("sjServiceImpl updateReadCnt obresult "+ obresult);
+		
+		
+		return obresult;
+	}
+
+
 	}
 
 	

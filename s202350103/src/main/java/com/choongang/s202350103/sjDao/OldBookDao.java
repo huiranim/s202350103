@@ -18,6 +18,7 @@ public interface OldBookDao {
 	int                 totalOb2();
 	int                 updateObComp(OldBook oldBook);
 	int                 totalNb();
+	int                 updateReadCnt(int ob_num);
  
 	 
 	 
