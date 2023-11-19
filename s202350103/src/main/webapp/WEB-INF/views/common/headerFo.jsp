@@ -454,7 +454,6 @@
 							    <p class="fs-5" style="font-weight: bold;">『 제 1회 넥서스 경장편 작가상』</p>
 								<mark style="font-weight: bold;"> 대상 수상 작가</mark><p>
 								<p class="fs-7" style="font-weight: bold;"><span style="color: #198754;">장류진 작가</span> 강력 추천 !</p>
-								<p class="fs-6 mb-1 alert alert-info" role="alert" style="font-weight: bold;"><a href="newbookDetail?nb_num=100049" class="link-info">-작은 빛을 따라서-</a></p>
 						 	</div>
 			
 							  <div class="table-responsive-xxl">
@@ -463,13 +462,10 @@
                                         <div class="card border-0 card-hover">
                                             <a href="newbookDetail?nb_num=100049" class="img-zoom"> 
                                             <img src="../../assets/images/banner/ad-banner-1.jpg" alt="" class=" rounded"></a>
-                                            <div style= "
-												background: #67B26F;  
-												background: -webkit-linear-gradient(to right, #4ca2cd, #67B26F); 
-												background: linear-gradient(to right, #4ca2cd, #67B26F);
-                                           				 "
-                                             	class="position-absolute bg-dark-info w-100 bottom-0 py-3 px-4 rounded-bottom">
-                                             	<a href="newbookDetail?nb_num=100049" class="text-white d-flex align-items-center btn-transition">바로구매
+                                            <div style= "background: #DCEBFE;"
+                                             	class="position-absolute  w-100 bottom-0 py-3 px-4 rounded-bottom">
+                                             	<a href="newbookDetail?nb_num=100049" class="d-flex align-items-center btn-transition">
+                                             	<span style="color: #0aad0a;">바로구매</span>
                                                     <i class="feather-icon icon-chevron-right fs-5"></i></a>
                                             </div>
                                         </div>

@@ -36,8 +36,20 @@
               </p>
               <a href="#!" class="btn btn-dark mt-3">바로가기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
             </div>
-
           </div>
+          
+            <div class=" "
+            style="background: url(./assets/images/slider/memberQnAImage.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+            <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
+              <span class="badge bg-light-primary text-dark-primary">Q & A</span>
+              <h2 class="text-dark display-6 fw-bold mt-4">무엇이든 <br>물어보세요 !</h2>
+              <p class="lead">이용중 불편한 점 및 <br><span style="color:#198754; ">문의사항을 작성해주세요</span> 
+              </p>
+              <a href="memberQnaList" class="btn btn-dark mt-3">문의하기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+          
+          
 
         </div>
       </div>

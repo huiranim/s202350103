@@ -143,12 +143,6 @@ function valiForm() {
         return false; // 유효성 검사에서 실패한 경우 폼 제출 중단
     }
 
-    // 이메일 직접 입력 값 설정
-    if (emailSelect.value === "직접 입력") {
-    	m_email2.removeAttribute("disabled");
-        var customEmail = m_email2.value;
-        document.getElementById("m_email2").value = customEmail;
-    }
 	
     $("#m_email2").attr("disabled", false);
 	
@@ -232,7 +226,7 @@ function valiForm() {
 								
 						<c:choose>
    							 <c:when test="${member.m_image == basick}">
-									<span class="rounded-circle border border-primary">
+									<span class="rounded-circle border border-primary ">
 										<a onclick="memberImageSelect();">
 											<img id="memberImage" src="../assets/images/memberImage/basick.jpg" width="160px" height="160px" alt="회원이미지" class="rounded-circle">
 										</a>
@@ -291,15 +285,22 @@ function valiForm() {
 							
 							<div class="col-lg-3">
 								<select name="m_email_type" class="form-select" id="emailSelect">
-									<option value="naver.com" 	<c:if test ="${splitEmail[1] eq 'naver.com'}"> selected="selected"</c:if>>naver.com</option>
-									<option value="gmail.com" 	<c:if test ="${splitEmail[1] eq 'gmail.com'}"> selected="selected"</c:if>>gmail.com</option>
-									<option value="daum.com" 	<c:if test ="${splitEmail[1] eq 'daum.com'}"> selected="selected"</c:if>>daum.com</option>
-									<option value="hanmail.com" <c:if test ="${splitEmail[1] eq 'hanmail.com'}"> selected="selected"</c:if>>hanmail.com</option>
-									<option value="nate.com" 	<c:if test ="${splitEmail[1] eq 'nate.com'}"> selected="selected"</c:if>>nate.com</option>
-									<option value="yahoo.com" 	<c:if test ="${splitEmail[1] eq 'yahoo.com'}"> selected="selected"</c:if>>yahoo.com</option>
-									<option value="직접 입력" 		<c:if test ="${splitEmail[1] ne 'naver.com' and splitEmail[1] ne 'gmail.com' and 
-																			   splitEmail[1] ne 'daum.com'  and splitEmail[1] ne 'hanmail.com' and
-																			   splitEmail[1] ne 'nate.com'  and splitEmail[1] ne 'yahoo.com'}"> selected="selected"</c:if>>직접 입력</option>
+									<option value="naver.com" 	
+										<c:if test ="${splitEmail[1] eq 'naver.com'}"> selected="selected"</c:if>>naver.com</option>
+									<option value="gmail.com" 	
+										<c:if test ="${splitEmail[1] eq 'gmail.com'}"> selected="selected"</c:if>>gmail.com</option>
+									<option value="daum.com" 	
+										<c:if test ="${splitEmail[1] eq 'daum.com'}"> selected="selected"</c:if>>daum.com</option>
+									<option value="hanmail.com" 
+										<c:if test ="${splitEmail[1] eq 'hanmail.com'}"> selected="selected"</c:if>>hanmail.com</option>
+									<option value="nate.com" 	
+										<c:if test ="${splitEmail[1] eq 'nate.com'}"> selected="selected"</c:if>>nate.com</option>
+									<option value="yahoo.com" 	
+										<c:if test ="${splitEmail[1] eq 'yahoo.com'}"> selected="selected"</c:if>>yahoo.com</option>
+									<option value="직접 입력" 		
+										<c:if test ="${splitEmail[1] ne 'naver.com' and splitEmail[1] ne 'gmail.com' and 
+													   splitEmail[1] ne 'daum.com'  and splitEmail[1] ne 'hanmail.com' and
+													   splitEmail[1] ne 'nate.com'  and splitEmail[1] ne 'yahoo.com'}"> selected="selected"</c:if>>직접 입력</option>
 								</select>
 							</div>
 						</div>
