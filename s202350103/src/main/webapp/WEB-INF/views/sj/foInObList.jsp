@@ -10,15 +10,12 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 
-/* 	function category2Click() {
+ 	function category2Click() {
 		// 클릭한 카테고리명
 		var category2Value = $("#category2").val();
-		var orderTypeValue = $("#orderType").val();
-		alert("내가 선택한 카테고리 + 정렬 -> " + category2Value + "+" + orderTypeValue);
-		
-		location.href = "/innewbookList?nb_category2="+category2Value +"&orderType="+orderTypeValue;
+		location.href = "/folistOb?nb_category2="+category2Value;
 	
-	} */
+	} 
 	
 </script>
 </head>

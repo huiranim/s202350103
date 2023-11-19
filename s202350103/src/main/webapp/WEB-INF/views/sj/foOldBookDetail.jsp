@@ -162,14 +162,8 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="details-tab" data-bs-toggle="tab"
                 data-bs-target="#details-tab-pane" type="button" role="tab" aria-controls="details-tab-pane"
-                aria-selected="false" onclick="oldbookList()">동일 새상품 도서 구현합시다!!</button>
+                aria-selected="false" onclick="oldbookList()">동일 새상품 도서</button>
             </li>
-            <!-- 리뷰 탭 버튼 -->
-      <!--       <li class="nav-item" role="presentation">
-              btn <button class="nav-link" id="reviews-tab" data-bs-toggle="tab"
-                data-bs-target="#reviews-tab-pane" type="button" role="tab" aria-controls="reviews-tab-pane"
-                aria-selected="false">리뷰</button>
-            </li> -->
           </ul>
           <!-- 탭 상세 내용들 -->
           <div class="tab-content" id="myTabContent">
@@ -177,6 +171,156 @@
             <div class="tab-pane fade show active" id="product-tab-pane" role="tabpanel" aria-labelledby="product-tab"
               tabindex="0">
               <div class="my-8">
+               <div>
+ <!--  중고 등급 상세  테이블  -->
+			 <div class="table-responsive d-block">
+			  <table class="table">
+			    <thead class="table-light">
+			      <tr>
+					        <th scope="col">품질 등급</th>
+					        <th scope="col">헌 상태</th>
+					        <th scope="col">표지</th>
+					        <th scope="col">책등 / 책배</th>
+					        <th scope="col">내부 / 제본상태 </th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      <tr>
+			        <th scope="row">A 등급</th>
+			        <td>	새것에 가까움</td>
+		        <td>
+				<ul>
+						<li>변색 없음</li>
+						<li>찢어진 흔적 없음</li>
+						<li>닳은 흔적 없음</li>
+						<li>낙서 없음</li>
+						<li>얼룩 없음</li>
+						<li>도서 겉표지 있음</li>	
+				</ul>
+			</td>
+		        <td>
+		        <ul>
+				       	<li>변색 없음</li>
+						<li>닳은 흔적 없음</li>
+						<li>낙서 없음</li>
+						<li>얼룩 없음</li>
+		        </ul>
+		        </td>
+		        <td>
+		    <ul>
+			        	<li>변색 없음</li>
+						<li>닳은 흔적 없음</li>
+						<li>낙서 없음</li>
+						<li>얼룩 없음</li>
+						<li>변형 없음</li>
+						<li>제본 탈착 없음</li>
+		        </ul>
+			</td>
+		    
+		      </tr>
+		    
+		      <tr>
+		        <th scope="row">B 등급</th>
+		        <td>	약간의 사용감은 있으나 깨끗한 책</td>
+		        <td>
+		<ul>
+						<li>희미한 변색이나 작은 얼룩이 있음</li>
+						<li>찢어진 흔적 없음</li>
+						<li>약간의 모서리 해짐</li>
+						<li>낙서 없음</li>
+						<li>도서 겉표지 있음</li>
+			</ul>
+			</td>
+		        <td>
+		        <ul>
+				        <li>희미한 변색이나 작은 얼룩이 있음</li>
+						<li>약간의 닳은 흔적 있음</li>
+						<li>낙서 없음</li>   
+		        </ul>
+		        
+		        </td>
+		        <td>
+		        <ul>
+						<li>변색 없음</li>
+						<li>낙서 없음</li>
+						<li>변형 없음</li>
+						<li>아주 약간의 접힌 흔적 있음</li>
+						<li>얼룩 없음</li>
+						<li>제본 탈착 없음</li>
+		        </ul>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th scope="row">C 등급</th>
+		        <td>사용감이 많으며 <br>헌 느낌이 나는 책</td>
+		        <td>
+				<ul>
+						<li>전체적인 변색
+						<li>모서리 해짐 있음</li>
+						<li>2cm 이하의 찢어짐</li>
+						<li>오염 있음</li>
+						<li>낙서 있음</li>
+						<li>도서 겉표지 없음</li>
+						<li>아웃케이스 없음</li>
+				</ul>
+				</td>
+		        <td>
+		        <ul>
+						<li> 전체적인 변색</li>
+						<li>모서리 해짐 있음</li>
+						<li>오염 있음</li>
+						<li>낙서 있음 (이름 포함)</li>
+		        </ul>
+		        </td>
+		        <td>
+		        <ul>
+				        <li>변색 없음</li>
+						<li>2cm 이하 찢어짐 있음</li>
+						<li>5쪽 이하의 필기 및 풀이 또는 밑줄 있음</li>
+						<li>얼룩 및 오염 있음</li>
+						<li>제본 탈착 없음</li>
+						<li>본문 읽기에 지장 없는 부록 없음</li>
+		        </ul>
+		        </td>
+		      </tr>
+		        <tr>
+		        <th scope="row">D 등급 </th>
+		        <td>사용감이 많고 세월이 <br>있는책 </td>
+		               <td>
+				<ul>
+						<li>전체적인 변색
+						<li>모서리 해짐 </li>
+						<li>2cm 이상의 찢어짐</li>
+						<li>오염 있음</li>
+						<li>낙서 있음</li>
+						<li>도서 겉표지 없음</li>
+						<li>아웃케이스 없음</li>
+				</ul>
+				</td>
+		        <td>
+		        <ul>
+		     		 <li> 전체적인 변색</li>
+					<li>모서리 해짐 있음</li>
+					<li>오염 있음</li>
+					<li>낙서 있음 (이름 포함)</li>
+		        </ul>
+		        </td>
+		        <td>
+		        <ul>
+		        <li>변색 없음</li>
+					<li>2cm 이상의 찢어짐 있음</li>
+					<li>20쪽 이하의 필기 및 풀이 또는 밑줄 있음</li>
+					<li>얼룩 및 오염 있음</li>
+					<li>제본 탈착 없음</li>
+					<li>본문 읽기에 지장 없는 부록 있음</li>
+		        </ul>
+		        </td>
+		      </tr>
+		      </tr>
+		    </tbody>
+		  </table>
+	  </div>
+               </div>  
                 <div class="mb-5">
                   <h3 class="mb-3">줄거리</h3>
                   <p class="mb-0 fs-5">${oldBook.nb_summary }</p>
@@ -205,8 +349,56 @@
             <div class="tab-pane fade" id="details-tab-pane" role="tabpanel" aria-labelledby="details-tab" tabindex="0">
               <div class="my-8">
                 <div class="row">
+                  
+                  
                   <div class="col-12">
-                    <h4 class="mb-4">동일한 새상품 도서 내역  구현합시다!!</h4>
+                           
+
+       <div class="py-5">
+          <ul class="list-group list-group-flush">
+             <!-- list group -->
+             <li class="list-group-item py-3 py-lg-0 px-0 border-top">
+                <!-- row -->
+               
+                <div class="row align-items-center">
+                   <div class="col-3 col-md-2">
+                      <!-- img --> <img src="${oldBook.nb_image}" alt="Ecommerce" class="img-fluid">
+                  	<input type="hidden" name="nb_image" value="${oldBook.nb_image }">
+                   </div>
+                   <div class="col-3 col-md-4">
+                      <!-- title -->
+                        <h6 class="mb-0"><input type="hidden" name="nb_num" value="${oldBook.nb_num}"> 
+                        			<input type="hidden"  name="nb_title" value="${oldBook.nb_title }">
+                        			${oldBook.nb_title }
+                          </h6>
+                 
+                      <span><small class="text-muted">
+	                      <input type="hidden" disabled="disabled" name="nb_writer" value="${oldBook.nb_writer}"> 지은이: ${oldBook.nb_writer}
+	                        <br>
+	                      <input type="hidden"  name="nb_publisher" value="${oldBook.nb_publisher }"> 출판사: ${oldBook.nb_publisher }
+	                      <br>
+                    	<input type="hidden" name="nb_publi_date" value="${oldBook.nb_publi_date }"> 출간일: <c:set var="dateVal" value="${oldBook.nb_publi_date }" />
+		              																																						 ${fn:substring(dateVal,0,10) } 
+                      </small></span>
+                      <!-- text -->
+                    </div>
+                      <!-- input group -->
+                   <div class="col-2 col-md-3 col-lg-3">
+                      <!-- input -->
+   						<input type="hidden" name="nb_price" value="${oldBook.nb_price }"> 
+   						<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price}"/>원   
+                   </div>
+                   <!-- 넣기 -->
+              <div class="col-1 text-start col-md-1">
+             <span class="fw-bold"> <input type="button" class="btn btn-primary mb-1" value="새상품 보러가기" onclick="location.href='newbookDetail?nb_num=${oldBook.nb_num}'"></span>	
+               </div>
+                </div>
+             </li>
+                </ul>
+            
+                  
+                  
+                  
                   </div>
                   
                   <!-- Ajax로 동일한 중고도서 리스트 넣기 -->

@@ -273,10 +273,10 @@
 		                              <a href="newbookDetail?nb_num=${releaseNewbook.nb_num }">
 		                              	<c:choose>
 										     <c:when test="${fn:contains(releaseNewbook.nb_image, 'http')}">
-										            <img src="${releaseNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 21rem;">
+										            <img src="${releaseNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 18rem;">
 										     </c:when>
 										     <c:otherwise>
-										            <img src="${pageContext.request.contextPath}/upload/${releaseNewbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 21rem;">
+										            <img src="${pageContext.request.contextPath}/upload/${releaseNewbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 18rem;">
 										     </c:otherwise>
 										</c:choose>
 		                              </a>

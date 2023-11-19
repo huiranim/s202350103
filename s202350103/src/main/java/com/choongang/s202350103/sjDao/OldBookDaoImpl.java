@@ -18,11 +18,12 @@ public class OldBookDaoImpl implements OldBookDao {
 	@Override
 	public int totalOb() {
 		int totObCount =0;
-		
+
 		System.out.println("OldBookDaoImpl start total ");
 		try {
 			totObCount = session.selectOne("totObCnt");
 			System.out.println("OldBookDaoImpl totalOb totObCnt->"+ totObCount);
+			
 		} catch (Exception e) {
 			System.out.println("OldBookDaoImpl totalOb Exception->"+e.getMessage());
 		}
@@ -212,6 +213,24 @@ public class OldBookDaoImpl implements OldBookDao {
 		}
 
 		return updateCount;
+	}
+
+	@Override
+	public int updateReadCnt(int ob_num) {
+		System.out.println("sjDaoImpl updateReadCnt start..,");
+		int obresult = 0 ;
+		
+		try {
+			obresult = session.update("sjUpdateReadCnt",ob_num);
+			System.out.println("sjDaoImpl updateReadCnt obresult ->"+obresult);
+			
+			
+		} catch (Exception e) {
+			System.out.println("sjDaoImpl updateReadCnt e.getmessage->" + e.getMessage());
+		}
+		
+		
+		return obresult;
 	}
 
 
