@@ -5,7 +5,17 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>Insert title here</title>
+<title>도서 상세페이지</title>
+
+<style type="text/css">
+	.link-icon.kakao { 
+		background-image: url(../assets/images/icons/icon-kakao.png); 
+		background-repeat: no-repeat;
+		height : 30px;
+		width : 30px; 
+	}
+</style>
+
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
    function oldbookList() {
@@ -133,8 +143,7 @@
             document.getElementById("reviewList").focus();
             location.href="newbookDetail?"+sendData;
        });
-   }) 
-   
+   });
 
 </script>
 </head>
@@ -274,6 +283,23 @@
                                <i id="wishbtn" class="bi bi-heart-fill" style="color:red;"></i></a>
                          </c:when>
                        </c:choose>
+		                <a class="btn btn-icon btn-sm btn-outline-gray-400 text-muted dropdown-toggle" href="#" role="button"
+		                  data-bs-toggle="dropdown" aria-expanded="false">
+		                  <i class="bi bi-arrow-left-right"></i>
+		                </a>
+		
+		                <ul class="dropdown-menu" >
+		                  <li><a class="dropdown-item" href="#">
+		                  	<img alt="" src="../assets/images/icons/icon-kakao.png" style="height: 25px;">&nbsp; 카카오톡</a>
+		                  </li>
+		                  <li><a class="dropdown-item" href="#">
+		                  	<img alt="" src="../assets/images/icons/icon-email2.png" style="height: 25px;">&nbsp; 이메일</a>
+		                  </li>
+		                  <li><a class="dropdown-item" href="#">
+		                  	<img alt="" src="../assets/images/icons/icon-url.png" style="height: 25px;">&nbsp; URL복사</a>
+		                  </li>
+		                </ul>
+		              </div>
                  </div>
                </div>
             </div>
