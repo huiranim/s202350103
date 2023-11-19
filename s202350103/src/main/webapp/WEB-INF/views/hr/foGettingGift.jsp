@@ -7,6 +7,74 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+ 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+		// 주소 검색 API
+	    function execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	
+	                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	                var addr = ''; // 주소 변수
+	                var extraAddr = ''; // 참고항목 변수
+	
+	                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                    addr = data.roadAddress;
+	                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                    addr = data.jibunAddress;
+	                }
+	
+	                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+	                if(data.userSelectedType === 'R'){
+	                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                        extraAddr += data.bname;
+	                    }
+	                    // 건물명이 있고, 공동주택일 경우 추가한다.
+	                    if(data.buildingName !== '' && data.apartment === 'Y'){
+	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                    }
+	                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	                    if(extraAddr !== ''){
+	                        extraAddr = ' (' + extraAddr + ')';
+	                    }
+	                    // 조합된 참고항목을 해당 필드에 넣는다.
+	                    document.getElementById("sample6_extraAddress").value = extraAddr;
+	                
+	                } else {
+	                    document.getElementById("sample6_extraAddress").value = '';
+	                }
+	
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById('sample6_postcode').value = data.zonecode;
+	                document.getElementById("sample6_address").value = addr;
+	                // 커서를 상세주소 필드로 이동한다.
+	                document.getElementById("sample6_detailAddress").focus();
+	            }
+	        }).open();
+	    }
+	    
+	    // 배송메시지 직접입력
+	    function msgChk(msg){
+	    	alert("msg : "+msg.value);
+	    	
+	    	// 직접 입력 선택 시 입력란 노출 & 입력값 GET
+	    	if(msg.value == "직접 입력"){
+	    		$('#writedMsgDiv')[0].style.display = 'block';
+	    		$('#o_rec_msg').val($('#writedMsg').val);
+
+	    	// 선택값 GET
+	    	} else {
+	    		$('#writedMsgDiv')[0].style.display = 'none';
+	    		$('#o_rec_msg').val($('#selectedMsg').val);
+	    	}
+	    }
+	</script>	
 </head>
 <body>
 
@@ -66,15 +134,36 @@
               <label class="form-label" for="o_rec_ph">휴대전화<span class="text-danger">*</span></label>
               <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control" value="${orderr.o_rec_ph }" required>
             </div>
-            <div class="col-md-12 mb-3">
+            <div class="col-md-6 mb-3">
               <!-- input -->
               <label class="form-label" for="o_rec_addr">주소<span class="text-danger">*</span></label>
-              <input type="text" id="o_rec_addr" name="o_rec_addr" class="form-control" value="${orderr.o_rec_addr }" required>
+              <input type="text" id="sample6_postcode"  name="o_rec_addr1" class="form-control" placeholder="우편번호">
+              <label class="form-label">
+              	<input type="button" class="form-control" onclick="execDaumPostcode()" value="우편번호 찾기" style="background-color: lightgray;">
+              </label>
+              <input type="text" id="sample6_address" name="o_rec_addr2" class="form-control" placeholder="주소">
+              <input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" readonly>
+              <input type="text" id="sample6_detailAddress" name="o_rec_addr3" class="form-control" placeholder="상세주소" required="required">
             </div>
             <div class="col-md-12 mb-3">
-              <!-- input -->
               <label class="form-label" for="o_rec_msg">배송 메시지<span class="text-danger">*</span></label>
-              <input type="text" id="o_rec_msg" name="o_rec_msg" class="form-control" value="${orderr.o_rec_msg }" required>
+              <div class="mb-3">
+				  <select class="form-select" id="selectedMsg" onchange="msgChk(this)">
+				    <option selected>-- 선택 --</option>
+				    <option value="배송 전에 미리 연락바랍니다.">배송 전에 미리 연락바랍니다.</option>
+				    <option value="부재 시 경비실에 맡겨주세요.">부재 시 경비실에 맡겨주세요.</option>
+				    <option value="부재 시 문 앞에 놓아주세요.">부재 시 문 앞에 놓아주세요.</option>
+				    <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
+				    <option value="택배함에 보관해 주세요.">택배함에 보관해 주세요.</option>
+				    <option value="직접 입력">직접 입력</option>
+				  </select>
+              </div>
+              <div class="mb-3">
+				  <div class="ec-shippingInfo-omessageInput gBlank10" id="writedMsgDiv" style="display:none;">
+				    <textarea class="form-control" id="writedMsg" fw-filter="" fw-label="배송 메시지" fw-msg="" maxlength="30" cols="50" rows="1" ></textarea>
+				  </div>
+              </div>
+              <input type="hidden" id="o_rec_msg" name="o_rec_msg" value="">
             </div>
             
             <p><p><hr><p><p>
@@ -113,7 +202,7 @@
 	            <input class="btn btn-primary" type="submit" value="선물받기">
             </div>
 <!-- hidden value -->
-<input type="text" name="o_order_num" value="${orderr.o_order_num }"> 
+<input type="hidden" name="o_order_num" value="${orderr.o_order_num }"> 
 <input type="hidden" name="m_name" value="${orderr.m_name }"> 
 <input type="hidden" name="m_ph" value="${orderr.m_ph }"> 
 <input type="hidden" name="nb_title" value="${orderr.nb_title }"> 

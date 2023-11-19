@@ -123,7 +123,14 @@
 					                 <div class="text-center position-relative ">
 					                    <a href="newbookDetail?nb_num=${searchNewbook.nb_num }">
 					                       <!-- 도서 이미지 -->
-					                       <img src="${searchNewbook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+					                       <c:choose>
+							                  <c:when test="${fn:contains(searchNewbook.nb_image, 'http')}">
+							                     <img src="${searchNewbook.nb_image}" alt="${searchNewbook.nb_title}" style="width: 13rem; height: 19rem;">
+							                  </c:when>
+							                  <c:otherwise>
+							                     <img src="${pageContext.request.contextPath}/upload/${searchNewbook.nb_image}" alt="${searchNewbook.nb_title}" style="width: 13rem; height: 19rem;">
+							                  </c:otherwise>
+							               </c:choose>
 					                    </a>
 					                 </div>
 					              </div>

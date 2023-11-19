@@ -48,7 +48,7 @@ public class YbController {
 	private final MemberService ms;
 	private final HttpSession session;
 	private final JavaMailSender mailSender;
-	final DefaultMessageService messageService; //  A
+	final DefaultMessageService messageService; 
 	private final NewBookService nbs;
 
 	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs) {
@@ -76,17 +76,41 @@ public class YbController {
 		System.out.println("YbController main() start... ");
 		member =(Member) session.getAttribute("member");
 		if(member == null) {
+			
+			// 카테고리별 최대 조회수 도서 상품 리스트 구하기
+			List<NewBook> hitList = nbs.selectHitNbNum();
+			System.out.println("hitList -> "+hitList.size());
+			
+			// 다독 전체 최대 조회수 도서 상품 리스트
+			NewBook hitBook1 = nbs.selectAllHitNbNum();
+			System.out.println("hitList -> "+hitList.size());
+			
+			// 출간일 기준 5개의 도서 리스트
+			List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
+			System.out.println("releaseNewbookList -> "+releaseNewbookList.size());
+			
+			model.addAttribute("hitList", hitList);
+			model.addAttribute("hitBook1", hitBook1);
+			model.addAttribute("releaseNewbookList", releaseNewbookList);
+			
 			return "main";
 		}
 		
 		// 카테고리별 최대 조회수 도서 상품 리스트 구하기
 		List<NewBook> hitList = nbs.selectHitNbNum();
+		System.out.println("hitList -> "+hitList.size());
 		
 		// 다독 전체 최대 조회수 도서 상품 리스트
 		NewBook hitBook1 = nbs.selectAllHitNbNum();
+		System.out.println("hitList -> "+hitList.size());
+		
+		// 출간일 기준 5개의 도서 리스트
+		List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
+		System.out.println("releaseNewbookList -> "+releaseNewbookList.size());
 		
 		model.addAttribute("hitList", hitList);
 		model.addAttribute("hitBook1", hitBook1);
+		model.addAttribute("releaseNewbookList", releaseNewbookList);
 		
 		int totalCart = ms.totalCart(member);
 		System.out.println("YbController main() start... ");
@@ -677,9 +701,28 @@ public class YbController {
 	}
 	
 	@GetMapping(value = "writeForm")
-	public String writeForm() {
-
+	public String writeForm(Member member, Model model) {
+		member =(Member) session.getAttribute("member");
+		model.addAttribute("member", member);
 		return "yb/writeForm";
+	}
+	@GetMapping(value = "cont")
+	public String cont() {
+		return "yb/cont";
+	}
+	
+	@PostMapping(value = "communityInsert")
+	public String communityInsert(Member member, Community community, Model model, NewBook newbook) {
+		
+		
+		member =(Member) session.getAttribute("member");
+		community.setM_num(member.getM_num());
+		
+		int communityInsert = ms.communityInsert(community);
+		nbs.selectInNewBookList(newbook);
+		model.addAttribute("member", member);
+		return "yb/memberCommunity";
+		
 	}
 }
 	

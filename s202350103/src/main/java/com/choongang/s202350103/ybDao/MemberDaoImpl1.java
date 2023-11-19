@@ -342,6 +342,19 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return memberPwChangeByPh;
 	}
+	@Override
+	public int communityInsert(Community community) {
+		System.out.println("MemberDaoImpl1 communityInsert() start...");
+		int communityInsert = 0;
+		try {
+			communityInsert = session.insert("ybCommunityInsert", community);
+			
+					
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 communityInsert() Exception -> " + e.getMessage());
+		}
+		return communityInsert;
+	}
 
 	
 

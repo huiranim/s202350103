@@ -214,6 +214,13 @@ public class MemberServiceImpl1 implements MemberService {
 		return memberPwChangeByPh;
 	}
 
+	@Override
+	public int communityInsert(Community community) {
+		System.out.println("MemberServiceImpl1 communityInsert start...");
+		int communityInsert = md.communityInsert(community);
+		return communityInsert;
+	}
+
 	
 
 
