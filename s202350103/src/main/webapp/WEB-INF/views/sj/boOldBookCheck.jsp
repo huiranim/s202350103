@@ -167,7 +167,7 @@
 			      </td>
 	       </tr>
 	     <tr>					
-	      <td rowspan="3"> 검수내역 <input type="button" value="RESET" onclick="location.reload(true)" >    </td>
+	      <td rowspan="3"> 검수내역 <br><input type="button" class="btn btn-danger" value="RESET" onclick="location.reload(true)" >    </td>
 		      <td>찢김</td>
 		      <td>
 		        <input class="form-check-input" type="checkbox" onclick="toggleChk(1)">

@@ -112,10 +112,18 @@
 		          <input id="c_count" type="number" min="1" step="1"  max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" style="height: 42px;width: 40px;">
 		          <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
 				  <div class="g-2 align-items-center">
+				     <!-- 구매버튼 -->
 				     <div style="margin-left: 15px;">
-				        <!-- 구매 버튼 -->
-				     
-		  			    <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button>
+				       <a href="orderForm?ob_num=${oldBook.ob_num}&paymentType=1" class="btn btn-primary ">
+		                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+		                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+		                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
+			                  	   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+			                  	   <line x1="3" y1="6" x2="21" y2="6"></line>
+			                       <path d="M16 10a4 4 0 0 1-8 0"></path>
+		                 	   </svg>
+		                  		바로구매
+		                       </a>
 				     </div>
 		    	  </div>
 		      </div>

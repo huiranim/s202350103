@@ -31,8 +31,7 @@
 	       <p class="fs-1 text-center">중고 판매 신청 목록   </p>
 	       </div>
 	       
-	       <div class="col-2 ">
-	      
+	       <div class="col-2 p-4 mb-4" style="margin-left: 620px" >
 	       <select id="ob_status1" class="form-select"  aria-label="Default select example" onchange="change_status()" >
 	       <option value=0 <c:if test="${oldBook.ob_status eq '0'}"> selected="selected"</c:if>>   전체</option>
 	        <option value=1 <c:if test="${oldBook.ob_status eq '1'}"> selected="selected"</c:if>>  검수 중</option>
@@ -53,7 +52,9 @@
 		                    <th class="border-0">매입 번호</th>
 		                    <th class="border-0">신청자 명 </th>
 		                    <th class="border-0 text-center" >중고 상품</th>
+		                    
 		                    <th class="border-0">매입상태</th>
+		 						
 		                    <th class="border-0 text-center">검수하기/상세보기</th>
 	                 </tr>
 	              </thead>
