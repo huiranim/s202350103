@@ -96,7 +96,8 @@
 			(
 					SELECT rownum rn, a.*
 					FROM
-								(SELECT n.nb_title, o.ob_grade, o.ob_pur_price, o.ob_sell_price, o.ob_write_date, n.nb_publisher, n.nb_writer, n.nb_image,n.nb_num, ob_status
+								(SELECT n.nb_title, o.ob_grade, o.ob_pur_price, o.ob_sell_price, o.ob_write_date, n.nb_publisher, n.nb_writer, n.nb_image,n.nb_num, 
+								ob_status, o.ob_num , TO_CHAR(o.ob_report_date,'YYYY-MM-DD') AS ob_report_date	
 								 FROM   newbook n, oldbook o
 							     WHERE  n.nb_num = o.nb_num
 								 AND    m_num = #{m_num}) a
