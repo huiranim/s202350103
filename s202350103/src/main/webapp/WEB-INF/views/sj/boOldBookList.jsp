@@ -138,10 +138,10 @@
 												</li>
 											</c:if>
 									</ul>
-
+<!-- 
 						 <div class="d-grid gap-2">
 					    <button class="btn btn-soft-success mb-2" type="submit" onclick="location.href='index'">메인화면가기</button>
-					</div>	
+					</div>	 -->
 				</div>
 			</div>
 		</div>

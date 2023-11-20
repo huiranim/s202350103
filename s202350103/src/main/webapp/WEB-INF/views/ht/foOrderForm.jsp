@@ -88,7 +88,7 @@
 	
 	function orderActionController() {
 		// 공통
-		var sendData1 =  JSON.stringify($('#orderActionForm').serialize());
+		var sendData1 =  $('#orderActionForm').serialize();
 		var sendData2;
 		var sendData3;
 		var sendData4;
@@ -97,16 +97,18 @@
 	
 		var o_selTab = $('#o_selTab').val();
 		if (o_selTab == '1') {
-			sendData2 =  JSON.stringify($('#destination1').serialize());
+			sendData2 =  $('#destination1').serialize();
 			
 		}else {
-			sendData2 =  JSON.stringify($('#destination2').serialize());
+			sendData2 =  $('#destination2').serialize();
 
 		}
 		sendData3 = sendData1+"&"+sendData2;
 		// 두개 Form 병합으로 인한 문자열 치환
-		sendData3 = sendData3.replace('"&"', '&');
-		alert('sendData3->'+sendData3)
+		//sendData3 = sendData3.replace('"&"', '&');
+		//alert('sendData1->'+sendData1);
+		//alert('sendData2->'+sendData2);
+		alert('sendData3->'+sendData3);
 		
 		if($('#omessage_select').val() == "직접 입력"){
 			omessage =  $('#omessage').val();
@@ -119,8 +121,12 @@
 		}
 		
 		sendData5 = sendData3+"&"+sendData4;
-		sendData5 = sendData5.replace('"&', '&');
-		alert('sendData5->'+sendData5)
+		//sendData5 = sendData5.replace('"&', '&');
+		//alert('sendData5-1->'+sendData5)
+		
+		// 찾으면 좋음 
+		//sendData5 = sendData5.replace('"paymentT', 'paymentT');
+		//alert('sendData5-2->'+sendData5)
 		
 		location.href= "orderAction?"+sendData5;	
 	}
@@ -294,6 +300,19 @@
           	
  <!--  공통으로 보내줘야하는 form -->       	
         <form action="orderAction"   id="orderActionForm"  onsubmit="return chk()">
+        
+            <c:if test="${paymentType == 1}">
+            	<c:forEach var="book" items="${orderList}">
+        			<input type="hidden" name="nb_num" value="${book.nb_num}">
+        		</c:forEach>
+        		<input type="hidden" name="paymentType" value="${paymentType}">
+        		<input type="hidden" name="totalPrice" value="${cart.totalPrice}">
+        	</c:if>
+        	<c:if test="${paymentType == 2}">
+        		<input type="hidden" name="paymentType" value="${paymentType}">
+        		<input type="hidden" name="totalPrice" value="${cart.totalPrice}">
+        	</c:if>
+        	
           	<div class="mb-3">
 			  <select class="form-select" id="omessage_select" name="o_rec_msg" >
 			    <option selected>-- 메시지 선택 (선택사항) --</option>

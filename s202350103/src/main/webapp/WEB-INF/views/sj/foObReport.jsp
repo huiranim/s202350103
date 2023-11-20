@@ -43,7 +43,11 @@
 
 <form action="writeFormObCal" name="frm"   method="post"  onsubmit="return doAction()">
 <p class="text-center fs-1 ">중고 도서 판매 신청 </p>
+	<div class="text-center  position-relative ">
+	<img src="assets/images/png/obreport.png" alt="판매신청"
+                      class="mb-3 img-fluid">
 	
+	</div>
 	
 	
 	<!-- 새상품 서치  -->
@@ -101,7 +105,7 @@
                <!--    <button type="button" class="btn btn-primary text-end" data-bs-toggle="modal" data-bs-target="#exampleModal-2" 
                   				onclick="openfoModalList()">
                   				 -->
-                  <button type="button" class="btn btn-primary text-end"  data-bs-toggle="modal" data-bs-target="#exampleModal-2" 
+                  <button type="button" class="btn btn-success text-end"  data-bs-toggle="modal" data-bs-target="#exampleModal-2" 
                   				onclick="showPopup()">
    					새상품 조회
 					</button>

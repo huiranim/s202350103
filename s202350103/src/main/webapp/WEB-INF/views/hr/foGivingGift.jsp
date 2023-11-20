@@ -11,7 +11,6 @@
 	<script type="text/javascript">
 		// 포인트 입력 시 수행
 		function changeChk(p_point){
-			//alert("변경!");
 			//alert("보유 포인트 : ${member.m_point }");
 			//alert("보유 포인트 type : "+typeof("${member.m_point }"));
 			//alert("입력 포인트 : "+p_point);
@@ -38,7 +37,7 @@
 				$("#o_pay_price_val").val(p_pay_price);
 				
 				// 결제정보의 적립혜택에 반영
-				const p_point_save = (p_pay_price * 0.01);
+				const p_point_save = Math.round(p_pay_price * 0.01);
 				const p_point_save_result = p_point_save.toLocaleString();
 				$("#o_point_save").html(p_point_save_result);
 				
@@ -207,7 +206,7 @@
             <div class="col-md-12 mb-3">
               <label class="form-label" for="o_point"> 사용 포인트  (보유 : <fmt:formatNumber value="${member.m_point }" groupingUsed="true"/>원)</label>
               &nbsp;&nbsp;<span class="text-danger" id="pointMsg" ></span>
-              <input type="text" id="o_point" class="form-control" name="o_point"
+              <input type="number" id="o_point" class="form-control" name="o_point"
               		 onchange="changeChk(o_point.value)" value="0" required>
             </div>
 				

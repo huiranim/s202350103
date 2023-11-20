@@ -358,7 +358,7 @@ public class SjController {
 		model.addAttribute("oldBook",oldBook);
 		model.addAttribute("member", member);
 	
-   		return "redirect:folistOb";    
+   		return "redirect:memberSellList#";
 	}
 	@RequestMapping(value = "index")
 	public String main22(Model model) {

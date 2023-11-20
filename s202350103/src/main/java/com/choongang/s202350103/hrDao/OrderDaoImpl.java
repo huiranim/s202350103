@@ -246,7 +246,7 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl givingGiftAction() start..");
 		
 		int result = 0, oResult = 0, odResult = 0,
-				ogResult = 0, mResult = 0, plResult = 0;
+				ogResult = 0, mResult = 0, plResult1 = 0, plResult2 = 0;
 		
 		//Transaction 관리
 		TransactionStatus txStatus = 
@@ -266,16 +266,18 @@ public class OrderDaoImpl implements OrderDao {
 			mResult = session.update("hrUpdateMemberP", orderr);
 			
 			// INSERT - POINT_LIST
-			plResult = session.insert("hrInsertPointListG", orderr);
+			plResult1 = session.insert("hrInsertPointListG1", orderr);
+			plResult2 = session.insert("hrInsertPointListG2", orderr);
 			
 			System.out.println("OrderDaoImpl givingGiftAction() oResult -> "+oResult);
 			System.out.println("OrderDaoImpl givingGiftAction() odResult -> "+odResult);
 			System.out.println("OrderDaoImpl givingGiftAction() ogResult -> "+ogResult);
 			System.out.println("OrderDaoImpl givingGiftAction() mResult -> "+mResult);
-			System.out.println("OrderDaoImpl givingGiftAction() plResult -> "+plResult);
+			System.out.println("OrderDaoImpl givingGiftAction() plResult1 -> "+plResult1);
+			System.out.println("OrderDaoImpl givingGiftAction() plResult2 -> "+plResult2);
 			
 			if(oResult == 1 && odResult == 1 && ogResult == 1
-					 && mResult == 1 && plResult == 1) {
+					 && mResult == 1 && plResult1 == 1 && plResult2 == 1) {
 				result = 1;
 			} else {
 				result = 0;

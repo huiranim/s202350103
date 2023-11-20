@@ -1,5 +1,7 @@
 package com.choongang.s202350103.controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
@@ -81,14 +83,16 @@ public class HrController {
 	// BO 주문상세
 	// boOrderDetail.jsp
 	@RequestMapping(value = "boOrderDetail")
-	public String selectOrderrBo(Model model, long o_order_num) {
+	public String selectOrderrBo(Model model, long o_order_num, String currentPage) {
 		System.out.println("HrController selectOrderrBo() start..");
+		System.out.println("currentPage -> "+currentPage);
 		
 		Orderr orderr = new Orderr();
 		orderr = os.selectOrderr(o_order_num);
 		System.out.println("HrController selectOrderrBo() orderr.getM_name() -> "+orderr.getM_name());
 		
 		model.addAttribute("orderr", orderr);
+		model.addAttribute("currentPage", currentPage);
 		
 		System.out.println("HrController selectOrderrBo() end..");
 		return "/hr/boOrderDetail";
@@ -402,10 +406,19 @@ public class HrController {
 		model.addAttribute("orderr", orderr);
 		model.addAttribute("orderGift", orderGift);
 
-		System.out.println("HrController gettingGift() orderr.getO_order_num() -> "+orderr.getO_order_num());		
+		// 선물 수락여부 확인
+		int o_gift_accept = orderGift.getO_gift_accept();
+		System.out.println("HrController gettingGift() o_gift_accept -> "+o_gift_accept);
 		
-		System.out.println("HrController gettingGift() end..");
-		return "/hr/foGettingGift";
+		if(o_gift_accept == 0) {
+			System.out.println("HrController gettingGift() 미수락 선물받기");
+			System.out.println("HrController gettingGift() end..");
+			return "/hr/foGettingGift";
+		} else {
+			System.out.println("HrController gettingGift() 수락 선물받기 시도");
+			System.out.println("HrController gettingGift() end..");
+			return "/hr/foGettingGiftAccepted";
+		}
 	}
 	
 	// FO 선물받기 - 액션
@@ -440,4 +453,99 @@ public class HrController {
 		return "/hr/foGettingGiftAction";
 	}
 
+	// BO 주문목록 - 임의 주문 생성(CSV 파일 업로드)
+	@RequestMapping("boOrderUpload")
+	public String orderUpload() {
+		// 파일 관련 객체 선언
+		String path 		 = System.getProperty("user.dir");
+		FileReader in 		 = null;
+		BufferedReader bufIn = null;
+		
+		// DTO 선언
+		Orderr orderr 			= new Orderr();
+		
+		try {
+			in 	  = new FileReader(path + "\\src\\main\\webapp\\upload\\test.csv");
+			bufIn = new BufferedReader(in);
+			bufIn.readLine();
+			
+			String data;
+			do {
+				// 라인별 읽기
+				data = bufIn.readLine();
+				
+				if(data != null) {
+					// 콤마로 분리
+					String[] splitData = data.split(",");
+					
+					// DTO에 setter로 저장
+					// m_num
+					System.out.println("HrController orderUpload() splitData[0] -> "+splitData[0]);
+					orderr.setM_num(Integer.parseInt(splitData[0]));
+					System.out.println("HrController orderUpload() m_num -> "+orderr.getM_num());
+					
+					// o_pay_price
+					System.out.println("HrController orderUpload() splitData[1] -> "+splitData[1]);
+					orderr.setO_pay_price(Integer.parseInt(splitData[1]));
+					System.out.println("HrController orderUpload() o_pay_price -> "+orderr.getO_pay_price());
+					
+					// o_deliv_price
+					System.out.println("HrController orderUpload() splitData[2] -> "+splitData[2]);
+					orderr.setO_deliv_price(Integer.parseInt(splitData[2]));
+					System.out.println("HrController orderUpload() o_deliv_price -> "+orderr.getO_deliv_price());
+					
+					// o_rec_name
+					System.out.println("HrController orderUpload() splitData[3] -> "+splitData[3]);
+					orderr.setO_rec_name(splitData[3]);
+					System.out.println("HrController orderUpload() o_rec_name -> "+orderr.getO_rec_name());
+					
+					// o_rec_mail
+					System.out.println("HrController orderUpload() splitData[4] -> "+splitData[4]);
+					orderr.setO_rec_mail(splitData[4]);
+					System.out.println("HrController orderUpload() o_rec_mail -> "+orderr.getO_rec_mail());
+					
+					// o_rec_ph
+					System.out.println("HrController orderUpload() splitData[5] -> "+splitData[5]);
+					orderr.setO_rec_ph(splitData[5]);
+					System.out.println("HrController orderUpload() o_rec_ph -> "+orderr.getO_rec_ph());
+					
+					// o_rec_add
+					System.out.println("HrController orderUpload() splitData[6] -> "+splitData[6]);
+					orderr.setO_rec_addr(splitData[6]);
+					System.out.println("HrController orderUpload() o_rec_add -> "+orderr.getO_rec_addr());
+					
+					// o_rec_msg
+					System.out.println("HrController orderUpload() splitData[7] -> "+splitData[7]);
+					orderr.setO_rec_msg(splitData[7]);
+					System.out.println("HrController orderUpload() o_rec_msg -> "+orderr.getO_rec_msg());
+					
+					// nb_num
+					System.out.println("HrController orderUpload() splitData[8] -> "+splitData[8]);
+					orderr.setNb_num(Integer.parseInt(splitData[8]));
+					System.out.println("HrController orderUpload() nb_num -> "+orderr.getNb_num());
+					
+					// o_de_count
+					System.out.println("HrController orderUpload() splitData[9] -> "+splitData[9]);
+					orderr.setO_de_count(Integer.parseInt(splitData[9]));
+					System.out.println("HrController orderUpload() o_de_count -> "+orderr.getO_de_count());
+					
+					// o_de_prodtype
+					System.out.println("HrController orderUpload() splitData[10] -> "+splitData[10]);
+					orderr.setO_de_prodtype(Integer.parseInt(splitData[10]));
+					System.out.println("HrController orderUpload() o_de_prodtype -> "+orderr.getO_de_prodtype());
+					
+				}
+			} while (data != null);
+		} catch (Exception e1) {
+			System.out.println("HrController orderUpload() e.getMessage() 1 -> "+e1.getMessage());
+		} finally {
+			try {
+				in.close();
+				bufIn.close();
+			} catch (Exception e2) {
+				System.out.println("HrController orderUpload() e.getMessage() 2 -> "+e2.getMessage());
+			}
+		}
+	return "";
+	}
 }
