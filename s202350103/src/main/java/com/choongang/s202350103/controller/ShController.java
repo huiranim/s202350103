@@ -125,6 +125,8 @@ import lombok.extern.slf4j.Slf4j;
 			AttJoin attJoin = new AttJoin();
 			attJoin.setA_num(a_num);
 			attJoin.setM_num(m_num);
+			System.out.println(a_num);
+			System.out.println(m_num);
 			//출석 참여
 			ps.stampAtt(attJoin);
 			//포인트 적립메소드
@@ -156,12 +158,14 @@ import lombok.extern.slf4j.Slf4j;
 		
 			for(int i = 0; i < add; i++) {
 				
-				calendar.add(Calendar.DAY_OF_MONTH,-i);
-				checkTime = calendar.getTime();
+				
 				int rowCount = ps.countAttRow(attJoin);
 				if(rowCount == 1) {
 					System.out.println("rowCount == 1");
 					result = 1;
+					calendar.add(Calendar.DAY_OF_MONTH,-i);
+					checkTime = calendar.getTime();
+					attJoin.setA_par_pdate(checkTime);
 					continue;
 				}else {
 					System.out.println("result = 0");
@@ -336,11 +340,21 @@ import lombok.extern.slf4j.Slf4j;
 		
 		//관리자 페이지 이벤트 목록 
 		@RequestMapping(value = "boEventList")
-		public String  boEventList(Model model) {
+		public String  boEventList(String currentPage, Model model) {
 			System.out.println("shController boEventList() Start...");
-			
 			 Attendance attendance = new Attendance(); 
-			 List<Attendance> attendanceList = ps.boEventList(attendance); 
+			 
+			 int totalAtt = ps.totalAtt();
+			 int totalQuiz = ps.totalQuiz();
+			 int totalEvent = totalAtt + totalQuiz;
+			 Paging page = new Paging(totalEvent, currentPage);
+			 int start = page.getStart();
+			 int end = page.getEnd();
+			 attendance.setStart(start);
+			 attendance.setEnd(end);
+			 List<Attendance> attendanceList = ps.boEventList(attendance);
+			 
+			 model.addAttribute("page", page);
 			 model.addAttribute("event",attendanceList);
 			 
 			return "sh/boEventList";
@@ -371,32 +385,81 @@ import lombok.extern.slf4j.Slf4j;
 		//관리자 페이지 퀴즈 이벤트 정보 수정
 		@ResponseBody
 		@RequestMapping(value = "updateQuiz")
-		public int updateQuiz(@RequestBody Quiz quiz) {
+		public int updateQuiz(@RequestParam("file1") 	  MultipartFile file
+							 ,@RequestParam("q_num")	  int q_num
+							 ,@RequestParam("q_title") 	  String q_title
+							 ,@RequestParam("q_sdate") 	  String q_sdate
+							 ,@RequestParam("q_edate") 	  String q_edate
+							 ,@RequestParam("q_point") 	  int q_point
+							 ,@RequestParam("q_question") String q_question
+							 ,@RequestParam("q_select1")  String q_select1
+							 ,@RequestParam("q_select2")  String q_select2
+							 ,@RequestParam("q_select3")  String q_select3
+							 ,@RequestParam("q_select4")  String q_select4
+							 ,@RequestParam("q_answer")   int q_answer
+							 ,@RequestParam("q_image")    String q_image
+							 , HttpServletRequest request				 
+						     ,Model model) throws IOException {
 			System.out.println("shController updateQuiz() Start..");
+			Quiz quiz = new Quiz();
+			quiz.setQ_num(q_num);
+			quiz.setQ_title(q_title);
+			quiz.setQ_sdate(q_sdate);
+			quiz.setQ_edate(q_edate);
+			quiz.setQ_point(q_point);
+			quiz.setQ_question(q_question);
+			quiz.setQ_select1(q_select1);
+			quiz.setQ_select2(q_select2);
+			quiz.setQ_select3(q_select3);
+			quiz.setQ_select4(q_select4);
+			quiz.setQ_answer(q_answer);
+			
+			if(file == null) {
+				quiz.setQ_image(q_image);
+			} else {
+				String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+				System.out.println("shController uploadPath->"+uploadPath);
+				String savedName = uploadFile(file.getOriginalFilename(), file.getBytes(), uploadPath);
+				quiz.setQ_image(savedName);
+			}
+			
 			int result = ps.updateQuiz(quiz);
+			
 			return result;
 		}
 		
 		//관리자 페이지 출석 이벤트 정보 수정 진행
 		@ResponseBody
-		@RequestMapping(value = "updateAttendance")
-		public int updateAttendance(@RequestBody Attendance attendanceData,
+		@RequestMapping(value = "updateAttendance", method=RequestMethod.POST)
+		public int updateAttendance(@RequestParam("file1") MultipartFile file,
+					                @RequestParam("a_num") int a_num,
+					                @RequestParam("a_title") String a_title,
+					                @RequestParam("a_sdate") String a_sdate,
+					                @RequestParam("a_edate") String a_edate,
+					                @RequestParam("a_point") int a_point,
+					                @RequestParam("a_add") int a_add,
+					                @RequestParam("a_addpoint") int a_addpoint,
+					                @RequestParam("a_image") String a_image,
 						            HttpServletRequest request,
 						            Model model) throws Exception {
 			System.out.println("shController updateAttendance() Start..");
 			Attendance attendance = new Attendance();
-			attendance.setA_num(attendanceData.getA_num());
-			attendance.setA_title(attendanceData.getA_title());
-			attendance.setA_sdate(attendanceData.getA_sdate());
-			attendance.setA_edate(attendanceData.getA_edate());	
-			attendance.setA_point(attendanceData.getA_point());
-			attendance.setA_add(attendanceData.getA_add());
-			attendance.setA_addpoint(attendanceData.getA_addpoint());
+			attendance.setA_num(a_num);
+			attendance.setA_title(a_title);
+			attendance.setA_sdate(a_sdate);
+			attendance.setA_edate(a_edate);	
+			attendance.setA_point(a_point);
+			attendance.setA_add(a_add);
+			attendance.setA_addpoint(a_addpoint);
 			
-			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
-			System.out.println("shController uploadPath->"+uploadPath);
-			String savedName = uploadFile(attendanceData.getFile1().getOriginalFilename(), attendanceData.getFile1().getBytes(), uploadPath);
-			attendance.setA_image(savedName);
+			if(file == null) {
+				attendance.setA_image(a_image);
+			} else {
+				String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+				System.out.println("shController uploadPath->"+uploadPath);
+				String savedName = uploadFile(file.getOriginalFilename(), file.getBytes(), uploadPath);
+				attendance.setA_image(savedName);
+			}
 			
 			int result = ps.updateAttendance(attendance);
 			
@@ -404,11 +467,13 @@ import lombok.extern.slf4j.Slf4j;
 		} 
 		
 		@RequestMapping(value = "boSearchEvent")
-		public String boSearchEvent(@RequestParam("eNum") int eNum, @RequestParam("a_title") String a_title,Model model) {
+		public String boSearchEvent(@RequestParam("eNum") int eNum, @RequestParam("a_title") String a_title, Model model) {
 			System.out.println("shController boSearchEvent() Start..");
 			Attendance attendance = new Attendance();
 			attendance.setA_num(eNum);
 			attendance.setA_title(a_title);
+			
+			
 			List<Attendance> boEventList = ps.searchEvent(attendance);
 			
 			model.addAttribute("event",attendance);

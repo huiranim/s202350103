@@ -20,7 +20,7 @@
 		Update member Set m_point = m_point + (Select a_point From attendance Where a_num = #{a_num}) Where m_num=#{m_num}
 	</update>
 	
-	<select id="shAttChance" parameterType="AttJoin" resultType="int">
+	<select id="shCheckAttChance" parameterType="AttJoin" resultType="int">
 		Select count(*) a From att_join
     	Where a_num = #{a_num} And m_num = #{m_num}
     	And To_char(a_par_pdate, 'yyMMdd') = To_char(SYSDATE, 'yyMMdd')

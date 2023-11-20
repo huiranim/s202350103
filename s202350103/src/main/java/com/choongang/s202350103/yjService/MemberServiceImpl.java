@@ -184,6 +184,32 @@ public class MemberServiceImpl implements MemberService{
 		
 		return  md.adminAddrSearch(m_num);
 	}
+	// 관리자 - 일반회원 카운트
+	@Override
+	public int nomalMember() {
+		int nomalMember = md.nomalMember();
+		return nomalMember;
+	}
+	// 관리자 - 관리자 카운트
+	@Override
+	public int adminMember() {
+		int adminMember = md.adminMember();
+		return adminMember;
+	}
+	// 관리자 - 활동 회원 카운트
+	@Override
+	public int activeMember() {
+		int activeMember = md.activeMember();
+		return activeMember;
+	}
+	// 관리자 - 탈퇴 회원 카운트
+	@Override
+	public int wdMember() {
+		int wdMember = md.wdMember();
+		return wdMember;
+	}
+	
+	
 	
 	
 }
