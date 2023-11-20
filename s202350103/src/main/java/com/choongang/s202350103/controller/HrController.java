@@ -81,14 +81,16 @@ public class HrController {
 	// BO 주문상세
 	// boOrderDetail.jsp
 	@RequestMapping(value = "boOrderDetail")
-	public String selectOrderrBo(Model model, long o_order_num) {
+	public String selectOrderrBo(Model model, long o_order_num, String currentPage) {
 		System.out.println("HrController selectOrderrBo() start..");
+		System.out.println("currentPage -> "+currentPage);
 		
 		Orderr orderr = new Orderr();
 		orderr = os.selectOrderr(o_order_num);
 		System.out.println("HrController selectOrderrBo() orderr.getM_name() -> "+orderr.getM_name());
 		
 		model.addAttribute("orderr", orderr);
+		model.addAttribute("currentPage", currentPage);
 		
 		System.out.println("HrController selectOrderrBo() end..");
 		return "/hr/boOrderDetail";
@@ -402,10 +404,19 @@ public class HrController {
 		model.addAttribute("orderr", orderr);
 		model.addAttribute("orderGift", orderGift);
 
-		System.out.println("HrController gettingGift() orderr.getO_order_num() -> "+orderr.getO_order_num());		
+		// 선물 수락여부 확인
+		int o_gift_accept = orderGift.getO_gift_accept();
+		System.out.println("HrController gettingGift() o_gift_accept -> "+o_gift_accept);
 		
-		System.out.println("HrController gettingGift() end..");
-		return "/hr/foGettingGift";
+		if(o_gift_accept == 0) {
+			System.out.println("HrController gettingGift() 미수락 선물받기");
+			System.out.println("HrController gettingGift() end..");
+			return "/hr/foGettingGift";
+		} else {
+			System.out.println("HrController gettingGift() 수락 선물받기 시도");
+			System.out.println("HrController gettingGift() end..");
+			return "/hr/foGettingGiftAccepted";
+		}
 	}
 	
 	// FO 선물받기 - 액션

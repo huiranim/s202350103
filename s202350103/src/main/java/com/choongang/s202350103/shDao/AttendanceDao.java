@@ -21,5 +21,6 @@ public interface AttendanceDao {
 	List<Attendance> searchEvent(Attendance attendance);
 	int 			 checkAddAtt(int a_num);
 	int 			 deleteAtt(int a_num);
+	
 
 }

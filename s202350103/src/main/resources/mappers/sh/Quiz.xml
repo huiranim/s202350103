@@ -21,7 +21,7 @@
 		q_title=#{q_title},
 		q_sdate=#{q_sdate},
 		q_edate=#{q_edate},
-		q_image=#{q_image, jdbcType=VARCHAR},
+		q_image=#{q_image},
 		q_point=#{q_point},
 		q_question=#{q_question},
 		q_select1=#{q_select1},

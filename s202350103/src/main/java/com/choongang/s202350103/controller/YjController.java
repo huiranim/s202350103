@@ -681,7 +681,34 @@ public class YjController {
 	
 	  // 관리자-페이지 이동
 	  @RequestMapping("mainBo")
-	  public String mainBo() {
+	  public String mainBo(Model model) {
+		  // 총 회원
+		  int totalMember = ms.totalMember();
+		  // 일반 회원
+		  int nomalMember = ms.nomalMember();
+		  // 관리자 
+		  int adminMember = ms.adminMember();
+		  // 활동 회원
+		  int activeMember = ms.activeMember();
+		  // 탈퇴 회원
+		  int wdMember = ms.wdMember();
+		  
+		  model.addAttribute("nomalMember",nomalMember);
+		  model.addAttribute("adminMember",adminMember);
+		  model.addAttribute("activeMember",activeMember);
+		  model.addAttribute("wdMember",wdMember);
+
+		  float averNomalMember = ((float)nomalMember / totalMember) * 100;
+		  float averAdminMember = ((float)adminMember / totalMember) * 100;
+		  float averActiveMember = ((float)activeMember / totalMember) * 100;
+		  float averWdMember = ((float)wdMember / totalMember) * 100;
+		  
+		  model.addAttribute("totalMember",totalMember);
+		  model.addAttribute("averNomalMember",averNomalMember);
+		  model.addAttribute("averAdminMember",averAdminMember);
+		  model.addAttribute("averActiveMember",averActiveMember);
+		  model.addAttribute("averWdMember",averWdMember);
+		  
 		  return "common/mainBo";
 	  }
 	  
@@ -1033,6 +1060,7 @@ public class YjController {
 			
 			return m_addr;
 	  }
+	
 	  
 	  
 }

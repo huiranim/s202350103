@@ -63,6 +63,14 @@ public interface MemberDao {
 	List<Member> adminMemberSearch(Member member);
 	// 관리자 - 회원 주소 간편조회 AJAX
 	String adminAddrSearch(int m_num);
+	// 관리자 - 일반 회원 카운트
+	int nomalMember();
+	// 관리자 - 관리자 카운트
+	int adminMember();
+	// 관리자 - 활동 회원 카운트
+	int activeMember();
+	// 관리자 - 탈퇴 회원 카운트
+	int wdMember();
 
 	
 	

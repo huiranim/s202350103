@@ -59,20 +59,34 @@
 	        }).open();
 	    }
 	    
-	    // 배송메시지 직접입력
-	    function msgChk(msg){
-	    	alert("msg : "+msg.value);
+	    // 배송메시지 콤보박스 onchange
+	    function msgCombo(){
+	    	// 선택값 확인
+	    	var selectedMsg = "";
+	    	$("#selectedMsg option:selected").each(function(){
+	    		selectedMsg = $(this).val();
+	    		return false;
+	    	});
+	    	// alert("selectedMsg : "+selectedMsg);
 	    	
-	    	// 직접 입력 선택 시 입력란 노출 & 입력값 GET
-	    	if(msg.value == "직접 입력"){
+	    	// 직접 입력 선택 -> 입력란 노출 & 입력값을 $('#o_rec_msg')에 할당
+	    	if(selectedMsg == "직접 입력"){
 	    		$('#writedMsgDiv')[0].style.display = 'block';
-	    		$('#o_rec_msg').val($('#writedMsg').val);
+	    		$('#o_rec_msg').val("");
 
-	    	// 선택값 GET
+	    	// 직접 입력 아닌 값 선택 -> 선택값을 $('#o_rec_msg')에 할당
 	    	} else {
 	    		$('#writedMsgDiv')[0].style.display = 'none';
-	    		$('#o_rec_msg').val($('#selectedMsg').val);
+	    		$('#o_rec_msg').val(selectedMsg);
 	    	}
+	    }
+	    
+	    // 배송메시지 직접입력 onchange
+	    function msgDirect(){
+	    	var writedMsg = document.getElementById("writedMsg").value;
+	    	// alert("writedMsg : "+writedMsg);
+	    	
+	    	$('#o_rec_msg').val(writedMsg);
 	    }
 	</script>	
 </head>
@@ -90,124 +104,126 @@
               <!-- heading -->
             <h3 style="align: center;">선물받기</h3><p>
           </div>
-          <!-- form -->
-          <form class="row" action="foGettingGiftAction">
           
-            <h5 class="h5">메시지 카드</h5><p>
-			<div class="card">
-			   <img src="../assets/images/gift/giftcard${orderGift.o_gift_card }.png" class="card-img-top" alt="card" style="margin-top: 17px;">
-			     <div class="card-body">
-			       <h5 class="card-title">${orderGift.o_gift_msg }</h5>
-			     </div>
-			</div>
-            
-            <p><p><hr><p><p>
-               
-            <h5 class="h5">보내는 사람</h5><p>
-              <!-- input -->
-            <div class="col-md-12 mb-3">
-              <label class="form-label">이름</label>
-              <h6 class="h6">${orderr.m_name }</h6>
-            </div>
-            <div class="col-md-12 mb-3">
-              <!-- input -->
-              <label class="form-label">휴대전화</label>
-              <h6 class="h6">${orderr.m_ph }</h6>
-            </div>
-            
-            <p><p><hr><p><p>
-            
-            <h5 class="h5">받는 사람
-            	<span style="width: 10px;" class="badge bg-secondary" data-bs-toggle="tooltip" data-placement="right" title="보낸 사람이 입력한 정보를 확인 또는 수정해주세요. 주소는 새로 입력해주세요."> ? </span>
-            </h5><p>
-              <!-- input -->
-            <div class="col-md-12 mb-3">
-              <label class="form-label" for="o_rec_name">이름<span class="text-danger">*</span></label>
-              <input type="text" id="o_rec_name" class="form-control" name="o_rec_name" value="${orderr.o_rec_name }" required>
-            </div>
-            <div class="col-md-12 mb-3">
-              <label class="form-label" for="o_rec_mail">이메일<span class="text-danger">*</span></label>
-              <input type="text" id="o_rec_mail" class="form-control" name="o_rec_mail" value="${orderr.o_rec_mail }" required>
-            </div>
-            <div class="col-md-12 mb-3">
-              <!-- input -->
-              <label class="form-label" for="o_rec_ph">휴대전화<span class="text-danger">*</span></label>
-              <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control" value="${orderr.o_rec_ph }" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <!-- input -->
-              <label class="form-label" for="o_rec_addr">주소<span class="text-danger">*</span></label>
-              <input type="text" id="sample6_postcode"  name="o_rec_addr1" class="form-control" placeholder="우편번호">
-              <label class="form-label">
-              	<input type="button" class="form-control" onclick="execDaumPostcode()" value="우편번호 찾기" style="background-color: lightgray;">
-              </label>
-              <input type="text" id="sample6_address" name="o_rec_addr2" class="form-control" placeholder="주소">
-              <input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" readonly>
-              <input type="text" id="sample6_detailAddress" name="o_rec_addr3" class="form-control" placeholder="상세주소" required="required">
-            </div>
-            <div class="col-md-12 mb-3">
-              <label class="form-label" for="o_rec_msg">배송 메시지<span class="text-danger">*</span></label>
-              <div class="mb-3">
-				  <select class="form-select" id="selectedMsg" onchange="msgChk(this)">
-				    <option selected>-- 선택 --</option>
-				    <option value="배송 전에 미리 연락바랍니다.">배송 전에 미리 연락바랍니다.</option>
-				    <option value="부재 시 경비실에 맡겨주세요.">부재 시 경비실에 맡겨주세요.</option>
-				    <option value="부재 시 문 앞에 놓아주세요.">부재 시 문 앞에 놓아주세요.</option>
-				    <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
-				    <option value="택배함에 보관해 주세요.">택배함에 보관해 주세요.</option>
-				    <option value="직접 입력">직접 입력</option>
-				  </select>
-              </div>
-              <div class="mb-3">
-				  <div class="ec-shippingInfo-omessageInput gBlank10" id="writedMsgDiv" style="display:none;">
-				    <textarea class="form-control" id="writedMsg" fw-filter="" fw-label="배송 메시지" fw-msg="" maxlength="30" cols="50" rows="1" ></textarea>
-				  </div>
-              </div>
-              <input type="hidden" id="o_rec_msg" name="o_rec_msg" value="">
-            </div>
-            
-            <p><p><hr><p><p>
-            
-            <h5 class="h5">상품</h5><p>
-				<div class="row">
-				  <div class="col-12">
-				     <div style="border: 1px solid #dfe2e1;
-				     			 border-radius: 0.5rem;
-				     			 padding: 0.55rem 1rem;">
-				     <div>
-				        <!-- card body -->
-				        <div class="card-body">
-				           <div class=" row align-items-center">
-				              <!-- col -->
-				              <div class="col-md-4 col-12">
-				                 <div class="text-center position-relative ">
-				                       <!-- img --><img src="${orderr.nb_image}" alt="${orderr.nb_title}" class="mb-3 img-fluid" style="height: 150px;">
-				                 </div>
-				              </div>
-				              <div class="col-md-8 col-12 flex-grow-1">
-				                 <!-- heading -->
-				                 <h2 class="fs-6">${orderr.nb_title}</h2>
-				                 <div class="text-small mb-1"><small><fmt:formatNumber value="${orderr.o_de_count}" groupingUsed="true"/>개</small></div>
-				              </div>
-				           </div>
-				        </div>
+          <!-- 선물받기 전 -->
+	          <!-- form -->
+	          <form class="row" action="foGettingGiftAction">
+	          
+	            <h5 class="h5">메시지 카드</h5><p>
+				<div class="card">
+				   <img src="../assets/images/gift/giftcard${orderGift.o_gift_card }.png" class="card-img-top" alt="card" style="margin-top: 17px;">
+				     <div class="card-body">
+				       <h5 class="card-title">${orderGift.o_gift_msg }</h5>
 				     </div>
-				     </div>
-				  </div>
 				</div>
-            	
-            <p><p><p><p><p><p>
-            	
-            <div class="d-grid gap-2">
-	            <input class="btn btn-primary" type="submit" value="선물받기">
-            </div>
-<!-- hidden value -->
-<input type="hidden" name="o_order_num" value="${orderr.o_order_num }"> 
-<input type="hidden" name="m_name" value="${orderr.m_name }"> 
-<input type="hidden" name="m_ph" value="${orderr.m_ph }"> 
-<input type="hidden" name="nb_title" value="${orderr.nb_title }"> 
-<input type="hidden" name="o_de_count" value="${orderr.o_de_count }"> 
-          </form>
+	            
+	            <p><p><hr><p><p>
+	               
+	            <h5 class="h5">보내는 사람</h5><p>
+	              <!-- input -->
+	            <div class="col-md-12 mb-3">
+	              <label class="form-label">이름</label>
+	              <h6 class="h6">${orderr.m_name }</h6>
+	            </div>
+	            <div class="col-md-12 mb-3">
+	              <!-- input -->
+	              <label class="form-label">휴대전화</label>
+	              <h6 class="h6">${orderr.m_ph }</h6>
+	            </div>
+	            
+	            <p><p><hr><p><p>
+	            
+	            <h5 class="h5">받는 사람
+	            	<span style="width: 10px;" class="badge bg-secondary" data-bs-toggle="tooltip" data-placement="right" title="보낸 사람이 입력한 정보를 확인 또는 수정해주세요. 주소는 새로 입력해주세요."> ? </span>
+	            </h5><p>
+	              <!-- input -->
+	            <div class="col-md-12 mb-3">
+	              <label class="form-label" for="o_rec_name">이름<span class="text-danger">*</span></label>
+	              <input type="text" id="o_rec_name" class="form-control" name="o_rec_name" value="${orderr.o_rec_name }" required>
+	            </div>
+	            <div class="col-md-12 mb-3">
+	              <label class="form-label" for="o_rec_mail">이메일<span class="text-danger">*</span></label>
+	              <input type="text" id="o_rec_mail" class="form-control" name="o_rec_mail" value="${orderr.o_rec_mail }" required>
+	            </div>
+	            <div class="col-md-12 mb-3">
+	              <!-- input -->
+	              <label class="form-label" for="o_rec_ph">휴대전화<span class="text-danger">*</span></label>
+	              <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control" value="${orderr.o_rec_ph }" required>
+	            </div>
+	            <div class="col-md-6 mb-3">
+	              <!-- input -->
+	              <label class="form-label" for="o_rec_addr">주소<span class="text-danger">*</span></label>
+	              <input type="text" id="sample6_postcode"  name="o_rec_addr1" class="form-control" placeholder="우편번호">
+	              <label class="form-label">
+	              	<input type="button" class="form-control" onclick="execDaumPostcode()" value="우편번호 찾기" style="background-color: lightgray;">
+	              </label>
+	              <input type="text" id="sample6_address" name="o_rec_addr2" class="form-control" placeholder="주소">
+	              <input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" readonly>
+	              <input type="text" id="sample6_detailAddress" name="o_rec_addr3" class="form-control" placeholder="상세주소" required="required">
+	            </div>
+	            <div class="col-md-12 mb-3">
+	              <label class="form-label" for="o_rec_msg">배송 메시지<span class="text-danger">*</span></label>
+	              <div class="mb-3">
+					  <select class="form-select" id="selectedMsg" onchange="msgCombo()">
+					    <option selected>-- 선택 --</option>
+					    <option value="배송 전에 미리 연락바랍니다.">배송 전에 미리 연락바랍니다.</option>
+					    <option value="부재 시 경비실에 맡겨주세요.">부재 시 경비실에 맡겨주세요.</option>
+					    <option value="부재 시 문 앞에 놓아주세요.">부재 시 문 앞에 놓아주세요.</option>
+					    <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
+					    <option value="택배함에 보관해 주세요.">택배함에 보관해 주세요.</option>
+					    <option value="직접 입력">직접 입력</option>
+					  </select>
+	              </div>
+	              <div class="mb-3">
+					  <div class="ec-shippingInfo-omessageInput gBlank10" id="writedMsgDiv" style="display:none;">
+					    <textarea class="form-control" id="writedMsg" fw-filter="" fw-label="배송 메시지" fw-msg="" maxlength="30" cols="50" rows="1" onchange="msgDirect()"></textarea>
+					  </div>
+	              </div>
+	              <input type="hidden" id="o_rec_msg" name="o_rec_msg" value="">
+	            </div>
+	            
+	            <p><p><hr><p><p>
+	            
+	            <h5 class="h5">상품</h5><p>
+					<div class="row">
+					  <div class="col-12">
+					     <div style="border: 1px solid #dfe2e1;
+					     			 border-radius: 0.5rem;
+					     			 padding: 0.55rem 1rem;">
+					     <div>
+					        <!-- card body -->
+					        <div class="card-body">
+					           <div class=" row align-items-center">
+					              <!-- col -->
+					              <div class="col-md-4 col-12">
+					                 <div class="text-center position-relative ">
+					                       <!-- img --><img src="${orderr.nb_image}" alt="${orderr.nb_title}" class="mb-3 img-fluid" style="height: 150px;">
+					                 </div>
+					              </div>
+					              <div class="col-md-8 col-12 flex-grow-1">
+					                 <!-- heading -->
+					                 <h2 class="fs-6">${orderr.nb_title}</h2>
+					                 <div class="text-small mb-1"><small><fmt:formatNumber value="${orderr.o_de_count}" groupingUsed="true"/>개</small></div>
+					              </div>
+					           </div>
+					        </div>
+					     </div>
+					     </div>
+					  </div>
+					</div>
+	            	
+	            <p><p><p><p><p><p>
+	            	
+	            <div class="d-grid gap-2">
+		            <input class="btn btn-primary" type="submit" value="선물받기">
+	            </div>
+	<!-- hidden value -->
+	<input type="hidden" name="o_order_num" value="${orderr.o_order_num }"> 
+	<input type="hidden" name="m_name" value="${orderr.m_name }"> 
+	<input type="hidden" name="m_ph" value="${orderr.m_ph }"> 
+	<input type="hidden" name="nb_title" value="${orderr.nb_title }"> 
+	<input type="hidden" name="o_de_count" value="${orderr.o_de_count }"> 
+	          </form>
         </div>
       </div>
     </div>
