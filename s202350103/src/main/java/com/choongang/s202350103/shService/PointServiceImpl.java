@@ -225,7 +225,7 @@ public class PointServiceImpl implements PointService {
 		int result = ad.updateAttendance(attendance);
 		return result;
 	}
-
+	
 	@Override
 	public List<Attendance> searchEvent(Attendance attendance) {
 		System.out.println("PointService searchEvent() Start..");

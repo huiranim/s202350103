@@ -5,6 +5,7 @@ import java.util.List;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
@@ -52,6 +53,10 @@ public interface MemberService {
 	int 			comListTotalCnt(Community community);
 
 	int 			communityInsert(Community community);
+
+	List<NewBook>	searchListBook(NewBook newbook);
+
+	int 			searchBookCnt(NewBook newbook);
 
 
 

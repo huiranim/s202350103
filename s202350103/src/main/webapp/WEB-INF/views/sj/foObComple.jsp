@@ -13,6 +13,12 @@
 <body>
 
 <p class="text-center fs-1 ">중고 도서 판매 신청완료
+				<div class="text-center  position-relative ">
+	<img src="assets/images/png/comple.png" alt="판매신청"
+                      class="mb-3 img-fluid">
+	
+	</div>
+			
 			<br><br>
 			<br>
 			<br>
