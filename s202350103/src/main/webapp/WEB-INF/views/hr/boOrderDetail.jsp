@@ -141,6 +141,9 @@
       <div>
          <!-- table -->
            <!-- Button -->
+           <input type="button" class="btn btn-secondary mb-2" value="목록가기"
+              	  onclick="location.href='boOrderList?currentPage=${currentPage }'"
+              	  style="float: right">
            <div class="order-operating-buttons">
               <input type="button" class="btn btn-success mb-2" value="발송"    onclick="statusShipping(${orderr.o_order_num})">
               <input type="button" class="btn btn-success mb-2" value="배송완료" onclick="statusDelivered(${orderr.o_order_num})">
@@ -266,9 +269,6 @@
             </tr>
             </table>
          </div>
-         <!-- 목록 버튼 -->
-         <!-- <input type="button" value="목록" class="btn btn-secondary mb-2"
-         		onclick="location.href='/boOrderList'"> -->
  </div>
  </div>
  </div>

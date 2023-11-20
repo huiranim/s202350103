@@ -140,12 +140,16 @@
 	 </insert>
 	 <update id="hrUpdateMemberP" parameterType="Orderr">
 	 	UPDATE member
-		SET m_point = m_point + (#{o_pay_price} * 0.01)
+		SET m_point = m_point + (#{o_pay_price} * 0.01) - #{o_point}
 		WHERE m_num = #{m_num}
 	 </update>
-	 <insert id="hrInsertPointListG" parameterType="Orderr">
+	 <insert id="hrInsertPointListG1" parameterType="Orderr">
 	 	INSERT INTO point_list
 	 	VALUES(POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 1, (#{o_pay_price} * 0.01))
+	 </insert>
+	 <insert id="hrInsertPointListG2" parameterType="Orderr">
+	 	INSERT INTO point_list
+	 	VALUES(POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 6, (-1) * #{o_point})
 	 </insert>
 	 
 <!-- FO 선물받기 - 화면
