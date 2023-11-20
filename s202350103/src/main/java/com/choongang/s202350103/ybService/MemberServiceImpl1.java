@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
@@ -219,6 +220,22 @@ public class MemberServiceImpl1 implements MemberService {
 		System.out.println("MemberServiceImpl1 communityInsert start...");
 		int communityInsert = md.communityInsert(community);
 		return communityInsert;
+	}
+	// 커뮤니티 책 검색
+	@Override
+	public List<NewBook> searchListBook(NewBook newbook) {
+		System.out.println("MemberServiceImpl1 searchListBook start...");
+		List<NewBook> searchListBook = md.searchListBook(newbook);
+		System.out.println("MemberServiceImpl1 searchListBook searchBookList.size() -> " + searchListBook.size());
+		return searchListBook;
+	}
+	// 검색 책 갯수
+	@Override
+	public int searchBookCnt(NewBook newbook) {
+		System.out.println("MemberServiceImpl1 searchBookCnt start...");
+		int searchBookCnt = md.searchBookCnt(newbook);
+		System.out.println("MemberServiceImpl1 searchBookCnt searchBookCnt -> " + searchBookCnt);
+		return searchBookCnt;
 	}
 
 	
