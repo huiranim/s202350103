@@ -105,7 +105,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
 		System.out.println("AttendanceDao boEventList() Start..");
 		List<Attendance> attendanceList = null;
 		try {
-			attendanceList = session.selectList("shBoEventList");
+			attendanceList = session.selectList("shBoEventList",attendance);
 		} catch (Exception e) {
 			System.out.println("AttendanceDao boEventList() Exception ->"+e.getMessage());
 		}
@@ -123,7 +123,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
 		}
 		return result;
 	}
-
+	
 	@Override
 	public List<Attendance> searchEvent(Attendance attendance) {
 		System.out.println("AttendanceDao searchEvent() Start..");
