@@ -13,5 +13,6 @@ public interface PointListDao {
 	int 			boInsertPlusPoint(Member member);
 	int 			boInsertMinusPoint(Member member);
 	int 			boUpdateMinusPoint(Member member);
+	List<PointList> boJoinedMember(int eNum);
 
 }

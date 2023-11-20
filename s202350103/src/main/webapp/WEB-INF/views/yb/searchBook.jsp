@@ -116,30 +116,27 @@
 			         </table>
 			    </div>
 			    
-<%-- 		          <c:forEach var="book" items="${searchListBook }" varStatus="status">    --%>
-<%-- 		            <ul id="cart${status.index }" class="list-group list-group-flush"> --%>
-<!-- 		             <li class="list-group-item py-3 py-lg-0 px-0 border-top">   -->
-		              
-<!-- 		             	<div class="col-3 col-md-2"> -->
-<%-- 		                	<c:choose> --%>
-<%-- 	                           <c:when test="${fn:contains(book.nb_image, 'http')}"> --%>
-<%-- 	                              <img src="${book.nb_image}" alt="Ecommerce"  width="75px" height="110px"> --%>
-<%-- 	                           </c:when> --%>
-<%-- 	                           <c:otherwise> --%>
-<%-- 	                              <img src="${pageContext.request.contextPath}/upload/${book.nb_image}" alt="Ecommerce"  width="75px" height="110px"> --%>
-<%-- 	                           </c:otherwise> --%>
-<%--                         	</c:choose> --%>
-<!-- 		                </div> -->
-<!-- 		  				<div class="col-4 col-md-5"> -->
-<!-- 		                    도서 제목 -->
-<%-- 		                    <a href="newbookDetail?nb_num=${book.nb_num }" class="text-inherit"><h6 class="mb-0">${book.nb_title }</h6></a> --%>
-<%-- 		                    <span><small class="text-muted">${book.nb_publisher }</small></span> --%>
-<!-- 		                    text -->
-<%-- 		                    <span class="text-muted">${book.nb_writer }</span></div> --%>
-<!-- 		                 </div> -->
-<!-- 						</li> 	 -->
-<!-- 					  </ul> -->
-<%-- 		             </c:forEach>     --%>
+				<nav aria-label="Page navigation example">
+				  <ul class="pagination justify-content-center">
+		
+					 	<c:if test="${page.startPage > page.pageBlock }">
+							 <li class="page-item justify-content-center">					
+								<a class="page-link mx-1 text-body" href="searchBook?currentPage=${page.startPage-page.pageBlock}">이전</a>
+							</li>
+						</c:if>
+		 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+							 <li class="page-item justify-content-center">
+		 						<a class="page-link mx-1 text-body" href="searchBook?currentPage=${i}">${i}</a>
+							</li>
+						</c:forEach>
+							
+						<c:if test="${page.endPage < page.totalPage }">
+							 <li class="page-item justify-content-center">		 
+								<a class="page-link mx-1 text-body" href="searchBook?currentPage=${page.startPage+page.pageBlock}">다음</a>
+							</li>
+						</c:if>
+				    </ul>
+			     </nav>
 
 	          </div>
 

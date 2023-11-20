@@ -7,6 +7,7 @@
 <head>
 <meta charset="utf-8">
   <title>DADOK</title>
+
 </head>
 <body>
 
@@ -15,28 +16,42 @@
     <section class="mt-8">
       <div class="container">
         <div class="hero-slider ">
+
+		<div
+            style="background: url(../assets/images/slider/mainEx1.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+            <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
+              <span class="badge text-bg-info">타이틀</span>
+
+              <h2 class="text-dark display-6 fw-bold mt-4">배너 내용 </h2>
+              <p class="lead">소제목 </p>
+              <a href="#!" class="btn btn-dark mt-3">버튼 <i class="feather-icon icon-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+          
+          
           <div
-            style="background: url(./assets/images/slider/mainEx1.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+            style="background: url(../assets/images/slider/quiz.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
             <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-              <span class="badge text-bg-warning">메인 광고1</span>
+              <span class="badge text-bg-info">퀴즈 이벤트</span>
 
-              <h2 class="text-dark display-6 fw-bold mt-4">메인 슬라이드 광고 1 </h2>
-              <p class="lead">이벤트 광고 입니다</p>
-              <a href="#!" class="btn btn-dark mt-3">출석체크 하러가기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
+              <h2 class="text-dark display-6 fw-bold mt-4">퀴즈 풀고 ! <br> <span style="color: #fff3cd;">포인트도 받고 !</span></h2>
+              <p class="lead">정답을 맞춰보세요</p>
+              <a href="eventList" class="btn btn-dark mt-3">퀴즈 풀러가기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
             </div>
           </div>
-
-          <div class=" "
-            style="background: url(./assets/images/slider/mainEx2.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
-            <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-              <span class="badge text-bg-warning">메인 광고 2</span>
-              <h2 class="text-dark display-6 fw-bold mt-4">메인광고 2 <br> 메인광고 입니다 <span
-                  class="text-primary">우최3</span></h2>
-              <p class="lead">광고 설명
-              </p>
-              <a href="#!" class="btn btn-dark mt-3">바로가기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
-            </div>
-          </div>
+			
+         <div class="position-relative"
+		  style="background: url(./assets/images/slider/attendanceEvent.png) no-repeat,
+		  url('../assets/images/slider/mainEx2.png') no-repeat;
+		  background-size:70%, 100%; border-radius: .5rem; background-position: center;">
+		  <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
+		    <span class="badge text-bg-warning">출석 이벤트</span>
+		    <h2 class="text-dark display-6 fw-bold mt-4"><span style="color:#198754;">출석</span> 하고<br>포인트 적립받자!</h2>
+		    <p class="lead" style="font-weight: bold;">3일 연속 출석 시 <span style="color: #016bf8;">추가 포인트 적립 !</span>
+		    </p>
+		    <a href="eventList" class="btn btn-dark mt-3">출석체크 하러가기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
+		  </div>
+		</div>
           
             <div class=" "
             style="background: url(./assets/images/slider/memberQnAImage.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
@@ -49,6 +64,17 @@
             </div>
           </div>
           
+		 <div class=" "
+            style="background: url(./assets/images/slider/dadokMain.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+         <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
+              <span class="badge bg-light-primary text-dark-primary">DADOK</span>
+              <h2 class="text-dark display-7 fw-bold mt-4 text-white">소중한 사람에게 <p>책 선물 어떠세요?</h2>
+              <p class="lead">DADOK 과 함께 <br><span style="color:#198754; font-weight: bold;">행복한<span style="color: #581313;">크리스마스</span>  되세요!</span> 
+              </p>
+              <a href="innewbookList" class="btn btn-dark mt-3">선물고르기<i class="feather-icon icon-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+
           
 
         </div>
@@ -229,12 +255,12 @@
           <div class="col-12 col-md-6 mb-3 mb-lg-0">
             <div>
               <div class="py-10 px-8 rounded"
-                style="background:url(./assets/images/banner/grocery-banner.png)no-repeat; background-size: cover; background-position: center;">
+                style="background:url(./assets/images/banner/event.png)no-repeat; background-size: cover; background-position: center;">
                 <div>
-                  <h3 class="fw-bold mb-1">이벤트 바로가기
+                  <h3 class="fw-bold mb-1">이벤트 리스트
                   </h3>
-                  <p class="mb-4">내용 1 </p>
-                  <a href="#!" class="btn btn-dark">바로가기</a>
+                  <p class="mb-4">다양한 이벤트에 참여하고<br> <span style="color: #198754;">포인트를 적립</span>하세요. </p>
+                  <a href="eventList" class="btn btn-dark">이벤트 바로가기</a>
                 </div>
               </div>
 
@@ -245,12 +271,12 @@
 
             <div>
               <div class="py-10 px-8 rounded"
-                style="background:url(./assets/images/banner/grocery-banner-2.jpg)no-repeat; background-size: cover; background-position: center;">
+                style="background:url(./assets/images/banner/orderBook.png)no-repeat; background-size: cover; background-position: center;">
                 <div>
                   <h3 class="fw-bold mb-1">중고상품 등록
                   </h3>
-                  <p class="mb-4">내용1 </p>
-                  <a href="#!" class="btn btn-dark">바로가기</a>
+                  <p class="mb-4">다 읽은 책. 버리기 아까우시죠?<br><span style="color: #198754;">DADOK</span>에서 고민 해결하세요!</p>
+                  <a href="writeFormObReport" class="btn btn-dark">중고상품 등록</a>
                 </div>
               </div>
 

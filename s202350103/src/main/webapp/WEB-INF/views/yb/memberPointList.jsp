@@ -15,8 +15,6 @@
 <body>
 <%@ include file="../common/sideFo.jsp" %>
 	  <!-- row -->
-	  <a href="cont">cont</a>
-	  <a href="memberCommunity">커뮤니티</a> 
 		      <div class="row">
 		        <div class="col-lg-12">
 		          <div class="card py-1 border-0 mb-8">
@@ -98,7 +96,27 @@
 		        </div>
 		
 		      </div>
-		
+	  <nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center">
+
+			 	<c:if test="${page.startPage > page.pageBlock }">
+					 <li class="page-item justify-content-center">					
+						<a class="page-link mx-1 text-body" href="memberCommunity?currentPage=${page.startPage-page.pageBlock}">이전</a>
+					</li>
+				</c:if>
+ 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+					 <li class="page-item justify-content-center">
+ 						<a class="page-link mx-1 text-body" href="memberCommunity?currentPage=${i}">${i}</a>
+					</li>
+				</c:forEach>
+					
+				<c:if test="${page.endPage < page.totalPage }">
+					 <li class="page-item justify-content-center">		 
+						<a class="page-link mx-1 text-body" href="memberCommunity?currentPage=${page.startPage+page.pageBlock}">다음</a>
+					</li>
+				</c:if>
+		  </ul>
+	   </nav>
 		
 		
 		    </div>
