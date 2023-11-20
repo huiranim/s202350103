@@ -76,7 +76,7 @@
 
 <body>
 <form action="" method="post" class="col-lg-12 d-block">
-<p class="fs-1 text-center">중고 검수 상세 내역 관리자 페이지</p>
+<p class="fs-1 text-center">중고 검수 상세 내역</p>
 
 <input type="hidden" name="ob_num" value="${oldBook.ob_num }">
 
@@ -175,7 +175,7 @@
 	</table>
 	</form>		
 			 <div class="d-grid gap-2">
-		    <button class="btn btn-dark" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
+		    <button class="btn btn-success" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
 		</div>
    
 

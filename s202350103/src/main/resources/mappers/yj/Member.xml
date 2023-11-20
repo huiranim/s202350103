@@ -308,8 +308,21 @@
 		select m_addr from member where m_num = #{m_num}
 	
 	</select>
-		
 	
+	<select id="nomalMember" resultType="int">
+		select count(*) from member where m_admin = 0
+	</select>	
 	
+	<select id="adminMember" resultType="int">
+		select count(*) from member where m_admin = 1
+	</select>
+	
+	<select id="activeMember" resultType="int">
+		select count(*) from member where m_wd = 0
+	</select>
+	
+	<select id="wdMember" resultType="int">
+		select count(*) from member where m_wd = 1
+	</select>
 	
 </mapper>
