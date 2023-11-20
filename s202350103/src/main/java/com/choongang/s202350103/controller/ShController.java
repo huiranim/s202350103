@@ -535,4 +535,12 @@ import lombok.extern.slf4j.Slf4j;
 			ps.boUpdateMinusPoint(member);
 			return "redirect:/selectMemberPoint?m_num="+m_num;
 		}
+		
+		@RequestMapping(value = "boJoinedMember")
+		public String boJoinedMember(@RequestParam("eNum") int eNum, Model model) {
+			System.out.println("shController boMinusPoint() Start...");
+			List<PointList> pointList = ps.boJoinedMember(eNum);
+			model.addAttribute("pointList",pointList);
+			return "sh/boJoinedMember";
+		}
 }

@@ -49,7 +49,7 @@
 			<td>${event.a_edate }</td>
 			<td>${event.a_point }</td>
 			<td>${event.a_add }</td>
-			<td><input type="button" value="상세정보" onclick="openPopUp(${event.a_num })"></td>
+			<td><input type="button" value="수정" onclick="openPopUp(${event.a_num})"><input type="button" value="조회" onclick="openDetail(${event.a_num})"> </td>
 		</tr>
 	</c:forEach>
   </tbody>
@@ -74,7 +74,11 @@
 	</div>
 <script type="text/javascript">
 	function openPopUp(eNum){
-		window.open("boEventDetail?eNum="+eNum,"width=300,height=300");
+		window.open("boEventDetail?eNum="+eNum,"eventUpdate","width=400,height=500");
+	}
+	
+	function openDetail(eNum){
+		window.open("boJoinedMember?eNum="+eNum,"이벤트 상세조회","width=700,height=600");
 	}
 </script>
 

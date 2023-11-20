@@ -25,17 +25,24 @@
 	
 	function minusPoint(){
 		var point = $('#point').val();
-		if(point>0){
-			if(confirm(point+"만큼 차감하시겠습니까?")){
-				alert(point + "포인트 차감 하셨습니다.");
-				location.href="boMinusPoint?m_num="+${m_num}+"&point="+point;
-			}else{
-				alert("포인트 차감을 취소하셨습니다.");
+		var sum = ${sum};
+		alert("sum->"+sum);
+		if(sum >= point){
+			if(point>0){
+				if(confirm(point+"만큼 차감하시겠습니까?")){
+					alert(point + "포인트 차감 하셨습니다.");
+					location.href="boMinusPoint?m_num="+${m_num}+"&point="+point;
+				}else{
+					alert("포인트 차감을 취소하셨습니다.");
+					return false;
+				}
+			} else {
+				alert("포인트를 입력해주세요.");
 				return false;
 			}
-		} else {
-			alert("포인트를 입력해주세요.");
-			return false;
+		}else{
+			alert("보유한 포인트가 부족합니다.");
+			return false
 		}
 	}
 </script>
@@ -71,10 +78,10 @@
 		</c:forEach>
 </table>
 <br>
-	<h3>포인트 수정하기</h3>
+	<h4>관리자 포인트 수정</h4>
 	회원 아이디 : ${member.m_id }<p>
 	회원 이름    :${member.m_name }<p>
-	<input type="text" id="point"><p>
+	<input type="text" id="point" placeholder="숫자만 입력해주세요."><p>
 	<input type="button" onclick="plusPoint()" value="추가하기">	
 	<input type="button" onclick="minusPoint()" value="차감하기">	
 </body>
