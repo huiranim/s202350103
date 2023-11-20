@@ -14,8 +14,6 @@
 		// 클릭한 카테고리명
 		var category2Value = $("#category2").val();
 		var orderTypeValue = $("#orderType").val();
-		alert("검색조건 + 검색어 -> " + '${search_Newbook.search_type}' + "+" + '${search_Newbook.search_keyword}');
-		alert("내가 선택한 카테고리 + 정렬 -> " + category2Value + "+" + orderTypeValue);
 		
 		location.href = "/searchNewbookList?nb_category2="+category2Value +"&orderType="
 				+orderTypeValue+"&search_type="+'${search_Newbook.search_type}'+"&search_keyword="+'${search_Newbook.search_keyword}';
@@ -49,9 +47,14 @@
 </head>
 <body>
 	<p class="fs-4">현재 : ${page.currentPage1 } 페이지</p>
-	<h2>총 개수   : ${search_NewbookCnt }</h2>
-	<h2>검색조건 : ${search_Newbook.search_type }</h2>
-	<h2>키워드    : ${search_Newbook.search_keyword }</h2>
+	<h2>
+		<c:choose>
+			<c:when test="${search_Newbook.search_type eq 'title'}">도서제목 : </c:when>
+			<c:when test="${search_Newbook.search_type eq 'writer'}">지은이 : </c:when>
+			<c:when test="${search_Newbook.search_type eq 'publisher'}">출판사 : </c:when>
+		</c:choose>
+		'${search_Newbook.search_keyword }'에 대한 ${search_NewbookCnt }개의 검색 결과
+	</h2>
 	<!-- 정렬조건 및 카테고리 검색 -->
 	<div class="row py-5 mb-3" style="background-color: #EBEBEB">
 	 <div class="col-12">

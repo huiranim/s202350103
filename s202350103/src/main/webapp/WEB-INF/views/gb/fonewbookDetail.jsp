@@ -29,7 +29,7 @@
    // 동일한 중고 상품 리스트
    function oldbookList() {
       var pNb_num = '${newbook.nb_num}' ;
-      alert("현재 도서 번호는 -> "+pNb_num);
+      // alert("현재 도서 번호는 -> "+pNb_num);
        
       $.ajax({
                url : "/sameOldBookList", 
@@ -77,7 +77,7 @@
    
    // 찜하기
    function wishlist(pNb_num) {
-      alert("pNb_num ->"+pNb_num);
+      // alert("pNb_num ->"+pNb_num);
       
       $.ajax({
          url : "/wish/wishclick", 

@@ -694,11 +694,6 @@ public class YbController {
 
 		return "yb/card";
 	}
-	@GetMapping(value = "modal")
-	public String modal() {
-
-		return "yb/modal";
-	}
 	
 	@GetMapping(value = "writeForm")
 	   public String writeForm(Member member, Model model) {
