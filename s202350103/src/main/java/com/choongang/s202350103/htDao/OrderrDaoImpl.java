@@ -92,12 +92,21 @@ public class OrderrDaoImpl implements OrderrDao {
 			// orderDetail insert
 			int od_result = session.insert("htOrderDetailInsert", params);
 			System.out.println("Dao htOrderInsert od_result--->" + od_result);
-			System.out.println("orderr.getTotalPrice()--> " + orderr.getTotalPrice());
+			System.out.println("orderr.getO_pay_price()--> " + orderr.getO_pay_price());
 			System.out.println("orderr.getM_num()--> " + orderr.getM_num());
 			
 			// member 포인트 update
 			int update_result = session.update("htMemberPointUpdate", orderr);
 			System.out.println("Dao htOrderInsert update_result--->" + update_result);
+			
+			// 포인트 이력 insert
+			int point_insert_result = session.insert("htPointInsert", orderr);
+			System.out.println("Dao htOrderInsert point_insert_result--->" + point_insert_result);
+			
+			// 장바구니 삭제
+			int cart_delete_result = session.delete("htCartDelete",orderr);
+			System.out.println("Dao htOrderInsert cart_delete_result--->" + cart_delete_result);
+			
 			
 			//commit
 			transactionManager.commit(txStatus);

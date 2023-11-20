@@ -306,11 +306,9 @@
         			<input type="hidden" name="nb_num" value="${book.nb_num}">
         		</c:forEach>
         		<input type="hidden" name="paymentType" value="${paymentType}">
-        		<input type="hidden" name="totalPrice" value="${cart.totalPrice}">
         	</c:if>
         	<c:if test="${paymentType == 2}">
         		<input type="hidden" name="paymentType" value="${paymentType}">
-        		<input type="hidden" name="totalPrice" value="${cart.totalPrice}">
         	</c:if>
         	
           	<div class="mb-3">
@@ -455,6 +453,7 @@
             				</span> 원
             			</td>
             		</tr>
+            		
             		<tr height="40px">
             			<td class="form-label" width="70%">적립 혜택</td>
             			<td class="h6" width="30%" align="right">

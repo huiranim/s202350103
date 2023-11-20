@@ -58,13 +58,23 @@
 	<update id="htMemberPointUpdate" parameterType="Orderr">
 		UPDATE member a
 		SET    a.m_point  = (
-			                 SELECT (aa.m_point + (#{totalPrice}*0.01))
+			                 SELECT (aa.m_point + (#{o_pay_price}*0.01) - #{o_point})
 			                 FROM   member aa 
 			                 WHERE  aa.m_num = #{m_num}
 			                 )
 		 WHERE a.m_num = #{m_num}
 	</update>
 	
+	<insert id="htPointInsert" parameterType="Orderr">
+		INSERT INTO point_list
+		VALUES (POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 1, (#{o_pay_price} * 0.01))
+	</insert>
+	
+	<delete id="htCartDelete">
+		DELETE 
+		FROM   cart
+		WHERE  m_num = #{m_num}
+	</delete>
 	
 		
 </mapper>

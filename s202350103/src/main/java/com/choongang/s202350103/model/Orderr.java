@@ -44,7 +44,6 @@ public class Orderr {				// 주문
 	private int    o_re_deli;		// 반품 택배사
 	private int    o_re_track;		// 반품 송장번호
 	private String nb_image;		// 책 이미지
-	private int    totalPrice;      // 총 결제 금액
 	
 	
 
