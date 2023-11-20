@@ -18,7 +18,7 @@
 			} */
 			
 			function toggleChk(selectchk) {
-				alert("toggleOb_ripped start...");
+			/* 	alert("toggleOb_ripped start..."); */
 				var	 chk;
 				// checkbox 1일때에 선택 
 				if (selectchk == 1)	 {
@@ -44,15 +44,15 @@
 			    var num1 = $("#chk1").val();
 			    var num2 = $("#chk2").val();
 			    var num3 = $("#chk3").val();
-			    alert ("num1->"+num1);
+			/*     alert ("num1->"+num1);
 			    alert ("num2->"+num2);
-			    alert ("num3->"+num3);
+			    alert ("num3->"+num3); */
 			    var totalNum = parseInt(num1)+parseInt(num2)+parseInt(num3);
 			    var totalNumStr = parseInt(totalNum); 
 				var totalCalculVal =parseInt(totalCalculVal);  // 중고 등급에 따른 곱셈값 
-			
+			/* 
 			    alert ("totalNumStr->"+totalNumStr);
-			    
+			     */
 	/* 	  		  //무조건 적인 리턴 
 				//    0          0 , 1, ,2,3
 			    var num4 = $("#totalSum6").val();
@@ -73,10 +73,10 @@
 			    $("#totalCalcul3").val(totalCal3);
 			    $("#totalCalcul4").val(totalCal4);
 			   
-			    alert ("totalCal1->"+totalCal1);
+			 /*    alert ("totalCal1->"+totalCal1);
 			    alert ("totalCal2->"+totalCal2);
 			    alert ("totalCal3->"+totalCal3);
-			    alert ("totalCal4->"+totalCal4);
+			    alert ("totalCal4->"+totalCal4); */
 			    //                 checkbox()
 			    $("#totalSum").val(totalNum);
 			    
@@ -131,13 +131,14 @@
 </head>
 <body>
 
-	<form action="updateOb" method="post">
+	<form action="updateOb" method="post" class="col-xl-8 col-lg-8 col-md-8 col-8 mb-6" style="margin-left: auto; margin-right: auto;">
 	<p class="fs-1 text-center">중고 검수 등록 </p>
 	
 	<input type="hidden" name="ob_report_date" value="${oldBook.ob_report_date }">
-	<table class="table table-bordered">
+	
+	<table class="table table-bordered col-8 text-center">
 		    <tr>
-			      <td scope="col">신청 일자</td>
+			      <td scope="col" class="col-2">신청 일자</td>
 			      <td scope="col" colspan="2">${oldBook.ob_report_date }</td> 
 		    </tr>
 		     <tr>
@@ -245,13 +246,12 @@
 			 	<div class="d-grid gap-2">
 				    <button class="btn btn-success" id="target_btn" type="submit" disabled="disabled"  >등록하기</button>
 				</div>
-		</form>
-		
-		 	<br> 
+		<br> 
 		        <div class="d-grid gap-2">
 				    <button class="btn btn-success" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
 			</div>
    
+		</form>
 
 
 </body>
