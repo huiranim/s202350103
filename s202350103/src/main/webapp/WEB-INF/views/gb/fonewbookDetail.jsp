@@ -5,7 +5,17 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>Insert title here</title>
+<title>도서 상세페이지</title>
+
+<style type="text/css">
+	.link-icon.kakao { 
+		background-image: url(../assets/images/icons/icon-kakao.png); 
+		background-repeat: no-repeat;
+		height : 30px;
+		width : 30px; 
+	}
+</style>
+
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
    function oldbookList() {
@@ -80,6 +90,11 @@
          });
    }
    
+   // 선물하기
+   function gift(pNb_num){
+	   alert("nb_num : "+pNb_num);
+   }
+   
    function cart(pNb_num) {
       var m_num = '${member.m_num}';
       var pC_count = $("#c_count").val();
@@ -133,8 +148,7 @@
             document.getElementById("reviewList").focus();
             location.href="newbookDetail?"+sendData;
        });
-   }) 
-   
+   });
 
 </script>
 </head>
@@ -247,20 +261,26 @@
                 <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
               <div class="g-2 align-items-center">
                  <div style="margin-left: 15px;">
-                    <!-- 구매 버튼 -->
-                    <input type="submit" value="선물하기" class="btn btn-warning" onclick="javascript: form.action='/foGivingGift';"><i class="feather-icon icon-shopping-bag me-2"></i>
+                    <!-- 선물하기 -->
+                    <!-- <input type="submit" value="선물하기" class="btn btn-warning" onclick="javascript: form.action='/foGivingGift';">
+                    	 <i class="feather-icon icon-shopping-bag me-2"></i> -->
+                    <button type="button" class="btn btn-secondary" onclick="gift(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>선물하기</button>
+					
+					<!-- 장바구니 -->
                     <button type="button" class="btn btn-secondary" onclick="cart(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
-                     <!-- <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button> -->
-                     <a href="orderForm?nb_num=${newbook.nb_num }&paymentType=1" class="btn btn-primary ">
+                     
+					<!-- 바로구매 -->
+					<!-- <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button> -->
+					<a href="orderForm?nb_num=${newbook.nb_num }&paymentType=1" class="btn btn-primary ">
 		                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
 		                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
 		                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
 			                  	   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
 			                  	   <line x1="3" y1="6" x2="21" y2="6"></line>
 			                       <path d="M16 10a4 4 0 0 1-8 0"></path>
-		                 	   </svg>
+		                  	   </svg>
 		                  		바로구매
-		                       </a>
+					</a>
                     <!-- 찜하기 버튼 -->   
                         <c:choose>
                             <c:when test="${newbook.w_wish == 0}">
@@ -274,6 +294,23 @@
                                <i id="wishbtn" class="bi bi-heart-fill" style="color:red;"></i></a>
                          </c:when>
                        </c:choose>
+		                <a class="btn btn-icon btn-sm btn-outline-gray-400 text-muted dropdown-toggle" href="#" role="button"
+		                  data-bs-toggle="dropdown" aria-expanded="false">
+		                  <i class="bi bi-arrow-left-right"></i>
+		                </a>
+		
+		                <ul class="dropdown-menu" >
+		                  <li><a class="dropdown-item" href="#">
+		                  	<img alt="" src="../assets/images/icons/icon-kakao.png" style="height: 25px;">&nbsp; 카카오톡</a>
+		                  </li>
+		                  <li><a class="dropdown-item" href="#">
+		                  	<img alt="" src="../assets/images/icons/icon-email2.png" style="height: 25px;">&nbsp; 이메일</a>
+		                  </li>
+		                  <li><a class="dropdown-item" href="#">
+		                  	<img alt="" src="../assets/images/icons/icon-url.png" style="height: 25px;">&nbsp; URL복사</a>
+		                  </li>
+		                </ul>
+		              </div>
                  </div>
                </div>
             </div>

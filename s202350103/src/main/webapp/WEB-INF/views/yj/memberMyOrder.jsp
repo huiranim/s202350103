@@ -34,6 +34,7 @@ function cart(pNb_num) {
 </script>
 
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
@@ -58,26 +59,81 @@ function cart(pNb_num) {
 				<c:set var="firstOrder" value="${orderNumGroups[orderNum][0] }" />
     			<c:set var="orderDate" value="${firstOrder.o_order_date }" />
 				
-				<h4 class="mb-1"><a href="#" class="link-success">
+				
+				<h4 class="mb-2"><a href="#" class="link-success">
 					<fmt:formatDate value="${orderDate }" pattern="yyy. MM. dd "/>
-					&nbsp; 주문		  
-				</a></h4>
+					&nbsp; 주문 - &nbsp;
+					</a>
+						 <c:choose>
+                       	    <c:when test="${firstOrder.o_status == 0}">
+				               <span>주문접수</span>
+                            </c:when>
+                            
+                     	    <c:when test="${firstOrder.o_status == 1}">
+				               <span>주문확정</span>
+                            </c:when>
+                            
+                            <c:when test="${firstOrder.o_status == 2}">
+                     			<span style="color: red;">배송중</span>
+                            </c:when>
+                            
+                            <c:when test="${firstOrder.o_status == 3}">
+				               <span>배송완료</span>
+                            </c:when>
+                            
+                            <c:when test="${firstOrder.o_status == 4}">
+				               <span>구매확정</span>
+                            </c:when>
+                            
+                            <c:when test="${firstOrder.o_status == 5}">
+				               <span style="color: gray;">취소</span>
+                            </c:when>
+                            
+                            <c:when test="${firstOrder.o_status == 6}">
+				               <span>교환</span>
+                            </c:when>
+                            
+                            <c:when test="${firstOrder.o_status == 7}">
+                     		   <span>반품</span>
+                            </c:when>
+                        </c:choose>
+					
+					</h4>
+					
+				
 				주문번호 <small style="color: #889397;">${orderNum}</small>
 				
-				
-			  	<span style="float: right; margin-right: 20px; font-weight: bold; color: #044504;" class="mb-3">
-	         	 <a href="#" class="link-success" style="font-size: 14px;">주문상세보기
-	         	 <i class="bi bi-arrow-right-short"></i>
-	         	 </a>
-	    	   </span>
-	    	   
+				<div class="row">
+  				  <div class="col-md-6">
+				 
+		                 <h1 class="fs-5 mt-2 mb-3">
+		                 	
+		                 	 	<span style="color: #581313;">${firstOrder.o_rec_name }</span>
+		                 	/  <span style="color: #db3030;">결제금액 : 
+		                 		<fmt:formatNumber value="${firstOrder.o_pay_price }" pattern="#,###"/> 원
+		                 		</span>
+		                 </h1>
+		                 
+	                 </div>
+		                 
+				<div class="col-md-6">
+				  	<span style="float: right; margin-right: 20px; font-weight: bold; color: #044504;" class="mb-3">
+		         	 <a href="foOrderDetail?o_order_num=${orderNum}" class="link-success" style="font-size: 14px;">주문상세보기
+		         	 <i class="bi bi-arrow-right-short"></i>
+		         	 </a>
+		    	   </span>
+	    	   </div>
+	    	  
+	    	   </div>
 	   			  
 	   			  <div style="clear: both;"></div>
-				
-			<c:forEach var="order" items="${orderNumGroups[orderNum] }">
-					
+
 			<!-- 주문정보 -->
 			<div class="card card-product mb-10">
+
+			<c:forEach var="order" items="${orderNumGroups[orderNum] }">
+					
+
 		        <div class="card-body mb-4 row align-items-center">
 
 		              <div class="col-md-4 col-12">
@@ -88,43 +144,7 @@ function cart(pNb_num) {
 		              </div>
 
 		              <div class="col-md-4 col-12">
-		                 
-		                 <h1 class="fs-5">
-							 <c:choose>
-	                       	    <c:when test="${order.o_status == 0}">
-					               <span>주문접수</span>
-	                            </c:when>
-	                            
-	                     	    <c:when test="${order.o_status == 1}">
-					               <span>주문확정</span>
-	                            </c:when>
-	                            
-	                            <c:when test="${order.o_status == 2}">
-	                     			<span style="color: red;">배송중</span>
-	                            </c:when>
-	                            
-	                            <c:when test="${order.o_status == 3}">
-					               <span>배송완료</span>
-	                            </c:when>
-	                            
-	                            <c:when test="${order.o_status == 4}">
-					               <span>구매확정</span>
-	                            </c:when>
-	                            
-	                            <c:when test="${order.o_status == 5}">
-					               <span style="color: gray;">취소</span>
-	                            </c:when>
-	                            
-	                            <c:when test="${order.o_status == 6}">
-					               <span>교환</span>
-	                            </c:when>
-	                            
-	                            <c:when test="${order.o_status == 7}">
-	                     		   <span>반품</span>
-	                            </c:when>
-	                        </c:choose>
-		                 </h1>
-		                 
+		                
 		                 <div class="text-small mb-1"><small>
 		                 ${order.nb_writer }
 		                 </small>
@@ -136,23 +156,24 @@ function cart(pNb_num) {
 		                 
 		                 <div class=" mt-3">
 		                    <div><span class="text-dark">
-		                    <fmt:formatNumber value="${order.o_pay_price }" pattern="#,###" />원
+		                    <fmt:formatNumber value="${order.nb_price }" pattern="#,###" />원 / ${order.o_de_count  } 권
 		                    </span> 
 		                    </div>
 
 						 <div class=" mt-3">
 		                    <div>
 		                    
-		                   <h2 class="fs-5" style="color:#581313;">
-								${order.o_rec_name }
-			                 </h2>
+		                     <h3 class="fs-6" style="color:#889397;">
+		                    <fmt:formatNumber value="${order.nb_price * order.o_de_count }" pattern="#,###" /> 원 
+			                 </h3>
+		                    
 			                
 			                 </div>
 		                 </div>
 		              	</div>
 		           </div>
 		           
-                       <div class="col-md-1 col-1 d-flex" style="height: 200px; color : #dfe2e1;">
+                       <div class="col-md-1 col-1 d-none d-lg-flex" style="height: 200px; color : #dfe2e1;">
 						   <div class="vr"></div><p>
 		                 </div>
 						
@@ -168,15 +189,15 @@ function cart(pNb_num) {
 							 	 <button onclick="cart(${order.nb_num })" class="btn btn-soft-primary mt-2">
 		                    		장바구니 
 			                    </button><p>
-							 	<a href="foOrderDetail?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-2">상세보기</a>
                             	<a href="reviewForm?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-2">리뷰작성</a>
 								
 								</c:when>
 								
 								<c:otherwise>
 
-								<span style="color: #0aad0a; font-weight: bold;">해당 도서는<br> 중고상품 입니다.</span>
-							 	<a href="foOrderDetail?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-3">상세보기</a>
+								<span style="color: #0aad0a; font-weight: bold;">중고도서는 <br>
+								<span style="color: #198754;">장바구니,리뷰작성</span><br>
+								불가합니다.</span>
 								
 								</c:otherwise>								
 
@@ -186,37 +207,31 @@ function cart(pNb_num) {
 						 
 						 </div>
 		                   
-		                 
-					    
-	      		  
-	      		  
-				</div> 
+						</div> 
 		           			
-		           			
-			</div>
+				</c:forEach>
+				
+					</div>
+					
 			</c:forEach>
-		</c:forEach>
 
-       </div>
-    </div>
-
-
-
-
+     	  </div>
+   		 </div>
 
 	 </div>
+
   <p></p>
 
 <nav aria-label="Page navigation example">
 	  <ul class="pagination justify-content-center">
 		    <li class="page-item disabled">
-		      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+		      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전</a>
 		    </li>
 		    <li class="page-item"><a class="page-link" href="#">1</a></li>
 		    <li class="page-item"><a class="page-link" href="#">2</a></li>
 		    <li class="page-item"><a class="page-link" href="#">3</a></li>
 		    <li class="page-item">
-	     	 <a class="page-link" href="#">Next</a>
+	     	 <a class="page-link" href="#">다음</a>
 	    </li>
 	  </ul>
 	</nav>

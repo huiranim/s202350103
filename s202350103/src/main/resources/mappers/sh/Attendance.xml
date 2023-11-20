@@ -40,19 +40,23 @@
 		Insert into attendance Values (event_num_seq.nextval, #{a_title}, #{a_sdate},#{a_edate},#{a_image},#{a_point},#{a_add},#{a_addpoint})
 	</insert>
 	
-	<select id="shBoEventList" resultType="Attendance">
+	<select id="shBoEventList" parameterType="Attendance" resultType="Attendance">
 	<![CDATA[
-		Select rownum rn, a.* 
+		Select *
 		From
-		 (
-		 Select a_title, a_num, a_sdate, a_edate, a_point, a_add
-		 From attendance
-		 Union
-		 Select q_title, q_num, q_sdate, q_edate, q_point, null As a_add
-		 From Quiz
-		 Order by a_num
-		 ) a
-		Order by rn DESC
+		(
+		 Select rownum rn, a.* 
+		 From
+		  (
+		  Select a_title, a_num, a_sdate, a_edate, a_point, a_add
+		  From attendance
+		  Union
+		  Select q_title, q_num, q_sdate, q_edate, q_point, null As a_add
+		  From Quiz
+		  )a)
+		Where rn >= #{start}
+		And   rn <= #{end}
+		Order by rn ASC
 	]]>
 	</select>
 	
@@ -92,6 +96,7 @@
          and
          a.a_title Like '%#{a_title}%'
 		Order by rn DESC
+		
         ]]>
 	</select>
 	

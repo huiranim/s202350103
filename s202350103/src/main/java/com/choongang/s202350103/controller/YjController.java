@@ -239,6 +239,9 @@ public class YjController {
 		String[] splitPh = member.getM_ph().split("-");
 		String[] splitEmail = member.getM_email().split("@");
 		String[] splitAddr = member.getM_addr().split("/");
+		System.out.println("상세에서 splitEmail -> "+splitEmail[1]);
+		System.out.println("상세에서 email -> "+member.getM_email());
+		
 		
 		model.addAttribute("splitPh",splitPh);
 		model.addAttribute("splitEmail",splitEmail);
@@ -261,7 +264,7 @@ public class YjController {
 								@RequestParam("m_image") String m_image,
 			
 								@RequestParam("m_email1") String m_email1, 
-								@RequestParam("m_email") String m_email, 
+								@RequestParam("m_email2") String m_email2, 
 								
 								@RequestParam("m_ph1") String m_ph1,
 								@RequestParam("m_ph2") String m_ph2,
@@ -276,8 +279,9 @@ public class YjController {
 	
 		System.out.println(m_num);	
 		System.out.println(m_image);
+		System.out.println("m_email2 -> "+m_email2);
 		
-		member.setM_email(m_email1+"@"+m_email);	// 이메일 병합
+		member.setM_email(m_email1+"@"+m_email2);	// 이메일 병합
 		member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
 		member.setM_addr(m_addr1+"/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
 		
@@ -293,11 +297,11 @@ public class YjController {
 		int memberUpdate = ms.memberUpdate(member);
 		model.addAttribute("memberUpdate",memberUpdate);
 		
-		session.invalidate(); // 세션 초기화
 		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
 		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
 		model.addAttribute("recentBookList", recentBookList);
 
+		session.invalidate(); // 세션 초기화
 		
 		return  "redirect:/loginForm";
 	}
@@ -677,7 +681,34 @@ public class YjController {
 	
 	  // 관리자-페이지 이동
 	  @RequestMapping("mainBo")
-	  public String mainBo() {
+	  public String mainBo(Model model) {
+		  // 총 회원
+		  int totalMember = ms.totalMember();
+		  // 일반 회원
+		  int nomalMember = ms.nomalMember();
+		  // 관리자 
+		  int adminMember = ms.adminMember();
+		  // 활동 회원
+		  int activeMember = ms.activeMember();
+		  // 탈퇴 회원
+		  int wdMember = ms.wdMember();
+		  
+		  model.addAttribute("nomalMember",nomalMember);
+		  model.addAttribute("adminMember",adminMember);
+		  model.addAttribute("activeMember",activeMember);
+		  model.addAttribute("wdMember",wdMember);
+
+		  float averNomalMember = ((float)nomalMember / totalMember) * 100;
+		  float averAdminMember = ((float)adminMember / totalMember) * 100;
+		  float averActiveMember = ((float)activeMember / totalMember) * 100;
+		  float averWdMember = ((float)wdMember / totalMember) * 100;
+		  
+		  model.addAttribute("totalMember",totalMember);
+		  model.addAttribute("averNomalMember",averNomalMember);
+		  model.addAttribute("averAdminMember",averAdminMember);
+		  model.addAttribute("averActiveMember",averActiveMember);
+		  model.addAttribute("averWdMember",averWdMember);
+		  
 		  return "common/mainBo";
 	  }
 	  
@@ -1029,6 +1060,7 @@ public class YjController {
 			
 			return m_addr;
 	  }
+	
 	  
 	  
 }

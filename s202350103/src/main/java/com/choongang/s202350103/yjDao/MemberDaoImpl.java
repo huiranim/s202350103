@@ -187,6 +187,31 @@ public class MemberDaoImpl implements MemberDao{
 		String adminAddrSearch = session.selectOne("adminAddrSearch",m_num);
 		return adminAddrSearch;
 	}
+	// 관리자 - 일반 회원 카운트
+	@Override
+	public int nomalMember() {
+		int nomalMember = session.selectOne("nomalMember");
+		return nomalMember;
+	}
+	// 관리자 - 관리자 카운트
+	@Override
+	public int adminMember() {
+		int adminMember = session.selectOne("adminMember");
+		return adminMember;
+	}
+	// 관리자 - 활동 회원 카운트
+	@Override
+	public int activeMember() {
+		int activeMember = session.selectOne("activeMember");
+		return activeMember;
+	}
+	// 관리자 - 탈퇴 회원 카운트
+	@Override
+	public int wdMember() {
+		int wdMember = session.selectOne("wdMember");
+		return wdMember;
+	}
+	
 
 	
 

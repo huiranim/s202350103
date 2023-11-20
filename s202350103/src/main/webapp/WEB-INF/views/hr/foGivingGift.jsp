@@ -9,8 +9,8 @@
 <title>Insert title here</title>
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
+		// 포인트 입력 시 수행
 		function changeChk(p_point){
-			//alert("변경!");
 			//alert("보유 포인트 : ${member.m_point }");
 			//alert("보유 포인트 type : "+typeof("${member.m_point }"));
 			//alert("입력 포인트 : "+p_point);
@@ -37,7 +37,7 @@
 				$("#o_pay_price_val").val(p_pay_price);
 				
 				// 결제정보의 적립혜택에 반영
-				const p_point_save = (p_pay_price * 0.01);
+				const p_point_save = Math.round(p_pay_price * 0.01);
 				const p_point_save_result = p_point_save.toLocaleString();
 				$("#o_point_save").html(p_point_save_result);
 				
@@ -46,6 +46,42 @@
 				$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
 				$("#o_point").val("");
 				$("#o_point_result").html(0);
+			}
+		}
+		
+		// 받는사람 이메일 입력 시 수행
+		function mailChk(mail) {
+			// alert("mail -> "+mail);
+			const mailPattern = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+			
+			if(mail == ""){
+				$("#mailMsg").html("이메일을 입력해주세요.");
+				$("#o_rec_mail").val("");
+				$("#o_rec_mail").focus();
+			} else if(mailPattern.test(mail) === false){
+				$("#mailMsg").html("이메일 형식이 잘못되었습니다.");
+				$("#o_rec_mail").val("");
+				$("#o_rec_mail").focus();
+			} else {
+				$("#mailMsg").html("");
+			}
+		}
+		
+		// 받는사람 휴대전화 입력 시 수행
+		function phChk(ph) {
+			// alert("ph -> "+ph);
+			const phPattern = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
+			
+			if(ph == ""){
+				$("#phMsg").html("휴대전화를 입력해주세요.");
+				$("#o_rec_ph").val("");
+				$("#o_rec_ph").focus();
+			} else if(phPattern.test(ph) === false){
+				$("#phMsg").html("휴대전화 형식이 잘못되었습니다.");
+				$("#o_rec_ph").val("");
+				$("#o_rec_ph").focus();
+			} else {
+				$("#phMsg").html("");
 			}
 		}
 	</script>
@@ -108,12 +144,16 @@
             </div>
             <div class="col-md-12 mb-3">
               <label class="form-label" for="o_rec_mail"> 이메일<span class="text-danger">*</span></label>
-              <input type="text" id="o_rec_mail" class="form-control" name="o_rec_mail" placeholder="hgd@dadok.com" required>
+              &nbsp;&nbsp;<span class="text-danger" id="mailMsg" ></span>
+              <input type="text" id="o_rec_mail" class="form-control" name="o_rec_mail"
+              		 placeholder="hgd@dadok.com" required onchange="mailChk(o_rec_mail.value)">
             </div>
             <div class="col-md-12 mb-3">
               <!-- input -->
               <label class="form-label" for="o_rec_ph"> 휴대전화<span class="text-danger">*</span></label>
-              <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control" placeholder="010-0000-0000" required>
+              &nbsp;&nbsp;<span class="text-danger" id="phMsg" ></span>
+              <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control"
+              		 placeholder="010-0000-0000" required onchange="phChk(o_rec_ph.value)">
             </div>
             
             <p><p><hr><p><p>
@@ -165,8 +205,8 @@
               <!-- input -->
             <div class="col-md-12 mb-3">
               <label class="form-label" for="o_point"> 사용 포인트  (보유 : <fmt:formatNumber value="${member.m_point }" groupingUsed="true"/>원)</label>
-              <span class="text-danger" id="pointMsg" ></span>
-              <input type="text" id="o_point" class="form-control" name="o_point"
+              &nbsp;&nbsp;<span class="text-danger" id="pointMsg" ></span>
+              <input type="number" id="o_point" class="form-control" name="o_point"
               		 onchange="changeChk(o_point.value)" value="0" required>
             </div>
 				

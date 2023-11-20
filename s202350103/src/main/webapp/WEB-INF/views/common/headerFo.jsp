@@ -171,13 +171,10 @@
 					<option value="publisher">출판사</option>
 				</select>&nbsp;&nbsp;
 	            <input id = "search_keyword" class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요." >
-<!-- 	            검색 버튼 -->
-<!-- 	              <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal" -->
-<!-- 	                	data-bs-target="#locationModal" onclick="search()">검색 </button> -->
 	        </div>
 		</div>
         <!-- 검색 버튼 -->
-        <div class="col-md-2 col-xxl-2 d-none d-lg-block">
+        <div class="col-md-2 col-xxl-2 d-lg-block">
           <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
             	data-bs-target="#locationModal" onclick="search()">검색  </button>
         </div>
@@ -446,18 +443,37 @@
                         <a class="dropdown-item" href="folistOb">도서목록</a>
                       </div>
   					
-  					<!-- 상세 배너 이미지 -->
-                      <div class="col-lg-3 col-12 mb-4 mb-lg-0">
-                        <div class="card border-0">
-                          <img src="" alt="최근 등록한 새상품 이미지"
-                            class="img-fluid">
-                          <div class="position-absolute ps-6 mt-8">
-                            <h5 class=" mb-0 ">최근등록한<br>새상품 이미지 넣자 금비야</h5>
-                            <a href="#" class="btn btn-primary btn-sm mt-3">구매 바로가기</a>
-                          </div>
-                        </div>
-                      </div>
-                    
+
+						<div class="col-lg-3 col-12 mb-4 mb-lg-0">
+						  <div class="card border-0">
+						    <div>
+						      <h5 class="mb-3 fs-4">DADOK 추천
+						     	<i class="bi bi-hand-thumbs-up"></i>
+						      </h5>
+						 
+							    <p class="fs-5" style="font-weight: bold;">『 제 1회 넥서스 경장편 작가상』</p>
+								<mark style="font-weight: bold;"> 대상 수상 작가</mark><p>
+								<p class="fs-7" style="font-weight: bold;"><span style="color: #198754;">장류진 작가</span> 강력 추천 !</p>
+						 	</div>
+			
+							  <div class="table-responsive-xxl">
+                                <div class="row flex-nowrap">
+                                    <div class="col">
+                                        <div class="card border-0 card-hover">
+                                            <a href="newbookDetail?nb_num=100049" class="img-zoom"> 
+                                            <img src="../../assets/images/banner/ad-banner-1.jpg" alt="" class=" rounded"></a>
+                                            <div style= "background: #DCEBFE;"
+                                             	class="position-absolute  w-100 bottom-0 py-3 px-4 rounded-bottom">
+                                             	<a href="newbookDetail?nb_num=100049" class="d-flex align-items-center btn-transition">
+                                             	<span style="color: #0aad0a;">바로구매</span>
+                                                    <i class="feather-icon icon-chevron-right fs-5"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>	 
+								 </div>
+							 </div>
+							</div>
+						</div>
                     </div>
                   </div>
                 </li>

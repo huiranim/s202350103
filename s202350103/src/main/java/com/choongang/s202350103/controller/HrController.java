@@ -81,14 +81,16 @@ public class HrController {
 	// BO 주문상세
 	// boOrderDetail.jsp
 	@RequestMapping(value = "boOrderDetail")
-	public String selectOrderrBo(Model model, long o_order_num) {
+	public String selectOrderrBo(Model model, long o_order_num, String currentPage) {
 		System.out.println("HrController selectOrderrBo() start..");
+		System.out.println("currentPage -> "+currentPage);
 		
 		Orderr orderr = new Orderr();
 		orderr = os.selectOrderr(o_order_num);
 		System.out.println("HrController selectOrderrBo() orderr.getM_name() -> "+orderr.getM_name());
 		
 		model.addAttribute("orderr", orderr);
+		model.addAttribute("currentPage", currentPage);
 		
 		System.out.println("HrController selectOrderrBo() end..");
 		return "/hr/boOrderDetail";
@@ -299,7 +301,7 @@ public class HrController {
 			// o_de_count
 			System.out.println("orderr.getO_de_count()->"+orderr.getO_de_count());
 
-			// ORDER_GIFT
+		// ORDER_GIFT
 			// o_gift_card
 			System.out.println("orderGift.getO_gift_card()->"+orderGift.getO_gift_card());
 			// o_gift_msg
@@ -402,15 +404,25 @@ public class HrController {
 		model.addAttribute("orderr", orderr);
 		model.addAttribute("orderGift", orderGift);
 
-		System.out.println("HrController gettingGift() orderr.getO_order_num() -> "+orderr.getO_order_num());		
+		// 선물 수락여부 확인
+		int o_gift_accept = orderGift.getO_gift_accept();
+		System.out.println("HrController gettingGift() o_gift_accept -> "+o_gift_accept);
 		
-		System.out.println("HrController gettingGift() end..");
-		return "/hr/foGettingGift";
+		if(o_gift_accept == 0) {
+			System.out.println("HrController gettingGift() 미수락 선물받기");
+			System.out.println("HrController gettingGift() end..");
+			return "/hr/foGettingGift";
+		} else {
+			System.out.println("HrController gettingGift() 수락 선물받기 시도");
+			System.out.println("HrController gettingGift() end..");
+			return "/hr/foGettingGiftAccepted";
+		}
 	}
 	
 	// FO 선물받기 - 액션
 	@RequestMapping("foGettingGiftAction")
-	public String gettingGiftAction(Model model, HttpSession session, Orderr orderr, OrderGift orderGift) {
+	public String gettingGiftAction(Model model, HttpSession session, Orderr orderr, OrderGift orderGift
+									, String o_rec_addr1, String o_rec_addr2, String o_rec_addr3) {
 		System.out.println("HrController gettingGiftAction() start..");
 		
 		// value 확인
@@ -423,12 +435,13 @@ public class HrController {
 			System.out.println("orderr.getO_rec_mail()->"+orderr.getO_rec_mail());
 			// o_rec_ph 
 			System.out.println("orderr.getO_rec_ph()->"+orderr.getO_rec_ph());
-			// o_rec_addr
-			System.out.println("orderr.getO_rec_addr()->"+orderr.getO_rec_addr());
 			
 		// value 세팅
 			orderGift.setO_gift_name(orderr.getO_rec_name());
 			orderGift.setO_gift_ph(orderr.getO_rec_mail());
+			
+			orderr.setO_rec_addr("("+o_rec_addr1+")/"+ o_rec_addr2 +"/"+ o_rec_addr3 );
+			System.out.println("orderr.getO_rec_addr()->"+orderr.getO_rec_addr());
 
 		// Service Method 실행 후 model에 result 저장
 			int result = os.gettingGiftAction(orderr, orderGift);

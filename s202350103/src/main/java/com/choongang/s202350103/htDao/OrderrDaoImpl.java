@@ -1,11 +1,16 @@
 package com.choongang.s202350103.htDao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
@@ -20,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class OrderrDaoImpl implements OrderrDao {
 	private final SqlSession session;
 	private final HttpSession https; 
+	
+	private final PlatformTransactionManager transactionManager;
 	
 	@Override
 	public int orderTotal() {
@@ -66,29 +73,34 @@ public class OrderrDaoImpl implements OrderrDao {
 	}
 
 	@Override
-	public long orderInsert(Orderr orderr) {
+	public void orderInsert(Orderr orderr, List<Cart> list) {// 프로시저를 사용하기 때문에 void이어야 한다. 
 		System.out.println("OrderDaoImpl orderList() Start...");
-		long result = 0;
+		
+		
+		
+		//Transaction 관리
+		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
 		try {
-			result = session.insert("htOrderInsert", orderr);
-			System.out.println("orderInsert result--> "+ result);
+			// order insert (여기서 프로시저를 통해서 o_order_num을 orderr객체에 담아서 가지고 나온다.) 
+			session.selectOne("htOrderInsert", orderr); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. 파라미터 out이 있기 때문이다.
+			
+			Map<String, Object> params = new HashMap<String, Object>();
+		    params.put("orderr", orderr);
+		    params.put("list", list);
+			
+			// orderDetail insert
+			int od_result = session.insert("htOrderDetailInsert", params);
+			System.out.println("Dao htOrderInsert od_result--->" + od_result);
+			
+			//commit
+			transactionManager.commit(txStatus);
 		}catch (Exception e) {
 			System.out.println("OrderrDaoImpl orderInsert Exception -> " + e.getMessage());
+			//rollback
+			transactionManager.rollback(txStatus);
 		}
-		return result;
+		return ;
 	}
 
-	@Override
-	public int orderDetailInsert(Orderr orderr) {
-		System.out.println("OrderDaoImpl orderDetailInsert() Start...");
-		int result = 0;
-		try {
-			result = session.insert("htOrderDetailInsert", orderr);
-			System.out.println("orderDetailInsert result--> "+ result);
-		}catch (Exception e) {
-			System.out.println("OrderrDaoImpl orderDetailInsert Exception -> " + e.getMessage());
-		}
-		return result;
-	}
 
 }

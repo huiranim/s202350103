@@ -342,34 +342,41 @@
                      <!-- 주문번호 -->
                      <td class="align-middle">
                         <div>
-                        <h5 class="fs-6 mb-0"><a href="/boOrderDetail?o_order_num=${orderr.o_order_num}" class="text-inherit">${orderr.o_order_num}</a></h5>
+                        <h5 class="fs-6 mb-0"><a href="/boOrderDetail?o_order_num=${orderr.o_order_num}&currentPage=${page.currentPage }" class="text-inherit">${orderr.o_order_num}</a></h5>
                         <input type="hidden" id="o_order_num${status.index }" value="${orderr.o_order_num}">
                         </div>
                      </td>
                      <!-- 주문상태 -->
                      <td class="align-middle"><%-- ${orderr.o_status} --%>
-                     	<c:if test="${orderr.o_status == 0}">주문접수</c:if>
-                     	<c:if test="${orderr.o_status == 1}">주문확정</c:if>
-                     	<c:if test="${orderr.o_status == 2}">배송중</c:if>
-                     	<c:if test="${orderr.o_status == 3}">배송완료</c:if>
-                     	<c:if test="${orderr.o_status == 4}">구매확정</c:if>
-                     	<c:if test="${orderr.o_status == 5}">취소</c:if>
-                     	<c:if test="${orderr.o_status == 6}">교환</c:if>
-                     	<c:if test="${orderr.o_status == 7}">반품</c:if>
+                     	<c:choose>
+                     		<c:when test="${orderr.o_status == 0}">주문접수</c:when>
+                     		<c:when test="${orderr.o_status == 1}">주문확정</c:when>
+                     		<c:when test="${orderr.o_status == 2}">배송중</c:when>
+                     		<c:when test="${orderr.o_status == 3}">배송완료</c:when>
+                     		<c:when test="${orderr.o_status == 4}">구매확정</c:when>
+                     		<c:when test="${orderr.o_status == 5}">취소</c:when>
+                     		<c:when test="${orderr.o_status == 6}">교환</c:when>
+                     		<c:otherwise>반품</c:otherwise>
+                     	</c:choose>
                         <input type="hidden" id="o_status${status.index }" value="${orderr.o_status}">
                      </td>
                      <!-- 주문일시 -->
                      <td class="align-middle"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
-                     <!-- 주문상품 -->
-                     <td class="align-middle">${orderr.nb_title}</td>
+                     <!-- 대표 상품명 -->
+                     <td class="align-middle">
+                     	${orderr.nb_title}
+                     	<c:if test="${orderr.o_book_count != 1}"> 외 ${orderr.o_book_count -1}건</c:if>
+                     </td>
                      <!-- 주문자 -->
                      <td class="align-middle">${orderr.m_name}</td>
                      <!-- 수신자 -->
                      <td class="align-middle">${orderr.o_rec_name}</td>
                      <!-- 주문유형 -->
                      <td class="align-middle"><%-- ${orderr.o_type} --%>
-                     	<c:if test="${orderr.o_type == 1}">일반</c:if>
-                     	<c:if test="${orderr.o_type == 2}">선물</c:if>
+                     	<c:choose>
+                     		<c:when test="${orderr.o_type == 1}">일반</c:when>
+                     		<c:otherwise>선물</c:otherwise>
+                     	</c:choose>
                      </td>
                   </tr>
                   <c:set var="num" value="${num-1 }"></c:set>
@@ -400,7 +407,7 @@
 			  </ul>
 			</nav> --%>
 			
-            <!-- disabled and active states -->
+            <!-- 페이지네이션 -->
             <nav aria-label="...">
 			  <ul class="pagination">
 			    <!-- 이전 -->
@@ -430,7 +437,7 @@
 				<a href="boOrderList?currentPage=${page.startPage-page.pageBlock }">[이전]</a>
 			</c:if>
 			<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-				<a href="boOrderList?currentPage=${i }">[${i }]</a>
+				<a href="boOrderList?Page=${i }">[${i }]</a>
 			</c:forEach>
 			<c:if test="${page.endPage < page.totalPage }">
 				<a href="boOrderList?currentPage=${page.startPage+page.pageBlock }">[다음]</a>

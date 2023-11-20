@@ -2,11 +2,9 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<title>DADOK</title>
+<link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon/DADOKLOGO.png">
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
 	// 아이디 기억하기
@@ -103,5 +101,4 @@
 
 
 </script>
-</body>
 </html>

@@ -13,18 +13,23 @@
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 
 <body>
-	<div class="tbody">
+<h1>Event List</h1>
+		 <div class="card-body py-8">
 			<c:forEach var="event" items="${eventList }">
-					<div class="tr" style="border: 1px solid black; margin-bottom: 30px;" >
-						<span><img src="${pageContext.request.contextPath}/upload/${event.a_image}" onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});" width="500" height="200"></span>
-						<span>
-							<span>${event.a_title }</span>
-							<span>${event.a_sdate }~${event.a_edate }</span>
-						</span>
-						<button onclick="checkTime('${event.a_sdate }','${event.a_edate}'), eventClick('${member.m_num}',${event.a_num})" id="subButton">버튼</button>
+					<div class="border border-primary" style="margin-bottom: 50px;" >
+						<span style="width:50%;"><img src="${pageContext.request.contextPath}/upload/${event.a_image}" onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});" width="500" height="200"></span>
+							<span class="border border-white" style="vertical-align:sub; width: 40%; height: 200px;">
+								<span class="fw-bold">${event.a_title }</span>	
+								<span>${event.a_sdate }~${event.a_edate }</span>
+							</span>
+					<span class="mt-2" style=" width:10%; height:200px;">
+                    	<a onclick="checkTime('${event.a_sdate }','${event.a_edate}'), eventClick('${member.m_num}',${event.a_num})" id="subButton" class="btn btn-primary ">
+                  		이동하기
+                       </a>
+                    </span>
 					</div>
 			</c:forEach>	
-	</div>
+		</div>
 	<div>
 		<span id="pageNum">
 			<c:if test="${page.startPage > page.pageBlock }">

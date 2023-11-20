@@ -10,15 +10,12 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 
-/* 	function category2Click() {
+ 	function category2Click() {
 		// 클릭한 카테고리명
 		var category2Value = $("#category2").val();
-		var orderTypeValue = $("#orderType").val();
-		alert("내가 선택한 카테고리 + 정렬 -> " + category2Value + "+" + orderTypeValue);
-		
-		location.href = "/innewbookList?nb_category2="+category2Value +"&orderType="+orderTypeValue;
+		location.href = "/folistOb?nb_category2="+category2Value;
 	
-	} */
+	} 
 	
 </script>
 </head>
@@ -144,7 +141,7 @@
 		                    <div class="mt-2">
 		                    
 		                       <!-- 바로구매 버튼 -->   
-		                       <a href="#!" class="btn btn-primary ">
+		                       <a href="orderForm?ob_num=${oldBook.ob_num}&paymentType=1" class="btn btn-primary ">
 		                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
 		                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
 		                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
