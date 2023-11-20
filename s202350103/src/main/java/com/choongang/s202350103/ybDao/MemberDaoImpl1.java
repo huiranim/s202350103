@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
@@ -77,7 +78,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		System.out.println("MemberDaoImpl1 comListTotalCnt() start...");
 		int comListTotalCnt = 0;
 		try {
-			comListTotalCnt = session.selectOne("ybTotalSellCnt", comListTotalCnt);
+			comListTotalCnt = session.selectOne("comListTotalCnt", comListTotalCnt);
 			System.out.println("MemberDaoImpl1 comListTotalCnt() totalCart -> " + comListTotalCnt);
 		} catch (Exception e) {
 			System.out.println("MemberDaoImpl1 comListTotalCnt() Exception -> " + e.getMessage());
@@ -354,6 +355,33 @@ public class MemberDaoImpl1 implements MemberDao {
 			System.out.println("MemberDaoImpl1 communityInsert() Exception -> " + e.getMessage());
 		}
 		return communityInsert;
+	}
+	// 커뮤니티 책  검색
+	@Override
+	public List<NewBook> searchListBook(NewBook newbook) {
+		System.out.println("MemberDaoImpl1 searchListBook() start...");
+		List<NewBook> searchListBook = new ArrayList<NewBook>();
+		
+		try {
+			searchListBook = session.selectList("ybSearchListBook", newbook);
+			System.out.println("MemberDaoImpl1 searchListBook() searchListBook.size() -> " + searchListBook.size());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 searchListBook() Exception -> " + e.getMessage());
+		}
+		return searchListBook;
+	}
+	// 검색 책 갯수
+	@Override
+	public int searchBookCnt(NewBook newbook) {
+		System.out.println("MemberDaoImpl1 searchBookCnt() start...");
+		int searchBookCnt = 0;
+		try {
+			searchBookCnt = session.selectOne("ybSearchBookCnt", newbook);
+			System.out.println("MemberDaoImpl1 searchBookCnt() searchBookCnt -> " + searchBookCnt);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 searchBookCnt() Exception -> " + e.getMessage());
+		}
+		return searchBookCnt;
 	}
 
 	

@@ -701,31 +701,58 @@ public class YbController {
 	}
 	
 	@GetMapping(value = "writeForm")
-	public String writeForm(Member member, Model model) {
-		member =(Member) session.getAttribute("member");
-		model.addAttribute("member", member);
-		return "yb/writeForm";
+	   public String writeForm(Member member, Model model) {
+	      System.out.println("YbController writeForm() start..");
+	      member =(Member) session.getAttribute("member");
+	      model.addAttribute("member", member);
+	      return "yb/writeForm";
+	   }
+	   
+	   @GetMapping(value = "searchBook")
+	   public String searchBook(NewBook newbook, Model model, String currentPage) {
+	      // 페이징 처리
+	      System.out.println("YbController searchBook() start..");
+	      
+	      return "yb/searchBook";
+	      
+	   }
+	   
+	   @PostMapping(value = "communityInsert")
+	   public String communityInsert(Member member, Community community, Model model, NewBook newbook) {
+	      System.out.println("YbController communityInsert() start..");
+	      
+	      member =(Member) session.getAttribute("member");
+	      community.setM_num(member.getM_num());
+	      System.out.println("getM_num -> " + community.getM_num());
+
+	      
+	      community.setNb_num(newbook.getNb_num());
+	      System.out.println("getNB_num -> " + community.getNb_num());
+	      int communityInsert = ms.communityInsert(community);
+	      model.addAttribute("member", member);
+	      return "yb/memberCommunity";
+	      
+	   }
+	   @PostMapping(value = "searchListBook")
+	   public String searchListBook(NewBook newbook, Model model, String currentPage) {
+	      System.out.println("YbController searchListBook() start..");
+	      int searchBookCnt = ms.searchBookCnt(newbook);
+	      Paging page = new Paging(searchBookCnt, currentPage);
+	      
+	      System.out.println("paging -> " + page.getStart());
+
+	      System.out.println("paging -> " + page.getEnd());
+	      newbook.setStart(page.getStart());
+	      newbook.setEnd(page.getEnd());
+	      
+	      List<NewBook> searchListBook = ms.searchListBook(newbook);
+	      
+	      model.addAttribute("newbook", newbook);
+	      model.addAttribute("searchListBook", searchListBook);
+	      return "yb/searchBook";
+	   }
 	}
-	@GetMapping(value = "cont")
-	public String cont() {
-		return "yb/cont";
-	}
-	
-	@PostMapping(value = "communityInsert")
-	public String communityInsert(Member member, Community community, Model model, NewBook newbook) {
-		
-		
-		member =(Member) session.getAttribute("member");
-		community.setM_num(member.getM_num());
-		
-		int communityInsert = ms.communityInsert(community);
-		nbs.selectInNewBookList(newbook);
-		model.addAttribute("member", member);
-		return "yb/memberCommunity";
-		
-	}
-}
-	
+
 
 	   
 
