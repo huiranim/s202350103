@@ -21,7 +21,6 @@
 
 <body>
 	 <!-- section -->
-	 <a href="memberCommunity">커뮤니티</a> 
   <section class="my-lg-14 my-8" style="width: 150%; ">
     <div class="container">
       <!-- row -->

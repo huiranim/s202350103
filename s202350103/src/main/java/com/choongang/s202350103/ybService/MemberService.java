@@ -58,6 +58,8 @@ public interface MemberService {
 
 	int 			searchBookCnt(NewBook newbook);
 
+	int 			pointListCnt(PointList pointList);
+
 
 
 	
