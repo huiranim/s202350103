@@ -88,7 +88,7 @@ public class GbController {
 		// 다독 전체 최대 조회수 도서 상품 리스트
 		NewBook hitBook1 = nbs.selectAllHitNbNum();
 		// System.out.println("hitBook1 -> "+hitBook1);
-		System.out.println("newbook.category2 -> "+newbook.getNb_category2());
+		// System.out.println("newbook.category2 -> "+newbook.getNb_category2());
 		
 		model.addAttribute("member", member);
 		model.addAttribute("listInNewbook", listInNewbook);

@@ -205,6 +205,19 @@
 	    }); 
 	   location.reload();
    }
+   
+   // url 복사하기
+   function shareUrl() {
+	   var url = '';
+	   var textarea = document.createElement("textarea");	// textarea를 만든다.
+	   document.body.appendChild(textarea);					// html body에 textarea를 추가한다.
+	   url = window.document.location.href;					// 현재 url 주소를 담는다.
+	   textarea.value = url;								// textarea에 url을 삽입한다.
+	   textarea.select();									// textarea를 선택한다.
+	   document.execCommand("copy");						// textarea 값을 복사한다. 	
+	   document.body.removeChild(textarea);					// textarea를 삭제한다.
+	   alert("URL이 복사되었습니다.");
+   }
 
 </script>
 </head>
@@ -213,7 +226,7 @@
    <!-- 도서 목록 돌아가기 버튼 -->
    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 	  <button class="btn btn-soft-primary mb-2" type="button" 
-	  		onclick="location.href='innewbookList?nb_category1=${newbook.nb_category1}&nb_category2=${newbook.nb_category2}'">도서목록</button>
+	  		onclick="location.href='innewbookList?nb_category1=${newbook.nb_category1}'">도서목록</button>
    </div>
    <div class="row">
      <div class="col-md-6 row justify-content-center">
