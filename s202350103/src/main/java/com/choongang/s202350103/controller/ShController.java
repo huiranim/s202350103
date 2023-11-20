@@ -197,10 +197,11 @@ import lombok.extern.slf4j.Slf4j;
 			QuizJoin quizJoin = new QuizJoin();
 			quizJoin.setM_num(m_num);
 			quizJoin.setQ_num(eNum);
-			List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
-			
 			//정답 횟수 확인 용
 			int chance = ps.checkChance(quizJoin);
+			System.out.println("Quiz Chance ->"+chance);
+			
+			List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
 			
 			System.out.println("shController divideEventNum() quizJoinList.size->"+quizJoinList.size());
 			model.addAttribute("quizJoin",quizJoinList);
