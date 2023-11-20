@@ -57,7 +57,7 @@
    			<input type="hidden" name="eNum" value="${eNum}">
 			<input type="hidden" name="answer"   value="${quiz.q_answer}">
 	<c:choose>
-		<c:when test=" ${chance == 0 } }">	
+		<c:when test="${chance==0}">	
 			<div style="display: flex; flex-direction: column; align-items: center;">
 		   	
 		   	<label>
@@ -73,7 +73,7 @@
 		    <label>
 		         <input class="form-check-input" type="radio" name="select" value="4">${quiz.q_select4}
 		    </label><br>
-		    <input type="submit" class="btn btn-primary" id="subButton" value="정답 제출" disabled="disabled">
+		    <input type="submit" class="btn btn-primary" id="subButton" value="정답 제출">
 			</div>
 		</c:when>
 	</c:choose>	
