@@ -136,7 +136,7 @@
 	
 	<input type="hidden" name="ob_report_date" value="${oldBook.ob_report_date }">
 	
-	<table class="table table-bordered col-8 text-center">
+	<table class="table table-bordered col-8 ">
 		    <tr>
 			      <td scope="col" class="col-2">신청 일자</td>
 			      <td scope="col" colspan="2">${oldBook.ob_report_date }</td> 
@@ -224,7 +224,7 @@
 			   		 	<input type="hidden"  name="ob_pur_price" id="totalCalculVal" value="0" > 
 	      		 		<input type="hidden"  name="ob_sell_price" id="totalCalculValSell" value="0"> 
 	      		 	<div >	
-	      		 <input type="text"   disabled="disabled"  id="totalCalculVal2" style="border: none; background: transparent; width: 45px;"/>원
+	      		 <input type="text"   disabled="disabled"  id="totalCalculVal2" style="border: none; background: transparent; width: 52px;"/>원
 		      	<!-- 	 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum6"> 
 		      		 	 <input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum7">
 		      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum8">
