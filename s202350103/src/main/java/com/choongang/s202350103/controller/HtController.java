@@ -431,6 +431,7 @@ public class HtController {
 		
 		List<Cart> list =  new ArrayList<Cart>();
 		
+		
 		if(paymentType == 1) {
 			cart.setM_num(member.getM_num());
 			cart.setNb_num(orderr.getNb_num());
@@ -439,6 +440,7 @@ public class HtController {
 			System.out.println("orderAction list--> " + list);
 		} else if (paymentType == 2) {
 			list = os.orderList(cart, member);
+
 			System.out.println("orderAction list--> " + list);
 		} 
 		
