@@ -6,7 +6,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.model.Cart;
+import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
@@ -49,6 +51,13 @@ public class MemberServiceImpl1 implements MemberService {
 		
 		return listCart;
 	}
+	@Override
+	public List<Community> communityList(Community community) {
+		System.out.println("MemberServiceImpl1 communityList start...");
+		List<Community> communityList = md.communityList(community);
+
+		return communityList;
+	}
 
 	// 장바구니 총 금액
 	@Override
@@ -72,6 +81,14 @@ public class MemberServiceImpl1 implements MemberService {
 		totalWishList = md.totalWishList(member);
 		return totalWishList;
 	}
+	
+	@Override
+	public int comListTotalCnt(Community community) {
+		int comListTotalCnt = 0;
+		comListTotalCnt = md.comListTotalCnt(community);
+		return comListTotalCnt;
+	}
+
 	// 판매 개수
 	@Override
 	public int totalSellCnt(Member member) {
@@ -144,7 +161,7 @@ public class MemberServiceImpl1 implements MemberService {
 			return null;
 		}	
 	}
-
+	// 회원 비밀번호 수정
 	@Override
 	public int memberPwUpdate(String m_pw, Member member) {
 		System.out.println("MemberServiceImpl1 memberPwUpdate start...");
@@ -155,7 +172,7 @@ public class MemberServiceImpl1 implements MemberService {
 		int memberPwUpdate = md.memberPwUpdate(m_pw, member);	
 		return memberPwUpdate;
 	}
-
+	// 회원 비밀번호 변경
 	@Override
 	public Member memberPwChange(String m_num, String m_pw) {
 		System.out.println("MemberServiceImpl1 memberPwChange start...");
@@ -164,7 +181,7 @@ public class MemberServiceImpl1 implements MemberService {
 		Member memberPwChange = md.memberPwChange(m_num, m_pw);
 		return memberPwChange;
 	}
-
+	// 
 	@Override
 	public int memCount() {
 		System.out.println("MemberServiceImpl1 memCount start...");
@@ -172,6 +189,57 @@ public class MemberServiceImpl1 implements MemberService {
 		
 		return memCount;
 	}
+	// 회원 비밀번호 변경
+	@Override
+	public Member memberPwChange1(String m_email, String m_pw) {
+		System.out.println("MemberServiceImpl1 memberPwChange start...");
+		System.out.println("MemberServiceImpl1 memberPwChange() m_num -> " + m_email);
+		System.out.println("MemberServiceImpl1 memberPwChange() m_pw -> " + m_pw);
+		Member memberPwChange1 = md.memberPwChange1(m_email, m_pw);
+		return memberPwChange1;
+	}
+	// 회원 핸드폰 번호 찾기
+	@Override
+	public Member memberFindPh(String phoneHyphen) {
+		System.out.println("MemberServiceImpl1 memberFindPh start...");
+		Member memberFindPh = md.memberFindPh(phoneHyphen);
+		return memberFindPh;
+	}
+
+	@Override
+	public Member memberPwChangeByPh(String m_ph, String m_pw) {
+		System.out.println("MemberServiceImpl1 memberPwChangeByPh start...");
+		System.out.println("MemberServiceImpl1 memberPwChangeByPh() m_ph -> " + m_ph);
+		System.out.println("MemberServiceImpl1 memberPwChangeByPh() m_pw -> " + m_pw);
+		Member memberPwChangeByPh = md.memberPwChangeByPh(m_ph, m_pw);
+		return memberPwChangeByPh;
+	}
+
+	@Override
+	public int communityInsert(Community community) {
+		System.out.println("MemberServiceImpl1 communityInsert start...");
+		int communityInsert = md.communityInsert(community);
+		return communityInsert;
+	}
+	// 커뮤니티 책 검색
+	@Override
+	public List<NewBook> searchListBook(NewBook newbook) {
+		System.out.println("MemberServiceImpl1 searchListBook start...");
+		List<NewBook> searchListBook = md.searchListBook(newbook);
+		System.out.println("MemberServiceImpl1 searchListBook searchBookList.size() -> " + searchListBook.size());
+		return searchListBook;
+	}
+	// 검색 책 갯수
+	@Override
+	public int searchBookCnt(NewBook newbook) {
+		System.out.println("MemberServiceImpl1 searchBookCnt start...");
+		int searchBookCnt = md.searchBookCnt(newbook);
+		System.out.println("MemberServiceImpl1 searchBookCnt searchBookCnt -> " + searchBookCnt);
+		return searchBookCnt;
+	}
+
+	
+
 
 	
 

@@ -8,13 +8,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.col-lg-9 col-md-12 {
+		
+	}
+</style>
 </head>
 <body>
 
 
 <!-- row -->
 		      <div class="row">
-		        <div class="col-lg-12">
+		        <div class="col-lg-12" style="padding-left: 0px; padding-right: 0px;">
 		          <div class="card py-1 border-0 mb-8">
            			 <div class="mb-8">
 			         <!-- heading -->
@@ -33,10 +38,10 @@
 		                    <th>제목</th>
 		                    <th>상태</th>
 		                    <th style="padding-left: 10px;">등급</th>
-		                    <th>매입가</th>
-		                    <th>판매 예상가</th>
-		                    <th style="padding-left: 10px;">등록일자</th>
-		                    <th style="padding-left: 0px; padding-right: 10px;"></th>
+		                    <th>매입 예상가</th>
+		                    <th>정산 금액</th>
+		                    <th style="padding-left: 10px;">신청일자</th>
+		                    <th style="padding-left: 0px; padding-right: 10px;">정산여부 / 상세보기</th>
 		                  </tr>
 		                </thead>
 		                <tbody>
@@ -69,12 +74,22 @@
 										<c:when test="${oldbook.ob_grade == 3}"><span>D 등급</span></c:when>
 								</c:choose>
 		                 	</td>
-		                    <td class="align-middle"><fmt:formatNumber value="${oldbook.ob_pur_price }" pattern="#,###" /> 원</td>
-		                    <td class="align-middle"><fmt:formatNumber value="${oldbook.ob_sell_price }" pattern="#,###" /> 원</td>
-		                    <td class="align-middle" style="padding-left: 10px;"><fmt:formatDate value="${oldbook.ob_write_date }" pattern="yyyy년MM월dd일"/></td>
-		                    <td style="padding-left: 0px; padding-right: 10px;"><div class="d-flex justify-content-between mt-4">
-					              <button class="btn btn-dark btn-sm">상세보기</button>
+		                    <td class="align-middle">	
+								<fmt:formatNumber value="${oldbook.ob_pur_price }" pattern="#,###" /> 원
+		                    </td>
+		                    <td class="align-middle">
+		                    	<c:choose>
+									<c:when test="${oldbook.ob_status == 1}"><span>책정중</span></c:when>
+									<c:otherwise><fmt:formatNumber value="${oldbook.ob_pur_price }" pattern="#,###" /> 원</c:otherwise>
+								</c:choose>
+		                    </td>
+		                    <td class="align-middle" style="padding-left: 10px;"> ${oldbook.ob_report_date }</td>
+		                    <td style="padding-left: 0px; padding-right: 10px;">
+		                    	<div class="d-flex justify-content-between mt-4">
+		                    		<c:if test="${oldbook.ob_status == 2}"><input type="text" disabled="disabled" style="border: none; background: transparent; width: 65px;" value="정산가능"></c:if>	
+		                    		<c:if test="${oldbook.ob_status != 1}"><button class="btn btn-success btn-sm" onclick="location.href='FodetailOb?ob_num=${oldbook.ob_num}'">상세보기</button></c:if>	
 					            </div>
+					        </td>
 		                  </tr>
 		                  </c:forEach>
 		                </tbody>

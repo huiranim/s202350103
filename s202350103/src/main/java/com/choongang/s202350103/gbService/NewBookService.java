@@ -14,7 +14,7 @@ public interface NewBookService {
 	List<NewBook> 	selectSearchNewBookList(NewBook newbook);
 	NewBook 		selectNewBookDetail(NewBook newbook);
 	int 			updateReadCnt(int nb_num);
-	int 			selectHitNbNum();
+	List<NewBook> 	selectHitNbNum();
 	int 			insertUpdateWish(WishList wishlist);
 	int 			insertCart(Cart cart);
 	int 			updateCartCount(Cart cart);
@@ -25,5 +25,8 @@ public interface NewBookService {
 	List<NewBook> 	selectBoNewBookList(NewBook newbook);
 	int 			deleteBoNewbook(int nb_num);
 	int 			insertBoNewbook(NewBook newbook);
+	NewBook 		selectRecentBookList(int nb_num);
+	NewBook 		selectAllHitNbNum();
+	List<NewBook> 	selectReleaseNewbookListNum();  
 
 }

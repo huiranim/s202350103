@@ -89,7 +89,7 @@
 			  <p class="fs-4 mb-5">회원번호 : <mark >${member.m_num}</mark></p>	
 			  <p> 가입일 : 
 			  <span class="mb-9" style="color: red;">
-				 <fmt:formatDate value="${member.m_date }" pattern="yyyy-MM-dd 일  HH:ss 분"/>
+				 <fmt:formatDate value="${member.m_date }" pattern="yyyy-MM-dd 일  HH 시 ss 분"/>
 			  </span>
 			  </p>
 		  
@@ -185,7 +185,7 @@
               <span class="text-danger">*</span>
               </label><p>
               	 ${member.m_point } <span style="color: red;">P</span>
-					&nbsp;&nbsp;<a href="selectMemberPoint" class="btn btn-primary">포인트 조정</a>
+					&nbsp;&nbsp;<a href="selectMemberPoint?m_num=${member.m_num }" class="btn btn-primary">포인트 조정</a>
             </div>
             
               <div class="col-md-12 mb-8">

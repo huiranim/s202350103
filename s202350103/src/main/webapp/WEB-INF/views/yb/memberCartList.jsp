@@ -81,6 +81,7 @@
           <div>
         </div>
       </div>
+     <form action="orderForm">
       <!-- row -->
       <div class="row">
       	<c:if test="${listCart.size() != 0 }">
@@ -101,14 +102,21 @@
 			                </thead>
 			         </table>
 			    </div>
-	       		<form action="cartList" method="post">
+	       		<!-- <form action="cartList" method="post"> -->
 		          <c:forEach var="cart" items="${listCart }" varStatus="status">   
 		          	<input type="hidden" id="nb_num${status.index }" name="nb_num" value="${cart.nb_num }">
 		            <ul id="cart${status.index }" class="list-group list-group-flush">
 		             <li class="list-group-item py-3 py-lg-0 px-0 border-top">  
 		              <div class="row align-items-center">
 		             	<div class="col-3 col-md-2">
-		                    <a href="newbookDetail?nb_num=${cart.nb_num }"><img src="${cart.nb_image}" alt="Ecommerce" class="img-fluid"></a>
+		                	<c:choose>
+	                           <c:when test="${fn:contains(cart.nb_image, 'http')}">
+	                              <img src="${cart.nb_image}" alt="Ecommerce"  width="75px" height="110px">
+	                           </c:when>
+	                           <c:otherwise>
+	                              <img src="${pageContext.request.contextPath}/upload/${cart.nb_image}" alt="Ecommerce"  width="75px" height="110px">
+	                           </c:otherwise>
+                        	</c:choose>
 		                </div>
 		  				<div class="col-4 col-md-5">
 		                    <!-- 도서 제목 -->
@@ -149,7 +157,7 @@
 		            <div class="d-flex justify-content-between mt-4">
 		              <button type="submit" class="btn btn-dark">수정하기</button>
 		            </div> -->
-	            </form>
+	           <!--  </form> -->
 	          </div>
 	          <!-- section -->
 			    
@@ -180,6 +188,7 @@
               	<h5>결제예정금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
               <div class="d-grid mb-1 mt-4">
                 <!-- btn -->
+                <input type="hidden" name="paymentType" value="2">
                 <button class="btn btn-primary justify-content-between align-items-center" type="submit">
                   	주문하기(${totalCart })</button>
               </div>
@@ -187,6 +196,9 @@
             </div>
           </div>
         </div>
+        
+      </form>  
+        
       </div>
       </div>
       </div>

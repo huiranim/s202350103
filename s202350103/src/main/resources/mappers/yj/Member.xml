@@ -27,6 +27,25 @@
 			where m_id = #{m_reid}
 		</if>
 	</update>
+	
+	<insert id="memberJoinPointList" parameterType="String">
+		<if test="m_reid != null">
+			insert into point_list (p_num, m_num, a_par_pdate, p_list_type, m_point )
+			values
+				( POINTLIST_P_NUM_SEQ.nextval, (
+                    select m_num
+                    FROM   member 
+                    where  m_id = #{m_reid}
+                ), sysdate, 5, 500 )
+		</if>
+	</insert>
+	
+	<insert id="joinPoint">
+		insert into point_list (p_num, m_num, a_par_pdate, p_list_type, m_point )
+		values 
+			( POINTLIST_P_NUM_SEQ.nextval, MEMBER_M_NUM_SEQ.nextval - 1, sysdate, 4, 300 )
+	</insert>
+
 
 	<select id="memberInfo" parameterType="int" resultType="Member">
 		
@@ -90,18 +109,40 @@
 	
 	<select id="memberMyOrder" resultType="Member" parameterType="int">
 		
-		select rownum rn, od.*, o.*, m.*,nb.* ,
-		        (select count(*) from orderr o2 where o2.m_num = #{m_num}) myOrder
-		from orderr o
-		    join member m 
-		        on o.m_num = m.m_num
-		    join order_detail od
-		        on o.o_order_num = od.o_order_num
-		    join newbook nb
-		        on od.nb_num = nb.nb_num
-		where o.m_num = #{m_num}
-		order by o.o_order_date desc
-
+			select ord.o_order_num,
+				   ord.m_num,
+			       ord.o_order_date,
+			       ord.o_rec_name,
+			       ord.o_pay_price,
+			       ord.o_order_num,
+			       ord.o_status,
+			       odbooks.nb_num,
+			       odbooks.nb_title,
+			       odbooks.nb_writer,
+			       odbooks.nb_price,
+			       odbooks.nb_image,
+			       odbooks.o_de_count  
+			from orderr ord,
+			    (select od.o_order_num,
+			            od.o_de_count,  
+			            books.nb_num,
+			            books.nb_title,
+			            books.nb_writer,
+			            books.nb_price,
+			            books.nb_image
+			    from order_detail od,
+			            (select nb_num, nb_title, nb_writer, nb_price, nb_image
+			              from newbook
+			                  union
+			              select ob.ob_num nb_num, 
+			                 concat(ob_grade_alpha(ob.ob_grade),nb.nb_title) nb_title, nb.nb_writer, nb.nb_price, nb.nb_image
+			              from newbook nb, oldbook ob
+			              where nb.nb_num = ob.nb_num
+			            ) books
+			    where od.nb_num = books.nb_num) odbooks
+			where ord.o_order_num = odbooks.o_order_num
+			and ord.m_num = #{m_num} order by ord.o_order_date desc
+		
 	</select>
 	
 	<select id="totalMember" resultType="int">
@@ -267,8 +308,21 @@
 		select m_addr from member where m_num = #{m_num}
 	
 	</select>
-		
 	
+	<select id="nomalMember" resultType="int">
+		select count(*) from member where m_admin = 0
+	</select>	
 	
+	<select id="adminMember" resultType="int">
+		select count(*) from member where m_admin = 1
+	</select>
+	
+	<select id="activeMember" resultType="int">
+		select count(*) from member where m_wd = 0
+	</select>
+	
+	<select id="wdMember" resultType="int">
+		select count(*) from member where m_wd = 1
+	</select>
 	
 </mapper>

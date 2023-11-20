@@ -13,6 +13,7 @@ import com.choongang.s202350103.shDao.QuizDao;
 import com.choongang.s202350103.shDao.QuizJoinDao;
 import com.choongang.s202350103.model.AttJoin;
 import com.choongang.s202350103.model.Attendance;
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.Quiz;
 import com.choongang.s202350103.model.QuizJoin;
@@ -224,7 +225,7 @@ public class PointServiceImpl implements PointService {
 		int result = ad.updateAttendance(attendance);
 		return result;
 	}
-
+	
 	@Override
 	public List<Attendance> searchEvent(Attendance attendance) {
 		System.out.println("PointService searchEvent() Start..");
@@ -233,31 +234,87 @@ public class PointServiceImpl implements PointService {
 	}
 
 	@Override
-	public List<PointList> selectMemberPoint(int a_num) {
+	public List<PointList> selectMemberPoint(int m_num) {
 		System.out.println("PointService selectMemberPoint() Start..");
-		List<PointList> memberPointList = pld.selectMemberPoint(a_num);
+		List<PointList> memberPointList = pld.selectMemberPoint(m_num);
 		return memberPointList;
 	}
 
-//	@Override
-//	public int checkAddAttCount(AttJoin attJoin) {
-//		Optional<AttJoin> latestAttendance = ajd.findAttendanceDate(attJoin);
-//		
-//		return latestAttendance.map(AttJoin::checkAddAttCount).orElse(0);
-//	}
-//	
-//	@Override
-//	@Transactional
-//	public void checkAddAtt(AttJoin attJoin) {
-//		int addAttCount = checkAddAttCount(attJoin);
-//		
-//		if(addAttCount < 3) {
-//			attJoin = ajd.cehckAddAtt(attJoin)
-//					.orElseGet(() -> new attJoin(attJoin.getM_num(), attJoin.getA_num(), 0));
-//		
-//		ajd.incrementAttCount();
-//		}
-//		
-//	}
+	@Override
+	public int pointSum(int m_num) {
+		System.out.println("PointService pointSum() Start..");
+		int sum = pld.pointSum(m_num);
+		return sum;
+	}
+
+	@Override
+	public int boUpdatePlusPoint(Member member) {
+		System.out.println("PointService boUpdatePlusPoint() Start..");
+		int updateResult = pld.boUpdatePlusPoint(member);
+		return updateResult;
+	}
+
+	@Override
+	public int boInsertPlusPoint(Member member) {
+		System.out.println("PointService boInsertPlusPoint() Start..");
+		int insertResult = pld.boInsertPlusPoint(member);
+		return insertResult;
+	}
+
+	@Override
+	public int boInsertMinusPoint(Member member) {
+		System.out.println("PointService boInsertMinusPoint() Start..");
+		int insertResult = pld.boInsertMinusPoint(member);
+		return insertResult;
+	}
+
+	@Override
+	public int boUpdateMinusPoint(Member member) {
+		System.out.println("PointService boUpdateMinusPoint() Start..");
+		int updateResult = pld.boUpdateMinusPoint(member);
+		return updateResult;
+	}
+
+	@Override
+	public int checkAddAtt(int a_num) {
+		System.out.println("PointService checkAddAtt() Start...");
+		int addAtt = ad.checkAddAtt(a_num);
+		return addAtt;
+	}
+
+	@Override
+	public int checkAddAtt1(AttJoin attJoin) {
+		System.out.println("PointService checkAddAtt1() Start...");
+		int addCheck1 = ajd.checkAddAtt1(attJoin);
+		return addCheck1;
+	}
+
+	@Override
+	public int checkAddAtt2(AttJoin attJoin) {
+		System.out.println("PointService checkAddAtt2() Start...");
+		int addCheck2 = ajd.checkAddAtt2(attJoin);
+		return addCheck2;
+	}
+
+	@Override
+	public int countAttRow(AttJoin attJoin) {
+		System.out.println("PointService countAttRow() Start...");
+		int rowCount = ajd.countAttRow(attJoin);
+		return rowCount;
+	}
+
+	@Override
+	public int deleteAtt(int a_num) {
+		System.out.println("PointService deleteAtt() Start...");
+		int result = ad.deleteAtt(a_num);
+		return result;
+	}
+
+	@Override
+	public int deleteQuiz(int q_num) {
+		System.out.println("PointService deleteQuiz() Start..");
+		int result = qd.deleteQuiz(q_num);
+		return result;
+	}
 
 }

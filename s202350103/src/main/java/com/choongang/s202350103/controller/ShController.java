@@ -1,29 +1,39 @@
 package com.choongang.s202350103.controller;
 
-	import java.util.Calendar;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
-	import org.springframework.stereotype.Controller;
-	import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.choongang.s202350103.model.AttJoin;
-	import com.choongang.s202350103.model.Attendance;
+import com.choongang.s202350103.model.Attendance;
+import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.Quiz;
-	import com.choongang.s202350103.model.QuizJoin;
-	import com.choongang.s202350103.shService.Paging;
-	import com.choongang.s202350103.shService.PointService;
+import com.choongang.s202350103.model.QuizJoin;
+import com.choongang.s202350103.shService.Paging;
+import com.choongang.s202350103.shService.PointService;
+import com.choongang.s202350103.yjService.MemberService;
 
-	import lombok.RequiredArgsConstructor;
-	import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 	@Controller
 	@RequiredArgsConstructor
@@ -31,18 +41,19 @@ import com.choongang.s202350103.model.Quiz;
 	public class ShController {
 		
 		private final PointService ps;
+		private final MemberService ms;
 		
 		//fo
 		
 		//EventList Page
 		@RequestMapping(value = "eventList")
 		public String eventList(Attendance attendance, Quiz quiz, String currentPage, Model model) {
-			System.out.println("PointController eventList() Start..");
+			System.out.println("shController eventList() Start..");
 			int totalAtt = ps.totalAtt();
 			int totalQuiz = ps.totalQuiz();
 			int totalEvent = totalAtt + totalQuiz;
-			System.out.println("PointController Attendance Count->"+ totalAtt);
-			System.out.println("PointController Quiz Count->"+ totalQuiz);
+			System.out.println("shController Attendance Count->"+ totalAtt);
+			System.out.println("shController Quiz Count->"+ totalQuiz);
 			
 			Paging page = new Paging(totalEvent, currentPage);
 			int start = page.getStart();
@@ -62,7 +73,7 @@ import com.choongang.s202350103.model.Quiz;
 		//해당 이벤트 분류(eventList -> eventPage 과정)
 		@RequestMapping(value = "eventIn")
 		public String pageIn(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
-		    System.out.println("PointController pageIn() Start..");
+		    System.out.println("shController pageIn() Start..");
 		    int num = ps.divideAttNum(eNum);
 		    if(num == eNum) {
 		    	System.out.println("eNum == a_num");
@@ -76,7 +87,7 @@ import com.choongang.s202350103.model.Quiz;
 		//Attendance Page		
 		@RequestMapping(value = "attendancePage")
 		public String attendancePage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num,AttJoin attJoin, Model model) {
-			System.out.println("PointController attendancePage() Start..");
+			System.out.println("shController attendancePage() Start..");
 			//캘린더
 			Calendar cal = Calendar.getInstance();
 			int month = ps.startMonth(eNum);
@@ -110,10 +121,12 @@ import com.choongang.s202350103.model.Quiz;
 		//출석페이지 출석 버튼 클릭 메소드
 		@RequestMapping(value = "checkAtt")
 		public String checkAtt(@RequestParam("a_num") int a_num, @RequestParam("m_num") int m_num) {
-			System.out.println("PointController checkAtt() Start..");
+			System.out.println("shController checkAtt() Start..");
 			AttJoin attJoin = new AttJoin();
 			attJoin.setA_num(a_num);
 			attJoin.setM_num(m_num);
+			System.out.println(a_num);
+			System.out.println(m_num);
 			//출석 참여
 			ps.stampAtt(attJoin);
 			//포인트 적립메소드
@@ -128,30 +141,54 @@ import com.choongang.s202350103.model.Quiz;
 		@ResponseBody
 		@RequestMapping(value = "checkAddAtt")
 		public int checkAddAtt(@RequestParam("a_num") int a_num, @RequestParam("m_num") int m_num) {
-//			System.out.println("PointController addAtt() Start..");
-//			AttJoin attJoin = new AttJoin();
-//			attJoin.setA_num(a_num);
-//			attJoin.setM_num(m_num);
-//			ps.checkAddAtt(attJoin);	
+			System.out.println("shController addAtt() Start..");
 			
 			AttJoin attJoin = new AttJoin();
 			attJoin.setA_num(a_num);
 			attJoin.setM_num(m_num);
-			int totalCount = ps.addAtt(attJoin);
-			if(totalCount == 3) {
+			
+			int result=0;
+			int add = ps.checkAddAtt(a_num);		// 연속출석 일자		
+			System.out.println("연속 출석 일자 :"+add);
+			
+			
+			Calendar calendar = Calendar.getInstance();
+			Date checkTime = calendar.getTime();
+			attJoin.setA_par_pdate(checkTime);
+		
+			for(int i = 0; i < add; i++) {
+				
+				
+				int rowCount = ps.countAttRow(attJoin);
+				if(rowCount == 1) {
+					System.out.println("rowCount == 1");
+					result = 1;
+					calendar.add(Calendar.DAY_OF_MONTH,-i);
+					checkTime = calendar.getTime();
+					attJoin.setA_par_pdate(checkTime);
+					continue;
+				}else {
+					System.out.println("result = 0");
+					result = 0;
+					break;
+				}
+			}
+			System.out.println("m_num"+attJoin.getM_num());
+			System.out.println("a_num"+attJoin.getA_num());
+			System.out.println("result");
+			if(result == 1) {
 				ps.stampAddAtt(attJoin);
 				ps.saveAddAtt(attJoin);
 				ps.searchAddAtt(attJoin);
-			} else {
-				totalCount = 0;
 			}
-			return totalCount;
+			return result;
+			
 		}
 				
 		//Quiz Page
 		@RequestMapping (value = "quizPage")
 		public String quizPage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
-			System.out.println("PointController quizPage() Start..");
+			System.out.println("shController quizPage() Start..");
 			
 			//해당 퀴즈 페이지 정보 호출
 			Quiz quiz = ps.detailQuiz(eNum);
@@ -160,12 +197,13 @@ import com.choongang.s202350103.model.Quiz;
 			QuizJoin quizJoin = new QuizJoin();
 			quizJoin.setM_num(m_num);
 			quizJoin.setQ_num(eNum);
-			List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
-			
 			//정답 횟수 확인 용
 			int chance = ps.checkChance(quizJoin);
+			System.out.println("Quiz Chance ->"+chance);
 			
-			System.out.println("PointController divideEventNum() quizJoinList.size->"+quizJoinList.size());
+			List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
+			
+			System.out.println("shController divideEventNum() quizJoinList.size->"+quizJoinList.size());
 			model.addAttribute("quizJoin",quizJoinList);
 			model.addAttribute("quiz",quiz);
 			model.addAttribute("chance",chance);
@@ -177,7 +215,7 @@ import com.choongang.s202350103.model.Quiz;
 		//Quiz 정답 제출
 		@RequestMapping(value = "checkQuiz", method = RequestMethod.GET)
 		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
-			System.out.println("PointController quizAnswer() Start...");
+			System.out.println("shController quizAnswer() Start...");
 			QuizJoin quizJoin = new QuizJoin();
 			quizJoin.setM_num(m_num);
 			quizJoin.setQ_num(eNum);
@@ -192,29 +230,43 @@ import com.choongang.s202350103.model.Quiz;
 		}
 		
 		//bo
-		
+		//관리자 페이지 출석 생성 페이지 이동
 		@RequestMapping(value = "boAttendance")
 		public String boAttendance() {
 			return "sh/boAttendance";
 		}
 		
 		//관리자 페이지 출석이벤트 생성
-		@RequestMapping(value = "createAtt")
-		public String createAtt(@RequestParam("a_title") String a_title, @RequestParam("a_sdate")String a_sdate, @RequestParam("a_edate")String a_edate,
-				@RequestParam("a_image") String a_image, @RequestParam("a_point") int a_point, @RequestParam("a_add") int a_add, @RequestParam("a_addpoint") int a_addpoint ) {
-			System.out.println("PointController createAtt() Start..");
+		@RequestMapping(value = "createAtt", method= RequestMethod.POST)
+		public String createAtt(@RequestParam("a_title") String a_title
+							   ,@RequestParam("a_sdate")String a_sdate
+							   ,@RequestParam("a_edate")String a_edate
+							   ,@RequestParam("a_point") int a_point
+							   ,@RequestParam("a_add") int a_add
+							   ,@RequestParam("a_addpoint") int a_addpoint
+							   ,HttpServletRequest request
+							   ,@RequestParam("file1") MultipartFile file1
+							   ,Model model) throws IOException {
+			System.out.println("shController createAtt() Start..");
 			Attendance attendance = new Attendance();
 			attendance.setA_title(a_title);
 			attendance.setA_sdate(a_sdate);
 			attendance.setA_edate(a_edate);	
-			attendance.setA_image(a_image);
 			attendance.setA_point(a_point);
 			attendance.setA_add(a_add);
 			attendance.setA_addpoint(a_addpoint);
+			
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			System.out.println("shController uploadPath->"+uploadPath);
+			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+			attendance.setA_image(savedName);
+			
 			// 생성 확인 용
 			int result = ps.createAtt(attendance);
 			
-			return	"redirect:/boAttendance";
+			model.addAttribute("result",result);
+
+			return	"redirect:/boEventList";
 		}
 		
 		@RequestMapping(value = "boQuiz")
@@ -223,14 +275,25 @@ import com.choongang.s202350103.model.Quiz;
 		}
 		
 		//관리자 페이지 퀴즈이벤트 생성
-		@RequestMapping(value = "createQuiz", method=RequestMethod.GET)
-		public String createQuiz(int q_num, String q_title, String q_sdate, String q_edate, String q_image, int q_point, String q_question, String q_select1, String q_select2, String q_select3, String q_select4, int q_answer) {
-			System.out.println("PointController createQuiz() Start..");
+		@RequestMapping(value = "createQuiz", method=RequestMethod.POST)
+		public String createQuiz(@RequestParam("q_title") 	String q_title
+								,@RequestParam("q_sdate") 	String q_sdate
+								,@RequestParam("q_edate") 	String q_edate
+								,@RequestParam("q_point") 	int q_point
+								,@RequestParam("q_question") String q_question
+								,@RequestParam("q_select1") String q_select1
+								,@RequestParam("q_select2") String q_select2
+								,@RequestParam("q_select3") String q_select3
+								,@RequestParam("q_select4") String q_select4
+								,@RequestParam("q_answer") 	int q_answer
+								, HttpServletRequest request
+								,@RequestParam("file1") MultipartFile file1
+							    ,Model model) throws IOException {
+			System.out.println("shController createQuiz() Start..");
 			Quiz quiz = new Quiz();
 			quiz.setQ_title(q_title);;
 			quiz.setQ_sdate(q_sdate);
 			quiz.setQ_edate(q_edate);
-			quiz.setQ_image(q_image);
 			quiz.setQ_point(q_point);
 			quiz.setQ_question(q_question);
 			quiz.setQ_select1(q_select1);
@@ -239,24 +302,69 @@ import com.choongang.s202350103.model.Quiz;
 			quiz.setQ_select4(q_select4);
 			quiz.setQ_answer(q_answer);
 			
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			System.out.println("shController uploadPath->"+uploadPath);
+			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+			quiz.setQ_image(savedName);
+			
 			int result = ps.createQuiz(quiz);
-			return "redirect:/boQuiz";
+			
+			model.addAttribute("result",result);
+			
+			return "redirect:/boEventList";
 	}
+		
+		//이벤트 생성 시 이미지 File type으로 upload
+		private String uploadFile(String originalName, byte[] fileDate, String uploadPath) throws IOException {
+			//universally unique identifier(UUID)
+			UUID uid = UUID.randomUUID();
+			//requestPath = requestPath + "/resources/image";
+			System.out.println("uploadPath->"+uploadPath);
+			//Directory 생성
+			File fileDirectory = new File(uploadPath);
+			if (!fileDirectory.exists()) {
+				//신규폴더(Directory) 생성
+				fileDirectory.mkdir();
+				System.out.println("업로드용 폴더 생성 : "+uploadPath);
+			}
+			
+			String savedName = uid.toString()+"_"+originalName;
+			log.info("savedName : "+savedName);
+			File target = new File(uploadPath,savedName);
+			//File target = new File(uploadPath,savedName);
+			//FIle Upload --> uploadPath / UUID+_+originalName
+			FileCopyUtils.copy(fileDate, target);	//org.springframework.util.FileCopyUtils
+			
+			return savedName;
+		}
+		
+		
 		//관리자 페이지 이벤트 목록 
 		@RequestMapping(value = "boEventList")
-		public String  boEventList(Model model) {
-			System.out.println("PointController boEventList() Start...");
-			
+		public String  boEventList(String currentPage, Model model) {
+			System.out.println("shController boEventList() Start...");
 			 Attendance attendance = new Attendance(); 
-			 List<Attendance> attendanceList = ps.boEventList(attendance); 
+			 
+			 int totalAtt = ps.totalAtt();
+			 int totalQuiz = ps.totalQuiz();
+			 int totalEvent = totalAtt + totalQuiz;
+			 Paging page = new Paging(totalEvent, currentPage);
+			 int start = page.getStart();
+			 int end = page.getEnd();
+			 attendance.setStart(start);
+			 attendance.setEnd(end);
+			 List<Attendance> attendanceList = ps.boEventList(attendance);
+			 
+			 model.addAttribute("page", page);
 			 model.addAttribute("event",attendanceList);
 			 
 			return "sh/boEventList";
 		}
 		
+		//관리자 페이지 이벤트 목록에서 상세정보 누르면 작동하는 메소드
 		@RequestMapping(value = "boEventDetail")
 		public String boEventDetail(@RequestParam("eNum") int eNum, Model model) {
-			System.out.println("PointController boEventDetail() Start..");
+			System.out.println("shController boEventDetail() Start..");
 			int num = ps.divideAttNum(eNum);
 		    if(num == eNum) {
 		    	Attendance attendance = new Attendance();
@@ -278,26 +386,95 @@ import com.choongang.s202350103.model.Quiz;
 		//관리자 페이지 퀴즈 이벤트 정보 수정
 		@ResponseBody
 		@RequestMapping(value = "updateQuiz")
-		public int updateQuiz(@RequestBody Quiz quiz) {
-			System.out.println("PointController updateQuiz() Start..");
+		public int updateQuiz(@RequestParam("file1") 	  MultipartFile file
+							 ,@RequestParam("q_num")	  int q_num
+							 ,@RequestParam("q_title") 	  String q_title
+							 ,@RequestParam("q_sdate") 	  String q_sdate
+							 ,@RequestParam("q_edate") 	  String q_edate
+							 ,@RequestParam("q_point") 	  int q_point
+							 ,@RequestParam("q_question") String q_question
+							 ,@RequestParam("q_select1")  String q_select1
+							 ,@RequestParam("q_select2")  String q_select2
+							 ,@RequestParam("q_select3")  String q_select3
+							 ,@RequestParam("q_select4")  String q_select4
+							 ,@RequestParam("q_answer")   int q_answer
+							 ,@RequestParam("q_image")    String q_image
+							 , HttpServletRequest request				 
+						     ,Model model) throws IOException {
+			System.out.println("shController updateQuiz() Start..");
+			Quiz quiz = new Quiz();
+			quiz.setQ_num(q_num);
+			quiz.setQ_title(q_title);
+			quiz.setQ_sdate(q_sdate);
+			quiz.setQ_edate(q_edate);
+			quiz.setQ_point(q_point);
+			quiz.setQ_question(q_question);
+			quiz.setQ_select1(q_select1);
+			quiz.setQ_select2(q_select2);
+			quiz.setQ_select3(q_select3);
+			quiz.setQ_select4(q_select4);
+			quiz.setQ_answer(q_answer);
+			
+			if(file == null) {
+				quiz.setQ_image(q_image);
+			} else {
+				String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+				System.out.println("shController uploadPath->"+uploadPath);
+				String savedName = uploadFile(file.getOriginalFilename(), file.getBytes(), uploadPath);
+				quiz.setQ_image(savedName);
+			}
+			
 			int result = ps.updateQuiz(quiz);
-			return result;
-		}
-		//관리자 페이지 출석 이벤트 정보 수정
-		@ResponseBody
-		@RequestMapping(value = "updateAttendance")
-		public int updateAttendance(@RequestBody Attendance attendance) throws Exception {
-			System.out.println("PointController updateAttendance() Start..");
-			int result = ps.updateAttendance(attendance);
+			
 			return result;
 		}
 		
+		//관리자 페이지 출석 이벤트 정보 수정 진행
+		@ResponseBody
+		@RequestMapping(value = "updateAttendance", method=RequestMethod.POST)
+		public int updateAttendance(@RequestParam("file1") MultipartFile file,
+					                @RequestParam("a_num") int a_num,
+					                @RequestParam("a_title") String a_title,
+					                @RequestParam("a_sdate") String a_sdate,
+					                @RequestParam("a_edate") String a_edate,
+					                @RequestParam("a_point") int a_point,
+					                @RequestParam("a_add") int a_add,
+					                @RequestParam("a_addpoint") int a_addpoint,
+					                @RequestParam("a_image") String a_image,
+						            HttpServletRequest request,
+						            Model model) throws Exception {
+			System.out.println("shController updateAttendance() Start..");
+			Attendance attendance = new Attendance();
+			attendance.setA_num(a_num);
+			attendance.setA_title(a_title);
+			attendance.setA_sdate(a_sdate);
+			attendance.setA_edate(a_edate);	
+			attendance.setA_point(a_point);
+			attendance.setA_add(a_add);
+			attendance.setA_addpoint(a_addpoint);
+			
+			if(file == null) {
+				attendance.setA_image(a_image);
+			} else {
+				String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+				System.out.println("shController uploadPath->"+uploadPath);
+				String savedName = uploadFile(file.getOriginalFilename(), file.getBytes(), uploadPath);
+				attendance.setA_image(savedName);
+			}
+			
+			int result = ps.updateAttendance(attendance);
+			
+			return result;
+		} 
+		
 		@RequestMapping(value = "boSearchEvent")
-		public String boSearchEvent(@RequestParam("eNum") int eNum, @RequestParam("a_title") String a_title,Model model) {
-			System.out.println("PointController boSearchEvent() Start..");
+		public String boSearchEvent(@RequestParam("eNum") int eNum, @RequestParam("a_title") String a_title, Model model) {
+			System.out.println("shController boSearchEvent() Start..");
 			Attendance attendance = new Attendance();
 			attendance.setA_num(eNum);
 			attendance.setA_title(a_title);
+			
+			
 			List<Attendance> boEventList = ps.searchEvent(attendance);
 			
 			model.addAttribute("event",attendance);
@@ -306,10 +483,56 @@ import com.choongang.s202350103.model.Quiz;
 		}
 		
 		@RequestMapping(value="selectMemberPoint")
-		public String selectMemberPoint(@RequestParam("a_num") int a_num, Model model) {
-			System.out.println("PointController updateMemberPoint() Start...");
-			List<PointList> memberPointList = ps.selectMemberPoint(a_num);
-			
+		public String selectMemberPoint(@RequestParam int m_num, Model model) {
+			System.out.println("shController selectMemberPoint() Start...");
+			List<PointList> memberPointList = ps.selectMemberPoint(m_num);
+			Member member = ms.memberInfo(m_num);
+			int sum = ps.pointSum(m_num);
+			System.out.println("memberPointList.size()->"+memberPointList.size());
+			model.addAttribute("memberPoint",memberPointList);
+			model.addAttribute("member",member);
+			model.addAttribute("sum",sum);
+			model.addAttribute("m_num",m_num);
 			return "sh/boMemberPointList";
+		}
+		
+		//관리자 이벤트 수정 페이지에서 삭제 버튼 실행 시 작동하는 메소드(출석)
+		@ResponseBody
+		@RequestMapping(value = "deleteAtt")
+		public int deleteAtt(@RequestParam("a_num") int a_num) {
+			System.out.println("shController deleteAtt() start..");
+			int result = ps.deleteAtt(a_num);
+			return result;
+		}
+		
+		//관리자 이벤트 수정 페이지에서 삭제 버튼 실행 시 작동하는 메소드(퀴즈)
+		@ResponseBody
+		@RequestMapping(value = "deleteQuiz")
+		public int deleteQuiz(@RequestParam("q_num") int q_num) {
+			System.out.println("shController deleteQuiz() Start...");
+			int result = ps.deleteQuiz(q_num);
+			return result;
+		}
+		
+		@RequestMapping(value = "boPlusPoint")
+		public String boPlusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+			System.out.println("shController boPlusPoint() Start...");
+			Member member = new Member();
+			member.setM_num(m_num);
+			member.setM_point(point);
+			ps.boInsertPlusPoint(member);
+			ps.boUpdatePlusPoint(member);
+			return "redirect:/selectMemberPoint?m_num="+m_num;
+		}
+		
+		@RequestMapping(value = "boMinusPoint")
+		public String boMinusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+			System.out.println("shController boMinusPoint() Start...");
+			Member member = new Member();
+			member.setM_num(m_num);
+			member.setM_point(point);
+			ps.boInsertMinusPoint(member);
+			ps.boUpdateMinusPoint(member);
+			return "redirect:/selectMemberPoint?m_num="+m_num;
 		}
 }

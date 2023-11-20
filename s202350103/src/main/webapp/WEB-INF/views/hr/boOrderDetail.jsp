@@ -31,7 +31,7 @@
 						}	
 				)
 			} else {
-				alert('주문접수 상태일 때만 취소 처리 가능합니다.')
+				alert('주문접수 상태일 때만 취소 처리 가능합니다.');
 			}
 		}
 		// 배송완료 (2 -> 3)
@@ -55,7 +55,7 @@
 						}	
 				)
 			} else {
-				alert('배송중 상태일 때만 배송완료 처리 가능합니다.')
+				alert('배송중 상태일 때만 배송완료 처리 가능합니다.');
 			}
 		}
 		// 구매확정 (3 -> 4)
@@ -79,7 +79,7 @@
 						}	
 				)
 			} else {
-				alert('배송완료 상태일 때만 구매확정 처리 가능합니다.')
+				alert('배송완료 상태일 때만 구매확정 처리 가능합니다.');
 			}
 		}
 		// 발송처리 (1 -> 2)
@@ -91,7 +91,7 @@
 							"발송처리",
 							"width=500 height=400");
 			} else {
-				alert('주문접수 상태일 때만 발송 처리 가능합니다.')
+				alert('주문확정 상태일 때만 발송 처리 가능합니다.');
 			}
 		}
 		
@@ -104,7 +104,7 @@
 							"교환처리",
 							"width=500 height=400");
 			} else {
-				alert('배송완료 상태일 때만 교환 처리 가능합니다.')
+				alert('배송완료 상태일 때만 교환 처리 가능합니다.');
 			}
 		}
 		
@@ -117,7 +117,7 @@
 							"반품처리",
 							"width=500 height=400");
 			} else {
-				alert('배송완료 상태일 때만 반품 처리 가능합니다.')
+				alert('배송완료 상태일 때만 반품 처리 가능합니다.');
 			}
 		}
 		
@@ -141,6 +141,9 @@
       <div>
          <!-- table -->
            <!-- Button -->
+           <input type="button" class="btn btn-secondary mb-2" value="목록가기"
+              	  onclick="location.href='boOrderList?currentPage=${currentPage }'"
+              	  style="float: right">
            <div class="order-operating-buttons">
               <input type="button" class="btn btn-success mb-2" value="발송"    onclick="statusShipping(${orderr.o_order_num})">
               <input type="button" class="btn btn-success mb-2" value="배송완료" onclick="statusDelivered(${orderr.o_order_num})">
@@ -163,35 +166,48 @@
             <tr>
                      <th class="table-light">주문상태</th>
                      <td class="align-middle" id="o_status">
-                     	<c:if test="${orderr.o_status == 0}">주문접수</c:if>
-                     	<c:if test="${orderr.o_status == 1}">주문확정</c:if>
-                     	<c:if test="${orderr.o_status == 2}">배송중</c:if>
-                     	<c:if test="${orderr.o_status == 3}">배송완료</c:if>
-                     	<c:if test="${orderr.o_status == 4}">구매확정</c:if>
-                     	<c:if test="${orderr.o_status == 5}">취소</c:if>
-                     	<c:if test="${orderr.o_status == 6}">교환</c:if>
-                     	<c:if test="${orderr.o_status == 7}">반품</c:if>
+                     	<c:choose>
+                     		<c:when test="${orderr.o_status == 0}">주문접수</c:when>
+                     		<c:when test="${orderr.o_status == 1}">주문확정</c:when>
+                     		<c:when test="${orderr.o_status == 2}">배송중</c:when>
+                     		<c:when test="${orderr.o_status == 3}">배송완료</c:when>
+                     		<c:when test="${orderr.o_status == 4}">구매확정</c:when>
+                     		<c:when test="${orderr.o_status == 5}">취소</c:when>
+                     		<c:when test="${orderr.o_status == 6}">교환</c:when>
+                     		<c:otherwise>반품</c:otherwise>
+                     	</c:choose>
                      </td>
                      <th class="table-light">주문유형</th>
                      <td class="align-middle">
-                     	<c:if test="${orderr.o_type == 1}">일반</c:if>
-                     	<c:if test="${orderr.o_type == 2}">선물</c:if>
+                     	<c:choose>
+                     		<c:when test="${orderr.o_type == 1}">일반</c:when>
+                     		<c:otherwise>선물</c:otherwise>
+                     	</c:choose>
                      </td>
             </tr>
             <tr>
                      <th class="table-light">결제 수단</th>
                      <td class="align-middle">
-                     	<c:if test="${orderr.o_type == 1}">카카오페이</c:if>
-                     	<c:if test="${orderr.o_type == 2}">토스</c:if>
+                     	<c:choose>
+                     		<c:when test="${orderr.o_type == 1}">카카오페이</c:when>
+                     		<c:when test="${orderr.o_type == 2}">토스페이</c:when>
+                     		<c:otherwise>(결제 대기 중)</c:otherwise>
+                     	</c:choose>
                      </td>
                      <th class="table-light">택배사/송장번호</th>
                      <td class="align-middle">
-                     	<c:if test="${orderr.o_deliv_com == 1}">대한통운</c:if>
-                     	<c:if test="${orderr.o_deliv_com == 2}">우체국택배</c:if>
-                     	<c:if test="${orderr.o_deliv_com == 3}">로젠택배</c:if>
-                     	<c:if test="${orderr.o_deliv_com == 4}">한진택배</c:if>
-                     	<c:if test="${orderr.o_deliv_com == 5}">롯데택배</c:if>
-                     /${orderr.o_deliv_track}
+                     	<c:choose>
+                     		<c:when test="${orderr.o_deliv_com == 1}">대한통운</c:when>
+                     		<c:when test="${orderr.o_deliv_com == 2}">우체국택배</c:when>
+                     		<c:when test="${orderr.o_deliv_com == 3}">로젠택배</c:when>
+                     		<c:when test="${orderr.o_deliv_com == 4}">한진택배</c:when>
+                     		<c:when test="${orderr.o_deliv_com == 5}">한진택배</c:when>
+                     		<c:otherwise>(발송 대기 중)</c:otherwise>
+                     	</c:choose>
+                     	<c:choose>
+                     		<c:when test="${orderr.o_deliv_track == 0}"></c:when>
+                     		<c:otherwise> / ${orderr.o_deliv_track}</c:otherwise>
+                     	</c:choose>
                      </td>
             </tr>
             </table>
@@ -203,9 +219,10 @@
             <tr>
                      <th class="table-light">대표 상품명</th>
                      <td class="align-middle">
-                        <div>
-                        	<h5 class="fs-6 mb-0" onclick="ProductPopup(${orderr.o_order_num})"><a class="text-inherit">${orderr.nb_title}</a></h5>
-                         </div>
+                        ${orderr.nb_title} 
+                        <c:if test="${orderr.o_book_count != 1}"> 외 ${orderr.o_book_count -1}건</c:if>
+                        &nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-soft-success btn-sm mb-2" onclick="ProductPopup(${orderr.o_order_num})">전체 상품 보기</button>
                      </td>                     
                      <th class="table-light">주문수량</th>
                      <td class="align-middle"><fmt:formatNumber value="${orderr.o_order_count}" groupingUsed="true"/></td>
@@ -252,9 +269,6 @@
             </tr>
             </table>
          </div>
-         <!-- 목록 버튼 -->
-         <!-- <input type="button" value="목록" class="btn btn-secondary mb-2"
-         		onclick="location.href='/boOrderList'"> -->
  </div>
  </div>
  </div>

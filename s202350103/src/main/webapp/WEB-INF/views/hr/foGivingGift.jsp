@@ -9,12 +9,14 @@
 <title>Insert title here</title>
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
+		// 포인트 입력 시 수행
 		function changeChk(p_point){
-			//alert("변경!");
 			//alert("보유 포인트 : ${member.m_point }");
+			//alert("보유 포인트 type : "+typeof("${member.m_point }"));
 			//alert("입력 포인트 : "+p_point);
+			//alert("입력 포인트 type : "+typeof(p_point));
 			
-			if(p_point <= '${member.m_point }'){
+			if(Number(p_point) <= Number('${member.m_point }')){
 				//alert("사용 가능합니다.");
 				$("#pointMsg").html("사용 가능합니다.");
 				
@@ -26,8 +28,8 @@
 				// 결제정보의 최종결제금액에 반영
 				const p_deliv_price = Number(document.getElementById("o_deliv_price").value);
 				//alert("p_deliv_price : "+p_deliv_price);
-				const nb_price_num = Number('${newbook.nb_price}');
-				const p_pay_price = (nb_price_num + p_deliv_price - p_point);
+				const nb_price_sum_num = Number('${newbook.nb_price * quantity}');
+				const p_pay_price = (nb_price_sum_num + p_deliv_price - p_point);
 				//alert("p_pay_price : "+p_pay_price);
 				const p_pay_price_result = p_pay_price.toLocaleString();
 				//alert("p_pay_price_result : "+p_pay_price_result);
@@ -35,7 +37,7 @@
 				$("#o_pay_price_val").val(p_pay_price);
 				
 				// 결제정보의 적립혜택에 반영
-				const p_point_save = (p_pay_price * 0.01);
+				const p_point_save = Math.round(p_pay_price * 0.01);
 				const p_point_save_result = p_point_save.toLocaleString();
 				$("#o_point_save").html(p_point_save_result);
 				
@@ -43,6 +45,43 @@
 				//alert("보유 포인트보다 많이 사용할 수 없습니다.");
 				$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
 				$("#o_point").val("");
+				$("#o_point_result").html(0);
+			}
+		}
+		
+		// 받는사람 이메일 입력 시 수행
+		function mailChk(mail) {
+			// alert("mail -> "+mail);
+			const mailPattern = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+			
+			if(mail == ""){
+				$("#mailMsg").html("이메일을 입력해주세요.");
+				$("#o_rec_mail").val("");
+				$("#o_rec_mail").focus();
+			} else if(mailPattern.test(mail) === false){
+				$("#mailMsg").html("이메일 형식이 잘못되었습니다.");
+				$("#o_rec_mail").val("");
+				$("#o_rec_mail").focus();
+			} else {
+				$("#mailMsg").html("");
+			}
+		}
+		
+		// 받는사람 휴대전화 입력 시 수행
+		function phChk(ph) {
+			// alert("ph -> "+ph);
+			const phPattern = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
+			
+			if(ph == ""){
+				$("#phMsg").html("휴대전화를 입력해주세요.");
+				$("#o_rec_ph").val("");
+				$("#o_rec_ph").focus();
+			} else if(phPattern.test(ph) === false){
+				$("#phMsg").html("휴대전화 형식이 잘못되었습니다.");
+				$("#o_rec_ph").val("");
+				$("#o_rec_ph").focus();
+			} else {
+				$("#phMsg").html("");
 			}
 		}
 	</script>
@@ -67,7 +106,7 @@
           
 <!-- 배송비 결정 -->
 <c:choose>
-	<c:when test="${newbook.nb_price > 50000}">
+	<c:when test="${newbook.nb_price * quantity > 50000}">
 		<c:set var="o_deliv_price" value="0"/>
 		<c:set var="o_deliv_price_express" value="무료 배송"/>
 	</c:when>
@@ -105,12 +144,16 @@
             </div>
             <div class="col-md-12 mb-3">
               <label class="form-label" for="o_rec_mail"> 이메일<span class="text-danger">*</span></label>
-              <input type="text" id="o_rec_mail" class="form-control" name="o_rec_mail" placeholder="hgd@dadok.com" required>
+              &nbsp;&nbsp;<span class="text-danger" id="mailMsg" ></span>
+              <input type="text" id="o_rec_mail" class="form-control" name="o_rec_mail"
+              		 placeholder="hgd@dadok.com" required onchange="mailChk(o_rec_mail.value)">
             </div>
             <div class="col-md-12 mb-3">
               <!-- input -->
               <label class="form-label" for="o_rec_ph"> 휴대전화<span class="text-danger">*</span></label>
-              <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control" placeholder="010-0000-0000" required>
+              &nbsp;&nbsp;<span class="text-danger" id="phMsg" ></span>
+              <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control"
+              		 placeholder="010-0000-0000" required onchange="phChk(o_rec_ph.value)">
             </div>
             
             <p><p><hr><p><p>
@@ -146,7 +189,7 @@
 				                 <div class="text-small mb-1"><small><fmt:formatNumber value="${quantity}" groupingUsed="true"/>개</small></div>
 				                 <div class=" mt-6">
 				                    <!-- price -->
-				                    <div><span class="text-dark"><fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/>원</span></div>
+				                    <div><span class="text-dark"><fmt:formatNumber value="${newbook.nb_price * quantity}" groupingUsed="true"/>원</span></div>
 				                 </div>
 				              </div>
 				           </div>
@@ -162,9 +205,9 @@
               <!-- input -->
             <div class="col-md-12 mb-3">
               <label class="form-label" for="o_point"> 사용 포인트  (보유 : <fmt:formatNumber value="${member.m_point }" groupingUsed="true"/>원)</label>
-              <span class="text-danger" id="pointMsg" ></span>
-              <input type="text" id="o_point" class="form-control" name="o_point"
-              		 onchange="changeChk(o_point.value)">
+              &nbsp;&nbsp;<span class="text-danger" id="pointMsg" ></span>
+              <input type="number" id="o_point" class="form-control" name="o_point"
+              		 onchange="changeChk(o_point.value)" value="0" required>
             </div>
 				
             <p><p><hr><p><p>
@@ -175,7 +218,7 @@
             	<table style="width: 100%;">
             		<tr height="40px">
             			<td class="form-label" width="70%">상품금액</td>
-            			<td class="h6" width="30%" align="right"><fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/> 원</td>
+            			<td class="h6" width="30%" align="right"><fmt:formatNumber value="${newbook.nb_price * quantity}" groupingUsed="true"/> 원</td>
             		</tr>
             		<tr height="40px">
             			<td class="form-label" width="70%">배송비</td>
@@ -191,7 +234,7 @@
             			<td class="text-danger" width="70%">최종 결제 금액</td>
             			<td class="text-danger" width="30%" align="right">
             				<span id="o_pay_price">
-            					<fmt:formatNumber value="${newbook.nb_price + o_deliv_price}" groupingUsed="true"/>
+            					<fmt:formatNumber value="${newbook.nb_price * quantity + o_deliv_price}" groupingUsed="true"/>
             				</span> 원
             			</td>
             		</tr>
@@ -199,7 +242,7 @@
             			<td class="form-label" width="70%">적립 혜택</td>
             			<td class="h6" width="30%" align="right">
             				<span id="o_point_save">
-            					<fmt:formatNumber value="${(newbook.nb_price + o_deliv_price) * 0.01}" groupingUsed="true"/>
+            					<fmt:formatNumber value="${(newbook.nb_price * quantity + o_deliv_price) * 0.01}" groupingUsed="true"/>
             				</span> 원
             			</td>
             		</tr>
@@ -222,7 +265,7 @@
 
 <!-- hidden value -->
 <input type="hidden" name="m_num" value="${member.m_num }"> 
-<input type="hidden" name="o_pay_price" value="" id="o_pay_price_val"> <!-- ajax 통해 삽입 -->
+<input type="hidden" name="o_pay_price" value="${newbook.nb_price * quantity + o_deliv_price}" id="o_pay_price_val"> <!-- ajax 통해 삽입 -->
 <input type="hidden" name="nb_num" value="${newbook.nb_num }"> 
 <input type="hidden" name="o_de_count" value="${quantity}"> 
 

@@ -105,7 +105,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
 		System.out.println("AttendanceDao boEventList() Start..");
 		List<Attendance> attendanceList = null;
 		try {
-			attendanceList = session.selectList("shBoEventList");
+			attendanceList = session.selectList("shBoEventList",attendance);
 		} catch (Exception e) {
 			System.out.println("AttendanceDao boEventList() Exception ->"+e.getMessage());
 		}
@@ -123,7 +123,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
 		}
 		return result;
 	}
-
+	
 	@Override
 	public List<Attendance> searchEvent(Attendance attendance) {
 		System.out.println("AttendanceDao searchEvent() Start..");
@@ -134,6 +134,30 @@ public class AttendanceDaoImpl implements AttendanceDao {
 			System.out.println("AttendanceDao searchEvent() Exception->"+e.getMessage());
 		}
 		return boEventList;
+	}
+
+	@Override
+	public int checkAddAtt(int a_num) {
+		System.out.println("AttendanceDao checkAddAtt() Start..");
+		int addAtt = 0;
+		try {
+			addAtt = session.selectOne("shCheckAddAtt",a_num);
+		} catch (Exception e) {
+			System.out.println("AttendanceDao checkAddAtt() Exception->"+e.getMessage());
+		}
+		return addAtt;
+	}
+
+	@Override
+	public int deleteAtt(int a_num) {
+		System.out.println("AttendanceDao deleteAtt() Start...");
+		int result = 0;
+		try {
+			result = session.delete("shDeleteAtt",a_num);
+		} catch (Exception e) {
+			System.out.println("AttendanceDao deleteAtt() Exception ->"+e.getMessage());
+		}
+		return result;
 	}
 
 }

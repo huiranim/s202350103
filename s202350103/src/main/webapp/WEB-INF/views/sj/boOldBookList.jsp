@@ -7,6 +7,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript">
+	
+			function change_status() {
+				var ob_statusVal = $("#ob_status1").val();
+				alert("ob_statusVal->"+ob_statusVal);	
+				
+				location.href = "/BolistOb?currentPage="+1+"&ob_status="+ob_statusVal;
+			}
+
+
+
+</script>
 </head>
 <body>
 	
@@ -14,10 +27,21 @@
 	<div class="col-lg-12 col-md-12 col-12 d-block">
 	     <div class="py-6 p-md-6 p-lg-10">
 	        <!-- heading -->
-	       <p class="fs-1 text-center">중고 판매 신청 목록 </p>
+	      <div>
+	       <p class="fs-1 text-center">중고 판매 신청 목록   </p>
+	       </div>
+	       
+	       <div class="col-2 p-4 mb-4" style="margin-left: 620px" >
+	       <select id="ob_status1" class="form-select"  aria-label="Default select example" onchange="change_status()" >
+	       <option value=0 <c:if test="${oldBook.ob_status eq '0'}"> selected="selected"</c:if>>   전체</option>
+	        <option value=1 <c:if test="${oldBook.ob_status eq '1'}"> selected="selected"</c:if>>  검수 중</option>
+	         <option value=2 <c:if test="${oldBook.ob_status eq '2'}"> selected="selected"</c:if>> 검수 완료</option>
+	          <option value=3 <c:if test="${oldBook.ob_status eq '3'}"> selected="selected"</c:if>> 매입 완료</option>
+	       </select>
 	        
+	        </div>
 	           <!-- Table -->
-	           	<c:set var="num" value="${page.totalOb-page.start+1 }"></c:set>
+	           	
 	           	<div class="table">
 	         
 	           <table class="table text-nowrap " style="border-bottom: 1px">
@@ -26,9 +50,12 @@
 	                 <tr>  
 		                    <th class="border-0">신청일자</th>
 		                    <th class="border-0">매입 번호</th>
+		                    <th class="border-0">신청자 명 </th>
 		                    <th class="border-0 text-center" >중고 상품</th>
+		                    
 		                    <th class="border-0">매입상태</th>
-		                    <th class="border-0 text-center">검수/등록하기</th>
+		 						
+		                    <th class="border-0 text-center">검수하기/상세보기</th>
 	                 </tr>
 	              </thead>
 	              <c:forEach var="oldBook" items="${listOb }">
@@ -41,6 +68,9 @@
 	                    </td>
 	                    <td class="align-middle">
 	                      ${oldBook.ob_num }
+	                    </td>
+	                    <td class="align-middle">
+	                    	${oldBook.m_name }
 	                    </td>
 	                    <td class="align-middle">
 	                    
@@ -59,14 +89,13 @@
 	                    <td class="align-middle">
 		      			 <c:choose>
 							<c:when test="${oldBook.ob_status eq '1' }"><c:out value=""/>
-									<input type="button" class="btn btn-soft-success mb-2" value="검수하기" name="ob_num" onclick="location.href='BoupdateObDetailCheck?ob_num=${oldBook.ob_num}'">								
-									<input type="button" class="btn btn-soft-success mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+									<input type="button" class="btn btn-soft-success mb-2" value="검수하기" name="ob_num" onclick="location.href='BoupdateObDetailCheck?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:when test="${oldBook.ob_status eq '2' }"><c:out value=""/>
-									<input type="button" class="btn btn-soft-success mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+									<input type="button" class="btn btn-soft-info mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:when test="${oldBook.ob_status eq '3' }"><c:out value=""/>
-									<input type="button" class="btn btn-soft-success mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+									<input type="button" class="btn btn-soft-info mb-2" name="ob_num"  value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:otherwise><c:out value=""/>
 								</c:otherwise>
@@ -80,32 +109,39 @@
 		           
 		</table>
 		<hr>		
-<c:set var="num" value="${num - 1 }"></c:set>		
-		 <nav aria-label="Page navigation example">
-		  <ul class="pagination justify-content-center">
-
-			 	<c:if test="${page.startPage > page.pageBlock }">
-					 <li class="pagination justify-content-center">					
-						<a class="page-link" href="BolistOb?currentPage=${page.startPage-page.pageBlock}">이전</a>
-					</li>
-				</c:if>
-				
- 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-					 <li class="pagination justify-content-center">
- 						<a class="page-link" href="BolistOb?currentPage=${i}">${i}</a>
-					</li>
-				</c:forEach>
-					
-				<c:if test="${page.endPage < page.totalObPage }">
-					 <li class="pagination justify-content-center">		 
-						<a class="page-link" href="BolistOb?currentPage=${page.startPage+page.pageBlock}">다음</a>
-					</li>
-				</c:if>
-		</ul>
-	</nav>
+									
+									<c:set var="num" value="${page.totalOb-page.start+1 }"></c:set>
+									<c:set var="num" value="${num - 1 }"></c:set>
+									  <ul class="pagination justify-content-center">
+										 	<c:if test="${page.startPage > page.pageBlock }">
+												 <li class="pagination justify-content-center">					
+													<a class="page-link" href="BolistOb?currentPage=${page.startPage-page.pageBlock}">이전</a>
+												</li>
+											</c:if>
+											
+							 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+												 <li  class="pagination justify-content-center">
+							 						<c:choose>
+							 						<c:when test="${oldBook.ob_status  eq '0' }"><a class="page-link"   href="BolistOb?currentPage=${i}&ob_status=0" >${i}</a></c:when>
+							 						<c:when test="${oldBook.ob_status  eq '1' }"><a class="page-link"   href="BolistOb?currentPage=${i}&ob_status=1" >${i}</a></c:when>
+							 						<c:when test="${oldBook.ob_status  eq '2' }"><a class="page-link"   href="BolistOb?currentPage=${i}&ob_status=2" >${i}</a></c:when>
+							 						<c:when test="${oldBook.ob_status  eq '3' }"><a class="page-link"   href="BolistOb?currentPage=${i}&ob_status=3" >${i}</a></c:when>
+							 						<c:otherwise><c:out value=""></c:out>
+							 						</c:otherwise>
+							 						</c:choose>
+												</li>
+											</c:forEach>
+												
+											<c:if test="${page.endPage < page.totalObPage }">
+												 <li class="pagination justify-content-center">		 
+													<a class="page-link" href="BolistOb?currentPage=${page.startPage+page.pageBlock}">다음</a>
+												</li>
+											</c:if>
+									</ul>
+<!-- 
 						 <div class="d-grid gap-2">
 					    <button class="btn btn-soft-success mb-2" type="submit" onclick="location.href='index'">메인화면가기</button>
-					</div>	
+					</div>	 -->
 				</div>
 			</div>
 		</div>

@@ -3,11 +3,14 @@ package com.choongang.s202350103.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,11 +24,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.choongang.s202350103.gbService.RecentlyBook;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.MemberQ;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.yjService.MemberService;
 import com.choongang.s202350103.yjService.Paging;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
@@ -36,37 +42,50 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 @Controller
 @Slf4j
 public class YjController {
-
-	private final com.choongang.s202350103.ybService.MemberService ys;
 	
-	private final MemberService ms;
-
-	final DefaultMessageService messageService; // 문자전송 API
+	private final HttpSession session;	// 세션
+	private final com.choongang.s202350103.ybService.MemberService ys; // 용빈 서비스
+	private final MemberService ms;			// 서비스
+	private final RecentlyBook rb;
 	
 	private final JavaMailSender mailSender;	// 메일 전송 객체
+	final DefaultMessageService messageService; // 문자전송 API
 	
-	public YjController(MemberService ms,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys ) {
+	public YjController(MemberService ms,HttpSession session,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys, RecentlyBook rb ) {
+		// 세션
+		this.session = session;
+		// 서비스
 		this.ms = ms;
 		// 문자 전송 API 							API 키, API Secret Key
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
-		
 		// 메일 전송 객체
 		this.mailSender = mailSender;
-		
-		// 마이페이지 용빈 멤버서비스
+		// 마이페이지 멤버서비스 용빈
 		this.ys = ys;
+		// 도서 최근상품 리스트 서비스  금비
+		this.rb = rb;
 		
 	}
 
 	//  회원 가입 약관 페이지 이동
 	@RequestMapping("/memberJoin")
-	public String memberJoin() {
+	public String memberJoin(Model model) {
+		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+
 		return "yj/memberJoin";
+
 	}
 	
 	// 회원 가입 폼 이동
 	@RequestMapping("/memberJoinForm")
-	public String memberJoinForm() {
+	public String memberJoinForm(Model model) {
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+
 		return "yj/memberJoinForm";
 	}
 	
@@ -86,6 +105,11 @@ public class YjController {
 		model.addAttribute("m_id",m_id);
 		model.addAttribute("ok",m_id + " 는 사용 할 수 있는 ID 입니다.");
 	}
+	
+	// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+	ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+	model.addAttribute("recentBookList", recentBookList);
+
 	return "yj/memberJoinForm";
 	
 	}
@@ -94,7 +118,8 @@ public class YjController {
 	// @RequestParam -> 특정 파라미터
 	// @ModelAttribute -> 객체 바인딩 
 	@PostMapping("/memberJoinAction")
-	public String memberJoinAction(@RequestParam("m_email1") String m_email1, 
+	public String memberJoinAction(	
+									@RequestParam("m_email1") String m_email1, 
 									@RequestParam("m_email") String m_email, 
 									
 									@RequestParam("m_ph1") String m_ph1,
@@ -110,8 +135,6 @@ public class YjController {
 									
 									@ModelAttribute Member member, Model model, HttpSession session) {
 	
-			
-		
 		System.out.println("memberJoinAction Start ...");
 		
 		member.setM_email(m_email1+"@"+m_email);	// 이메일 병합
@@ -137,17 +160,31 @@ public class YjController {
 			
 			memberJoinPoint(m_reid);
 		}
-		
+		// 회원 가입
 		int joinResult = ms.joinResult(member);
+		
+		// 회원 가입시  포인트 이력에 insert 
+		int joinPoint = ms.joinPoint();
+		
 		model.addAttribute("joinResult",joinResult);
 		System.out.println("joinResult ->" + joinResult);
+		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+
 		
 		return  "redirect:/memberJoinOk";
 	}
 	
 	// 회원 가입 완료 
 	@GetMapping("/memberJoinOk")
-	public String memberJoinOk() {
+	public String memberJoinOk(Model model) {
+
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+
 		return "yj/memberJoinOk";
 	}
 	
@@ -155,8 +192,13 @@ public class YjController {
 	// 회원 가입시 추천인  포인트 적립
 	@PostMapping("memberJoinPoint")
 	public void memberJoinPoint(String m_reid) {
+		// 추천인 포인트 적립 
 		int memberJoinPoint = ms.memberJoinPoint(m_reid);
+		
+		//  추천인 입력시 포인트 이력에 insert
+		int memberJoinPointList = ms.memberJoinPointList(m_reid);
 	}
+	
 	
 		
 	// 마이 페이지 이동
@@ -173,10 +215,13 @@ public class YjController {
 			System.out.println("마이페이지 회원 넘버 ->"+m_num);
 			int totalOrderCnt = ms.totalOrderCnt(m_num);
 			
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
 			
 			model.addAttribute("totalWishList", totalWishList);
 			model.addAttribute("totalSellCnt", totalSellCnt);
 			model.addAttribute("totalOrderCnt",totalOrderCnt);
+			model.addAttribute("recentBookList", recentBookList);
 			
 			System.out.println("Controller sadasdasd" + totalWishList);
 			
@@ -194,12 +239,20 @@ public class YjController {
 		String[] splitPh = member.getM_ph().split("-");
 		String[] splitEmail = member.getM_email().split("@");
 		String[] splitAddr = member.getM_addr().split("/");
+		System.out.println("상세에서 splitEmail -> "+splitEmail[1]);
+		System.out.println("상세에서 email -> "+member.getM_email());
+		
 		
 		model.addAttribute("splitPh",splitPh);
 		model.addAttribute("splitEmail",splitEmail);
 		model.addAttribute("splitAddr",splitAddr);
 		
 		model.addAttribute("member",member);
+		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+
 		
 		return "yj/memberMyInfo";
 	}
@@ -211,7 +264,7 @@ public class YjController {
 								@RequestParam("m_image") String m_image,
 			
 								@RequestParam("m_email1") String m_email1, 
-								@RequestParam("m_email") String m_email, 
+								@RequestParam("m_email2") String m_email2, 
 								
 								@RequestParam("m_ph1") String m_ph1,
 								@RequestParam("m_ph2") String m_ph2,
@@ -226,8 +279,9 @@ public class YjController {
 	
 		System.out.println(m_num);	
 		System.out.println(m_image);
+		System.out.println("m_email2 -> "+m_email2);
 		
-		member.setM_email(m_email1+"@"+m_email);	// 이메일 병합
+		member.setM_email(m_email1+"@"+m_email2);	// 이메일 병합
 		member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
 		member.setM_addr(m_addr1+"/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
 		
@@ -243,6 +297,10 @@ public class YjController {
 		int memberUpdate = ms.memberUpdate(member);
 		model.addAttribute("memberUpdate",memberUpdate);
 		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+
 		session.invalidate(); // 세션 초기화
 		
 		return  "redirect:/loginForm";
@@ -252,13 +310,22 @@ public class YjController {
 	
 	// 계정 찾기 화면 이동
 	@RequestMapping("memberFindAccount")
-	public String memberFindAccount() {
+	public String memberFindAccount(Model model) {
+
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+
 		return"yj/memberFindAccount";
 	}
 	
 	// 아이디 찾기 화면 이동
 	@RequestMapping("memberFrinId")
-	public String memberFrinId() {
+	public String memberFrinId(Model model) {
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+
 		return "yj/memberFrinId";
 	}
 		
@@ -267,8 +334,17 @@ public class YjController {
 	public String memberPhFindId(@RequestParam("auth") String auth, Model model ) {
 		
 		if("ph".equals(auth)) {
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+			
 			return "yj/memberFindAcPh";
 		}else {
+			
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+
 			return "yj/memberFindAcEmail";
 		}
 		
@@ -337,11 +413,20 @@ public class YjController {
 			  model.addAttribute("okPh","발송된 인증번호를 입력해주세요.");
 			  model.addAttribute("m_ph",m_ph);
 			  model.addAttribute("ranCode",ranCode);
-			  
+
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+				ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+				model.addAttribute("recentBookList", recentBookList);
+
 			  return "yj/memberFindAcPh"; 
 
 		  }else {
 			  model.addAttribute("noPh","가입되지 않은 회원입니다.");
+			  
+				// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+				ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+				model.addAttribute("recentBookList", recentBookList);
+
 			  return "yj/memberFindAcPh"; 
 		  }
 	  }
@@ -372,11 +457,18 @@ public class YjController {
 			  
 			  model.addAttribute("formatM_date",formatM_date );
 			  model.addAttribute("member",member);
-			  session.invalidate();
+				// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+				ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+				model.addAttribute("recentBookList", recentBookList);
+			  
 			  return "yj/memberFindGetId"; 
 			  
 		  }else {
 			  model.addAttribute("noAuth","인증번호가 일치하지 않습니다. 다시 진행해 주세요.");
+				// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+				ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+				model.addAttribute("recentBookList", recentBookList);
+
 			  return "yj/memberFindAcPh"; 
 		  }
 	  }
@@ -430,12 +522,21 @@ public class YjController {
 				System.out.println("yjController Email Send Error");
 			}
 			
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+			
 			return "yj/memberFindAcEmail";
 		
 		// 	존재하지 않은 메일주소 일시 
 		}else {
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+			
 			System.out.println("불 일치");
 			model.addAttribute("noEmail","가입되지 않은 회원입니다.");
+			
 			return "yj/memberFindAcEmail";
 		}
 		
@@ -464,10 +565,17 @@ public class YjController {
 			  
 			  model.addAttribute("formatM_date",formatM_date );
 			  model.addAttribute("member",member);
-			  session.invalidate();
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+				ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+				model.addAttribute("recentBookList", recentBookList);
+			  
 			  return "yj/memberFindGetId"; 
 			  
 		  }else {
+				// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+				ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+				model.addAttribute("recentBookList", recentBookList);
+			  
 			  model.addAttribute("noAuth","인증번호가 일치하지 않습니다. 다시 진행해 주세요.");
 			  return "yj/memberFindAcEmail"; 
 		  }
@@ -483,24 +591,73 @@ public class YjController {
 		  
 		  List<Member> memberMyReview = ms.memberMyReview(m_num);
 		  
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+		  
  		  model.addAttribute("memberMyReview",memberMyReview);
  		  
 		  return "yj/memberMyReview";
+	  }
+	  
+	  // 내 주문 리스트 날짜 포맷
+	  private String formatDate(Date date) {
+		  SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy. MM. dd");
+		  return dateFormat.format(date);
 	  }
 	  
 	  // 내 주문 리스트
 	  @GetMapping("memberMyOrder")
 	  public String memberMyOrder(@RequestParam int m_num, Model model) {
 		  
+		  System.out.println(m_num);
+		  
+//		  member = (Member) session.getAttribute("member");
+//		  if(member == null) {
+//			  return "yb/loginForm";
+//		  }
+		  
 		  List<Member> memberMyOrder = ms.memberMyOrder(m_num);
+//
+//		  for(Member member : memberMyOrder) {
+//			  int mNum = member.getM_num();
+//			  int orderNum = (int) member.getO_order_num();
+//			  String orderDate = formatDate(member.getO_order_date());
+//			  
+//			  System.out.println(mNum);
+//			  System.out.println(orderNum);
+//			  System.out.println(orderDate);
+//			  
+//			  
+//		  }
+		  
+		  //LinkedHashMap  맵의 키-값 쌍 을 유지 시켜 삽입 순서 보장 -> 키와 값을 순서대로 유지하고 순서기반 접근
+		  Map<String, List<Member>> orderNumGroups = new LinkedHashMap<>();
+		  
+		  for(Member member : memberMyOrder) {
+			  String orderDate = formatDate(member.getO_order_date());
+			  String orderNum = String.valueOf(member.getO_order_num());
+
+			  if(!orderNumGroups.containsKey(orderNum)) {
+				  orderNumGroups.put(orderNum, new ArrayList<Member>());
+			  }
+			  orderNumGroups.get(orderNum).add(member);
+		  }
+
+		  System.out.println(orderNumGroups);
 		  
 		  int totalOrderCnt = ms.totalOrderCnt(m_num);
 			
 		  model.addAttribute("totalOrderCnt",totalOrderCnt);
-		  model.addAttribute("memberMyOrder",memberMyOrder);
+		  model.addAttribute("orderNumGroups",orderNumGroups);
+
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
 		  
 		  return "yj/memberMyOrder";
 	  }
+	  
 	  
 	  // 관리자-회원 전체 조회
 	  @GetMapping("adminMemberList")
@@ -524,7 +681,34 @@ public class YjController {
 	
 	  // 관리자-페이지 이동
 	  @RequestMapping("mainBo")
-	  public String mainBo() {
+	  public String mainBo(Model model) {
+		  // 총 회원
+		  int totalMember = ms.totalMember();
+		  // 일반 회원
+		  int nomalMember = ms.nomalMember();
+		  // 관리자 
+		  int adminMember = ms.adminMember();
+		  // 활동 회원
+		  int activeMember = ms.activeMember();
+		  // 탈퇴 회원
+		  int wdMember = ms.wdMember();
+		  
+		  model.addAttribute("nomalMember",nomalMember);
+		  model.addAttribute("adminMember",adminMember);
+		  model.addAttribute("activeMember",activeMember);
+		  model.addAttribute("wdMember",wdMember);
+
+		  float averNomalMember = ((float)nomalMember / totalMember) * 100;
+		  float averAdminMember = ((float)adminMember / totalMember) * 100;
+		  float averActiveMember = ((float)activeMember / totalMember) * 100;
+		  float averWdMember = ((float)wdMember / totalMember) * 100;
+		  
+		  model.addAttribute("totalMember",totalMember);
+		  model.addAttribute("averNomalMember",averNomalMember);
+		  model.addAttribute("averAdminMember",averAdminMember);
+		  model.addAttribute("averActiveMember",averActiveMember);
+		  model.addAttribute("averWdMember",averWdMember);
+		  
 		  return "common/mainBo";
 	  }
 	  
@@ -576,6 +760,10 @@ public class YjController {
 		  Member member = ms.memberInfo(m_num);
 		  model.addAttribute("member",member);
 		  
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+		  
 		  return "yj/memberQna";
 	  }
 	  
@@ -593,9 +781,12 @@ public class YjController {
 		  System.out.println(mq_hidden);
 		  
 		  int memberQInsert = ms.memberQInsert(memberQ);
-			
+
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+		  
 		  model.addAttribute("memberQInsert",memberQInsert); 
-			
 		  
 		  return "redirect:/memberQnaList";
 	  }
@@ -618,20 +809,48 @@ public class YjController {
 		  model.addAttribute("page",page);
 		  model.addAttribute("memberQnaList",memberQnaList);
 		  
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+		  
 		  return "yj/memberQnaList";
 	  }
 	  
 	  // 문의 상세조회
 	  @GetMapping("/memberQInfo")
 	  public String memberQInfo(@RequestParam int mq_num, 
-			  					String currentPage, Model model) {
-		  
-		  System.out.println("yj controller mqNum ->" +mq_num);
+			  					String currentPage, Model model, HttpServletRequest request) {
 		  
 		  MemberQ memberQInfo  = ms.memberQInfo(mq_num);
-		  model.addAttribute("memberQInfo",memberQInfo);
 		  
+		  int mq_hidden = memberQInfo.getMq_hidden();
+		  int m_num = memberQInfo.getM_num();
+		  int m_admin = memberQInfo.getM_admin();
+
+		  System.out.println(mq_hidden);
+		  System.out.println(m_num);
+		  System.out.println(m_admin);
+		  
+		  // 비밀글로 일 때  
+		  if(mq_hidden == 1) {
+			  // 세션에 저장된 회원을 호출
+			  Member member = (Member) session.getAttribute("member");
+			  // 회원이 일반 회원 일 경우 
+			  if(member.getM_admin() == 0) {
+				  // 세션의 회원 번호와 게시글의 회원번호가 일치하지 않을때 
+				  if(member.getM_num() != memberQInfo.getM_num()) {
+					  return "redirect:/custom404";
+				  }
+			  }
+		  }
+		 
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+		  
+		  model.addAttribute("memberQInfo",memberQInfo);
 		  return "yj/memberQInfo";
+		  
 	  }
 	  
 	  
@@ -643,6 +862,10 @@ public class YjController {
 		  
 		  Member member = ms.memberInfo(m_num);
 		  model.addAttribute("member",member);
+		  
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
 		  
 		  return "yj/memberQnaOne";
 	  }
@@ -687,6 +910,10 @@ public class YjController {
 			  e.printStackTrace();
 		  }
 		  
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+		  
 		  return "yj/memberQnaOne";
 	  }
 	  
@@ -699,6 +926,10 @@ public class YjController {
 		  List<MemberQ> memberMyQnaList = ms.memberMyQnaList(m_num);
 		  
 		  model.addAttribute("memberMyQnaList",memberMyQnaList);
+		  
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
 		  
 		  return "yj/memberMyOna";
 	  }
@@ -745,6 +976,10 @@ public class YjController {
 		  model.addAttribute("myMqDelete",myMqDelete);
 		  model.addAttribute("memberMyQnaList",memberMyQnaList);
 		  
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+		  
 		  return "yj/memberMyOna";
 	  }
 	  
@@ -765,6 +1000,10 @@ public class YjController {
 		  model.addAttribute("myMqUpdate",myMqUpdate);
 		  model.addAttribute("memberMyQnaList",memberMyQnaList);
 		  
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+		  
 		  return "yj/memberMyOna";
 	  }
 	  
@@ -781,16 +1020,18 @@ public class YjController {
 	  
 	  // 관리자 - 회원 검색
 	  @GetMapping("memberSearch")
-	  public String memberSearch(Member member, String currentPage, Model model) {
+	  public String memberSearch(Member member, String currentPage, Model model, HttpServletRequest request) {
+		  
+
 		  // 전체회원 count
 		  int totalMember = ms.memberSearchCnt(member);
 		  
 		  System.out.println(totalMember);
-		  		  // 페이징
+		  // 페이징
 		  Paging page = new Paging(totalMember, currentPage);
 		  member.setStart(page.getStart());
 		  member.setEnd(page.getEnd());
-		 
+		  
 		  List<Member> adminMemberSearch = ms.adminMemberSearch(member);
 		  
 		  model.addAttribute("totalMember",totalMember);
@@ -802,7 +1043,7 @@ public class YjController {
 	  }
 	  
 	  // 404  테스트
-	  @GetMapping("/cutom404")
+	  @GetMapping("/custom404")
 	  public String cutom404() {
 		  return "yj/yjCustom404";
 	  }
@@ -819,6 +1060,7 @@ public class YjController {
 			
 			return m_addr;
 	  }
+	
 	  
 	  
 }

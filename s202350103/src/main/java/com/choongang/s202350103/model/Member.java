@@ -49,4 +49,6 @@ public class Member {					// 회원
 		private String o_rec_name;		// 수령_이름
 		private int	   o_pay_price;		// 결제금액
 		private int	   o_status;		// 주문상태
+		private int    o_de_count;		// 주문수량
+		private int    nb_price;		// 도서가격	
 }

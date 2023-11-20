@@ -40,19 +40,24 @@
 		Insert into attendance Values (event_num_seq.nextval, #{a_title}, #{a_sdate},#{a_edate},#{a_image},#{a_point},#{a_add},#{a_addpoint})
 	</insert>
 	
-	<select id="shBoEventList" resultType="Attendance">
+	<select id="shBoEventList" parameterType="Attendance" resultType="Attendance">
 	<![CDATA[
-		Select rownum rn, a.* 
+		Select *
 		From
-		 (
-		 Select a_title, a_num, a_sdate, a_edate, a_point, a_add
-		 From attendance
-		 Union
-		 Select q_title, q_num, q_sdate, q_edate, q_point, null As a_add
-		 From Quiz
-		 Order by a_num
-		 ) a
-		Order by rn DESC
+		(
+		 Select rownum rn, a.* 
+		 From
+		  (
+		  Select a_title, a_num, a_sdate, a_edate, a_point, a_add
+		  From attendance
+		  Union
+		  Select q_title, q_num, q_sdate, q_edate, q_point, null As a_add
+		  From Quiz
+		  Order by a_num desc
+		  )a)
+		Where rn >= #{start}
+		And   rn <= #{end}
+		Order by rn asc	
 	]]>
 	</select>
 	
@@ -68,6 +73,13 @@
 		a_addpoint = #{a_addpoint}
 		Where a_num = #{a_num}
 	</update>
+	
+	<select id="shCheckAddAtt" parameterType="int" resultType="int">
+		Select a_add
+		From attendance
+		Where a_num = #{a_num}
+	</select>
+	
 	
 	<select id="shBoSearchEvent" parameterType="Attendance" resultType="Attendance">
 		<![CDATA[
@@ -85,6 +97,11 @@
          and
          a.a_title Like '%#{a_title}%'
 		Order by rn DESC
+		
         ]]>
 	</select>
+	
+	<delete id="shDeleteAtt" parameterType="int">
+		Delete From Attendance Where a_num=#{a_num} 
+	</delete>
 </mapper>

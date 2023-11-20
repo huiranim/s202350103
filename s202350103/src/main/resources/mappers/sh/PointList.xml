@@ -4,6 +4,40 @@
 
 <mapper namespace="com.choongang.s202350103.PointListMapper">
 	<select id="shSelectMemberPoint" parameterType="int" resultType="PointList">
-		Select * From point_list Where a_num = #{a_num}
+		Select rownum rn, a.* 
+		From 
+			(Select * 
+			From point_list
+			Order By p_num) a 
+		Where m_num = #{m_num} 
+		Order by rn desc
 	</select>
+	
+	<select id="shPointSum" parameterType="int" resultType="int">
+		Select sum(m_point) as point 
+		From point_list 
+		Where m_num=#{m_num}
+	</select>
+	
+	<update id="shBoUpdatePlusPoint" parameterType="Member">
+		Update member
+		Set    m_point = m_point +#{m_point}
+		Where  m_num = #{m_num}
+	</update>
+	
+	<insert id="shBoInsertPlusPoint" parameterType="Member">
+		Insert into point_list(p_num, m_num, a_par_pdate, p_list_type, m_point)
+		Values (pointlist_p_num_seq.nextval,#{m_num},sysdate,7,#{m_point})
+	</insert>
+	
+	<insert id="shBoInsertMinusPoint" parameterType="Member">
+		Insert into point_list(p_num, m_num, a_par_pdate, p_list_type, m_point)
+		Values (pointlist_p_num_seq.nextval,#{m_num},sysdate,7,-#{m_point})
+	</insert>
+	
+	<update id="shBoUpdateMinusPoint" parameterType="Member">
+		Update member
+		Set    m_point = m_point-#{m_point}
+		Where  m_num = #{m_num}
+	</update>
 </mapper>

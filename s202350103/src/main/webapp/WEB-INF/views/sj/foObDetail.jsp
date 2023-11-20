@@ -7,6 +7,11 @@
 <html>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
+	function chkcalcul(){
+		alert("정산 완료되었습니다");
+		
+		
+	}
 </script>
 <head>
 <meta charset="UTF-8">
@@ -109,13 +114,15 @@
 	</table>
 	<form action="foObUpComple" method="post">
 	<div class="d-grid gap-2">
-		    <button class="btn btn-dark" type="submit" >정산받기</button>
-		    <input type="hidden" name="ob_status" value="2">
+		   <c:if test="${oldBook.ob_status != 3 }">
+		    <button class="btn btn-dark" type="submit" onclick="chkcalcul()" >정산받기</button>
+		    <input type="hidden" name="ob_status" value="3">
 		    <input type="hidden" name="ob_num" value="${oldBook.ob_num }">
+		    </c:if>
 	</div>
 	</form>		
 			 <div class="d-grid gap-2">
-		    <button class="btn btn-dark" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
+		    <button class="btn btn-success" type="button" onclick="location.href='memberMyPage?m_num=${member.m_num }'">마이페이지 이동</button>
 		</div>
 
 </body>

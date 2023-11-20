@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
 import com.choongang.s202350103.model.OrderGift;
@@ -14,6 +18,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class OrderDaoImpl implements OrderDao {
 	private final SqlSession session;
+	
+	// Transaction 관리
+	private final PlatformTransactionManager transactionManager;
 
 	// BO 주문목록 - total
 	// boOrderList.jsp
@@ -68,14 +75,25 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl statusCancellation() start..");
 		
 		int result1, result2, result = 0;
+
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		
 		try {
 			result1 = session.update("hrStatusCancellation", o_order_num);
 			result2 = session.insert("hrInsertCancellation", o_order_num);
 			if(result1 == 1 && result2 == 1) {
 				result = 1;
 			}
-			System.out.println("OrderDaoImpl statusCancellation() result -> "+result);					
+			System.out.println("OrderDaoImpl statusCancellation() result -> "+result);		
+			
+			// COMMIT
+			transactionManager.commit(txStatus);
 		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+			
 			System.out.println("OrderDaoImpl statusCancellation() e.getMessage() -> "+e.getMessage());
 		}
 		System.out.println("OrderDaoImpl statusCancellation() end..");
@@ -132,6 +150,11 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl statusExchange() start..");
 		
 		int result1, result2, result = 0;
+
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		
 		try {
 			result1 = session.update("hrStatusExchange", orderr);
 			result2 = session.insert("hrInsertExchange", orderr);
@@ -139,7 +162,13 @@ public class OrderDaoImpl implements OrderDao {
 				result = 1;
 			}
 			System.out.println("OrderDaoImpl statusExchange() result -> "+result);					
+
+			// COMMIT
+			transactionManager.commit(txStatus);
 		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+			
 			System.out.println("OrderDaoImpl statusExchange() e.getMessage() -> "+e.getMessage());
 		}
 		System.out.println("OrderDaoImpl statusExchange() end..");
@@ -151,6 +180,11 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl statusReturn() start..");
 		
 		int result1, result2, result = 0;
+		
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+
 		try {
 			result1 = session.update("hrStatusReturn", orderr);
 			result2 = session.insert("hrInsertReturn", orderr);
@@ -158,7 +192,13 @@ public class OrderDaoImpl implements OrderDao {
 				result = 1;
 			}
 			System.out.println("OrderDaoImpl statusReturn() result -> "+result);					
+
+			// COMMIT
+			transactionManager.commit(txStatus);
 		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+
 			System.out.println("OrderDaoImpl statusReturn() e.getMessage() -> "+e.getMessage());
 		}
 		System.out.println("OrderDaoImpl statusReturn() end..");
@@ -180,6 +220,25 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl selectOrderProduct() end..");
 		return orderDetailList;
 	}
+	
+	// 주문번호 생성 - 당일 주문 확인
+	@Override
+	public long selectTodayOrderr() {
+		System.out.println("OrderDaoImpl selectTodayOrderr() start..");
+		
+		long max_order_num = 0;
+		
+		try {
+			max_order_num = session.selectOne("hrSelectTodayOrderr");
+			System.out.println("OrderDaoImpl selectTodayOrderr() max_order_num -> "+ max_order_num);
+			
+		} catch (Exception e) {
+			System.out.println("OrderDaoImpl selectTodayOrderr() e.getMessage() -> "+e.getMessage());
+		}
+		
+		System.out.println("OrderDaoImpl selectTodayOrderr() end..");
+		return max_order_num;
+	}
 
 	// FO 선물하기 - 액션
 	@Override
@@ -187,7 +246,12 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl givingGiftAction() start..");
 		
 		int result = 0, oResult = 0, odResult = 0,
-				ogResult = 0, mResult = 0, plResult = 0;
+				ogResult = 0, mResult = 0, plResult1 = 0, plResult2 = 0;
+		
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		
 		try {
 			// INSERT - ORDERR
 			oResult = session.insert("hrInsertOrderrG", orderr);
@@ -202,21 +266,29 @@ public class OrderDaoImpl implements OrderDao {
 			mResult = session.update("hrUpdateMemberP", orderr);
 			
 			// INSERT - POINT_LIST
-			plResult = session.insert("hrInsertPointListG", orderr);
+			plResult1 = session.insert("hrInsertPointListG1", orderr);
+			plResult2 = session.insert("hrInsertPointListG2", orderr);
 			
 			System.out.println("OrderDaoImpl givingGiftAction() oResult -> "+oResult);
 			System.out.println("OrderDaoImpl givingGiftAction() odResult -> "+odResult);
 			System.out.println("OrderDaoImpl givingGiftAction() ogResult -> "+ogResult);
 			System.out.println("OrderDaoImpl givingGiftAction() mResult -> "+mResult);
-			System.out.println("OrderDaoImpl givingGiftAction() plResult -> "+plResult);
+			System.out.println("OrderDaoImpl givingGiftAction() plResult1 -> "+plResult1);
+			System.out.println("OrderDaoImpl givingGiftAction() plResult2 -> "+plResult2);
 			
 			if(oResult == 1 && odResult == 1 && ogResult == 1
-					 && mResult == 1 && plResult == 1) {
+					 && mResult == 1 && plResult1 == 1 && plResult2 == 1) {
 				result = 1;
 			} else {
 				result = 0;
 			}
+			
+			// COMMIT
+			transactionManager.commit(txStatus);
 		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+			
 			System.out.println("OrderDaoImpl givingGiftAction() e.getMessage() -> "+e.getMessage());
 		}
 		
@@ -256,6 +328,42 @@ public class OrderDaoImpl implements OrderDao {
 		System.out.println("OrderDaoImpl selectOrderGift() end..");
 		return orderGift;
 	}
+	
+	// FO 선물하기 - 액션
+	@Override
+	public int gettingGiftAction(Orderr orderr, OrderGift orderGift) {
+		System.out.println("OrderDaoImpl gettingGiftAction() start..");
+		
+		int result = 0, oResult = 0, ogResult = 0;
+		
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+		try {
+			oResult = session.update("hrUpdateOrderrGiftType", orderr);
+			ogResult = session.update("hrUpdateOrderGift", orderGift);
+			
+			System.out.println("OrderDaoImpl gettingGiftAction() oResult -> "+oResult);
+			System.out.println("OrderDaoImpl gettingGiftAction() ogResult -> "+ogResult);
+			if(oResult == 1 && ogResult == 1) {
+				result = 1;
+			} else {
+				result = 0;
+			}
+			// COMMIT
+			transactionManager.commit(txStatus);
+		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+
+			System.out.println("OrderDaoImpl gettingGiftAction() e.getMessage() -> "+e.getMessage());
+		}
+		
+		System.out.println("OrderDaoImpl gettingGiftAction() start..");
+		return result;
+	}
+
 
 
 }

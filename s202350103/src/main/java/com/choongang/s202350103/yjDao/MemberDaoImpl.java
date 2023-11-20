@@ -36,6 +36,18 @@ public class MemberDaoImpl implements MemberDao{
 		int	memberJoinPoint = session.update("memberJoinPoint", m_reid);
 		return memberJoinPoint;
 	}
+	// 추천인 포인트 리스트 Insert
+	@Override
+	public int memberJoinPointList(String m_reid) {
+		int memberJoinPointList = session.insert("memberJoinPointList", m_reid);
+		return memberJoinPointList;
+	}
+	// 회원가입 포인트 이력에 insert
+	@Override
+	public int joinPoint() {
+		int joinPoint = session.insert("joinPoint");
+		return joinPoint;
+	}
 	// 회원 상세 
 	@Override
 	public Member memberInfo(int m_num) {
@@ -175,6 +187,33 @@ public class MemberDaoImpl implements MemberDao{
 		String adminAddrSearch = session.selectOne("adminAddrSearch",m_num);
 		return adminAddrSearch;
 	}
+	// 관리자 - 일반 회원 카운트
+	@Override
+	public int nomalMember() {
+		int nomalMember = session.selectOne("nomalMember");
+		return nomalMember;
+	}
+	// 관리자 - 관리자 카운트
+	@Override
+	public int adminMember() {
+		int adminMember = session.selectOne("adminMember");
+		return adminMember;
+	}
+	// 관리자 - 활동 회원 카운트
+	@Override
+	public int activeMember() {
+		int activeMember = session.selectOne("activeMember");
+		return activeMember;
+	}
+	// 관리자 - 탈퇴 회원 카운트
+	@Override
+	public int wdMember() {
+		int wdMember = session.selectOne("wdMember");
+		return wdMember;
+	}
+	
+
+	
 
 
 }

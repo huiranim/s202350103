@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,11 +26,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.choongang.s202350103.htService.KakaoPay;
 //import com.choongang.s202350103.htService.KakaoPay;
 import com.choongang.s202350103.htService.OrderrService;
 import com.choongang.s202350103.htService.Paging;
 import com.choongang.s202350103.htService.ReviewService;
+import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
@@ -45,15 +50,6 @@ public class HtController {
 	private final OrderrService os;
 	private final ReviewService rs;
 
-	@RequestMapping("/orderTotal")
-	public String test(Model model) {
-		System.out.println("Controller Start...");
-		int total = os.orderTotal();
-		model.addAttribute("total", total);
-		System.out.println("Controller test() orderTotal--> " + total);
-		return "/ht/boOrderForm";
-	}
-	
 	@Data
 	@AllArgsConstructor
 	class Result<T>{ 
@@ -134,7 +130,7 @@ public class HtController {
 		model.addAttribute("review", review);
 		// model.addAttribute("reviewTotal", reviewTotal);
 
-		return "/ht/boProductReviewList";
+		return "/ht/foProductReviewList";
 	}
 
 	 @GetMapping("/MyReviewList")
@@ -148,6 +144,7 @@ public class HtController {
 		if(member == null) {
 			return "yb/loginForm";
 		}
+		
 		
 		orderr.setM_num(member.getM_num());
 		
@@ -169,7 +166,7 @@ public class HtController {
 		model.addAttribute("reviewWriteList", reviewWriteList);
 		model.addAttribute("member",member); 
 		  
-		return "/ht/boMyReviewList";
+		return "/ht/foMyReviewList";
 	}
 	 
 	 @GetMapping("/MyReviewedList")
@@ -209,7 +206,7 @@ public class HtController {
 		 model.addAttribute("reviewedWriteList", reviewedWriteList);
 		 model.addAttribute("member",member);
 		  
-		 return "/ht/boMyReviewedList";
+		 return "/ht/foMyReviewedList";
 	}
 	  
 	 @RequestMapping("/reviewForm")
@@ -230,7 +227,7 @@ public class HtController {
 		model.addAttribute("review", review);
 		model.addAttribute("reviewOne", reviewOne);
 		
-		return "/ht/boReviewWriteForm";
+		return "/ht/foReviewWriteForm";
 	}
 
 	 @RequestMapping("/reviewWritePro")
@@ -251,7 +248,7 @@ public class HtController {
 		model.addAttribute("result", result);
 		model.addAttribute("member",member);
 		
-		return "/ht/boReviewWritePro";
+		return "/ht/foReviewWritePro";
 	}
 	 
 	 @RequestMapping("/reviewUpdateForm")
@@ -273,7 +270,7 @@ public class HtController {
 		model.addAttribute("writedReview", writedReview);
 		model.addAttribute("member",member);
 		
-		return "/ht/boReviewUpdateForm";
+		return "/ht/foReviewUpdateForm";
 	}
 	 
 	 @RequestMapping("/reviewUpdatePro")
@@ -297,7 +294,7 @@ public class HtController {
 		model.addAttribute("review", review);
 		model.addAttribute("member",member);
 		
-		return "/ht/boReviewUpdatePro";
+		return "/ht/foReviewUpdatePro";
 	}
 	 
 	 @RequestMapping("/reviewDelete")
@@ -319,34 +316,169 @@ public class HtController {
 		model.addAttribute("review", review);
 		model.addAttribute("member",member);
 		
-		return "/ht/boReviewDelete";
+		return "/ht/foReviewDelete";
+	}
+	// 결제 폼
+	 @RequestMapping("/orderForm")
+	 public String orderForm(Model model, HttpSession session, Member member, NewBook newBook, Cart cart, int paymentType) {
+		System.out.println("Controller Start orderForm ...");
+		int totalPrice = 0;
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		String[] splitPh   = member.getM_ph().split("-");
+		String[] splitAddr = member.getM_addr().split("/");
+		
+		System.out.println("newBook.getNb_num --> "+ newBook.getNb_num());
+		System.out.println("paymentType--> "+ paymentType);
+		
+		
+		
+		// paymentType 1--> 바로결제, 2--> 장바구니 결제
+		if (paymentType == 1) {
+			// 바로 결제(1개)
+			List<NewBook> orderOne = os.orderOne(newBook);
+			System.out.println("HtController orderOne--->" + orderOne);
+			for(NewBook newBook2 : orderOne ) {
+				totalPrice += newBook2.getNb_price();
+				newBook.setTotalPrice(totalPrice);
+				if ( totalPrice > 50000) newBook.setO_deliv_price(0);
+				else                     newBook.setO_deliv_price(3000);
+			}
+			
+			model.addAttribute("orderList", orderOne);
+			model.addAttribute("cart", newBook);
+			model.addAttribute("paymentType", paymentType);
+			System.out.println("HtController totalPrice--->" + totalPrice);
+
+			
+		} else if (paymentType == 2) {
+			// 장바구니 결제(여러개)
+			List<Cart> orderList = os.orderList(cart, member);
+			System.out.println("HtController orderList kkk --->" + orderList);
+			for(Cart cart1 : orderList ) {
+				totalPrice += cart1.getNb_price();
+			}
+			cart.setTotalPrice(totalPrice);
+			if ( totalPrice > 50000) cart.setO_deliv_price(0);
+			else                     cart.setO_deliv_price(3000);
+			
+			model.addAttribute("orderList", orderList);
+			model.addAttribute("cart", cart);
+			System.out.println("HtController totalPrice--->" + totalPrice);
+			System.out.println("HtController cart.getO_deliv_price())--->" + cart.getO_deliv_price());
+
+		} 
+		
+		
+		model.addAttribute("paymentType",paymentType);
+		model.addAttribute("member",member);
+		model.addAttribute("splitPh",splitPh);
+		model.addAttribute("splitAddr",splitAddr);
+		
+		return "/ht/foOrderForm";
+	}
+
+	 
+	 @RequestMapping("/orderAction")
+	 public String orderAction(
+			 
+							 	 String m_email1, 
+								 String m_email, 
+	 
+							     String m_ph1,
+								 String m_ph2,
+								 String m_ph3,
+				 
+				 				 String m_addr1,
+								 String m_addr2,
+								 String m_addr,
+								 
+								 int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
+								 int    paymentType, // 1-> 바로 결제   /  2-> 장바구니 결제
+								 Model model, HttpSession session, Member member, Orderr orderr, Cart cart
+								 ) {
+		System.out.println("Controller orderAction Start...");
+		System.out.println("Controller orderAction 1 paymentType-->"+paymentType);
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		
+		orderr.setM_num(member.getM_num());
+		
+		// 최근 주소지 = 1, 직접입력 = 2
+		if(destination == 2) {
+			orderr.setO_rec_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr );	// 우편번호 주소 상세주소 병합
+			orderr.setO_rec_mail(m_email1+"@"+m_email);						// 이메일 병합
+			orderr.setO_rec_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);					// 전화번호 병합
+			System.out.println("HtController orderAction orderr--> "+ orderr);
+			System.out.println("HtController getO_rec_ph --> "+ orderr.getO_rec_ph());
+			System.out.println("HtController o_rec_addr --> "+ orderr.getO_rec_addr());
+		}
+		
+		System.out.println("HtController orderr-->"+orderr);
+		
+		System.out.println("Htcontroller orderAction 2 paymentType---> " + paymentType);
+		
+		List<Cart> list =  new ArrayList<Cart>();
+		
+		
+		if(paymentType == 1) {
+			cart.setM_num(member.getM_num());
+			cart.setNb_num(orderr.getNb_num());
+			cart.setC_count(1);
+			list.add(cart);
+			System.out.println("orderAction list--> " + list);
+		} else if (paymentType == 2) {
+			list = os.orderList(cart, member);
+
+			System.out.println("orderAction list--> " + list);
+		} 
+		
+		//Orderr 테이블 insert
+		os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
+		System.out.println("HtController orderInsert() orderr.getO_order_num()-->"+orderr.getO_order_num());
+		
+		model.addAttribute("result_o_order_num", orderr.getO_order_num());
+		model.addAttribute("member",member);
+		
+		return "/ht/foOrderForm";
 	}
 
 	// 카카오페이
-//	 @Setter(onMethod_ = @Autowired)
-//	 private KakaoPay kakaopay;  // Service
-//
-//	 @RequestMapping("kakaoPayStart")
-//	 public String kakaoButton() {
-//		 System.out.println("kakaoPayStart-->");
-//		 return "/ht/kakaoPay";
-//	 }
-//
-//	 @PostMapping("/kakaoPay")
-//	 public String kakaoPay() {
-//		 log.info("kakaoPay post............................................");
-//   
-//		 return "redirect:" + kakaopay.kakaoPayReady();
-//	 }
-//   
-//	 @GetMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
-//	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
-//		 System.out.println("kakaoPaySuccess get............................................");
-//		 System.out.println("kakaoPaySuccess pg_token : " + pg_token);
-//	  
-//		 model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
-//		 
-//		 return "/ht/kakaoPaySuccess";
-//	 }
+	 @Setter(onMethod_ = @Autowired)
+	 private KakaoPay kakaopay;  // Service
+
+	 @RequestMapping("kakaoPayStart")
+	 public String kakaoButton() {
+		 System.out.println("kakaoPayStart-->");
+		 return "/ht/kakaoPay";
+	 }
+
+	 @PostMapping("/kakaoPay")
+	 public String kakaoPay() {
+		 log.info("kakaoPay post............................................");
+   
+		 return "redirect:" + kakaopay.kakaoPayReady();
+	 }
+   
+	 @GetMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
+	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
+		 System.out.println("kakaoPaySuccess get............................................");
+		 System.out.println("kakaoPaySuccess pg_token : " + pg_token);
+	  
+		 model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
+		 
+		 return "/ht/kakaoPaySuccess";
+	 }
 	 
 }

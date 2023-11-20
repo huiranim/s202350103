@@ -21,8 +21,10 @@ public interface OrderService {
 	int 			  givingGiftAction(Member member, Orderr orderr, OrderGift orderGift);
 	Orderr 			  selectOrderr_GiftType(long o_order_num);
 	OrderGift 		  selectOrderGift(long o_order_num);
+	int 			  gettingGiftAction(Orderr orderr, OrderGift orderGift);
 
 
+	
 	
 	
 	

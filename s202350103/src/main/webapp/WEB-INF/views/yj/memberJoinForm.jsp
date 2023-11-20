@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- 카카오  주소 API -->
+<!-- 다음  주소 API -->
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -86,12 +86,12 @@
 		}
 	}
 </script>
-
 <script type="text/javascript">
+
 function valiForm() {
 
 	var isValid = true;
-
+	
 	// 이름 유효성 검사
 	function nameCk() {
 		var m_name = document.getElementById("m_name").value;
@@ -109,6 +109,7 @@ function valiForm() {
 	function emailCk() {
 		var m_email1 = document.getElementById("m_email1").value;
 		var m_email2 = document.getElementById("m_email2").value;
+		
 		// 특문 제외 영문숫자와 마침표. 만 허용
 		var regex = /^[a-zA-Z0-9.]+$/;
 
@@ -211,7 +212,8 @@ function valiForm() {
     if (!isValid) {
         return false; // 유효성 검사에서 실패한 경우 폼 제출 중단
     }
-
+	
+	
     // 유효성 검사 통과 시  폼 제출
     return true;
 	
@@ -431,6 +433,7 @@ function valiForm() {
 	        mEmail2.removeAttribute("disabled");
 	        mEmail2.value = ""; // 입력 필드 초기화
 	        mEmail2.focus();
+	        
 	    } else {
 	        // 다른 옵션을 선택한 경우 m_email2 입력 필드를 비활성화하고 선택한 옵션 값이 설정됩니다.
 	        mEmail2.setAttribute("disabled", "disabled");
@@ -438,16 +441,7 @@ function valiForm() {
 	    }
 	});
 	
-	// 직접 입력시 폼 제출 
-	document.getElementById("frm").addEventListener("submit", function(e) {
-	    // 직접 입력 옵션이 선택되었을 때 m_email2 input 태그의 값을 설정
-	    if (emailSelect.value === "직접 입력") {
-	        mEmail2.removeAttribute("disabled");
-		     // m_email2 input 태그에 설정
-		     var customEmail = mEmail2.value;
-		     document.getElementById("m_email2").value = customEmail; 
-	    }
-	});	
+	
 </script>
 
 <script type="text/javascript">

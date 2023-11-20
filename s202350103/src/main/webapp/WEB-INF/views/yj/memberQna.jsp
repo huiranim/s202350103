@@ -92,7 +92,7 @@
             </div>
 				<!-- Button Block -->
 				<div class="d-grid gap-2 col-6 mx-auto">
-				  <button class="btn btn-primary" type="submit">전송</button>
+				  <button class="btn btn-primary" type="submit">등록</button>
 				</div>
 	          </form>
             </div>
