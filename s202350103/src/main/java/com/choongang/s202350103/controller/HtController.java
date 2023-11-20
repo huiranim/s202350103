@@ -337,6 +337,8 @@ public class HtController {
 		System.out.println("newBook.getNb_num --> "+ newBook.getNb_num());
 		System.out.println("paymentType--> "+ paymentType);
 		
+		
+		
 		// paymentType 1--> 바로결제, 2--> 장바구니 결제
 		if (paymentType == 1) {
 			// 바로 결제(1개)
@@ -351,6 +353,7 @@ public class HtController {
 			
 			model.addAttribute("orderList", orderOne);
 			model.addAttribute("cart", newBook);
+			model.addAttribute("paymentType", paymentType);
 			System.out.println("HtController totalPrice--->" + totalPrice);
 
 			
@@ -397,9 +400,11 @@ public class HtController {
 								 String m_addr,
 								 
 								 int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
-								 Model model, HttpSession session, Member member, Orderr orderr
+								 int    paymentType, // 1-> 바로 결제   /  2-> 장바구니 결제
+								 Model model, HttpSession session, Member member, Orderr orderr, Cart cart
 								 ) {
 		System.out.println("Controller orderAction Start...");
+		System.out.println("Controller orderAction 1 paymentType-->"+paymentType);
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -410,6 +415,7 @@ public class HtController {
 		
 		orderr.setM_num(member.getM_num());
 		
+		// 최근 주소지 = 1, 직접입력 = 2
 		if(destination == 2) {
 			orderr.setO_rec_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr );	// 우편번호 주소 상세주소 병합
 			orderr.setO_rec_mail(m_email1+"@"+m_email);						// 이메일 병합
@@ -419,17 +425,28 @@ public class HtController {
 			System.out.println("HtController o_rec_addr --> "+ orderr.getO_rec_addr());
 		}
 		
-		
 		System.out.println("HtController orderr-->"+orderr);
 		
+		System.out.println("Htcontroller orderAction 2 paymentType---> " + paymentType);
+		
+		List<Cart> list =  new ArrayList<Cart>();
+		
+		if(paymentType == 1) {
+			cart.setM_num(member.getM_num());
+			cart.setNb_num(orderr.getNb_num());
+			cart.setC_count(1);
+			list.add(cart);
+			System.out.println("orderAction list--> " + list);
+		} else if (paymentType == 2) {
+			list = os.orderList(cart, member);
+			System.out.println("orderAction list--> " + list);
+		} 
+		
 		//Orderr 테이블 insert
-		long result_o_order_num = os.orderInsert(orderr);
-		System.out.println("HtController orderInsert() result_o_order_num-->"+result_o_order_num);
+		os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
+		System.out.println("HtController orderInsert() orderr.getO_order_num()-->"+orderr.getO_order_num());
 		
-		//Order_detail 테이블 insert
-		//int order_detail_result = os.orderDetailInsert(orderr);
-		
-		model.addAttribute("result_o_order_num", result_o_order_num);
+		model.addAttribute("result_o_order_num", orderr.getO_order_num());
 		model.addAttribute("member",member);
 		
 		return "/ht/foOrderForm";

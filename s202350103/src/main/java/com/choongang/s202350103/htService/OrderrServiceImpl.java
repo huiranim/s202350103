@@ -40,19 +40,14 @@ public class OrderrServiceImpl implements OrderrService {
 		return orderList;
 	}
 
-	@Override
-	public long orderInsert(Orderr orderr) {
+	@Override // 프로시저를 사용하기 때문에 void이어야 한다. 
+	public void orderInsert(Orderr orderr, List<Cart> list) {
 		System.out.println("HtService orderInsert Start...");
-		long order_result = od.orderInsert(orderr);
-		return order_result;
+		od.orderInsert(orderr, list);
+		return ;
 	}
 
-	@Override
-	public int orderDetailInsert(Orderr orderr) {
-		System.out.println("HtService orderDetailInsert Start...");
-		int order_detail_result = od.orderDetailInsert(orderr);
-		return order_detail_result;
-	}
+
 
 	
 
