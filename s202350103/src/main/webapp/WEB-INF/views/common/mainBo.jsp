@@ -6,10 +6,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+.chart {
+ width: 290px; 
+ height: 290px; 
+}
+
+</style>
+
+
 <title>Insert title here</title>
 </head>
 <body>
-
+		
 		 <div class="row ">
  
                         <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
@@ -98,37 +110,38 @@
                                 <div class="card-body p-6">
                                     <!-- heading -->
                                     <h3 class="mb-0 fs-5">Member Chart </h3>
-                                    <div id="totalSale" class="mt-6 d-flex justify-content-center"></div>
-                                    <div class="mt-4">
-                                        <!-- list -->
-                                        
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="8"
-                                                    height="8" fill="currentColor"
-                                                    class="bi bi-circle-fill text-primary" viewBox="0 0 16 16">
-                                                    <circle cx="8" cy="8" r="8" />
-                                                </svg> <span class="ms-1"><span class="text-dark">일반회원
-                                                        $32.98</span> (2%)</span></li>
-                                                        
-                                            <li class="mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="8"
-                                                    height="8" fill="currentColor"
-                                                    class="bi bi-circle-fill text-warning" viewBox="0 0 16 16">
-                                                    <circle cx="8" cy="8" r="8" />
-                                                </svg> <span class="ms-1"><span class="text-dark">Refunds $11</span>
-                                                    (11%)</span></li>
-                                            <li class="mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="8"
-                                                    height="8" fill="currentColor" class="bi bi-circle-fill text-danger"
-                                                    viewBox="0 0 16 16">
-                                                    <circle cx="8" cy="8" r="8" />
-                                                </svg> <span class="ms-1"><span class="text-dark">Order $14.87</span>
-                                                    (1%)</span></li>
-                                            <li><svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
-                                                    fill="currentColor" class="bi bi-circle-fill text-info"
-                                                    viewBox="0 0 16 16">
-                                                    <circle cx="8" cy="8" r="8" />
-                                                </svg> <span class="ms-1"><span class="text-dark">Income 3,271</span>
-                                                    (86%)</span></li>
-                                        </ul>
+                                    <div class="mt-4 d-flex justify-content-center">
+										
+										<div class="chart">
+												<canvas id="memberChart"></canvas>
+										</div>
+
+												<script>
+												var ctx = document.getElementById('memberChart').getContext('2d');
+
+												// 차트 데이터 
+												var data = {
+												  labels: ['일반 회원','활동회원','관리자', '탈퇴회원' ],
+												  datasets: [{
+												    data: [${nomalMember },${activeMember },${adminMember }, ${wdMember }],
+												    backgroundColor: [
+												      '#0aad0a',
+												      '#016bf8',
+												      '#ffc107',
+												      '#db3030',
+												    ]
+												  }]
+												};
+
+												//  차트 생성
+												var memberChart = new Chart(ctx, {
+												  type: 'pie',
+												  data: data
+												});
+												</script>
+
+
+
                                     </div>
                                 </div>
                             </div>

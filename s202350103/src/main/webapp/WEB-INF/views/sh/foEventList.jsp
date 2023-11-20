@@ -13,19 +13,84 @@
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 
 <body>
-	<div class="tbody">
+
+
+<div class="row">
+  <div class="col-12">
+     <div class="card card-product">
+        <!-- card body -->
+        <div class="card-body">
+           <div class=" row align-items-center">
+              <!-- col -->
+              <div class="col-md-4 col-12" style="width: 600px; height: 170px; border-right: solid;" >
+                 <div class="text-center position-relative ">
+                    <a href="shop-single.html">
+                       <!-- img --><img src="../../assets/images/products/product-img-1.jpg"
+                         alt="Grocery Ecommerce Template" class="mb-3 img-fluid" style="width: 600px; height: 170px;">
+                    </a>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+  </div>
+ </div>
+
+
+
+
+     <div class="card card-product">
+
+			<div class="card-body mb-4 row align-items-center">
+
+		               <div class="col-md-4 col-12" style="width: 600px; height: 170px; border-right: solid;" >
+		                 <div class="text-center position-relative ">
+
+                    <a href="shop-single.html">
+                       <!-- img --><img src="../../assets/images/products/product-img-1.jpg"
+                         alt="Grocery Ecommerce Template" class="mb-3 img-fluid" style="width: 600px; height: 170px;">
+                    </a>
+
+		                 </div>
+		              </div>
+
+		           
+						<div class="col-md-4 col-12">
+								sadasdsa
+						   
+						   <div class="text-center">
+						   <div class="flex-column  text-center">
+		              	
+							 	 <button onclick="cart(${order.nb_num })" class="btn btn-soft-primary mt-2">
+		                    		장바구니 
+			                    </button><p>
+		                 
+		                   </div> 
+		                   </div>
+						 
+						 </div>
+		                   
+						</div> 
+
+</div>
+
+
+
+
+
+
+
+
+
+
 			<c:forEach var="event" items="${eventList }">
-					<div class="tr" style="border: 1px solid black; margin-bottom: 30px;" >
-						<span><img src="${pageContext.request.contextPath}/upload/${event.a_image}" onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});" width="500" height="200"></span>
-						<span>
-							<span>${event.a_title }</span>
-							<span>${event.a_sdate }~${event.a_edate }</span>
-						</span>
+						<img src="${pageContext.request.contextPath}/upload/${event.a_image}" onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});" width="500" height="200">
+							${event.a_title }
+							${event.a_sdate }~${event.a_edate }
 						<button onclick="checkTime('${event.a_sdate }','${event.a_edate}'), eventClick('${member.m_num}',${event.a_num})" id="subButton">버튼</button>
-					</div>
 			</c:forEach>	
-	</div>
-	<div>
+
+
 		<span id="pageNum">
 			<c:if test="${page.startPage > page.pageBlock }">
 				<a href="eventList?currentPage=${page.startPge-page.pageBlocck }">[이전]</a>
@@ -37,7 +102,7 @@
 				<a href="eventList?currentPage=${page.startPage+page.pageBlock }">[다음]</a>
 			</c:if>
 		</span>
-	</div>
+
 
 <script type="text/javascript">
 	//이벤트 클릭 function
