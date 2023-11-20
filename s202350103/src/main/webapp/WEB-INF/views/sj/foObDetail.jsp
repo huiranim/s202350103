@@ -115,7 +115,7 @@
 	</div>
 	</form>		
 			 <div class="d-grid gap-2">
-		    <button class="btn btn-dark" type="button" onclick="location.href='memberMyPage?m_num=${member.m_num }'">마이페이지 이동</button>
+		    <button class="btn btn-success" type="button" onclick="location.href='memberMyPage?m_num=${member.m_num }'">마이페이지 이동</button>
 		</div>
 
 </body>
