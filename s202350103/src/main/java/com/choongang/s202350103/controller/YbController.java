@@ -694,10 +694,10 @@ public class YbController {
 
 		return "yb/card";
 	}
-	@GetMapping(value = "NewFile")
-	public String NewFile() {
+	@GetMapping(value = "modal")
+	public String modal() {
 
-		return "yb/NewFile";
+		return "yb/modal";
 	}
 	
 	@GetMapping(value = "writeForm")
