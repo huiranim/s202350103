@@ -57,7 +57,7 @@
 	 <div class="col-12">
 	    <div class="d-lg-flex justify-content-between align-items-center">
 	       <div class="mb-3 mb-lg-0">
-	          <p class="mb-0"> <span class="text-dark">${search_NewbookCnt } </span> Products found </p>  
+	          <p class="mb-0">총 <span class="text-dark"> ${search_NewbookCnt } </span> 개 </p>  
 	       </div>
 	       
 	       <!-- icon -->
