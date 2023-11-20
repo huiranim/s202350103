@@ -20,9 +20,10 @@
 		window.open("ModalList","pop","width=1000, height=900, left=300, top=150");	
 	
 	}
+	
 	function doAction(){
 	
-		if(frm.nb_title.value == ""){
+		if(frm.nb_tit.value == ""){
 			frm.nb_title.focus();
 			alert("판매하실 중고도서의 새상품을 선택해주세요");
 			
@@ -65,7 +66,7 @@
                          <input type="hidden" name="nb_image" value="${oldBook.nb_image }">
                  </div>
               </div>
-      
+      				<input type="hidden" name="nb_title" id="nb_tit" value="${oldBook.nb_title }" >
       	<c:if test="${oldBook.nb_num  != '0' }">
               <div class="col-md-8 col-12 flex-grow-1 text-center">
                  <!-- heading -->
@@ -513,7 +514,7 @@ AS 전화번호	고객센터 운영 관리
 		
 		
 	 <div class="d-grid gap-2">
-	 	  <button type="submit"  class="btn btn-success mb-2">판매 계속</button>
+	 	  <button type="submit"  class="btn btn-success mb-2" >판매 계속</button>
 	 </div>
 </form>
 
