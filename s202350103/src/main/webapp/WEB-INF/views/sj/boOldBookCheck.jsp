@@ -192,7 +192,7 @@
     
      <tr>
 	      <td>등급 
-	      	<input type="button"  class="btn btn-dark mb-2" value="등급확인" onclick="toggleSum()">
+	      	<input type="button"  class="btn btn-success mb-2" value="등급확인" onclick="toggleSum()">
 	      </td>
 	      <td colspan="2">
 	       		 	<input type="hidden" name="ob_grade" id="totalSum" value="0" >
@@ -243,13 +243,13 @@
 			 	<br>
 			 	<br>
 			 	<div class="d-grid gap-2">
-				    <button class="btn btn-dark" id="target_btn" type="submit" disabled="disabled"  >등록하기</button>
+				    <button class="btn btn-success" id="target_btn" type="submit" disabled="disabled"  >등록하기</button>
 				</div>
 		</form>
 		
 		 	<br> 
 		        <div class="d-grid gap-2">
-				    <button class="btn btn-dark" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
+				    <button class="btn btn-success" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
 			</div>
    
 
