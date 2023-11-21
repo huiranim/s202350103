@@ -38,7 +38,7 @@
 	function search() {
 		var search_type = $("#search_type").val();
 		var search_keyword = $("#search_keyword").val();
-		alert("내가 선택한 검색 조건 -> "+search_type + " 키워드는 "+search_keyword);
+		// alert("내가 선택한 검색 조건 -> "+search_type + " 키워드는 "+search_keyword);
 		
 		location.href = "/searchNewbookList?search_type="+search_type+"&search_keyword="+search_keyword;
 	}

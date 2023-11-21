@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html lang="en">
-
-<!DOCTYPE html>
-<html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -17,12 +13,17 @@
 </style>
 <script type="text/javascript">
 	function openWrite() {
-		
-		var url = "writeForm";
-        var name = "writeForm";
-        var option = "position= absolute, top= 50%, left= 50%, width= 600, height= 750px, padding= 40px, text-align= center, background-color= rgb(255, 255, 255), border-radius= 10px, box-shadow= 0 2px 3px 0 rgba(34, 36, 38, 0.15), transform= translateX(-50%) translateY(-50%);"
-        
-        window.open(url, name, option);
+		if(${sessionScope.member == null }) {
+			alert("로그인 후 이용해주시기 바랍니다.");
+			window.close();
+		} else {
+			var url = "writeForm";
+	        var name = "writeForm";
+	        var option = "position= absolute, top= 50%, left= 50%, width= 600, height= 750px, padding= 40px, text-align= center, background-color= rgb(255, 255, 255), border-radius= 10px, box-shadow= 0 2px 3px 0 rgba(34, 36, 38, 0.15), transform= translateX(-50%) translateY(-50%);"
+	        
+	        window.open(url, name, option);
+		}
+	
 
 	}
 </script>
@@ -52,10 +53,10 @@
 
     </div>
     <div style="float: right; margin-bottom: 20px;" >
-	   <button type="submit" class="btn btn-dark" style="margin-right: 20px;">내가 쓴 글</button>
-	   <button type="submit" class="btn btn-dark" id="openWrite" onclick="openWrite()">글 쓰기</button>
+	   <button type="button" class="btn btn-dark" style="margin-right: 20px;">내가 쓴 글</button>
+	   <button type="button" class="btn btn-dark" id="openWrite" onclick="openWrite()">글 쓰기</button>
 	 </div>
-	
+	<a href="modal">모달</a>
 
 <div id="div1" class="mb-3">
 		  <div class="mb-3 mt-6">
@@ -72,10 +73,10 @@
 
                   <!-- badge -->
                   <div class="text-center position-relative ">
-				            <a href="newbookDetail?nb_num=${community.cm_num }">
+				            <a href="postDetailForm?cm_num=${community.cm_num }">
 				              <!-- img -->
 				              <div class="img-zoom">  
-				                <!-- 도서 이미지 -->
+				                <!-- 도서 이미지 -->	
 				                     <c:set var="cm_image" value="${community.cm_image }"/>
 				                  <c:choose>
 				               		<c:when test="${fn:contains(cm_image, 'http')}">
@@ -88,14 +89,7 @@
 				              </div>
 				            </a>
                     <!-- action btn -->
-                    <div class="card-product-action">
-                      <a href="postDetailForm" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
-                          class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                      <a href="shop-wishlist.html" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true"
-                        title="Wishlist"><i class="bi bi-heart"></i></a>
-                      <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true" title="Compare"><i
-                          class="bi bi-arrow-left-right"></i></a>
-                    </div>
+                
                   </div>
                   <div class="text-small mb-1">
                   	<a href="#!" class="text-decoration-none text-muted"><small>${community.cm_title}</small></a></div>
@@ -111,6 +105,28 @@
             </div>
          </c:forEach>
 	</div>
+	
+	<nav aria-label="Page navigation example">
+	  <ul class="pagination justify-content-center">
+
+		 	<c:if test="${page.startPage > page.pageBlock }">
+				 <li class="page-item justify-content-center">					
+					<a class="page-link mx-1 text-body" href="searchBook?currentPage=${page.startPage-page.pageBlock}">이전</a>
+				</li>
+			</c:if>
+				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+				 <li class="page-item justify-content-center">
+						<a class="page-link mx-1 text-body" href="searchBook?currentPage=${i}">${i}</a>
+				</li>
+			</c:forEach>
+				
+			<c:if test="${page.endPage < page.totalPage }">
+				 <li class="page-item justify-content-center">		 
+					<a class="page-link mx-1 text-body" href="searchBook?currentPage=${page.startPage+page.pageBlock}">다음</a>
+				</li>
+			</c:if>
+	    </ul>
+	</nav>
 </div>
 
 </main>

@@ -295,6 +295,8 @@ public class YbController {
 		System.out.println("YbController memberCartList listCart.size() -> " + listCart.size());
 		
 		int totalPrice = ms.totalPrice(member);
+		
+		model.addAttribute("page", page);
 		model.addAttribute("totalCart", totalCart);
 		model.addAttribute("member", member);
 		model.addAttribute("listCart", listCart);
@@ -343,7 +345,7 @@ public class YbController {
 	
 	// 포인트 페이지
 	@GetMapping(value = "memberPointList") 
-	public String memberPointList(Member member, Model model, PointList pointList) {
+	public String memberPointList(Member member, Model model, PointList pointList, String currentPage) {
 		System.out.println("YbController memberPointList() start...");
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -352,12 +354,24 @@ public class YbController {
 		System.out.println("memberPointList session -> " + session.getAttribute("member"));
 		
 		System.out.println("YbController memberPointList() member.getM_point -> " + member.getM_point());
+		
+		// 포인트 적립갯수
+		pointList.setM_num(member.getM_num());
+		System.out.println("YbController memberPointList pointList.getM_num -> " + pointList.getM_num());
+		int pointListCnt = ms.pointListCnt(pointList);
+		System.out.println("YbController memberPointList pointListCnt ->" + pointListCnt);
 		// 포인트 리스트
 		List<PointList> memberPointList = ms.memberPointList(pointList);
+		
+		// 페이징 처리
+		Paging page = new Paging(pointListCnt, currentPage);
+			
+		pointList.setStart(page.getStart());
+		pointList.setEnd(page.getEnd());
+		
 		System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
-		System.out.println("YbController memberPointList() point.type -> " + pointList.getType1());
 		
-		
+		model.addAttribute("page", page);
 		model.addAttribute("memberPointList", memberPointList);
 		model.addAttribute("member", member);
 		return "yb/memberPointList";
@@ -384,6 +398,8 @@ public class YbController {
 		List<OldBook> oldBookSellList = ms.oldBookSellList(oldbook);
 		
 		System.out.println("YbController memberSellList() oldBookSellList.size -> " + oldBookSellList.size());
+		
+		model.addAttribute("page", page);
 		model.addAttribute("oldBookSellList", oldBookSellList);
 		model.addAttribute("totalSellCnt", totalSellCnt);
 		model.addAttribute("member", member);
@@ -402,6 +418,8 @@ public class YbController {
 		community.setEnd(page.getEnd());
 		List<Community> communityList = ms.communityList(community);
 		System.out.println("YbController memberCommunity() communityList.size() -> " +communityList.size());
+		
+		model.addAttribute("page", page);
 		model.addAttribute("comListTotalCnt", comListTotalCnt);
 		model.addAttribute("communityList", communityList);
 		return "yb/memberCommunity";
@@ -593,10 +611,12 @@ public class YbController {
 	// 비밀번호 변경 -> ph 인증 후 변경
 	@PostMapping(value = "memberPwChangeByPh")
 	public String memberPwChangeByPh(Member member, @RequestParam("m_pw") String m_pw,
-												 	@RequestParam("m_ph") String m_ph) {
+												 	@RequestParam("m_ph") String m_ph1) {
 		System.out.println("YbController memberPwChangeByPh() start..");
-		System.out.println("YbController memberPwChangeByPh() m_num -> " + m_ph);
+		System.out.println("YbController memberPwChangeByPh() m_ph1 -> " + m_ph1);
 		System.out.println("YbController memberPwChangeByPh() m_pw -> " + m_pw);
+		String m_ph = phoneHyphen(m_ph1);
+		System.out.println("YbController memberPwChangeByPh() m_ph1 -> " + m_ph1);
 		Member memberPwChangeByPh = ms.memberPwChangeByPh(m_ph, m_pw);
 		
 		session.removeAttribute("member"); 
@@ -687,19 +707,6 @@ public class YbController {
 		}
 	}
 	
-
-
-	@GetMapping(value = "card")
-	public String card() {
-
-		return "yb/card";
-	}
-	@GetMapping(value = "NewFile")
-	public String NewFile() {
-
-		return "yb/NewFile";
-	}
-	
 	@GetMapping(value = "writeForm")
 	   public String writeForm(Member member, Model model) {
 	      System.out.println("YbController writeForm() start..");
@@ -739,14 +746,11 @@ public class YbController {
 	      int searchBookCnt = ms.searchBookCnt(newbook);
 	      Paging page = new Paging(searchBookCnt, currentPage);
 	      
-	      System.out.println("paging -> " + page.getStart());
-
-	      System.out.println("paging -> " + page.getEnd());
 	      newbook.setStart(page.getStart());
 	      newbook.setEnd(page.getEnd());
 	      
 	      List<NewBook> searchListBook = ms.searchListBook(newbook);
-	      
+	      model.addAttribute("page", page);
 	      model.addAttribute("newbook", newbook);
 	      model.addAttribute("searchListBook", searchListBook);
 	      return "yb/searchBook";

@@ -58,5 +58,7 @@ public interface MemberDao {
 
 	int 				searchBookCnt(NewBook newbook);
 
+	int 				pointListCnt(PointList pointList);
+
 
 }

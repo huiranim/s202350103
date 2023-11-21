@@ -334,7 +334,7 @@ public class HtController {
 		String[] splitPh   = member.getM_ph().split("-");
 		String[] splitAddr = member.getM_addr().split("/");
 		
-		System.out.println("newBook.getNb_num --> "+ newBook.getNb_num());
+		System.out.println("orderForm member --> "+ member);
 		System.out.println("paymentType--> "+ paymentType);
 		
 		
@@ -344,6 +344,9 @@ public class HtController {
 			// 바로 결제(1개)
 			List<NewBook> orderOne = os.orderOne(newBook);
 			System.out.println("HtController orderOne--->" + orderOne);
+			
+			// ob_num이 null이면 이거 아니면 다른거 생성
+			
 			for(NewBook newBook2 : orderOne ) {
 				totalPrice += newBook2.getNb_price();
 				newBook.setTotalPrice(totalPrice);
@@ -431,6 +434,7 @@ public class HtController {
 		
 		List<Cart> list =  new ArrayList<Cart>();
 		
+		
 		if(paymentType == 1) {
 			cart.setM_num(member.getM_num());
 			cart.setNb_num(orderr.getNb_num());
@@ -439,6 +443,7 @@ public class HtController {
 			System.out.println("orderAction list--> " + list);
 		} else if (paymentType == 2) {
 			list = os.orderList(cart, member);
+
 			System.out.println("orderAction list--> " + list);
 		} 
 		

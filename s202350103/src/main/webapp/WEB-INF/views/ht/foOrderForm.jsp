@@ -108,18 +108,15 @@
 		//sendData3 = sendData3.replace('"&"', '&');
 		//alert('sendData1->'+sendData1);
 		//alert('sendData2->'+sendData2);
-		//alert('sendData3->'+sendData3);
-		
-		
-		
+		alert('sendData3->'+sendData3);
 		
 		if($('#omessage_select').val() == "직접 입력"){
 			omessage =  $('#omessage').val();
-			//alert('omessage->'+omessage)
+			alert('omessage->'+omessage)
 			sendData4 = "o_rec_msg=" + omessage;
 		} else {
 			sendData4 = "o_rec_msg=" + $('#omessage_select').val();
-			//alert('sendData4->'+sendData4)
+			alert('sendData4->'+sendData4)
 			
 		}
 		
@@ -306,9 +303,9 @@
         
             <c:if test="${paymentType == 1}">
             	<c:forEach var="book" items="${orderList}">
-        			<input type="hidden" name="paymentType" value="${paymentType}">
         			<input type="hidden" name="nb_num" value="${book.nb_num}">
         		</c:forEach>
+        		<input type="hidden" name="paymentType" value="${paymentType}">
         	</c:if>
         	<c:if test="${paymentType == 2}">
         		<input type="hidden" name="paymentType" value="${paymentType}">
@@ -456,6 +453,7 @@
             				</span> 원
             			</td>
             		</tr>
+            		
             		<tr height="40px">
             			<td class="form-label" width="70%">적립 혜택</td>
             			<td class="h6" width="30%" align="right">

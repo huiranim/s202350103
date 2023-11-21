@@ -317,4 +317,11 @@ public class PointServiceImpl implements PointService {
 		return result;
 	}
 
+	@Override
+	public List<PointList> boJoinedMember(int eNum) {
+		System.out.println("PointService boJoinedMember() Start...");
+		List<PointList> pointList = pld.boJoinedMember(eNum); 
+		return pointList;
+	}
+
 }

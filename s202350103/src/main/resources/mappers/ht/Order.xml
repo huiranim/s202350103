@@ -38,22 +38,43 @@
 		}
 	</select>
 	
-	<insert id="htOrderDetailInsert" parameterType="map" >
-		INSERT INTO order_detail (
-								  O_ORDER_NUM,
-								  NB_NUM,
-								  O_DE_COUNT,
-								  O_DE_PRODTYPE
-								  )
-					      VALUES 
-					      <foreach collection="list" item="item" separator=",">
-						        (
-						            #{Orderr.o_order_num},
-						            #{item.nb_num},
-						            #{item.c_count},
-						            1
-						         )
-						  </foreach>
+	<insert id="htOrderDetailInsert" parameterType="java.util.Map" >
+	    <foreach collection="list" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+			INTO order_detail (
+							  O_ORDER_NUM,
+							  NB_NUM,
+							  O_DE_COUNT,
+							  O_DE_PRODTYPE
+							 )
+					VALUES 	(
+				             #{orderr.o_order_num}
+				            ,#{item.nb_num}
+				            ,#{item.c_count}
+				            ,1
+				            )
+	   </foreach>
 	</insert>
 	
+	<update id="htMemberPointUpdate" parameterType="Orderr">
+		UPDATE member a
+		SET    a.m_point  = (
+			                 SELECT (aa.m_point + (#{o_pay_price}*0.01) - #{o_point})
+			                 FROM   member aa 
+			                 WHERE  aa.m_num = #{m_num}
+			                 )
+		 WHERE a.m_num = #{m_num}
+	</update>
+	
+	<insert id="htPointInsert" parameterType="Orderr">
+		INSERT INTO point_list
+		VALUES (POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 1, (#{o_pay_price} * 0.01))
+	</insert>
+	
+	<delete id="htCartDelete">
+		DELETE 
+		FROM   cart
+		WHERE  m_num = #{m_num}
+	</delete>
+	
+		
 </mapper>

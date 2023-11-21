@@ -72,6 +72,19 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return totalSellCnt;
 	}
+	// 포인트리스트 개수
+	@Override
+	public int pointListCnt(PointList pointList) {
+		System.out.println("MemberDaoImpl1 pointListCnt() start...");
+		int pointListCnt = 0;
+		try {
+			pointListCnt = session.selectOne("ybPointListCnt", pointList);
+			System.out.println("MemberDaoImpl1 pointListCnt() totalCart -> " + pointListCnt);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 pointListCnt() Exception -> " + e.getMessage());
+		}
+		return pointListCnt;
+	}
 	
 	@Override
 	public int comListTotalCnt(Community community) {
@@ -383,6 +396,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return searchBookCnt;
 	}
+	
 
 	
 

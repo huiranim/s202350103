@@ -40,4 +40,18 @@
 		Set    m_point = m_point-#{m_point}
 		Where  m_num = #{m_num}
 	</update>
+	
+	<select id="boBoJoinedMember" parameterType="int" resultType="PointList">
+		Select *
+		From (
+		 Select rownum rn, a.*
+		 From
+		 (
+		  Select p_num, m_num, a_num, q_num, a_par_pdate, p_list_type, m_point 
+		  From point_list 
+		  Where a_num = #{eNum} 
+		  Or q_num = #{eNum}
+		 ) a)
+		 Order by rn desc
+	</select>
 </mapper>

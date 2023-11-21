@@ -7,20 +7,29 @@
 <meta charset="UTF-8"> 
 <title>도서 상세페이지</title>
 
-<style type="text/css">
+<style>
 	.link-icon.kakao { 
 		background-image: url(../assets/images/icons/icon-kakao.png); 
 		background-repeat: no-repeat;
 		height : 30px;
 		width : 30px; 
 	}
+	
+	.share-item {
+		vertical-align: middle;
+	    display: inline-block;
+	    margin-top: 5px; /* Adjust as needed */
+	}
 </style>
 
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript">
+
+   // 동일한 중고 상품 리스트
    function oldbookList() {
       var pNb_num = '${newbook.nb_num}' ;
-      alert("현재 도서 번호는 -> "+pNb_num);
+      // alert("현재 도서 번호는 -> "+pNb_num);
        
       $.ajax({
                url : "/sameOldBookList", 
@@ -66,8 +75,9 @@
       });
    }
    
+   // 찜하기
    function wishlist(pNb_num) {
-      alert("pNb_num ->"+pNb_num);
+      // alert("pNb_num ->"+pNb_num);
       
       $.ajax({
          url : "/wish/wishclick", 
@@ -95,6 +105,7 @@
 	   alert("nb_num : "+pNb_num);
    }
    
+   // 장바구니
    function cart(pNb_num) {
       var m_num = '${member.m_num}';
       var pC_count = $("#c_count").val();
@@ -121,6 +132,7 @@
       });
    }
 
+   // 리뷰 정렬 조건
     $(function() {
       $('#chk2').change(function() {
             var sendData = $('form').serialize();
@@ -141,6 +153,7 @@
        
     }
 
+   // 리뷰 더보기
    $(function() {
       // ++5
       $('#chk1').click(function() {
@@ -149,6 +162,62 @@
             location.href="newbookDetail?"+sendData;
        });
    });
+   
+   // 카카오톡 공유하기
+   function shareKakao() {
+	   // alert("카카오톡 선택");
+	   
+	   // 카카오에서 발급 받은 javascript 키 입력
+	   Kakao.init('e4937df49a5c278ef8006ad75759dbed');
+	   
+	   var nb_title = '${newbook.nb_title}';
+	   var nb_price = Number('${newbook.nb_price}');
+	   var nb_image = '${newbook.nb_image}';
+	   var nb_num = '${newbook.nb_num}';
+	   var nb_summary = `${newbook.nb_summary}`	// 도서 줄거리에는 줄바꿈이 있어 줄바꿈은 자바스크립트에서 지원하지 않는다. (``(백틱)를 넣어주면 줄바꿈도 문제 없음)
+	   // alert("nb_summary -> "+nb_summary);
+	   
+	   // 카카오링크 버튼 생성
+	   Kakao.Share.sendDefault({
+	      objectType: 'commerce',
+	      content: {
+	        title: nb_summary,			// 도서 줄거리
+	        imageUrl: nb_image,			// 도서 이미지
+	        link: {
+	          // kakao developer -> [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+	          mobileWebUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num, 
+	          webUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num,
+	        },
+	      },
+	      commerce: {
+	        productName: nb_title,		// 도서 제목
+	        regularPrice: nb_price,		// 도서 가격
+	      },
+	      buttons: [
+	        {
+	          title: '구매하기',
+	          link: {
+	            mobileWebUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num,
+	            webUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num,
+	          },
+	        },
+	      ],
+	    }); 
+	   location.reload();
+   }
+   
+   // url 복사하기
+   function shareUrl() {
+	   var url = '';
+	   var textarea = document.createElement("textarea");	// textarea를 만든다.
+	   document.body.appendChild(textarea);					// html body에 textarea를 추가한다.
+	   url = window.document.location.href;					// 현재 url 주소를 담는다.
+	   textarea.value = url;								// textarea에 url을 삽입한다.
+	   textarea.select();									// textarea를 선택한다.
+	   document.execCommand("copy");						// textarea 값을 복사한다. 	
+	   document.body.removeChild(textarea);					// textarea를 삭제한다.
+	   alert("URL이 복사되었습니다.");
+   }
 
 </script>
 </head>
@@ -157,7 +226,7 @@
    <!-- 도서 목록 돌아가기 버튼 -->
    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 	  <button class="btn btn-soft-primary mb-2" type="button" 
-	  		onclick="location.href='innewbookList?nb_category1=${newbook.nb_category1}&nb_category2=${newbook.nb_category2}'">도서목록</button>
+	  		onclick="location.href='innewbookList?nb_category1=${newbook.nb_category1}'">도서목록</button>
    </div>
    <div class="row">
      <div class="col-md-6 row justify-content-center">
@@ -294,19 +363,20 @@
                                <i id="wishbtn" class="bi bi-heart-fill" style="color:red;"></i></a>
                          </c:when>
                        </c:choose>
-		                <a class="btn btn-icon btn-sm btn-outline-gray-400 text-muted dropdown-toggle" href="#" role="button"
+                     
+                     <!-- 공유하기 -->
+		                <a class="btn btn-icon btn-sm btn-outline-gray-400 text-muted" href="#" role="button"
 		                  data-bs-toggle="dropdown" aria-expanded="false">
 		                  <i class="bi bi-arrow-left-right"></i>
 		                </a>
-		
 		                <ul class="dropdown-menu" >
-		                  <li><a class="dropdown-item" href="#">
+		                  <li><a id="btnKakao" class="dropdown-item" href="javascript:shareKakao();">
 		                  	<img alt="" src="../assets/images/icons/icon-kakao.png" style="height: 25px;">&nbsp; 카카오톡</a>
 		                  </li>
-		                  <li><a class="dropdown-item" href="#">
+		                  <li><a id="btnEmail" class="dropdown-item" href="javascript:shareEmail();">
 		                  	<img alt="" src="../assets/images/icons/icon-email2.png" style="height: 25px;">&nbsp; 이메일</a>
 		                  </li>
-		                  <li><a class="dropdown-item" href="#">
+		                  <li><a id="btnUrl" class="dropdown-item" href="javascript:shareUrl();">
 		                  	<img alt="" src="../assets/images/icons/icon-url.png" style="height: 25px;">&nbsp; URL복사</a>
 		                  </li>
 		                </ul>

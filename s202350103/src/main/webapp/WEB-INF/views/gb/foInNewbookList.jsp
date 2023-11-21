@@ -29,15 +29,15 @@
 		var category2Value = $("#category2").val();
 		var orderTypeValue = $("#orderType").val();
 		var category1Value = '${newbook.nb_category1}';
-		alert("category1Value -> " +category1Value );
-		alert("내가 선택한 카테고리 + 정렬 -> " + category2Value + "+" + orderTypeValue);
+		// alert("category1Value -> " +category1Value );
+		// alert("내가 선택한 카테고리 + 정렬 -> " + category2Value + "+" + orderTypeValue);
 		
 		location.href = "/innewbookList?nb_category1="+category1Value+"&nb_category2="+category2Value +"&orderType="+orderTypeValue;
 	
 	}
 	
 	function wishlist(pNb_num) {
-		alert("pNb_num ->"+pNb_num);
+		// alert("pNb_num ->"+pNb_num);
 		
 		$.ajax({
 			url : "/wish/wishclick", 
@@ -69,12 +69,12 @@
 			success : function(data){
 				if (data == '0') {
 					if(confirm("장바구니에 이미 등록된 상품입니다. \n장바구니로 이동하시겠습니까?")){
-						location.href = "memberCartList?m_num"+m_num;
+						location.href = "memberCartList?m_num="+m_num;
 					}
 				} 
 				else if(data == '1') {
 					if(confirm("장바구니에 등록되었습니다. \n장바구니로 이동하시겠습니까?")){
-						location.href = "memberCartList?m_num"+m_num;
+						location.href = "memberCartList?m_num="+m_num;
 					}
 				} 
 				else {

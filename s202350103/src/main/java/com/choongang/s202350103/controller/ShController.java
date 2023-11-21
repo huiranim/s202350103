@@ -197,10 +197,11 @@ import lombok.extern.slf4j.Slf4j;
 			QuizJoin quizJoin = new QuizJoin();
 			quizJoin.setM_num(m_num);
 			quizJoin.setQ_num(eNum);
-			List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
-			
 			//정답 횟수 확인 용
 			int chance = ps.checkChance(quizJoin);
+			System.out.println("Quiz Chance ->"+chance);
+			
+			List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
 			
 			System.out.println("shController divideEventNum() quizJoinList.size->"+quizJoinList.size());
 			model.addAttribute("quizJoin",quizJoinList);
@@ -533,5 +534,13 @@ import lombok.extern.slf4j.Slf4j;
 			ps.boInsertMinusPoint(member);
 			ps.boUpdateMinusPoint(member);
 			return "redirect:/selectMemberPoint?m_num="+m_num;
+		}
+		
+		@RequestMapping(value = "boJoinedMember")
+		public String boJoinedMember(@RequestParam("eNum") int eNum, Model model) {
+			System.out.println("shController boMinusPoint() Start...");
+			List<PointList> pointList = ps.boJoinedMember(eNum);
+			model.addAttribute("pointList",pointList);
+			return "sh/boJoinedMember";
 		}
 }

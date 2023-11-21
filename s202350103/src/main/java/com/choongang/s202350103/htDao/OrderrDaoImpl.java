@@ -76,21 +76,37 @@ public class OrderrDaoImpl implements OrderrDao {
 	public void orderInsert(Orderr orderr, List<Cart> list) {// 프로시저를 사용하기 때문에 void이어야 한다. 
 		System.out.println("OrderDaoImpl orderList() Start...");
 		
-		
+		// https://zorba91.tistory.com/189 --> list문을 insert하는 법
 		
 		//Transaction 관리
 		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
 		try {
 			// order insert (여기서 프로시저를 통해서 o_order_num을 orderr객체에 담아서 가지고 나온다.) 
 			session.selectOne("htOrderInsert", orderr); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. 파라미터 out이 있기 때문이다.
-			
+			System.out.println("Dao orderInsert orderr-->"+orderr);
+		
 			Map<String, Object> params = new HashMap<String, Object>();
 		    params.put("orderr", orderr);
 		    params.put("list", list);
-			
+		    
 			// orderDetail insert
 			int od_result = session.insert("htOrderDetailInsert", params);
 			System.out.println("Dao htOrderInsert od_result--->" + od_result);
+			System.out.println("orderr.getO_pay_price()--> " + orderr.getO_pay_price());
+			System.out.println("orderr.getM_num()--> " + orderr.getM_num());
+			
+			// member 포인트 update
+			int update_result = session.update("htMemberPointUpdate", orderr);
+			System.out.println("Dao htOrderInsert update_result--->" + update_result);
+			
+			// 포인트 이력 insert
+			int point_insert_result = session.insert("htPointInsert", orderr);
+			System.out.println("Dao htOrderInsert point_insert_result--->" + point_insert_result);
+			
+			// 장바구니 삭제
+			int cart_delete_result = session.delete("htCartDelete",orderr);
+			System.out.println("Dao htOrderInsert cart_delete_result--->" + cart_delete_result);
+			
 			
 			//commit
 			transactionManager.commit(txStatus);

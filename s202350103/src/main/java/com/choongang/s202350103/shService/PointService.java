@@ -54,6 +54,7 @@ public interface PointService {
 	int 			 countAttRow(AttJoin attJoin);
 	int 			 deleteAtt(int a_num);						//관리자페이지 Attendance 이벤트 삭제
 	int 			 deleteQuiz(int q_num);						//관리자 페이지 Quiz 이벤트 삭제
+	List<PointList>  boJoinedMember(int eNum);
 
 	
 	
