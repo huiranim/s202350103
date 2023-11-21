@@ -452,11 +452,16 @@ public class HtController {
 		// 카카오에서 요청한 변수명과 타입으로 변경
 		String partner_order_id = String.valueOf(orderr2.getO_order_num());
 		String partner_user_id  = String.valueOf(orderr2.getO_rec_name());
-		String item_name        = orderr2.getNb_title();
+		Integer quantity = orderr2.getO_order_count();
+		
+		String item_name = null;
+		if(quantity == 1) {
+			item_name = orderr2.getNb_title();
+		} else {
+			item_name = orderr2.getNb_title() + " 외 " + quantity + "개";
+		}
 		AmountVO amountVO = new AmountVO();
 		amountVO.setTotal(orderr2.getO_pay_price());
-		Integer quantity = orderr2.getO_order_count();
-				
 		
 		ka.setPartner_order_id(partner_order_id);
 		ka.setPartner_user_id(partner_user_id);
@@ -464,23 +469,16 @@ public class HtController {
 		ka.setQuantity(quantity);
 		ka.setAmount(amountVO);
 		
-		System.out.println("Kakao ka---> " + ka);
+		System.out.println("Kakao ka---> " +  ka);
 		
-		
-		redirect.addFlashAttribute("ka",ka);
+		redirect.addFlashAttribute("ka", ka);
 		
 		return "redirect:kakaoPay";
 	}
 
-	// 카카오페이
+	 // 카카오페이
 	 @Setter(onMethod_ = @Autowired)
 	 private KakaoPay kakaopay;  // Service
-
-//	 @RequestMapping("kakaoPayStart")
-//	 public String kakaoButton() {
-//		 System.out.println("kakaoPayStart-->");
-//		 return "/ht/kakaoPay";
-//	 }
 
 	 @RequestMapping("/kakaoPay") //Get : 정보를 요청하기위해 사용(Read), Post : 정보를 입력하기위해 사용(Create)
 	 public String kakaoPay(RedirectAttributes redirect,
@@ -495,13 +493,15 @@ public class HtController {
    
 	 @RequestMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
 	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, 
-			 						RedirectAttributes redirect, @ModelAttribute("ka") KakaoPayApprovalVO ka, Model model) {
+			 						@ModelAttribute("ka") KakaoPayApprovalVO ka, Model model) {
 		 System.out.println("kakaoPaySuccess get............................................");
 		 System.out.println("kakaoPaySuccess pg_token : " + pg_token);
-	  
-		 model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token, ka));
+		 System.out.println("kakaoPaySuccess ka --> " + ka);
 		 
+		 int result = 1;
 		 
+		 model.addAttribute("ka", kakaopay.kakaoPayInfo(pg_token, ka));
+		 model.addAttribute("result", result);
 		 
 		 return "/ht/kakaoPaySuccess";
 	 }
