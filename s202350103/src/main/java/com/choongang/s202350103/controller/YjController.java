@@ -119,8 +119,8 @@ public class YjController {
 	// @ModelAttribute -> 객체 바인딩 
 	@PostMapping("/memberJoinAction")
 	public String memberJoinAction(	
-									@RequestParam("m_email1") String m_email1, 
-									@RequestParam("m_email") String m_email, 
+									 String m_email1, 
+									 String m_email2, 
 									
 									@RequestParam("m_ph1") String m_ph1,
 									@RequestParam("m_ph2") String m_ph2,
@@ -136,11 +136,14 @@ public class YjController {
 									@ModelAttribute Member member, Model model, HttpSession session) {
 	
 		System.out.println("memberJoinAction Start ...");
+		System.out.println(m_email2);
+		System.out.println(m_email1+"@"+m_email2);
 		
-		member.setM_email(m_email1+"@"+m_email);	// 이메일 병합
+		member.setM_email(m_email1+"@"+m_email2);	// 이메일 병합
 		member.setM_ph(m_ph1+"-"+m_ph2+"-"+m_ph3);	// 전화번호 병합
 		member.setM_birth(m_birth+m_birth1);		// 생년월일 성별 병합
 		member.setM_addr("("+m_addr1+")/"+ m_addr2 +"/"+ m_addr ); // 우편번호 주소 상세주소 병합
+		
 		
 		
 		String m_emailAll = member.getM_email();
