@@ -200,7 +200,7 @@ public class OrderServiceImpl implements OrderService {
 		return orderGift;
 	}
 	
-	// FO 선물하기 - 액션
+	// FO 선물받기 - 액션
 	@Override
 	public int gettingGiftAction(Orderr orderr, OrderGift orderGift) {
 		System.out.println("OrderServiceImpl gettingGiftAction() start..");
@@ -209,6 +209,59 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl gettingGiftAction() result -> "+result);		
 		
 		System.out.println("OrderServiceImpl gettingGiftAction() end..");
+		return result;
+	}
+	
+	// BO 주문목록 - 임의 주문 생성 액션(CSV 파일 업로드)
+	@Override
+	public int orderUpload(Orderr orderr) {
+		System.out.println("OrderServiceImpl orderUpload() start..");
+		
+		// 주문번호 생성
+		long o_order_num = 0;
+		
+			// 당일 주문 확인 (없으면 오늘날짜 + '0001', 있으면 해당값 +1)
+			long max_order_num = od.selectTodayOrderr();
+			
+			// 당일 주문 없을 때
+			if(max_order_num == 0) {
+				// 오늘 날짜 Get
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+				Date today = new Date();
+				long longToday = Long.parseLong(sdf.format(today));
+				
+				o_order_num = (longToday * 10000) + 0001;
+				System.out.println("당일 주문 없을 때 o_order_num -> "+o_order_num);
+			
+			// 있을 때
+			} else {
+				o_order_num = max_order_num +1;
+				System.out.println("당일 주문 있을 때 o_order_num -> "+o_order_num);
+			}
+		
+		// 주문번호 저장
+		orderr.setO_order_num(o_order_num);
+		
+		// 상품유형 확인
+		int o_de_prodtype = 0;
+		
+			// nb_num이 100000번대 일 때
+			if(orderr.getNb_num() < 200000) {
+				o_de_prodtype = 1;
+				
+			// nb_num이 200000번대 일 때
+			} else {
+				o_de_prodtype = 2;
+			}
+		
+		// 상품유형 저장
+		orderr.setO_de_prodtype(o_de_prodtype);
+			
+		// 주문 INSERT
+		int result = od.orderUpload(orderr);
+		System.out.println("OrderServiceImpl orderUpload() result -> "+result);		
+		
+		System.out.println("OrderServiceImpl orderUpload() end..");
 		return result;
 	}
 

@@ -104,29 +104,15 @@
 
 		}
 		sendData3 = sendData1+"&"+sendData2;
-		// 두개 Form 병합으로 인한 문자열 치환
-		//sendData3 = sendData3.replace('"&"', '&');
-		//alert('sendData1->'+sendData1);
-		//alert('sendData2->'+sendData2);
-		alert('sendData3->'+sendData3);
 		
 		if($('#omessage_select').val() == "직접 입력"){
 			omessage =  $('#omessage').val();
-			//alert('omessage->'+omessage)
 			sendData4 = "o_rec_msg=" + omessage;
 		} else {
 			sendData4 = "o_rec_msg=" + $('#omessage_select').val();
-			//alert('sendData4->'+sendData4)
-			
 		}
 		
 		sendData5 = sendData3+"&"+sendData4;
-		//sendData5 = sendData5.replace('"&', '&');
-		//alert('sendData5-1->'+sendData5)
-		
-		// 찾으면 좋음 
-		//sendData5 = sendData5.replace('"paymentT', 'paymentT');
-		//alert('sendData5-2->'+sendData5)
 		
 		location.href= "orderAction?"+sendData5;	
 	}
@@ -157,7 +143,7 @@
 		} else {
 			$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
 			$("#o_point_result").html("");
-			$("#o_point").val("");
+			$("#o_point").val(0);
 			$("#o_pay_price").html(fail_total_price);
 			$("#o_deliv_price_submit").html(fail_total_price);
 			$("#o_point_save").html(fail_save_point);
@@ -435,7 +421,7 @@
             <div class="col-md-12 mb-3">
               <label class="form-label" for="o_point"> 사용 포인트  (보유 : <fmt:formatNumber value="${member.m_point }" groupingUsed="true"/>원)</label>
               <span class="text-danger" id="pointMsg" ></span>
-              <input type="text" id="o_point" class="form-control" name="o_point" onchange="changeChk(o_point.value)">
+              <input type="text" id="o_point" class="form-control" name="o_point" onchange="changeChk(o_point.value)" value="0">
             </div>
 				
             <p><p><hr class="my-4" style="border-width: 2px; border-color: #333;"><p><p>

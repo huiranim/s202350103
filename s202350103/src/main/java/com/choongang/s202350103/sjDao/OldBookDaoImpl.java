@@ -201,6 +201,23 @@ public class OldBookDaoImpl implements OldBookDao {
 	}
 
 	@Override
+	public List<OldBook> selectRendomObNum() {
+		System.out.println("OldBookDaoImpl selectRendomObNum start..");
+		List<OldBook> ObNumRedomSel = null;
+		
+		try {
+			ObNumRedomSel = session.selectList("sjObListAllMain");
+		} catch (Exception e) {
+			System.out.println("OldBookDaoImpl listObFo ObNumRedomSel.size()"+ObNumRedomSel.size());
+		}
+		
+		
+		return ObNumRedomSel;
+	}
+
+	
+
+	@Override
 	public int updateObComp(OldBook oldBook) {
 		System.out.println("sjDaoImpl updateObComp Start...");
 		int updateCount = 0;
@@ -232,6 +249,7 @@ public class OldBookDaoImpl implements OldBookDao {
 		
 		return obresult;
 	}
+
 
 
 

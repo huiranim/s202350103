@@ -69,6 +69,24 @@
 		SELECT Count(*) from newbook
 	</select>
 	
+	
+	<select id="sjObListAllMain" resultType="OldBook">
+		  
+	select * 
+		from 
+		  (select rownum rn , ob.*
+		  FROM (
+		  SELECT o.ob_num , n.nb_title , o.ob_sell_price , n.nb_category1 ,n.nb_category2
+		    , o.ob_status , n.nb_image
+		    from oldbook o , newbook n
+		    where o.nb_num = n.nb_num
+            and  ob_status = 3
+		    order by dbms_random.value ) ob
+		)
+		where rn <![CDATA[ <= ]]> 4
+			
+	</select>
+	
 	<select id="sjObListAll" resultType="OldBook" parameterType="OldBook">
 		SELECT * 	
 			FROM

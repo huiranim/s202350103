@@ -119,5 +119,19 @@ public class OrderrDaoImpl implements OrderrDao {
 		return ;
 	}
 
+	// 카카오페이 결제 데이터
+	@Override
+	public Orderr orderPayment(Orderr orderr) {
+		System.out.println("OrderDaoImpl orderPayment() Start...");
+		Orderr orderr2 = null;
+		try {
+			orderr2 = session.selectOne("htOrderPayment", orderr);
+			System.out.println("OrderrDaoImpl orderPayment orderr--> "+ orderr2);
+		}catch (Exception e) {
+			System.out.println("OrderrDaoImpl orderPayment Exception -> " + e.getMessage());
+		}
+		return orderr2;
+	}
+
 
 }
