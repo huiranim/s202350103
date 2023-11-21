@@ -6,11 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.query.criteria.internal.expression.function.SubstringFunction;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -43,6 +47,7 @@ public class GbController {
 	private final NewBookOldBookService nbods;
 	private final ReviewService rs;
 	private final RecentlyBook rb;
+	private final JavaMailSender mailSender;
 	
 	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
@@ -515,6 +520,74 @@ public class GbController {
 		model.addAttribute("member", member);
 		
 		return "gb/shareEmailPopup";
+	}
+	
+	@RequestMapping("shareEmailTransport")
+	public String shareEmailTransport(HttpServletRequest request, Model model, NewBook newbook, HttpSession session, Member member) {		
+		System.out.println("GbController shareEmailTransport start...");
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		// newbook 정보 가져오기
+		NewBook popUpNewbook = nbs.selectBoNewBookDetail(newbook);
+		String publi_date1 = popUpNewbook.getNb_publi_date().substring(0,10);
+		popUpNewbook.setNb_publi_date(publi_date1);
+		
+		String toMail = newbook.getRecipient();			// 받는 사람
+		System.out.println("toMail -> "+toMail);
+		String sendMail = newbook.getM_email();			// 보내는 사람
+		System.out.println("sendMail -> "+sendMail);	
+		String mailTitle = member.getM_name()+"님께서 다독 도서 상품을 추천하였습니다.";	// 메일 제목
+		String e_message = newbook.getE_message();
+		
+		try {
+			System.out.println("mail start...");
+			// Mime 전자 우편 Internet 표준 Format
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+            // true는 멀티파트 메세지를 사용하겠다는 의미
+            
+            /*
+             * 단순한 텍스트 메세지만 사용시엔 아래의 코드도 사용 가능 
+             * MimeMessageHelper mailHelper = new MimeMessageHelper(mail,"UTF-8");
+             */
+			
+            messageHelper.setFrom(sendMail);		// 보내는 사람 세팅
+            // 빈에 아이디 설정한 것은 단순히 smtp 인증을 받기 위해 사용 따라서 보내는이(setFrom())반드시 필요
+            // 보내는이와 메일주소를 수신하는이가 볼때 모두 표기 되게 원하신다면 아래의 코드를 사용하시면 됩니다.
+            //mailHelper.setFrom("보내는이 이름 <보내는이 아이디@도메인주소>");
+
+			messageHelper.setTo(toMail); 			// 받는 사람 세팅
+			messageHelper.setSubject(mailTitle);	// 메일 제목
+			// 메일 내용
+			String messageText = "제목 : "+ popUpNewbook.getNb_title() +"<br>";
+			messageText += "가격 : " + popUpNewbook.getNb_price() +"<br>";
+			messageText += "메일 내용 :"+ e_message;
+			
+			System.out.println("messageText -> "+messageText);
+			
+			// 작성한 메일 내용 세팅
+			messageHelper.setText(messageText, true);
+            // true는 html을 사용하겠다는 의미입니다.
+            
+            /*
+             * 단순한 텍스트만 사용하신다면 다음의 코드를 사용하셔도 됩니다. messageHelper.setText(messageText);
+             */
+			
+			// 메일 발송
+			mailSender.send(message);
+			model.addAttribute("check", 1); 				// 정상 메일 발송
+			model.addAttribute("newbook", popUpNewbook); 	// 새상품 도서 정보
+			model.addAttribute("member", member);			// 회원 정보
+			
+		} catch (Exception e) {
+			System.out.println("shareEmailTransport Error ->"+e.getMessage());
+			model.addAttribute("check", 2); // 메일 전달 실패
+
+		}
+		
+		return "gb/shareEmailPopup"; 
 	}
 	 
 }
