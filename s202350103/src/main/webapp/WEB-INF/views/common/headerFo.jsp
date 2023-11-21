@@ -478,9 +478,24 @@
                   </div>
                 </li>
                 
+               
                 
+                <li class="nav-item dropdown w-100 w-lg-auto">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+				커뮤니티
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="memberCommunity">커뮤니티 목록</a></li>
+                    
+                 <c:if test="${sessionScope.member != null }">
+                    <li><a class="dropdown-item" href="memberQna?m_num=${member.m_num }">내 게시글들</a></li>                  
+                  </c:if>  
+                    
+                  </ul>
+                </li>
                 
-				<li class="nav-item dropdown w-100 w-lg-auto">
+                	<li class="nav-item dropdown w-100 w-lg-auto">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
 				고객센터
@@ -493,21 +508,6 @@
                     <li><a class="dropdown-item" href="memberQnaOne?m_num=${member.m_num }">1 : 1 문의</a></li>
                     <li><a class="dropdown-item" href="memberMyOna?m_num=${member.m_num }">내 문의</a></li>
                   
-                  </c:if>  
-                    
-                  </ul>
-                </li>
-                
-                <li class="nav-item dropdown w-100 w-lg-auto">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-				커뮤니티
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="memberCommunity">커뮤니티 목록</a></li>
-                    
-                 <c:if test="${sessionScope.member != null }">
-                    <li><a class="dropdown-item" href="memberQna?m_num=${member.m_num }">내 게시글들</a></li>                  
                   </c:if>  
                     
                   </ul>

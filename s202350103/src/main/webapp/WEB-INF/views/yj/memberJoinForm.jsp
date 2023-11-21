@@ -86,11 +86,40 @@
 		}
 	}
 </script>
+
+
+<script type="text/javascript">
+
+function emailOptionChange(){
+	
+    var emailSelect = document.getElementById("emailSelect");
+    alert(emailSelect.value);
+    
+    var mEmail2 = document.getElementById("m_email2");
+ 	
+    alert(mEmail2.value);
+    
+    if (emailSelect.value === "직접 입력") {
+        mEmail2.removeAttribute("disabled");
+    } else {
+        mEmail2.setAttribute("disabled", "disabled");
+        mEmail2.value = emailSelect.value;
+        alert(mEmail2.value);
+    }
+	
+}
+
+</script>
+
+
+
+
 <script type="text/javascript">
 
 function valiForm() {
 
 	var isValid = true;
+	
 	
 	// 이름 유효성 검사
 	function nameCk() {
@@ -207,7 +236,7 @@ function valiForm() {
 	birthCk();
 	genCk();
 	
-	
+
 	// 폼 제출 여부 결정
     if (!isValid) {
         return false; // 유효성 검사에서 실패한 경우 폼 제출 중단
@@ -277,7 +306,7 @@ function valiForm() {
 	        <input type="text" class="form-control" id="m_email2" name="m_email2" required="required">
 	        &nbsp;
 	        <div class="col-lg-3">
-	            <select name="m_email" class="form-select" id="emailSelect">
+	            <select  class="form-select" id="emailSelect" onchange="emailOptionChange();">
 	                <option value="naver.com">naver.com</option>
 	                <option value="gmail.com">gmail.com</option>
 	                <option value="daum.com">daum.com</option>

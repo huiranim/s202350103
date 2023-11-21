@@ -47,6 +47,12 @@ public class OrderrServiceImpl implements OrderrService {
 		return ;
 	}
 
+	@Override
+	public Orderr orderPayment(Orderr orderr) {
+		Orderr orderr2 = od.orderPayment(orderr);
+		return orderr2;
+	}
+
 
 
 	

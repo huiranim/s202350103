@@ -42,19 +42,19 @@ public interface PointService {
 	int 			 updateQuiz(Quiz quiz);						//퀴즈 이벤트 정보 수정
 	int 			 updateAttendance(Attendance attendance);
 	List<Attendance> searchEvent(Attendance attendance);		//관리자페이지 이벤트목록 조건검색 메소드
-	List<PointList>  selectMemberPoint(int m_num);
+	List<PointList>  selectMemberPoint(Member member);				//특정 회원에 포인트 이력 내용 출력
 	int 			 pointSum(int m_num);
 	int 			 boUpdatePlusPoint(Member member);
 	int 			 boInsertPlusPoint(Member member);
 	int 			 boInsertMinusPoint(Member member);
 	int 			 boUpdateMinusPoint(Member member);
 	int 			 checkAddAtt(int a_num);					//attendance 연속출석조건 일수 확인 메소드
-	int 			 checkAddAtt1(AttJoin attJoin);
-	int 			 checkAddAtt2(AttJoin attJoin);
 	int 			 countAttRow(AttJoin attJoin);
 	int 			 deleteAtt(int a_num);						//관리자페이지 Attendance 이벤트 삭제
 	int 			 deleteQuiz(int q_num);						//관리자 페이지 Quiz 이벤트 삭제
 	List<PointList>  boJoinedMember(int eNum);
+	int 			 memberPointList(int m_num);
+	int 			 joinedCount(int eNum);
 
 	
 	

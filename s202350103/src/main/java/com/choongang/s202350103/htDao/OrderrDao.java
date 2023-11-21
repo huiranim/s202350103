@@ -12,5 +12,6 @@ public interface OrderrDao {
 	int           orderTotal();
 	List<NewBook> orderOne(NewBook newBook);
 	List<Cart>    orderList(Cart cart, Member member);
-	void           orderInsert(Orderr orderr, List<Cart> list);
+	void          orderInsert(Orderr orderr, List<Cart> list);
+	Orderr        orderPayment(Orderr orderr);
 }

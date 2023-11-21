@@ -104,4 +104,6 @@
 	<delete id="shDeleteAtt" parameterType="int">
 		Delete From Attendance Where a_num=#{a_num} 
 	</delete>
+	
+	<select id=""></select>
 </mapper>

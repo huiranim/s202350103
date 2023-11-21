@@ -496,5 +496,25 @@ public class GbController {
 		
 		return "redirect:bonewbookList?result="+result;
 	}
+	
+	@RequestMapping("shareEmailPopup")
+	public String shareEmailPopup(NewBook newbook, HttpSession session, Member member, Model model) {
+		System.out.println("GbController shareEmailPopup start...");
+		
+		// 로그인한 멤버 값 불러오기 
+		member =(Member) session.getAttribute("member");
+		if(member == null) { return "yb/loginForm"; }
+		
+		NewBook popUpNewbook = nbs.selectBoNewBookDetail(newbook);
+		String publi_date1 = popUpNewbook.getNb_publi_date().substring(0,10);
+		popUpNewbook.setNb_publi_date(publi_date1);
+		
+		System.out.println("GbController shareEmailPopup popUpNewbook.nb_image -> "+popUpNewbook.getNb_image());
+		
+		model.addAttribute("newbook", popUpNewbook);
+		model.addAttribute("member", member);
+		
+		return "gb/shareEmailPopup";
+	}
 	 
 }

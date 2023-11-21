@@ -25,7 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.choongang.s202350103.domain.AmountVO;
+import com.choongang.s202350103.domain.KakaoPayApprovalVO;
 import com.choongang.s202350103.htService.KakaoPay;
 //import com.choongang.s202350103.htService.KakaoPay;
 import com.choongang.s202350103.htService.OrderrService;
@@ -50,28 +53,6 @@ public class HtController {
 	private final OrderrService os;
 	private final ReviewService rs;
 
-	@Data
-	@AllArgsConstructor
-	class Result<T>{ 
-		private final int plusEnd; //총 인원수 추가
-		private final T data;
-	}
-	
-	@ResponseBody 
-	@RequestMapping("plusEnd")
-	public Result endPlus(String plusEndStr, Review review) {
-		int plusEnd = 5;
-		System.out.println("plusEndStr--> "+plusEndStr);
-		if (plusEndStr != null) plusEnd = Integer.parseInt(plusEndStr);
-		review.setStart(1);
-		review.setEnd(plusEnd);
-		
-		List<Review> listReview = rs.listReview(review);
-		System.out.println("Review.size--> "+listReview.size());
-		System.out.println("Review--> "+listReview);
-		
-		return new Result(plusEnd, listReview);
-	}
 	
 	@RequestMapping("/reviewList")
 	public String reviewList(Model model, Review review, HttpSession session,  Member member) {
@@ -402,7 +383,7 @@ public class HtController {
 	 
 	 @RequestMapping("/orderAction")
 	 public String orderAction(
-			 
+			 					 RedirectAttributes redirect,
 							 	 String m_email1, 
 								 String m_email, 
 	 
@@ -460,36 +441,67 @@ public class HtController {
 		
 		//Orderr 테이블 insert
 		os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
-		System.out.println("HtController orderInsert() orderr.getO_order_num()-->"+orderr.getO_order_num());
 		
-		model.addAttribute("result_o_order_num", orderr.getO_order_num());
-		model.addAttribute("member",member);
+		//Orderr, Orderr_Detail 조회
+		System.out.println("htController orderAction orderr---> " + orderr);
+		Orderr orderr2 = os.orderPayment(orderr);
 		
-		return "forward:kakaoPay";
+		// kakaopay에 보낼것 담을 domain
+		KakaoPayApprovalVO ka = new KakaoPayApprovalVO();
+		
+		// 카카오에서 요청한 변수명과 타입으로 변경
+		String partner_order_id = String.valueOf(orderr2.getO_order_num());
+		String partner_user_id  = String.valueOf(orderr2.getO_rec_name());
+		String item_name        = orderr2.getNb_title();
+		AmountVO amountVO = new AmountVO();
+		amountVO.setTotal(orderr2.getO_pay_price());
+		Integer quantity = orderr2.getO_order_count();
+				
+		
+		ka.setPartner_order_id(partner_order_id);
+		ka.setPartner_user_id(partner_user_id);
+		ka.setItem_name(item_name);
+		ka.setQuantity(quantity);
+		ka.setAmount(amountVO);
+		
+		System.out.println("Kakao ka---> " + ka);
+		
+		
+		redirect.addFlashAttribute("ka",ka);
+		
+		return "redirect:kakaoPay";
 	}
 
 	// 카카오페이
 	 @Setter(onMethod_ = @Autowired)
 	 private KakaoPay kakaopay;  // Service
 
-	 @RequestMapping("kakaoPayStart")
-	 public String kakaoButton() {
-		 System.out.println("kakaoPayStart-->");
-		 return "/ht/kakaoPay";
-	 }
+//	 @RequestMapping("kakaoPayStart")
+//	 public String kakaoButton() {
+//		 System.out.println("kakaoPayStart-->");
+//		 return "/ht/kakaoPay";
+//	 }
 
-	 @GetMapping("/kakaoPay") //Get : 정보를 요청하기위해 사용(Read), Post : 정보를 입력하기위해 사용(Create)
-	 public String kakaoPay() {
+	 @RequestMapping("/kakaoPay") //Get : 정보를 요청하기위해 사용(Read), Post : 정보를 입력하기위해 사용(Create)
+	 public String kakaoPay(RedirectAttributes redirect,
+			 				@ModelAttribute("ka") KakaoPayApprovalVO ka) {
 		 log.info("kakaoPay post............................................");
-		 return "redirect:" + kakaopay.kakaoPayReady();
+		 
+		 System.out.println("kakaoPay ka---> " + ka);
+		 
+		 redirect.addFlashAttribute("ka",ka);
+		 return "redirect:" + kakaopay.kakaoPayReady(ka, redirect);
 	 }
    
-	 @GetMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
-	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
+	 @RequestMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
+	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, 
+			 						RedirectAttributes redirect, @ModelAttribute("ka") KakaoPayApprovalVO ka, Model model) {
 		 System.out.println("kakaoPaySuccess get............................................");
 		 System.out.println("kakaoPaySuccess pg_token : " + pg_token);
 	  
-		 model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
+		 model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token, ka));
+		 
+		 
 		 
 		 return "/ht/kakaoPaySuccess";
 	 }

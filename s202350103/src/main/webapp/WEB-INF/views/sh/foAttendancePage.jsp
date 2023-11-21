@@ -24,38 +24,34 @@
         	height: 150px;
             font-size: 17px;
             font: bold;
-            
-        }
+	        }
         
          th {
            font-size: 19px;
            font: bold;
-            
         }
-        
         
         tbody td {
             width: 14.3%;
         }
-    </style>
 
-
+</style>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>11월 출석 이벤트</title>
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javaScript">
 	
 </script>
 </head>
 <body>
-<p class="fs-1 mb-5">${month}월 출석 이벤트</p>
+<p class="fs-1 mb-5" style="text-align: center;">${month}월 출석 이벤트</p>
 
 <div class="fs-2 mb-2" style="text-align: center; color: #0aad0a;">
     ${attendance.a_sdate } 00:00 ~ ${attendance.a_edate } 00:00
 </div>
 
 <div class="table-responsive">
-<table  cellspacing="0" class="table ">
+<table cellspacing="0" class="table ">
 	<colgroup>
 		<col width="14.3%"/>
 		<col width="14.3%"/>
@@ -85,7 +81,7 @@
 	        <td>
 	            <span></span>
 	            <div class="calDate">
-	                &nbsp; <!-- 공백 추가 -->
+	                &nbsp;<!-- 공백 추가 -->
 	            </div>
 	        </td>
 	    </c:forEach>
@@ -156,7 +152,7 @@
 			dataType:"text",
 			success : function(result){
 				if(result == 1){
-					alert("3일 연속 출석 하셨습니다!");
+					alert(${attendance.a_add}+"일 연속 출석 하셨습니다!");
 				}
 			}, 
 			error : function(){
