@@ -19,6 +19,7 @@ public interface OldbookService {
 	int                  updateObComp(OldBook oldBook);
 	int                  totalNb();
 	int                  updateReadCnt(int ob_num);
+	List<OldBook>        selectRendomObNum();
 
 
 

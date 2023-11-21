@@ -313,7 +313,7 @@ public class SjController {
 		
 		model.addAttribute("listObFo" , OblistFo);
 		model.addAttribute("totalOb2", totalOb2);
-		
+		model.addAttribute("oldBook",oldBook);
 		model.addAttribute("page" , page);
 		
 		return "sj/foInObList";
