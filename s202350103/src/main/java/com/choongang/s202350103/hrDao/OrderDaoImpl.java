@@ -369,7 +369,7 @@ public class OrderDaoImpl implements OrderDao {
 	public int orderUpload(Orderr orderr) {
 		System.out.println("OrderDaoImpl orderUpload() start..");
 		
-		int result = 0, oResult = 0, odResult = 0;
+		int oResult = 0, odResult = 0, result = 0;
 		
 		//Transaction 관리
 		TransactionStatus txStatus = 
@@ -382,9 +382,10 @@ public class OrderDaoImpl implements OrderDao {
 			// INSERT - ORDER_DETAIL
 			odResult = session.insert("hrInsertOrderDetailU", orderr);
 			
-			System.out.println("OrderDaoImpl orderUpload() oResult -> "+oResult);
-			System.out.println("OrderDaoImpl orderUpload() odResult -> "+odResult);
+			System.out.println("OrderDaoImpl orderUpload() oResult -> "+orderr.getO_order_num() + oResult);
+			System.out.println("OrderDaoImpl orderUpload() odResult -> "+orderr.getO_order_num() + odResult);
 			
+			// 두 개의 INSERT 쿼리가 모두 성공일 때 insertResult = 1
 			if(oResult == 1 && odResult == 1) {
 				result = 1;
 			} else {

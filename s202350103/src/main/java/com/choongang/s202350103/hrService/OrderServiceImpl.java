@@ -1,9 +1,14 @@
 package com.choongang.s202350103.hrService;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+
 import com.choongang.s202350103.hrDao.OrderDao;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
@@ -15,6 +20,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 	private final OrderDao od;
+	
+	// Transaction 관리
+	private final PlatformTransactionManager transactionManager;
 
 	// BO 주문목록 - total
 	// boOrderList.jsp
@@ -214,57 +222,92 @@ public class OrderServiceImpl implements OrderService {
 	
 	// BO 주문목록 - 임의 주문 생성 액션(CSV 파일 업로드)
 	@Override
-	public int orderUpload(Orderr orderr) {
+	public int orderUpload(List<Orderr> orderrList) {
 		System.out.println("OrderServiceImpl orderUpload() start..");
 		
-		// 주문번호 생성
-		long o_order_num = 0;
+		int result = 0, insertResult = 0;
+		List<Integer> resultList = new ArrayList<Integer>();
 		
-			// 당일 주문 확인 (없으면 오늘날짜 + '0001', 있으면 해당값 +1)
-			long max_order_num = od.selectTodayOrderr();
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		
+		try {
+			// 라인별 주문번호 & 상품유형 SET
+			for(Orderr orderr : orderrList) {
 			
-			// 당일 주문 없을 때
-			if(max_order_num == 0) {
-				// 오늘 날짜 Get
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-				Date today = new Date();
-				long longToday = Long.parseLong(sdf.format(today));
+				// 주문번호 생성
+				long o_order_num = 0;
 				
-				o_order_num = (longToday * 10000) + 0001;
-				System.out.println("당일 주문 없을 때 o_order_num -> "+o_order_num);
-			
-			// 있을 때
-			} else {
-				o_order_num = max_order_num +1;
-				System.out.println("당일 주문 있을 때 o_order_num -> "+o_order_num);
-			}
-		
-		// 주문번호 저장
-		orderr.setO_order_num(o_order_num);
-		
-		// 상품유형 확인
-		int o_de_prodtype = 0;
-		
-			// nb_num이 100000번대 일 때
-			if(orderr.getNb_num() < 200000) {
-				o_de_prodtype = 1;
+					// 당일 주문 확인 (없으면 오늘날짜 + '0001', 있으면 해당값 +1)
+					long max_order_num = od.selectTodayOrderr();
+					
+					// 당일 주문 없을 때
+					if(max_order_num == 0) {
+						// 오늘 날짜 Get
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+						Date today = new Date();
+						long longToday = Long.parseLong(sdf.format(today));
+						
+						o_order_num = (longToday * 10000) + 0001;
+						System.out.println("당일 주문 없을 때 o_order_num -> "+o_order_num);
+					
+					// 있을 때
+					} else {
+						o_order_num = max_order_num +1;
+						System.out.println("당일 주문 있을 때 o_order_num -> "+o_order_num);
+					}
 				
-			// nb_num이 200000번대 일 때
-			} else {
-				o_de_prodtype = 2;
+				// 주문번호 저장
+				orderr.setO_order_num(o_order_num);
+				
+				// 상품유형 확인
+				int o_de_prodtype = 0;
+				
+					// nb_num이 100000번대 일 때
+					if(orderr.getNb_num() < 200000) {
+						o_de_prodtype = 1;
+						
+					// nb_num이 200000번대 일 때
+					} else {
+						o_de_prodtype = 2;
+					}
+				
+				// 상품유형 저장
+				orderr.setO_de_prodtype(o_de_prodtype);
+				
+				// 주문 INSERT
+				insertResult = od.orderUpload(orderr);
+				System.out.println("OrderServiceImpl orderUpload() result -> "+result);
+				
+				// 개별 결과인 insertResult를 ArrayList resultList에 누적 저장
+				resultList.add(insertResult);
 			}
-		
-		// 상품유형 저장
-		orderr.setO_de_prodtype(o_de_prodtype);
+					
+			// 최종 result 정의
+			// resultList의 모든 원소가 1이면 result = 1 / 1이 아닌 순간 result = 0 & 끝
+			for(int resultChk : resultList) {
+				if (resultChk == 1) {
+					result = 1;
+				} else {
+					result = 0;
+					break;
+				}
+				System.out.println("HrController orderUpload() result -> "+result);
+			}
+			// COMMIT
+			transactionManager.commit(txStatus);
 			
-		// 주문 INSERT
-		int result = od.orderUpload(orderr);
-		System.out.println("OrderServiceImpl orderUpload() result -> "+result);		
+		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
 		
+			System.out.println("OrderServiceImpl orderUpload() e.getMessage() -> "+e.getMessage());
+			
+		}
+	
 		System.out.println("OrderServiceImpl orderUpload() end..");
 		return result;
+
 	}
-
-
-
 }
