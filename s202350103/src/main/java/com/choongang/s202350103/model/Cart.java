@@ -16,6 +16,7 @@ public class Cart {				// 장바구니
 	private String 	nb_image;
 	private int  	totalPrice;    // 총 결제 금액
 	private int  	o_deliv_price; // 배송비
+	private int		ob_num;			//중고상품번호
 	// 페이징 작업용
 	private String  pageNum;	// 페이지	
 	private int     start;		

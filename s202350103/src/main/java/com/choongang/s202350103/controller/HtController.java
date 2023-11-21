@@ -346,26 +346,38 @@ public class HtController {
 			System.out.println("HtController orderOne--->" + orderOne);
 			
 			// ob_num이 null이면 이거 아니면 다른거 생성
-			
-			for(NewBook newBook2 : orderOne ) {
-				totalPrice += newBook2.getNb_price();
-				newBook.setTotalPrice(totalPrice);
-				if ( totalPrice > 50000) newBook.setO_deliv_price(0);
-				else                     newBook.setO_deliv_price(3000);
+			if(newBook.getOb_num() == 0) {
+				for(NewBook newBook2 : orderOne ) {
+					totalPrice += newBook2.getNb_price();
+					newBook.setTotalPrice(totalPrice);
+					if ( totalPrice > 50000) newBook.setO_deliv_price(0);
+					else                     newBook.setO_deliv_price(3000);
+				}
+				
+				model.addAttribute("orderList", orderOne);
+				model.addAttribute("cart", newBook);
+				System.out.println("HtController totalPrice--->" + totalPrice);
+			} else {
+				List<NewBook> OldOrderOne = os.orderOne(newBook);
+				for(NewBook newBook3 : OldOrderOne ) {
+					totalPrice += newBook3.getOb_sell_price();
+					newBook.setTotalPrice(totalPrice);
+					if ( totalPrice > 50000) newBook.setO_deliv_price(0);
+					else                     newBook.setO_deliv_price(3000);
+				}
+				
+				model.addAttribute("orderList", OldOrderOne);
+				model.addAttribute("cart", newBook);
+				System.out.println("HtController totalPrice--->" + totalPrice);
 			}
 			
-			model.addAttribute("orderList", orderOne);
-			model.addAttribute("cart", newBook);
-			model.addAttribute("paymentType", paymentType);
-			System.out.println("HtController totalPrice--->" + totalPrice);
-
 			
 		} else if (paymentType == 2) {
 			// 장바구니 결제(여러개)
 			List<Cart> orderList = os.orderList(cart, member);
 			System.out.println("HtController orderList kkk --->" + orderList);
 			for(Cart cart1 : orderList ) {
-				totalPrice += cart1.getNb_price();
+				totalPrice += (cart1.getNb_price() * cart1.getC_count());
 			}
 			cart.setTotalPrice(totalPrice);
 			if ( totalPrice > 50000) cart.setO_deliv_price(0);
@@ -403,11 +415,10 @@ public class HtController {
 								 String m_addr,
 								 
 								 int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
-								 int    paymentType, // 1-> 바로 결제   /  2-> 장바구니 결제
 								 Model model, HttpSession session, Member member, Orderr orderr, Cart cart
 								 ) {
 		System.out.println("Controller orderAction Start...");
-		System.out.println("Controller orderAction 1 paymentType-->"+paymentType);
+		System.out.println("Controller orderAction 1 orderr.getPaymentType()-->"+orderr.getPaymentType());
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -430,18 +441,18 @@ public class HtController {
 		
 		System.out.println("HtController orderr-->"+orderr);
 		
-		System.out.println("Htcontroller orderAction 2 paymentType---> " + paymentType);
+		System.out.println("Htcontroller orderAction 2 orderr.getPaymentType()---> " + orderr.getPaymentType());
 		
 		List<Cart> list =  new ArrayList<Cart>();
 		
 		
-		if(paymentType == 1) {
+		if(orderr.getPaymentType() == 1) {
 			cart.setM_num(member.getM_num());
 			cart.setNb_num(orderr.getNb_num());
 			cart.setC_count(1);
 			list.add(cart);
 			System.out.println("orderAction list--> " + list);
-		} else if (paymentType == 2) {
+		} else if (orderr.getPaymentType() == 2) {
 			list = os.orderList(cart, member);
 
 			System.out.println("orderAction list--> " + list);
@@ -454,7 +465,7 @@ public class HtController {
 		model.addAttribute("result_o_order_num", orderr.getO_order_num());
 		model.addAttribute("member",member);
 		
-		return "/ht/foOrderForm";
+		return "forward:kakaoPay";
 	}
 
 	// 카카오페이
@@ -467,10 +478,9 @@ public class HtController {
 		 return "/ht/kakaoPay";
 	 }
 
-	 @PostMapping("/kakaoPay")
+	 @GetMapping("/kakaoPay") //Get : 정보를 요청하기위해 사용(Read), Post : 정보를 입력하기위해 사용(Create)
 	 public String kakaoPay() {
 		 log.info("kakaoPay post............................................");
-   
 		 return "redirect:" + kakaopay.kakaoPayReady();
 	 }
    
