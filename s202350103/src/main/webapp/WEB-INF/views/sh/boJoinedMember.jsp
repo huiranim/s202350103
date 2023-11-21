@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../common/none.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,31 +8,46 @@
 <title>Insert title here</title>
 </head>
 <body>
-<table>
-	<thead>
-		<th>번호</th><th>이벤트번호</th><th>회원번호</th><th>이벤트 번호</th><th>획득일자</th><th>이벤트 유형</th><th>획득 포인트</th>
+<form>
+	<p class="fs-1 text-center">상세조회</p>
+	<span>회원번호 : </span>
+	<input type="text" name="">
+	<input type="button" onclick="" value="검색">
+</form>
+<label style="float: right; margin-right: 30px;">총 참여 인원 : ${joinedCount}</label>
+<table class="table" style="text-align: center; margin: auto;">
+	<thead class="table-light">
+		<th>번호</th>
+		<th>적립번호</th>
+		<th>회원번호</th
+		><th>획득일자</th>
+		<th>이벤트 유형</th>
+		<th>연속출석 일자</th>
 	</thead>
 	<tbody>
-		<c:forEach var="pl" items="${pointList }">
+		<c:forEach var="pl" items="${pointList}">
 		<tr>
-			<td>${pl.rn}</td>	
+			<th scope="row">${pl.rn}</th>	
 			<td>${pl.p_num}</td>
 			<td>${pl.m_num}</td>
-			<c:choose>
-				<c:when test="${pl.a_num!=0}">
-					<td>${pl.a_num}</td>
-				</c:when>
-				<c:otherwise>
-					<td>${pl.q_num}</td>
-				</c:otherwise>
-			</c:choose>
-			<td>${pl.a_par_pdate}</td>
+			<td><fmt:formatDate value="${pl.a_par_pdate}" pattern="yy-MM-dd"/></td>
 			<td>${pl.p_list_type}</td>
 			<td>${pl.m_point}</td>
 		</tr>
 		</c:forEach>
 	</tbody>
-
+	<tfoot>
+		<tr>
+			<td colspan="6"><button id="closeButton">닫기</button></td>
+		</tr>
+	</tfoot>
 </table>
+	
+<script type="text/javascript">
+	var closeButton = document.getElementById("closeButton");
+	closeButton.addEventListener('click',function(){
+		window.close();
+	});
+</script>
 </body>
 </html>
