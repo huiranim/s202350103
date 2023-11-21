@@ -108,9 +108,9 @@
 		       <input name="nb_num" type="hidden" value="${oldBook.nb_num }">
 		       <div class="input-group input-spinner" >
 		       	  <!-- 수량 선택 버튼 -->
-		          <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
+		         <!--  <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
 		          <input id="c_count" type="number" min="1" step="1"  max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" style="height: 42px;width: 40px;">
-		          <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
+		          <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" style="height: 42px;width: 40px;"> -->
 				  <div class="g-2 align-items-center">
 				     <!-- 구매버튼 -->
 				     <div style="margin-left: 15px;">
@@ -382,11 +382,49 @@
 				 </table>
 				 </div>	
 			</c:if>
+	
+	
 					
-					
-					<!-- 새거 -->
-				<!-- A 등급 테이블 -->
+    <div class="alert alert-primary d-flex align-items-center" role="alert">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
+         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      </svg>
+      <div>
+        <a href="#chkgrade">중고 등급 확인하로 가기 </a>
+      </div>
+   </div>
+
+		
+		<br><br><br>
+		
+ 
+
+               </div>  
+                <div class="mb-5">
+                  <h3 class="mb-3">줄거리</h3>
+                  <p class="mb-0 fs-5">${oldBook.nb_summary }</p>
+                </div>
+                
+                <div class="mb-5">
+                  <h3 class="mb-3">기본정보</h3>
+                   <table class="table fs-6" style="width: 25rem;">
+				     <tr>
+				       <th class="table-light text-center">ISBN</th>
+				       <td>${oldBook.nb_isbn }</td>
+				     </tr>
+					 <tr>
+				       <th class="table-light text-center">쪽수</th>
+				       <td>${oldBook.nb_page }</td>
+				     </tr>
+				     <tr>
+				       <th class="table-light text-center">크기</th>
+				       <td>${oldBook.nb_size }</td>
+				     </tr>  
+				   </table>
+                </div>
+                                	<div id="chkgrade">
 	중고도서 등급 확인란
+	</div>
 <div class="table-responsive d-block">
 			  <table class="table">
 			    <thead class="table-light text-center">
@@ -582,13 +620,13 @@
 						 		   <thead class="table-light text-center">
 						 	     <tr>
 								        <th scope="col" class="col-2">품질 등급</th>
-								        <th scope="col">헌 상태</th>
-								        <th scope="col">표지</th>
-								        <th scope="col">책등 / 책배</th>
-								        <th scope="col">내부 / 제본상태 </th>
-											   		   </tr>
-											 	   </thead>
-											  	  <tbody>
+								    	<th scope="col">헌 상태</th>
+								     	<th scope="col">표지</th>
+								     	<th scope="col">책등 / 책배</th>
+								     	<th scope="col">내부 / 제본상태 </th>
+							   		   </tr>
+							 	   </thead>
+							  	  <tbody>
 											    <tr>
 								        <th  >D 등급 </th>
 								        <td>사용감이 많고 세월이 <br>있는책 </td>
@@ -605,7 +643,7 @@
 										</td>
 								        <td>
 								        <ul>
-								     		 <li> 전체적인 변색</li>
+								     		<li> 전체적인 변색</li>
 											<li>모서리 해짐 있음</li>
 											<li>오염 있음</li>
 											<li>낙서 있음 (이름 포함)</li>
@@ -624,46 +662,27 @@
 								      </tr>
 								      
 				
-						    </tbody>
-						    </table>
-						    </div>
+						   			 </tbody>
+						   		 </table>
+						  				  </div>
+									    </div>
+								    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
 
+           					<!-- 새거 -->
+				<!-- A 등급 테이블 -->
 
-
-
-       </div>
-    </div>
- </div>
-</div>
-		
-		<br><br><br>
-		
- 
-
-               </div>  
-                <div class="mb-5">
-                  <h3 class="mb-3">줄거리</h3>
-                  <p class="mb-0 fs-5">${oldBook.nb_summary }</p>
-                </div>
                 
-                <div class="mb-5">
-                  <h3 class="mb-3">기본정보</h3>
-                   <table class="table fs-6" style="width: 25rem;">
-				     <tr>
-				       <th class="table-light text-center">ISBN</th>
-				       <td>${oldBook.nb_isbn }</td>
-				     </tr>
-					 <tr>
-				       <th class="table-light text-center">쪽수</th>
-				       <td>${oldBook.nb_page }</td>
-				     </tr>
-				     <tr>
-				       <th class="table-light text-center">크기</th>
-				       <td>${oldBook.nb_size }</td>
-				     </tr>  
-				   </table>
-                </div>
-                 <!--  중고 등급 상세  테이블  -->
+           
+           
+        <!--           중고 등급 상세  테이블 
 			 <div class="table-responsive d-block">
 			  <table class="table">
 			    <thead class="table-light text-center">
@@ -810,18 +829,14 @@
 		      
 		    </tbody>
 		  </table>
-	  </div>
-              </div>
-            </div>
+	  </div> -->
+          
+          
             <!-- 동일 새상품 도서 리스트 -->
-            <div class="tab-pane fade" id="details-tab-pane" role="tabpanel" aria-labelledby="details-tab" tabindex="0">
-              <div class="my-8">
-                <div class="row">
-                  
-                  
-                  <div class="col-12">
-                           
-
+   <div class="tab-pane fade" id="details-tab-pane" role="tabpanel" aria-labelledby="details-tab" tabindex="0">
+        <div class="my-8">
+           <div class="row">
+               <div class="col-12">
        <div class="py-5">
           <ul class="list-group list-group-flush">
              <!-- list group -->
@@ -871,14 +886,11 @@
                 </div>
               </div>
             </div>
+         </div>
          
             
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
-</div>
+             
+    
 
   
 </body>

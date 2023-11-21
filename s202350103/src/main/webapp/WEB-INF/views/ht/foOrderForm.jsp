@@ -112,11 +112,11 @@
 		
 		if($('#omessage_select').val() == "직접 입력"){
 			omessage =  $('#omessage').val();
-			alert('omessage->'+omessage)
+			//alert('omessage->'+omessage)
 			sendData4 = "o_rec_msg=" + omessage;
 		} else {
 			sendData4 = "o_rec_msg=" + $('#omessage_select').val();
-			alert('sendData4->'+sendData4)
+			//alert('sendData4->'+sendData4)
 			
 		}
 		
@@ -382,7 +382,23 @@
 				              </div>
 				              <div class="col-md-8 col-12 flex-grow-1">
 				                 <!-- heading -->
-				                 <h2 class="fs-6">${newbook.nb_title}</h2>
+				                 <h2 class="fs-6">
+				                   <c:choose>
+				                   		<c:when test="${newbook.ob_num != 0}">
+				                   		  <c:choose>
+											<c:when test="${newbook.ob_grade eq '0' }"><c:out value="[중고 A]"/></c:when>
+											<c:when test="${newbook.ob_grade eq '1' }"><c:out value="[중고 B]"/></c:when>
+											<c:when test="${newbook.ob_grade eq '2' }"><c:out value="[중고 C]"/></c:when>
+											<c:when test="${newbook.ob_grade eq '3' }"><c:out value="[중고 D]"/></c:when>
+										    <c:otherwise><c:out value="kkk"/></c:otherwise>
+									      </c:choose>
+				                   		</c:when>
+				                   </c:choose>
+									 ${newbook.nb_title}
+				                 </h2>
+				                 
+				                 
+				                <%--  <h2 class="fs-6">${newbook.nb_title}</h2> --%>
 				                 
 				                 <c:if test="${paymentType == 1}">
 				                 	<div class="text-small mb-1"><small><fmt:formatNumber value="1" groupingUsed="true"/>개</small></div>
@@ -393,7 +409,14 @@
 				                 
 				                 <div class=" mt-6">
 				                    <!-- price -->
-				                    <div><span class="text-dark"><fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/>원</span></div>
+				                    <c:choose>
+									     <c:when test="${paymentType == 1}">
+									        <div><span class="text-dark"><fmt:formatNumber value="${cart.totalPrice}" groupingUsed="true"/>원</span></div>
+									     </c:when>
+									     <c:otherwise>
+									        <div><span class="text-dark"><fmt:formatNumber value="${newbook.nb_price * newbook.c_count}" groupingUsed="true"/>원</span></div>
+									     </c:otherwise>
+									</c:choose>
 				                 </div>
 				              </div>
 				             </c:forEach> 
