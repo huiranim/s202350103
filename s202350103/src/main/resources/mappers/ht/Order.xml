@@ -8,10 +8,21 @@
 	</select>
 	
 	<select id="htOrderOne" parameterType="NewBook" resultType="NewBook">
-		SELECT *
-		FROM   newbook
-		WHERE  nb_num = #{nb_num}
+		 <choose>
+ 			<when test="ob_num == 0">
+ 				SELECT *
+				FROM   newbook
+				WHERE  nb_num = #{nb_num}
+  			</when>
+	        <otherwise>
+                SELECT   ob.ob_num, ob.OB_SELL_PRICE, ob.ob_grade, nb.*
+                FROM     OldBook ob, NewBook nb
+                WHERE    nb.nb_num = ob.nb_num
+                AND      ob.ob_num = #{ob_num}
+            </otherwise>
+         </choose>
 	</select>
+
 	
 	<select id="htOrderList" parameterType="Cart" resultType="Cart">
 		SELECT c.*, n.nb_title, n.nb_price, n.nb_image, n.nb_publisher

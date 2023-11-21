@@ -103,10 +103,11 @@ public class OrderrDaoImpl implements OrderrDao {
 			int point_insert_result = session.insert("htPointInsert", orderr);
 			System.out.println("Dao htOrderInsert point_insert_result--->" + point_insert_result);
 			
-			// 장바구니 삭제
-			int cart_delete_result = session.delete("htCartDelete",orderr);
-			System.out.println("Dao htOrderInsert cart_delete_result--->" + cart_delete_result);
-			
+			// 장바구니 삭제(장바구니 결제일 경우)
+			if(orderr.getPaymentType() == 2) {
+				int cart_delete_result = session.delete("htCartDelete",orderr);
+				System.out.println("Dao htOrderInsert cart_delete_result--->" + cart_delete_result);
+			}
 			
 			//commit
 			transactionManager.commit(txStatus);

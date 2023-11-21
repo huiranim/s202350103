@@ -329,7 +329,7 @@ public class OrderDaoImpl implements OrderDao {
 		return orderGift;
 	}
 	
-	// FO 선물하기 - 액션
+	// FO 선물받기 - 액션
 	@Override
 	public int gettingGiftAction(Orderr orderr, OrderGift orderGift) {
 		System.out.println("OrderDaoImpl gettingGiftAction() start..");
@@ -361,6 +361,46 @@ public class OrderDaoImpl implements OrderDao {
 		}
 		
 		System.out.println("OrderDaoImpl gettingGiftAction() start..");
+		return result;
+	}
+
+	// BO 주문목록 - 임의 주문 생성 액션(CSV 파일 업로드)
+	@Override
+	public int orderUpload(Orderr orderr) {
+		System.out.println("OrderDaoImpl orderUpload() start..");
+		
+		int result = 0, oResult = 0, odResult = 0;
+		
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		
+		try {
+			// INSERT - ORDERR
+			oResult = session.insert("hrInsertOrderrU", orderr);
+			
+			// INSERT - ORDER_DETAIL
+			odResult = session.insert("hrInsertOrderDetailU", orderr);
+			
+			System.out.println("OrderDaoImpl orderUpload() oResult -> "+oResult);
+			System.out.println("OrderDaoImpl orderUpload() odResult -> "+odResult);
+			
+			if(oResult == 1 && odResult == 1) {
+				result = 1;
+			} else {
+				result = 0;
+			}
+			
+			// COMMIT
+			transactionManager.commit(txStatus);
+		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+			
+			System.out.println("OrderDaoImpl orderUpload() e.getMessage() -> "+e.getMessage());
+		}
+		
+		System.out.println("OrderDaoImpl orderUpload() end..");
 		return result;
 	}
 
