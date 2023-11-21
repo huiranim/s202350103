@@ -20,7 +20,7 @@ public class OldBook {					//중고상품
 	private int 	ob_ripped;			//찢긴상태
 	private int 	ob_scribble;		//낙서상태
 	private int 	ob_smeary;			//오염상태
-	private Date	ob_write_date;		//중고 등록일자
+	private String	ob_write_date;		//중고 등록일자
 	private int 	ob_readcnt;			//중고 조회수
 	
 	//조회용

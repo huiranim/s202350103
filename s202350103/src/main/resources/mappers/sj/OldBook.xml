@@ -70,8 +70,9 @@
 	</select>
 	
 	<select id="sjObListAll" resultType="OldBook" parameterType="OldBook">
-			   
-		   SELECT *
+		SELECT * 	
+			FROM
+		  ( SELECT *
 				FROM
 				(
 			        SELECT rownum rn ,  a.nb_title, a.nb_price , a.m_num, a.m_name , a.m_id , 
@@ -84,23 +85,18 @@
 				        
 	                   (select   n.nb_title, n.nb_price , m.m_num as m_num , o.m_num as om_num , m.m_id as m_id , 
                        m.m_name as m_name , 
-			        n.nb_writer, n.nb_publisher , n.nb_image , n.nb_publi_date,
-			        o.ob_num, o.ob_acc_name, o.ob_acc_num, n.nb_summary , n.nb_isbn ,
-			         n.nb_page , n.nb_size, n.nb_category1 , n.nb_category2 , 
-				        o.ob_grade, o.ob_pur_price, o.ob_status, o.ob_sell_price, o.ob_report_date, 
-				        o.ob_trans_com,o.ob_trans_num , o.ob_ripped, o.ob_scribble, o.ob_smeary, o.ob_write_date, o.ob_readcnt
-	                   from  newbook n , oldbook o , member m 
-	                   WHERE  o.nb_num = n.nb_num 
-						and   m.m_num= o.m_num 	                   		  
+			      		  n.nb_writer, n.nb_publisher , n.nb_image , n.nb_publi_date,
+			      		  o.ob_num, o.ob_acc_name, o.ob_acc_num, n.nb_summary , n.nb_isbn ,
+			       		  n.nb_page , n.nb_size, n.nb_category1 , n.nb_category2 , 
+				     	   o.ob_grade, o.ob_pur_price, o.ob_status, o.ob_sell_price, o.ob_report_date, 
+				   	     o.ob_trans_com,o.ob_trans_num , o.ob_ripped, o.ob_scribble, o.ob_smeary, o.ob_write_date, o.ob_readcnt
+	             		      from  newbook n , oldbook o , member m 
+	              			     WHERE  o.nb_num = n.nb_num 
+								and   m.m_num= o.m_num 	                   		  
 	                        order by o.ob_num) a  
 				 
-		 		WHERE ob_status IN  3
-		 		)
-		 		WHERE  rn  BETWEEN #{start} AND #{end}
+		 		WHERE  nb_category1 = 1   		
 		 		<choose>
-				<when test="nb_category1 == 1">
-				AND	 nb_category1 = 1 
-				</when>	
 			 	<when test="nb_category1 == 2 ">
 			 	   AND  	nb_category1 = 2 
 			 	</when>
@@ -128,6 +124,10 @@
               AND    nb_category2 = 7
             </when>
 			</choose>
+		 		)
+		 		WHERE  rn  BETWEEN #{start} AND #{end}
+		 		)
+			WHERE ob_status IN  3
 	</select>
 
    <select id="sjObListAll2"   parameterType="OldBook"   resultType="OldBook">
@@ -224,7 +224,9 @@
 	<update id="sjObUpdateComple"  parameterType="OldBook" >
 		UPDATE oldbook 
 		SET 
-			ob_status = #{ob_status}
+			ob_status = #{ob_status},
+			ob_readcnt = #{ob_readcnt},
+			ob_write_date = sysdate
 			WHERE ob_num =#{ob_num}
 	</update>
 	<update id="sjUpdateReadCnt" parameterType="int" >

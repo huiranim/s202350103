@@ -12,7 +12,7 @@
 	
 			function change_status() {
 				var ob_statusVal = $("#ob_status1").val();
-				alert("ob_statusVal->"+ob_statusVal);	
+			/* 	alert("ob_statusVal->"+ob_statusVal);	 */
 				
 				location.href = "/BolistOb?currentPage="+1+"&ob_status="+ob_statusVal;
 			}
