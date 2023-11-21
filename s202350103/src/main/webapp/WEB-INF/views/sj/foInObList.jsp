@@ -13,6 +13,7 @@
  	function category2Click() {
 		// 클릭한 카테고리명
 		var category2Value = $("#category2").val();
+		alert("category2Value->"+category2Value);
 		location.href = "/folistOb?nb_category2="+category2Value;
 	
 	} 
@@ -54,18 +55,20 @@
                    <option value=3 <c:if test ="${oldBook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
                    <option value=4 <c:if test ="${oldBook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
                    <option value=5 <c:if test ="${oldBook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
+     			   <option value=6 <c:if test ="${newbook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
+	               <option value=7 <c:if test ="${newbook.nb_category2 eq '7'}"> selected="selected"</c:if>>문학</option>
      			</select>
              </div>
-             
-             <div>
-                <!-- 정렬 조건 -->
-          <%--       <select id="orderType" class="form-select" aria-label="Default select example" onchange="category2Click()">
+             <!-- 정렬 조건 -->
+          <%--   <div>
+                
+                 <select id="orderType" class="form-select" aria-label="Default select example" onchange="category2Click()">
                    <option value="recently" <c:if test ="${oldBook.orderType eq 'recently'}"> selected="selected"</c:if>>최신순</option>
                    <option value="highreview" <c:if test ="${oldBook.orderType eq 'highreview'}"> selected="selected"</c:if>>높은별점순</option>
                    <option value="highprice" <c:if test ="${oldBook.orderType eq 'highprice'}"> selected="selected"</c:if>>높은가격순 </option>
                    <option value="lowprice" <c:if test ="${oldBook.orderType eq 'lowprice'}"> selected="selected"</c:if>>낮은가격순</option>
-                </select> --%>
-             </div>
+                </select> 
+             </div> --%>
           </div> 
        </div>
     </div>
