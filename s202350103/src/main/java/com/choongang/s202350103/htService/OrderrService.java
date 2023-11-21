@@ -14,4 +14,5 @@ public interface OrderrService {
 	List<NewBook> orderOne(NewBook newBook);
 	List<Cart>    orderList(Cart cart, Member member);
 	void          orderInsert(Orderr orderr, List<Cart> list);
+	Orderr        orderPayment(Orderr orderr);
 }
