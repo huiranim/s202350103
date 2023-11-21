@@ -71,9 +71,11 @@
 	</insert>
 	
 	<update id="shSaveAddAtt" parameterType="AttJoin">
+		<![CDATA[
 		Update member 
-		Set m_point = m_point + (Select a_addpoint From attendance Where a_num=#{a_num}) 
+		Set m_point = m_point+(Select a_addpoint From attendance Where a_num=#{a_num}) 
 		Where m_num = #{m_num}
+		]]>
 	</update>
 	
 	<insert id="shSearchAddAtt" parameterType="AttJoin">

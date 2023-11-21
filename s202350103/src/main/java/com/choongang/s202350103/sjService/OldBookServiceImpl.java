@@ -112,6 +112,13 @@ public class OldBookServiceImpl implements OldbookService {
 		System.out.println("OldBookServiceImpl ObMolist OldBooklist.size()"+ObMolist.size());
 		return ObMolist;
 	}
+	
+	@Override
+	public List<OldBook> selectRendomObNum() {
+		List<OldBook> ObNumRedomSel = obd.selectRendomObNum();
+			System.out.println("ObNumRedomSel-->"+ObNumRedomSel.size());
+		return ObNumRedomSel;
+	}
 
 	@Override
 	public OldBook ModetailNb(int nb_num) {
@@ -157,6 +164,9 @@ public class OldBookServiceImpl implements OldbookService {
 		
 		return obresult;
 	}
+
+
+
 
 
 	}

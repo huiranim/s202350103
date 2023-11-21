@@ -87,7 +87,6 @@
 			</div> 
 		</div>
 	</c:forEach>	
-		
 
 <nav aria-label="Page navigation example">
 	  <ul class="pagination justify-content-center">
