@@ -33,6 +33,20 @@
      }
      
 </style>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var mailResult = '${check}' ;
+		// alert("mailResult ->"+mailResult);
+		var nb_num = '${newbook.nb_num }';
+		if(mailResult == 1) {
+			alert("메일이 정상적으로 발송되었습니다.")
+			// location.href = "newbookDetail?nb_num="+nb_num;
+		}else if(mailResult == 2){
+			alert("메일 발송에 실패했습니다.");
+		}
+	})
+</script>
 </head>
 <body>
 	<div id="popup">
@@ -42,10 +56,11 @@
 				추천도서 메일발송</h1>
 		</header>
 		<main class="textBox">
-			<form action="">
+			<form action="shareEmailTransport">
 				<div id="newbookInfo" style="border: 1px solid;">
 					<!-- 도서 정보 확인 -->
 					 <div class="card mb-3" style="max-width: 540px;">
+					 <input type="hidden" name="nb_num" value="${newbook.nb_num }">
 					   <div class="row g-0">
 					     <div class="col-md-4">
 					       <c:choose>
@@ -72,24 +87,24 @@
 					<!-- 보내는 사람 email -->
 					<div class="mb-3">
 					  <label class="form-label" for="email">보내시는분 Email</label>
-					  <input type="email" id="email" class="form-control" value="${member.m_email }" required="required">
+					  <input type="email" id="email" name="m_email" class="form-control" value="${member.m_email }" required="required">
 					</div>
 					<hr>
 					<!-- 보내는 사람 email -->
 					<div class="mb-3">
 					  <label class="form-label" for="email">받으시는분 Email</label>
-					  <input type="email" id="email" class="form-control" placeholder="example@gmail.com" required="required">
+					  <input type="email" id="email" name="recipient" class="form-control" placeholder="example@gmail.com" required="required">
 					</div>
 					<hr>
 					<!-- 메일 직접 입력 내용 -->
 				 	<div class="mb-3">
 				   		<label for="textarea-input" class="form-label">메시지 직접입력</label>
-				   		<textarea class="form-control" id="textarea-input" rows="5" placeholder="메일 내용을 작성해보세요"></textarea>
+				   		<textarea class="form-control" id="textarea-input" name="e_message" rows="5" placeholder="메일 내용을 작성해보세요"></textarea>
 				 	</div>
 				 	<hr>
 				 	<!-- 발송하기 -->
 				 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-				   		<button class="btn btn-dark mb-2" type="button">발송하기</button>
+				   		<button class="btn btn-dark mb-2" type="submit">발송하기</button>
 				 	</div>
   				</div>
 			</form>

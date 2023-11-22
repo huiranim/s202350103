@@ -55,36 +55,26 @@ public class KakaoPay {
         params.add("quantity", String.valueOf(ka.getQuantity()));
         params.add("total_amount", String.valueOf(ka.getAmount().getTotal()));
         params.add("tax_free_amount", "100");
-        params.add("approval_url", "http://localhost:8200/kakaoPaySuccess");
+        
+        String plus = "partner_order_id="+ka.getPartner_order_id()+
+		  			  "&partner_user_id="+ka.getPartner_user_id()+
+		  			  "&amount.total="+ka.getAmount().getTotal();
+        String total = "http://localhost:8200/kakaoPaySuccess?" + plus;
+        
+        params.add("approval_url", total);
         params.add("cancel_url", "http://localhost:8200/kakaoPayCancel");
         params.add("fail_url", "http://localhost:8200/kakaoPaySuccessFail");
         System.out.println("KakaoPay service 여기까지 왔어 3");
-        
-//        // 서버로 요청할 Body
-//        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-//        params.add("cid", "TC0ONETIME");
-//        params.add("partner_order_id", "1001"); //가맹점 주문번호, 결제 준비 API 요청과 일치해야 함
-//        params.add("partner_user_id", "gorany"); // 가맹점 회원 id, 결제 준비 API 요청과 일치해야 함
-//        params.add("item_name", "갤럭시S9");
-//        params.add("quantity", "1");
-//        params.add("total_amount", "2100");
-//        params.add("approval_url", "http://localhost:8200/kakaoPaySuccess");
-//        params.add("cancel_url", "http://localhost:8200/kakaoPayCancel");
-//        params.add("fail_url", "http://localhost:8200/kakaoPaySuccessFail");
  
          HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
          System.out.println("KakaoPay service 여기까지 왔어 4");
         try {
             kakaoPayReadyVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyVO.class);
             
-            log.info("" + kakaoPayReadyVO);
+            System.out.println("" + kakaoPayReadyVO);
             System.out.println("KakaoPay service 여기까지 왔어 5");
             
             System.out.println("KakaoPay getNext_redirect_pc_url --> "+kakaoPayReadyVO.getNext_redirect_pc_url() );
-            
-            
-            
-			 
             
             return kakaoPayReadyVO.getNext_redirect_pc_url();
            
@@ -119,18 +109,16 @@ public class KakaoPay {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReadyVO.getTid());
-        params.add("partner_order_id", "202311210053");
-//      params.add("partner_order_id", ka.getPartner_order_id());
+        params.add("partner_order_id", ka.getPartner_order_id());
         params.add("partner_user_id", ka.getPartner_user_id());
         params.add("pg_token", pg_token);
-        params.add("total_amount", "17800");
-//      params.add("total_amount", String.valueOf(ka.getAmount().getTotal()));
+        params.add("total_amount", String.valueOf(ka.getAmount().getTotal()));
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
         try {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
-            log.info("" + kakaoPayApprovalVO);
+            System.out.println("" + kakaoPayApprovalVO);
           
             return kakaoPayApprovalVO;
         

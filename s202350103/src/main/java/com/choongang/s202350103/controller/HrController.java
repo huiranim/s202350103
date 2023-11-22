@@ -509,10 +509,7 @@ public class HrController {
 			
 			// 데이터 저장할 DTO 선언
 			Orderr orderr = new Orderr();
-			
-			// 결과를 저장할 result 선언
-			List<Integer> resultList = new ArrayList<Integer>();
-			int result = 0;
+			List<Orderr> orderrList = new ArrayList<Orderr>();
 			
 			// 라인별 읽기 & DTO 저장
 			while(true) {
@@ -523,29 +520,17 @@ public class HrController {
 				if(orderr == null) {
 					break;
 				
-				// 읽은 데이터가 null이 아니면 콘솔에 출력
+				// 읽은 데이터가 null이 아니면 orderrList에 누적 저장
 				} else {
 					System.out.println("");
 					System.out.println("HrController orderUpload() orderr -> "+orderr);
-					
-					// Service Insert Method 실행
-					int insertResult = os.orderUpload(orderr);
-					// 개별 결과인 insertResult를 ArrayList resultList에 누적 저장
-					resultList.add(insertResult);
+					orderrList.add(orderr);
 				}
 			}
 			
-			// result 정의
-			// resultList의 모든 원소가 1이면 result = 1 / 1이 아닌 순간 result = 0 & 끝
-			for(int resultChk : resultList) {
-				if (resultChk == 1) {
-					result = 1;
-				} else {
-					result = 0;
-					break;
-				}
-				System.out.println("HrController orderUpload() result -> "+result);
-			}
+			// Service Insert Method 실행
+			int result = os.orderUpload(orderrList);
+			System.out.println("HrController orderUpload() 최종 result -> "+result);
 			
 			// model에 result 저장
 			model.addAttribute("result", result);
