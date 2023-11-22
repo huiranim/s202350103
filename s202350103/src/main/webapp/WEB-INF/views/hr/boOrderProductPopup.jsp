@@ -32,7 +32,7 @@
                      <!-- 수량 -->
                      <td class="align-middle"><fmt:formatNumber value="${orderDetail.o_de_count}" groupingUsed="true"/></td>
                      <!-- 가격 -->
-                     <td class="align-middle"><fmt:formatNumber value="${orderDetail.nb_price}" groupingUsed="true"/></td>
+                     <td class="align-middle"><fmt:formatNumber value="${orderDetail.nb_price * orderDetail.o_de_count}" groupingUsed="true"/></td>
                      <!-- 유형 -->
                      <td class="align-middle">
                      	<c:if test="${orderDetail.o_de_prodtype == 1}">새상품</c:if>
