@@ -149,8 +149,7 @@
 		<update id="ybMemberPwChangeByPh" parameterType="map">
 			UPDATE member set m_pw = #{m_pw} WHERE m_ph = #{m_ph}
 		</update>
-		
-		
+
 	</mapper>
 
 

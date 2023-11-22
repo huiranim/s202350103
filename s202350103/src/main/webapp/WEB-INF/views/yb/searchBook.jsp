@@ -45,7 +45,7 @@
 </style>
 <script type="text/javascript">
 	function searchBtn(nb_num) {
-		location.href="writeForm?nb_num="+nb_num
+		
 	}
 	function sendChildValue(title, image, nb_num){
 		opener.setChildValue(title, image, nb_num);
@@ -56,7 +56,7 @@
 <body>
 <div id="container">
 
-	<form action="searchListBook" method="post">
+	<form action="searchListBook" method="get">
 	 <div class="input-group">
 		<select name="search_type" class="w-25 rounded" style="border-color: rgb(223, 226, 225);" >
 			<option value="nb_title">도서제목</option>
@@ -68,15 +68,15 @@
 	 </div>
 	</form>
       <!-- row -->
-      <div class="row">
-	        <div class="col-lg-8 col-md-7">
+      <div>
+	        <div>
 	          <div class="py-3">
 	          	<div class="">
-			        <table class="table text-nowrap table-with-checkbox" style="margin-bottom: 0px;">
+			        <table class="table text-nowrap table-with-checkbox" style="table-layout: fixed">
 			                <thead class="table-light">
 			                  <tr>
 			                    <th></th>
-			                    <th width="40">제목</th>
+			                    <th width="310px">제목</th>
 			                    <td></td>
 			                  </tr>
 			                </thead>
@@ -84,7 +84,7 @@
 			                	<c:forEach var="book" items="${searchListBook }" varStatus="status">   		          				
 				                	<tr>
 				                		<td>
-				                			<div class="col-3 col-md-2">
+				                			<div>
 							                	<c:choose>
 						                           <c:when test="${fn:contains(book.nb_image, 'http')}">
 						                              <img src="${book.nb_image}" alt="Ecommerce"  width="75px" height="90px">
@@ -95,7 +95,7 @@
 					                        	</c:choose>
 							                </div>
 				                		</td>
-				                		<td width="40">
+				                		<td style="word-break:break-all; width: 310px;">
 				                			<div class="col-4 col-md-5">
 							                    <!-- 도서 제목 -->
 							                    <a href="newbookDetail?nb_num=${book.nb_num }" class="text-inherit"><h6 class="mb-0">${book.nb_title }</h6></a>
@@ -120,20 +120,21 @@
 				  <ul class="pagination justify-content-center">
 		
 					 	<c:if test="${page.startPage > page.pageBlock }">
-							 <li class="page-item justify-content-center">					
-								<a class="page-link mx-1 text-body" href="searchBook?currentPage=${page.startPage-page.pageBlock}">이전</a>
-							</li>
+							<a href="searchListBook?currentPage=${page.startPage-page.pageBlock }">[이전]</a>
 						</c:if>
-		 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-							 <li class="page-item justify-content-center">
-		 						<a class="page-link mx-1 text-body" href="searchBook?currentPage=${i}">${i}</a>
-							</li>
-						</c:forEach>
-							
+						
+						<c:if test="${newbook.search_keyword != null }">
+							<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
+								<a href="searchListBook?currentPage=${i}&search_type=${newbook.search_type }&search_keyword=${newbook.search_keyword}">[${i}]</a>
+							</c:forEach>
+						</c:if>
+						<c:if test="${newbook.search_keyword == null }">
+								<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
+									<a href="searchListBook?currentPage=${i}">[${i}]</a>
+								</c:forEach>
+							</c:if>
 						<c:if test="${page.endPage < page.totalPage }">
-							 <li class="page-item justify-content-center">		 
-								<a class="page-link mx-1 text-body" href="searchBook?currentPage=${page.startPage+page.pageBlock}">다음</a>
-							</li>
+							<a href="searchListBook?currentPage=${page.startPage+page.pageBlock }">[다음]</a>
 						</c:if>
 				    </ul>
 			     </nav>

@@ -97,7 +97,6 @@ public class MemberDaoImpl1 implements MemberDao {
 			System.out.println("MemberDaoImpl1 comListTotalCnt() Exception -> " + e.getMessage());
 		}
 		return comListTotalCnt;
-
 	}
 	// 장바구니 총 가격
 	@Override
@@ -395,6 +394,111 @@ public class MemberDaoImpl1 implements MemberDao {
 			System.out.println("MemberDaoImpl1 searchBookCnt() Exception -> " + e.getMessage());
 		}
 		return searchBookCnt;
+	}
+	@Override
+	public Community selectBookDetail(int cm_num) {
+		System.out.println("MemberDaoImpl1 selectBookDetail() start...");
+		Community community = null;
+		try {
+			community = session.selectOne("ybSelectBookDetail", cm_num);
+			System.out.println("MemberDaoImpl1 selectBookDetail() cm_num -> " + cm_num);
+			System.out.println("MemberDaoImpl1 selectBookDetail() community -> " + community);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 selectBookDetail() Exception -> " + e.getMessage());
+		}
+		return community;
+	}
+	@Override
+	public List<Community> sameDetailList(int nb_num) {
+		Community community = new Community();
+		System.out.println("MemberDaoImpl1 sameDetailList() start...");
+		List<Community> sameDetailList = new ArrayList<Community>();
+		System.out.println("MemberDaoImpl1 sameDetailList() nb_num -> " + nb_num);
+		try {
+			sameDetailList = session.selectList("ybSameDetailList", nb_num);
+			System.out.println("MemberDaoImpl1 sameDetailList() sameDetailList.size -> " + sameDetailList.size());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 sameDetailList() Exception -> " + e.getMessage());
+		}
+		return sameDetailList;
+	}
+	@Override
+	public int readCntUp(int cm_num) {
+		int readCntUp = 0;
+		System.out.println("MemberDaoImpl1 readCntUp() start...");
+		System.out.println("MemberDaoImpl1 readCntUp() cm_num -> " + cm_num);
+		try {
+			readCntUp = session.update("ybReadCntUp", cm_num);
+			System.out.println("MemberDaoImpl1 readCntUp() readCntUp -> " + readCntUp);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 readCntUp() Exception -> " + e.getMessage());
+		}
+		return readCntUp;
+	}
+	@Override
+	public int communityUpdateDo(Community community) {
+		int communityUpdateDo = 0;
+		System.out.println("MemberDaoImpl1 communityUpdateDo() start...");
+		System.out.println("MemberDaoImpl1 communityUpdateDo() community -> " + community);
+		try {
+			communityUpdateDo = session.update("ybCommunityUpdateDo", community);
+			System.out.println("MemberDaoImpl1 communityUpdateDo() communityUpdateDo -> " + communityUpdateDo);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 communityUpdateDo() Exception -> " + e.getMessage());
+		}
+		return communityUpdateDo;
+	}
+	@Override
+	public int communityHitPush(int cm_num) {
+		int communityHitPush = 0;
+		System.out.println("MemberDaoImpl1 communityHitPush() start...");
+		System.out.println("MemberDaoImpl1 communityHitPush() cm_num -> " + cm_num);
+		try {
+			communityHitPush = session.update("ybCommunityHitPush", cm_num);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 communityHitPush() Exception -> " + e.getMessage());
+		}
+		return communityHitPush;
+	}
+	@Override
+	public int communityDelete(int cm_num) {
+		int communityDelete = 0;
+		System.out.println("MemberDaoImpl1 communityDelete() start...");
+		System.out.println("MemberDaoImpl1 communityDelete() cm_num -> " + cm_num);
+		try {
+			communityDelete = session.delete("ybCommunityDelete", cm_num);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 communityDelete() Exception -> " + e.getMessage());
+		}
+		return communityDelete;
+	}
+	// 내 커뮤니티 리스트 갯수
+	@Override
+	public int comMyListTotalCnt(int m_num) {
+		System.out.println("MemberDaoImpl1 comMyListTotalCnt() start...");
+		int comMyListTotalCnt = 0;
+		try {
+			comMyListTotalCnt = session.selectOne("ybComListTotalCnt", m_num);
+			System.out.println("MemberDaoImpl1 comListTotalCnt() totalCart -> " + comMyListTotalCnt);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 comListTotalCnt() Exception -> " + e.getMessage());
+		}
+		return comMyListTotalCnt;
+	}
+	// 내 커뮤니티 리스트
+	@Override
+	public List<Community> communityMyList(Community community) {
+		List<Community> communityMyList = new ArrayList<Community>();
+		System.out.println("MemberDaoImpl1 communityMyList() start...");
+		System.out.println("MemberDaoImpl1 communityMyList() cart.m_num -> " +community.getM_num());
+		try {
+			communityMyList = session.selectList("ybCommunityMyList", community);
+			
+			System.out.println("MemberDaoImpl1 communityMyList.size() -> " + communityMyList.size());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 communityMyList Exception -> " + e.getMessage());
+		}	
+		return communityMyList;
 	}
 	
 

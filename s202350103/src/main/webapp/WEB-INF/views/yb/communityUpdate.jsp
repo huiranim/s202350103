@@ -112,45 +112,9 @@
 	  -webkit-text-fill-color: #fff58c;
 	}
 </style>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	function func() {
-		document.form.file.click();
-		document.form.text1.value = document.form.file.value();
-	}
-	
-	function searchBtn() {
-			
-			var url = "searchBook";
-	        var name = "searchBook";
-	        var option = "position= absolute, top= 50%, left= 50%, width= 600, height= 750px, padding= 40px, text-align= center, background-color= rgb(255, 255, 255), border-radius= 10px, box-shadow= 0 2px 3px 0 rgba(34, 36, 38, 0.15), transform= translateX(-50%) translateY(-50%);"
-			window.open(url, name, option);
-
-	}
-	
-	var receivedImageURL = "";
-	var receivedImageURLString = "";
-	function setChildValue(title, image, nb_num, cm_rating){
-		  receivedImageURL = image;
-		  receivedImageURLString = image;
-		  document.getElementById("image").src = receivedImageURL;
-		  document.getElementById("cm_image").value = receivedImageURLString;
-		  document.getElementById("nb_title").value = title;
-		  document.getElementById("nb_num").value = nb_num;		  
-	}
-	
-	$(function(){
-		var check = '${check}';
-		alert("check -> "+check);
-		
-		if(check == 1){
-			alert("글 등록이 완료되었습니다.");
-			window.close();
-			opener.parent.location.reload();
-		}else if(check == 2){
-			alert("글 등록에 실패했습니다.");
-		}
-	});
+	document.getElementById("image").src = cm_image;
+	document.setElementById("cm_image").src = cm_image;
 	
 </script>
 </head>
@@ -160,23 +124,26 @@
      <div class="container" id="container">
       <div class="row">
        <div class="offset-lg-2 col-lg-8 col-12">
-	   <form action="communityInsert" method="post" name="frm" enctype="multipart/form-data">
-	   	<input type="hidden" name="m_num" id="m_num" value="${member.m_num }">
-	   	<input type="hidden" name="nb_num" id="nb_num">
+	   <form action="communityUpdateDo" method="post" name="" enctype="multipart/form-data">
+	   <input type="hidden" name="cm_num" value="${community.cm_num }">
+	   <input type="hidden" name="m_num" value="${community.m_num }">
+	   <input type="hidden" name="nb_num" value="${community.nb_num }">
+	   <input type="hidden" name="cm_num" value="${community.cm_num }">
+	   <input type="text" name="cm_image" value="${community.cm_image }">
+	   
 	    <div class="col-md-12 mb-3">
           <label class="form-label" for="title"></label>
-          <button type="button" id="cm_bookTitle" name="cm_bookTitle" class="rounded btn form-control btn-outline-gray-400" onclick="searchBtn()">책 검색</button>
-          <input type="text" id="nb_title" name="nb_title" class="form-control" placeholder="책 제목" style="margin-top: 15px;">
+          <input type="text" id="nb_title" name="nb_title" class="form-control" placeholder="책 제목" style="margin-top: 15px;" value="${community.nb_title }" readonly="readonly">
 <!--           <input type="text" id="book_image" name="book_image" class="form-control" placeholder=""> -->
         </div>
 		<div class="col-md-12 mb-3">
-          <label class="form-label" for="title" > 제목 *</label>
-          <input type="text" id="cm_title" name="cm_title" class="form-control" placeholder="Your Title" required>
+          <label class="form-label" for="title"> 제목 *</label>
+          <input type="text" id="cm_title" name="cm_title" class="form-control" required value="${community.cm_title }">
         </div>
        
         <div class="col-md-12 mb-3">
           <label class="form-label" for="comments"> 리뷰 작성 *</label>
-          <textarea rows="3" name="cm_content" id="cm_content" class="form-control" placeholder="내용을 10자 이상 입력해 주세요. 주제와 무관한 댓글, 악플, 배송문의 등의 글은 임의 삭제될 수 있습니다."></textarea>
+          <textarea rows="3" name="cm_content" id="cm_content" class="form-control">${community.cm_content }</textarea>
         </div>
         <div class="col-md-12 mb-3">
 	      <label class="form-label" for="comments"> 별점 *</label>
@@ -198,18 +165,19 @@
         	<label class="form-label" for="comments"> 책 이미지</label>
         	<div class="upload-box">
 			  <div id="drop-file" class="drag-file">
-			    <img src="https://img.icons8.com/pastel-glyph/2x/image-file.png" alt="파일 아이콘" class="image" id="image" name="image">
+			    <img src="${community.cm_image }" alt="파일 아이콘" class="image" id="image" name="image">
 			    <input type="hidden" id="cm_image" name="cm_image"> 
-			    
 			  </div>
 			</div>
+			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image1}" alt="파일 아이콘" class="image" id="cm_image1" name="cm_image1">
+			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="파일 아이콘" class="image" id="cm_image2" name="cm_image2">
         </div>
         <div class="col-md-12 mb-3">
 		        파일 : <input type="file" name="multiFile" multiple> <br>
         </div>
         <div class="col-md-12">
              <!-- btn -->
-             <input type="submit" class="btn btn-primary" value="등록" id="submit">
+             <input type="submit" class="btn btn-primary" value="수정">
        </div>
        </form>
    	</div>
@@ -217,5 +185,7 @@
 </div>
 </section>
 
+</body>
+</html>
 </body>
 </html>
