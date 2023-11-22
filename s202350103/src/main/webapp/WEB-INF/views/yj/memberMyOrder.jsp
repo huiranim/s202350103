@@ -62,39 +62,36 @@ function cart(pNb_num) {
 				
 				<h4 class="mb-2"><a href="#" class="link-success">
 					<fmt:formatDate value="${orderDate }" pattern="yyy. MM. dd "/>
-					&nbsp; 주문 - &nbsp;
+					&nbsp; 주문  &nbsp;
 					</a>
 						 <c:choose>
-                       	    <c:when test="${firstOrder.o_status == 0}">
-				               <span>주문접수</span>
-                            </c:when>
                             
                      	    <c:when test="${firstOrder.o_status == 1}">
-				               <span>주문확정</span>
+				               <span>- 주문확정</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 2}">
-                     			<span style="color: red;">배송중</span>
+                     			<span style="color: red;">- 배송중</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 3}">
-				               <span>배송완료</span>
+				               <span>- 배송완료</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 4}">
-				               <span>구매확정</span>
+				               <span>- 구매확정</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 5}">
-				               <span style="color: gray;">취소</span>
+				               <span style="color: gray;">- 취소</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 6}">
-				               <span>교환</span>
+				               <span>- 교환</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 7}">
-                     		   <span>반품</span>
+                     		   <span>- 반품</span>
                             </c:when>
                         </c:choose>
 					
@@ -138,8 +135,10 @@ function cart(pNb_num) {
 
 		              <div class="col-md-4 col-12">
 		                 <div class="text-center position-relative ">
-
+							<a href="newbookDetail?nb_num=${order.nb_num }">
 		                      <img src="${order.nb_image }" alt="썸네일" class="mb-3 img-fluid" width="130px" height="150px">
+							</a>
+
 		                 </div>
 		              </div>
 
@@ -150,8 +149,11 @@ function cart(pNb_num) {
 		                 </small>
 		                 </div>
 		                 
+		                 
 		                 <h2 class="fs-6">
+		                 <a href="newbookDetail?nb_num=${order.nb_num }" class="link-dark">
 							${order.nb_title }
+		                 </a>
 		                 </h2>
 		                 
 		                 <div class=" mt-3">
@@ -189,7 +191,15 @@ function cart(pNb_num) {
 							 	 <button onclick="cart(${order.nb_num })" class="btn btn-soft-primary mt-2">
 		                    		장바구니 
 			                    </button><p>
-                            	<a href="reviewForm?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-2">리뷰작성</a>
+			                    
+			                    	<c:if test="${firstOrder.o_status == 3 }">
+	                            		<a href="reviewForm?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-2">리뷰작성</a>
+			                    	</c:if>
+
+			                    	<c:if test="${firstOrder.o_status == 4 }">
+	                            		<a href="reviewForm?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-2">리뷰작성</a>
+			                    	</c:if>
+
 								
 								</c:when>
 								

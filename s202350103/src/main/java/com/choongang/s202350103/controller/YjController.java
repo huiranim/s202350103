@@ -1025,19 +1025,18 @@ public class YjController {
 	  @GetMapping("memberSearch")
 	  public String memberSearch(Member member, String currentPage, Model model, HttpServletRequest request) {
 		  
-
 		  // 전체회원 count
-		  int totalMember = ms.memberSearchCnt(member);
+		  int searchTotalMember = ms.memberSearchCnt(member);
 		  
-		  System.out.println(totalMember);
+		  System.out.println(searchTotalMember);
 		  // 페이징
-		  Paging page = new Paging(totalMember, currentPage);
+		  Paging page = new Paging(searchTotalMember, currentPage);
 		  member.setStart(page.getStart());
 		  member.setEnd(page.getEnd());
 		  
 		  List<Member> adminMemberSearch = ms.adminMemberSearch(member);
 		  
-		  model.addAttribute("totalMember",totalMember);
+		  model.addAttribute("totalMember",searchTotalMember);
 		  model.addAttribute("adminMemberList", adminMemberSearch);
 		  model.addAttribute("page", page);
 		  
