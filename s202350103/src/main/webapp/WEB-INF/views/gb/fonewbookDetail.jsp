@@ -208,15 +208,15 @@
    
    // 이메일 공유하기
    function shareEmail() {
+	   
 	   var nb_num = '${newbook.nb_num}';
 	   var popup = "shareEmailPopup?nb_num="+nb_num;
 	   var name = "shareEmail";
-	   var option = "width = 500, height = 620, top = 100, left = 200, location = yes";
+	   var option = "width = 550, height = 750, top = 100, left = 200, location = yes";
 	   
 	   window.open(popup, name, option);
    }
    
-   // url 복사하기
    function shareUrl() {
 	   var url = '';
 	   var textarea = document.createElement("textarea");	// textarea를 만든다.

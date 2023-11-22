@@ -90,7 +90,7 @@
 		                   <th>카테고리</th>
 		                   <th>조회수</th>
 		                   <th>등록일</th>
-		                   <th colspan='2'>삭제</th>
+		                   <!-- <th colspan='2'>삭제</th> -->
 		                </tr>
 		             </thead>
 		             <tbody>
@@ -136,9 +136,9 @@
 								</td>
 								<td class="align-middle">${newbook.nb_readcnt}</td>
 								<td class="align-middle">${newbook.nb_register_date}</td>
-			                   <td colspan='2' class="align-middle">
+			                   <%-- <td colspan='2' class="align-middle">
 			                      <div class="btn btn-secondary mb-2" onclick="deleteBoNewbook(${status.index})">삭제</div>
-			                   </td>
+			                   </td> --%>
 			                </tr>
 			                <c:set var="StartRow" value="${StartRow +1}"/>
 		              </c:forEach>
