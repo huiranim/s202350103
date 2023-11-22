@@ -255,51 +255,49 @@
 	</delete>
 	
 	<select id="memberSearchCnt" parameterType="Member" resultType="int">
-	  select count(*) 
- 		from member
-		<where>
-    	 <choose>
-           <when test="keyword != null and keyword != ''">
-
-            and (
-               m_num like '%' || #{keyword} || '%'
-               or m_id like '%' || #{keyword} || '%'
-               or m_name like '%' || #{keyword} || '%'
-               or m_addr like '%' || #{keyword} || '%'
-               or m_email like '%' || #{keyword} || '%'
-            )
-
-          </when>
-     	 </choose>
-	   </where>
+	  select count(*) from member
+    	 	 <choose>
+		           <when test="search == 's_num'">
+		         	   where m_num like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_name'">
+		         	   where m_name like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_id'">
+		         	   where m_id like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_email'">
+		          	  where m_email like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_addr'">
+		          	  where m_addr like '%' || #{keyword} || '%'
+		          </when>
+	     	 </choose>
 	</select>
 	
 	
 	<select id="adminMemberSearch" parameterType="Member" resultType="Member">
 		
-			select * from (	
-				
-				select rownum rn , m.* 
-				
-				from (select * from member order by m_num desc) m
-			)
-			
-			where rn BETWEEN #{start} and #{end}
+             select rownum rn, m.* from member m where 
 			
 	    	 <choose>
-	           <when test="keyword != null and keyword != ''">
-	
-	            and (
-	               m_num like '%' || #{keyword} || '%'
-	               or m_id like '%' || #{keyword} || '%'
-	               or m_name like '%' || #{keyword} || '%'
-	               or m_addr like '%' || #{keyword} || '%'
-	               or m_email like '%' || #{keyword} || '%'
-	            )
-	
-	          </when>
-     	 </choose>
-
+		           <when test="search == 's_num'">
+		             m_num like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_name'">
+		             m_name like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_id'">
+		             m_id like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_email'">
+		             m_email like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_addr'">
+		             m_addr like '%' || #{keyword} || '%'
+		          </when>
+	     	 </choose>
+	     	 order by m_num
 	</select>
 	
 	
