@@ -158,7 +158,7 @@ public class GbController {
 	// 상품 상세 페이지
 	@RequestMapping("newbookDetail")
 	public String selectNewbookDetail(NewBook newbook, Review review, HttpSession session, 
-									  HttpServletResponse response, HttpServletRequest request, Member member, Model model) {
+									  HttpServletResponse response, HttpServletRequest request, String kakaoShare, Member member, Model model) {
 		
 		System.out.println("GbController selectNewbookDetail start...");
 		System.out.println("GbController selectNewbookDetail newbook.getNb_num()"+newbook.getNb_num());
@@ -230,6 +230,11 @@ public class GbController {
 		List<Review> listReview = rs.listReview(review); 
 		
 		System.out.println("review.getP_status()--->"+review.getP_status());
+		
+		if(kakaoShare != null) {
+			model.addAttribute("kakaoShare", kakaoShare);
+		}
+		
 		
 		model.addAttribute("listReview", listReview);
 		model.addAttribute("review", review);
