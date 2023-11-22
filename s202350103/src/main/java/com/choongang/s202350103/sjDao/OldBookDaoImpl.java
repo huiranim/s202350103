@@ -16,12 +16,12 @@ public class OldBookDaoImpl implements OldBookDao {
 	private final SqlSession session;
 
 	@Override
-	public int totalOb() {
+	public int totalOb(OldBook oldBook) {
 		int totObCount =0;
 
 		System.out.println("OldBookDaoImpl start total ");
 		try {
-			totObCount = session.selectOne("totObCnt");
+			totObCount = session.selectOne("totObCnt",oldBook);
 			System.out.println("OldBookDaoImpl totalOb totObCnt->"+ totObCount);
 			
 		} catch (Exception e) {

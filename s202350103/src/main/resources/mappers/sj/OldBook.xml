@@ -4,27 +4,21 @@
 
 <mapper namespace="com.choongang.s202350103.OldBookMapper">
 
-	<select id="totObCnt" resultType="int">
-		    SELECT
-			   count (*)
-			    FROM
-				(	    SELECT
-			                    *
-			    FROM oldbook o , newbook n 
-			    where o.nb_num = n.nb_num
-			    and (nb_category1 =1 or nb_category1 = 2)  
-			    )
-					<choose>
-								<when test="ob_status == 1">
-									and	 ob_status = 1 
-								</when>
-								<when test="ob_status == 2">
-									and	 ob_status = 2
-								</when>
-								<when test="ob_status == 3">
-									and	 ob_status = 3
-								</when> 
-							</choose>
+	<select id="totObCnt" resultType="int" parameterType="OldBook">
+		      SELECT
+		       count (*)
+			    FROM oldbook 
+			<choose>
+				<when test="ob_status == 1">
+					WHERE   ob_status = 1 
+				</when>
+				<when test="ob_status == 2">
+					WHERE	ob_status = 2
+				</when>
+				<when test="ob_status == 3">
+					WHERE	ob_status = 3
+				</when> 
+		</choose>			
 	</select>
 
 	<select id="totObCnt2" resultType="int">

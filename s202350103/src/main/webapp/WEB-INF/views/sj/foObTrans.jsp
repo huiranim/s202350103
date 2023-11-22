@@ -5,17 +5,46 @@
 <!-- 운송장 -->    
 <!DOCTYPE html>
 <html>
+
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 
 		function calcul(){
-		var totalCal1 = (${oldBook.nb_price*0.6});
+		var totalCal1 = parseInt(${oldBook.nb_price*0.6});
 		
 		$("#Calcul1").val(totalCal1);
 		}
 
 </script>
 <head>
+<style type="text/css">
+.pl{
+    width: 110px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 5px 5px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.pl:focus{
+    border: 1px solid #9B51E0;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #F8E4FF;
+    border-radius: 10px;
+}
+
+
+
+
+
+
+</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -40,12 +69,52 @@
 		
 
 
-<hr>
-<p class="text-center fs-1 "> 발송 운송장 정보  </p>
+<br><br>
+   <div id="newbookInfo" class="d-block" style="border: 0px solid;">
+               <!-- 도서 정보 확인 -->
+                <div class="card mb-3" style="max-width: 950px;">
+                <input type="hidden" name="nb_num" value="${oldBook.nb_num }">
+                 
+                    <div class="col-12">
+                     <table style="border: 0px;">
+                         <tr>
+                         <th style="margin-left: 20px;">
+                      <c:choose>
+                           <c:when test="${fn:contains(oldBook.nb_image, 'http')}">
+                              <img id="newbookImg" src="${oldBook.nb_image}" alt="${oldBook.nb_title}" style="height: 180px; width: 150px;
+                              margin: 10px; "  >
+                           </c:when>
+                           <c:otherwise>
+                              <img src="${pageContext.request.contextPath}/upload/${oldBook.nb_image}" alt="${oldBook.nb_title}">
+                           </c:otherwise>
+                        </c:choose>
+                    </th>
+                    <th class="text-start" >
+                   
+                        <p style="margin: 0px; font-size: 22px;"> ${oldBook.nb_title }</p> 
+                       <span><small class="fs-6 ms-2 text-muted">
+                        ${oldBook.nb_writer } 지음 | ${oldBook.nb_publisher } | ${oldBook.nb_publi_date }
+                        </small></span>
+                         <p style="font-size: 18px; margin-right: 30px;" class="text-end"> <fmt:formatNumber value="${oldBook.nb_price}" groupingUsed="true"/>원</p>
+                    </th>
+                    </tr>
+                    
+                    </table>
+                 
+                
+             </div>
+             </div>
+             </div>
+ <div>            
+<img src="assets/images/png/ttrans.jpeg" alt="판매신청"
+                      class="mb-3 img-fluid" style="width: 650px; height: 380px; margin-left: 150px;">
+</div>
+
+ <p class="text-start fs-4"> 운송장  정보  </p>
  <div class="input-group mb-3">
  
 
-  <select name="ob_trans_com" >
+  <select name="ob_trans_com" class="pl" >
 				<option value="1">CJ 대한통운 </option>
 				<option value="2">우체국    택배</option>
 				<option value="3">로젠     택배</option>
@@ -60,9 +129,8 @@
  </div> 
  
 <br>
-<br>
- <br>
- <hr>
+
+
 	 <div class="d-grid gap-2">
 	    <button class="btn btn-success mb-2" type="submit" onclick="calcul()">중고 판매 등록</button>
 	 

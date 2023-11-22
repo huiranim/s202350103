@@ -6,7 +6,7 @@ import com.choongang.s202350103.model.OldBook;
 
 public interface OldbookService {
 
-	int 				 totalOb();
+	int 				 totalOb(OldBook oldBook);
 	List<OldBook>		 listOb(OldBook oldBook);
 	OldBook				 detailOb(int ob_num);
 	int 				 updateOb(OldBook oldBook);

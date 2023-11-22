@@ -16,12 +16,12 @@ public class OldBookServiceImpl implements OldbookService {
 	private final OldBookDao obd;
 
 	@Override
-	public int totalOb() {
+	public int totalOb(OldBook oldBook) {
 		System.out.println("OldBookServiceImpl start total..");
 
-		int totObCnt = obd.totalOb();
+		int totObCnt = obd.totalOb(oldBook);
 		System.out.println("OldBookServiceImpl totalOb totObCnt->"+totObCnt);
-			
+		System.out.println("OldBookServiceImpl totalOb get.status");
 		return totObCnt;
 	}
 	
