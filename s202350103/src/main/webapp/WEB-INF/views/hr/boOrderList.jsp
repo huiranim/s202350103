@@ -281,7 +281,18 @@
 			}
 		}
 		
+		// 수기 주문 업로드
+		function orderUpload() {
+			window.open("/boOrderUploadPopup",
+						"수기 주문 업로드",
+						"width=500 height=400");
 
+		}
+		
+		// 수기 주문 양식 다운로드
+		function orderUploadForm() {
+			location.href = '/upload/hr/orderUpload_sample.csv';
+		}
 		
 	</script>
 </head>
@@ -296,6 +307,12 @@
       <div>
          <!-- table -->
   			<!-- Button -->
+           <input type="button" class="btn btn-secondary mb-2" value="수기 주문 업로드"
+              	  onclick="orderUpload()"
+              	  style="float: right;">
+           <input type="button" class="btn btn-secondary mb-2" value="수기 주문 양식 다운로드"
+              	  onclick="orderUploadForm()"
+              	  style="float: right; margin-right: 5px;">
   			<div class="order-operating-buttons">
               <input type="button" class="btn btn-success mb-2" value="발송"    onclick="statusShipping()">
               <input type="button" class="btn btn-success mb-2" value="배송완료" onclick="statusDelivered()">
@@ -375,7 +392,8 @@
                      <td class="align-middle"><%-- ${orderr.o_type} --%>
                      	<c:choose>
                      		<c:when test="${orderr.o_type == 1}">일반</c:when>
-                     		<c:otherwise>선물</c:otherwise>
+                     		<c:when test="${orderr.o_type == 2}">선물</c:when>
+                     		<c:otherwise>수기업로드</c:otherwise>
                      	</c:choose>
                      </td>
                   </tr>

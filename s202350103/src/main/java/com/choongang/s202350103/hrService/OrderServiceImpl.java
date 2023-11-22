@@ -285,12 +285,12 @@ public class OrderServiceImpl implements OrderService {
 			}
 					
 			// 최종 result 정의
-			// resultList의 모든 원소가 1이면 result = 1 / 1이 아닌 순간 result = 0 & 끝
+			// resultList의 모든 원소가 1이면 result = 1 / 1이 아닌 순간 result = 2 & 끝
 			for(int resultChk : resultList) {
 				if (resultChk == 1) {
 					result = 1;
 				} else {
-					result = 0;
+					result = 2;
 					break;
 				}
 				System.out.println("HrController orderUpload() result -> "+result);

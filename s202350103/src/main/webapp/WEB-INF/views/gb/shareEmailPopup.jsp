@@ -29,7 +29,8 @@
                 }
      #newbookImg {
 			     	height: 20%;
-			    	margin-left: 20%;
+			     	width: 120px;
+			    	margin: 15px;
      }
      
 </style>
@@ -41,6 +42,7 @@
 		var nb_num = '${newbook.nb_num }';
 		if(mailResult == 1) {
 			alert("메일이 정상적으로 발송되었습니다.")
+			
 			// location.href = "newbookDetail?nb_num="+nb_num;
 		}else if(mailResult == 2){
 			alert("메일 발송에 실패했습니다.");
@@ -50,46 +52,53 @@
 </head>
 <body>
 	<div id="popup">
+	
 		<header class="top">
 			<h1 class="infoTit">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
+				fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+				class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+				</path><polyline points="22,6 12,13 2,6"></polyline></svg>
 				추천도서 메일발송</h1>
 		</header>
+		
 		<main class="textBox">
 			<form action="shareEmailTransport">
-				<div id="newbookInfo" style="border: 1px solid;">
+				<div id="newbookInfo">
 					<!-- 도서 정보 확인 -->
-					 <div class="card mb-3" style="max-width: 540px;">
-					 <input type="hidden" name="nb_num" value="${newbook.nb_num }">
-					   <div class="row g-0">
-					     <div class="col-md-4">
-					       <c:choose>
-			                  <c:when test="${fn:contains(newbook.nb_image, 'http')}">
-			                     <img id="newbookImg" src="${newbook.nb_image}" alt="${newbook.nb_title}">
-			                  </c:when>
-			                  <c:otherwise>
-			                     <img src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" alt="${newbook.nb_title}">
-			                  </c:otherwise>
-			               </c:choose>
-					     </div>
-					     <div class="col-md-8">
-					       <div class="card-body">
-					         <h5 class="card-title">${newbook.nb_title }</h5>
-					         <p class="card-text text-muted">${newbook.nb_writer } 지음 | ${newbook.nb_publisher } | ${newbook.nb_publi_date }</p>
-					         <p class="card-text"><fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/>원</p>
-					       </div>
-					     </div>
-					   </div>
-					 </div>
-				</div>
+	                <div class="card mb-3" style="max-width: 550px;">
+	                <input type="hidden" name="nb_num" value="${newbook.nb_num }">
+	                 
+	                    <div class="col-12">
+	                     <table style="border: 0px;">
+	                        <tr>
+		                        <th>
+		                      	<c:choose>
+		                           <c:when test="${fn:contains(newbook.nb_image, 'http')}">
+		                              <img id="newbookImg" src="${newbook.nb_image}" alt="${newbook.nb_title}">
+		                           </c:when>
+		                           <c:otherwise>
+		                              <img id="newbookImg" src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" alt="${newbook.nb_title}">
+		                           </c:otherwise>
+		                        </c:choose>
+		                    	</th>
+		                    	<th class="text-start" >
+			                        <p class="mb-1" style="font-size: 22px;"> ${newbook.nb_title }</p> 
+			                       	<span><small class="text-muted">
+			                        	${newbook.nb_writer } 지음 | ${newbook.nb_publisher } | ${newbook.nb_publi_date }
+			                        </small></span>
+			                        <p style="font-size: 18px; margin-right: 30px;" class="mt-8"> <fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/>원</p>
+		                    	</th>
+	                    	</tr>
+	                     </table>
+	                    </div>                    
+	                </div>
+	            </div>
+	            
 				<hr>
+				
+				<!-- 메일 정보 확인 -->
 				<div id="emailInfo">
-					<!-- 보내는 사람 email -->
-					<div class="mb-3">
-					  <label class="form-label" for="email">보내시는분 Email</label>
-					  <input type="email" id="email" name="m_email" class="form-control" value="${member.m_email }" required="required">
-					</div>
-					<hr>
 					<!-- 보내는 사람 email -->
 					<div class="mb-3">
 					  <label class="form-label" for="email">받으시는분 Email</label>
