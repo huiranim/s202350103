@@ -76,9 +76,14 @@
 		 WHERE a.m_num = #{m_num}
 	</update>
 	
-	<insert id="htPointInsert" parameterType="Orderr">
+	<insert id="htPayPointInsert" parameterType="Orderr">
 		INSERT INTO point_list
 		VALUES (POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 1, (#{o_pay_price} * 0.01))
+	</insert>
+	
+	<insert id="htUsePointInsert" parameterType="Orderr">
+		INSERT INTO point_list
+		VALUES (POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 6, - #{o_point})
 	</insert>
 	
 	<delete id="htCartDelete">
@@ -100,8 +105,21 @@
 		    AND    o.o_order_num  = #{o_order_num}
 		    )
 		WHERE rn = 1 
-	
 	</select>
 	
+	<update id="htOrderUpdate" parameterType="Ka">
+		UPDATE orderr
+		SET    o_status      = 1
+		 WHERE o_order_num   = #{partner_order_id}
+	</update>
+<!-- 	
+	<update id="htOrderUpdate" parameterType="Ka">
+		UPDATE orderr
+		SET    o_status      = 1,
+			   O_DELIV_COM   = TO_NUMBER(DBMS_RANDOM.VALUE * 4 + 1), 1에서 5까지의 난수 생성
+  			   O_DELIV_TRACK = TO_NUMBER(DBMS_RANDOM.VALUE * 9000000000000000 + 1000000000000000) 16자리 난수 생성
+		 WHERE o_order_num   = #{partner_order_id}
+	</update>
+	 -->
 		
 </mapper>

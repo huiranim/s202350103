@@ -790,17 +790,17 @@ public class YbController {
 	      return "yb/communityUpdate";
 	      
 	   }
+	   // 게시글 선택시
 	   @GetMapping(value = "postDetailForm")
 	   public String postDetailForm(Community community, Model model, String currentPage, int cm_num, Member member) {
 	      System.out.println("YbController postDetailForm() start..");
 	      member =(Member) session.getAttribute("member");
-	      
 	      community = ms.selectBookDetail(cm_num);
 	      community.setCm_num(cm_num);
 	      
 	      int nb_num = community.getNb_num();
 	      List<Community> sameDetailList = ms.sameDetailList(nb_num);
-	      
+	      System.out.println();
 	      int readCntUp = ms.readCntUp(cm_num);
 	      
 	      
@@ -812,28 +812,9 @@ public class YbController {
 	      model.addAttribute("community", community);      
 	      System.out.println("YbController postDetailForm() readCntUp->"+readCntUp);
 
-	      
-	      return "yb/postDetailForm";
-	      
+	      return "yb/postDetailForm";	      
 	   }
 	   
-	 //날짜별로 폴더생성
-		 public String makeDir() {
-		 	Date date=new Date();
-		 	SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-		 	String now=sdf.format(date);
-
-		 	String path=uploadpath + "\\" +now; //경로
-		 	File file = new File(path);
-
-		 	if(file.exists()==false) {//파일이 존재하면 true
-		 		file.mkdir(); //폴더생성
-		 	}
-
-		 	return path;
-		 }
-		 
-
 	   // 커뮤니티 글 등록
 	   @PostMapping(value = "communityInsert")
 	   public String communityInsert(Member member, Community community, Model model, NewBook newbook, 
@@ -915,9 +896,6 @@ public class YbController {
 		      return "yb/writeForm";
 		  } 
 		  
-		    
-
-	     
 	   // 커뮤니티 글 등록 시 책 선택
 	   @GetMapping(value = "searchListBook")
 	   public String searchListBook(NewBook newbook, Model model, String currentPage) {
@@ -1026,9 +1004,6 @@ public class YbController {
 		   model.addAttribute("communityHitPush", communityHitPush);
 		   return "redirect:/postDetailForm";
 	   }
-	   
-	   private String uploadpath;
-
 	 
 	
 }

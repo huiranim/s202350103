@@ -49,7 +49,15 @@
 	                <div class="d-flex justify-content-between">
 	                   <div class="d-flex">
 	                      <!-- img -->
-	                      <img id="ht" src="${reviewedList.nb_image}" alt="bookImage">
+	                      <c:choose>
+						     <c:when test="${fn:contains(reviewedList.nb_image, 'http')}">
+						            <img id="ht" src="${reviewedList.nb_image}" alt="bookImage">
+						     </c:when>
+						     <c:otherwise>
+						            <img src="${pageContext.request.contextPath}/upload/${reviewedList.nb_image}" id="ht" alt="bookImage">
+						     </c:otherwise>
+						 </c:choose>
+	                      <%-- <img id="ht" src="${reviewedList.nb_image}" alt="bookImage"> --%>
 	                      <!-- text -->
 	                      <div class="ms-4">
 	                         <h5 class="mb-0 h6 h6">${reviewedList.nb_title}</h5>
