@@ -143,6 +143,7 @@ public class OrderrDaoImpl implements OrderrDao {
 		System.out.println("OrderDaoImpl PaySuccess() Start...");
 		int result = 0;
 		try {
+			System.out.println("OrderrDaoImpl PaySuccess ka--> "+ ka);
 			result = session.update("htOrderUpdate", ka);
 			System.out.println("OrderrDaoImpl PaySuccess result--> "+ result);
 		}catch (Exception e) {
