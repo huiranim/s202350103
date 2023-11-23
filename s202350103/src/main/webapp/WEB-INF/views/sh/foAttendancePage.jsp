@@ -118,7 +118,7 @@
 		var a_sdate = '${attendance.a_sdate}';
 		var a_edate = '${attendance.a_edate}';
 		var sysdate = new Date(curDate1);
-		var sdate = convertToDate(a_sdate);
+		var sdate = convertToDate(a_s	date);
 		var edate = convertToDate(a_edate);
 		var target = document.getElementById("subButton");
 		if(sysdate>=sdate&&sysdate<= edate){

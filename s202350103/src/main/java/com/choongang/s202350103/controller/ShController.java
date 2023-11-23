@@ -255,7 +255,7 @@ import lombok.extern.slf4j.Slf4j;
 			attendance.setA_add(a_add);
 			attendance.setA_addpoint(a_addpoint);
 			
-			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload/sh");
 			System.out.println("shController uploadPath->"+uploadPath);
 			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
 			attendance.setA_image(savedName);

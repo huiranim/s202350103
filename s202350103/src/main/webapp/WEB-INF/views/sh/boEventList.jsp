@@ -26,7 +26,7 @@
 <h1>이벤트 목록</h1>
 <p>
 <div class="tab	le-responsive" >
-<table class="table" style="text-align: center;">
+<table class="table" style="text-align: center; vertical-align: middle; margin: auto;">
   <thead class="table-light">
     <tr>
       <th scope="col">번호</th>

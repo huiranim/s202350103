@@ -7,14 +7,40 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+.pl{
+    width: 110px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 5px 5px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.pl:focus{
+    border: 1px solid #9B51E0;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #F8E4FF;
+    border-radius: 10px;
+}
+
+
+</style>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
 	
-			function change_status() {
-				var ob_statusVal = $("#ob_status1").val();
-			/* 	alert("ob_statusVal->"+ob_statusVal);	 */
+	 		function toglestatus() {
+			 	var obstatusVal = $("#obstatus1").val();
+			 /* 	alert("obstatusVal->"+obstatusVal);	 */
 				
-				location.href = "/BolistOb?currentPage="+1+"&ob_status="+ob_statusVal;
+			  location.href="/BolistOb?currentPage="+1+"&ob_status="+obstatusVal; 
+			
+			
 			}
 
 
@@ -31,16 +57,12 @@
 	       <p class="fs-1 text-center">중고 판매 신청 목록   </p>
 	       </div>
 	       
-	       <div class="col-2 p-4 mb-4" style="margin-left: 620px" >
-	       <select id="ob_status1" class="form-select"  aria-label="Default select example" onchange="change_status()" >
+	       <select id="obstatus1" class="pl " style="margin-left: 650px;" onchange="toglestatus()" >
 	       <option value=0 <c:if test="${oldBook.ob_status eq '0'}"> selected="selected"</c:if>>   전체</option>
 	        <option value=1 <c:if test="${oldBook.ob_status eq '1'}"> selected="selected"</c:if>>  검수 중</option>
-	         <option value=2 <c:if test="${oldBook.ob_status eq '2'}"> selected="selected"</c:if>> 검수 완료</option>
+	         <option value=2<c:if test="${oldBook.ob_status eq '2'}"> selected="selected"</c:if>> 검수 완료</option>
 	          <option value=3 <c:if test="${oldBook.ob_status eq '3'}"> selected="selected"</c:if>> 매입 완료</option>
-	       </select>
-	        
-	        </div>
-	           <!-- Table -->
+	       </select>    
 	           	
 	           	<div class="table">
 	         
@@ -115,26 +137,19 @@
 									  <ul class="pagination justify-content-center">
 										 	<c:if test="${page.startPage > page.pageBlock }">
 												 <li class="pagination justify-content-center">					
-													<a class="page-link" href="BolistOb?currentPage=${page.startPage-page.pageBlock}">이전</a>
+													<a class="page-link" href="BolistOb?currentPage=${page.startPage-page.pageBlock}&ob_status=${oldBook.ob_status}">이전</a>
 												</li>
 											</c:if>
 											
 							 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 												 <li  class="pagination justify-content-center">
-							 						<c:choose>
-							 						<c:when test="${oldBook.ob_status  eq '0' }"><a class="page-link"   href="BolistOb?currentPage=${i}&ob_status=0" >${i}</a></c:when>
-							 						<c:when test="${oldBook.ob_status  eq '1' }"><a class="page-link"   href="BolistOb?currentPage=${i}&ob_status=1" >${i}</a></c:when>
-							 						<c:when test="${oldBook.ob_status  eq '2' }"><a class="page-link"   href="BolistOb?currentPage=${i}&ob_status=2" >${i}</a></c:when>
-							 						<c:when test="${oldBook.ob_status  eq '3' }"><a class="page-link"   href="BolistOb?currentPage=${i}&ob_status=3" >${i}</a></c:when>
-							 						<c:otherwise><c:out value=""></c:out>
-							 						</c:otherwise>
-							 						</c:choose>
+							 						<a class="page-link" href="BolistOb?currentPage=${i}&ob_status=${oldBook.ob_status}">${i}</a>
 												</li>
 											</c:forEach>
 												
 											<c:if test="${page.endPage < page.totalObPage }">
 												 <li class="pagination justify-content-center">		 
-													<a class="page-link" href="BolistOb?currentPage=${page.startPage+page.pageBlock}">다음</a>
+													<a class="page-link" href="BolistOb?currentPage=${page.startPage+page.pageBlock}&ob_status=${oldBook.ob_status}">다음</a>
 												</li>
 											</c:if>
 									</ul>

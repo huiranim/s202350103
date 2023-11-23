@@ -1,8 +1,17 @@
 package com.choongang.s202350103.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -19,6 +28,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.gbService.NewBookService;
@@ -28,8 +41,10 @@ import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
+import com.choongang.s202350103.sjService.OldbookService;
 import com.choongang.s202350103.ybService.MemberService;
 import com.choongang.s202350103.ybService.Paging;
+import com.choongang.s202350103.ybService.communityPaging;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,13 +65,16 @@ public class YbController {
 	private final JavaMailSender mailSender;
 	final DefaultMessageService messageService; 
 	private final NewBookService nbs;
-
-	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs) {
+	private final OldbookService obs;
+	
+	
+	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs, OldbookService obs ) {
 		this.ms = ms;
 		this.session = session;
 		this.mailSender = mailSender;
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
 		this.nbs = nbs;
+		this.obs = obs;
 	}
 	
 
@@ -72,7 +90,7 @@ public class YbController {
 	
 	// Main Page
 	@RequestMapping(value = "/")
-	public String main(Member member, NewBook newbook, HttpServletRequest request, Model model, Cart cart) {
+	public String main(Member member, NewBook newbook,OldBook oldBook , HttpServletRequest request, Model model, Cart cart) {
 		System.out.println("YbController main() start... ");
 		member =(Member) session.getAttribute("member");
 		if(member == null) {
@@ -84,6 +102,13 @@ public class YbController {
 			// 다독 전체 최대 조회수 도서 상품 리스트
 			NewBook hitBook1 = nbs.selectAllHitNbNum();
 			System.out.println("hitList -> "+hitList.size());
+			
+			// oldBook 4개 랜덤
+			   List<OldBook> ObNumRedomSel = obs.selectRendomObNum();
+			   model.addAttribute("ObNumRedomSel", ObNumRedomSel);
+			   System.out.println("ObNumRedomSel->"+ObNumRedomSel.size());
+			   System.out.println("ObNumRedomSel->"+ObNumRedomSel);
+			
 			
 			// 출간일 기준 5개의 도서 리스트
 			List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
@@ -103,6 +128,12 @@ public class YbController {
 		// 다독 전체 최대 조회수 도서 상품 리스트
 		NewBook hitBook1 = nbs.selectAllHitNbNum();
 		System.out.println("hitList -> "+hitList.size());
+		
+		// oldBook 4개 랜덤
+		   List<OldBook> ObNumRedomSel = obs.selectRendomObNum();
+		   model.addAttribute("ObNumRedomSel", ObNumRedomSel);
+		   System.out.println("ObNumRedomSel->"+ObNumRedomSel.size());
+		   System.out.println("ObNumRedomSel->"+ObNumRedomSel);
 		
 		// 출간일 기준 5개의 도서 리스트
 		List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
@@ -329,13 +360,14 @@ public class YbController {
 		wishList.setStart(page.getStart());
 		wishList.setEnd(page.getEnd());
 		
-		System.out.println("YbController memberCartList() member.m_id -> " + member.getM_id());
+		System.out.println("YbController memberWishList() member.m_id -> " + member.getM_id());
 	
 		
 		// 찜목록 리스트
 		List<WishList> memberWishList = ms.memberWishList(wishList);
-		System.out.println("YbController memberCartList listCart.size() -> " + memberWishList.size());
-		System.out.println("YbController memberCartList listCart.title -> " + wishList.getNb_title());
+		System.out.println("YbController memberWishList memberWishList.size() -> " + memberWishList.size());
+		
+		model.addAttribute("page", page);
 		model.addAttribute("member", member);
 		model.addAttribute("memberWishList", memberWishList);
 		model.addAttribute("totalWishList", totalWishList);
@@ -361,14 +393,14 @@ public class YbController {
 		int pointListCnt = ms.pointListCnt(pointList);
 		System.out.println("YbController memberPointList pointListCnt ->" + pointListCnt);
 		// 포인트 리스트
-		List<PointList> memberPointList = ms.memberPointList(pointList);
+		
 		
 		// 페이징 처리
 		Paging page = new Paging(pointListCnt, currentPage);
 			
 		pointList.setStart(page.getStart());
 		pointList.setEnd(page.getEnd());
-		
+		List<PointList> memberPointList = ms.memberPointList(pointList);
 		System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
 		
 		model.addAttribute("page", page);
@@ -408,21 +440,47 @@ public class YbController {
 	}
 	// 커뮤니티 리스트
 	@GetMapping(value = "memberCommunity")
-	public String memberCommunity(Community community, Model model, String currentPage) {
+	public String memberCommunity(Community community, Model model, String currentPage, Member member) {
 		System.out.println("YbController memberCommunity() start..");
+		member =(Member) session.getAttribute("member");
 		
 		int comListTotalCnt = ms.comListTotalCnt(community);
-		Paging page = new Paging(comListTotalCnt, currentPage);
+		communityPaging page = new communityPaging(comListTotalCnt, currentPage);
 		
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());
 		List<Community> communityList = ms.communityList(community);
 		System.out.println("YbController memberCommunity() communityList.size() -> " +communityList.size());
 		
+		model.addAttribute("member", member);
 		model.addAttribute("page", page);
 		model.addAttribute("comListTotalCnt", comListTotalCnt);
 		model.addAttribute("communityList", communityList);
 		return "yb/memberCommunity";
+	}
+	
+	// 내 커뮤니티 리스트
+	@GetMapping(value = "memberMyCommunity")
+	public String memberMyCommunity(Community community, Model model, String currentPage, Member member) {
+		System.out.println("YbController memberMyCommunity() start..");
+		member =(Member) session.getAttribute("member");
+		
+		int m_num = member.getM_num();
+		int comMyListTotalCnt = ms.comMyListTotalCnt(m_num);
+		communityPaging page = new communityPaging(comMyListTotalCnt, currentPage);
+		
+		community.setStart(page.getStart());
+		community.setEnd(page.getEnd());
+		community.setM_num(m_num);
+		List<Community> communityMyList = ms.communityMyList(community);
+		System.out.println("YbController memberCommunity() communityMyList.size() -> " +communityMyList.size());
+		
+		model.addAttribute("member", member);
+		model.addAttribute("page", page);
+		model.addAttribute("comMyListTotalCnt", comMyListTotalCnt);
+		model.addAttribute("communityMyList", communityMyList);
+		model.addAttribute("community", community);
+		return "yb/memberMyCommunity";
 	}
 	
 	
@@ -717,30 +775,151 @@ public class YbController {
 	   
 	   @GetMapping(value = "searchBook")
 	   public String searchBook(NewBook newbook, Model model, String currentPage) {
-	      // 페이징 처리
 	      System.out.println("YbController searchBook() start..");
 	      
 	      return "yb/searchBook";
 	      
 	   }
-	   
-	   @PostMapping(value = "communityInsert")
-	   public String communityInsert(Member member, Community community, Model model, NewBook newbook) {
-	      System.out.println("YbController communityInsert() start..");
+	   @GetMapping(value = "communityUpdate")
+	   public String communityUpdate(NewBook newbook, Model model, Community community, int cm_num) {
+	      System.out.println("YbController searchBook() start..");
 	      
-	      member =(Member) session.getAttribute("member");
-	      community.setM_num(member.getM_num());
-	      System.out.println("getM_num -> " + community.getM_num());
-
 	      
-	      community.setNb_num(newbook.getNb_num());
-	      System.out.println("getNB_num -> " + community.getNb_num());
-	      int communityInsert = ms.communityInsert(community);
-	      model.addAttribute("member", member);
-	      return "yb/memberCommunity";
+	      community = ms.selectBookDetail(cm_num);
+	      model.addAttribute("community", community);
+	      return "yb/communityUpdate";
 	      
 	   }
-	   @PostMapping(value = "searchListBook")
+	   @GetMapping(value = "postDetailForm")
+	   public String postDetailForm(Community community, Model model, String currentPage, int cm_num, Member member) {
+	      System.out.println("YbController postDetailForm() start..");
+	      member =(Member) session.getAttribute("member");
+	      
+	      community = ms.selectBookDetail(cm_num);
+	      community.setCm_num(cm_num);
+	      
+	      int nb_num = community.getNb_num();
+	      List<Community> sameDetailList = ms.sameDetailList(nb_num);
+	      
+	      int readCntUp = ms.readCntUp(cm_num);
+	      
+	      
+	      System.out.println("YbController postDetailForm() member->"+member);
+	      
+	      
+	      model.addAttribute("member", member);
+	      model.addAttribute("sameDatailList", sameDetailList);      
+	      model.addAttribute("community", community);      
+	      System.out.println("YbController postDetailForm() readCntUp->"+readCntUp);
+
+	      
+	      return "yb/postDetailForm";
+	      
+	   }
+	   
+	 //날짜별로 폴더생성
+		 public String makeDir() {
+		 	Date date=new Date();
+		 	SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+		 	String now=sdf.format(date);
+
+		 	String path=uploadpath + "\\" +now; //경로
+		 	File file = new File(path);
+
+		 	if(file.exists()==false) {//파일이 존재하면 true
+		 		file.mkdir(); //폴더생성
+		 	}
+
+		 	return path;
+		 }
+		 
+
+	   // 커뮤니티 글 등록
+	   @PostMapping(value = "communityInsert")
+	   public String communityInsert(Member member, Community community, Model model, NewBook newbook, 
+			   						 MultipartHttpServletRequest files, @RequestParam("multiFile") List<MultipartFile> multiFileList, HttpServletRequest request) {
+	      System.out.println("YbController communityInsert() start..");
+	      	
+	      	// 받아온것 출력 확인
+		  System.out.println("multiFileList : " + multiFileList);
+		  System.out.println("multiFileList.size : " + multiFileList.size());
+		// path 가져오기
+		  String path = request.getSession().getServletContext().getRealPath("upload/yb");
+		  String root = path + "\\";
+		  File fileCheck = new File(root);
+		  System.out.println("path -> " + path);
+		  System.out.println("root-> " + root);
+		  System.out.println("fileCheck -> " + fileCheck);
+
+		  if(!fileCheck.exists()) fileCheck.mkdirs();
+		  List<Map<String, String>> fileList = new ArrayList<>();
+		  Map<String, String> map = null;
+		  if(multiFileList.size() > 1) {
+			  for(int i = 0; i < multiFileList.size(); i++) {
+				  String originFile = multiFileList.get(i).getOriginalFilename();
+				  String ext = originFile.substring(originFile.lastIndexOf("."));
+				  String changeFile = UUID.randomUUID().toString() + ext;
+		
+				  map = new HashMap<>();
+				  map.put("originFile", originFile);
+				  map.put("changeFile", changeFile);	
+				  fileList.add(map);
+			  }
+		  }
+		  System.out.println(fileList);
+		  System.out.println(fileList.size());
+		  
+		  // 파일업로드
+		  
+		  try {
+			  if(fileList.size() > 0) {
+				  for(int i = 0; i < multiFileList.size(); i++) {
+					  File uploadFile = new File(root + "\\" + fileList.get(i).get("changeFile"));
+					  multiFileList.get(i).transferTo(uploadFile);
+				  }
+			  }
+			  System.out.println("다중 파일 업로드 성공!");
+			
+		  } catch (IllegalStateException | IOException e) {
+			  System.out.println("다중 파일 업로드 실패 ㅠㅠ");
+			  // 만약 업로드 실패하면 파일 삭제
+			  for(int i = 0; i < multiFileList.size(); i++) {
+				  new File(root + "\\" + fileList.get(i).get("changeFile")).delete();
+			  }
+			  e.printStackTrace(); 
+		  }
+			  List<String> valueList = fileList.stream().filter(t -> t.containsKey("changeFile")).map(m -> m.get("changeFile").toString()).collect(Collectors.toList()); 
+			  String cm_image1 = "";
+			  String cm_image2 = "";
+			  if(valueList.size() == 1) {
+				  cm_image1 = valueList.get(0);				  
+			  } else if(valueList.size() > 1){
+				  cm_image1 = valueList.get(0);
+				  cm_image2 = valueList.get(1);
+			  }
+		      
+		      member =(Member) session.getAttribute("member");
+		      community.setM_num(member.getM_num());
+		      community.setCm_image1(cm_image1);
+		      community.setCm_image2(cm_image2);
+		      System.out.println("getM_num -> " + community.getM_num());
+		      System.out.println("getM_num -> " + community.getCm_image1());
+		      System.out.println("getM_num -> " + community.getCm_image2());
+		      community.setNb_num(newbook.getNb_num());
+		      System.out.println("getNB_num -> " + community.getNb_num());
+		      int communityInsert = ms.communityInsert(community);
+		      
+		      System.out.println("YbController communityInsert result -> " + communityInsert );
+		      model.addAttribute("member", member);
+		      model.addAttribute("check", 1);
+		      return "yb/writeForm";
+		  } 
+		  
+		    
+
+	     
+	   // 커뮤니티 글 등록 시 책 선택
+	   @GetMapping(value = "searchListBook")
 	   public String searchListBook(NewBook newbook, Model model, String currentPage) {
 	      System.out.println("YbController searchListBook() start..");
 	      int searchBookCnt = ms.searchBookCnt(newbook);
@@ -754,9 +933,105 @@ public class YbController {
 	      model.addAttribute("newbook", newbook);
 	      model.addAttribute("searchListBook", searchListBook);
 	      return "yb/searchBook";
+	      
 	   }
-	}
+	   // 게시글 수정
+	   @PostMapping(value = "communityUpdateDo")
+	   public String communityUpdateDo(Community community, Member member,
+			   						   MultipartHttpServletRequest files, @RequestParam("multiFile") List<MultipartFile> multiFileList, HttpServletRequest request) {
+		   System.out.println("YbController communityUpdateDo() start..");
+		   member =(Member) session.getAttribute("member");
+		   System.out.println("multiFileList : " + multiFileList);
+			// path 가져오기
+			  String path = request.getSession().getServletContext().getRealPath("upload/yb");
+			  String root = path + "\\";
+			  File fileCheck = new File(root);
+			  System.out.println("path -> " + path);
+			  System.out.println("root-> " + root);
+			  System.out.println("fileCheck -> " + fileCheck);
+			
+		      if(!fileCheck.exists()) fileCheck.mkdirs();
+			  List<Map<String, String>> fileList = new ArrayList<>();
+			  Map<String, String> map = null;
+			  
+			  if(multiFileList.size() > 1) {
+				  for(int i = 0; i < multiFileList.size(); i++) {
+					  String originFile = multiFileList.get(i).getOriginalFilename();
+					  String ext = originFile.substring(originFile.lastIndexOf("."));
+					  String changeFile = UUID.randomUUID().toString() + ext;
+			
+					  map = new HashMap<>();
+					  map.put("originFile", originFile);
+					  map.put("changeFile", changeFile);	
+					  fileList.add(map);
+				  }
+			  }
+			  System.out.println(fileList);
+			  // 파일업로드
+			  try {
+				  if(fileList.size() > 0) {
+					  for(int i = 0; i < multiFileList.size(); i++) {
+						  File uploadFile = new File(root + "\\" + fileList.get(i).get("changeFile"));
+						  multiFileList.get(i).transferTo(uploadFile);
+					  }
+				  }
+				  System.out.println("다중 파일 업로드 성공!");
+				
+			  } catch (IllegalStateException | IOException e) {
+				  System.out.println("다중 파일 업로드 실패 ㅠㅠ");
+				  // 만약 업로드 실패하면 파일 삭제
+				  for(int i = 0; i < multiFileList.size(); i++) {
+					  new File(root + "\\" + fileList.get(i).get("changeFile")).delete();
+				  }
+				  e.printStackTrace(); 
+			  }
+			  // map List String으로 변환
+			  List<String> valueList = fileList.stream().filter(t -> t.containsKey("changeFile")).map(m -> m.get("changeFile").toString()).collect(Collectors.toList());
+			  String cm_image1 = "";
+			  String cm_image2 = "";
+			  if(valueList.size() == 1) {
+				  cm_image1 = valueList.get(0);				  
+			  } else if(valueList.size() > 1){
+				  cm_image1 = valueList.get(0);
+				  cm_image2 = valueList.get(1);
+			  }
 
+		      System.out.println("cm_imag1 -> " + cm_image1);
+		      System.out.println("cm_imag2 -> " + cm_image2);
+
+		      community.setCm_image1(cm_image1);
+		      community.setCm_image2(cm_image2);
+ 		   int communityUpdateDo = ms.communityUpdateDo(community);
+		   
+		   return "yb/postDetailForm";
+	   }
+	   
+	   // 게시글 삭제
+	   @GetMapping(value = "communityDelete")
+	   public String communityDelete(Community community, Member member, int cm_num) {
+		   System.out.println("YbController communityUpdateDo() start..");
+		   member =(Member) session.getAttribute("member");
+		  
+		   int communityDelete = ms.communityDelete(cm_num);
+   
+		   return "redirect:/memberCommunity";
+	   }
+	   
+	   @GetMapping(value = "communityHitPush")
+	   public String communityHitPush(Member member, int cm_num, Model model, RedirectAttributes redirect) {
+		   member =(Member) session.getAttribute("member");
+		   
+		   int communityHitPush = ms.communityHitPush(cm_num);
+		   redirect.addAttribute("cm_num", cm_num);
+		   model.addAttribute("communityHitPush", communityHitPush);
+		   return "redirect:/postDetailForm";
+	   }
+	   
+	   private String uploadpath;
+
+	 
+	
+}
 
 	   
 

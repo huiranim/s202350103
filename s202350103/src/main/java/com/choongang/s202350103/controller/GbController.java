@@ -158,7 +158,7 @@ public class GbController {
 	// 상품 상세 페이지
 	@RequestMapping("newbookDetail")
 	public String selectNewbookDetail(NewBook newbook, Review review, HttpSession session, 
-									  HttpServletResponse response, HttpServletRequest request, Member member, Model model) {
+									  HttpServletResponse response, HttpServletRequest request, String kakaoShare, Member member, Model model) {
 		
 		System.out.println("GbController selectNewbookDetail start...");
 		System.out.println("GbController selectNewbookDetail newbook.getNb_num()"+newbook.getNb_num());
@@ -230,6 +230,11 @@ public class GbController {
 		List<Review> listReview = rs.listReview(review); 
 		
 		System.out.println("review.getP_status()--->"+review.getP_status());
+		
+		if(kakaoShare != null) {
+			model.addAttribute("kakaoShare", kakaoShare);
+		}
+		
 		
 		model.addAttribute("listReview", listReview);
 		model.addAttribute("review", review);
@@ -502,6 +507,7 @@ public class GbController {
 		return "redirect:bonewbookList?result="+result;
 	}
 	
+	// 공유하기 : 이메일 클릭했을 때 팝업 노출
 	@RequestMapping("shareEmailPopup")
 	public String shareEmailPopup(NewBook newbook, HttpSession session, Member member, Model model) {
 		System.out.println("GbController shareEmailPopup start...");
@@ -522,6 +528,7 @@ public class GbController {
 		return "gb/shareEmailPopup";
 	}
 	
+	// 메일 발송하기
 	@RequestMapping("shareEmailTransport")
 	public String shareEmailTransport(HttpServletRequest request, Model model, NewBook newbook, HttpSession session, Member member) {		
 		System.out.println("GbController shareEmailTransport start...");
@@ -536,7 +543,7 @@ public class GbController {
 		
 		String toMail = newbook.getRecipient();			// 받는 사람
 		System.out.println("toMail -> "+toMail);
-		String sendMail = newbook.getM_email();			// 보내는 사람
+		String sendMail = "gml2511@gmail.com";			// 보내는 사람
 		System.out.println("sendMail -> "+sendMail);	
 		String mailTitle = member.getM_name()+"님께서 다독 도서 상품을 추천하였습니다.";	// 메일 제목
 		String e_message = newbook.getE_message();
@@ -561,9 +568,17 @@ public class GbController {
 			messageHelper.setTo(toMail); 			// 받는 사람 세팅
 			messageHelper.setSubject(mailTitle);	// 메일 제목
 			// 메일 내용
-			String messageText = "제목 : "+ popUpNewbook.getNb_title() +"<br>";
-			messageText += "가격 : " + popUpNewbook.getNb_price() +"<br>";
-			messageText += "메일 내용 :"+ e_message;
+			String messageText = "<div style='border: 1px solid black; float: left;'>"
+							   + "<img id='newbookImg' style='width: 140px; margin: 10px; float: left;' src='"+popUpNewbook.getNb_image()+"' alt='"+popUpNewbook.getNb_title()+"'>"
+							   + "<div style='margin-top: 25px; width: 600px;'><span style='font-size: 20px; font-weight: bold;'> 제목 : "+ popUpNewbook.getNb_title() +"</span><br>"
+							   + "<span> 작가 : "+ popUpNewbook.getNb_writer() +"</span><br>"
+							   + "<span> 출판사 : "+ popUpNewbook.getNb_publisher() +"</span><br>"
+							   + "<span> 가격 : " + popUpNewbook.getNb_price() +"</span><br>"
+							   + "<button type='button' style=' background-color: #3CB371; padding: 10px; border-radius: 10px; color: white; margin-top: 45px;'"
+							   + " onclick='location.href='"
+							   + "newbookDetail?nb_num="+popUpNewbook.getNb_num()+"'>상품보러가기</button></div>"
+							   + "<div style='border: 1px solid black;margin: 45px 20px 10px 15px;'> <span> 메일 내용 : <br><pre>"+ e_message + "</pre></span></div>"
+							   + "</div>";
 			
 			System.out.println("messageText -> "+messageText);
 			
@@ -577,6 +592,7 @@ public class GbController {
 			
 			// 메일 발송
 			mailSender.send(message);
+			
 			model.addAttribute("check", 1); 				// 정상 메일 발송
 			model.addAttribute("newbook", popUpNewbook); 	// 새상품 도서 정보
 			model.addAttribute("member", member);			// 회원 정보
@@ -584,6 +600,8 @@ public class GbController {
 		} catch (Exception e) {
 			System.out.println("shareEmailTransport Error ->"+e.getMessage());
 			model.addAttribute("check", 2); // 메일 전달 실패
+			model.addAttribute("newbook", popUpNewbook); 	// 새상품 도서 정보
+			model.addAttribute("member", member);			// 회원 정보
 
 		}
 		

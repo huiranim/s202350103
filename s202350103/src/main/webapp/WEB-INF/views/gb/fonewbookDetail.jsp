@@ -185,8 +185,8 @@
 	        imageUrl: nb_image,			// 도서 이미지
 	        link: {
 	          // kakao developer -> [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-	          mobileWebUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num, 
-	          webUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num,
+	          mobileWebUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num+'&kakaoShare=1', 
+	          webUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num+'&kakaoShare=1',
 	        },
 	      },
 	      commerce: {
@@ -197,8 +197,8 @@
 	        {
 	          title: '구매하기',
 	          link: {
-	            mobileWebUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num,
-	            webUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num,
+	            mobileWebUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num+'&kakaoShare=1',
+	            webUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num+'&kakaoShare=1',
 	          },
 	        },
 	      ],
@@ -206,17 +206,24 @@
 	   location.reload();
    }
    
+   $(function() {
+	   var kakaoShare = '${kakaoShare}';
+	   if(kakaoShare != "") {
+		   alert ("kakaoShare -> "+kakaoShare);
+	   }
+   });
+   
    // 이메일 공유하기
    function shareEmail() {
+	   
 	   var nb_num = '${newbook.nb_num}';
 	   var popup = "shareEmailPopup?nb_num="+nb_num;
 	   var name = "shareEmail";
-	   var option = "width = 500, height = 620, top = 100, left = 200, location = yes";
+	   var option = "width = 550, height = 750, top = 100, left = 200, location = yes";
 	   
 	   window.open(popup, name, option);
    }
    
-   // url 복사하기
    function shareUrl() {
 	   var url = '';
 	   var textarea = document.createElement("textarea");	// textarea를 만든다.

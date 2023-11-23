@@ -88,33 +88,26 @@
 </script>
 
 
+<script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
+
 
 function emailOptionChange(){
 	
     var emailSelect = document.getElementById("emailSelect");
-    alert(emailSelect.value);
-    
-    var mEmail2 = document.getElementById("m_email2");
- 	
-    alert(mEmail2.value);
-    
+    var mEmail2 = document.getElementById("m_email2").value;
+	var selectedOption = emailSelect.value;
+
     if (emailSelect.value === "직접 입력") {
         mEmail2.removeAttribute("disabled");
     } else {
         mEmail2.setAttribute("disabled", "disabled");
-        mEmail2.value = emailSelect.value;
+        mEmail2.value = selectedOption;
         alert(mEmail2.value);
     }
 	
 }
 
-</script>
-
-
-
-
-<script type="text/javascript">
 
 function valiForm() {
 
@@ -242,6 +235,7 @@ function valiForm() {
         return false; // 유효성 검사에서 실패한 경우 폼 제출 중단
     }
 	
+    $("#m_email2").attr("disabled", false);
 	
     // 유효성 검사 통과 시  폼 제출
     return true;
@@ -460,13 +454,12 @@ function valiForm() {
 	    // "직접 입력" 옵션을 선택한 경우 m_email2 입력 필드를 활성화하고 포커스를 설정
 	    if (selectedOption === "직접 입력") {
 	        mEmail2.removeAttribute("disabled");
-	        mEmail2.value = ""; // 입력 필드 초기화
 	        mEmail2.focus();
 	        
 	    } else {
 	        // 다른 옵션을 선택한 경우 m_email2 입력 필드를 비활성화하고 선택한 옵션 값이 설정됩니다.
 	        mEmail2.setAttribute("disabled", "disabled");
-	        mEmail2.value = selectedOption;
+		     mEmail2.value = selectedOption;
 	    }
 	});
 	

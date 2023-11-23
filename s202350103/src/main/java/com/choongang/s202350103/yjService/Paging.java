@@ -9,8 +9,8 @@ public class Paging {
 	// 페이징 모듈
 	
 	private int currentPage = 1;	//	현재 페이지 번호 기본값 1
-	private int rowPage   = 15;		// 	한 페이지당 표시항목 기본값 10 
-
+	private int rowPage   = 15;		// 	한 페이지당 표시항목 기본값 15
+	
 	private int pageBlock = 10;		//	한번에 표시할 페이지 블록 
 //	ex) 1부터10 다음페이지는 11 부터 20
 	
@@ -26,9 +26,9 @@ public class Paging {
 	// 페이징 모듈 초기화
 	
 	// 생성자를 통해 전체 데이터 개수와 현재 페이지를 받아옴
-	public Paging(int total, String currentPage1) {
+	public Paging(int totalMember, String currentPage1) {
 	    // 전체 데이터 개수를 설정.
-	    this.total = total;
+	    this.total = totalMember;
 	    
 	    //  currentPage1이 null이 아닌 경우, 
 	    //	문자열 형태의 현재 페이지 값을 정수로 변환하여 설정.
