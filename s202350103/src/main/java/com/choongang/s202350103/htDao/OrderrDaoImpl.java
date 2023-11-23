@@ -12,6 +12,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.choongang.s202350103.domain.KakaoPayApprovalVO;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
@@ -99,9 +100,13 @@ public class OrderrDaoImpl implements OrderrDao {
 			int update_result = session.update("htMemberPointUpdate", orderr);
 			System.out.println("Dao htOrderInsert update_result--->" + update_result);
 			
-			// 포인트 이력 insert
-			int point_insert_result = session.insert("htPointInsert", orderr);
-			System.out.println("Dao htOrderInsert point_insert_result--->" + point_insert_result);
+			// 포인트 이력 insert(구매시)
+			int pay_point_insert_result = session.insert("htPayPointInsert", orderr);
+			System.out.println("Dao htOrderInsert pay_point_insert_result--->" + pay_point_insert_result);
+			
+			// 포인트 이력 insert(사용시)
+			int use_point_insert_result = session.insert("htUsePointInsert", orderr);
+			System.out.println("Dao htOrderInsert use_point_insert_result--->" + use_point_insert_result);
 			
 			// 장바구니 삭제(장바구니 결제일 경우)
 			if(orderr.getPaymentType() == 2) {
@@ -131,6 +136,19 @@ public class OrderrDaoImpl implements OrderrDao {
 			System.out.println("OrderrDaoImpl orderPayment Exception -> " + e.getMessage());
 		}
 		return orderr2;
+	}
+
+	@Override
+	public int PaySuccess(KakaoPayApprovalVO ka) {
+		System.out.println("OrderDaoImpl PaySuccess() Start...");
+		int result = 0;
+		try {
+			result = session.update("htOrderUpdate", ka);
+			System.out.println("OrderrDaoImpl PaySuccess result--> "+ result);
+		}catch (Exception e) {
+			System.out.println("OrderrDaoImpl PaySuccess Exception -> " + e.getMessage());
+		}
+		return result;
 	}
 
 

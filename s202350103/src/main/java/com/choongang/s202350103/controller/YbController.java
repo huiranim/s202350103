@@ -41,8 +41,10 @@ import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
+import com.choongang.s202350103.sjService.OldbookService;
 import com.choongang.s202350103.ybService.MemberService;
 import com.choongang.s202350103.ybService.Paging;
+import com.choongang.s202350103.ybService.communityPaging;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -63,13 +65,16 @@ public class YbController {
 	private final JavaMailSender mailSender;
 	final DefaultMessageService messageService; 
 	private final NewBookService nbs;
-
-	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs) {
+	private final OldbookService obs;
+	
+	
+	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs, OldbookService obs ) {
 		this.ms = ms;
 		this.session = session;
 		this.mailSender = mailSender;
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
 		this.nbs = nbs;
+		this.obs = obs;
 	}
 	
 
@@ -85,7 +90,7 @@ public class YbController {
 	
 	// Main Page
 	@RequestMapping(value = "/")
-	public String main(Member member, NewBook newbook, HttpServletRequest request, Model model, Cart cart) {
+	public String main(Member member, NewBook newbook,OldBook oldBook , HttpServletRequest request, Model model, Cart cart) {
 		System.out.println("YbController main() start... ");
 		member =(Member) session.getAttribute("member");
 		if(member == null) {
@@ -97,6 +102,13 @@ public class YbController {
 			// 다독 전체 최대 조회수 도서 상품 리스트
 			NewBook hitBook1 = nbs.selectAllHitNbNum();
 			System.out.println("hitList -> "+hitList.size());
+			
+			// oldBook 4개 랜덤
+			   List<OldBook> ObNumRedomSel = obs.selectRendomObNum();
+			   model.addAttribute("ObNumRedomSel", ObNumRedomSel);
+			   System.out.println("ObNumRedomSel->"+ObNumRedomSel.size());
+			   System.out.println("ObNumRedomSel->"+ObNumRedomSel);
+			
 			
 			// 출간일 기준 5개의 도서 리스트
 			List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
@@ -116,6 +128,12 @@ public class YbController {
 		// 다독 전체 최대 조회수 도서 상품 리스트
 		NewBook hitBook1 = nbs.selectAllHitNbNum();
 		System.out.println("hitList -> "+hitList.size());
+		
+		// oldBook 4개 랜덤
+		   List<OldBook> ObNumRedomSel = obs.selectRendomObNum();
+		   model.addAttribute("ObNumRedomSel", ObNumRedomSel);
+		   System.out.println("ObNumRedomSel->"+ObNumRedomSel.size());
+		   System.out.println("ObNumRedomSel->"+ObNumRedomSel);
 		
 		// 출간일 기준 5개의 도서 리스트
 		List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
@@ -342,13 +360,14 @@ public class YbController {
 		wishList.setStart(page.getStart());
 		wishList.setEnd(page.getEnd());
 		
-		System.out.println("YbController memberCartList() member.m_id -> " + member.getM_id());
+		System.out.println("YbController memberWishList() member.m_id -> " + member.getM_id());
 	
 		
 		// 찜목록 리스트
 		List<WishList> memberWishList = ms.memberWishList(wishList);
-		System.out.println("YbController memberCartList listCart.size() -> " + memberWishList.size());
-		System.out.println("YbController memberCartList listCart.title -> " + wishList.getNb_title());
+		System.out.println("YbController memberWishList memberWishList.size() -> " + memberWishList.size());
+		
+		model.addAttribute("page", page);
 		model.addAttribute("member", member);
 		model.addAttribute("memberWishList", memberWishList);
 		model.addAttribute("totalWishList", totalWishList);
@@ -374,14 +393,14 @@ public class YbController {
 		int pointListCnt = ms.pointListCnt(pointList);
 		System.out.println("YbController memberPointList pointListCnt ->" + pointListCnt);
 		// 포인트 리스트
-		List<PointList> memberPointList = ms.memberPointList(pointList);
+		
 		
 		// 페이징 처리
 		Paging page = new Paging(pointListCnt, currentPage);
 			
 		pointList.setStart(page.getStart());
 		pointList.setEnd(page.getEnd());
-		
+		List<PointList> memberPointList = ms.memberPointList(pointList);
 		System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
 		
 		model.addAttribute("page", page);
@@ -426,7 +445,7 @@ public class YbController {
 		member =(Member) session.getAttribute("member");
 		
 		int comListTotalCnt = ms.comListTotalCnt(community);
-		Paging page = new Paging(comListTotalCnt, currentPage);
+		communityPaging page = new communityPaging(comListTotalCnt, currentPage);
 		
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());
@@ -448,7 +467,7 @@ public class YbController {
 		
 		int m_num = member.getM_num();
 		int comMyListTotalCnt = ms.comMyListTotalCnt(m_num);
-		Paging page = new Paging(comMyListTotalCnt, currentPage);
+		communityPaging page = new communityPaging(comMyListTotalCnt, currentPage);
 		
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());
@@ -771,17 +790,17 @@ public class YbController {
 	      return "yb/communityUpdate";
 	      
 	   }
+	   // 게시글 선택시
 	   @GetMapping(value = "postDetailForm")
 	   public String postDetailForm(Community community, Model model, String currentPage, int cm_num, Member member) {
 	      System.out.println("YbController postDetailForm() start..");
 	      member =(Member) session.getAttribute("member");
-	      
 	      community = ms.selectBookDetail(cm_num);
 	      community.setCm_num(cm_num);
 	      
 	      int nb_num = community.getNb_num();
 	      List<Community> sameDetailList = ms.sameDetailList(nb_num);
-	      
+	      System.out.println();
 	      int readCntUp = ms.readCntUp(cm_num);
 	      
 	      
@@ -793,28 +812,9 @@ public class YbController {
 	      model.addAttribute("community", community);      
 	      System.out.println("YbController postDetailForm() readCntUp->"+readCntUp);
 
-	      
-	      return "yb/postDetailForm";
-	      
+	      return "yb/postDetailForm";	      
 	   }
 	   
-	 //날짜별로 폴더생성
-		 public String makeDir() {
-		 	Date date=new Date();
-		 	SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-		 	String now=sdf.format(date);
-
-		 	String path=uploadpath + "\\" +now; //경로
-		 	File file = new File(path);
-
-		 	if(file.exists()==false) {//파일이 존재하면 true
-		 		file.mkdir(); //폴더생성
-		 	}
-
-		 	return path;
-		 }
-		 
-
 	   // 커뮤니티 글 등록
 	   @PostMapping(value = "communityInsert")
 	   public String communityInsert(Member member, Community community, Model model, NewBook newbook, 
@@ -896,9 +896,6 @@ public class YbController {
 		      return "yb/writeForm";
 		  } 
 		  
-		    
-
-	     
 	   // 커뮤니티 글 등록 시 책 선택
 	   @GetMapping(value = "searchListBook")
 	   public String searchListBook(NewBook newbook, Model model, String currentPage) {
@@ -1007,9 +1004,6 @@ public class YbController {
 		   model.addAttribute("communityHitPush", communityHitPush);
 		   return "redirect:/postDetailForm";
 	   }
-	   
-	   private String uploadpath;
-
 	 
 	
 }

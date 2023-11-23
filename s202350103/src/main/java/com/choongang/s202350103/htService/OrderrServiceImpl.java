@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.choongang.s202350103.domain.KakaoPayApprovalVO;
 import com.choongang.s202350103.htDao.OrderrDao;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
@@ -51,6 +52,13 @@ public class OrderrServiceImpl implements OrderrService {
 	public Orderr orderPayment(Orderr orderr) {
 		Orderr orderr2 = od.orderPayment(orderr);
 		return orderr2;
+	}
+
+	@Override
+	public int PaySuccess(KakaoPayApprovalVO ka) {
+		System.out.println("HtService orderInsert Start...");
+		int result = od.PaySuccess(ka);
+		return result;
 	}
 
 
