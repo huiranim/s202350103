@@ -58,7 +58,7 @@
 	
 	<select id="sjObListAllMain" resultType="OldBook">
 		  
-	select * 
+	select DISTINCT * 
 		from 
 		  (select rownum rn , ob.*
 		  FROM (

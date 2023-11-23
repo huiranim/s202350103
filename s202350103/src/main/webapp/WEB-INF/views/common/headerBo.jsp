@@ -106,6 +106,10 @@
 						</a></li>
 						<li class="nav-item mt-6 mb-3"><span class="nav-label">관리자
 								메뉴</span></li>
+						
+						
+						
+						
 						<li class="nav-item"><a class="nav-link   collapsed "
 							href="#" data-bs-toggle="collapse" data-bs-target="#navMembers"
 							aria-expanded="false" aria-controls="navCategoriesOrders">
@@ -241,65 +245,67 @@
 						<li class="nav-item mt-6 mb-3"><span class="nav-label">관리자
 								메뉴</span></li>
 
-						<li class="nav-item"><a class="nav-link   collapsed "
+							<li class="nav-item"><a class="nav-link   collapsed "
 							href="#" data-bs-toggle="collapse" data-bs-target="#navMembers"
-							aria-expanded="false" aria-controls="navOrders">
+							aria-expanded="false" aria-controls="navCategoriesOrders">
 								<div class="d-flex align-items-center">
-									<span class="nav-link-icon"> <i class="bi bi-people"></i></span>
+									<span class="nav-link-icon"><i class="bi bi-people"></i></span>
 									<span class="nav-link-text">회원관리</span>
 								</div>
 						</a>
 							<div id="navMembers" class="collapse "
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
-									<li class="nav-item "><a class="nav-link " href="adminMemberList">
-											회원조회 </a></li>
+									<li class="nav-item "><a class="nav-link "
+										href="adminMemberList"> 회원목록 </a></li>
+									<!-- Nav item -->
 								</ul>
 							</div></li>
 
 						<li class="nav-item"><a class="nav-link   collapsed "
 							href="#" data-bs-toggle="collapse" data-bs-target="#navProducts"
-							aria-expanded="false" aria-controls="navOrders">
+							aria-expanded="false" aria-controls="navCategoriesOrders">
 								<div class="d-flex align-items-center">
-									<span class="nav-link-icon"> <i class="bi bi-book"></i></span>
-									<span class="nav-link-text">상품관리</span>
+									<span class="nav-link-icon"><i class="bi bi-book"></i></span> <span
+										class="nav-link-text">상품관리</span>
 								</div>
 						</a>
 							<div id="navProducts" class="collapse "
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
-									<li class="nav-item "><a class="nav-link " href="bonewbookList">
-											상품목록 </a></li>
+									<li class="nav-item "><a class="nav-link "
+										href="bonewbookList"> 상품목록 </a></li>
 									<!-- Nav item -->
-									<li class="nav-item "><a class="nav-link " href="#">
-											상품등록 </a></li>
+									<li class="nav-item "><a class="nav-link "
+										href="bonewbookInsert"> 상품등록 </a></li>
 								</ul>
 							</div></li>
+
 
 						<li class="nav-item"><a class="nav-link   collapsed "
 							href="#" data-bs-toggle="collapse"
 							data-bs-target="#navOldProducts" aria-expanded="false"
-							aria-controls="navOrders">
+							aria-controls="navCategoriesOrders">
 								<div class="d-flex align-items-center">
-									<span class="nav-link-icon"> <i class="bi bi-journal"></i></span>
-									<span class="nav-link-text">중고상품관리</span>
+									<span class="nav-link-icon"><i class="bi bi-journal"></i></span>
+									<span class="nav-link-text">중고 관리</span>
 								</div>
 						</a>
 							<div id="navOldProducts" class="collapse "
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
-									<li class="nav-item "><a class="nav-link " href="#">
-											메뉴1 </a></li>
+									<li class="nav-item "><a class="nav-link "
+										href="BolistOb"> 판매 신청 목록 </a></li>
 									<!-- Nav item -->
-									<li class="nav-item "><a class="nav-link " href="#">
-											메뉴2 </a></li>
+									<!-- <li class="nav-item "><a class="nav-link "
+										href="../dashboard/order-single.html"> 메뉴2 </a></li> -->
 								</ul>
 							</div></li>
 
 
 						<li class="nav-item"><a class="nav-link   collapsed "
 							href="#" data-bs-toggle="collapse" data-bs-target="#navOrders"
-							aria-expanded="false" aria-controls="navOrders">
+							aria-expanded="false" aria-controls="navCategoriesOrders">
 								<div class="d-flex align-items-center">
 									<span class="nav-link-icon"><i class="bi bi-cart"></i></span> <span
 										class="nav-link-text">주문관리</span>
@@ -308,35 +314,37 @@
 							<div id="navOrders" class="collapse "
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
-									<li class="nav-item "><a class="nav-link " href="#">
-											메뉴1 </a></li>
+									<li class="nav-item "><a class="nav-link "
+										href="boOrderList"> 주문목록 </a></li>
 									<!-- Nav item -->
-									<li class="nav-item "><a class="nav-link " href="#">
-											메뉴2 </a></li>
+									<!-- <li class="nav-item "><a class="nav-link "
+										href="../dashboard/order-single.html"> 메뉴2 </a></li> -->
 								</ul>
 							</div></li>
 
 
-						<li class="nav-item">
-							<!-- 토글 버튼에 고유한 data-bs-target 부여 --> <a
-							class="nav-link   collapsed " href="#navEvents"
-							data-bs-toggle="collapse" data-bs-target="#navEvents"
-							aria-expanded="false" aria-controls="navEvents">
+						<li class="nav-item"><a class="nav-link   collapsed "
+							href="#" data-bs-toggle="collapse" data-bs-target="#navEvent"
+							aria-expanded="false" aria-controls="navCategoriesOrders">
 								<div class="d-flex align-items-center">
 									<span class="nav-link-icon"><i class="bi bi-star"></i></span> <span
 										class="nav-link-text">이벤트관리</span>
 								</div>
-						</a> <!-- 메뉴를 감싸는 div 요소에 고유한 id 부여 -->
-							<div id="navEvents" class="collapse" data-bs-parent="#sideNavbar">
+						</a>
+							<div id="navEvent" class="collapse " data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
-									<li class="nav-item"><a class="nav-link" href="#"> 메뉴1
-									</a></li>
+									<li class="nav-item "><a class="nav-link "
+										href="boEventList"> 이벤트목록 </a></li>
 									<!-- Nav item -->
-									<li class="nav-item"><a class="nav-link" href="#"> 메뉴2
-									</a></li>
+									<li class="nav-item "><a class="nav-link "
+										href="boAttendance"> 출석체크 등록 </a></li>
+									<!-- Nav item -->
+									<li class="nav-item "><a class="nav-link "
+										href="boQuiz"> 퀴즈 등록 </a></li>
 								</ul>
-							</div>
-						</li>
+							</div></li>
+
+							
 
 					</ul>
 				</div>

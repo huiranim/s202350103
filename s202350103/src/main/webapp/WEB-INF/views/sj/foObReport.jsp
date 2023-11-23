@@ -12,13 +12,10 @@
 		$('.modal-content').load("ModalList");
 	} */
 	opener.parent.location="ModetailNb?nb_num=${oldBook.nb_num}";
-	
 	window.close();
 	
-	
 	function showPopup(){
-		window.open("ModalList","pop","width=1000, height=900, left=300, top=150");	
-	
+		window.open("ModalList","pop","width=1000, height=900, left=300, top=150");
 	}
 	
 	function doAction(){
@@ -110,48 +107,17 @@
    					새상품 조회
 					</button>
 					</div>
- <!-- Modal -->
-<!-- <div class="modal fade col-lg-8" id="exampleModal-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            모달 바디
-            <div class="modal-body">
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>  -->
+
+		
+
+
                  </div>
               </div>
            </div>
         </div>
      </div>
-
-
- 
-	
-	
-
-		<hr>
+		<br><br><br>
+		
       		<div class="text-end">
       		<label class="form-label" for="comments"> 
           <strong >다독다독 중고 도서 판매 이용약관</strong>
