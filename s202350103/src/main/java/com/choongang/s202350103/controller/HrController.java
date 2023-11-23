@@ -295,7 +295,7 @@ public class HrController {
 		
 		// session으로부터 member 도출
 		member = (Member) session.getAttribute("member");
-		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
+		System.out.println("HrController givingGift() member.getM_name()->"+member.getM_name());
 		model.addAttribute("member", member);
 		
 		// value 확인
@@ -328,79 +328,84 @@ public class HrController {
 			
 		// Service Method 실행 후 model에 result 저장
 		int result = os.givingGiftAction(member, orderr, orderGift);
-		model.addAttribute("giftResult", result);
+		model.addAttribute("mailingResult", result);
 		
-		// 메일 발송을 위해 주요 객체 redirect에 저장
-		redirect.addFlashAttribute("member", member);
-		redirect.addFlashAttribute("orderr", orderr);
-		redirect.addFlashAttribute("orderGift", orderGift);
 		
 		System.out.println("HrController givingGiftAction() end..");
-		return "redirect:giftMailing";
-	}
-	
-	// FO 선물하기 - 메일 발송
-	@RequestMapping("/giftMailing")
-	public String giftMailing(HttpServletRequest request, Model model, HttpSession session, 
-							  @ModelAttribute("member") Member member,
-							  @ModelAttribute("orderr") Orderr orderr,
-							  @ModelAttribute("orderGift") OrderGift orderGift
-							  ) {
-		System.out.println("HrController giftMailing() start..");
-		
-		// 정보 GET
-		String tomail = orderr.getO_rec_mail();
-		String m_name = member.getM_name();
-		String n_title = ns.selectNewbook(orderr.getNb_num()).getNb_title();
-		int o_de_count = orderr.getO_de_count();
-		String o_gift_msg = orderGift.getO_gift_msg();
-		long o_order_num = orderr.getO_order_num();
-
-		// 받는 사람
-		System.out.println("HrController giftMailing() tomail -> "+tomail);
-		
-		// 보내는 사람
-		String setfrom = "gml2511@gmail.com";
-		
-		// 제목
-		String title = "[DADOK] "+m_name+"님으로부터 선물이 도착했습니다!";
-		
-		// 내용
-		String contents = "안녕하세요. DADOK입니다. \n"
-							+ m_name + "님이 선물과 메시지를 보냈습니다. \n\n"
-							
-							+ "선물 : " + n_title + " " + o_de_count + "개 \n"
-							+ "메시지 : " + o_gift_msg + "\n\n"
-							
-							+ "아래 링크를 클릭하여 선물을 받아보세요! \n"
-							+ "http://localhost:8200/foGettingGift?o_order_num="+o_order_num+"\n\n"
-							
-							+ "* 받는 사람 정보를 정확히 입력해주세요. \n"
-							+ "* 입력 후 수락하기 버튼을 클릭해야 발송이 시작됩니다.";
-		
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-			messageHelper.setFrom(setfrom);
-			messageHelper.setTo(tomail);
-			messageHelper.setSubject(title);
-			messageHelper.setText(contents/* ,true */);
-			mailSender.send(message);
-			model.addAttribute("mailingResult", 1);
-			
-			model.addAttribute("member", member);
-			model.addAttribute("orderr", orderr);
-			model.addAttribute("n_title", n_title);
-			model.addAttribute("orderGift", orderGift);
-
-		} catch (Exception e) {
-			System.out.println("HrController giftMailing() e.getMessage() -> "+e.getMessage());		
-			model.addAttribute("mailingResult", 0);
-		}
-		
-		System.out.println("HrController giftMailing() end..");		
 		return "/hr/foGivingGiftAction";
 	}
+	
+//		// 메일 발송을 위해 주요 객체 redirect에 저장
+//		redirect.addFlashAttribute("member", member);
+//		redirect.addFlashAttribute("orderr", orderr);
+//		redirect.addFlashAttribute("orderGift", orderGift);
+//		
+//		System.out.println("HrController givingGiftAction() end..");
+//		return "redirect:giftMailing";
+//	}
+//	
+//	// FO 선물하기 - 메일 발송
+//	@RequestMapping("/giftMailing")
+//	public String giftMailing(HttpServletRequest request, Model model, HttpSession session, 
+//							  @ModelAttribute("member") Member member,
+//							  @ModelAttribute("orderr") Orderr orderr,
+//							  @ModelAttribute("orderGift") OrderGift orderGift
+//							  ) {
+//		System.out.println("HrController giftMailing() start..");
+//		
+//		// 정보 GET
+//		String tomail = orderr.getO_rec_mail();
+//		String m_name = member.getM_name();
+//		String n_title = ns.selectNewbook(orderr.getNb_num()).getNb_title();
+//		int o_de_count = orderr.getO_de_count();
+//		String o_gift_msg = orderGift.getO_gift_msg();
+//		long o_order_num = orderr.getO_order_num();
+//
+//		// 받는 사람
+//		System.out.println("HrController giftMailing() tomail -> "+tomail);
+//		
+//		// 보내는 사람
+//		String setfrom = "gml2511@gmail.com";
+//		
+//		// 제목
+//		String title = "[DADOK] "+m_name+"님으로부터 선물이 도착했습니다!";
+//		
+//		// 내용
+//		String contents = "안녕하세요. DADOK입니다. \n"
+//							+ m_name + "님이 선물과 메시지를 보냈습니다. \n\n"
+//							
+//							+ "선물 : " + n_title + " " + o_de_count + "개 \n"
+//							+ "메시지 : " + o_gift_msg + "\n\n"
+//							
+//							+ "아래 링크를 클릭하여 선물을 받아보세요! \n"
+//							+ "http://localhost:8200/foGettingGift?o_order_num="+o_order_num+"\n\n"
+//							
+//							+ "* 받는 사람 정보를 정확히 입력해주세요. \n"
+//							+ "* 입력 후 수락하기 버튼을 클릭해야 발송이 시작됩니다.";
+//		
+//		try {
+//			MimeMessage message = mailSender.createMimeMessage();
+//			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+//			messageHelper.setFrom(setfrom);
+//			messageHelper.setTo(tomail);
+//			messageHelper.setSubject(title);
+//			messageHelper.setText(contents/* ,true */);
+//			mailSender.send(message);
+//			model.addAttribute("mailingResult", 1);
+//			
+//			model.addAttribute("member", member);
+//			model.addAttribute("orderr", orderr);
+//			model.addAttribute("n_title", n_title);
+//			model.addAttribute("orderGift", orderGift);
+//
+//		} catch (Exception e) {
+//			System.out.println("HrController giftMailing() e.getMessage() -> "+e.getMessage());		
+//			model.addAttribute("mailingResult", 0);
+//		}
+//		
+//		System.out.println("HrController giftMailing() end..");		
+//		return "/hr/foGivingGiftAction";
+//	}
 	
 	// FO 선물받기 - 화면
 	// foGettingGift.jsp

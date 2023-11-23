@@ -7,6 +7,41 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript">
+	function checkDate(){
+		alert("테스트");
+		var curDate = new Date();
+		var curDate1 = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
+		alert(curDate1);
+		var sdate = $('input[name=q_sdate]').val();
+		var edate = $('input[name=q_edate]').val();
+		alert("sdate->"+sdate);
+		alert("edate->"+edate);
+		if(sdate>edate){
+			alert("이벤트 기간 설정을 잘 못 되었습니다.");
+			return false;
+		} else if(curDate1>=sdate&&curDate1<=edate){
+			alert("이벤트 기간을 도중으로 생성할 수 없습니다.");
+			return false;
+		} else if(curDate1 >= edate){
+			alert("기간이 종료된 이벤트는 생성하실 수 없습니다.");
+			return false;
+		} else if(curDate1 < edate){
+			document.forms["createQuizForm"].action;
+			return true;
+		} else {
+			alert("오류 발생");
+			return false;
+		}
+	}
+	
+	function convertToDate(dateStr) {
+		var parts = dateStr.split('-');
+		return new Date(parts[0], parts[1] - 1, parts[2]);
+		}
+
+</script>
 <style>
 	form {
 		width:80%;
@@ -33,12 +68,12 @@
 	
 </style>
 <body>
-<form action="createQuiz" enctype="multipart/form-data" method="post">
+<form id="createQuizForm" action="createQuiz" onsubmit="return checkDate()" enctype="multipart/form-data" method="post">
 	<table class="table">
 		<tr>
 			<th class="title" colspan="2">퀴즈 설정</th>
-		</tr>
-		<tr>
+			</tr>
+			<tr>
 			<th class="table-active">이벤트 이름</th>
 			<td><input type="text" name="q_title" style="width: 300px;" required="required"></td>	
 		</tr>

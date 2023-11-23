@@ -18,13 +18,13 @@
         <div class="hero-slider ">
 
 		<div
-            style="background: url(../assets/images/slider/mainEx1.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+            style="background: url(../assets/images/png/7777.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center; height: 520px;">
             <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-              <span class="badge text-bg-info">타이틀</span>
+            
 
-              <h2 class="text-dark display-6 fw-bold mt-4">배너 내용 </h2>
-              <p class="lead">소제목 </p>
-              <a href="#!" class="btn btn-dark mt-3">버튼 <i class="feather-icon icon-arrow-right ms-1"></i></a>
+              <h2 class="text-dark display-6 fw-bold mt-4"> </h2>
+              <p class="lead"> </p>
+            
             </div>
           </div>
           
