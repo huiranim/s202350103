@@ -323,4 +323,15 @@
 		select count(*) from member where m_wd = 1
 	</select>
 	
+	
+	<select id="mqReplyList" parameterType="int" resultType="MemberQ">
+		
+		select * from 
+			memberq_reply mqr
+		join member m
+			on m.m_num = mqr.m_num
+		where mq_num = #{mq_num} order by mqr.mqr_date desc
+		
+	</select>
+	
 </mapper>

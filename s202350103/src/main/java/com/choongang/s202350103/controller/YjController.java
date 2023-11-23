@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.choongang.s202350103.gbService.RecentlyBook;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.MemberQ;
+import com.choongang.s202350103.model.MqReply;
 import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.yjService.MemberService;
 import com.choongang.s202350103.yjService.Paging;
@@ -826,6 +827,8 @@ public class YjController {
 		  
 		  MemberQ memberQInfo  = ms.memberQInfo(mq_num);
 		  
+		  List<MqReply> mqReplyList = ms.mqReplyList(mq_num);
+		  
 		  int mq_hidden = memberQInfo.getMq_hidden();
 		  int m_num = memberQInfo.getM_num();
 		  int m_admin = memberQInfo.getM_admin();
@@ -834,7 +837,7 @@ public class YjController {
 		  System.out.println(m_num);
 		  System.out.println(m_admin);
 		  
-		  // 비밀글로 일 때  
+		  // 비밀글 일 때  
 		  if(mq_hidden == 1) {
 			  // 세션에 저장된 회원을 호출
 			  Member member = (Member) session.getAttribute("member");
@@ -852,6 +855,8 @@ public class YjController {
 			model.addAttribute("recentBookList", recentBookList);
 		  
 		  model.addAttribute("memberQInfo",memberQInfo);
+		  model.addAttribute("mqReplyList",mqReplyList);
+
 		  return "yj/memberQInfo";
 		  
 	  }
@@ -1063,6 +1068,7 @@ public class YjController {
 			return m_addr;
 	  }
 	
+	  
 	  
 	  
 }

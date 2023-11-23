@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.MemberQ;
+import com.choongang.s202350103.model.MqReply;
 
 import lombok.RequiredArgsConstructor;
 
@@ -210,6 +211,12 @@ public class MemberDaoImpl implements MemberDao{
 	public int wdMember() {
 		int wdMember = session.selectOne("wdMember");
 		return wdMember;
+	}
+	// 문의 답변 리스트
+	@Override
+	public List<MqReply> mqReplyList(int mq_num) {
+		List<MqReply> mqReplyList = session.selectList("mqReplyList",mq_num);
+		return mqReplyList;
 	}
 	
 
