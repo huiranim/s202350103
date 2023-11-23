@@ -10,21 +10,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta content="Codescandy" name="author">
-  <title>Shop Single eCommerce HTML Template - FreshCart </title>
   <link href="../assets/libs/dropzone/dist/min/dropzone.min.css" rel="stylesheet" />
   <link href="../assets/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet">
   <link href="../assets/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
   <link href="../assets/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
   <!-- Favicon icon-->
 <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon/favicon.ico">
-
-
 <!-- Libs CSS -->
 <link href="../assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
 <link href="../assets/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet">
 <link href="../assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
-
-
 <!-- Theme CSS -->
 <link rel="stylesheet" href="../assets/css/theme.min.css">
   <!-- Google tag (gtag.js) -->
@@ -51,7 +46,7 @@
 		    	return false;
 	 	}
 	}
-	
+
 	
 </script>
 
@@ -66,8 +61,8 @@
         <div class="col-md-5" style="width: 25rem;">
           <!-- img slide -->
           <div class="product" id="product" >
-            <div class="zoom" onmousemove="zoom(event)"
-              style="background-image: url(${commutiy.cm_image})">
+            <div class="" onmousemove="zoom(event)"
+              style="background-image: url()">
               <!-- img -->
               <!-- img -->
               <c:set var="cm_image" value="${community.cm_image }"/>
@@ -81,8 +76,8 @@
 		 	  </c:choose>
             </div>
             <div>
-              <div class="zoom" onmousemove="zoom(event)"
-                style="background-image: url(../assets/images/products/product-single-img-2.jpg)">
+              <div class="" onmousemove="zoom(event)"
+                style="background-image: url()">
                 <!-- img -->
                	<c:set var="cm_image" value="${community.cm_image }"/>
               	<c:choose>
@@ -96,8 +91,8 @@
               </div>
             </div>
             <div>
-              <div class="zoom" onmousemove="zoom(event)"
-                style="background-image: url(../assets/images/products/product-single-img-2.jpg)">
+              <div class="" onmousemove="zoom(event)"
+                style="background-image: url()">
                 <!-- img -->
                	<c:set var="cm_image" value="${community.cm_image }"/>
               	<c:choose>
@@ -114,8 +109,8 @@
               </div>
             </div>
             <div>
-              <div class="zoom" onmousemove="zoom(event)"
-                style="background-image: url(../assets/images/products/product-single-img-4.jpg)">
+              <div class="" onmousemove="zoom(event)"
+                style="background-image: url()">
                 <!-- img -->
                 <img src="../assets/images/products/product-single-img-4.jpg" alt="">
               </div>
@@ -244,7 +239,6 @@
 	            </c:if>
 	            <c:if test="${member.m_num == community.m_num }">
 	               <button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-trash" title="삭제" onclick="deleteConfirm(cm_num.value)"></i></button>
-                
 	            </c:if>
 		            <a class="btn btn-soft-primary" href="communityHitPush?cm_num=${community.cm_num }">
                 <i class="bi bi-hand-thumbs-up" title="좋아요"></i>(${community.cm_hitCnt })</a>
@@ -282,19 +276,20 @@
 	            <div class="card-body">
 	              <!-- badge -->
 	
-	              <div class="text-center position-relative ">
-	                <a href="#!">
-	                  <!-- img --><img src="${sameDetail.cm_image }" alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-	                <!-- action btn -->
-	                <div class="card-product-action">
-	                  <a href="#!" class="btn-action"><i
-	                      class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-	                </div>
-	              </div>
+<!-- 	              <div class="text-center position-relative "> -->
+<!-- 	                <a href="#!"> -->
+<%-- 	                  <!-- img --><img src="${sameDetail.cm_image }" alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a> --%>
+<!-- 	                action btn -->
+<!-- 	                <div class="card-product-action"> -->
+<!-- 	                  <a href="#!" class="btn-action"><i -->
+<!-- 	                      class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a> -->
+<!-- 	                </div> -->
+<!-- 	              </div> -->
 	              <!-- heading -->
-	              <h2 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">${sameDetail.nb_title }</a></h2>
-	              
-	              <h2 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">${sameDetail.cm_title }</a></h2>
+	              <h3 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">${sameDetail.nb_title }</a></h3>
+	              <input type="hidden" value="${sameDetail.cm_num }"  name="cm_num1">
+	              <h2 class="fs-5"><a href="#!" class="text-inherit text-decoration-none">${sameDetail.cm_title }</a></h2>
+	              <h2 class="fs-5"><a href="#!" class="text-inherit text-decoration-none">${sameDetail.m_name }</a></h2>
 	              <div class="text-warning">
 					 <c:forEach var="i" begin="1" end="${sameDetail.cm_rating}">
 	                    <i class="bi bi-star-fill"></i>
@@ -305,11 +300,11 @@
                	 	 <span class="text-muted small" style="margin-left: 10px;">${sameDetail.cm_rating }</span>
 	              </div>
 	              <div class="d-flex justify-content-between align-items-center mt-3">
-	                <div><span class="text-dark"><fmt:formatDate value="${community.cm_regDate}" pattern="yyyy년MM월dd일"/></span>
+	                <div><span class="text-dark"><fmt:formatDate value="${sameDetail.cm_regDate}" pattern="yyyy년MM월dd일"/></span>
 	                </div>
 	                <!-- btn -->
 	                <div>
-						 <a class="btn btn-light" href="#"><i class="bi bi-eye"></i></a>
+	                      <a class="btn btn-soft-primary" href="postDetailForm?cm_num=${sameDetail.cm_num }"><i class="bi bi-eye"></i></a>
 	                      <line x1="12" y1="5" x2="12" y2="19"></line>
 	                      <line x1="5" y1="12" x2="19" y2="12"></line>
 	                  </div>
@@ -582,7 +577,6 @@
 
   <script src="../assets/libs/tiny-slider/dist/min/tiny-slider.js"></script>
   <script src="../assets/js/vendors/tns-slider.js"></script>
-  <script src="../assets/js/vendors/zoom.js"></script>
   <script src="../assets/js/vendors/increment-value.js"></script>
 
 

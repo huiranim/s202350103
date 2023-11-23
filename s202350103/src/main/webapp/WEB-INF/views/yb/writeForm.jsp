@@ -67,7 +67,7 @@
 		  left: 50%;
 		
 		  width: 600px;
-		  height: 650px;
+		  height: auto;
 		
 		  padding: 40px;
 		
