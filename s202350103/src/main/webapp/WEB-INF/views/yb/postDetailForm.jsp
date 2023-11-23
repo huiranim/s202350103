@@ -99,9 +99,6 @@
 	           		<c:when test="${fn:contains(cm_image2, 'http')}">
 	           			<img src="${community.cm_image2 }" alt="도서 썸네일" ">
 	           		</c:when>
-	           		<c:when test="${community.cm_image2 == null }">
-	           			<div style="background: white"></div>
-	           		</c:when>
 	           		<c:otherwise>
 	           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="도서 썸네일">
 	           		</c:otherwise>

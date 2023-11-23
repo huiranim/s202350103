@@ -60,10 +60,11 @@
 	                           	 FROM   community cm, newbook nb, member m
                                  WHERE  cm.nb_num = nb.nb_num
                                  AND    m.m_num = cm.m_num
+                                 ORDER by cm_regdate desc
 	                             )a
 								)
 			WHERE   rn BETWEEN #{start} and #{end}
-			ORDER by cm_regdate desc
+
 		</select>
 		
 		<select id="ybCommunityMyList"  resultType="Community">
@@ -77,10 +78,11 @@
                                  WHERE  cm.nb_num = nb.nb_num
                                  AND    m.m_num = cm.m_num
                                  AND    cm.m_num = #{m_num}
+                                 ORDER by cm_regdate desc
 	                             )a
 								)
 			WHERE   rn BETWEEN #{start} and #{end}
-			ORDER by cm_regdate desc
+			
 		</select>
 		
 		<select id="comListTotalCnt"  resultType="int">

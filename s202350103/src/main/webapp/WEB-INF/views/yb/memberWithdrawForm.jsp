@@ -26,13 +26,11 @@
 						alert(m_pw)
 						alert('memberChkPw -> '+memberPw);
 						if(m_pw == memberPw){
-							alert("비밀번호 일치")
 							$('#msg').html("비밀번호가 일치합니다.");
 							$('#msg').css("color","#0aad0a");
 							$('#button_dw').attr("disabled", false);	
 							return true;
 						} else {
-							alert("비밀번호 불일치")
 							$('#msg').html("비밀번호를 확인해주세요.");
 							$('#msg').css("color","red");
 							$('#m_pw').val('');

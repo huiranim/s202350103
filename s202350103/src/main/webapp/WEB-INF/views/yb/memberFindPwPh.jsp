@@ -30,7 +30,6 @@
 	       dataType : 'json',
 	       success : function(strResult) {
 	    	  var jsonStr = JSON.stringify(strResult);
-	          alert('jsonStr -> '+jsonStr);
 	          if (strResult['m_ph'] != null && strResult['memberFindPh'] == null) {
 	        	    alert("가입할 때 사용하신 이메일을 입력해주세요.");
 	        	    $('#msg').html("가입할 때 사용한 이메일을 입력해주세요.");
@@ -43,8 +42,6 @@
 	        		alert("인증번호 전송중... 잠시만 기다려주세요.");
 	        	    // strResult['m_ph']가 null이 아니고 strResult['memberFindPh']가 null이 아닌 경우
 	        	    // 실행할 코드를 여기에 추가합니다.
-	        	    alert(strResult['certiNum']);
-	        	    alert(strResult['m_ph']);
 	        	    $('#msg').html("인증번호 전송 성공! 인증번호를 입력해주세요.");
 	        	    $('#msg').css("color", "red");
 	        	    $('input[name=certiNum]').attr('value', strResult['certiNum']);
