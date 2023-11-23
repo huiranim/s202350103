@@ -66,11 +66,11 @@
     <div class="py-5">
       <div class="container">
         <div class="row w-100 align-items-center gx-lg-2 gx-0">
-          <div class="col-xxl-2 col-lg-3">
+          <div class="col-xxl-2 col-lg-2" style="margin-right: 35px;">
 
 	<!-- 로고/제목(데스크톱) -->
-            <a class="navbar-brand d-none d-lg-block" href="/">
-				<h1>
+            <a class="navbar-brand d-none d-lg-block" href="/" style="width: 200px;"  >
+				<h1 style="width: 200px; margin-right: 10px;">
 				<img alt="" src="../assets/images/favicon/DADOKLOGO.png" >
 				DADOK
 				</h1>
@@ -151,37 +151,50 @@
                   </svg>
                 </button>
               </div>
-              <c:if test="${member.m_admin == 1 }">
+             
                		<div>
+             			 <c:if test="${member.m_admin == 1 }">  		
 						<a href="mainBo" style="color: #581313;"><strong>
 	               		<i class="bi bi-universal-access-circle me-1" ></i>
 						 관리자 페이지 </strong></a>
+						 </c:if>
+						 	<br>
+						<c:if test="${member.m_num != 0 }"> 	
+						 	<a href="memberLogout" style="color: #581313;"><strong>
+				               		<i ></i>
+									 로그아웃 </strong></a>
+						</c:if> 	
 	               	</div>
-			    </c:if>
+        
             </div>
 
           </div>
         
-		<div class="col-md-2 col-md-5  d-block">
+		<div class="col-md-2 col-md-7  d-block">
 		    <!-- 검색 금비 -->
-	        <div class="input-group">
+	        <div class="input-group" style="margin-left: 10px;">
+	        
 				<select id="search_type" class="w-25 rounded" style="border-color: rgb(223, 226, 225);" >
 					<option value="title">도서제목</option>
 					<option value="writer">지은이</option>
 					<option value="publisher">출판사</option>
 				</select>&nbsp;&nbsp;
 	            <input id = "search_keyword" class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요." >
-	        </div>
-		</div>
+	      
+		
         <!-- 검색 버튼 -->
-        <div class="col-md-2 col-xxl-2 d-lg-block">
-          <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
+        <div class="col-md-1 col-xxl-2 d-lg-block">
+          <div style="margin-left: 10px; width: 65px; margin-right: 30px;">
+	          <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
             	data-bs-target="#locationModal" onclick="search()">검색  </button>
+            	</div>
+</div>
+</div>
         </div>
           
-          <div class="col-md-2 col-xxl-2 text-end d-none d-lg-block">
+          <div class="col-md-2 col-xxl-2 text-end d-none d-lg-block" style="width: 180px; margin-left: 10px; padding-left: 10px;">
 		          	<!-- 비 로그인 시 -->	
-	          <div class="list-inline">
+	          <div class="list-inline" style="margin-left: 13px;">
 		            <c:if test="${sessionScope.member == null }">
              			<div class="list-inline-item me-6">
 						<!-- 로그인 아이콘 -->
@@ -206,7 +219,7 @@
 		            <!-- 로그인 시 -->
 			     		<c:if test="${sessionScope.member != null }">
 			                <!-- 장바구니 아이콘 -->
-						    <div class="list-inline-item me-5">
+						    <div class="list-inline-item me-5" style="margin-left: 30px;">
 						    	<a href="memberCartList" class="" >
 						      		<i class="bi bi-cart2 fs-6 me-1"></i>장바구니
 						     	 	<span class="visually-hidden">unread messages</span>
@@ -489,7 +502,7 @@
                     <li><a class="dropdown-item" href="memberCommunity">커뮤니티 목록</a></li>
                     
                  <c:if test="${sessionScope.member != null }">
-                    <li><a class="dropdown-item" href="memberQna?m_num=${member.m_num }">내 게시글들</a></li>                  
+                    <li><a class="dropdown-item" href="memberMyCommunity?m_num=${member.m_num }">내 게시글들</a></li>                  
                   </c:if>  
                     
                   </ul>
