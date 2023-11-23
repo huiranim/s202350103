@@ -106,12 +106,29 @@
 		    )
 		WHERE rn = 1 
 	</select>
-	
+<!-- 	
 	<update id="htOrderUpdate" parameterType="Ka">
 		UPDATE orderr
 		SET    o_status      = 1
-		 WHERE o_order_num   = #{partner_order_id}
+		WHERE o_order_num   = #{partner_order_id}
 	</update>
+	 -->
+	 
+	<update id="htOrderUpdate" parameterType="Ka">
+		UPDATE orderr
+		<choose>
+			<when test="payment_method_type == MONEY">
+				  SET  o_status = 1
+ 			</when>
+			<when test="payment_method_type == CARD">
+				  SET  o_status = 1,
+				  	   o_card_num = #{approved_id}
+ 			</when>
+        </choose>
+		WHERE o_order_num   = #{partner_order_id}
+	</update>
+	
+		
 <!-- 	
 	<update id="htOrderUpdate" parameterType="Ka">
 		UPDATE orderr
