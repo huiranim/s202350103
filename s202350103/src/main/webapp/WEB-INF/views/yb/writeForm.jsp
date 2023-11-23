@@ -119,13 +119,11 @@
 		document.form.text1.value = document.form.file.value();
 	}
 	
-	function searchBtn() {
-			
+	function searchBtn() {			
 			var url = "searchBook";
 	        var name = "searchBook";
 	        var option = "position= absolute, top= 50%, left= 50%, width= 600, height= 750px, padding= 40px, text-align= center, background-color= rgb(255, 255, 255), border-radius= 10px, box-shadow= 0 2px 3px 0 rgba(34, 36, 38, 0.15), transform= translateX(-50%) translateY(-50%);"
 			window.open(url, name, option);
-
 	}
 	
 	var receivedImageURL = "";
@@ -141,7 +139,6 @@
 	
 	$(function(){
 		var check = '${check}';
-		alert("check -> "+check);
 		
 		if(check == 1){
 			alert("글 등록이 완료되었습니다.");

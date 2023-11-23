@@ -36,15 +36,23 @@
 	}
 </style>
 <script type="text/javascript">
-function openUpdate(cm_num) {
+	function openUpdate(cm_num) {
+		var url = "communityUpdate?cm_num="+cm_num;
+	    var name = "openUpdate";
+	    var option = "position= absolute, top= 50%, left= 50%, width= 600, height= 750px, padding= 40px, text-align= center, background-color= rgb(255, 255, 255), border-radius= 10px, box-shadow= 0 2px 3px 0 rgba(34, 36, 38, 0.15), transform= translateX(-50%) translateY(-50%);"
+		window.open(url, name, option);
+	}
+
+	function deleteConfirm(cm_num) {
+		if (confirm("정말로 삭제하시겠습니까?") == true){   
+			location.href="communityDelete?cm_num="+cm_num;
+			return true;
+	 	} else {
+		    	return false;
+	 	}
+	}
 	
-	var url = "communityUpdate?cm_num="+cm_num;
-    var name = "openUpdate";
-    var option = "position= absolute, top= 50%, left= 50%, width= 600, height= 750px, padding= 40px, text-align= center, background-color= rgb(255, 255, 255), border-radius= 10px, box-shadow= 0 2px 3px 0 rgba(34, 36, 38, 0.15), transform= translateX(-50%) translateY(-50%);"
-	window.open(url, name, option);
-
-}
-
+	
 </script>
 
 </head>
@@ -130,6 +138,7 @@ function openUpdate(cm_num) {
 				  </c:choose>
                 </div>
               </div>
+              <c:if test="${community.cm_image1 != null }">
               <div class="col-3" >
                 <div class="thumbnails-img">
                   <!-- img -->
@@ -144,6 +153,8 @@ function openUpdate(cm_num) {
 		 	      </c:choose>
                 </div>
               </div>
+              </c:if>
+              <c:if test="${community.cm_image2 != null }">
               <div class="col-3">
                 <div class="thumbnails-img">
                   <!-- img -->
@@ -158,6 +169,7 @@ function openUpdate(cm_num) {
 		 	      </c:choose>
                 </div>
               </div>
+              </c:if>
               <div class="col-3">
                 <div class="thumbnails-img">
                   <!-- img -->
@@ -227,14 +239,14 @@ function openUpdate(cm_num) {
               <div class="col-md-10 col-10">
                 <!-- btn -->
                 <c:if test="${member.m_num == community.m_num }">
-	                <button type="button" class="btn btn-primary"onclick="openUpdate(cm_num.value)">
-	                <i class="bi bi-arrow-left-right" title="수정하기"></i></button>
+	                <button type="button" class="btn btn-soft-primary"onclick="openUpdate(cm_num.value)">
+	                <i class="bi bi-pencil" title="수정하기"></i></button>
 	            </c:if>
 	            <c:if test="${member.m_num == community.m_num }">
-	                <a class="btn btn-primary" href="communityDelete?cm_num=${community.cm_num }">
-                <i class="bi bi-trash" title="삭제"></i></a>
+	               <button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-trash" title="삭제" onclick="deleteConfirm(cm_num.value)"></i></button>
+                
 	            </c:if>
-		            <a class="btn btn-primary" href="communityHitPush?cm_num=${community.cm_num }">
+		            <a class="btn btn-soft-primary" href="communityHitPush?cm_num=${community.cm_num }">
                 <i class="bi bi-hand-thumbs-up" title="좋아요"></i>(${community.cm_hitCnt })</a>
                 
               </div>

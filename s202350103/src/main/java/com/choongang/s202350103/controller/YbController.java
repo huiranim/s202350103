@@ -43,6 +43,7 @@ import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
 import com.choongang.s202350103.ybService.MemberService;
 import com.choongang.s202350103.ybService.Paging;
+import com.choongang.s202350103.ybService.communityPaging;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -342,13 +343,14 @@ public class YbController {
 		wishList.setStart(page.getStart());
 		wishList.setEnd(page.getEnd());
 		
-		System.out.println("YbController memberCartList() member.m_id -> " + member.getM_id());
+		System.out.println("YbController memberWishList() member.m_id -> " + member.getM_id());
 	
 		
 		// 찜목록 리스트
 		List<WishList> memberWishList = ms.memberWishList(wishList);
-		System.out.println("YbController memberCartList listCart.size() -> " + memberWishList.size());
-		System.out.println("YbController memberCartList listCart.title -> " + wishList.getNb_title());
+		System.out.println("YbController memberWishList memberWishList.size() -> " + memberWishList.size());
+		
+		model.addAttribute("page", page);
 		model.addAttribute("member", member);
 		model.addAttribute("memberWishList", memberWishList);
 		model.addAttribute("totalWishList", totalWishList);
@@ -374,14 +376,14 @@ public class YbController {
 		int pointListCnt = ms.pointListCnt(pointList);
 		System.out.println("YbController memberPointList pointListCnt ->" + pointListCnt);
 		// 포인트 리스트
-		List<PointList> memberPointList = ms.memberPointList(pointList);
+		
 		
 		// 페이징 처리
 		Paging page = new Paging(pointListCnt, currentPage);
 			
 		pointList.setStart(page.getStart());
 		pointList.setEnd(page.getEnd());
-		
+		List<PointList> memberPointList = ms.memberPointList(pointList);
 		System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
 		
 		model.addAttribute("page", page);
@@ -426,7 +428,7 @@ public class YbController {
 		member =(Member) session.getAttribute("member");
 		
 		int comListTotalCnt = ms.comListTotalCnt(community);
-		Paging page = new Paging(comListTotalCnt, currentPage);
+		communityPaging page = new communityPaging(comListTotalCnt, currentPage);
 		
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());
@@ -448,7 +450,7 @@ public class YbController {
 		
 		int m_num = member.getM_num();
 		int comMyListTotalCnt = ms.comMyListTotalCnt(m_num);
-		Paging page = new Paging(comMyListTotalCnt, currentPage);
+		communityPaging page = new communityPaging(comMyListTotalCnt, currentPage);
 		
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());

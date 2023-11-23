@@ -41,7 +41,7 @@
 			    
 			    box-sizing: border-box;
 			    margin-right: 30px;
-			    display: flex;
+/* 			    display: flex; */
 			    flex-direction: column;
 			    justify-content: center;
 			    align-items: center;
@@ -164,13 +164,21 @@
         <div class="col-md-12 mb-3">
         	<label class="form-label" for="comments"> 책 이미지</label>
         	<div class="upload-box">
-			  <div id="drop-file" class="drag-file">
+			  <span id="drop-file" class="drag-file">
 			    <img src="${community.cm_image }" alt="파일 아이콘" class="image" id="image" name="image">
 			    <input type="hidden" id="cm_image" name="cm_image"> 
-			  </div>
+			  </span>
+			  <span id="drop-file" class="drag-file custom-image">
+			    <c:if test="${community.cm_image1 != null}" >
+					<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image1}" alt="파일 아이콘" class="image" id="cm_image1" name="cm_image1" width="60px" height="60px">
+				</c:if> 
+			  </span>
+			  <c:if test="${community.cm_image2 != null}" >
+			  	<span id="drop-file" class="drag-file custom-image">
+					<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="파일 아이콘" class="image" id="cm_image2" name="cm_image2" width="60px" height="60px">
+			  	</span>
+			  </c:if>
 			</div>
-			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image1}" alt="파일 아이콘" class="image" id="cm_image1" name="cm_image1">
-			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="파일 아이콘" class="image" id="cm_image2" name="cm_image2">
         </div>
         <div class="col-md-12 mb-3">
 		        파일 : <input type="file" name="multiFile" multiple> <br>
