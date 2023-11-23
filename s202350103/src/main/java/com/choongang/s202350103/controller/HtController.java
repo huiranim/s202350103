@@ -442,7 +442,10 @@ public class HtController {
 		} 
 		
 		//Orderr 테이블 insert
-		os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
+		long o_order_num_length = orderr.getO_order_num();
+		if(o_order_num_length == 0) {//포인트충전 결제 --> 값 있음 / 일반 결제 --> 값 없음
+			os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
+		}
 		
 		//카카오페이 결제하기전 전송할 데이터 담기
 		KakaoPayApprovalVO kakaoSendData = null;
@@ -551,8 +554,8 @@ public class HtController {
 		  System.out.println("kakaoPaySuccess Exception -> " + e.getMessage());
 			
 		}
-		 // 메일 보내기
-		 emailService.sendEmail("whgudxor1@naver.com", "Test Subject", "Hello, this is a test email.");
+		 // 메일 보내기(고도화 예정)
+		 //emailService.sendEmail("whgudxor1@naver.com", "Test Subject", "Hello, this is a test email.");
 		 
 		 System.out.println("kakaoPaySuccess end");
 		 
@@ -560,7 +563,7 @@ public class HtController {
 		 model.addAttribute("result", result);
 		 model.addAttribute("member", member);
 		 
-		 return "/ht/kakaoPaySuccess";
+		 return "/ht/foPaySuccess";
 	 }
 	 
 	 // 결제 실패
