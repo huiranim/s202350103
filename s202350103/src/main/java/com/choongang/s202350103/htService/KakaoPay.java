@@ -33,7 +33,7 @@ public class KakaoPay {
     private KakaoPayReadyVO kakaoPayReadyVO;
     private KakaoPayApprovalVO kakaoPayApprovalVO;
     
-    public String kakaoPayReady(@ModelAttribute("kakaoSendData") KakaoPayApprovalVO kakaoSendData, RedirectAttributes redirect) {
+    public String kakaoPayReady(@ModelAttribute("ka") KakaoPayApprovalVO ka, RedirectAttributes redirect) {
     	System.out.println("KakaoPay service Start....");
  
         RestTemplate restTemplate = new RestTemplate();
@@ -43,22 +43,22 @@ public class KakaoPay {
         headers.add("Authorization", "KakaoAK " + "ce89e6732790b14c29f319954de36e31");
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
-        System.out.println("KakaoPay service kakaoSendData ---> 여기까지 왔어 1" + kakaoSendData);
+        System.out.println("KakaoPay service ka ---> 여기까지 왔어 1" + ka);
         
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         System.out.println("KakaoPay service 여기까지 왔어 2");
         params.add("cid", "TC0ONETIME");
-        params.add("partner_order_id", kakaoSendData.getPartner_order_id()); //가맹점 주문번호, 결제 준비 API 요청과 일치해야 함
-        params.add("partner_user_id", kakaoSendData.getPartner_user_id()); // 가맹점 회원 id, 결제 준비 API 요청과 일치해야 함
-        params.add("item_name", kakaoSendData.getItem_name());
-        params.add("quantity", String.valueOf(kakaoSendData.getQuantity()));
-        params.add("total_amount", String.valueOf(kakaoSendData.getAmount().getTotal()));
+        params.add("partner_order_id", ka.getPartner_order_id()); //가맹점 주문번호, 결제 준비 API 요청과 일치해야 함
+        params.add("partner_user_id", ka.getPartner_user_id()); // 가맹점 회원 id, 결제 준비 API 요청과 일치해야 함
+        params.add("item_name", ka.getItem_name());
+        params.add("quantity", String.valueOf(ka.getQuantity()));
+        params.add("total_amount", String.valueOf(ka.getAmount().getTotal()));
         params.add("tax_free_amount", "100");
         
-        String plus = "partner_order_id="+kakaoSendData.getPartner_order_id()+
-		  			  "&partner_user_id="+kakaoSendData.getPartner_user_id()+
-		  			  "&amount.total="+kakaoSendData.getAmount().getTotal();
+        String plus = "partner_order_id="+ka.getPartner_order_id()+
+		  			  "&partner_user_id="+ka.getPartner_user_id()+
+		  			  "&amount.total="+ka.getAmount().getTotal();
         String total = "http://localhost:8200/kakaoPaySuccess?" + plus;
         
         params.add("approval_url", total);
@@ -90,12 +90,12 @@ public class KakaoPay {
         
     }
     
-    public KakaoPayApprovalVO kakaoPayInfo(String pg_token, @ModelAttribute("kakaoSendData") KakaoPayApprovalVO kakaoSendData) {
+    public KakaoPayApprovalVO kakaoPayInfo(String pg_token, @ModelAttribute("ka") KakaoPayApprovalVO ka) {
     	 
-    	System.out.println("KakaoPayInfoVO............................................");
-    	System.out.println("-----------------------------");
+        System.out.println("KakaoPayInfoVO............................................");
+        System.out.println("-----------------------------");
         
-        System.out.println("KakaoPayApprovalVO service kakaoSendData ---> " + kakaoSendData);
+        System.out.println("KakaoPayApprovalVO service ka ---> " + ka);
         
         RestTemplate restTemplate = new RestTemplate();
         
@@ -109,10 +109,10 @@ public class KakaoPay {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReadyVO.getTid());
-        params.add("partner_order_id", kakaoSendData.getPartner_order_id());
-        params.add("partner_user_id", kakaoSendData.getPartner_user_id());
+        params.add("partner_order_id", ka.getPartner_order_id());
+        params.add("partner_user_id", ka.getPartner_user_id());
         params.add("pg_token", pg_token);
-        params.add("total_amount", String.valueOf(kakaoSendData.getAmount().getTotal()));
+        params.add("total_amount", String.valueOf(ka.getAmount().getTotal()));
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
