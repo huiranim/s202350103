@@ -111,10 +111,10 @@
 		             	<div class="col-3 col-md-2">
 		                	<c:choose>
 	                           <c:when test="${fn:contains(cart.nb_image, 'http')}">
-	                              <img src="${cart.nb_image}" alt="Ecommerce"  width="75px" height="110px">
+	                              <img src="${cart.nb_image}" alt="Ecommerce"  width="75px" height="90px">
 	                           </c:when>
 	                           <c:otherwise>
-	                              <img src="${pageContext.request.contextPath}/upload/${cart.nb_image}" alt="Ecommerce"  width="75px" height="110px">
+	                              <img src="${pageContext.request.contextPath}/upload/${cart.nb_image}" alt="Ecommerce"  width="75px" height="90px">
 	                           </c:otherwise>
                         	</c:choose>
 		                </div>

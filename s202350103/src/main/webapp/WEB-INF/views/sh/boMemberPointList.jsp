@@ -19,7 +19,7 @@
 				return false;
 			}
 		} else
-			alert("포인트를 입력해주세요.");
+			alert("숫자를 입력해주세요.");
 			return false;
 	}
 	
@@ -37,7 +37,7 @@
 					return false;
 				}
 			} else {
-				alert("포인트를 입력해주세요.");
+				alert("숫자를 입력해주세요.");
 				return false;
 			}
 		}else{

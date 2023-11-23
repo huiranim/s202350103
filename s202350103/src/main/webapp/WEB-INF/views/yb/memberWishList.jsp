@@ -108,8 +108,16 @@
 		                <c:forEach var="wishList" items="${memberWishList }">
 		                  <tr>
 		                    <td class="align-middle">
-		                      <a href="newbookDetail?nb_num=${wishList.nb_num }"><img src="${wishList.nb_image }"
-		                          class="icon-shape icon-xxl" alt=""></a>
+		                      <div class="col-3 col-md-2">
+			                	<c:choose>
+		                           <c:when test="${fn:contains(wishList.nb_image, 'http')}">
+		                              <img src="${wishList.nb_image}" alt="Ecommerce"  width="75px" height="90px">
+		                           </c:when>
+		                           <c:otherwise>
+		                              <img src="${pageContext.request.contextPath}/upload/${wishList.nb_image}" alt="Ecommerce"  width="75px" height="90px">
+		                           </c:otherwise>
+	                        	</c:choose>
+		               		  </div>
 							 
 		                    </td>
 		                    <td class="align-middle">

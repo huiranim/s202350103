@@ -60,5 +60,21 @@ public interface MemberDao {
 
 	int 				pointListCnt(PointList pointList);
 
+	Community 			selectBookDetail(int cm_num);
+
+	List<Community> 	sameDetailList(int nb_num);
+
+	int		 			readCntUp(int cm_num);
+
+	int 				communityUpdateDo(Community community);
+
+	int 				communityHitPush(int cm_num);
+
+	int 				communityDelete(int cm_num);
+
+	int 				comMyListTotalCnt(int m_num);
+
+	List<Community> 	communityMyList(Community community);
+
 
 }

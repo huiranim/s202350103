@@ -51,20 +51,20 @@
 
     </div>
     <div style="float: right; margin-bottom: 20px;" >
-	   <a href="memberMyCommunity">
-	   	<button type="button" class="btn btn-dark" style="margin-right: 20px;">내가 쓴 글</button>
+       <a href="memberCommunity">
+	     <button type="button" class="btn btn-dark" style="margin-right: 20px;">전체 목록</button>
 	   </a>
 	   <button type="button" class="btn btn-dark" id="openWrite" onclick="openWrite()">글 쓰기</button>
 	 </div>
 
 <div id="div1" class="mb-3">
 		  <div class="mb-3 mt-6">
-	         <p><a href="#">게시글 목록입니다.</a></p>
-<%-- 	         <p><a href="#">${member.m_id } 님의 장바구니 목록입니다.</a></p> --%>
-	               총 게시글 : ${comListTotalCnt }		
+	         <p><a href="#">독후감 목록입니다.</a></p>
+	         <p><a href="#">${member.m_name } 님의 독후감 목록입니다.</a></p>
+	               총 게시글 : ${comMyListTotalCnt }		
           </div>
 	 <div class="row g-4 row-cols-xl-3 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
-	 	<c:forEach items="${communityList }" var="community">
+	 	<c:forEach items="${communityMyList }" var="community">
 			<div class="col" style="margin-bottom:16px;" >
               <!-- card -->
               <div class="card card-product">
