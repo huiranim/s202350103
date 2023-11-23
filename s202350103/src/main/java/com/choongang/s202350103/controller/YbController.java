@@ -41,6 +41,7 @@ import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
+import com.choongang.s202350103.sjService.OldbookService;
 import com.choongang.s202350103.ybService.MemberService;
 import com.choongang.s202350103.ybService.Paging;
 import com.choongang.s202350103.ybService.communityPaging;
@@ -64,13 +65,16 @@ public class YbController {
 	private final JavaMailSender mailSender;
 	final DefaultMessageService messageService; 
 	private final NewBookService nbs;
-
-	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs) {
+	private final OldbookService obs;
+	
+	
+	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs, OldbookService obs ) {
 		this.ms = ms;
 		this.session = session;
 		this.mailSender = mailSender;
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
 		this.nbs = nbs;
+		this.obs = obs;
 	}
 	
 
@@ -86,7 +90,7 @@ public class YbController {
 	
 	// Main Page
 	@RequestMapping(value = "/")
-	public String main(Member member, NewBook newbook, HttpServletRequest request, Model model, Cart cart) {
+	public String main(Member member, NewBook newbook,OldBook oldBook , HttpServletRequest request, Model model, Cart cart) {
 		System.out.println("YbController main() start... ");
 		member =(Member) session.getAttribute("member");
 		if(member == null) {
@@ -98,6 +102,13 @@ public class YbController {
 			// 다독 전체 최대 조회수 도서 상품 리스트
 			NewBook hitBook1 = nbs.selectAllHitNbNum();
 			System.out.println("hitList -> "+hitList.size());
+			
+			// oldBook 4개 랜덤
+			   List<OldBook> ObNumRedomSel = obs.selectRendomObNum();
+			   model.addAttribute("ObNumRedomSel", ObNumRedomSel);
+			   System.out.println("ObNumRedomSel->"+ObNumRedomSel.size());
+			   System.out.println("ObNumRedomSel->"+ObNumRedomSel);
+			
 			
 			// 출간일 기준 5개의 도서 리스트
 			List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
@@ -117,6 +128,12 @@ public class YbController {
 		// 다독 전체 최대 조회수 도서 상품 리스트
 		NewBook hitBook1 = nbs.selectAllHitNbNum();
 		System.out.println("hitList -> "+hitList.size());
+		
+		// oldBook 4개 랜덤
+		   List<OldBook> ObNumRedomSel = obs.selectRendomObNum();
+		   model.addAttribute("ObNumRedomSel", ObNumRedomSel);
+		   System.out.println("ObNumRedomSel->"+ObNumRedomSel.size());
+		   System.out.println("ObNumRedomSel->"+ObNumRedomSel);
 		
 		// 출간일 기준 5개의 도서 리스트
 		List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
@@ -773,17 +790,17 @@ public class YbController {
 	      return "yb/communityUpdate";
 	      
 	   }
+	   // 게시글 선택시
 	   @GetMapping(value = "postDetailForm")
 	   public String postDetailForm(Community community, Model model, String currentPage, int cm_num, Member member) {
 	      System.out.println("YbController postDetailForm() start..");
 	      member =(Member) session.getAttribute("member");
-	      
 	      community = ms.selectBookDetail(cm_num);
 	      community.setCm_num(cm_num);
 	      
 	      int nb_num = community.getNb_num();
 	      List<Community> sameDetailList = ms.sameDetailList(nb_num);
-	      
+	      System.out.println();
 	      int readCntUp = ms.readCntUp(cm_num);
 	      
 	      
@@ -795,28 +812,9 @@ public class YbController {
 	      model.addAttribute("community", community);      
 	      System.out.println("YbController postDetailForm() readCntUp->"+readCntUp);
 
-	      
-	      return "yb/postDetailForm";
-	      
+	      return "yb/postDetailForm";	      
 	   }
 	   
-	 //날짜별로 폴더생성
-		 public String makeDir() {
-		 	Date date=new Date();
-		 	SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-		 	String now=sdf.format(date);
-
-		 	String path=uploadpath + "\\" +now; //경로
-		 	File file = new File(path);
-
-		 	if(file.exists()==false) {//파일이 존재하면 true
-		 		file.mkdir(); //폴더생성
-		 	}
-
-		 	return path;
-		 }
-		 
-
 	   // 커뮤니티 글 등록
 	   @PostMapping(value = "communityInsert")
 	   public String communityInsert(Member member, Community community, Model model, NewBook newbook, 
@@ -837,7 +835,7 @@ public class YbController {
 		  if(!fileCheck.exists()) fileCheck.mkdirs();
 		  List<Map<String, String>> fileList = new ArrayList<>();
 		  Map<String, String> map = null;
-		  if(multiFileList.size() > 1) {
+		  if(multiFileList.size() >= 1) {
 			  for(int i = 0; i < multiFileList.size(); i++) {
 				  String originFile = multiFileList.get(i).getOriginalFilename();
 				  String ext = originFile.substring(originFile.lastIndexOf("."));
@@ -898,9 +896,6 @@ public class YbController {
 		      return "yb/writeForm";
 		  } 
 		  
-		    
-
-	     
 	   // 커뮤니티 글 등록 시 책 선택
 	   @GetMapping(value = "searchListBook")
 	   public String searchListBook(NewBook newbook, Model model, String currentPage) {
@@ -920,73 +915,76 @@ public class YbController {
 	   }
 	   // 게시글 수정
 	   @PostMapping(value = "communityUpdateDo")
-	   public String communityUpdateDo(Community community, Member member,
+	   public String communityUpdateDo(Community community, Member member, Model model,
 			   						   MultipartHttpServletRequest files, @RequestParam("multiFile") List<MultipartFile> multiFileList, HttpServletRequest request) {
 		   System.out.println("YbController communityUpdateDo() start..");
-		   member =(Member) session.getAttribute("member");
-		   System.out.println("multiFileList : " + multiFileList);
-			// path 가져오기
-			  String path = request.getSession().getServletContext().getRealPath("upload/yb");
-			  String root = path + "\\";
-			  File fileCheck = new File(root);
-			  System.out.println("path -> " + path);
-			  System.out.println("root-> " + root);
-			  System.out.println("fileCheck -> " + fileCheck);
-			
-		      if(!fileCheck.exists()) fileCheck.mkdirs();
-			  List<Map<String, String>> fileList = new ArrayList<>();
-			  Map<String, String> map = null;
-			  
-			  if(multiFileList.size() > 1) {
-				  for(int i = 0; i < multiFileList.size(); i++) {
-					  String originFile = multiFileList.get(i).getOriginalFilename();
-					  String ext = originFile.substring(originFile.lastIndexOf("."));
-					  String changeFile = UUID.randomUUID().toString() + ext;
-			
-					  map = new HashMap<>();
-					  map.put("originFile", originFile);
-					  map.put("changeFile", changeFile);	
-					  fileList.add(map);
-				  }
-			  }
-			  System.out.println(fileList);
-			  // 파일업로드
-			  try {
-				  if(fileList.size() > 0) {
-					  for(int i = 0; i < multiFileList.size(); i++) {
-						  File uploadFile = new File(root + "\\" + fileList.get(i).get("changeFile"));
-						  multiFileList.get(i).transferTo(uploadFile);
-					  }
-				  }
-				  System.out.println("다중 파일 업로드 성공!");
-				
-			  } catch (IllegalStateException | IOException e) {
-				  System.out.println("다중 파일 업로드 실패 ㅠㅠ");
-				  // 만약 업로드 실패하면 파일 삭제
-				  for(int i = 0; i < multiFileList.size(); i++) {
-					  new File(root + "\\" + fileList.get(i).get("changeFile")).delete();
-				  }
-				  e.printStackTrace(); 
-			  }
-			  // map List String으로 변환
-			  List<String> valueList = fileList.stream().filter(t -> t.containsKey("changeFile")).map(m -> m.get("changeFile").toString()).collect(Collectors.toList());
-			  String cm_image1 = "";
-			  String cm_image2 = "";
-			  if(valueList.size() == 1) {
-				  cm_image1 = valueList.get(0);				  
-			  } else if(valueList.size() > 1){
-				  cm_image1 = valueList.get(0);
-				  cm_image2 = valueList.get(1);
-			  }
+	      	
+	      	// 받아온것 출력 확인
+		  System.out.println("multiFileList : " + multiFileList);
+		  System.out.println("multiFileList.size : " + multiFileList.size());
+		// path 가져오기
+		  String path = request.getSession().getServletContext().getRealPath("upload/yb");
+		  String root = path + "\\";
+		  File fileCheck = new File(root);
+		  System.out.println("path -> " + path);
+		  System.out.println("root-> " + root);
+		  System.out.println("fileCheck -> " + fileCheck);
 
-		      System.out.println("cm_imag1 -> " + cm_image1);
-		      System.out.println("cm_imag2 -> " + cm_image2);
-
-		      community.setCm_image1(cm_image1);
-		      community.setCm_image2(cm_image2);
- 		   int communityUpdateDo = ms.communityUpdateDo(community);
-		   
-		   return "yb/postDetailForm";
+		  if(!fileCheck.exists()) fileCheck.mkdirs();
+		  List<Map<String, String>> fileList = new ArrayList<>();
+		  Map<String, String> map = null;
+		  if(multiFileList.size() > 1) {
+			  for(int i = 0; i < multiFileList.size(); i++) {
+				  String originFile = multiFileList.get(i).getOriginalFilename();
+				  String ext = originFile.substring(originFile.lastIndexOf("."));
+				  String changeFile = UUID.randomUUID().toString() + ext;
+		
+				  map = new HashMap<>();
+				  map.put("originFile", originFile);
+				  map.put("changeFile", changeFile);	
+				  fileList.add(map);
+			  }
+		  }
+		  System.out.println(fileList);
+		  System.out.println(fileList.size());
+		  
+		  // 파일업로드
+		  
+		  try {
+			  if(fileList.size() > 0) {
+				  for(int i = 0; i < multiFileList.size(); i++) {
+					  File uploadFile = new File(root + "\\" + fileList.get(i).get("changeFile"));
+					  multiFileList.get(i).transferTo(uploadFile);
+				  }
+			  }
+			  System.out.println("다중 파일 업로드 성공!");
+			
+		  } catch (IllegalStateException | IOException e) {
+			  System.out.println("다중 파일 업로드 실패 ㅠㅠ");
+			  // 만약 업로드 실패하면 파일 삭제
+			  for(int i = 0; i < multiFileList.size(); i++) {
+				  new File(root + "\\" + fileList.get(i).get("changeFile")).delete();
+			  }
+			  e.printStackTrace(); 
+		  }
+		  List<String> valueList = fileList.stream().filter(t -> t.containsKey("changeFile")).map(m -> m.get("changeFile").toString()).collect(Collectors.toList()); 
+		  String cm_image1 = "";
+		  String cm_image2 = "";
+		  if(valueList.size() == 1) {
+			  cm_image1 = valueList.get(0);				  
+		  } else if(valueList.size() > 1){
+			  cm_image1 = valueList.get(0);
+			  cm_image2 = valueList.get(1);
+		  }
+		  community.setCm_image1(cm_image1);
+	      community.setCm_image2(cm_image2);
+	      System.out.println("getM_num -> " + community.getM_num());
+	      System.out.println("getM_num -> " + community.getCm_image1());
+	      System.out.println("getM_num -> " + community.getCm_image2());
+		  int communityUpdateDo = ms.communityUpdateDo(community);
+		  System.out.println("ybController communityUpdateDo result -> " + communityUpdateDo);
+		  
+		  return "yb/postDetailForm";
 	   }
 	   
 	   // 게시글 삭제
@@ -1009,9 +1007,6 @@ public class YbController {
 		   model.addAttribute("communityHitPush", communityHitPush);
 		   return "redirect:/postDetailForm";
 	   }
-	   
-	   private String uploadpath;
-
 	 
 	
 }

@@ -555,4 +555,35 @@ import lombok.extern.slf4j.Slf4j;
 			model.addAttribute("joinedCount",joinedCount);
 			return "sh/boJoinedMember";
 		}
+		
+		@RequestMapping (value = "searchDeatil1")
+		public String searchDetail1(@RequestParam("status") String status, String currentPage, Model model) {
+			System.out.println("shController searchDetail1() Start...");
+			int totalAtt = ps.totalAtt();
+			int totalQuiz = ps.totalQuiz();
+			int totalEvent = totalAtt + totalQuiz;
+			System.out.println("shController Attendance Count->"+ totalAtt);
+			System.out.println("shController Quiz Count->"+ totalQuiz);
+			
+			Paging page = new Paging(totalEvent, currentPage);
+			Attendance attendance = new Attendance();
+			int start = page.getStart();
+			int end = page.getEnd();
+			attendance.setStart(start);
+			attendance.setEnd(end);
+			List<Attendance> eventList = null;
+			
+			switch(status) {
+				case "all": 
+					eventList = ps.searchDetail11(attendance);
+				case  "keep":
+					eventList = ps.searchDetail12(attendance);
+				case "stop":
+					eventList = ps.searchDetail13(attendance);
+			}
+			
+			model.addAttribute("event",eventList);
+			
+			return "forward:/boEventList";
+		}
 }

@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.domain.AmountVO;
 import com.choongang.s202350103.domain.KakaoPayApprovalVO;
+import com.choongang.s202350103.htService.EmailService;
 import com.choongang.s202350103.htService.KakaoPay;
 //import com.choongang.s202350103.htService.KakaoPay;
 import com.choongang.s202350103.htService.OrderrService;
@@ -52,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HtController {
 	private final OrderrService os;
 	private final ReviewService rs;
+	private final EmailService emailService;
 
 	
 	@RequestMapping("/reviewList")
@@ -380,7 +383,6 @@ public class HtController {
 		return "/ht/foOrderForm";
 	}
 
-	 
 	 @RequestMapping("/orderAction")
 	 public String orderAction(
 			 					 RedirectAttributes redirect,
@@ -440,70 +442,181 @@ public class HtController {
 		} 
 		
 		//Orderr 테이블 insert
-		os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
-		
-		//Orderr, Orderr_Detail 조회
-		System.out.println("htController orderAction orderr---> " + orderr);
-		Orderr orderr2 = os.orderPayment(orderr);
-		
-		// kakaopay에 보낼것 담을 domain
-		KakaoPayApprovalVO ka = new KakaoPayApprovalVO();
-		
-		// 카카오에서 요청한 변수명과 타입으로 변경
-		String partner_order_id = String.valueOf(orderr2.getO_order_num());
-		String partner_user_id  = String.valueOf(orderr2.getO_rec_name());
-		Integer quantity = orderr2.getO_order_count();
-		
-		String item_name = null;
-		if(quantity == 1) {
-			item_name = orderr2.getNb_title();
-		} else {
-			item_name = orderr2.getNb_title() + " 외 " + quantity + "개";
+		long o_order_num_length = orderr.getO_order_num();
+		if(o_order_num_length == 0) {//포인트충전 결제 --> 값 있음 / 일반 결제 --> 값 없음
+			os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
 		}
-		AmountVO amountVO = new AmountVO();
-		amountVO.setTotal(orderr2.getO_pay_price());
 		
-		ka.setPartner_order_id(partner_order_id);
-		ka.setPartner_user_id(partner_user_id);
-		ka.setItem_name(item_name);
-		ka.setQuantity(quantity);
-		ka.setAmount(amountVO);
+		//카카오페이 결제하기전 전송할 데이터 담기
+		KakaoPayApprovalVO kakaoSendData = null;
+		try {
+			kakaoSendData = kakaoSendData(orderr);
+		} catch (Exception e) {
+			System.out.println("controller KakaoPayApprovalVO kakaoSendData -> " + e.getMessage());
+		}
 		
-		System.out.println("Kakao ka---> " +  ka);
+		System.out.println("KakaoPayApprovalVO kakaoSendData---> " +  kakaoSendData);
 		
-		redirect.addFlashAttribute("ka", ka);
+		redirect.addFlashAttribute("kakaoSendData", kakaoSendData);
+		
+		
 		
 		return "redirect:kakaoPay";
 	}
+	 
+	 // 내장 클래스
+	 // 카카오페이 결제하기 위해 필요한 필수 데이터를 카카오페이 DTO에 담는 내장 클래스
+	 // 필수 데이터 1.partner_order_id(주문번호 또는 회원번호), 
+	 //		    2.partner_user_id(회원 이름),
+	 //			3.amount(결제 금액),
+	 //         4.item_name(상품명),
+	 //			5.quantity(결제 수량)
+	 private KakaoPayApprovalVO kakaoSendData(Orderr orderr) {
+		//필수 데이터 조회
+		System.out.println("kakaoSendData orderr---> " + orderr);
+		Orderr kakaoSendData = os.orderPayment(orderr);
+		
+		//카카오에서 요청한 DTO 변수명과 타입으로 변경
+		String partner_order_id = String.valueOf(kakaoSendData.getO_order_num()); //주문번호 또는 회원번호
+		String partner_user_id  = String.valueOf(kakaoSendData.getO_rec_name()); //회원 이름
+		Integer quantity = kakaoSendData.getO_order_count(); //결제 수량
+		String item_name = null; //상품명
+		if(quantity == 1) {// 1개 구매일 경우
+			item_name = kakaoSendData.getNb_title(); 
+		} else {           // 여러개 구매일 경우
+			item_name = kakaoSendData.getNb_title() + " 외 " + (quantity-1) + "개";
+		}
+		AmountVO amountVO = new AmountVO(); //결제금액
+		amountVO.setTotal(kakaoSendData.getO_pay_price());
+		
+		// kakaopay에 보낼것을 KakaoPayApprovalVO DTO에 담기
+		KakaoPayApprovalVO kakaoDto = new KakaoPayApprovalVO();
+		kakaoDto.setPartner_order_id(partner_order_id);
+		kakaoDto.setPartner_user_id(partner_user_id);
+		kakaoDto.setItem_name(item_name);
+		kakaoDto.setQuantity(quantity);
+		kakaoDto.setAmount(amountVO);
+		
+		System.out.println("kakaoDto---> " + kakaoDto);
+		
+		// 결제할 정보담은 DTO 리턴
+		return kakaoDto;
+	 }
+	 
 
-	 // 카카오페이
+	 // 카카오페이 결제 요청
 	 @Setter(onMethod_ = @Autowired)
 	 private KakaoPay kakaopay;  // Service
 
 	 @RequestMapping("/kakaoPay") //Get : 정보를 요청하기위해 사용(Read), Post : 정보를 입력하기위해 사용(Create)
 	 public String kakaoPay(RedirectAttributes redirect,
-			 				@ModelAttribute("ka") KakaoPayApprovalVO ka) {
+			 				@ModelAttribute("kakaoSendData") KakaoPayApprovalVO kakaoSendData) {
 		 log.info("kakaoPay post............................................");
 		 
-		 System.out.println("kakaoPay ka---> " + ka);
+		 System.out.println("kakaoPay kakaoSendData---> " + kakaoSendData);
 		 
-		 redirect.addFlashAttribute("ka",ka);
-		 return "redirect:" + kakaopay.kakaoPayReady(ka, redirect);
+		 redirect.addFlashAttribute("kakaoSendData",kakaoSendData);
+		 return "redirect:" + kakaopay.kakaoPayReady(kakaoSendData, redirect);
 	 }
-   
+	 
+	 // 결제 성공
 	 @RequestMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
 	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, 
-			 						@ModelAttribute("ka") KakaoPayApprovalVO ka, Model model) {
+			 						@ModelAttribute("kakaoDto") KakaoPayApprovalVO kakaoDto, Model model, HttpSession session, Member member) {
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		 
 		 System.out.println("kakaoPaySuccess get............................................");
 		 System.out.println("kakaoPaySuccess pg_token : " + pg_token);
-		 System.out.println("kakaoPaySuccess ka --> " + ka);
+		 System.out.println("kakaoPaySuccess kakaoDto --> " + kakaoDto);
 		 
-		 int result = 1;
+		 // orderr update 결과
+		 int result = 0;
 		 
-		 model.addAttribute("ka", kakaopay.kakaoPayInfo(pg_token, ka));
+		 // 카카오 결제 성공 응답 데이터
+		 //KakaoPayApprovalVO kakaoResponse =  null;
+		 try {
+			// 카카오 결제 성공 응답 데이터
+			kakaoDto =  kakaopay.kakaoPayInfo(pg_token, kakaoDto);
+			
+			System.out.println("kakaoDto---> " + kakaoDto);
+			
+			// orderr update(주문상태 변경)
+			result = os.PaySuccess(kakaoDto);
+			 
+		 }catch (Exception e) {
+		  System.out.println("kakaoPaySuccess Exception -> " + e.getMessage());
+			
+		}
+		 // 메일 보내기(고도화 예정)
+		 //emailService.sendEmail("whgudxor1@naver.com", "Test Subject", "Hello, this is a test email.");
+		 
+		 System.out.println("kakaoPaySuccess end");
+		 
+		 model.addAttribute("kakaoResponse", kakaoDto);
 		 model.addAttribute("result", result);
+		 model.addAttribute("member", member);
 		 
-		 return "/ht/kakaoPaySuccess";
+		 return "/ht/foPaySuccess";
+	 }
+	 
+	 // 결제 실패
+	 @RequestMapping("/kakaoPaySuccessFail") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
+	 public String kakaoPaySuccessFail(Model model, HttpSession session, Member member) {
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		 
+		 System.out.println("kakaoPaySuccess get............................................");
+		 
+		 int result = 2;
+		 
+		 try {
+			 model.addAttribute("result", result);
+			 model.addAttribute("member", member);
+		 }catch (Exception e) {
+		  System.out.println("kakaoPaySuccessFail Exception -> " + e.getMessage());
+			
+		}
+		 System.out.println("kakaoPaySuccessFail end");
+		 return "/ht/foPaySuccess";
+	 }
+	 
+	 @RequestMapping("/kakaoPayCancel") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
+	 public String kakaoPayCancel(Model model, HttpSession session, Member member) {
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		 
+		 System.out.println("kakaoPayCancel get............................................");
+		 
+		 int result = 3;
+		 
+		 try {
+			 model.addAttribute("result", result);
+			 model.addAttribute("member", member);
+		 }catch (Exception e) {
+		  System.out.println("kakaoPayCancel Exception -> " + e.getMessage());
+			
+		}
+		 System.out.println("kakaoPayCancel end");
+		 return "/ht/foPaySuccess";
 	 }
 	 
 }

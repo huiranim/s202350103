@@ -31,8 +31,6 @@
          dataType : 'json',
          success : function(strResult) {
         	var jsonStr = JSON.stringify(strResult);
-        	alert(jsonStr);
-        	alert(strResult['strResult']);
             if(strResult['strResult'] == 1) {
 				$('#msg').html("비밀번호가 일치합니다.");
 				$('#msg').css("color", "#0aad0a");
