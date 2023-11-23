@@ -32,8 +32,6 @@
 	    	  var jsonStr = JSON.stringify(strResult);
 	          if(strResult['certiNum'] != null){
 	        	 alert("인증번호 전송중... 잠시만 기다려주세요.");
-	        	 alert(strResult['certiNum']);
-	        	 alert(strResult['m_email']);
 	             $('#msg').html("인증번호 전송 성공! 인증번호를 입력해주세요.");
 	             $('#msg').css("color", "red");
 	             $('input[name=certiNum]').attr('value',strResult['certiNum']);

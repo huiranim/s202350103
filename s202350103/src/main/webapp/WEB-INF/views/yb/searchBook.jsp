@@ -27,11 +27,11 @@
 <style type="text/css">
 	#container {
 		 position: absolute;
-		  top: 50%;
+		  top: 90%;
 		  left: 50%;
 		
 		  width: 600px;
-		  height: 650px;
+		  height: 1400px;
 		
 		  padding: 40px;
 		
@@ -44,9 +44,6 @@
 			}
 </style>
 <script type="text/javascript">
-	function searchBtn(nb_num) {
-		
-	}
 	function sendChildValue(title, image, nb_num){
 		opener.setChildValue(title, image, nb_num);
 		window.close();
@@ -72,7 +69,7 @@
 	        <div>
 	          <div class="py-3">
 	          	<div class="">
-			        <table class="table text-nowrap table-with-checkbox" style="table-layout: fixed">
+			        <table class="table table-with-checkbox" style="table-layout: auto width:120;height:80;overflow-x:hidden;overflow-y:hidden">
 			                <thead class="table-light">
 			                  <tr>
 			                    <th></th>
@@ -95,14 +92,14 @@
 					                        	</c:choose>
 							                </div>
 				                		</td>
-				                		<td style="word-break:break-all; width: 310px;">
-				                			<div class="col-4 col-md-5">
+				                		<td width="50%" style="word-break:break-all"">
+
 							                    <!-- 도서 제목 -->
 							                    <a href="newbookDetail?nb_num=${book.nb_num }" class="text-inherit"><h6 class="mb-0">${book.nb_title }</h6></a>
 							                    <span><small class="text-muted">${book.nb_publisher }</small></span>
 							                    <!-- text -->
 							                    <span class="text-muted">${book.nb_writer }</span>
-							                </div>
+
 				                		</td>
 				                		
 				                		<td  width="10px;" style="padding-top: 30px;">
