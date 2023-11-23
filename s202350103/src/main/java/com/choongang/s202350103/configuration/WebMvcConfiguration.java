@@ -29,6 +29,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/orderForm");					// 주문 등록
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberMyCommunity");			// 커뮤니티 내 게시물
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberPointList");			// 커뮤니티 내 게시물
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeOb");               		//중고판매 신청완료
+	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObCal");            	//중고판매 정산안내
+	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObTrans");         	//중고판매 운송장
 		
 		
 		// 영준 InterCeptor (Parameter로 다룬 페이지)
@@ -37,6 +40,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberQna");						// 질문 등록
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberQnaOne");					// 1:1 문의
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOna");					// 내 질문
+		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberPointList");				// 내 포인트 이력
 
 		// 로그인 후 관리자 권한 InterCeptor (비관리자 접근 막을 페이지)
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/mainBo");				// 관리자 메인
