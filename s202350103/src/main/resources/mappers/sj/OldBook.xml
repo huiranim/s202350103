@@ -21,18 +21,10 @@
 		</choose>			
 	</select>
 
-	<select id="totObCnt2" resultType="int">
+	<select id="totObCnt2" resultType="int" parameterType="OldBook">
 		SELECT Count(*) 
 		FROM oldbook o , newbook n 
 		WHERE o.nb_num = n.nb_num
-			<choose>
-				<when test="nb_category1 == 1">
-				AND	 nb_category1 = 1 
-				</when>	
-			 	<when test="nb_category1 == 2 ">
-			 	   AND  	nb_category1 = 2 
-			 	</when>
-			</choose>
 			<choose>
 			   <when test="nb_category2 == 1">
             AND     nb_category2 = 1
@@ -107,12 +99,7 @@
 								and   m.m_num= o.m_num 	                   		  
 	                        order by o.ob_num) a  
 				 
-		 		WHERE  nb_category1 = 1   		
-		 		<choose>
-			 	<when test="nb_category1 == 2 ">
-			 	   AND  	nb_category1 = 2 
-			 	</when>
-			</choose>
+		 		WHERE  nb_category1 IN (1,2)
 			<choose>
 			   <when test="nb_category2 == 1">
             AND     nb_category2 = 1
