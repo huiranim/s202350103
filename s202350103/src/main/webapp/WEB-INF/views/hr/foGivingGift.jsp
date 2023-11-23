@@ -84,6 +84,21 @@
 				$("#phMsg").html("");
 			}
 		}
+		
+		// 카드1 선택 시 수행
+		function selectCard1() {
+			$("#card2").css({'border':'0'});
+			$("#card1").css({'border':'5px solid #198754'});
+			$("#o_gift_card").val(1);
+		}
+		
+		// 카드2 선택 시 수행
+		function selectCard2() {
+			$("#card1").css({'border':'0'});
+			$("#card2").css({'border':'5px solid #198754'});
+			$("#o_gift_card").val(2);
+		}
+		
 	</script>
 </head>
 <body>
@@ -160,8 +175,15 @@
             
             <h5 class="h5">메시지 카드</h5><p>
             <div class="col-md-12 mb-3">
-            	<input type="radio" name="o_gift_card" value="1"><img alt="card1" src="../assets/images/gift/giftcard1.png"><br>
-            	<input type="radio" name="o_gift_card" value="2"><img alt="card2" src="../assets/images/gift/giftcard2.png"><br><p><p>
+            	<input type="hidden" name="o_gift_card" id="o_gift_card" value="1">
+            	<img alt="card1" src="../assets/images/gift/giftcard1.png" style="border-radius: 20px;
+            																	  margin-right:  10px;
+            																	  border: 		 5px solid #198754"
+            															   onclick="selectCard1()"
+            															   id="card1">
+            	<img alt="card2" src="../assets/images/gift/giftcard2.png" style="border-radius: 20px;"
+            															   onclick="selectCard2()"
+            															   id="card2"><br><p><p>
             	<textarea rows="3" name="o_gift_msg" class="form-control" placeholder="메시지를 입력해주세요." required></textarea>
             </div>
             
