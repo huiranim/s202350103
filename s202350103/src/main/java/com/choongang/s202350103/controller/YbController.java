@@ -41,6 +41,7 @@ import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.WishList;
+import com.choongang.s202350103.sjService.OldbookService;
 import com.choongang.s202350103.ybService.MemberService;
 import com.choongang.s202350103.ybService.Paging;
 import com.choongang.s202350103.ybService.communityPaging;
@@ -64,13 +65,16 @@ public class YbController {
 	private final JavaMailSender mailSender;
 	final DefaultMessageService messageService; 
 	private final NewBookService nbs;
-
-	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs) {
+	private final OldbookService obs;
+	
+	
+	public YbController(HttpSession session, MemberService ms, JavaMailSender mailSender, NewBookService nbs, OldbookService obs ) {
 		this.ms = ms;
 		this.session = session;
 		this.mailSender = mailSender;
 		this.messageService = NurigoApp.INSTANCE.initialize("NCSI4UORH4AWJGTE", "ZYW9R5J88TDYQ2855DNUH8ZTJZNEENPR", "https://api.coolsms.co.kr");
 		this.nbs = nbs;
+		this.obs = obs;
 	}
 	
 
@@ -86,7 +90,7 @@ public class YbController {
 	
 	// Main Page
 	@RequestMapping(value = "/")
-	public String main(Member member, NewBook newbook, HttpServletRequest request, Model model, Cart cart) {
+	public String main(Member member, NewBook newbook,OldBook oldBook , HttpServletRequest request, Model model, Cart cart) {
 		System.out.println("YbController main() start... ");
 		member =(Member) session.getAttribute("member");
 		if(member == null) {
@@ -98,6 +102,13 @@ public class YbController {
 			// 다독 전체 최대 조회수 도서 상품 리스트
 			NewBook hitBook1 = nbs.selectAllHitNbNum();
 			System.out.println("hitList -> "+hitList.size());
+			
+			// oldBook 4개 랜덤
+			   List<OldBook> ObNumRedomSel = obs.selectRendomObNum();
+			   model.addAttribute("ObNumRedomSel", ObNumRedomSel);
+			   System.out.println("ObNumRedomSel->"+ObNumRedomSel.size());
+			   System.out.println("ObNumRedomSel->"+ObNumRedomSel);
+			
 			
 			// 출간일 기준 5개의 도서 리스트
 			List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
@@ -117,6 +128,12 @@ public class YbController {
 		// 다독 전체 최대 조회수 도서 상품 리스트
 		NewBook hitBook1 = nbs.selectAllHitNbNum();
 		System.out.println("hitList -> "+hitList.size());
+		
+		// oldBook 4개 랜덤
+		   List<OldBook> ObNumRedomSel = obs.selectRendomObNum();
+		   model.addAttribute("ObNumRedomSel", ObNumRedomSel);
+		   System.out.println("ObNumRedomSel->"+ObNumRedomSel.size());
+		   System.out.println("ObNumRedomSel->"+ObNumRedomSel);
 		
 		// 출간일 기준 5개의 도서 리스트
 		List<NewBook> releaseNewbookList = nbs.selectReleaseNewbookListNum();
