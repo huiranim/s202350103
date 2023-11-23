@@ -377,10 +377,15 @@ public class YbController {
 	
 	// 포인트 페이지
 	@GetMapping(value = "memberPointList") 
-	public String memberPointList(Member member, Model model, PointList pointList, String currentPage) {
+	public String memberPointList(Member member, Model model, PointList pointList, String result, String currentPage) {
 		System.out.println("YbController memberPointList() start...");
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
+		
+		String result1 = null;
+		if(result != null) {
+			result1 = result;
+		}
 		
 		System.out.println("memberPointList member.getM_id -> " + member.getM_id());
 		System.out.println("memberPointList session -> " + session.getAttribute("member"));
@@ -404,6 +409,7 @@ public class YbController {
 		System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
 		
 		model.addAttribute("page", page);
+		model.addAttribute("result", result1);
 		model.addAttribute("memberPointList", memberPointList);
 		model.addAttribute("member", member);
 		return "yb/memberPointList";
