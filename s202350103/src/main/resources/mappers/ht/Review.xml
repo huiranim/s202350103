@@ -151,10 +151,11 @@
 	 </select>
 	 
 	 <select id="htWritedReview" parameterType="Review" resultType="Review">
-		   SELECT r.*
-		   FROM   review        r
-		   WHERE  o_order_num = #{o_order_num}
-		   AND    nb_num      = #{nb_num}
+		   SELECT r.*, nb.nb_image
+		   FROM   review r, newbook nb
+		   WHERE  r.nb_num = nb.nb_num
+		   AND    r.o_order_num = #{o_order_num}
+		   AND    r.nb_num      = #{nb_num}
 	 </select>
 	 
 	 <update id="htReviewUpdate" parameterType="Review" >

@@ -92,8 +92,8 @@ public class KakaoPay {
     
     public KakaoPayApprovalVO kakaoPayInfo(String pg_token, @ModelAttribute("ka") KakaoPayApprovalVO ka) {
     	 
-        log.info("KakaoPayInfoVO............................................");
-        log.info("-----------------------------");
+    	System.out.println("KakaoPayInfoVO............................................");
+    	System.out.println("-----------------------------");
         
         System.out.println("KakaoPayApprovalVO service ka ---> " + ka);
         

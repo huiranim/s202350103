@@ -458,7 +458,7 @@ public class HtController {
 		if(quantity == 1) {
 			item_name = orderr2.getNb_title();
 		} else {
-			item_name = orderr2.getNb_title() + " 외 " + quantity + "개";
+			item_name = orderr2.getNb_title() + " 외 " + (quantity-1) + "개";
 		}
 		AmountVO amountVO = new AmountVO();
 		amountVO.setTotal(orderr2.getO_pay_price());
@@ -493,17 +493,108 @@ public class HtController {
    
 	 @RequestMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
 	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, 
-			 						@ModelAttribute("ka") KakaoPayApprovalVO ka, Model model) {
+			 						@ModelAttribute("ka") KakaoPayApprovalVO ka, Model model, HttpSession session, Member member) {
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		 
 		 System.out.println("kakaoPaySuccess get............................................");
 		 System.out.println("kakaoPaySuccess pg_token : " + pg_token);
 		 System.out.println("kakaoPaySuccess ka --> " + ka);
 		 
-		 int result = 1;
+		 int result = 0;
 		 
-		 model.addAttribute("ka", kakaopay.kakaoPayInfo(pg_token, ka));
-		 model.addAttribute("result", result);
-		 
-		 return "/ht/kakaoPaySuccess";
+		 try {
+			 result = os.PaySuccess(ka);
+			 model.addAttribute("ka", kakaopay.kakaoPayInfo(pg_token, ka));
+			 model.addAttribute("result", result);
+			 model.addAttribute("member", member);
+		 }catch (Exception e) {
+		  System.out.println("kakaoPaySuccess Exception -> " + e.getMessage());
+			
+		}
+		 System.out.println("kakaoPaySuccess end");
+		 return "/ht/foPaySuccess";
 	 }
 	 
+	 
+	 @RequestMapping("/kakaoPaySuccessFail") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
+	 public String kakaoPaySuccessFail(Model model, HttpSession session, Member member) {
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		 
+		 System.out.println("kakaoPaySuccess get............................................");
+		 
+		 int result = 2;
+		 
+		 try {
+			 model.addAttribute("result", result);
+			 model.addAttribute("member", member);
+		 }catch (Exception e) {
+		  System.out.println("kakaoPaySuccessFail Exception -> " + e.getMessage());
+			
+		}
+		 System.out.println("kakaoPaySuccessFail end");
+		 return "/ht/foPaySuccess";
+	 }
+	 
+	 @RequestMapping("/kakaoPayCancel") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
+	 public String kakaoPayCancel(Model model, HttpSession session, Member member) {
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		 
+		 System.out.println("kakaoPayCancel get............................................");
+		 
+		 int result = 3;
+		 
+		 try {
+			 model.addAttribute("result", result);
+			 model.addAttribute("member", member);
+		 }catch (Exception e) {
+		  System.out.println("kakaoPayCancel Exception -> " + e.getMessage());
+			
+		}
+		 System.out.println("kakaoPayCancel end");
+		 return "/ht/foPaySuccess";
+	 }
+	 
+//	 @RequestMapping("/rePayment")
+//	 public String rePayment(Model model, HttpSession session, Member member, Orderr orderr) {
+//		System.out.println("Controller rePayment Start...");
+//
+//		// 로그인한 멤버 값 불러오기
+//		member =(Member) session.getAttribute("member");
+//		
+//		if(member == null) {
+//			return "yb/loginForm";
+//		}
+//		
+//		List<E>
+//		
+//		int result = os.rePayment(orderr);
+//		
+//		System.out.println("result --> " + result);
+//		
+//		model.addAttribute("result", result);
+//		model.addAttribute("member",member);
+//		
+//		return "/ht/foReviewDelete";
+//	}
 }
