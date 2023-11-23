@@ -8,25 +8,86 @@
 <title>Insert title here</title>
 </head>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript">
+	function searchDetail(){
+		var date = $('input[name=date]').val();
+		var status = $('input[name=status]:checked').val();
+		alert("date->"+date);
+		alert("status->"+status);
+		if(date == null){
+			var sdate = $('input[name=e_sdate]').val();
+			var edate = $('input[name=e_edate]').val();
+			var curDate = new Date();
+			var curDate1 = curDate.getFullYear() +"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
+			alert("sdate->"+sdate);
+			alert("edate->"+edate);
+			alert("curDate1->"+curDate1);
+			if(sdate > edate){
+				alert("이벤트 기간 설정을 잘 못 하셨습니다.");
+				return false;
+			} else {
+				location.href="searchDetail2";
+			} 
+		} else {
+			location.href='searchDetail1?status='+status;
+		}
+	}
+	
+	//날짜 입력란에 입력시 호출되는 함수
+	function handleDateInput() {
+		//체크박스 해제
+		document.getElementById('dateCheckbox').checked = false;
+	}
+	
+	//이벤트 리스터 세팅
+	document.getElementById('startDate').addEventListener('input', handleDateInput);
+	document.getElementById('endDate').addEventListener('input', handleDateInput);
+</script>
 <style>
-	h1{
-		text-align: center;
+	table{
+		text-align: center; 
+		vertical-align: middle;
+		margin: auto;
 	}
 
 	.btn-group {
     display: flex;
     justify-content: center;
-	
+	}
 
 	.btn-back, .btn-page, .btn-go {
     text-align: center;
 	}
 </style>
 <body>
-<h1>이벤트 목록</h1>
-<p>
+<form action="searchDetail() ">
+<table>
+	<tr>
+		<th>이벤트</th>
+	</tr>
+	<tr>
+		<th>이벤트 기간 :</th> 
+		<td><input type="checkbox" name="date" 	   id="dateCheckbox" value="all" checked>전체기간 
+			<input type="date"	   name="e_sdate"  id="startDate"> ~ 
+			<input type="date"	   name="e_edate"  id="endDate"></td>
+	</tr>
+	<tr>
+		<th>이벤트 상태</th>
+		<td>
+			<input type="radio" name="status" value="all" checked="checked"> 전체
+			<input type="radio" name="status" value="keep"> 진행 중
+			<input type="radio" name="status" value="stop"> 종료
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" value="검색"> <input type="reset" value="초기화"></td>
+	</tr>
+</table>
+</form>
 <div class="tab	le-responsive" >
-<table class="table" style="text-align: center; vertical-align: middle; margin: auto;">
+	<p>이벤트 목록</p>
+<table class="table">
   <thead class="table-light">
     <tr>
       <th scope="col">번호</th>
@@ -49,7 +110,8 @@
 			<td>${event.a_edate }</td>
 			<td>${event.a_point }</td>
 			<td>${event.a_add }</td>
-			<td><input type="button" class="btn btn-soft-primary mb-2" value="수정" onclick="openPopUp(${event.a_num})">  <input type="button" class="btn btn-soft-success mb-2" value="조회" onclick="openDetail(${event.a_num})"> </td>
+			<td><input type="button" class="btn btn-soft-primary mb-2" value="수정" onclick="openPopUp(${event.a_num})">  
+				<input type="button" class="btn btn-soft-success mb-2" value="내역" onclick="openDetail(${event.a_num})"> </td>
 		</tr>
 	</c:forEach>
   </tbody>

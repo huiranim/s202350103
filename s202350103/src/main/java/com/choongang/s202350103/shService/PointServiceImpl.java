@@ -324,5 +324,27 @@ public class PointServiceImpl implements PointService {
 		return count;
 	}
 
+	@Override
+	public List<Attendance> searchDetail11(Attendance attendance) {
+		System.out.println("PointService searchDetail11 start");
+		List<Attendance> list = ad.searchDetail11(attendance);
+		return list;
+	}
+
+	@Override
+	public List<Attendance> searchDetail12(Attendance attendance) {
+		System.out.println("PointService searchDetail12 start");
+		List<Attendance> list = ad.searchDetail12(attendance);
+		return list;
+	}
+
+	@Override
+	public List<Attendance> searchDetail13(Attendance attendance) {
+		System.out.println("PointService searchDetail13 start");
+		List<Attendance> list = null;
+		list = ad.searchDetail13(attendance);
+		return null;
+	}
+
 
 }
