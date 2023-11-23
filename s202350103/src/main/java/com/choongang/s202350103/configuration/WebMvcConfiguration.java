@@ -27,6 +27,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/MyReviewedList");				// 나의 리뷰 리스트(작성한 리스트)
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/reviewForm");					// 리뷰 등록
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/orderForm");					// 주문 등록
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberMyCommunity");			// 커뮤니티 내 게시물
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberPointList");			// 커뮤니티 내 게시물
+		
 		
 		// 영준 InterCeptor (Parameter로 다룬 페이지)
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOrder"); 				// 내 주문
