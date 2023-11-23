@@ -303,7 +303,7 @@ public class SjController {
 		
 		System.out.println("SjController Start ");
 		
-		int totalOb2 = obs.totalOb2();
+		int totalOb2 = obs.totalOb2(oldBook);
 		//Paging 작업
 		Paging  page = new Paging(totalOb2, currentPage);
 		

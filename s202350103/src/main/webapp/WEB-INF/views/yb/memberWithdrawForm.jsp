@@ -43,6 +43,16 @@
 				}	
 		) 
 	}
+	
+	function validateForm() {
+    	 if (confirm("정말로 탈퇴하시겠습니까?") == true){   
+    		return true;
+    	 } else {
+    		    	return false;
+    	 }
+	   	 return false;
+	}
+	   
 
 
 	
@@ -52,7 +62,7 @@
 <%@ include file="../common/headerFo.jsp" %>
 <body>
 <div class="container" style="text-align: center;">
-	<form class="row" action="memberWithdraw" method="post">
+	<form class="row" action="memberWithdraw" method="post" onsubmit="return validateForm()">
 	
 	      <div class="mb-8">
        		<!-- heading -->

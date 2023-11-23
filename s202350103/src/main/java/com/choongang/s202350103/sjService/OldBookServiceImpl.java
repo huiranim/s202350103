@@ -27,11 +27,11 @@ public class OldBookServiceImpl implements OldbookService {
 	
 	
 	@Override
-	public int totalOb2() {
+	public int totalOb2(OldBook oldBook) {
 		
 		System.out.println("OldBookServiceImpl start total..");
 
-		int totObCnt2 = obd.totalOb2();
+		int totObCnt2 = obd.totalOb2(oldBook);
 		System.out.println("OldBookServiceImpl totalOb2 totObCnt2->"+totObCnt2);
 			
 		return totObCnt2;
