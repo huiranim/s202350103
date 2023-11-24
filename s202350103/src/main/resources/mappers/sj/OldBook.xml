@@ -161,16 +161,16 @@
 													and   m.m_num= o.m_num(+) 	                   		  
 															<choose>
 													 	  			<when test="ob_status == 1">
-													 	  			AND ob_status = 1 
+													 	  			AND ob_status = 1 order by ob_report_date ASC
 													 	  			</when>
 																	<when test="ob_status == 2">
-																	AND ob_status = 2
+																	AND ob_status = 2 order by ob_report_date DESC
 																	</when>
 																	<when test="ob_status == 3">
-																	AND ob_status = 3 
+																	AND ob_status = 3 order by ob_report_date DESC
 																	</when>	
 												 	  		</choose>	
-								                        order by o.ob_num) a  
+								                        ) a  
   			)
 	 	  			WHERE  rn BETWEEN #{start} and #{end}
 	 	  	
