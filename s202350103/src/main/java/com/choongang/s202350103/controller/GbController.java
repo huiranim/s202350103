@@ -24,16 +24,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
+import com.choongang.s202350103.gbService.PointChargeService;
 import com.choongang.s202350103.gbService.RecentlyBook;
 import com.choongang.s202350103.htService.ReviewService;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.NewBookOldBook;
+import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 import com.choongang.s202350103.model.WishList;
 
@@ -48,6 +51,7 @@ public class GbController {
 	private final ReviewService rs;
 	private final RecentlyBook rb;
 	private final JavaMailSender mailSender;
+	private final PointChargeService pcs;
 	
 	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
@@ -606,6 +610,34 @@ public class GbController {
 		}
 		
 		return "gb/shareEmailPopup"; 
+	}
+	
+	@RequestMapping("pointChargeTest")
+	public String pointChargeTest(RedirectAttributes redirect, HttpSession session, Member member, Orderr orderr, Model model) {
+		System.out.println("GbController pointChargeTest start...");
+		int result = 0;
+		
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		int m_num = member.getM_num();
+		
+		orderr.setNb_title("포인트 충전");						// 상품명
+		orderr.setM_num((int)orderr.getO_order_num());		// 회원번호
+		orderr.setO_rec_name(member.getM_name());			// 회원이름
+		orderr.setO_order_count(1);							// 결제수량
+		// 결제금액은 form으로 넘어온다.
+		// 주문번호는 form으로 넘어온다.
+		System.out.println("GbController pointChargeTest orderr.getO_order_num() -> "+ orderr.getO_order_num());
+		
+		// result = pcs.InsertUpdatePointCharge(kakaoDto);
+		// System.out.println("GbController pointChargeTest result -> "+result);
+		// model.addAttribute("result", result);
+		// model.addAttribute("result", result);
+		redirect.addFlashAttribute("orderr", orderr);
+		int destination = 0;
+		redirect.addFlashAttribute("destination", destination);
+		
+		return "redirect:orderAction";
 	}
 	 
 }

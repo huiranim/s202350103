@@ -74,6 +74,12 @@ public interface MemberDao {
 	int wdMember();
 	// 문의 답변 리스트 
 	List<MqReply> mqReplyList(int mq_num);
+	// 답글 카운트
+	int replyCount(int mq_num);
+	// 답글 작성
+	int replyInsert(MqReply reply);
+	// 답글 추천
+	int likeReply(Long mqr_num);
 
 	
 	

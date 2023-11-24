@@ -215,6 +215,24 @@ public class MemberServiceImpl implements MemberService{
 		List<MqReply> mqReplyList = md.mqReplyList(mq_num);
 		return mqReplyList;
 	}
+	// 답글 카운트
+	@Override
+	public int replyCount(int mq_num) {
+		int replyCount = md.replyCount(mq_num);
+		return replyCount;
+	}
+	// 답글 작성
+	@Override
+	public int replyInsert(MqReply reply) {
+		int replyInsert = md.replyInsert(reply);
+		return replyInsert;
+	}
+	// 답글 추천
+	@Override
+	public int likeReply(Long mqr_num) {
+		int likeReply =  md.likeReply(mqr_num);
+		return likeReply;
+	}
 	
 	
 	

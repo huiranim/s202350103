@@ -55,9 +55,9 @@ public class OrderrServiceImpl implements OrderrService {
 	}
 
 	@Override
-	public int PaySuccess(KakaoPayApprovalVO ka) {
+	public int paySuccess(KakaoPayApprovalVO ka) {
 		System.out.println("HtService orderInsert Start...");
-		int result = od.PaySuccess(ka);
+		int result = od.paySuccess(ka);
 		return result;
 	}
 
