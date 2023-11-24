@@ -11,8 +11,8 @@
 
 <!-- footer -->
 <footer class="footer">
-    <div class="row g-4 py-4" style="width: 100%; margin-right: 30px; margin-left: 230px;">
-   <div style="float: left; width: 50%;">
+    <div class="row g-4 py-4" style="margin-left: auto; margin-right: auto; width: 1336px;">
+   <div style="width: 50%; ">
     ㈜다독다독 컴퍼니
 대표이사 우주 최강 3조  &nbsp; 고객정보보호 &nbsp;   책임자  최우경   사업자등록 우최-031-54842 <br>
 통신판매업신고 갑구35206호 이메일 privacy@dadoc.co.kr <br>
@@ -22,7 +22,7 @@
 ISMS 인증획득 
 
     </div>
-     <div style="float: right; width: 50%; padding-left: 50px;">
+     <div class="text-center" style="width: 50%;">
     
 고객센터 1544-1004 (발신자 부담) <br>
 서울특별시 마포구 신촌로 176 501호 <br> Fax 02-2023-50103<br><br>
