@@ -236,6 +236,12 @@ public class MemberDaoImpl implements MemberDao{
 		int likeReply = session.update("likeReply",mqr_num);
 		return likeReply;
 	}
+	// 답글 신고
+	@Override
+	public int declReply(MqReply reply) {
+		int declReply = session.update("declReply",reply);
+		return declReply;
+	}
 	
 
 	
