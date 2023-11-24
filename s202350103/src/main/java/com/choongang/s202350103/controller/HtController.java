@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.choongang.s202350103.domain.AmountVO;
 import com.choongang.s202350103.domain.KakaoPayApprovalVO;
 import com.choongang.s202350103.gbService.PointChargeService;
+import com.choongang.s202350103.hrService.OrderService;
 import com.choongang.s202350103.htService.EmailService;
 import com.choongang.s202350103.htService.KakaoPay;
 //import com.choongang.s202350103.htService.KakaoPay;
@@ -40,6 +41,7 @@ import com.choongang.s202350103.htService.ReviewService;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
+import com.choongang.s202350103.model.OrderGift;
 import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
@@ -57,7 +59,9 @@ public class HtController {
 	private final ReviewService rs;
 	private final EmailService emailService;
 	private final PointChargeService pcs;
-
+	
+	// 선물하기 관련 서비스 (희라)
+	private final OrderService osHr;
 	
 	@RequestMapping("/reviewList")
 	public String reviewList(Model model, Review review, HttpSession session,  Member member) {
@@ -400,8 +404,9 @@ public class HtController {
 					            String m_addr,
 					            
 					            @ModelAttribute("destination") int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
-					            Model model, HttpSession session, Member member, 
-					            @ModelAttribute("orderr") Orderr orderr, Cart cart
+					            Model model, HttpSession session, Member member, Cart cart,
+					            @ModelAttribute("orderr") Orderr orderr, 
+					            @ModelAttribute("orderGift") OrderGift orderGift
 								 ) {
 		System.out.println("Controller orderAction Start...");
 		System.out.println("Controller orderAction 1 orderr.getPaymentType()-->"+orderr.getPaymentType());
@@ -444,15 +449,16 @@ public class HtController {
 
 			System.out.println("orderAction list--> " + list);
 		} 
-		
-		//Orderr 테이블 insert
-		long o_order_num_length = orderr.getO_order_num();
-		if(o_order_num_length == 0) {//포인트충전 결제 --> 값 있음 / 일반 결제 --> 값 없음
-			os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
-		} else {
-			orderr.setO_order_count(1);
-			orderr.setNb_title("포인트 충전");
-			System.out.println("orderr111 -> "+orderr);
+
+		// Orderr 테이블 insert
+		// 일반&선물 -> 주문번호 없음 / 포인트 충전 -> 주문번호 있음
+		if(orderr.getO_order_num() == 0) {
+			// 선물 -> o_type = 2
+			if(orderr.getO_type() == 2) {
+				osHr.givingGiftAction(member, orderr, orderGift);
+			} else {
+				os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
+			}
 		}
 		
 		//카카오페이 결제하기전 전송할 데이터 담기
@@ -485,7 +491,7 @@ public class HtController {
 		
 		//카카오에서 요청한 DTO 변수명과 타입으로 변경
 		String partner_order_id = String.valueOf(orderr.getO_order_num()); //주문번호 또는 회원번호
-		String partner_user_id  = String.valueOf(orderr.getM_num()); //회원 이름
+		String partner_user_id  = String.valueOf(orderr.getM_name()); //회원 이름
 		Integer quantity = orderr.getO_order_count(); //결제 수량
 		String item_name = null; //상품명
 		if(quantity == 1) {// 1개 구매일 경우
