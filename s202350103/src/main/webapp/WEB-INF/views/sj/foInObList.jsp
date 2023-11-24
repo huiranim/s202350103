@@ -190,7 +190,7 @@
    
    </div>
 	  <div>
-      <button type="button" class="btn btn-success mb-2" style="float: right;">새상품 보러가기</button>
+     <a href="/innewbookList?nb_category1=1"> <button type="button" class="btn btn-success mb-2" style="float: right;">새상품 보러가기</button></a>
       </div>		
 	</c:if>
 </div>
