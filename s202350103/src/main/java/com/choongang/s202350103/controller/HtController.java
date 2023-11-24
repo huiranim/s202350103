@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -535,7 +536,7 @@ public class HtController {
 	 // 결제 성공
 	 @RequestMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
 	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, 
-			 						@ModelAttribute("kakaoDto") KakaoPayApprovalVO kakaoDto, Model model, HttpSession session, Member member) {
+			 						@ModelAttribute("kakaoDto") KakaoPayApprovalVO kakaoDto, Model model, HttpSession session, Member member) throws MessagingException {
 		 
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -578,7 +579,7 @@ public class HtController {
 			
 		}
 		 // 메일 보내기(고도화 예정)
-		 //emailService.sendEmail("whgudxor1@naver.com", "Test Subject", "Hello, this is a test email.");
+		 emailService.sendEmail("whgudxor1@naver.com", "Test Subject", "Hello, this is a test email.");
 		 
 		 System.out.println("kakaoPaySuccess end");
 		 
