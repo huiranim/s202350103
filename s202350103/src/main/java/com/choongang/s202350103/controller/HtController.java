@@ -411,6 +411,7 @@ public class HtController {
 		}
 		
 		orderr.setM_num(member.getM_num());
+		orderr.setM_name(member.getM_name());
 		
 		// 최근 주소지 = 1, 직접입력 = 2
 		if(destination == 2) {
@@ -445,6 +446,9 @@ public class HtController {
 		long o_order_num_length = orderr.getO_order_num();
 		if(o_order_num_length == 0) {//포인트충전 결제 --> 값 있음 / 일반 결제 --> 값 없음
 			os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
+		} else {
+			orderr.setO_order_count(1);
+			orderr.setNb_title("포인트 충전");
 		}
 		
 		//카카오페이 결제하기전 전송할 데이터 담기
@@ -474,20 +478,19 @@ public class HtController {
 	 private KakaoPayApprovalVO kakaoSendData(Orderr orderr) {
 		//필수 데이터 조회
 		System.out.println("kakaoSendData orderr---> " + orderr);
-		Orderr kakaoSendData = os.orderPayment(orderr);
 		
 		//카카오에서 요청한 DTO 변수명과 타입으로 변경
-		String partner_order_id = String.valueOf(kakaoSendData.getO_order_num()); //주문번호 또는 회원번호
-		String partner_user_id  = String.valueOf(kakaoSendData.getO_rec_name()); //회원 이름
-		Integer quantity = kakaoSendData.getO_order_count(); //결제 수량
+		String partner_order_id = String.valueOf(orderr.getO_order_num()); //주문번호 또는 회원번호
+		String partner_user_id  = String.valueOf(orderr.getM_num()); //회원 이름
+		Integer quantity = orderr.getO_order_count(); //결제 수량
 		String item_name = null; //상품명
 		if(quantity == 1) {// 1개 구매일 경우
-			item_name = kakaoSendData.getNb_title(); 
+			item_name = orderr.getNb_title(); 
 		} else {           // 여러개 구매일 경우
-			item_name = kakaoSendData.getNb_title() + " 외 " + (quantity-1) + "개";
+			item_name = orderr.getNb_title() + " 외 " + (quantity-1) + "개";
 		}
 		AmountVO amountVO = new AmountVO(); //결제금액
-		amountVO.setTotal(kakaoSendData.getO_pay_price());
+		amountVO.setTotal(orderr.getO_pay_price());
 		
 		// kakaopay에 보낼것을 KakaoPayApprovalVO DTO에 담기
 		KakaoPayApprovalVO kakaoDto = new KakaoPayApprovalVO();
