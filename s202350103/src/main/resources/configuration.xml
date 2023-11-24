@@ -11,6 +11,7 @@
 		<typeAlias alias="Community" 		type="com.choongang.s202350103.model.Community"/>
 		<typeAlias alias="Member" 			type="com.choongang.s202350103.model.Member"/>
 		<typeAlias alias="MemberQ" 			type="com.choongang.s202350103.model.MemberQ"/>
+		<typeAlias alias="MqReply" 			type="com.choongang.s202350103.model.MqReply"/>
 		<typeAlias alias="NewBook" 			type="com.choongang.s202350103.model.NewBook"/>
 		<typeAlias alias="OldBook" 			type="com.choongang.s202350103.model.OldBook"/>
 		<typeAlias alias="OrderCancel" 		type="com.choongang.s202350103.model.OrderCancel"/>

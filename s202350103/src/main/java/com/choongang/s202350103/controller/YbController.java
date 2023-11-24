@@ -399,7 +399,9 @@ public class YbController {
 			System.out.println("YbController memberPointList pointListCnt ->" + pointListCnt);
 			// 포인트 리스트
 			
-			
+			// 총포인트
+		      int totalPoint = ms.totalPoint(member.getM_num());
+
 			// 페이징 처리
 			Paging page = new Paging(pointListCnt, currentPage);
 				
@@ -408,6 +410,7 @@ public class YbController {
 			List<PointList> memberPointList = ms.memberPointList(pointList);
 			System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
 			
+			model.addAttribute("totalPoint", totalPoint);
 			model.addAttribute("page", page);
 			model.addAttribute("result", result1);
 			model.addAttribute("memberPointList", memberPointList);
@@ -415,6 +418,8 @@ public class YbController {
 			return "yb/memberPointList";
 			
 		}
+		
+
 	// 중고책 판매 리스트
 	@GetMapping(value = "memberSellList") 
 	public String memberSellList(Member member, Model model, OldBook oldbook, String currentPage) {

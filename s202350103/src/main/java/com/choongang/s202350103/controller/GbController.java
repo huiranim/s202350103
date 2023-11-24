@@ -24,16 +24,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
+import com.choongang.s202350103.gbService.PointChargeService;
 import com.choongang.s202350103.gbService.RecentlyBook;
 import com.choongang.s202350103.htService.ReviewService;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.NewBookOldBook;
+import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 import com.choongang.s202350103.model.WishList;
 
@@ -48,6 +51,7 @@ public class GbController {
 	private final ReviewService rs;
 	private final RecentlyBook rb;
 	private final JavaMailSender mailSender;
+	private final PointChargeService pcs;
 	
 	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
@@ -586,9 +590,7 @@ public class GbController {
 			messageHelper.setText(messageText, true);
             // true는 html을 사용하겠다는 의미입니다.
             
-            /*
-             * 단순한 텍스트만 사용하신다면 다음의 코드를 사용하셔도 됩니다. messageHelper.setText(messageText);
-             */
+			// 단순한 텍스트만 사용하신다면 다음의 코드를 사용하셔도 됩니다. messageHelper.setText(messageText);
 			
 			// 메일 발송
 			mailSender.send(message);
