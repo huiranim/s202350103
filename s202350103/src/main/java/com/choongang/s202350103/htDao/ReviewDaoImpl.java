@@ -185,7 +185,7 @@ public class ReviewDaoImpl implements ReviewDao {
 		Review reviewOne2 = null;
 		try {
 			reviewOne2 = session.selectOne("htReviewOne",review);
-			System.out.println("reviewOne review--> " + review);
+			System.out.println("reviewOne reviewOne2--> " + reviewOne2);
 		}catch (Exception e) {
 			System.out.println("ReviewDaoImpl reviewOne() Exception--> " + e.getMessage());
 		}

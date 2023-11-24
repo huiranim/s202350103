@@ -45,6 +45,7 @@
           <ul class="list-group list-group-flush">
           
           	 <c:forEach var="orderList" items="${reviewWriteList }">
+          	 	 <input type="hidden" name="nb_num" >
 	             <li class="list-group-item py-5">
 	                <div class="d-flex justify-content-between">
 	                   <div class="d-flex">
@@ -71,7 +72,7 @@
 	                      </div>
 	                   </div>
 	                   <div>
-	                      <a class="btn btn-primary" href="reviewForm?o_order_num=${orderList.o_order_num}&currentPage=${page.currentPage}">리뷰 작성하기</a>
+	                      <a class="btn btn-primary" href="reviewForm?o_order_num=${orderList.o_order_num}&currentPage=${page.currentPage}&nb_num=${orderList.nb_num}">리뷰 작성하기</a>
 	                   </div>
 	                </div>
 	             </li>
