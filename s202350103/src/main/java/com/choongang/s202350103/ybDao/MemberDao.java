@@ -76,5 +76,11 @@ public interface MemberDao {
 
 	List<Community> 	communityMyList(Community community);
 
+	int 				deleteImage(int cm_num);
+
+	int 				deleteImage1(int cm_num);
+
+	int 				totalPoint(int m_num);
+
 
 }

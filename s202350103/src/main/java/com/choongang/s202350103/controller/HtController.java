@@ -583,7 +583,7 @@ public class HtController {
 			
 		}
 		 // 메일 보내기(고도화 예정)
-		 emailService.sendEmail("whgudxor1@naver.com", "Test Subject", "Hello, this is a test email.");
+		 //emailService.sendEmail("whgudxor1@naver.com", "Test Subject", "Hello, this is a test email.");
 		 
 		 System.out.println("kakaoPaySuccess end");
 		 

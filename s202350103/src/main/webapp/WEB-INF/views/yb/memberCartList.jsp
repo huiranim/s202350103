@@ -146,7 +146,7 @@
 		                       <!-- 수량 수정 -->
 		                  	<div class="input-group input-spinner  ">
 		                    	<input type="button" id="minus${status.index }" value="-" class="button-minus btn btn-sm " data-field="quantity" onclick="cartQuantityMinus(${status.index})">
-					            <input type="number" id="quantity${status.index}" step="1" max="10" value="${cart.c_count }" name="quantity" class="quantity-field form-control-sm form-input">
+					            <input type="number" id="quantity${status.index}" min=1  step="1" max="10" value="${cart.c_count }" name="quantity" class="quantity-field form-control-sm form-input">
 					            <input type="button" id="plus${status.index }" value="+" class="button-plus btn btn-sm " data-field="quantity" onclick="cartQuantityPlus(${status.index})">
 		                  	</div>
 		                  </div>

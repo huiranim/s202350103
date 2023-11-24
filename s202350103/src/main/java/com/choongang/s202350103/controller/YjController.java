@@ -219,10 +219,10 @@ public class YjController {
 			
 			System.out.println("마이페이지 회원 넘버 ->"+m_num);
 			int totalOrderCnt = ms.totalOrderCnt(m_num);
-			
+			int totalPoint = ys.totalPoint(member.getM_num());
 			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
 			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
-			
+			model.addAttribute("totalPoint", totalPoint);
 			model.addAttribute("totalWishList", totalWishList);
 			model.addAttribute("totalSellCnt", totalSellCnt);
 			model.addAttribute("totalOrderCnt",totalOrderCnt);

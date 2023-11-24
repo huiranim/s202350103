@@ -19,7 +19,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberCartList");					// 장바구니
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/foGivingGift");					// 선물하기
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/foOrderDetail");					// 마이페이지 - 주문상세
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeForm");						// 커뮤니티 글 등록
+//		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeForm");						// 커뮤니티 글 등록
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/FodetailOb");						// 마이페이지 - 정산화면
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/eventIn");						// 이벤트 페이지
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/reviewList");						// 제품별 리뷰 리스트
@@ -33,7 +33,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObCal");         	   	// 중고판매 정산안내
 	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObTrans");       	  	// 중고판매 운송장
 	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/eventIn"); 						// 이벤트 페이지
-		
+
 		// 영준 InterCeptor (Parameter로 다룬 페이지)
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOrder"); 					// 내 주문
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyInfo");						// 내 정보
