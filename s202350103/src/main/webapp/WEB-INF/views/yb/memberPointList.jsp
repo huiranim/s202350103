@@ -103,7 +103,7 @@
 			         <!-- heading -->
 				         <h2 class="mb-2">포인트 목록</h2>
 				         <p><a href="#">${member.m_id } 님의 포인트 목록입니다.</a></p>
-				               총 포인트 : ${member.m_point} P		
+				               총 포인트 : ${totalPoint} P		
 				         <!-- 포인트 충전하기 -->
 						 <div class="d-grid gap-2 d-md-flex justify-content-md-end" 
 						 		style="float: right; margin-top: -20px;" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
@@ -205,7 +205,7 @@
 										<c:when test="${point.type1 == 5}"><span>추천인 적립</span></c:when>
 										<c:when test="${point.type1 == 6}"><span>포인트 사용</span></c:when>
 										<c:when test="${point.type1 == 7}"><span>관리자에 의한 조정</span></c:when>
-										
+										<c:when test="${point.type1 == 8}"><span>포인트 충전</span></c:when>
 									</c:choose>
 								</h5>
 		                      </div>
@@ -253,18 +253,18 @@
 
 			 	<c:if test="${page.startPage > page.pageBlock }">
 					 <li class="page-item justify-content-center">					
-						<a class="page-link mx-1 text-body" href="memberPointList?currentPage=${page.startPage-page.pageBlock}">이전</a>
+						<a class="page-link mx-1 text-body" href="memberPointList?m_num=${member.m_num }&currentPage=${page.startPage-page.pageBlock}">이전</a>
 					</li>
 				</c:if>
  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 					 <li class="page-item justify-content-center">
- 						<a class="page-link mx-1 text-body" href="memberPointList?currentPage=${i}">${i}</a>
+ 						<a class="page-link mx-1 text-body" href="memberPointList?m_num=${member.m_num }&currentPage=${i}">${i}</a>
 					</li>
 				</c:forEach>
 					
 				<c:if test="${page.endPage < page.totalPage }">
 					 <li class="page-item justify-content-center">		 
-						<a class="page-link mx-1 text-body" href="memberPointList?currentPage=${page.startPage+page.pageBlock}">다음</a>
+						<a class="page-link mx-1 text-body" href="memberPointList?m_num=${member.m_num }&currentPage=${page.startPage+page.pageBlock}">다음</a>
 					</li>
 				</c:if>
 		  </ul>
