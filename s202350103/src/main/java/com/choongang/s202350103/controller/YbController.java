@@ -376,39 +376,45 @@ public class YbController {
 	}
 	
 	// 포인트 페이지
-	@GetMapping(value = "memberPointList") 
-	public String memberPointList(Member member, Model model, PointList pointList, String currentPage) {
-		System.out.println("YbController memberPointList() start...");
-		// 로그인한 멤버 값 불러오기
-		member =(Member) session.getAttribute("member");
-		
-		System.out.println("memberPointList member.getM_id -> " + member.getM_id());
-		System.out.println("memberPointList session -> " + session.getAttribute("member"));
-		
-		System.out.println("YbController memberPointList() member.getM_point -> " + member.getM_point());
-		
-		// 포인트 적립갯수
-		pointList.setM_num(member.getM_num());
-		System.out.println("YbController memberPointList pointList.getM_num -> " + pointList.getM_num());
-		int pointListCnt = ms.pointListCnt(pointList);
-		System.out.println("YbController memberPointList pointListCnt ->" + pointListCnt);
-		// 포인트 리스트
-		
-		
-		// 페이징 처리
-		Paging page = new Paging(pointListCnt, currentPage);
+		@GetMapping(value = "memberPointList") 
+		public String memberPointList(Member member, Model model, PointList pointList, String result, String currentPage) {
+			System.out.println("YbController memberPointList() start...");
+			// 로그인한 멤버 값 불러오기
+			member =(Member) session.getAttribute("member");
 			
-		pointList.setStart(page.getStart());
-		pointList.setEnd(page.getEnd());
-		List<PointList> memberPointList = ms.memberPointList(pointList);
-		System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
-		
-		model.addAttribute("page", page);
-		model.addAttribute("memberPointList", memberPointList);
-		model.addAttribute("member", member);
-		return "yb/memberPointList";
-		
-	}
+			String result1 = null;
+			if(result != null) {
+				result1 = result;
+			}
+			
+			System.out.println("memberPointList member.getM_id -> " + member.getM_id());
+			System.out.println("memberPointList session -> " + session.getAttribute("member"));
+			
+			System.out.println("YbController memberPointList() member.getM_point -> " + member.getM_point());
+			
+			// 포인트 적립갯수
+			pointList.setM_num(member.getM_num());
+			System.out.println("YbController memberPointList pointList.getM_num -> " + pointList.getM_num());
+			int pointListCnt = ms.pointListCnt(pointList);
+			System.out.println("YbController memberPointList pointListCnt ->" + pointListCnt);
+			// 포인트 리스트
+			
+			
+			// 페이징 처리
+			Paging page = new Paging(pointListCnt, currentPage);
+				
+			pointList.setStart(page.getStart());
+			pointList.setEnd(page.getEnd());
+			List<PointList> memberPointList = ms.memberPointList(pointList);
+			System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
+			
+			model.addAttribute("page", page);
+			model.addAttribute("result", result1);
+			model.addAttribute("memberPointList", memberPointList);
+			model.addAttribute("member", member);
+			return "yb/memberPointList";
+			
+		}
 	// 중고책 판매 리스트
 	@GetMapping(value = "memberSellList") 
 	public String memberSellList(Member member, Model model, OldBook oldbook, String currentPage) {
@@ -835,16 +841,19 @@ public class YbController {
 		  if(!fileCheck.exists()) fileCheck.mkdirs();
 		  List<Map<String, String>> fileList = new ArrayList<>();
 		  Map<String, String> map = null;
-		  if(multiFileList.size() >= 1) {
+		  if(multiFileList.size() >= 1 && ! multiFileList.isEmpty()) {
 			  for(int i = 0; i < multiFileList.size(); i++) {
-				  String originFile = multiFileList.get(i).getOriginalFilename();
-				  String ext = originFile.substring(originFile.lastIndexOf("."));
-				  String changeFile = UUID.randomUUID().toString() + ext;
+				  MultipartFile file = multiFileList.get(i);
+			        if (!file.isEmpty() && !file.getOriginalFilename().isEmpty()) {
+			            String originFile = file.getOriginalFilename();
+			            String ext = originFile.substring(originFile.lastIndexOf("."));
+			            String changeFile = UUID.randomUUID().toString() + ext;
 		
 				  map = new HashMap<>();
 				  map.put("originFile", originFile);
 				  map.put("changeFile", changeFile);	
 				  fileList.add(map);
+			        }
 			  }
 		  }
 		  System.out.println(fileList);
@@ -915,10 +924,16 @@ public class YbController {
 	   }
 	   // 게시글 수정
 	   @PostMapping(value = "communityUpdateDo")
-	   public String communityUpdateDo(Community community, Member member, Model model,
-			   						   MultipartHttpServletRequest files, @RequestParam("multiFile") List<MultipartFile> multiFileList, HttpServletRequest request) {
+	   public String communityUpdateDo(Community community, Member member, Model model,HttpServletRequest request,  MultipartHttpServletRequest files, 
+			   						   @RequestParam("multiFile") List<MultipartFile> multiFileList) {
+		   
 		   System.out.println("YbController communityUpdateDo() start..");
-	      	
+		  
+		   System.out.println("YbController communityUpdateDo deleteImage after image1 -> " + community.getCm_image1());
+		   System.out.println("YbController communityUpdateDo deleteImage after image2 -> " + community.getCm_image2());
+	   
+		  System.out.println("오류 확인 메세지");
+		if(multiFileList.size() >= 1 && ! multiFileList.isEmpty()) {
 	      	// 받아온것 출력 확인
 		  System.out.println("multiFileList : " + multiFileList);
 		  System.out.println("multiFileList.size : " + multiFileList.size());
@@ -933,23 +948,25 @@ public class YbController {
 		  if(!fileCheck.exists()) fileCheck.mkdirs();
 		  List<Map<String, String>> fileList = new ArrayList<>();
 		  Map<String, String> map = null;
-		  if(multiFileList.size() > 1) {
+		  
+		  if(multiFileList.size() >= 1 && ! multiFileList.isEmpty()) {
 			  for(int i = 0; i < multiFileList.size(); i++) {
-				  String originFile = multiFileList.get(i).getOriginalFilename();
-				  String ext = originFile.substring(originFile.lastIndexOf("."));
-				  String changeFile = UUID.randomUUID().toString() + ext;
+				  MultipartFile file = multiFileList.get(i);
+			        if (!file.isEmpty() && !file.getOriginalFilename().isEmpty()) {
+			            String originFile = file.getOriginalFilename();
+			            String ext = originFile.substring(originFile.lastIndexOf("."));
+			            String changeFile = UUID.randomUUID().toString() + ext;
 		
 				  map = new HashMap<>();
 				  map.put("originFile", originFile);
 				  map.put("changeFile", changeFile);	
 				  fileList.add(map);
-			  }
+			        }
+			 }
 		  }
 		  System.out.println(fileList);
 		  System.out.println(fileList.size());
-		  
 		  // 파일업로드
-		  
 		  try {
 			  if(fileList.size() > 0) {
 				  for(int i = 0; i < multiFileList.size(); i++) {
@@ -968,23 +985,61 @@ public class YbController {
 			  e.printStackTrace(); 
 		  }
 		  List<String> valueList = fileList.stream().filter(t -> t.containsKey("changeFile")).map(m -> m.get("changeFile").toString()).collect(Collectors.toList()); 
-		  String cm_image1 = "";
-		  String cm_image2 = "";
-		  if(valueList.size() == 1) {
-			  cm_image1 = valueList.get(0);				  
-		  } else if(valueList.size() > 1){
-			  cm_image1 = valueList.get(0);
-			  cm_image2 = valueList.get(1);
-		  }
-		  community.setCm_image1(cm_image1);
-	      community.setCm_image2(cm_image2);
-	      System.out.println("getM_num -> " + community.getM_num());
-	      System.out.println("getM_num -> " + community.getCm_image1());
-	      System.out.println("getM_num -> " + community.getCm_image2());
-		  int communityUpdateDo = ms.communityUpdateDo(community);
-		  System.out.println("ybController communityUpdateDo result -> " + communityUpdateDo);
+		  System.out.println(valueList);
 		  
+		  if(valueList.size() == 1) {
+				  if(community.getCm_image1().equals("")) {
+					  community.setCm_image1(valueList.get(0));
+					  System.out.println("cm_imageA -> " + community.getCm_image1());
+				  } else {
+					  community.setCm_image2(valueList.get(0));
+					  System.out.println("cm_imageA -> " + community.getCm_image2());
+				  }
+		  } else if(valueList.size() > 1){
+			  community.setCm_image1(valueList.get(0));
+			  community.setCm_image2(valueList.get(1));
+		  }
+	      System.out.println("getM_num -> " + community.getM_num());
+	      System.out.println("getCm_image1 -> " + community.getCm_image1());
+	      System.out.println("getCm_image2 -> " + community.getCm_image2());
+		}  
+
+	      int communityUpdateDo = ms.communityUpdateDo(community);
+		  System.out.println("ybController communityUpdateDo result -> " + communityUpdateDo);
+		   
 		  return "yb/postDetailForm";
+	   }
+	   
+	   // 게시글 수정 시 이미지 삭제 
+	   @RequestMapping("deleteImage")
+	   public String deleteImage(String cm_imageChk1, String cm_imageChk2, Community community, int cm_num, RedirectAttributes redirect) {
+		   System.out.println("YbController deleteImage cm_imageChk1 -> " + cm_imageChk1);
+		   System.out.println("YbController deleteImage cm_imageChk2 -> " + cm_imageChk2);
+		   System.out.println("int cm_num" + cm_num);
+		   if(cm_imageChk1 == null) {
+	    	   cm_imageChk1 = "";
+	       }
+	       if(cm_imageChk2 == null) {
+	    	   cm_imageChk2 = "";
+	       }
+	       // 체크 시 y 값 반환 -> update -> null 값
+		   if(cm_imageChk1.equals("y") && !cm_imageChk2.equals("y")) {
+			   System.out.println("YbController deleteImage deleteImage1 Start... ");
+			   int deleteImage = ms.deleteImage(cm_num);
+			   System.out.println("YbController deleteImage deleteImage -> " +deleteImage);
+		   } else if(cm_imageChk2.equals("y")&& !cm_imageChk1.equals("y")) {
+			   System.out.println("YbController deleteImage deleteImage2 Start... ");
+			   int deleteImage1 = ms.deleteImage1(cm_num);
+			   System.out.println("YbController deleteImage deleteImage1 -> " +deleteImage1);
+		   } else if (cm_imageChk1.equals("y") && cm_imageChk2.equals("y")) {
+			   System.out.println("YbController deleteImage deleteImage3 Start... ");
+			   int deleteImage = ms.deleteImage(cm_num);
+			   int deleteImage1 = ms.deleteImage1(cm_num);
+			   System.out.println("YbController deleteImage deleteImage -> " +deleteImage);
+			   System.out.println("YbController deleteImage deleteImage1 -> " +deleteImage1);
+		   }
+		   redirect.addAttribute("cm_num", cm_num);
+		   return "redirect:/communityUpdate";
 	   }
 	   
 	   // 게시글 삭제
