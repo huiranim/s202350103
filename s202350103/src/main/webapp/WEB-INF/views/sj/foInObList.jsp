@@ -15,7 +15,7 @@
 		var category2Value = $("#category2").val();
 		var category1Value = '${oldBook.nb_category1}';
 		/* alert("category2Value->"+category2Value); */
-		location.href = "/folistOb?nb_category2="+category2Value;
+		location.href = "/folistOb?nb_category1="+category1Value+"&nb_category2="+category2Value;
 	
 	} 
 	
@@ -50,20 +50,23 @@
              <div class="me-2 flex-grow-1">
                <!-- 카테고리 검색 -->
                
-                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
-                   <option value=0 <c:if test ="${oldBook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
-                   <option value=1 <c:if test ="${oldBook.nb_category2 eq '1'}"> selected="selected"</c:if>>경제/경영</option>
-                   <option value=2 <c:if test ="${oldBook.nb_category2 eq '2'}"> selected="selected"</c:if>>과학</option>
-                   <option value=3 <c:if test ="${oldBook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
-                   <option value=4 <c:if test ="${oldBook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
-                   <option value=5 <c:if test ="${oldBook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
-     			 
-     			  
-     			
-     			  
-     			   <option value=6 <c:if test ="${oldBook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
-	               <option value=7 <c:if test ="${oldBook.nb_category2 eq '7'}"> selected="selected"</c:if>>문학</option>
-     			</select> 
+                         <c:if test="${oldBook.nb_category1 eq 1 }">
+	                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
+	                   <option value=0 <c:if test ="${oldBook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
+	                   <option value=1 <c:if test ="${oldBook.nb_category2 eq '1'}"> selected="selected"</c:if>>경제/경영</option>
+	                   <option value=2 <c:if test ="${oldBook.nb_category2 eq '2'}"> selected="selected"</c:if>>과학</option>
+	                   <option value=3 <c:if test ="${oldBook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
+	                   <option value=4 <c:if test ="${oldBook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
+	                   <option value=5 <c:if test ="${oldBook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
+	     			</select>
+     			</c:if>
+     			<c:if test="${newbook.nb_category1 eq 2 }">
+	                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
+	                   <option value=0 <c:if test ="${oldBook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
+	                   <option value=6 <c:if test ="${oldBook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
+	                   <option value=7 <c:if test ="${oldBook.nb_category2 eq '7'}"> selected="selected"</c:if>>문학</option>
+	     			</select>
+     			</c:if>
      			
              </div>
              <!-- 정렬 조건 -->
