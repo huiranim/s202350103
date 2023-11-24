@@ -124,6 +124,7 @@
 					    <!-- 내용 -->
 					      <div class="modal-body">
 					      	<form action="pointChargeTest" method="post">
+					      		<input type="hidden" name="o_order_num" value="${member.m_num }">
 						        <div class="mb-3">
 						        <!-- 충전 금액 -->
 								  <label class="form-label" for="textInput">충전 금액</label>

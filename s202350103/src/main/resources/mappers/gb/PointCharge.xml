@@ -4,14 +4,14 @@
 
 <mapper namespace="com.choongang.s202350103.PointChargeMapper"> 
 
-	<insert id="gbInsertPointCharge" parameterType="Orderr">
+	<insert id="gbInsertPointCharge" parameterType="Ka">
 		INSERT INTO point_list(p_num, m_num, a_par_pdate, p_list_type, m_point)
-		VALUES(pointlist_p_num_seq.nextval, #{m_num}, sysdate, 8, #{o_pay_price})
+		VALUES(pointlist_p_num_seq.nextval, #{partner_order_id}, sysdate, 8, #{amount.total})
 	</insert>
 	
-	<update id="gbUpdateMemberPoint" parameterType="Orderr">
+	<update id="gbUpdateMemberPoint" parameterType="Ka">
 		UPDATE member
-		SET m_point = m_point + #{o_pay_price}
-		WHERE m_num = #{m_num}
+		SET m_point = m_point + #{amount.total}
+		WHERE m_num = #{partner_order_id}
 	</update>
 </mapper>

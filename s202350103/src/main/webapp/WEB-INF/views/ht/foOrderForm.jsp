@@ -304,7 +304,8 @@
           	
  <!--  공통으로 보내줘야하는 form -->       	
         <form action="orderAction"   id="orderActionForm"  onsubmit="return chk()">
-        
+        	<input type="hidden" name="o_order_count" value="${orderList[0].quantity}">
+        	<input type="hidden" name="nb_title" value="${orderList[0].nb_title}">
             <c:if test="${paymentType == 1}">
             	<c:forEach var="book" items="${orderList}">
         			<input type="hidden" name="nb_num" value="${book.nb_num}">

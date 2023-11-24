@@ -80,6 +80,8 @@ public interface MemberService {
 	int replyInsert(MqReply reply);
 	// 답글 추천
 	int likeReply(Long mqr_num);
+	// 답글 신고
+	int declReply(MqReply reply);
 	
 	
 

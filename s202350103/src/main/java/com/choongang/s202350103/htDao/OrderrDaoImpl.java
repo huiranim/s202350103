@@ -139,7 +139,7 @@ public class OrderrDaoImpl implements OrderrDao {
 	}
 
 	@Override
-	public int PaySuccess(KakaoPayApprovalVO ka) {
+	public int paySuccess(KakaoPayApprovalVO ka) {
 		System.out.println("OrderDaoImpl PaySuccess() Start...");
 		int result = 0;
 		try {
