@@ -232,7 +232,6 @@
 </script>
 </head>
 <body onload="onPageLoad(${review.p_status})">
-   <h3>조회수 : ${newbook.nb_readcnt }</h3>
    <!-- 도서 목록 돌아가기 버튼 -->
    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 	  <button class="btn btn-soft-primary mb-2" type="button" 
