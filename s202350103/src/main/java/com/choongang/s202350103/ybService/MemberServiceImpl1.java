@@ -305,6 +305,29 @@ public class MemberServiceImpl1 implements MemberService {
 		return communityMyList;
 	}
 
+	@Override
+	public int deleteImage(int cm_num) {
+		System.out.println("MemberServiceImpl1 deleteImage start...");
+		int deleteImage = md.deleteImage(cm_num);
+		System.out.println("MemberServiceImpl1 deleteImage start...");
+		return deleteImage;
+	}
+
+	@Override
+	public int deleteImage1(int cm_num) {
+		System.out.println("MemberServiceImpl1 deleteImage1 start...");
+		int deleteImage1 = md.deleteImage1(cm_num);
+		System.out.println("MemberServiceImpl1 deleteImage1 start...");
+		return deleteImage1;
+	}
+
+	@Override
+	public int totalPoint(int m_num) {
+		System.out.println("MemberServiceImpl1 totalPoint start...");
+		int totalPoint = md.totalPoint(m_num);
+		return totalPoint;
+	}
+
 
 	
 	
