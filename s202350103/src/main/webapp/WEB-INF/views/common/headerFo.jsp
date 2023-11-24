@@ -383,7 +383,10 @@
                 <li><a class="dropdown-item" href="innewbookList?nb_category1=2">해외도서
                 <i class="bi bi-dot"></i>
                 </a></li>
-                <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category2=0">중고도서
+                <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category2=1">중고 국내도서
+                <i class="bi bi-dot"></i>
+                </a></li>
+                <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category2=2">중고 해외도서
                 <i class="bi bi-dot"></i>
                 </a></li>
                 <li><a class="dropdown-item" href="writeFormObReport">중고판매
@@ -409,7 +412,8 @@
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="innewbookList?nb_category1=1">국내도서</a></li>
                     <li><a class="dropdown-item" href="innewbookList?nb_category1=2">해외도서</a></li>
-                    <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category2=0">중고도서</a></li>
+                    <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category2=1">중고 국내도서</a></li>
+                    <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category2=2">중고 해외도서</a></li>
                   </ul>
                 </li>
              

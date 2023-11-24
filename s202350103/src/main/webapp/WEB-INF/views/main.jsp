@@ -422,8 +422,8 @@
                 </div>
                 
                 <!-- 버튼  -->
-                <div class="d-grid mt-2">
-  					<button type="button" class="btn btn-success mb-2" onclick="foOldBookDetail?ob_num='${oldbook.ob_num}'">중고도서 보러가기 ▷</button>
+                <div class="d-grid mt-2" style="margin-left: 30px;">
+  					<a href="foOldBookDetail?ob_num=${RandomOb.ob_num}"><button type="button" class="btn btn-success mb-2" >중고도서 보러가기 ▷</button></a>
                 </div>
               </div>
             </div>
