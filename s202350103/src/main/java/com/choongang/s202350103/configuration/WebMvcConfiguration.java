@@ -14,33 +14,33 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	@Override					//bean 안걸어줘도 됨
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 로그인 관련 InterCeptor (비로그인 시 접근 막을 페이지)
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/mainBo");						// 관리자메인
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/adminMemberList");			// 회원목록
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberCartList");				// 장바구니
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/foGivingGift");				// 선물하기
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/foOrderDetail");				// 마이페이지 - 주문상세
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeForm");					// 커뮤니티 글 등록
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/FodetailOb");					// 마이페이지 - 정산화면
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/eventIn");					// 이벤트 페이지
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/reviewList");					// 제품별 리뷰 리스트
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/MyReviewList");				// 나의 리뷰 리스트(작성 가능한 리스트)
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/MyReviewedList");				// 나의 리뷰 리스트(작성한 리스트)
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/reviewForm");					// 리뷰 등록
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/orderForm");					// 주문 등록
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberMyCommunity");			// 커뮤니티 내 게시물
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberPointList");			// 커뮤니티 내 게시물
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeOb");               		//중고판매 신청완료
-	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObCal");            	//중고판매 정산안내
-	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObTrans");         	//중고판매 운송장
-		
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/mainBo");							// 관리자메인
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/adminMemberList");				// 회원목록
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberCartList");					// 장바구니
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/foGivingGift");					// 선물하기
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/foOrderDetail");					// 마이페이지 - 주문상세
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeForm");						// 커뮤니티 글 등록
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/FodetailOb");						// 마이페이지 - 정산화면
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/eventIn");						// 이벤트 페이지
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/reviewList");						// 제품별 리뷰 리스트
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/MyReviewList");					// 나의 리뷰 리스트(작성 가능한 리스트)
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/MyReviewedList");					// 나의 리뷰 리스트(작성한 리스트)
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/reviewForm");						// 리뷰 등록
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/orderForm");						// 주문 등록
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberMyCommunity");				// 커뮤니티 내 게시물
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberPointList");				// 커뮤니티 내 게시물
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeOb");               			// 중고판매 신청완료
+	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObCal");         	   	// 중고판매 정산안내
+	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObTrans");       	  	// 중고판매 운송장
+	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/eventIn"); 						// 이벤트 페이지
 		
 		// 영준 InterCeptor (Parameter로 다룬 페이지)
-		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOrder"); 				// 내 주문
-		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyInfo");					// 내 정보
-		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberQna");						// 질문 등록
-		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberQnaOne");					// 1:1 문의
-		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOna");					// 내 질문
-		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberPointList");				// 내 포인트 이력
+		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOrder"); 					// 내 주문
+		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyInfo");						// 내 정보
+		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberQna");							// 질문 등록
+		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberQnaOne");						// 1:1 문의
+		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOna");						// 내 질문
+		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberPointList");					// 내 포인트 이력
 
 		// 로그인 후 관리자 권한 InterCeptor (비관리자 접근 막을 페이지)
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/mainBo");				// 관리자 메인
@@ -57,5 +57,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 관리자 이벤트목록
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boAttendance");			// 관리자 이벤트(출석) 생성
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boQuiz");				// 관리자 이벤트(퀴즈) 생성
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/selectMemberPoint");	// 회원 포인트 수정
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventDetail");		// 이벤트 정보 수정
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 이벤트 목록
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boJoinedMember");		// 이벤트 포인트 내역
 	}
 }
