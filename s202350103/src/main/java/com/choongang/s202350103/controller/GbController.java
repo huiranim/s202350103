@@ -547,7 +547,7 @@ public class GbController {
 		
 		String toMail = newbook.getRecipient();			// 받는 사람
 		System.out.println("toMail -> "+toMail);
-		String sendMail = "gml2511@gmail.com";			// 보내는 사람
+		String sendMail = "dadok202350103@gmail.com";			// 보내는 사람
 		System.out.println("sendMail -> "+sendMail);	
 		String mailTitle = member.getM_name()+"님께서 다독 도서 상품을 추천하였습니다.";	// 메일 제목
 		String e_message = newbook.getE_message();
