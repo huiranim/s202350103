@@ -351,7 +351,7 @@
 		
 		insert into memberq_reply 
         values 
-        (MEMBERQ_REPLY_MQR_NUM_SEQ.nextval, #{m_num}, #{m_num_write}, #{mq_num}, #{mqr_content}, sysdate,0, 0)
+        (MEMBERQ_REPLY_MQR_NUM_SEQ.nextval, #{m_num}, #{m_num_write}, #{mq_num}, #{mqr_content}, sysdate,0, 0, 0, null)
 	
 	</insert>
 	
@@ -360,6 +360,15 @@
 		 update memberq_reply 
 		    set mqr_recomen = mqr_recomen + 1 
 	   	 where mqr_num = #{mqr_num}
+	
+	</update>
+	
+	<update id="declReply" parameterType="MqReply">
+		
+		update memberq_reply set 
+	        mqr_decl = mqr_decl +1 ,
+	        mqr_decl_val = #{mqr_decl_val}
+        where mqr_num = #{mqr_num}
 	
 	</update>
 	

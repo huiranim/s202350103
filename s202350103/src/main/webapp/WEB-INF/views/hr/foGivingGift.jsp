@@ -117,7 +117,7 @@
             <h3 style="align: center;">선물하기</h3><p>
           </div>
           <!-- form -->
-          <form class="row" action="foGivingGiftAction">
+          <form class="row" action="orderAction">
           
 <!-- 배송비 결정 -->
 <c:choose>
@@ -293,6 +293,7 @@
 <input type="hidden" name="nb_title" 	value="${newbook.nb_title }"> 
 <input type="hidden" name="o_de_count"  value="${quantity}"> 
 <input type="hidden" name="o_type" 		value="2"> 
+<input type="hidden" name="destination" value="0"> 
 
           </form>
 

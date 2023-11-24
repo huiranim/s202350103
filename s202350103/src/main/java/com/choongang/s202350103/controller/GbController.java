@@ -590,9 +590,7 @@ public class GbController {
 			messageHelper.setText(messageText, true);
             // true는 html을 사용하겠다는 의미입니다.
             
-            /*
-             * 단순한 텍스트만 사용하신다면 다음의 코드를 사용하셔도 됩니다. messageHelper.setText(messageText);
-             */
+			// 단순한 텍스트만 사용하신다면 다음의 코드를 사용하셔도 됩니다. messageHelper.setText(messageText);
 			
 			// 메일 발송
 			mailSender.send(message);
@@ -610,34 +608,6 @@ public class GbController {
 		}
 		
 		return "gb/shareEmailPopup"; 
-	}
-	
-	@RequestMapping("pointChargeTest")
-	public String pointChargeTest(RedirectAttributes redirect, HttpSession session, Member member, Orderr orderr, Model model) {
-		System.out.println("GbController pointChargeTest start...");
-		int result = 0;
-		
-		// 로그인한 멤버 값 불러오기
-		member =(Member) session.getAttribute("member");
-		int m_num = member.getM_num();
-		
-		orderr.setNb_title("포인트 충전");						// 상품명
-		orderr.setM_num((int)orderr.getO_order_num());		// 회원번호
-		orderr.setO_rec_name(member.getM_name());			// 회원이름
-		orderr.setO_order_count(1);							// 결제수량
-		// 결제금액은 form으로 넘어온다.
-		// 주문번호는 form으로 넘어온다.
-		System.out.println("GbController pointChargeTest orderr.getO_order_num() -> "+ orderr.getO_order_num());
-		
-		// result = pcs.InsertUpdatePointCharge(kakaoDto);
-		// System.out.println("GbController pointChargeTest result -> "+result);
-		// model.addAttribute("result", result);
-		// model.addAttribute("result", result);
-		redirect.addFlashAttribute("orderr", orderr);
-		int destination = 0;
-		redirect.addFlashAttribute("destination", destination);
-		
-		return "redirect:orderAction";
 	}
 	 
 }
