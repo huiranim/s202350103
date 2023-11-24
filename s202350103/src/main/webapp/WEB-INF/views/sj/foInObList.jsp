@@ -60,7 +60,7 @@
 	                   <option value=5 <c:if test ="${oldBook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
 	     			</select>
      			</c:if>
-     			<c:if test="${newbook.nb_category1 eq 2 }">
+     			<c:if test="${oldBook.nb_category1 eq 2 }">
 	                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
 	                   <option value=0 <c:if test ="${oldBook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
 	                   <option value=6 <c:if test ="${oldBook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
