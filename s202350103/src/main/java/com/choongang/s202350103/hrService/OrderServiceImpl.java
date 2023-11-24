@@ -200,7 +200,7 @@ public class OrderServiceImpl implements OrderService {
 		System.out.println("OrderServiceImpl giftMailing() tomail -> "+tomail);
 		
 		// 보내는 사람
-		String setfrom = "gml2511@gmail.com";
+		String setfrom = "dadok202350103@gmail.com";
 		
 		// 제목
 		String title = "[DADOK] "+m_name+"님으로부터 선물이 도착했습니다!";
