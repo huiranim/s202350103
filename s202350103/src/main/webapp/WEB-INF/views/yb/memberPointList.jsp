@@ -27,6 +27,11 @@
 <script type="text/javascript">
 	$(function() {
 		
+		var result = '${result}';
+		if (result > 0){
+			alert("포인트 충전이 완료되었습니다.");
+		}
+		
 		$('#charge1').click(function(){
 			var charge = $('#charge1').val();
 			$('#chargeAmount').val(charge);
@@ -118,7 +123,8 @@
 					      </div>
 					    <!-- 내용 -->
 					      <div class="modal-body">
-					      	<form action="kakaoPay">
+					      	<form action="pointChargeTest" method="post">
+					      		<input type="hidden" name="o_order_num" value="${member.m_num }">
 						        <div class="mb-3">
 						        <!-- 충전 금액 -->
 								  <label class="form-label" for="textInput">충전 금액</label>

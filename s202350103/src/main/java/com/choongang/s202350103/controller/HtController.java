@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.domain.AmountVO;
 import com.choongang.s202350103.domain.KakaoPayApprovalVO;
+import com.choongang.s202350103.gbService.PointChargeService;
 import com.choongang.s202350103.htService.EmailService;
 import com.choongang.s202350103.htService.KakaoPay;
 //import com.choongang.s202350103.htService.KakaoPay;
@@ -55,6 +56,7 @@ public class HtController {
 	private final OrderrService os;
 	private final ReviewService rs;
 	private final EmailService emailService;
+	private final PointChargeService pcs;
 
 	
 	@RequestMapping("/reviewList")
@@ -385,20 +387,21 @@ public class HtController {
 
 	 @RequestMapping("/orderAction")
 	 public String orderAction(
-			 					 RedirectAttributes redirect,
-							 	 String m_email1, 
-								 String m_email, 
-	 
-							     String m_ph1,
-								 String m_ph2,
-								 String m_ph3,
-				 
-				 				 String m_addr1,
-								 String m_addr2,
-								 String m_addr,
-								 
-								 int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
-								 Model model, HttpSession session, Member member, Orderr orderr, Cart cart
+								 RedirectAttributes redirect,
+					             String m_email1, 
+					            String m_email, 
+					
+					             String m_ph1,
+					            String m_ph2,
+					            String m_ph3,
+					
+					             String m_addr1,
+					            String m_addr2,
+					            String m_addr,
+					            
+					            @ModelAttribute("destination") int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
+					            Model model, HttpSession session, Member member, 
+					            @ModelAttribute("orderr") Orderr orderr, Cart cart
 								 ) {
 		System.out.println("Controller orderAction Start...");
 		System.out.println("Controller orderAction 1 orderr.getPaymentType()-->"+orderr.getPaymentType());
@@ -411,6 +414,7 @@ public class HtController {
 		}
 		
 		orderr.setM_num(member.getM_num());
+		orderr.setM_name(member.getM_name());
 		
 		// 최근 주소지 = 1, 직접입력 = 2
 		if(destination == 2) {
@@ -445,6 +449,10 @@ public class HtController {
 		long o_order_num_length = orderr.getO_order_num();
 		if(o_order_num_length == 0) {//포인트충전 결제 --> 값 있음 / 일반 결제 --> 값 없음
 			os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
+		} else {
+			orderr.setO_order_count(1);
+			orderr.setNb_title("포인트 충전");
+			System.out.println("orderr111 -> "+orderr);
 		}
 		
 		//카카오페이 결제하기전 전송할 데이터 담기
@@ -474,20 +482,19 @@ public class HtController {
 	 private KakaoPayApprovalVO kakaoSendData(Orderr orderr) {
 		//필수 데이터 조회
 		System.out.println("kakaoSendData orderr---> " + orderr);
-		Orderr kakaoSendData = os.orderPayment(orderr);
 		
 		//카카오에서 요청한 DTO 변수명과 타입으로 변경
-		String partner_order_id = String.valueOf(kakaoSendData.getO_order_num()); //주문번호 또는 회원번호
-		String partner_user_id  = String.valueOf(kakaoSendData.getO_rec_name()); //회원 이름
-		Integer quantity = kakaoSendData.getO_order_count(); //결제 수량
+		String partner_order_id = String.valueOf(orderr.getO_order_num()); //주문번호 또는 회원번호
+		String partner_user_id  = String.valueOf(orderr.getM_num()); //회원 이름
+		Integer quantity = orderr.getO_order_count(); //결제 수량
 		String item_name = null; //상품명
 		if(quantity == 1) {// 1개 구매일 경우
-			item_name = kakaoSendData.getNb_title(); 
+			item_name = orderr.getNb_title(); 
 		} else {           // 여러개 구매일 경우
-			item_name = kakaoSendData.getNb_title() + " 외 " + (quantity-1) + "개";
+			item_name = orderr.getNb_title() + " 외 " + (quantity-1) + "개";
 		}
 		AmountVO amountVO = new AmountVO(); //결제금액
-		amountVO.setTotal(kakaoSendData.getO_pay_price());
+		amountVO.setTotal(orderr.getO_pay_price());
 		
 		// kakaopay에 보낼것을 KakaoPayApprovalVO DTO에 담기
 		KakaoPayApprovalVO kakaoDto = new KakaoPayApprovalVO();
@@ -546,9 +553,19 @@ public class HtController {
 			kakaoDto =  kakaopay.kakaoPayInfo(pg_token, kakaoDto);
 			
 			System.out.println("kakaoDto---> " + kakaoDto);
-			
+			if(kakaoDto.getPartner_order_id().length() != 4) {
+				// orderr update(주문상태 변경)
+				result = os.paySuccess(kakaoDto);
+			}else {
+				int m_num = member.getM_num();
+				
+				result = pcs.InsertUpdatePointCharge(kakaoDto);
+				System.out.println("GbController pointChargeTest result -> "+result);
+				
+				return "redirect:memberPointList?m_num="+m_num+"&result="+result;
+			}
 			// orderr update(주문상태 변경)
-			result = os.PaySuccess(kakaoDto);
+			result = os.paySuccess(kakaoDto);
 			 
 		 }catch (Exception e) {
 		  System.out.println("kakaoPaySuccess Exception -> " + e.getMessage());
