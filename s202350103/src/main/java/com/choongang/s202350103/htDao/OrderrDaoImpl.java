@@ -105,8 +105,10 @@ public class OrderrDaoImpl implements OrderrDao {
 			System.out.println("Dao htOrderInsert pay_point_insert_result--->" + pay_point_insert_result);
 			
 			// 포인트 이력 insert(사용시)
-			int use_point_insert_result = session.insert("htUsePointInsert", orderr);
-			System.out.println("Dao htOrderInsert use_point_insert_result--->" + use_point_insert_result);
+			if(orderr.getO_point() != 0) {
+				int use_point_insert_result = session.insert("htUsePointInsert", orderr);
+				System.out.println("Dao htOrderInsert use_point_insert_result--->" + use_point_insert_result);
+			}
 			
 			// 장바구니 삭제(장바구니 결제일 경우)
 			if(orderr.getPaymentType() == 2) {
@@ -132,6 +134,8 @@ public class OrderrDaoImpl implements OrderrDao {
 		try {
 			orderr2 = session.selectOne("htOrderPayment", orderr);
 			System.out.println("OrderrDaoImpl orderPayment orderr--> "+ orderr2);
+		
+		
 		}catch (Exception e) {
 			System.out.println("OrderrDaoImpl orderPayment Exception -> " + e.getMessage());
 		}

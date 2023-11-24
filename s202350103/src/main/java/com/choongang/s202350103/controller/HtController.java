@@ -460,6 +460,10 @@ public class HtController {
 			} else {
 				os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
 			}
+		}else {
+			orderr.setO_order_count(1);
+			orderr.setNb_title("포인트 충전");
+			System.out.println("orderr111 -> "+orderr);
 		}
 		
 		//카카오페이 결제하기전 전송할 데이터 담기
