@@ -484,6 +484,7 @@ import lombok.extern.slf4j.Slf4j;
 		public String selectMemberPoint(@RequestParam int m_num, String currentPage, Model model) {
 			System.out.println("shController selectMemberPoint() Start...");
 			int memberEvent = ps.memberPointList(m_num);
+			//페이징 작업
 			Paging page = new Paging(memberEvent, currentPage);
 			int start = page.getStart();
 			int end = page.getEnd();
@@ -556,34 +557,37 @@ import lombok.extern.slf4j.Slf4j;
 			return "sh/boJoinedMember";
 		}
 		
-		@RequestMapping (value = "searchDeatil1")
+		@RequestMapping (value = "searchDetail1")
 		public String searchDetail1(@RequestParam("status") String status, String currentPage, Model model) {
 			System.out.println("shController searchDetail1() Start...");
 			int totalAtt = ps.totalAtt();
 			int totalQuiz = ps.totalQuiz();
 			int totalEvent = totalAtt + totalQuiz;
-			System.out.println("shController Attendance Count->"+ totalAtt);
-			System.out.println("shController Quiz Count->"+ totalQuiz);
 			
 			Paging page = new Paging(totalEvent, currentPage);
-			Attendance attendance = new Attendance();
 			int start = page.getStart();
 			int end = page.getEnd();
+			
+			Attendance attendance = new Attendance();
 			attendance.setStart(start);
 			attendance.setEnd(end);
+			
 			List<Attendance> eventList = null;
 			
-			switch(status) {
-				case "all": 
-					eventList = ps.searchDetail11(attendance);
-				case  "keep":
-					eventList = ps.searchDetail12(attendance);
-				case "stop":
-					eventList = ps.searchDetail13(attendance);
-			}
+			if(status.equals("all")) {
+				System.out.println("status = all");
+				eventList = ps.searchDetail11(attendance);
+			} else if (status.equals("keep")){
+				System.out.println("status = keep");
+				eventList = ps.searchDetail12(attendance);
+			} else if(status.equals("stop")) {
+				System.out.println("status = stop");
+				eventList = ps.searchDetail13(attendance);
+			}		
 			
 			model.addAttribute("event",eventList);
+			model.addAttribute("page",page);
 			
-			return "forward:/boEventList";
+			return "sh/boEventList";
 		}
 }

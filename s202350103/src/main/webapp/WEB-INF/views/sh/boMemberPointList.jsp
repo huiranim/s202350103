@@ -26,7 +26,7 @@
 	function minusPoint(){
 		var point = $('#point').val();
 		var sum = ${sum};
-		alert("sum->"+sum);
+		//alert("sum->"+sum);
 		if(sum >= point){
 			if(point>0){
 				if(confirm(point+"만큼 차감하시겠습니까?")){
