@@ -233,6 +233,12 @@ public class MemberServiceImpl implements MemberService{
 		int likeReply =  md.likeReply(mqr_num);
 		return likeReply;
 	}
+	// 답글 신고
+	@Override
+	public int declReply(MqReply reply) {
+		int declReply = md.declReply(reply);
+		return declReply;
+	}
 	
 	
 	

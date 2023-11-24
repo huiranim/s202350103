@@ -27,11 +27,9 @@
 			data : { mqr_num : mqr_num },
 			success : function (response){
 				if(response.success){
-					// 성공시
-					var likeButton = ${'button[data-mqr-num="${mqr_num}"]'};
-					var likeCount = likeButton.find('.like-count');
-					var newLikeCount = parseInt(likeCount.text()) + 1;
-					likeCount.text(newLikeCount);
+					var likeCountElemnt = $("#likeCount" + mqr_num);
+					var currentCount = parseInt(likeCountElemnt.text());
+					likeCountElemnt.text(currentCount + 1);
 					
 				}else{
 					alert("현재 추천을 할 수 없습니다. \n잠시 후 시도 해 주세요.");
@@ -42,6 +40,28 @@
 			},
 		});
 	}
+	
+</script>
+
+
+<script type="text/javascript">
+	
+		$(document).ready(function() {
+			  // 폼이 제출될 때
+			  $("#replyDecl").submit(function(event) {
+			    event.preventDefault(); // 기본 제출 동작 방지
+		
+			    // 알림창을 띄웁니다.
+			    var isConfirmed = confirm("접수 완료 되었습니다.");
+		
+			    if (isConfirmed) {
+			      // 사용자가 확인을 누르면 폼을 자동으로 서버로 제출합니다.
+			      submitForm();
+			    } else {
+			      // 사용자가 취소를 누른 경우, 아무 작업도 수행하지 않습니다.
+			    }
+			  });
+	
 	
 </script>
 
@@ -196,15 +216,61 @@
 			</div>
 			
 		<div class="mb-5" style="display: flex; justify-content: flex-end; align-items: flex-end;">
-			    <button class="btn btn-soft-success" onclick="likeReply(${reply.mqr_num})">
-			  <i class="bi bi-hand-thumbs-up"></i> &nbsp; 
-			    <span>${reply.mqr_recomen }</span></button>&nbsp;&nbsp; 
 
-				<!-- ${reply.mqr_decl } -->
-			    <button class="btn btn-soft-success ">
-			  <i class="bi bi-bell"></i> &nbsp;
-				    신고하기</button>
+			   <button class="btn btn-soft-success" onclick="likeReply(${reply.mqr_num})">
+			 	<i class="bi bi-hand-thumbs-up-fill"></i> &nbsp; 
+			    <span id="likeCount${reply.mqr_num}">${reply.mqr_recomen }</span></button>&nbsp;&nbsp; 
+	
+			    <button class="btn btn-soft-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+			 	 <i class="bi bi-bell-fill"></i> &nbsp;
+				    신고하기
+				</button>
 			</div>
+
+			<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-centered" role="document">
+			    
+        		<form action="replyDecl" method="post" id="replyDecl">
+        			<input type="hidden" name="mqr_num" value="${reply.mqr_num }">
+        			<input type="hidden" name="mqr_decl" value="${reply.mqr_decl }">
+        			<input type="hidden" name="m_num" value="${member.m_num }">
+        			
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalCenterTitle">댓글 신고 접수</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				    
+				      <div class="modal-body">
+				       <label for="message-text" class="col-form-label">신고 유형을 선택 해 주세요.</label><p>
+			        		
+			        		 <select class="form-select" aria-label="Default select example" name="mqr_decl_val">
+							  <option selected>명확한 사유가 있는 경우 신고해주시기 바랍니다. 감사합니다</option>
+							  <option value="1">- 불쾌한 표현이 포함되어있습니다. -</option>
+							  <option value="2">- 불법 정보를 포함하고 있습니다. -</option>
+							  <option value="3">- 지나친 욕설 및 비방 -</option>
+							  <option value="4">- 청소년 유해매체 또는 음란물 -</option>
+							  <option value="5">- 개인정보 노출 게시물 -</option>
+							  <option value="6">- 명예훼손 및 저작권 침해 요소 -</option>
+							</select>			        	
+				        	
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+				        <button type="submit" class="btn btn-success mb-2">접수</button>
+				      </div>
+				    </div>
+	        	</form>
+			  </div>
+			</div>
+			
+			
+			
+			
+			
+			
 		</div>
 	
 	<hr>		
