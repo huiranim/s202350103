@@ -102,7 +102,7 @@
    
    // 선물하기
    function gift(pNb_num){
-	   alert("nb_num : "+pNb_num);
+	   location.href = "foGivingGift?nb_num="+pNb_num+"&quantity="+$("#c_count").val();
    }
    
    // 장바구니
@@ -343,7 +343,7 @@
                     <!-- 선물하기 -->
                     <!-- <input type="submit" value="선물하기" class="btn btn-warning" onclick="javascript: form.action='/foGivingGift';">
                     	 <i class="feather-icon icon-shopping-bag me-2"></i> -->
-                    <button type="button" class="btn btn-secondary" onclick="gift(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>선물하기</button>
+                    <button type="button" class="btn btn-warning" onclick="gift(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>선물하기</button>
 					
 					<!-- 장바구니 -->
                     <button type="button" class="btn btn-secondary" onclick="cart(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
