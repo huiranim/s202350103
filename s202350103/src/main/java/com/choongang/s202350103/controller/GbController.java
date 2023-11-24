@@ -629,8 +629,8 @@ public class GbController {
 		// 주문번호는 form으로 넘어온다.
 		System.out.println("GbController pointChargeTest orderr.getO_order_num() -> "+ orderr.getO_order_num());
 		
-		result = pcs.InsertUpdatePointCharge(orderr);
-		System.out.println("GbController pointChargeTest result -> "+result);
+		// result = pcs.InsertUpdatePointCharge(kakaoDto);
+		// System.out.println("GbController pointChargeTest result -> "+result);
 		// model.addAttribute("result", result);
 		// model.addAttribute("result", result);
 		redirect.addFlashAttribute("orderr", orderr);

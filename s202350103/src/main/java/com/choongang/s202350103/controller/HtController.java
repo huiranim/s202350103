@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.domain.AmountVO;
 import com.choongang.s202350103.domain.KakaoPayApprovalVO;
+import com.choongang.s202350103.gbService.PointChargeService;
 import com.choongang.s202350103.htService.EmailService;
 import com.choongang.s202350103.htService.KakaoPay;
 //import com.choongang.s202350103.htService.KakaoPay;
@@ -55,6 +56,7 @@ public class HtController {
 	private final OrderrService os;
 	private final ReviewService rs;
 	private final EmailService emailService;
+	private final PointChargeService pcs;
 
 	
 	@RequestMapping("/reviewList")
@@ -385,20 +387,21 @@ public class HtController {
 
 	 @RequestMapping("/orderAction")
 	 public String orderAction(
-			 					 RedirectAttributes redirect,
-							 	 String m_email1, 
-								 String m_email, 
-	 
-							     String m_ph1,
-								 String m_ph2,
-								 String m_ph3,
-				 
-				 				 String m_addr1,
-								 String m_addr2,
-								 String m_addr,
-								 
-								 int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
-								 Model model, HttpSession session, Member member, Orderr orderr, Cart cart
+								 RedirectAttributes redirect,
+					             String m_email1, 
+					            String m_email, 
+					
+					             String m_ph1,
+					            String m_ph2,
+					            String m_ph3,
+					
+					             String m_addr1,
+					            String m_addr2,
+					            String m_addr,
+					            
+					            @ModelAttribute("destination") int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
+					            Model model, HttpSession session, Member member, 
+					            @ModelAttribute("orderr") Orderr orderr, Cart cart
 								 ) {
 		System.out.println("Controller orderAction Start...");
 		System.out.println("Controller orderAction 1 orderr.getPaymentType()-->"+orderr.getPaymentType());
@@ -449,6 +452,7 @@ public class HtController {
 		} else {
 			orderr.setO_order_count(1);
 			orderr.setNb_title("포인트 충전");
+			System.out.println("orderr111 -> "+orderr);
 		}
 		
 		//카카오페이 결제하기전 전송할 데이터 담기
@@ -549,9 +553,19 @@ public class HtController {
 			kakaoDto =  kakaopay.kakaoPayInfo(pg_token, kakaoDto);
 			
 			System.out.println("kakaoDto---> " + kakaoDto);
-			
+			if(kakaoDto.getPartner_order_id().length() != 4) {
+				// orderr update(주문상태 변경)
+				result = os.paySuccess(kakaoDto);
+			}else {
+				int m_num = member.getM_num();
+				
+				result = pcs.InsertUpdatePointCharge(kakaoDto);
+				System.out.println("GbController pointChargeTest result -> "+result);
+				
+				return "redirect:memberPointList?m_num="+m_num+"&result="+result;
+			}
 			// orderr update(주문상태 변경)
-			result = os.PaySuccess(kakaoDto);
+			result = os.paySuccess(kakaoDto);
 			 
 		 }catch (Exception e) {
 		  System.out.println("kakaoPaySuccess Exception -> " + e.getMessage());

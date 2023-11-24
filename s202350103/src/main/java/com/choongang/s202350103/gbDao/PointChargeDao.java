@@ -6,6 +6,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.choongang.s202350103.domain.KakaoPayApprovalVO;
 import com.choongang.s202350103.model.Orderr;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class PointChargeDao {
 	private final SqlSession session;
 	private final PlatformTransactionManager transactionManager;
 	
-	public int InsertUpdatePointCharge(Orderr orderr) {
+	public int InsertUpdatePointCharge(KakaoPayApprovalVO kakaoDto) {
 		System.out.println("PointChargeDao InsertUpdatePointCharge start...");
 		// insert와 update가 모두 실행되면 result 가 1로 변경
 		int result = 0;
@@ -27,11 +28,11 @@ public class PointChargeDao {
 		
 		try {
 			// 포인트 이력 테이블에 insert
-			result = session.insert("gbInsertPointCharge", orderr);
+			result = session.insert("gbInsertPointCharge", kakaoDto);
 			System.out.println("PointChargeDao gbInsertPointCharge result -> "+result);
 			
 			// 회원 테이블에 포인트 충전
-			result = session.update("gbUpdateMemberPoint", orderr);
+			result = session.update("gbUpdateMemberPoint", kakaoDto);
 			System.out.println("PointChargeDao gbUpdateMemberPoint result -> "+result);
 			
 			// sql문이 모두 실행되었을 때 커밋을 실행 (하나라도 오류가 발생하면 커밋되지 않음)
