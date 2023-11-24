@@ -120,7 +120,7 @@ public class RecentlyBook {
 		
 		for (int i = 0 ; i < 3; i++) {
 			int book_num = (int) session.getAttribute("recentBookNum"+i);
-			System.out.println("nb_num1111->"+book_num);
+			// System.out.println("nb_num1111->"+book_num);
 			if(book_num != 0) {
 				NewBook recentBook = nbs.selectRecentBookList(book_num);
 				recentBookList.add(recentBook);

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.MemberQ;
+import com.choongang.s202350103.model.MqReply;
 import com.choongang.s202350103.yjDao.MemberDao;
 
 import lombok.RequiredArgsConstructor;
@@ -207,6 +208,30 @@ public class MemberServiceImpl implements MemberService{
 	public int wdMember() {
 		int wdMember = md.wdMember();
 		return wdMember;
+	}
+	// 문의 답변 리스트 
+	@Override
+	public List<MqReply> mqReplyList(int mq_num) {
+		List<MqReply> mqReplyList = md.mqReplyList(mq_num);
+		return mqReplyList;
+	}
+	// 답글 카운트
+	@Override
+	public int replyCount(int mq_num) {
+		int replyCount = md.replyCount(mq_num);
+		return replyCount;
+	}
+	// 답글 작성
+	@Override
+	public int replyInsert(MqReply reply) {
+		int replyInsert = md.replyInsert(reply);
+		return replyInsert;
+	}
+	// 답글 추천
+	@Override
+	public int likeReply(Long mqr_num) {
+		int likeReply =  md.likeReply(mqr_num);
+		return likeReply;
 	}
 	
 	

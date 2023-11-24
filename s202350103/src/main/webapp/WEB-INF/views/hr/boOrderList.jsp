@@ -430,8 +430,8 @@
 			  <ul class="pagination">
 			    <!-- 이전 -->
 			    <c:if test="${page.startPage > page.pageBlock }">
-				    <li class="page-item disabled">
-				      <a class="page-link" href="boOrderList?currentPage=${page.startPage-page.pageBlock }" tabindex="-1" aria-disabled="true">이전</a>
+				    <li class="page-item">
+				      <a class="page-link" href="boOrderList?currentPage=${page.startPage-page.pageBlock }">이전</a>
 				    </li>
 				</c:if>
 			    

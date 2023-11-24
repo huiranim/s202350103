@@ -7,6 +7,27 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<style type="text/css">
+		.top {
+	                position: relative;
+	                display: flex; 
+	                justify-content: space-between;
+	                padding: 0.5rem 1.4rem;
+	                background-color: #3CB371;
+	                vertical-align: middle;
+	            }
+	            
+	     h1.infoTit {
+	     				margin-top : 10px;
+	                    font-size: 20px; 
+	                    color:#ffffff;
+	                }
+	     .textBox {
+	     				margin-left: 5%;
+	     				margin-right: 5%;
+	     			 }
+	</style>
+	
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
 		function closeWindow(p_order_num, p_deliv, p_track) {
@@ -34,14 +55,16 @@
 
 </head>
 <body>
-<div class="py-6 p-md-6 p-lg-10">
    <div class="mb-6">
-   
-   
-   
-      <!-- heading -->
-      <h2 class="mb-0">반품 처리</h2>
+		<header class="top">
+			<h1 class="infoTit">
+				반품 처리
+			</h1>
+		</header>
    </div>
+   
+<main class="textBox">
+<div class="py-6 p-md-6 p-lg-10">
    <div>
       <!-- heading -->
       <div class="row">
@@ -75,5 +98,6 @@
       </div>
    </div>
  </div>
+</main>
 </body>
 </html>
