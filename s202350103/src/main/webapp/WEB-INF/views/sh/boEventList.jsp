@@ -14,16 +14,27 @@
 		var status = $('input[name=status]:checked').val();
 		// 체크박스가 체크되었을 때 실행
 		if($('input[name=date]').is(':checked')){
-			location.href='searchDetail1?status='+status;
+			$.ajax({
+				url:"boSearchDetail1",
+				data:{status:status},
+				dataType: "json",  
+				success: function(response){
+					console.log("성공");
+				},
+				error : function(){
+					console.log("실패");
+				}
+			});
 		} else{
 			var sdate = $('input[name=e_sdate]').val();
 			var edate = $('input[name=e_edate]').val();
 			var curDate = new Date();
 			var curDate1 = curDate.getFullYear() +"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
-
 			if(new Date(sdate) > new Date(edate)){
 				alert("이벤트 기간 설정을 잘 못 하셨습니다.");
 				return false;
+			} else {
+				location.href='searchDetail'
 			}
 		}
 	}
