@@ -6,13 +6,39 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<style type="text/css">
+		.top {
+	                position: relative;
+	                display: flex; 
+	                justify-content: space-between;
+	                padding: 0.5rem 1.4rem;
+	                background-color: #3CB371;
+	                vertical-align: middle;
+	            }
+	            
+	     h1.infoTit {
+	     				margin-top : 10px;
+	                    font-size: 20px; 
+	                    color:#ffffff;
+	                }
+	     .textBox {
+	     				margin-left: 5%;
+	     				margin-right: 5%;
+	     			 }
+	</style>
+
 </head>
 <body>
+   <div class="mb-6">
+		<header class="top">
+			<h1 class="infoTit">
+				주문 상품 목록
+			</h1>
+		</header>
+   </div>
+<main class="textBox">
 <div class="row">
 <div class="col-lg-12">
-      <div class="mb-8">
-      	<h1 class="mb-1">주문 상품 목록</h1>
-      </div>
       <div>
          <div class="table-responsive">
             <table class="table text-nowrap">
@@ -46,5 +72,6 @@
       </div>
 </div>
 </div>
+</main>
 </body>
 </html>

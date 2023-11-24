@@ -377,10 +377,15 @@ public class YbController {
 	
 	// 포인트 페이지
 	@GetMapping(value = "memberPointList") 
-	public String memberPointList(Member member, Model model, PointList pointList, String currentPage) {
+	public String memberPointList(Member member, Model model, PointList pointList, String result, String currentPage) {
 		System.out.println("YbController memberPointList() start...");
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
+		
+		String result1 = null;
+		if(result != null) {
+			result1 = result;
+		}
 		
 		System.out.println("memberPointList member.getM_id -> " + member.getM_id());
 		System.out.println("memberPointList session -> " + session.getAttribute("member"));
@@ -404,6 +409,7 @@ public class YbController {
 		System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
 		
 		model.addAttribute("page", page);
+		model.addAttribute("result", result1);
 		model.addAttribute("memberPointList", memberPointList);
 		model.addAttribute("member", member);
 		return "yb/memberPointList";
@@ -835,7 +841,7 @@ public class YbController {
 		  if(!fileCheck.exists()) fileCheck.mkdirs();
 		  List<Map<String, String>> fileList = new ArrayList<>();
 		  Map<String, String> map = null;
-		  if(multiFileList.size() > 1) {
+		  if(multiFileList.size() >= 1) {
 			  for(int i = 0; i < multiFileList.size(); i++) {
 				  String originFile = multiFileList.get(i).getOriginalFilename();
 				  String ext = originFile.substring(originFile.lastIndexOf("."));
@@ -915,73 +921,76 @@ public class YbController {
 	   }
 	   // 게시글 수정
 	   @PostMapping(value = "communityUpdateDo")
-	   public String communityUpdateDo(Community community, Member member,
+	   public String communityUpdateDo(Community community, Member member, Model model,
 			   						   MultipartHttpServletRequest files, @RequestParam("multiFile") List<MultipartFile> multiFileList, HttpServletRequest request) {
 		   System.out.println("YbController communityUpdateDo() start..");
-		   member =(Member) session.getAttribute("member");
-		   System.out.println("multiFileList : " + multiFileList);
-			// path 가져오기
-			  String path = request.getSession().getServletContext().getRealPath("upload/yb");
-			  String root = path + "\\";
-			  File fileCheck = new File(root);
-			  System.out.println("path -> " + path);
-			  System.out.println("root-> " + root);
-			  System.out.println("fileCheck -> " + fileCheck);
-			
-		      if(!fileCheck.exists()) fileCheck.mkdirs();
-			  List<Map<String, String>> fileList = new ArrayList<>();
-			  Map<String, String> map = null;
-			  
-			  if(multiFileList.size() > 1) {
-				  for(int i = 0; i < multiFileList.size(); i++) {
-					  String originFile = multiFileList.get(i).getOriginalFilename();
-					  String ext = originFile.substring(originFile.lastIndexOf("."));
-					  String changeFile = UUID.randomUUID().toString() + ext;
-			
-					  map = new HashMap<>();
-					  map.put("originFile", originFile);
-					  map.put("changeFile", changeFile);	
-					  fileList.add(map);
-				  }
-			  }
-			  System.out.println(fileList);
-			  // 파일업로드
-			  try {
-				  if(fileList.size() > 0) {
-					  for(int i = 0; i < multiFileList.size(); i++) {
-						  File uploadFile = new File(root + "\\" + fileList.get(i).get("changeFile"));
-						  multiFileList.get(i).transferTo(uploadFile);
-					  }
-				  }
-				  System.out.println("다중 파일 업로드 성공!");
-				
-			  } catch (IllegalStateException | IOException e) {
-				  System.out.println("다중 파일 업로드 실패 ㅠㅠ");
-				  // 만약 업로드 실패하면 파일 삭제
-				  for(int i = 0; i < multiFileList.size(); i++) {
-					  new File(root + "\\" + fileList.get(i).get("changeFile")).delete();
-				  }
-				  e.printStackTrace(); 
-			  }
-			  // map List String으로 변환
-			  List<String> valueList = fileList.stream().filter(t -> t.containsKey("changeFile")).map(m -> m.get("changeFile").toString()).collect(Collectors.toList());
-			  String cm_image1 = "";
-			  String cm_image2 = "";
-			  if(valueList.size() == 1) {
-				  cm_image1 = valueList.get(0);				  
-			  } else if(valueList.size() > 1){
-				  cm_image1 = valueList.get(0);
-				  cm_image2 = valueList.get(1);
-			  }
+	      	
+	      	// 받아온것 출력 확인
+		  System.out.println("multiFileList : " + multiFileList);
+		  System.out.println("multiFileList.size : " + multiFileList.size());
+		// path 가져오기
+		  String path = request.getSession().getServletContext().getRealPath("upload/yb");
+		  String root = path + "\\";
+		  File fileCheck = new File(root);
+		  System.out.println("path -> " + path);
+		  System.out.println("root-> " + root);
+		  System.out.println("fileCheck -> " + fileCheck);
 
-		      System.out.println("cm_imag1 -> " + cm_image1);
-		      System.out.println("cm_imag2 -> " + cm_image2);
-
-		      community.setCm_image1(cm_image1);
-		      community.setCm_image2(cm_image2);
- 		   int communityUpdateDo = ms.communityUpdateDo(community);
-		   
-		   return "yb/postDetailForm";
+		  if(!fileCheck.exists()) fileCheck.mkdirs();
+		  List<Map<String, String>> fileList = new ArrayList<>();
+		  Map<String, String> map = null;
+		  if(multiFileList.size() > 1) {
+			  for(int i = 0; i < multiFileList.size(); i++) {
+				  String originFile = multiFileList.get(i).getOriginalFilename();
+				  String ext = originFile.substring(originFile.lastIndexOf("."));
+				  String changeFile = UUID.randomUUID().toString() + ext;
+		
+				  map = new HashMap<>();
+				  map.put("originFile", originFile);
+				  map.put("changeFile", changeFile);	
+				  fileList.add(map);
+			  }
+		  }
+		  System.out.println(fileList);
+		  System.out.println(fileList.size());
+		  
+		  // 파일업로드
+		  
+		  try {
+			  if(fileList.size() > 0) {
+				  for(int i = 0; i < multiFileList.size(); i++) {
+					  File uploadFile = new File(root + "\\" + fileList.get(i).get("changeFile"));
+					  multiFileList.get(i).transferTo(uploadFile);
+				  }
+			  }
+			  System.out.println("다중 파일 업로드 성공!");
+			
+		  } catch (IllegalStateException | IOException e) {
+			  System.out.println("다중 파일 업로드 실패 ㅠㅠ");
+			  // 만약 업로드 실패하면 파일 삭제
+			  for(int i = 0; i < multiFileList.size(); i++) {
+				  new File(root + "\\" + fileList.get(i).get("changeFile")).delete();
+			  }
+			  e.printStackTrace(); 
+		  }
+		  List<String> valueList = fileList.stream().filter(t -> t.containsKey("changeFile")).map(m -> m.get("changeFile").toString()).collect(Collectors.toList()); 
+		  String cm_image1 = "";
+		  String cm_image2 = "";
+		  if(valueList.size() == 1) {
+			  cm_image1 = valueList.get(0);				  
+		  } else if(valueList.size() > 1){
+			  cm_image1 = valueList.get(0);
+			  cm_image2 = valueList.get(1);
+		  }
+		  community.setCm_image1(cm_image1);
+	      community.setCm_image2(cm_image2);
+	      System.out.println("getM_num -> " + community.getM_num());
+	      System.out.println("getM_num -> " + community.getCm_image1());
+	      System.out.println("getM_num -> " + community.getCm_image2());
+		  int communityUpdateDo = ms.communityUpdateDo(community);
+		  System.out.println("ybController communityUpdateDo result -> " + communityUpdateDo);
+		  
+		  return "yb/postDetailForm";
 	   }
 	   
 	   // 게시글 삭제

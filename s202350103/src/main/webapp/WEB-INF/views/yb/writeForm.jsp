@@ -36,14 +36,10 @@
 	.file {
 	 			display: none;
 	}
-   .upload-box {
-			    width: 20%;
-			    
+   .upload-box {			    
 			    box-sizing: border-box;
-			    margin-right: 30px;
+			    margin-right: 20px;
 			    display: flex;
-			    flex-direction: column;
-			    justify-content: center;
 			    align-items: center;
     }
 	.upload-box .drag-file {
@@ -54,24 +50,21 @@
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				border: 3px dashed #dbdbdb;
+				border: 2px dashed #a6d529;
+				margin: 0px 10px 0 10px;
 	}
 
 	.upload-box .drag-file .image {
-  				width: 60px;
+  				width: 100px; height: 95px;
 	}
 
 	.container {
 		 position: absolute;
 		  top: 50%;
 		  left: 50%;
-		
 		  width: 600px;
 		  height: auto;
-		
 		  padding: 40px;
-		
-		
 		  background: linear-gradient(180deg, #f4faf2 0, #f4faf2 473px, #edf7ea 473px, #edf7ea 100%);
 		  border-radius: 10px;
 		  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
@@ -149,6 +142,22 @@
 		}
 	});
 	
+	function setDetailImage(){
+		for(var image of event.target.files){
+			var reader = new FileReader();
+			
+			reader.onload = function(event){
+				var img = document.createElement("img");
+				img.setAttribute("src", event.target.result);
+				img.setAttribute("width", "100px");
+				img.setAttribute("height", "95px");
+				document.querySelector("div#images_container").appendChild(img);
+			};
+			
+			console.log(image);
+			reader.readAsDataURL(image);
+		}
+	}
 </script>
 </head>
 <body>
@@ -197,13 +206,21 @@
 			  <div id="drop-file" class="drag-file">
 			    <img src="https://img.icons8.com/pastel-glyph/2x/image-file.png" alt="파일 아이콘" class="image" id="image" name="image">
 			    <input type="hidden" id="cm_image" name="cm_image"> 
-			    
+			  </div>
+			  
+			  <div id="drop-file" class="drag-file">
+			  	<div id="images_container" style="width: 200px; height: 95px;" ></div>
+			  </div>
+			  <div id="drop-file" class="drag-file">
+			  	<div id="images_container" style="width: 100px; height: 95px;"></div>
 			  </div>
 			</div>
         </div>
-        <div class="col-md-12 mb-3">
-		        파일 : <input type="file" name="multiFile" multiple> <br>
+        <div class="form-group">
+		          <input type="file" class="form-control form-control-user" name="multiFile" multiple
+		          		 id="product_detail_image"  onchange="setDetailImage();"> <br>
         </div>
+        
         <div class="col-md-12">
              <!-- btn -->
              <input type="submit" class="btn btn-primary" value="등록" id="submit">

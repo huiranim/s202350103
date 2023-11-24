@@ -185,8 +185,8 @@
 	        imageUrl: nb_image,			// 도서 이미지
 	        link: {
 	          // kakao developer -> [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-	          mobileWebUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num+'&kakaoShare=1', 
-	          webUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num+'&kakaoShare=1',
+	          mobileWebUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num, 
+	          webUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num,
 	        },
 	      },
 	      commerce: {
@@ -197,21 +197,14 @@
 	        {
 	          title: '구매하기',
 	          link: {
-	            mobileWebUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num+'&kakaoShare=1',
-	            webUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num+'&kakaoShare=1',
+	            mobileWebUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num,
+	            webUrl: 'http://localhost:8200/newbookDetail?nb_num='+nb_num,
 	          },
 	        },
 	      ],
 	    }); 
 	   location.reload();
    }
-   
-   $(function() {
-	   var kakaoShare = '${kakaoShare}';
-	   if(kakaoShare != "") {
-		   alert ("kakaoShare -> "+kakaoShare);
-	   }
-   });
    
    // 이메일 공유하기
    function shareEmail() {

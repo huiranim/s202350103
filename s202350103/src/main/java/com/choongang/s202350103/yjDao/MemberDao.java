@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.MemberQ;
+import com.choongang.s202350103.model.MqReply;
 
 public interface MemberDao {
 	
@@ -71,6 +72,14 @@ public interface MemberDao {
 	int activeMember();
 	// 관리자 - 탈퇴 회원 카운트
 	int wdMember();
+	// 문의 답변 리스트 
+	List<MqReply> mqReplyList(int mq_num);
+	// 답글 카운트
+	int replyCount(int mq_num);
+	// 답글 작성
+	int replyInsert(MqReply reply);
+	// 답글 추천
+	int likeReply(Long mqr_num);
 
 	
 	

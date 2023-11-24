@@ -8,38 +8,208 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="../assets/js/jquery.js"></script>
+<script type="text/javascript">
+	function replyCon(){
+		
+			alert("로그인 후 이용 가능합니다.");
+        }
+
+</script>
+
+<script type="text/javascript">
+
+	function likeReply(mqr_num){
+		
+		$.ajax({
+			type : "POST",
+			url : "likeReply",
+			data : { mqr_num : mqr_num },
+			success : function (response){
+				if(response.success){
+					// 성공시
+					var likeButton = ${'button[data-mqr-num="${mqr_num}"]'};
+					var likeCount = likeButton.find('.like-count');
+					var newLikeCount = parseInt(likeCount.text()) + 1;
+					likeCount.text(newLikeCount);
+					
+				}else{
+					alert("현재 추천을 할 수 없습니다. \n잠시 후 시도 해 주세요.");
+				}
+			},
+			error: function(){
+				alert("잠시 후 다시 시도해 주세요.");
+			},
+		});
+	}
+	
+</script>
 
 </head>
 <body>
+
 <c:set value="${memberQInfo }" var="mq"/>
- <p class="fs-2 mb-8">${mq.mq_title }</p>	 
-  
-<div class="card mb-10">
-  <div class="card-header">
-    <h6 class="card-title">작성자</h6>
-    	<span style="font-size: 15px;"> 
-    	<strong>${mq.m_id } <small>(${mq.m_name })</small> </strong>
-    	</span>
-
-  </div>
+	<div class="card mb-8" style="border-left: none; border-right: none; border-top: none;" >
+	  <div class="card-header">
+		  <div class="mb-3">
+			<span style="color: #024098;">Q&A</span>
+		  </div>	
 	
-  <div class="card-header">
-    <h6 class="card-title">작성일</h6>
-    	<span style="font-size: 15px;"> 
-    	<strong><fmt:formatDate value="${mq.mq_date }" pattern="yyyy-MM-dd 일 HH:mm 분"/></strong>
-    	</span>
+		<div class="mb-3" style="display: flex; align-items: center;">
+		    <h2>${mq.mq_title}</h2>
+		</div>
+		
+		<div class="mb-2">
+		    <span style="font-size: 15px;">
+		        <strong><fmt:formatDate value="${mq.mq_date}" pattern="yyyy 년 MM 월 dd 일 HH:mm"/></strong>
+		    </span>
+		</div>
+	
+		<div class="mb-3">
+			<img alt="" src="${mq.m_image }" width="35px;" height="35px;" class="rounded-circle"> &nbsp;
+		    	<span style="font-size: 20px;"> 
+		    	<strong>${mq.m_id } <small>(${mq.m_name})</small></strong>
+		    	</span>
+		</div>
+	
+	  </div>
+	</div>	
 
-  </div>
-</div>	
-
-<hr>
 		<div class="mb-15">
-		<p class="fw-bold">${mq.mq_content }</p>
+		<p style="font-size: 18px;">${mq.mq_content }</p>
+		</div>		
+
+		<div class="mb-8">
+			<hr>	 	
 		</div>		
 	
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a href="memberQnaList" class="btn btn-primary">목록으로</a>
-</div>
+		<div class="d-grid gap-2 col-3 mx-auto mb-10">
+		    <a href="memberQnaList" class="btn btn-primary btn-success">목록</a>
+		</div>
+		
+		<div style="color: #002b63;">
+			<i class="bi bi-exclamation-circle"></i> 답변을 등록하시려면 로그인 해주세요.<br>
+			<i class="bi bi-exclamation-circle"></i> 개인정보가 포함된 글에 대한 법적 책임은 글쓴이에게 있으니 유의하시기 바랍니다.
+		</div>
+		
+		
+		<div class="mb-5" >
+			<hr style="border-color: #c1c7c6;">	 	
+		</div>		
+		
+		
+		
+		<div class="mb-5" style="display: grid; grid-template-columns: 1fr auto;">
+		    <span style="color: #002b63; font-size: 18px; font-weight: bold;" >
+				<c:choose>
+					<c:when test="${replyCount > 0 }">
+				    	답변 
+						${replyCount }
+					</c:when>
+
+					<c:when test="${replyCount == 0 }">
+						작성된 답변이 없습니다.
+					</c:when>
+					
+				</c:choose>
+		    
+		    </span>
+		  
+		 <c:if test="${sessionScope.member != null }">   
+		    <button class="btn btn-success mb-2"
+			   data-bs-toggle="modal" data-bs-target="#exampleModal" data-whatever="@mdo" onclick="onModal();">
+			   답변 등록
+			 </button>
+		 </c:if>  
+		    
+	    <c:if test="${sessionScope.member == null }">
+	    	<a onclick="replyCon();" class="btn btn-success mb-2">답변 등록</a>
+		</c:if>
+		    
+		</div>
+		<div class="mb-8" >
+			<hr style="border-color: #c1c7c6;">	 	
+		</div>		
+
+
+				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelOne" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+		        <form action="replyInsert" method="post">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabelOne">답변등록</h5>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+		      
+			      <div class="modal-body">
+			          <div class="mb-3">
+			            <label for="recipient-name" class="col-form-label">작성자</label><p>
+			            <input type="hidden" name="m_num" value="${member.m_num }">
+			            <input type="hidden" name="mq_num" value="${mq.mq_num }">
+			            <input type="hidden" name="m_num_write" value="${mq.m_num }">
+			            
+	
+			          	<span style="font-weight: bold;">
+				          	${member.m_id } ( ${member.m_name } )
+			          	</span>	
+			          
+			          </div>
+			          <div class="mb-3">
+			            <label for="message-text" class="col-form-label">답변을 남겨주세요.</label>
+			            <textarea class="form-control mb-2" id="message-text" name="mqr_content" required="required"></textarea>
+			          
+			          <div style="font-weight: bold;">
+			          <i class="bi bi-exclamation-circle" style="color: red;"></i>&nbsp;
+						<span style="color: #002b63;">비방이나 욕설, 허위사실 등 </span>을  적시 할 경우 <span style="color:#db3030; ">삭제</span> 
+						혹은 <span style="color:#db3030; ">법적조치</span> 를 취할 수 있음을 알려드립니다.		          
+			          </div>
+			          
+			          </div>
+			      </div>
+		      
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+			        <button type="submit" class="btn btn-success mb-2">등록</button>
+			      </div>
+		        </form>
+		    </div>
+		  </div>
+		</div> 
+			
+			
+		
+		
+<c:forEach items="${mqReplyList }" var="reply">
+	<div class="mb-6">
+		<img alt="" src="${reply.m_image }" width="30px;" height="30px;" class="rounded-circle"> 
+			&nbsp;${reply.m_id } (${reply.m_name })  &nbsp; |  &nbsp;
+			<fmt:formatDate value="${reply.mqr_date }" pattern="yyyy 년 MM 월 dd 일 HH:mm"/>
+	</div>
+	
+	
+			
+		<div style="display: grid; grid-template-columns: 1fr auto;">
+			<div class="mb-15">
+				<p style="font-size: 19px;">${reply.mqr_content }</p>
+			</div>
+			
+		<div class="mb-5" style="display: flex; justify-content: flex-end; align-items: flex-end;">
+			    <button class="btn btn-soft-success" onclick="likeReply(${reply.mqr_num})">
+			  <i class="bi bi-hand-thumbs-up"></i> &nbsp; 
+			    <span>${reply.mqr_recomen }</span></button>&nbsp;&nbsp; 
+
+				<!-- ${reply.mqr_decl } -->
+			    <button class="btn btn-soft-success ">
+			  <i class="bi bi-bell"></i> &nbsp;
+				    신고하기</button>
+			</div>
+		</div>
+	
+	<hr>		
+	
+</c:forEach>
 
 <%@ include file="../common/footerFo.jsp" %>
 

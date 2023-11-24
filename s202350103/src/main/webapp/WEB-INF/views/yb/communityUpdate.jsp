@@ -114,6 +114,7 @@
 	document.getElementById("image").src = cm_image;
 	document.setElementById("cm_image").src = cm_image;
 	
+	
 </script>
 </head>
 <body>
@@ -165,30 +166,24 @@
 				  <span id="drop-file" class="drag-file">
 				    <img src="${community.cm_image }" alt="파일 아이콘" class="image" id="image" name="image">
 				    <input type="hidden" id="cm_image" name="cm_image"> 
-				  </span>
-				  <span id="drop-file" class="drag-file custom-image">
-				    <c:if test="${community.cm_image1 != null}" >
-						<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image1}" alt="파일 아이콘" class="image" id="image1" name="cm_image1" width="60px" height="90px">
-					</c:if> 
-				  </span>
-				  <c:if test="${community.cm_image2 != null}" >
-				  	<span id="drop-file" class="drag-file custom-image">
-						<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="파일 아이콘" class="image" id="image1" name="cm_image2" width="60px" height="90px">
-				  	</span>
-				  </c:if>
+				  </span>  
 				</div>
+				<input type="checkbox" name="cm_image1" id="cm_image1" value="${community.cm_image1 }">삭제하기 ${community.cm_image1 } <p>
+				<input type="checkbox" name="cm_image2" id="cm_image2" value="${community.cm_image2 }">삭제하기 ${community.cm_image2 } 
 	        </div>
-	        <div class="d-grid gap-2 col-3 mx-auto">
-			   <input type="file" id="imgUpload" name="multiFile" style="display:none;"></input>
-			   <label for="imgUpload" id="textLabel">이미지 변경</label> <br>
+	        <div class="form-group">
+			   <input type="file" class="form-control form-control-user" id="product_detail_image" name="multiFile" 
+			   		  multiple="multiple" onchange="setDetailImage()"></input>
 	        </div>
-	       <div class="d-grid gap-2 col-3 mx-auto">
+	        
+	       <div class="d-grid gap-2 col-3 mx-auto mt-5">
 			    <input type="submit" class="btn btn-soft-primary" value="수정">
 		   </div>
        </form>
+		</div>
+		
    	</div>
    </div>
-</div>
 </section>
 
 </body>
