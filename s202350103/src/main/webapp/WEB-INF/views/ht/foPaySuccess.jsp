@@ -18,13 +18,13 @@
 		<c:if test="${result == 2}">
 			<script type="text/javascript">
 				alert("결제 실패... ");
-				location.href="memberMyOrder?m_num=${member.m_num}";
+				location.href="javascript:history.back();";
 			</script>
 		</c:if>
 		<c:if test="${result == 3}">
 			<script type="text/javascript">
 				alert("결제 취소완료..!! ");
-				location.href="memberMyOrder?m_num=${member.m_num}";
+				location.href="javascript:history.back();";
 			</script>
 		</c:if>
 	</div>
