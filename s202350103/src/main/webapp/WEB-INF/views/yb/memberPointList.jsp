@@ -230,6 +230,8 @@
 											<c:when test="${point.point > 0 }"><span id=first>+${point.point }P</span></c:when>
 											<c:when test="${point.point < 0 }"><span>${point.point }P</span></c:when>
 									</c:choose>
+									
+									
 		                        </h5>
 		                      </div>
 		                    </td>

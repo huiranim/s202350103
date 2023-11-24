@@ -44,7 +44,7 @@
     }
 	.upload-box .drag-file {
 				position: relative;
-				width: 100%;
+				width: 20%;
 				height: 100px;
 				display: flex;
 				flex-direction: column;
@@ -157,22 +157,23 @@
 		   <input type="hidden" name="m_num" value="${community.m_num }">
 		   <input type="hidden" name="nb_num" value="${community.nb_num }">
 		   <input type="hidden" name="cm_image" value="${community.cm_image }">
-		   <input type="text" name="cm_image1" value="${community.cm_image1 }">
-		   <input type="text" name="cm_image2" value="${community.cm_image2 }">
+		   <input type="hidden" name="cm_image1" value="${community.cm_image1 }">
+		   <input type="hidden" name="cm_image2" value="${community.cm_image2 }">
 		    <div class="col-md-12 mb-3">
-	          <label class="form-label" for="title"></label>
-	          <input type="text" id="nb_title" name="nb_title" class="form-control" placeholder="책 제목" style="margin-top: 15px;" value="${community.nb_title }" readonly="readonly">
+	          <label class="form-label" for="title">책 제목 *</label>
+	          <input type="text" id="nb_title" name="nb_title" class="form-control mt-2" placeholder="책을 선택해주세요" value="${community.nb_title }" readonly="readonly">
 	<!--           <input type="text" id="book_image" name="book_image" class="form-control" placeholder=""> -->
 	        </div>
 			<div class="col-md-12 mb-3">
 	          <label class="form-label" for="title"> 제목 *</label>
 	          <input type="text" id="cm_title" name="cm_title" class="form-control" required value="${community.cm_title }">
 	        </div>
-	       
+	        
 	        <div class="col-md-12 mb-3">
 	          <label class="form-label" for="comments"> 내용 *</label>
 	          <textarea rows="3" name="cm_content" id="cm_content" class="form-control">${community.cm_content }</textarea>
 	        </div>
+	        <label class="form-label" for="comments" style="color: red;"><small> * 500자까지 입력 가능합니다. *</small></label>
 	        <div class="col-md-12 mb-3">
 		      <label class="form-label" for="comments"> 별점 *</label>
 		       <div class="star-rating space-x-4 mx-auto">
@@ -190,9 +191,9 @@
 		      </div>
         
 	        <div class="col-md-12 mb-3">
-	        	<label class="form-label" for="comments"> 책 이미지</label>
+	        	<label class="form-label " for="comments"> 책 이미지</label>
 	        	<div class="upload-box">
-				  <span id="drop-file" class="drag-file">
+				  <span id="drop-file" class="drag-file mx-auto">
 				    <img src="${community.cm_image }" alt="파일 아이콘" class="image" id="image" name="image">
 				    <input type="hidden" id="cm_image" name="cm_image"> 
 				  </span>  
@@ -203,17 +204,22 @@
 				<c:if test="${community.cm_image2 != null }">
 					<input type="checkbox" name="cm_imageChk2" id="cm_imageChk2" value="n" onclick="clickImage2()"> ${community.cm_image2 }
 				</c:if>
-				<c:if test="${community.cm_image1 != null  && community.cm_image2 == null }">
-					<button type="button" onclick="imageDelete(cm_num.value, cm_imageChk1.value)">삭제하기</button>
+	        </div>
+	        <div class="col-md-12 mb-3">
+		        <c:if test="${community.cm_image1 != null  && community.cm_image2 == null }">
+					이미지 삭제하기 <button type="button" class="btn btn-soft-primary" onclick="imageDelete(cm_num.value, cm_imageChk1.value)" style="border: none;">
+					<i class="bi bi-file-earmark-x"></i></button>
 				</c:if>
 				<c:if test="${community.cm_image1 == null  && community.cm_image2 != null }">
-					<button type="button" onclick="imageDelete1(cm_num.value, cm_imageChk2.value)">삭제하기</button>
+					이미지 삭제하기 <button type="button" class="btn btn-soft-primary" onclick="imageDelete1(cm_num.value, cm_imageChk2.value)" style="border: none;">
+					<i class="bi bi-file-earmark-x"></i></button>
 				</c:if>
-				<c:if test="${community.cm_image1 != null && community.cm_image2 != null}">
-					<button type="button" onclick="imageDelete2(cm_num.value, cm_imageChk1.value, cm_imageChk2.value)">삭제하기</button>
+		        <c:if test="${community.cm_image1 != null && community.cm_image2 != null}">
+					이미지 삭제하기 <button type="button" class="btn btn-soft-primary" onclick="imageDelete2(cm_num.value, cm_imageChk1.value, cm_imageChk2.value)" style="border: none;">
+					<i class="bi bi-file-earmark-x"></i></button>
 				</c:if>
-				
-	        </div>
+			</div>
+	        <label class="form-label" for="comments" style="color: red;"><small> * 이미지는 최대 2개까지 선택 가능합니다 *</small></label>
 	        <div class="form-group">
 			   <input type="file" class="form-control form-control-user" id="product_detail_image" name="multiFile" 
 			   		  multiple="multiple" onchange="setDetailImage()"></input>
@@ -228,8 +234,13 @@
    	</div>
    </div>
 </section>
-
-</body>
-</html>
+<script type="text/javascript">
+	document.getElementById('product_detail_image').addEventListener('change', function() {
+	    if(this.files.length > 2) {
+	        alert('이미지는 최대2까지 업로드 가능합니다!');
+	        this.value = ''; // Clear the selected files
+	    }
+});
+</script>
 </body>
 </html>

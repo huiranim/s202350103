@@ -9,40 +9,37 @@
 </head>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
-	function searchDetail(){
+	function checkDetail(){
 		var date = $('input[name=date]').val();
 		var status = $('input[name=status]:checked').val();
-		alert("date->"+date);
-		alert("status->"+status);
-		if(date == null){
+		// 체크박스가 체크되었을 때 실행
+		if($('input[name=date]').is(':checked')){
+			$.ajax({
+				url:"boSearchDetail1",
+				data:{status:status},
+				dataType: "json",  
+				success: function(response){
+					console.log("성공");
+				},
+				error : function(){
+					console.log("실패");
+				}
+			});
+		} else{
 			var sdate = $('input[name=e_sdate]').val();
 			var edate = $('input[name=e_edate]').val();
 			var curDate = new Date();
 			var curDate1 = curDate.getFullYear() +"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
-			alert("sdate->"+sdate);
-			alert("edate->"+edate);
-			alert("curDate1->"+curDate1);
-			if(sdate > edate){
+			if(new Date(sdate) > new Date(edate)){
 				alert("이벤트 기간 설정을 잘 못 하셨습니다.");
 				return false;
 			} else {
-				location.href="searchDetail2";
-			} 
-		} else {
-			location.href='searchDetail1?status='+status;
+				location.href='searchDetail'
+			}
 		}
 	}
-	
-	//날짜 입력란에 입력시 호출되는 함수
-	function handleDateInput() {
-		//체크박스 해제
-		document.getElementById('dateCheckbox').checked = false;
-	}
-	
-	//이벤트 리스터 세팅
-	document.getElementById('startDate').addEventListener('input', handleDateInput);
-	document.getElementById('endDate').addEventListener('input', handleDateInput);
 </script>
+
 <style>
 	table{
 		text-align: center; 
@@ -60,16 +57,16 @@
 	}
 </style>
 <body>
-<form action="searchDetail() ">
+<form action="javascript:void(0);">
 <table>
 	<tr>
 		<th>이벤트</th>
 	</tr>
 	<tr>
 		<th>이벤트 기간 :</th> 
-		<td><input type="checkbox" name="date" 	   id="dateCheckbox" value="all" checked>전체기간 
-			<input type="date"	   name="e_sdate"  id="startDate"> ~ 
-			<input type="date"	   name="e_edate"  id="endDate"></td>
+		<td><input type="checkbox" name="date" 	   id="dateCheckbox" checked>전체기간 
+			<input type="date"	   name="e_sdate"  id="sdate"> ~ 
+			<input type="date"	   name="e_edate"  id="edate"></td>
 	</tr>
 	<tr>
 		<th>이벤트 상태</th>
@@ -81,7 +78,7 @@
 	</tr>
 	<tr>
 		<td></td>
-		<td><input type="submit" value="검색"> <input type="reset" value="초기화"></td>
+		<td><input type="submit" value="검색" onclick="checkDetail()"> <input type="reset" value="초기화"></td>
 	</tr>
 </table>
 </form>
@@ -145,6 +142,26 @@
 	function openDetail(eNum){
 		window.open("boJoinedMember?eNum="+eNum,"이벤트 상세조회","width=800,height=600");
 	}
+	
+	//이벤트 리스터 세팅
+	document.getElementById('sdate').addEventListener('input', handleDateInput);
+	document.getElementById('edate').addEventListener('input', handleDateInput);
+	//날짜 입력란에 입력시 호출되는 함수
+	function handleDateInput() {
+		//체크박스 해제
+		document.getElementById('dateCheckbox').checked = false;
+	}
+	
+	document.getElementById('dateCheckbox').addEventListener('change',function(){
+		var sdate = document.getElementById("sdate");
+		var edate = document.getElementById("edate");
+		
+		if(this.checked){
+			sdate.value="";
+			edate.value="";
+		} 
+	});
+
 </script>
 
 </body>

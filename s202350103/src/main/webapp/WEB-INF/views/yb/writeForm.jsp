@@ -44,7 +44,7 @@
     }
 	.upload-box .drag-file {
 				position: relative;
-				width: 100%;
+				width: 20%;
 				height: 100px;
 				display: flex;
 				flex-direction: column;
@@ -142,22 +142,8 @@
 		}
 	});
 	
-	function setDetailImage(){
-		for(var image of event.target.files){
-			var reader = new FileReader();
-			
-			reader.onload = function(event){
-				var img = document.createElement("img");
-				img.setAttribute("src", event.target.result);
-				img.setAttribute("width", "100px");
-				img.setAttribute("height", "95px");
-				document.querySelector("div#images_container").appendChild(img);
-			};
-			
-			console.log(image);
-			reader.readAsDataURL(image);
-		}
-	}
+	  
+	
 </script>
 </head>
 <body>
@@ -179,12 +165,12 @@
           <label class="form-label" for="title" > 제목 *</label>
           <input type="text" id="cm_title" name="cm_title" class="form-control" placeholder="Your Title" required>
         </div>
-       
         <div class="col-md-12 mb-3">
-          <label class="form-label" for="comments"> 리뷰 작성 *</label>
+          <label class="form-label" for="comments"> 독후감 작성 *</label>
           <textarea rows="3" name="cm_content" id="cm_content" class="form-control" placeholder="내용을 10자 이상 입력해 주세요. 주제와 무관한 댓글, 악플, 배송문의 등의 글은 임의 삭제될 수 있습니다."></textarea>
         </div>
         <div class="col-md-12 mb-3">
+        <label class="form-label" for="comments" style="color: red;"><small> * 500자까지 입력 가능합니다. *</small></label>
 	      <label class="form-label" for="comments"> 별점 *</label>
 	       <div class="star-rating space-x-4 mx-auto">
 				<input type="radio" id="5-stars" name="cm_rating" value="5"/>
@@ -201,35 +187,36 @@
 	      </div>
         
         <div class="col-md-12 mb-3">
-        	<label class="form-label" for="comments"> 책 이미지</label>
-        	<div class="upload-box">
-			  <div id="drop-file" class="drag-file">
+        	<label class="form-label mx-auto" for="comments"> 책 이미지</label>
+        	<div class="upload-box mx-auto">
+			  <div id="drop-file" class="drag-file mx-auto">
 			    <img src="https://img.icons8.com/pastel-glyph/2x/image-file.png" alt="파일 아이콘" class="image" id="image" name="image">
 			    <input type="hidden" id="cm_image" name="cm_image"> 
 			  </div>
-			  
-			  <div id="drop-file" class="drag-file">
-			  	<div id="images_container" style="width: 200px; height: 95px;" ></div>
-			  </div>
-			  <div id="drop-file" class="drag-file">
-			  	<div id="images_container" style="width: 100px; height: 95px;"></div>
-			  </div>
+	
 			</div>
         </div>
+        <label class="form-label" for="comments" style="color: red;"><small> * 이미지는 최대 2개까지 선택 가능합니다 *</small></label>
         <div class="form-group">
 		          <input type="file" class="form-control form-control-user" name="multiFile" multiple
-		          		 id="product_detail_image"  onchange="setDetailImage();"> <br>
+		          		 id="product_detail_image"> <br>
         </div>
         
-        <div class="col-md-12">
-             <!-- btn -->
-             <input type="submit" class="btn btn-primary" value="등록" id="submit">
-       </div>
+       	<div class="d-grid gap-2 col-3 mx-auto mt-5">
+			 <input type="submit" class="btn btn-soft-primary" value="등록">
+		</div>
        </form>
    	</div>
    </div>
 </div>
 </section>
-
+<script type="text/javascript">
+	document.getElementById('product_detail_image').addEventListener('change', function() {
+	    if(this.files.length > 2) {
+	        alert('이미지는 최대2까지 업로드 가능합니다!');
+	        this.value = ''; // Clear the selected files
+	    }
+});
+</script>
 </body>
 </html>

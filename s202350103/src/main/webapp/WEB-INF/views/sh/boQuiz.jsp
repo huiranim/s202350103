@@ -10,14 +10,14 @@
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
 	function checkDate(){
-		alert("테스트");
+		//alert("테스트");
 		var curDate = new Date();
 		var curDate1 = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
-		alert(curDate1);
+		//alert(curDate1);
 		var sdate = $('input[name=q_sdate]').val();
 		var edate = $('input[name=q_edate]').val();
-		alert("sdate->"+sdate);
-		alert("edate->"+edate);
+		//alert("sdate->"+sdate);
+		//alert("edate->"+edate);
 		if(sdate>edate){
 			alert("이벤트 기간 설정을 잘 못 되었습니다.");
 			return false;

@@ -50,7 +50,7 @@
 	            <img src="${pageContext.request.contextPath}/upload/${writedReview.nb_image}" alt="Grocery Ecommerce Template"class="mb-3">
 	     </c:otherwise>
 	  </c:choose>
-	   
+	   <div class="text-truncate">${writedReview.nb_title}</div>
 	   <div class="border-bottom py-4 mb-4">
 	      <h4 class="mb-3">별점</h4>
 	       <fieldset class="rate"><c:if test=""></c:if>
