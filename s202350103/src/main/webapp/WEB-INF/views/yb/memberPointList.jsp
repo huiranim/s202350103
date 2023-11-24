@@ -123,8 +123,9 @@
 					      </div>
 					    <!-- 내용 -->
 					      <div class="modal-body">
-					      	<form action="pointChargeTest" method="post">
+					      	<form action="orderAction" method="post">
 					      		<input type="hidden" name="o_order_num" value="${member.m_num }">
+					      		<input type="hidden" name="destination" value=0>
 						        <div class="mb-3">
 						        <!-- 충전 금액 -->
 								  <label class="form-label" for="textInput">충전 금액</label>
@@ -153,23 +154,6 @@
 									  <label class="btn btn-outline-primary" for="charge10">10만원</label>
 								  </div>
 								  <hr>
-								 <!-- 결제수단은 카카오페이 -->
-								  <input type="hidden" name="o_pay_type" value="1"> 
-								 <!-- 
-								 결제 수단
-								  <div>
-								  	<label class="form-label" for="textInput">결제수단</label>
-								  	<div class="d-grid gap-2 col-6 mx-auto">
-						            	<tr>
-											<td>
-												<a href="#" role="radio" name="o_pay_type" checked="checked" class="btn btn-secondary popover-test" title="Popover title" >카카오</a>
-												<input type="radio" name="o_pay_type" checked="checked"  value="1" class="btn btn-soft-secondary mb-2">카카오
-												<input type="radio" name="o_pay_type"                    value="2" class="btn btn-soft-secondary mb-2">토스
-											</td>
-										</tr>
-					            	</div>
-								  </div>
-								  <hr> -->
 								 <!-- 유의사항 -->
 								  <label class="form-label" for="textInput">유의사항</label>
 								  <div id="comment" >
