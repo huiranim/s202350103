@@ -28,7 +28,7 @@
 		          		</span> 
 		          </i>
          	</div>
-            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >${member.m_point } P</p>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >${totalPoint } P</p>
           </div>
       		</a>
         </div>

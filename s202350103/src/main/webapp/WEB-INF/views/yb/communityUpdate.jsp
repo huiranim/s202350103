@@ -110,11 +110,40 @@
 		font-style: bold; font-size: 20px;
 	}
 </style>
+
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	document.getElementById("image").src = cm_image;
-	document.setElementById("cm_image").src = cm_image;
 	
+	function clickImage1(){
+		$("#cm_imageChk1").val("n");
+		if($("#cm_imageChk1").prop("checked")){
+			$("#cm_imageChk1").val("y");
+		} else {
+			$("#cm_imageChk1").val("n");
+		}
+	}
 	
+	function clickImage2(){
+		$("#cm_imageChk2").val("n");
+		if($("#cm_imageChk2").prop("checked")){
+			$("#cm_imageChk2").val("y");
+		} else {
+			$("#cm_imageChk2").val("n");
+		}
+	}
+	function imageDelete(cm_num, cm_imageChk1) {
+		location.href = "deleteImage?cm_num="+cm_num +"&cm_imageChk1="+cm_imageChk1;
+	}
+	function imageDelete1(cm_num, cm_imageChk2) {
+		location.href = "deleteImage?cm_num="+cm_num +"&cm_imageChk2="+cm_imageChk2;
+	}
+	function imageDelete2(cm_num, cm_imageChk1, cm_imageChk2) {
+		alert(cm_imageChk1)
+		alert(cm_imageChk2)
+		location.href = "deleteImage?cm_num="+cm_num +"&cm_imageChk1="+cm_imageChk1 +"&cm_imageChk2="+cm_imageChk2;
+	}
+
+
 </script>
 </head>
 <body>
@@ -127,9 +156,9 @@
 		   <input type="hidden" name="cm_num" value="${community.cm_num }">
 		   <input type="hidden" name="m_num" value="${community.m_num }">
 		   <input type="hidden" name="nb_num" value="${community.nb_num }">
-		   <input type="hidden" name="cm_num" value="${community.cm_num }">
 		   <input type="hidden" name="cm_image" value="${community.cm_image }">
-		   
+		   <input type="text" name="cm_image1" value="${community.cm_image1 }">
+		   <input type="text" name="cm_image2" value="${community.cm_image2 }">
 		    <div class="col-md-12 mb-3">
 	          <label class="form-label" for="title"></label>
 	          <input type="text" id="nb_title" name="nb_title" class="form-control" placeholder="책 제목" style="margin-top: 15px;" value="${community.nb_title }" readonly="readonly">
@@ -168,8 +197,22 @@
 				    <input type="hidden" id="cm_image" name="cm_image"> 
 				  </span>  
 				</div>
-				<input type="checkbox" name="cm_image1" id="cm_image1" value="${community.cm_image1 }">삭제하기 ${community.cm_image1 } <p>
-				<input type="checkbox" name="cm_image2" id="cm_image2" value="${community.cm_image2 }">삭제하기 ${community.cm_image2 } 
+				<c:if test="${community.cm_image1 != null }">
+					<input type="checkbox" name="cm_imageChk1" id="cm_imageChk1" value="n" onclick="clickImage1()"> ${community.cm_image1 } 
+				</c:if> <p>
+				<c:if test="${community.cm_image2 != null }">
+					<input type="checkbox" name="cm_imageChk2" id="cm_imageChk2" value="n" onclick="clickImage2()"> ${community.cm_image2 }
+				</c:if>
+				<c:if test="${community.cm_image1 != null  && community.cm_image2 == null }">
+					<button type="button" onclick="imageDelete(cm_num.value, cm_imageChk1.value)">삭제하기</button>
+				</c:if>
+				<c:if test="${community.cm_image1 == null  && community.cm_image2 != null }">
+					<button type="button" onclick="imageDelete1(cm_num.value, cm_imageChk2.value)">삭제하기</button>
+				</c:if>
+				<c:if test="${community.cm_image1 != null && community.cm_image2 != null}">
+					<button type="button" onclick="imageDelete2(cm_num.value, cm_imageChk1.value, cm_imageChk2.value)">삭제하기</button>
+				</c:if>
+				
 	        </div>
 	        <div class="form-group">
 			   <input type="file" class="form-control form-control-user" id="product_detail_image" name="multiFile" 

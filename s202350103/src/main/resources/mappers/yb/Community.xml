@@ -135,4 +135,17 @@
 			DELETE FROM Community
 			WHERE  cm_num = #{cm_num}
 		</delete>
+		
+		<update id="ybDeleteImage" parameterType="int">
+			UPDATE Community
+			SET    cm_image1 = null
+			WHERE  cm_num = #{cm_num}
+		</update>
+		
+		<update id="ybDeleteImage1" parameterType="int">
+			UPDATE Community
+			SET    cm_image2 = null
+			WHERE  cm_num = #{cm_num}
+		</update>
+		
 	</mapper>
