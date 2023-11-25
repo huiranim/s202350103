@@ -13,7 +13,7 @@
 	function cartQuantityPlus(pIndex) {
 		var pNb_num = $('#nb_num'+pIndex).val();
 		var pQuantity = Number($("#quantity"+pIndex).val())+1;
-		alert("pQuantity -> "+pQuantity);
+		// alert("pQuantity -> "+pQuantity);
 		
 		$.ajax({
 					url : "cartList",

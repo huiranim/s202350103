@@ -33,7 +33,7 @@
 		}
 			
 		function wishlist(pNb_num) {
-			alert("pNb_num ->"+pNb_num);
+			// alert("pNb_num ->"+pNb_num);
 			
 			$.ajax({
 				url : "/wish/wishclick", 
