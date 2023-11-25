@@ -234,9 +234,9 @@ public class PointServiceImpl implements PointService {
 	}
 
 	@Override
-	public List<PointList> selectMemberPoint(int m_num) {
+	public List<PointList> selectMemberPoint(Member member) {
 		System.out.println("PointService selectMemberPoint() Start..");
-		List<PointList> memberPointList = pld.selectMemberPoint(m_num);
+		List<PointList> memberPointList = pld.selectMemberPoint(member);
 		return memberPointList;
 	}
 
@@ -283,20 +283,6 @@ public class PointServiceImpl implements PointService {
 	}
 
 	@Override
-	public int checkAddAtt1(AttJoin attJoin) {
-		System.out.println("PointService checkAddAtt1() Start...");
-		int addCheck1 = ajd.checkAddAtt1(attJoin);
-		return addCheck1;
-	}
-
-	@Override
-	public int checkAddAtt2(AttJoin attJoin) {
-		System.out.println("PointService checkAddAtt2() Start...");
-		int addCheck2 = ajd.checkAddAtt2(attJoin);
-		return addCheck2;
-	}
-
-	@Override
 	public int countAttRow(AttJoin attJoin) {
 		System.out.println("PointService countAttRow() Start...");
 		int rowCount = ajd.countAttRow(attJoin);
@@ -323,5 +309,42 @@ public class PointServiceImpl implements PointService {
 		List<PointList> pointList = pld.boJoinedMember(eNum); 
 		return pointList;
 	}
+
+	@Override
+	public int memberPointList(int m_num) {
+		System.out.println("PointService memberPointList Start...");
+		int result = pld.memberPointList(m_num);
+		return result;
+	}
+
+	@Override
+	public int joinedCount(int eNum) {
+		System.out.println("PointService JoinedCount start");
+		int count = pld.joinedCount(eNum);
+		return count;
+	}
+
+	@Override
+	public List<Attendance> searchDetail11(Attendance attendance) {
+		System.out.println("PointService searchDetail11 start");
+		List<Attendance> list = ad.searchDetail11(attendance);
+		return list;
+	}
+
+	@Override
+	public List<Attendance> searchDetail12(Attendance attendance) {
+		System.out.println("PointService searchDetail12 start");
+		List<Attendance> list = ad.searchDetail12(attendance);
+		return list;
+	}
+
+	@Override
+	public List<Attendance> searchDetail13(Attendance attendance) {
+		System.out.println("PointService searchDetail13 start");
+		List<Attendance> list = null;
+		list = ad.searchDetail13(attendance);
+		return null;
+	}
+
 
 }

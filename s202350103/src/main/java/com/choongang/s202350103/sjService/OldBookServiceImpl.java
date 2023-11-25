@@ -16,22 +16,22 @@ public class OldBookServiceImpl implements OldbookService {
 	private final OldBookDao obd;
 
 	@Override
-	public int totalOb() {
+	public int totalOb(OldBook oldBook) {
 		System.out.println("OldBookServiceImpl start total..");
 
-		int totObCnt = obd.totalOb();
+		int totObCnt = obd.totalOb(oldBook);
 		System.out.println("OldBookServiceImpl totalOb totObCnt->"+totObCnt);
-			
+		System.out.println("OldBookServiceImpl totalOb get.status");
 		return totObCnt;
 	}
 	
 	
 	@Override
-	public int totalOb2() {
+	public int totalOb2(OldBook oldBook) {
 		
 		System.out.println("OldBookServiceImpl start total..");
 
-		int totObCnt2 = obd.totalOb2();
+		int totObCnt2 = obd.totalOb2(oldBook);
 		System.out.println("OldBookServiceImpl totalOb2 totObCnt2->"+totObCnt2);
 			
 		return totObCnt2;
@@ -112,6 +112,13 @@ public class OldBookServiceImpl implements OldbookService {
 		System.out.println("OldBookServiceImpl ObMolist OldBooklist.size()"+ObMolist.size());
 		return ObMolist;
 	}
+	
+	@Override
+	public List<OldBook> selectRendomObNum() {
+		List<OldBook> ObNumRedomSel = obd.selectRendomObNum();
+			System.out.println("ObNumRedomSel-->"+ObNumRedomSel.size());
+		return ObNumRedomSel;
+	}
 
 	@Override
 	public OldBook ModetailNb(int nb_num) {
@@ -157,6 +164,9 @@ public class OldBookServiceImpl implements OldbookService {
 		
 		return obresult;
 	}
+
+
+
 
 
 	}

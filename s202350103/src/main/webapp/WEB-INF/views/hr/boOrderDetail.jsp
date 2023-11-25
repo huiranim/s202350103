@@ -126,8 +126,8 @@
 			alert("ProductPopup p_order_num -> "+p_order_num);
 			
 			window.open("/boOrderDetail/List?o_order_num=${orderr.o_order_num}",
-					"주문 상품 목록",
-					"width=500 height=400");
+						"주문 상품 목록",
+						"width=500 height=400");
 		}
 	</script>
 </head>

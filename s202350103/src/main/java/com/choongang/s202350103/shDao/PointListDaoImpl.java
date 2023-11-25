@@ -18,11 +18,11 @@ public class PointListDaoImpl implements PointListDao {
 	private final SqlSession session;
 
 	@Override
-	public List<PointList> selectMemberPoint(int m_num) {
+	public List<PointList> selectMemberPoint(Member member) {
 		System.out.println("PointListDao selectMemberPoint() Start..");
 		List<PointList> memberPointList = null;
 		try {
-			memberPointList = session.selectList("shSelectMemberPoint",m_num);
+			memberPointList = session.selectList("shSelectMemberPoint",member);
 		} catch (Exception e) {
 			System.out.println("pointListDao selectMemberPoint() Exception ->"+e.getMessage());
 		}
@@ -94,11 +94,35 @@ public class PointListDaoImpl implements PointListDao {
 		System.out.println("PointList boJoinedMember() Start...");
 		List<PointList> pointList = null;
 		try {
-			pointList = session.selectList("boBoJoinedMember", eNum);
+			pointList = session.selectList("shBoJoinedMember", eNum);
 		} catch (Exception e) {
 			System.out.println("PointList boJoinedMember() Exception->"+e.getMessage());
 		}
 		return pointList;
+	}
+
+	@Override
+	public int memberPointList(int m_num) {
+		System.out.println("PointList memberPointList() Start...");
+		int result = 0;
+		try {
+			result = session.selectOne("shMemberPointList",m_num);
+		} catch (Exception e) {
+			System.out.println("PointList memberPointList() Exception ->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int joinedCount(int eNum) {
+		System.out.println("PointList joinedCount() Start..");
+		int count = 0;
+		try {
+			count = session.selectOne("shJoinedCount",eNum);
+		} catch (Exception e) {
+			System.out.println("PointList joinedCount() Start...");
+		}
+		return count;
 	}
 
 }

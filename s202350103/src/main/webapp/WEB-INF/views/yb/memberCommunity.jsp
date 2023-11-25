@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@include file="../common/none.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,13 +10,17 @@
 	#div1 {
 		background: linear-gradient(180deg, #f4faf2 0, #f4faf2 473px, #edf7ea 473px, #edf7ea 100%);
 	}
-
+	.pagination .page-item {
+						    width: 50%;
+						    text-align: center;
+    }
 </style>
 <script type="text/javascript">
 	function openWrite() {
 		if(${sessionScope.member == null }) {
 			alert("로그인 후 이용해주시기 바랍니다.");
 			window.close();
+			location.href = "loginForm"
 		} else {
 			var url = "writeForm";
 	        var name = "writeForm";
@@ -23,8 +28,6 @@
 	        
 	        window.open(url, name, option);
 		}
-	
-
 	}
 </script>
 </head>
@@ -34,7 +37,6 @@
         
 <main>
 <%@ include file="../common/headerFo.jsp"  %>
-	<a href="cont">cont</a>
     <!-- contianer -->
     <div class="container">
       <div class="row">
@@ -53,17 +55,27 @@
 
     </div>
     <div style="float: right; margin-bottom: 20px;" >
-	   <button type="button" class="btn btn-dark" style="margin-right: 20px;">내가 쓴 글</button>
-	   <button type="button" class="btn btn-dark" id="openWrite" onclick="openWrite()">글 쓰기</button>
+	   
+	   <nav aria-label="...">
+		<ul class="pagination pagination-lg justify-content-center">
+		  <li  class="page-item active">
+		  	<a href="memberCommunity" class="page-link">전체 게시글</a>
+		  </li>
+		  <li  class="page-item ">
+		  	<a href="memberMyCommunity" class="page-link">내가 쓴 글</a>
+		  </li>
+		  
+		</ul>
+	</nav>
+	   
 	 </div>
-	<a href="modal">모달</a>
 
 <div id="div1" class="mb-3">
-		  <div class="mb-3 mt-6">
-	         <p><a href="#">게시글 목록입니다.</a></p>
-<%-- 	         <p><a href="#">${member.m_id } 님의 장바구니 목록입니다.</a></p> --%>
-	               총 게시글 : ${comListTotalCnt }		
-          </div>
+  	 <div class="mb-3 mt-6">
+        <p><a href="#">게시글 목록입니다.</a></p>
+              총 게시글 : ${comListTotalCnt }		
+     </div>
+     <button type="button" class="btn btn-soft-primary mb-2" id="openWrite" onclick="openWrite()">작성하기</button>
 	 <div class="row g-4 row-cols-xl-3 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
 	 	<c:forEach items="${communityList }" var="community">
 			<div class="col" style="margin-bottom:16px;" >
@@ -77,7 +89,7 @@
 				              <!-- img -->
 				              <div class="img-zoom">  
 				                <!-- 도서 이미지 -->	
-				                     <c:set var="cm_image" value="${community.cm_image }"/>
+				                  <c:set var="cm_image" value="${community.cm_image }"/>
 				                  <c:choose>
 				               		<c:when test="${fn:contains(cm_image, 'http')}">
 				               			<img src="${community.cm_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 8rem; height: 10rem;">
@@ -89,13 +101,26 @@
 				              </div>
 				            </a>
                     <!-- action btn -->
-                
+                	
                   </div>
-                  <div class="text-small mb-1">
-                  	<a href="#!" class="text-decoration-none text-muted"><small>${community.cm_title}</small></a></div>
+                  <h5 class="text-dark" ><a href="#!" class="text-inherit">${community.nb_title}</a></h5>
+                  <div class="text-small text-dark mb-1">
+                  	<a href="#!" class="text-dark text-muted"><small>${community.m_name}</small></a></div>
 	              <div>
-<%-- 			            <h2 class="h5"><a href="#!" class="text-inherit">${community.cm_bookTitle}</a></h2> --%>
-			            <p>${community.cm_content }</p>
+	              
+			            
+			           <small>${community.cm_title}</small>
+			            <p><div class="mb-4">
+				                <div class="text-warning">
+				                   <c:forEach var="i" begin="1" end="${community.cm_rating}">
+				                      <i class="bi bi-star-fill"></i>
+				                   </c:forEach>
+				                   <c:forEach var="i" begin="${community.cm_rating + 1}" end="5">
+				                      <i class="bi bi-star"></i>
+				                   </c:forEach>
+				                 <span class="text-muted small" style="margin-left: 10px;">(${community.cm_rating })</span>
+				                </div>
+				          </div></p>
 			            <div class="d-flex justify-content-between text-muted mt-4"><span><small><fmt:formatDate value="${community.cm_regDate }" pattern="yyyy년MM월dd일"/>
 			                  </small></span><span><small>조회수: <span class="text-dark fw-bold">(${community.cm_readCnt }건)</span></small></span>
 			            </div>
@@ -110,20 +135,21 @@
 	  <ul class="pagination justify-content-center">
 
 		 	<c:if test="${page.startPage > page.pageBlock }">
-				 <li class="page-item justify-content-center">					
-					<a class="page-link mx-1 text-body" href="searchBook?currentPage=${page.startPage-page.pageBlock}">이전</a>
-				</li>
+				<a href="memberCommunity?currentPage=${page.startPage-page.pageBlock }">[이전]</a>
 			</c:if>
-				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-				 <li class="page-item justify-content-center">
-						<a class="page-link mx-1 text-body" href="searchBook?currentPage=${i}">${i}</a>
-				</li>
-			</c:forEach>
-				
+			
+			<c:if test="${newbook.search_keyword != null }">
+				<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
+					<a href="memberCommunity?currentPage=${i}&search=${newbook.search_type }&keyword=${newbook.search_keyword}">[${i}]</a>
+				</c:forEach>
+			</c:if>
+			<c:if test="${newbook.search_keyword == null }">
+					<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
+						<a href="memberCommunity?currentPage=${i}">[${i}]</a>
+					</c:forEach>
+				</c:if>
 			<c:if test="${page.endPage < page.totalPage }">
-				 <li class="page-item justify-content-center">		 
-					<a class="page-link mx-1 text-body" href="searchBook?currentPage=${page.startPage+page.pageBlock}">다음</a>
-				</li>
+				<a href="memberCommunity?currentPage=${page.startPage+page.pageBlock }">[다음]</a>
 			</c:if>
 	    </ul>
 	</nav>

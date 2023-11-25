@@ -36,8 +36,6 @@
           <p class="fs-1 mb-3"><strong>회원조회</strong></p>
           <p class="fs-4 mb-5"><mark ><strong>회원 : ${totalMember }</strong></mark></p>
 			
-			
-			<c:set var="num" value="${page.total-page.start+1 }"></c:set>
       </div>
 	
  
@@ -45,21 +43,40 @@
   <div class="col-lg-12 col-md-12 col-12 d-block  container">
 
 	   <div class="row mb-3">
-		 <form action="memberSearch">
-	 		<div class="col-md-4 col-12 mb-3">
-	            <div class="input-group mb-1">
-	               <input name="keyword" id="search_keyword" class="form-control rounded-start" 
-	               type="search" placeholder="찾으실 회원을 검색해보세요." >
-	               <button class="btn btn-outline-secondary" type="submit" id="button-addon2">회원검색</button>
-	            </div>
-		         <span>
-		         	<span class="text-danger">*</span>
-		         	 회원 번호 / ID / 이름 / 주소 / 이메일 
-	         	 	<span class="text-danger">*</span>
-	         	 	&nbsp;
-		         </span>
-	         </div>
-		 </form>       
+			 <form action="memberSearch">
+				<div class="col-md-6 col-12 mb-3">
+				    <div class="row">
+				   
+				    <div class="input-group">
+				        <div class="col-3">
+				            <select name="search" class="form-select" id="emailSelect">
+							    <option value="s_num" >* 회원 번호 *</option>
+						        <option value="s_name" selected="selected">* 이름 *</option>
+						        <option value="s_id" >* 아이디 *</option>
+						        <option value="s_email" >* 이메일 *</option>
+						        <option value="s_addr" >* 주소 *</option>
+				            </select>
+				        </div>
+				        <div class="col-8">
+				            <div class="input-group" style="padding-left: 10px;">
+				                <input name="keyword" id="search_keyword" class="form-control rounded-start" type="text" placeholder="찾으실 회원을 검색해보세요.">
+				                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">회원검색</button>
+				            </div>
+				        </div>
+				            <div class="col-1">
+					                <a href="adminMemberList"><i class="bi bi-arrow-repeat" style="font-size: 30px; padding-left: 10px;"></i></a>
+							</div>
+				    </div>
+				</div>
+			</div>
+
+	        <span>
+	            <span class="text-danger">*</span>
+	            회원 번호/이름/아이디/이메일/주소 로 검색
+	            <span class="text-danger">*</span>
+	            &nbsp;
+	        </span>
+	    </form>       
 
  		<div class="col-md-7 col-12 mb-3" >
       		 <div class="input-group mb-1">
@@ -76,6 +93,7 @@
         
 	</div>
 			
+	<c:set var="num" value="${page.total-page.start+1 }"></c:set>
 	
          <!-- table -->
          <div class="table-responsive">

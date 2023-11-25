@@ -8,7 +8,7 @@
 	</select>
 	
 	<select id="shQuizChance" parameterType="QuizJoin" resultType="int">
-		Select count(*) a From quiz_join Where q_num=#{q_num} and m_num=#{m_num} and to_char(q_par_pdate,'yyMMdd') =to_char(sysdate,'yyMMdd')
+		Select count(*) a From quiz_join Where q_num=#{q_num} and m_num=#{m_num}
 	</select>
 	
 	<insert id="shQuizAnswer" parameterType="QuizJoin">

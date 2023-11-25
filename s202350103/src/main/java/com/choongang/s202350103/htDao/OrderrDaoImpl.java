@@ -12,6 +12,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.choongang.s202350103.domain.KakaoPayApprovalVO;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
@@ -92,12 +93,28 @@ public class OrderrDaoImpl implements OrderrDao {
 			// orderDetail insert
 			int od_result = session.insert("htOrderDetailInsert", params);
 			System.out.println("Dao htOrderInsert od_result--->" + od_result);
-			System.out.println("orderr.getTotalPrice()--> " + orderr.getTotalPrice());
+			System.out.println("orderr.getO_pay_price()--> " + orderr.getO_pay_price());
 			System.out.println("orderr.getM_num()--> " + orderr.getM_num());
 			
 			// member 포인트 update
 			int update_result = session.update("htMemberPointUpdate", orderr);
 			System.out.println("Dao htOrderInsert update_result--->" + update_result);
+			
+			// 포인트 이력 insert(구매시)
+			int pay_point_insert_result = session.insert("htPayPointInsert", orderr);
+			System.out.println("Dao htOrderInsert pay_point_insert_result--->" + pay_point_insert_result);
+			
+			// 포인트 이력 insert(사용시)
+			if(orderr.getO_point() != 0) {
+				int use_point_insert_result = session.insert("htUsePointInsert", orderr);
+				System.out.println("Dao htOrderInsert use_point_insert_result--->" + use_point_insert_result);
+			}
+			
+			// 장바구니 삭제(장바구니 결제일 경우)
+			if(orderr.getPaymentType() == 2) {
+				int cart_delete_result = session.delete("htCartDelete",orderr);
+				System.out.println("Dao htOrderInsert cart_delete_result--->" + cart_delete_result);
+			}
 			
 			//commit
 			transactionManager.commit(txStatus);
@@ -107,6 +124,36 @@ public class OrderrDaoImpl implements OrderrDao {
 			transactionManager.rollback(txStatus);
 		}
 		return ;
+	}
+
+	// 카카오페이 결제 데이터
+	@Override
+	public Orderr orderPayment(Orderr orderr) {
+		System.out.println("OrderDaoImpl orderPayment() Start...");
+		Orderr orderr2 = null;
+		try {
+			orderr2 = session.selectOne("htOrderPayment", orderr);
+			System.out.println("OrderrDaoImpl orderPayment orderr--> "+ orderr2);
+		
+		
+		}catch (Exception e) {
+			System.out.println("OrderrDaoImpl orderPayment Exception -> " + e.getMessage());
+		}
+		return orderr2;
+	}
+
+	@Override
+	public int paySuccess(KakaoPayApprovalVO ka) {
+		System.out.println("OrderDaoImpl PaySuccess() Start...");
+		int result = 0;
+		try {
+			System.out.println("OrderrDaoImpl PaySuccess ka--> "+ ka);
+			result = session.update("htOrderUpdate", ka);
+			System.out.println("OrderrDaoImpl PaySuccess result--> "+ result);
+		}catch (Exception e) {
+			System.out.println("OrderrDaoImpl PaySuccess Exception -> " + e.getMessage());
+		}
+		return result;
 	}
 
 

@@ -84,6 +84,21 @@
 				$("#phMsg").html("");
 			}
 		}
+		
+		// 카드1 선택 시 수행
+		function selectCard1() {
+			$("#card2").css({'border':'5px solid white'});
+			$("#card1").css({'border':'5px solid #198754'});
+			$("#o_gift_card").val(1);
+		}
+		
+		// 카드2 선택 시 수행
+		function selectCard2() {
+			$("#card1").css({'border':'5px solid white'});
+			$("#card2").css({'border':'5px solid #198754'});
+			$("#o_gift_card").val(2);
+		}
+		
 	</script>
 </head>
 <body>
@@ -102,7 +117,7 @@
             <h3 style="align: center;">선물하기</h3><p>
           </div>
           <!-- form -->
-          <form class="row" action="foGivingGiftAction">
+          <form class="row" action="orderAction">
           
 <!-- 배송비 결정 -->
 <c:choose>
@@ -160,8 +175,16 @@
             
             <h5 class="h5">메시지 카드</h5><p>
             <div class="col-md-12 mb-3">
-            	<input type="radio" name="o_gift_card" value="1"><img alt="card1" src="../assets/images/gift/giftcard1.png"><br>
-            	<input type="radio" name="o_gift_card" value="2"><img alt="card2" src="../assets/images/gift/giftcard2.png"><br><p><p>
+            	<input type="hidden" name="o_gift_card" id="o_gift_card" value="1">
+            	<img alt="card1" src="../assets/images/gift/giftcard1.png" style="border-radius: 20px;
+            																	  margin-right:  5px;
+            																	  border: 		 5px solid #198754"
+            															   onclick="selectCard1()"
+            															   id="card1">
+            	<img alt="card2" src="../assets/images/gift/giftcard2.png" style="border-radius: 20px;
+            																	  border: 		 5px solid white"
+            															   onclick="selectCard2()"
+            															   id="card2"><br><p><p>
             	<textarea rows="3" name="o_gift_msg" class="form-control" placeholder="메시지를 입력해주세요." required></textarea>
             </div>
             
@@ -264,10 +287,13 @@
             </div>
 
 <!-- hidden value -->
-<input type="hidden" name="m_num" value="${member.m_num }"> 
+<input type="hidden" name="m_num" 		value="${member.m_num }"> 
 <input type="hidden" name="o_pay_price" value="${newbook.nb_price * quantity + o_deliv_price}" id="o_pay_price_val"> <!-- ajax 통해 삽입 -->
-<input type="hidden" name="nb_num" value="${newbook.nb_num }"> 
-<input type="hidden" name="o_de_count" value="${quantity}"> 
+<input type="hidden" name="nb_num" 		value="${newbook.nb_num }"> 
+<input type="hidden" name="nb_title" 	value="${newbook.nb_title }"> 
+<input type="hidden" name="o_de_count"  value="${quantity}"> 
+<input type="hidden" name="o_type" 		value="2"> 
+<input type="hidden" name="destination" value="0"> 
 
           </form>
 

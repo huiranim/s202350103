@@ -25,6 +25,6 @@ public class PointList {			//포인트 이력
    // 페이징 작업용
    private String  pageNum;      // 페이지   
    private int     start;         // 첫 페이지
-   private int    end;         // 마지막 페이지
+   private int     end;         // 마지막 페이지
 }
 

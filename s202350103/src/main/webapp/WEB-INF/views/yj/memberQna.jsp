@@ -36,7 +36,7 @@
           <div class="mb-8">
               <!-- heading -->
             <h1 class="h3"><p>요청 또는 문의 사항을 남겨주시면</p>
-            	<span style="color: #6699FF;">신속하게 연락 드리겠습니다.</span> </h1>
+            	<span style="color: #6699FF;">신속하게 답변 드리겠습니다.</span> </h1>
             <p class="lead mb-0"><strong>상담이 필요하세요? 친절하게 답변드립니다.</strong> </p>
           </div>
         <div class="mb-4">

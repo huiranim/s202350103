@@ -24,9 +24,6 @@ public interface OrderDao {
 	OrderGift 		  selectOrderGift(long o_order_num);
 	int 			  gettingGiftAction(Orderr orderr, OrderGift orderGift);
 	long 			  selectTodayOrderr();
-	
-	
-	
-	
+	int 			  orderUpload(Orderr orderr);
 
 }

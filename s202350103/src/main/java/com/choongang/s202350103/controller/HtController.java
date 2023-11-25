@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -20,12 +21,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.choongang.s202350103.domain.AmountVO;
+import com.choongang.s202350103.domain.KakaoPayApprovalVO;
+import com.choongang.s202350103.gbService.PointChargeService;
+import com.choongang.s202350103.hrService.OrderService;
+import com.choongang.s202350103.htService.EmailService;
 import com.choongang.s202350103.htService.KakaoPay;
 //import com.choongang.s202350103.htService.KakaoPay;
 import com.choongang.s202350103.htService.OrderrService;
@@ -34,6 +42,7 @@ import com.choongang.s202350103.htService.ReviewService;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
+import com.choongang.s202350103.model.OrderGift;
 import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 
@@ -49,29 +58,11 @@ import lombok.extern.slf4j.Slf4j;
 public class HtController {
 	private final OrderrService os;
 	private final ReviewService rs;
-
-	@Data
-	@AllArgsConstructor
-	class Result<T>{ 
-		private final int plusEnd; //총 인원수 추가
-		private final T data;
-	}
+	private final EmailService emailService;
+	private final PointChargeService pcs;
 	
-	@ResponseBody 
-	@RequestMapping("plusEnd")
-	public Result endPlus(String plusEndStr, Review review) {
-		int plusEnd = 5;
-		System.out.println("plusEndStr--> "+plusEndStr);
-		if (plusEndStr != null) plusEnd = Integer.parseInt(plusEndStr);
-		review.setStart(1);
-		review.setEnd(plusEnd);
-		
-		List<Review> listReview = rs.listReview(review);
-		System.out.println("Review.size--> "+listReview.size());
-		System.out.println("Review--> "+listReview);
-		
-		return new Result(plusEnd, listReview);
-	}
+	// 선물하기 관련 서비스 (희라)
+	private final OrderService osHr;
 	
 	@RequestMapping("/reviewList")
 	public String reviewList(Model model, Review review, HttpSession session,  Member member) {
@@ -334,7 +325,7 @@ public class HtController {
 		String[] splitPh   = member.getM_ph().split("-");
 		String[] splitAddr = member.getM_addr().split("/");
 		
-		System.out.println("newBook.getNb_num --> "+ newBook.getNb_num());
+		System.out.println("orderForm member --> "+ member);
 		System.out.println("paymentType--> "+ paymentType);
 		
 		
@@ -344,25 +335,40 @@ public class HtController {
 			// 바로 결제(1개)
 			List<NewBook> orderOne = os.orderOne(newBook);
 			System.out.println("HtController orderOne--->" + orderOne);
-			for(NewBook newBook2 : orderOne ) {
-				totalPrice += newBook2.getNb_price();
-				newBook.setTotalPrice(totalPrice);
-				if ( totalPrice > 50000) newBook.setO_deliv_price(0);
-				else                     newBook.setO_deliv_price(3000);
+			
+			// ob_num이 null이면 이거 아니면 다른거 생성
+			if(newBook.getOb_num() == 0) {
+				for(NewBook newBook2 : orderOne ) {
+					totalPrice += newBook2.getNb_price();
+					newBook.setTotalPrice(totalPrice);
+					if ( totalPrice > 50000) newBook.setO_deliv_price(0);
+					else                     newBook.setO_deliv_price(3000);
+				}
+				
+				model.addAttribute("orderList", orderOne);
+				model.addAttribute("cart", newBook);
+				System.out.println("HtController totalPrice--->" + totalPrice);
+			} else {
+				List<NewBook> OldOrderOne = os.orderOne(newBook);
+				for(NewBook newBook3 : OldOrderOne ) {
+					totalPrice += newBook3.getOb_sell_price();
+					newBook.setTotalPrice(totalPrice);
+					if ( totalPrice > 50000) newBook.setO_deliv_price(0);
+					else                     newBook.setO_deliv_price(3000);
+				}
+				
+				model.addAttribute("orderList", OldOrderOne);
+				model.addAttribute("cart", newBook);
+				System.out.println("HtController totalPrice--->" + totalPrice);
 			}
 			
-			model.addAttribute("orderList", orderOne);
-			model.addAttribute("cart", newBook);
-			model.addAttribute("paymentType", paymentType);
-			System.out.println("HtController totalPrice--->" + totalPrice);
-
 			
 		} else if (paymentType == 2) {
 			// 장바구니 결제(여러개)
 			List<Cart> orderList = os.orderList(cart, member);
 			System.out.println("HtController orderList kkk --->" + orderList);
 			for(Cart cart1 : orderList ) {
-				totalPrice += cart1.getNb_price();
+				totalPrice += (cart1.getNb_price() * cart1.getC_count());
 			}
 			cart.setTotalPrice(totalPrice);
 			if ( totalPrice > 50000) cart.setO_deliv_price(0);
@@ -384,27 +390,27 @@ public class HtController {
 		return "/ht/foOrderForm";
 	}
 
-	 
 	 @RequestMapping("/orderAction")
 	 public String orderAction(
-			 
-							 	 String m_email1, 
-								 String m_email, 
-	 
-							     String m_ph1,
-								 String m_ph2,
-								 String m_ph3,
-				 
-				 				 String m_addr1,
-								 String m_addr2,
-								 String m_addr,
-								 
-								 int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
-								 int    paymentType, // 1-> 바로 결제   /  2-> 장바구니 결제
-								 Model model, HttpSession session, Member member, Orderr orderr, Cart cart
+								 RedirectAttributes redirect,
+					             String m_email1, 
+					            String m_email, 
+					
+					             String m_ph1,
+					            String m_ph2,
+					            String m_ph3,
+					
+					             String m_addr1,
+					            String m_addr2,
+					            String m_addr,
+					            
+					            @ModelAttribute("destination") int    destination, // 1-> 최근 배송지 / 2-> 배송지 직접 입력
+					            Model model, HttpSession session, Member member, Cart cart,
+					            @ModelAttribute("orderr") Orderr orderr, 
+					            @ModelAttribute("orderGift") OrderGift orderGift
 								 ) {
 		System.out.println("Controller orderAction Start...");
-		System.out.println("Controller orderAction 1 paymentType-->"+paymentType);
+		System.out.println("Controller orderAction 1 orderr.getPaymentType()-->"+orderr.getPaymentType());
 		
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -414,6 +420,7 @@ public class HtController {
 		}
 		
 		orderr.setM_num(member.getM_num());
+		orderr.setM_name(member.getM_name());
 		
 		// 최근 주소지 = 1, 직접입력 = 2
 		if(destination == 2) {
@@ -427,58 +434,217 @@ public class HtController {
 		
 		System.out.println("HtController orderr-->"+orderr);
 		
-		System.out.println("Htcontroller orderAction 2 paymentType---> " + paymentType);
+		System.out.println("Htcontroller orderAction 2 orderr.getPaymentType()---> " + orderr.getPaymentType());
 		
 		List<Cart> list =  new ArrayList<Cart>();
 		
 		
-		if(paymentType == 1) {
+		if(orderr.getPaymentType() == 1) {
 			cart.setM_num(member.getM_num());
 			cart.setNb_num(orderr.getNb_num());
 			cart.setC_count(1);
 			list.add(cart);
 			System.out.println("orderAction list--> " + list);
-		} else if (paymentType == 2) {
+		} else if (orderr.getPaymentType() == 2) {
 			list = os.orderList(cart, member);
 
 			System.out.println("orderAction list--> " + list);
 		} 
-		
-		//Orderr 테이블 insert
-		os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
-		System.out.println("HtController orderInsert() orderr.getO_order_num()-->"+orderr.getO_order_num());
-		
-		model.addAttribute("result_o_order_num", orderr.getO_order_num());
-		model.addAttribute("member",member);
-		
-		return "/ht/foOrderForm";
-	}
 
-	// 카카오페이
+		// Orderr 테이블 insert
+		// 일반&선물 -> 주문번호 없음 / 포인트 충전 -> 주문번호 있음
+		if(orderr.getO_order_num() == 0) {
+			// 선물 -> o_type = 2
+			if(orderr.getO_type() == 2) {
+				osHr.givingGiftAction(member, orderr, orderGift);
+			} else {
+				os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
+			}
+		}else {
+			orderr.setO_order_count(1);
+			orderr.setNb_title("포인트 충전");
+			System.out.println("orderr111 -> "+orderr);
+		}
+		
+		//카카오페이 결제하기전 전송할 데이터 담기
+		KakaoPayApprovalVO kakaoSendData = null;
+		try {
+			kakaoSendData = kakaoSendData(orderr);
+		} catch (Exception e) {
+			System.out.println("controller KakaoPayApprovalVO kakaoSendData -> " + e.getMessage());
+		}
+		
+		System.out.println("KakaoPayApprovalVO kakaoSendData---> " +  kakaoSendData);
+		
+		redirect.addFlashAttribute("kakaoSendData", kakaoSendData);
+		
+		
+		
+		return "redirect:kakaoPay";
+	}
+	 
+	 // 내장 클래스
+	 // 카카오페이 결제하기 위해 필요한 필수 데이터를 카카오페이 DTO에 담는 내장 클래스
+	 // 필수 데이터 1.partner_order_id(주문번호 또는 회원번호), 
+	 //		    2.partner_user_id(회원 이름),
+	 //			3.amount(결제 금액),
+	 //         4.item_name(상품명),
+	 //			5.quantity(결제 수량)
+	 private KakaoPayApprovalVO kakaoSendData(Orderr orderr) {
+		//필수 데이터 조회
+		System.out.println("kakaoSendData orderr---> " + orderr);
+		
+		//카카오에서 요청한 DTO 변수명과 타입으로 변경
+		String partner_order_id = String.valueOf(orderr.getO_order_num()); //주문번호 또는 회원번호
+		String partner_user_id  = String.valueOf(orderr.getM_name()); //회원 이름
+		Integer quantity = orderr.getO_order_count(); //결제 수량
+		String item_name = null; //상품명
+		if(quantity == 1) {// 1개 구매일 경우
+			item_name = orderr.getNb_title(); 
+		} else {           // 여러개 구매일 경우
+			item_name = orderr.getNb_title() + " 외 " + (quantity-1) + "개";
+		}
+		AmountVO amountVO = new AmountVO(); //결제금액
+		amountVO.setTotal(orderr.getO_pay_price());
+		
+		// kakaopay에 보낼것을 KakaoPayApprovalVO DTO에 담기
+		KakaoPayApprovalVO kakaoDto = new KakaoPayApprovalVO();
+		kakaoDto.setPartner_order_id(partner_order_id);
+		kakaoDto.setPartner_user_id(partner_user_id);
+		kakaoDto.setItem_name(item_name);
+		kakaoDto.setQuantity(quantity);
+		kakaoDto.setAmount(amountVO);
+		
+		System.out.println("kakaoDto---> " + kakaoDto);
+		
+		// 결제할 정보담은 DTO 리턴
+		return kakaoDto;
+	 }
+	 
+
+	 // 카카오페이 결제 요청
 	 @Setter(onMethod_ = @Autowired)
 	 private KakaoPay kakaopay;  // Service
 
-	 @RequestMapping("kakaoPayStart")
-	 public String kakaoButton() {
-		 System.out.println("kakaoPayStart-->");
-		 return "/ht/kakaoPay";
-	 }
-
-	 @PostMapping("/kakaoPay")
-	 public String kakaoPay() {
+	 @RequestMapping("/kakaoPay") //Get : 정보를 요청하기위해 사용(Read), Post : 정보를 입력하기위해 사용(Create)
+	 public String kakaoPay(RedirectAttributes redirect,
+			 				@ModelAttribute("kakaoSendData") KakaoPayApprovalVO kakaoSendData) {
 		 log.info("kakaoPay post............................................");
-   
-		 return "redirect:" + kakaopay.kakaoPayReady();
+		 
+		 System.out.println("kakaoPay kakaoSendData---> " + kakaoSendData);
+		 
+		 redirect.addFlashAttribute("kakaoSendData",kakaoSendData);
+		 return "redirect:" + kakaopay.kakaoPayReady(kakaoSendData, redirect);
 	 }
-   
-	 @GetMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
-	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
+	 
+	 // 결제 성공
+	 @RequestMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
+	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, 
+			 						@ModelAttribute("kakaoDto") KakaoPayApprovalVO kakaoDto, Model model, HttpSession session, Member member) throws MessagingException {
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		 
 		 System.out.println("kakaoPaySuccess get............................................");
 		 System.out.println("kakaoPaySuccess pg_token : " + pg_token);
-	  
-		 model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
+		 System.out.println("kakaoPaySuccess kakaoDto --> " + kakaoDto);
 		 
-		 return "/ht/kakaoPaySuccess";
+		 // orderr update 결과
+		 int result = 0;
+		 
+		 // 카카오 결제 성공 응답 데이터
+		 //KakaoPayApprovalVO kakaoResponse =  null;
+		 try {
+			// 카카오 결제 성공 응답 데이터
+			kakaoDto =  kakaopay.kakaoPayInfo(pg_token, kakaoDto);
+			
+			System.out.println("kakaoDto---> " + kakaoDto);
+			if(kakaoDto.getPartner_order_id().length() != 4) {
+				// orderr update(주문상태 변경)
+				result = os.paySuccess(kakaoDto);
+			}else {
+				int m_num = member.getM_num();
+				
+				result = pcs.InsertUpdatePointCharge(kakaoDto);
+				System.out.println("GbController pointChargeTest result -> "+result);
+				
+				return "redirect:memberPointList?m_num="+m_num+"&result="+result;
+			}
+			// orderr update(주문상태 변경)
+			result = os.paySuccess(kakaoDto);
+			 
+		 }catch (Exception e) {
+		  System.out.println("kakaoPaySuccess Exception -> " + e.getMessage());
+			
+		}
+		 // 메일 보내기(고도화 예정)
+		 //emailService.sendEmail("whgudxor1@naver.com", "Test Subject", "Hello, this is a test email.");
+		 
+		 System.out.println("kakaoPaySuccess end");
+		 
+		 model.addAttribute("kakaoResponse", kakaoDto);
+		 model.addAttribute("result", result);
+		 model.addAttribute("member", member);
+		 
+		 return "/ht/foPaySuccess";
+	 }
+	 
+	 // 결제 실패
+	 @RequestMapping("/kakaoPaySuccessFail") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
+	 public String kakaoPaySuccessFail(Model model, HttpSession session, Member member) {
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		 
+		 System.out.println("kakaoPaySuccess get............................................");
+		 
+		 int result = 2;
+		 
+		 try {
+			 model.addAttribute("result", result);
+			 model.addAttribute("member", member);
+		 }catch (Exception e) {
+		  System.out.println("kakaoPaySuccessFail Exception -> " + e.getMessage());
+			
+		}
+		 System.out.println("kakaoPaySuccessFail end");
+		 return "/ht/foPaySuccess";
+	 }
+	 
+	 @RequestMapping("/kakaoPayCancel") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
+	 public String kakaoPayCancel(Model model, HttpSession session, Member member) {
+		 
+		// 로그인한 멤버 값 불러오기
+		member =(Member) session.getAttribute("member");
+		
+		if(member == null) {
+			return "yb/loginForm";
+		}
+		 
+		 
+		 System.out.println("kakaoPayCancel get............................................");
+		 
+		 int result = 3;
+		 
+		 try {
+			 model.addAttribute("result", result);
+			 model.addAttribute("member", member);
+		 }catch (Exception e) {
+		  System.out.println("kakaoPayCancel Exception -> " + e.getMessage());
+			
+		}
+		 System.out.println("kakaoPayCancel end");
+		 return "/ht/foPaySuccess";
 	 }
 	 
 }

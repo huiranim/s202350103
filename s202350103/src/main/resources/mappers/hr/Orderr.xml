@@ -135,7 +135,7 @@
 	 </insert>
 	 <insert id="hrInsertOrderGift" parameterType="OrderGift">
 	 	INSERT INTO order_gift
-	 	VALUES(#{o_order_num}, 'G' || TO_CHAR(sysdate,'yyyymmdd') || '0001',
+	 	VALUES(#{o_order_num}, 'G' || #{o_order_num},
 	 		   #{o_gift_name}, #{o_gift_ph}, #{o_gift_card}, #{o_gift_msg}, 0)
 	 </insert>
 	 <update id="hrUpdateMemberP" parameterType="Orderr">
@@ -184,4 +184,18 @@
 		SET    o_gift_name = #{o_gift_name}, o_gift_ph = #{o_gift_ph}, o_gift_accept = 1
 		WHERE  o_order_num = #{o_order_num}
 	 </update>
+	 
+<!-- BO 주문목록 - 임의 주문 생성 액션(CSV 파일 업로드)
+	 boOrderUploadAction.jsp -->
+	 <insert id="hrInsertOrderrU" parameterType="Orderr">
+	 	INSERT INTO orderr
+	 	VALUES (#{o_order_num}, #{m_num}, sysdate, 0, 3,
+	 		   #{o_pay_price}, 3, null, #{o_deliv_price}, 0,
+	 		   #{o_rec_name}, #{o_rec_mail}, #{o_rec_ph}, #{o_rec_addr}, #{o_rec_msg},
+	 		   null, null)
+	 </insert>
+	 <insert id="hrInsertOrderDetailU" parameterType="Orderr">
+	 	INSERT INTO order_detail
+	 	VALUES (#{o_order_num}, #{nb_num}, #{o_de_count}, #{o_de_prodtype})
+	 </insert>
 </mapper>

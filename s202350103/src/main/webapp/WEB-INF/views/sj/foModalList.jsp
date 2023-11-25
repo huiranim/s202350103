@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,7 +71,15 @@
                
                 <div class="row align-items-center">
                    <div class="col-3 col-md-2">
-                      <!-- img --> <img src="${oldBook.nb_image}" alt="Ecommerce" class="img-fluid">
+                   <c:choose>
+					     <c:when test="${fn:contains(oldBook.nb_image, 'http')}">
+					            <img src="${oldBook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 10rem;">
+					     </c:when>
+					     <c:otherwise>
+					            <img src="${pageContext.request.contextPath}/upload/${oldBook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 10rem;">
+					     </c:otherwise>
+					</c:choose>
+                  	
                   	<input type="hidden" name="nb_image" value="${oldBook.nb_image }">
                    </div>
                    <div class="col-3 col-md-4">
@@ -97,7 +106,7 @@
                    </div>
                    <!-- 넣기 -->
               <div class="col-1 text-start col-md-1">
-             <span class="fw-bold"> <input type="button" class="btn btn-primary mb-1" value="선택" onclick="location.href='ModetailNb?nb_num=${oldBook.nb_num}'"></span>	
+             <span class="fw-bold"> <input type="button" class="btn btn-success mb-1" value="선택" onclick="location.href='ModetailNb?nb_num=${oldBook.nb_num}'"></span>	
                </div>
                 </div>
              </li>

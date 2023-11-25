@@ -7,7 +7,9 @@ import java.io.OutputStream;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -147,22 +149,21 @@ import lombok.extern.slf4j.Slf4j;
 			attJoin.setA_num(a_num);
 			attJoin.setM_num(m_num);
 			
-			int result=0;
 			int add = ps.checkAddAtt(a_num);		// 연속출석 일자		
 			System.out.println("연속 출석 일자 :"+add);
-			
 			
 			Calendar calendar = Calendar.getInstance();
 			Date checkTime = calendar.getTime();
 			attJoin.setA_par_pdate(checkTime);
-		
-			for(int i = 0; i < add; i++) {
-				
-				
+			
+			int result=0;
+			
+			for(int i = 0; i < add;) {
 				int rowCount = ps.countAttRow(attJoin);
 				if(rowCount == 1) {
 					System.out.println("rowCount == 1");
 					result = 1;
+					++i;
 					calendar.add(Calendar.DAY_OF_MONTH,-i);
 					checkTime = calendar.getTime();
 					attJoin.setA_par_pdate(checkTime);
@@ -175,7 +176,7 @@ import lombok.extern.slf4j.Slf4j;
 			}
 			System.out.println("m_num"+attJoin.getM_num());
 			System.out.println("a_num"+attJoin.getA_num());
-			System.out.println("result");
+			System.out.println("result"+result);
 			if(result == 1) {
 				ps.stampAddAtt(attJoin);
 				ps.saveAddAtt(attJoin);
@@ -256,7 +257,7 @@ import lombok.extern.slf4j.Slf4j;
 			attendance.setA_add(a_add);
 			attendance.setA_addpoint(a_addpoint);
 			
-			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload/sh");
 			System.out.println("shController uploadPath->"+uploadPath);
 			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
 			attendance.setA_image(savedName);
@@ -354,7 +355,6 @@ import lombok.extern.slf4j.Slf4j;
 			 attendance.setStart(start);
 			 attendance.setEnd(end);
 			 List<Attendance> attendanceList = ps.boEventList(attendance);
-			 
 			 model.addAttribute("page", page);
 			 model.addAttribute("event",attendanceList);
 			 
@@ -483,16 +483,28 @@ import lombok.extern.slf4j.Slf4j;
 		}
 		
 		@RequestMapping(value="selectMemberPoint")
-		public String selectMemberPoint(@RequestParam int m_num, Model model) {
+		public String selectMemberPoint(@RequestParam int m_num, String currentPage, Model model) {
 			System.out.println("shController selectMemberPoint() Start...");
-			List<PointList> memberPointList = ps.selectMemberPoint(m_num);
-			Member member = ms.memberInfo(m_num);
+			int memberEvent = ps.memberPointList(m_num);
+			//페이징 작업
+			Paging page = new Paging(memberEvent, currentPage);
+			int start = page.getStart();
+			int end = page.getEnd();
+			Member member = new Member();
+			member.setStart(start);
+			member.setEnd(end);
+			member.setM_num(m_num);
+			
+			List<PointList> memberPointList = ps.selectMemberPoint(member);
+			member = ms.memberInfo(m_num);
 			int sum = ps.pointSum(m_num);
 			System.out.println("memberPointList.size()->"+memberPointList.size());
 			model.addAttribute("memberPoint",memberPointList);
 			model.addAttribute("member",member);
 			model.addAttribute("sum",sum);
 			model.addAttribute("m_num",m_num);
+			model.addAttribute("page",page);
+			
 			return "sh/boMemberPointList";
 		}
 		
@@ -540,7 +552,53 @@ import lombok.extern.slf4j.Slf4j;
 		public String boJoinedMember(@RequestParam("eNum") int eNum, Model model) {
 			System.out.println("shController boMinusPoint() Start...");
 			List<PointList> pointList = ps.boJoinedMember(eNum);
+			int joinedCount = ps.joinedCount(eNum);
+			System.out.println("joinedCount->"+joinedCount);
 			model.addAttribute("pointList",pointList);
+			model.addAttribute("joinedCount",joinedCount);
 			return "sh/boJoinedMember";
+		}
+		
+		  	
+		@RequestMapping (value = "boSearchDetail1", produces = "application/json")
+		public Map<String, Object> searchDetail1(@RequestParam("status") String status, String currentPage) {
+			System.out.println("shController searchDetail1() Start...");
+			Map<String, Object> response = new HashMap<String, Object>();
+			
+			try {
+				int totalAtt = ps.totalAtt();
+				int totalQuiz = ps.totalQuiz();
+				int totalEvent = totalAtt + totalQuiz;
+				
+				Paging page = new Paging(totalEvent, currentPage);
+				int start = page.getStart();
+				int end = page.getEnd();
+				
+				Attendance attendance = new Attendance();
+				attendance.setStart(start);
+				attendance.setEnd(end);
+				
+				List<Attendance> eventList = null;
+				
+				if(status.equals("all")) {
+					System.out.println("status = all");
+					eventList = ps.searchDetail11(attendance);
+				} else if (status.equals("keep")){
+					System.out.println("status = keep");
+					eventList = ps.searchDetail12(attendance);
+				} else if(status.equals("stop")) {
+					System.out.println("status = stop");
+					eventList = ps.searchDetail13(attendance);
+				}		
+				response.put("event",eventList);
+				response.put("page",page);
+				response.put("sucess",true);
+				
+			} catch (Exception e) {
+				System.out.println("boSearchDetail1 Exception->"+e.getMessage());
+				response.put("sucess",false);
+				response.put("error", e.getMessage());
+			}
+			return response;
 		}
 }

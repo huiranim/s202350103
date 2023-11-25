@@ -10,112 +10,106 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+<style type="text/css">
 
+.eventInfo {
+	border: none;					 /* 테두리 제거 */
+    border-radius: 50%;				 /* 동그라미 */
+    width: 70px; 					 /* 넓 */
+    height : 70px; 					 /* 높 */
+    background-color : #53d57c; 	 /* 배경색 */
+    font-weight : bold;				 /* 폰트 굵게*/
+    color: #fff; 				 	 /* 글자색 */
+    text-align: center;				 /* 글자 위치 */
+    line-height : 50px; 			 /* 버튼 위치 */
+    position : absolute;			 /* 위치고정 */
+    right: 20px; 					 /* 오른 여백*/
+    top: 50%; 					 	 /* 화면 상단 중앙 */
+    transform: translateY(-50%); 	 /* 화면 수직 중앙 */
+}
+
+.card-body {
+    padding: 0; 					  /* 카드 이미지 사이 여백*/
+}
+</style>
+<script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <body>
 
+ <p class="fs-1 mb-6">DADOK 이벤트</p>
 
-<div class="row">
-  <div class="col-12">
-     <div class="card card-product">
-        <!-- card body -->
-        <div class="card-body">
-           <div class=" row align-items-center">
-              <!-- col -->
-              <div class="col-md-4 col-12" style="width: 600px; height: 170px; border-right: solid;" >
-                 <div class="text-center position-relative ">
-                    <a href="shop-single.html">
-                       <!-- img --><img src="../../assets/images/products/product-img-1.jpg"
-                         alt="Grocery Ecommerce Template" class="mb-3 img-fluid" style="width: 600px; height: 170px;">
-                    </a>
-                 </div>
-              </div>
-           </div>
-        </div>
-     </div>
-  </div>
- </div>
+   <div class="card card-product mb-5">
+			<div class="card-body row align-items-center">
+	           <div class="col-12" style="width: 500px; height: 170px;" >
+	             <div class="text-center position-relative" style="border-right: solid;">
+	             	<img src="../assets/images/eventImage/quizEvent.png" 
+	             		onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});"
+	             		 style="width: 500px; height: 170px;">
 
-
-
-
-     <div class="card card-product">
-
-			<div class="card-body mb-4 row align-items-center">
-
-		               <div class="col-md-4 col-12" style="width: 600px; height: 170px; border-right: solid;" >
-		                 <div class="text-center position-relative ">
-
-                    <a href="shop-single.html">
-                       <!-- img --><img src="../../assets/images/products/product-img-1.jpg"
-                         alt="Grocery Ecommerce Template" class="mb-3 img-fluid" style="width: 600px; height: 170px;">
-                    </a>
-
-		                 </div>
-		              </div>
-
-		           
-						<div class="col-md-4 col-12">
-								sadasdsa
-						   
-						   <div class="text-center">
-						   <div class="flex-column  text-center">
-		              	
-							 	 <button onclick="cart(${order.nb_num })" class="btn btn-soft-primary mt-2">
-		                    		장바구니 
-			                    </button><p>
-		                 
-		                   </div> 
-		                   </div>
-						 
-						 </div>
-		                   
-						</div> 
-
-</div>
-
-
-
-
-
-
-
-
-
-
-<h1>Event List</h1>
-		 <div class="card-body py-8">
-			<c:forEach var="event" items="${eventList }">
-						<img src="${pageContext.request.contextPath}/upload/${event.a_image}" onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});" width="500" height="200">
-							${event.a_title }
-							${event.a_sdate }~${event.a_edate }
-						<button onclick="checkTime('${event.a_sdate }','${event.a_edate}'), eventClick('${member.m_num}',${event.a_num})" id="subButton">버튼</button>
-					<div class="border border-primary" style="margin-bottom: 50px;" >
-						<span style="width:50%;"><img src="${pageContext.request.contextPath}/upload/${event.a_image}" onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});" width="500" height="200"></span>
-							<span class="border border-white" style="vertical-align:sub; width: 40%; height: 200px;">
-								<span class="fw-bold">${event.a_title }</span>	
-								<span>${event.a_sdate }~${event.a_edate }</span>
-							</span>
-					<span class="mt-2" style=" width:10%; height:200px;">
-                    	<a onclick="checkTime('${event.a_sdate }','${event.a_edate}'), eventClick('${member.m_num}',${event.a_num})" id="subButton" class="btn btn-primary ">
-                  		이동하기
-                       </a>
-                    </span>
+	              </div>
+	           	</div>
+           
+		        <div class="col-md-4 col-12">
+				  <div class="text-center">
+				  	<h2 class="fs-5 mb-2">이미지 확인 할라고 일단 띄워놓음, 이 이미지 쓰려면 a_image / q_image 에  <p>
+				  	<small style="color: red;"> ../assets/images/eventImage/quizEvent.png 나 atEvent.png  이 경로 넣어야 댐 </small>
+				  	</h2>
+					<div class="flex-column text-center">
+						<button onclick="checkTime('${event.a_sdate }','${event.a_edate}'); eventClick('${member.m_num}',${event.a_num});" id="subButton" class="eventInfo">참여</button>
 					</div>
-			</c:forEach>	
+			   	  </div>
+			 	</div>
+			</div> 
 		</div>
 
-		<span id="pageNum">
-			<c:if test="${page.startPage > page.pageBlock }">
-				<a href="eventList?currentPage=${page.startPge-page.pageBlocck }">[이전]</a>
+
+	<c:forEach var="event" items="${eventList }">
+	    <div class="card card-product mb-5">
+			<div class="card-body row align-items-center">
+	           <div class="col-12" style="width: 500px; height: 170px;" >
+	             <div class="text-center position-relative" style="border-right: solid;">
+	             	<img src="../assets/images/eventImage/atEvent.png" 
+	             		onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});"
+	             		 style="width: 500px; height: 170px;">
+
+	              </div>
+	           	</div>
+           
+		        <div class="col-md-4 col-12">
+				  <div class="text-center">
+				  	<h2 class="fs-5 mb-2">${event.a_title }</h2>
+							${event.a_sdate } ~ ${event.a_edate }
+				  
+					<div class="flex-column text-center">
+						<button onclick="checkTime('${event.a_sdate }','${event.a_edate}'); eventClick('${member.m_num}',${event.a_num});" id="subButton" class="eventInfo">참여</button>
+					</div>
+			   	  </div>
+			 	</div>
+			</div> 
+		</div>
+	</c:forEach>	
+
+<nav aria-label="Page navigation example">
+	  <ul class="pagination justify-content-center">
+		 	<c:if test="${page.startPage > page.pageBlock }">
+				 <li class="page-item justify-content-center">					
+					<a class="page-link mx-1 text-body"  href="eventList?currentPage=${page.startPge-page.pageBlocck }">이전</a>
+				</li>
 			</c:if>
-			<c:forEach var="i" begin="${page.startPage }" end="${page.endPage}">
-				<a href="eventList?currentPage=${i }">[${i }]</a>
+				<c:forEach var="i" begin="${page.startPage }" end="${page.endPage}">
+				 <li class="page-item justify-content-center">
+						<a class="page-link mx-1 text-body"  href="eventList?currentPage=${i }">${i}</a>
+				</li>
 			</c:forEach>
-			<c:if test="${page.endPage < page.totalPage }">
-				<a href="eventList?currentPage=${page.startPage+page.pageBlock }">[다음]</a>
+				
+				<c:if test="${page.endPage < page.totalPage }">
+				 <li class="page-item justify-content-center">		 
+					<a class="page-link mx-1 text-body"href="eventList?currentPage=${page.startPage+page.pageBlock }">다음</a>
+				</li>
 			</c:if>
-		</span>
+		</ul>
+</nav>
+   
+
 
 
 <script type="text/javascript">

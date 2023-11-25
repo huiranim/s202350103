@@ -117,6 +117,8 @@
 		   <c:if test="${oldBook.ob_status != 3 }">
 		    <button class="btn btn-dark" type="submit" onclick="chkcalcul()" >정산받기</button>
 		    <input type="hidden" name="ob_status" value="3">
+		    <input type="hidden" name="ob_write_date" value="">
+		    <input type="hidden" name="ob_readcnt" value="0">
 		    <input type="hidden" name="ob_num" value="${oldBook.ob_num }">
 		    </c:if>
 	</div>
