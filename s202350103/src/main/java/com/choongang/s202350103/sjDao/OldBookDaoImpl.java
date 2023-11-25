@@ -16,12 +16,12 @@ public class OldBookDaoImpl implements OldBookDao {
 	private final SqlSession session;
 
 	@Override
-	public int totalOb() {
+	public int totalOb(OldBook oldBook) {
 		int totObCount =0;
 
 		System.out.println("OldBookDaoImpl start total ");
 		try {
-			totObCount = session.selectOne("totObCnt");
+			totObCount = session.selectOne("totObCnt",oldBook);
 			System.out.println("OldBookDaoImpl totalOb totObCnt->"+ totObCount);
 			
 		} catch (Exception e) {
@@ -31,12 +31,12 @@ public class OldBookDaoImpl implements OldBookDao {
 	}
 
 	@Override
-	public int totalOb2() {
-		int totObCount2 =0;
+	public int totalOb2(OldBook oldBook) {
+		int totObCount2 = 0;
 		
 		System.out.println("OldBookDaoImpl start totalOb2 ");
 		try {
-			totObCount2 = session.selectOne("totObCnt2");
+			totObCount2 = session.selectOne("totObCnt2",oldBook);
 			System.out.println("OldBookDaoImpl totalOb2 totObCnt2->"+ totObCount2);
 		} catch (Exception e) {
 			System.out.println("OldBookDaoImpl totalOb2 Exception->"+e.getMessage());
@@ -189,7 +189,7 @@ public class OldBookDaoImpl implements OldBookDao {
 		try {
 			
 			OblistFo = session.selectList("sjObListAll", oldBook);
-			System.out.println("OldBookDaoImpl listObFo obList.size()"+OblistFo.size());
+			System.out.println("OldBookDaoImpl listObFo selectList obList.size()"+OblistFo.size());
 			
 			
 		} catch (Exception e) {

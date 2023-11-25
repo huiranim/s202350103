@@ -4,6 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.mail.internet.MimeMessage;
+
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -20,6 +25,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 	private final OrderDao od;
+	private final NewbookService ns;
+	private final JavaMailSender mailSender;
 	
 	// Transaction 관리
 	private final PlatformTransactionManager transactionManager;
@@ -148,11 +155,15 @@ public class OrderServiceImpl implements OrderService {
 	public int givingGiftAction(Member member, Orderr orderr, OrderGift orderGift) {
 		System.out.println("OrderServiceImpl givingGiftAction() start..");
 		
-		// 선물 받는사람 정보 저장
+		// result 변수 선언
+		int result = 0;
+		
+		// 1) 선물 받는사람 정보, nb_title 저장
 		orderGift.setO_gift_name(orderr.getO_rec_name());
 		orderGift.setO_gift_ph(orderr.getO_rec_mail());
+		orderr.setNb_title(ns.selectNewbook(orderr.getNb_num()).getNb_title());
 		
-		// 주문번호 생성
+		// 2-1) 주문번호 생성
 		long o_order_num = 0;
 		
 			// 당일 주문 확인 (없으면 오늘날짜 + '0001', 있으면 해당값 +1)
@@ -174,12 +185,74 @@ public class OrderServiceImpl implements OrderService {
 				System.out.println("당일 주문 있을 때 o_order_num -> "+o_order_num);
 			}
 		
-		// 주문번호 저장
+		// 2-2) 주문번호 저장
 		orderr.setO_order_num(o_order_num);
 		orderGift.setO_order_num(o_order_num);
 		
-		// 주문 INSERT & UPDATE
-		int result = od.givingGiftAction(member, orderr, orderGift);
+		// 3) 메일링 정보 GET
+		String tomail = orderr.getO_rec_mail();
+		String m_name = member.getM_name();
+		String nb_title = orderr.getNb_title();
+		int o_de_count = orderr.getO_de_count();
+		String o_gift_msg = orderGift.getO_gift_msg();
+
+		// 받는 사람
+		System.out.println("OrderServiceImpl giftMailing() tomail -> "+tomail);
+		
+		// 보내는 사람
+		String setfrom = "dadok202350103@gmail.com";
+		
+		// 제목
+		String title = "[DADOK] "+m_name+"님으로부터 선물이 도착했습니다!";
+		
+		// 내용
+		String contents = "안녕하세요. DADOK입니다. \n"
+							+ m_name + "님이 선물과 메시지를 보냈습니다. \n\n"
+							
+							+ "선물 : " + nb_title + " " + o_de_count + "개 \n"
+							+ "메시지 : " + o_gift_msg + "\n\n"
+							
+							+ "아래 링크를 클릭하여 선물을 받아보세요! \n"
+							+ "http://localhost:8200/foGettingGift?o_order_num="+o_order_num+"\n\n"
+							
+							+ "* 받는 사람 정보를 정확히 입력해주세요. \n"
+							+ "* 입력 후 수락하기 버튼을 클릭해야 발송이 시작됩니다.";
+		
+
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		
+		try {
+			
+			// 4) 주문 INSERT & UPDATE
+			// 성공 시 result = 1
+			result = od.givingGiftAction(member, orderr, orderGift);
+
+			// 5) 메일링
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setFrom(setfrom);
+			messageHelper.setTo(tomail);
+			messageHelper.setSubject(title);
+			messageHelper.setText(contents/* ,true */);
+			mailSender.send(message);
+			
+			// 메일링까지 성공 시
+			result = 1;
+			
+			// COMMIT - try블럭 모두 수행되면 commit까지 수행
+			transactionManager.commit(txStatus);
+
+		} catch (Exception e) {
+			// ROLLBACK - try블럭 일부라도 실패하면 rollback 수행
+			transactionManager.rollback(txStatus);
+			
+			// try블록 실패 시
+			result = 0;
+			
+			System.out.println("OrderServiceImpl giftMailing() e.getMessage() -> "+e.getMessage());
+		}
 		
 		System.out.println("OrderServiceImpl givingGiftAction() end..");
 		return result;
@@ -225,6 +298,7 @@ public class OrderServiceImpl implements OrderService {
 	public int orderUpload(List<Orderr> orderrList) {
 		System.out.println("OrderServiceImpl orderUpload() start..");
 		
+		// result 변수 선언
 		int result = 0, insertResult = 0;
 		List<Integer> resultList = new ArrayList<Integer>();
 		
@@ -285,12 +359,12 @@ public class OrderServiceImpl implements OrderService {
 			}
 					
 			// 최종 result 정의
-			// resultList의 모든 원소가 1이면 result = 1 / 1이 아닌 순간 result = 0 & 끝
+			// resultList의 모든 원소가 1이면 result = 1 / 1이 아닌 순간 result = 2 & 끝
 			for(int resultChk : resultList) {
 				if (resultChk == 1) {
 					result = 1;
 				} else {
-					result = 0;
+					result = 2;
 					break;
 				}
 				System.out.println("HrController orderUpload() result -> "+result);
@@ -303,7 +377,6 @@ public class OrderServiceImpl implements OrderService {
 			transactionManager.rollback(txStatus);
 		
 			System.out.println("OrderServiceImpl orderUpload() e.getMessage() -> "+e.getMessage());
-			
 		}
 	
 		System.out.println("OrderServiceImpl orderUpload() end..");

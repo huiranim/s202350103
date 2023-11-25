@@ -8,7 +8,18 @@
 <title>Insert title here</title>
 </head>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
-
+<style>
+		textarea {
+      width: 80%;
+      height: 150px;
+      padding: 10px;
+      box-sizing: border-box;
+      border: solid 2px;
+      border-radius: 5px;
+      font-size: 16px;
+      resize: both;
+      }
+</style>
 <body>
 	<p class="fs-1 text-center">Quiz Event 수정</p>
 	<form id="quizForm" action="javascript:void(0)">
@@ -39,7 +50,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row">출석 혜택지급 :</th>
+				<th scope="row" colspan="2">출석 혜택지급 :</th>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -48,7 +59,7 @@
          				<tr>
 				 			<th scope="row">지급 포인트 :</th>
 				 			<td>
-				 				<input type="number"  name="q_point"	 value="${quiz.q_point}" required="required">point
+				 				<input type="number"  name="q_point" min="1" maxlength="3" value="${quiz.q_point}" required="required">point
 							</td>
 						</tr>
 					</thead>
@@ -62,7 +73,18 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row">선택지</th>
+				<th scope="row">정답 :</th>
+				<td>
+					<select name="q_answer" required="required">
+						<option id="select" value="1" selected="selected">1
+						<option id="select" value="2">2
+						<option id="select" value="3">3
+						<option id="select" value="4">4
+					</select>						
+				</td>
+			</tr>
+			<tr>
+				<th scope="row" colspan="2">선택지</th>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -103,21 +125,10 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row">정답 :</th>
-				<td>
-					<select name="q_answer" required="required">
-						<option id="select" value="1" selected="selected">1
-						<option id="select" value="2">2
-						<option id="select" value="3">3
-						<option id="select" value="4">4
-					</select>						
-				</td>
-			</tr>
-			<tr>
 				<td colspan="2">	
 					<input type="button" onclick="updateQuiz()" value="수정">																	
 					<input type="button" onclick="deleteQuiz(${quiz.q_num },'${quiz.q_title}')" value="삭제">
-					<button id="closeButton">닫기</button>
+					<input type="button" value="닫기" onclick="window.close();">
 				</td>
 			</tr>	
 		</table>	
@@ -125,10 +136,10 @@
 	
 	<script type="text/javascript">
 	function updateQuiz(){
-		alert("updateQuiz start..");
+		var confirmMessage = "수정하시겠습니까?"
 		var quizForm = $("#quizForm");
 		var formData = new FormData(quizForm[0]);
-		
+		if(confirm(confirmMessage)){
 		$.ajax({
 			url:"updateQuiz",
 			data:formData,
@@ -138,7 +149,8 @@
 			success: function(result){
 				if(result == 1){
 					if(confirm("수정 성공, 창을 닫으시겠습니까?")){
-					window.close();		
+						opener.parent.location.reload();
+						window.close();		
 					}
 				}else{
 					alert("수정 실패");
@@ -146,7 +158,11 @@
 				}
 			}
 		});
-	};
+	}else{
+		alert("수정을 취소하셨습니다.");
+		return false;
+		}
+	}
 	
 	function deleteQuiz(p_q_num, p_q_title){
 		var confirmMessage = p_q_title +"을 삭제하시겠습니까?";
@@ -158,20 +174,19 @@
 				success:function(result){
 					if(result == 1){
 						alert("삭제하였습니다.");
-						location.href="boEventList";
+						opener.parent.location.reload();
+						window.close();
+					} else {
+						alert("참가한 회원이 존재하여 삭제가 불가능합니다.");
+						return false;
 					}
 				}
 			});
 		} else {
 			alert("삭제를 취소하였습니다.");
 			return false;
-			}
 		}
-	
-	var closeButton = document.getElementById("closeButton");
-	closeButton.addEventListener('click',function(){
-		window.close();
-	});
+	}
 	</script>
 </body>
 </html>

@@ -10,9 +10,9 @@
 	<select id="htOrderOne" parameterType="NewBook" resultType="NewBook">
 		 <choose>
  			<when test="ob_num == 0">
- 				SELECT *
-				FROM   newbook
-				WHERE  nb_num = #{nb_num}
+ 				SELECT nb.*, 1 AS quantity
+				FROM   newbook nb
+				WHERE  nb.nb_num = #{nb_num}
   			</when>
 	        <otherwise>
                 SELECT   ob.ob_num, ob.OB_SELL_PRICE, ob.ob_grade, nb.*
@@ -25,7 +25,9 @@
 
 	
 	<select id="htOrderList" parameterType="Cart" resultType="Cart">
-		SELECT c.*, n.nb_title, n.nb_price, n.nb_image, n.nb_publisher
+		SELECT c.*, n.nb_title, n.nb_price, n.nb_image, n.nb_publisher, (SELECT SUM(C_COUNT)
+																		 FROM cart
+																		 WHERE m_num = 1022) as quantity
 		FROM   cart c, newbook n
 		WHERE  c.nb_num = n.nb_num
 		AND    m_num = #{m_num}
@@ -76,9 +78,14 @@
 		 WHERE a.m_num = #{m_num}
 	</update>
 	
-	<insert id="htPointInsert" parameterType="Orderr">
+	<insert id="htPayPointInsert" parameterType="Orderr">
 		INSERT INTO point_list
 		VALUES (POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 1, (#{o_pay_price} * 0.01))
+	</insert>
+	
+	<insert id="htUsePointInsert" parameterType="Orderr">
+		INSERT INTO point_list
+		VALUES (POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 6, - #{o_point})
 	</insert>
 	
 	<delete id="htCartDelete">
@@ -86,7 +93,7 @@
 		FROM   cart
 		WHERE  m_num = #{m_num}
 	</delete>
-	
+<!-- 	
 	<select id="htOrderPayment" parameterType="Orderr" resultType="Orderr">
 		SELECT *
 		FROM (   
@@ -100,8 +107,31 @@
 		    AND    o.o_order_num  = #{o_order_num}
 		    )
 		WHERE rn = 1 
-	
 	</select>
+	  -->
+	<update id="htOrderUpdate" parameterType="Ka">
+		UPDATE orderr
+		<choose>
+			<when test="payment_method_type == 'MONEY'">
+				  SET  o_status = 1
+ 			</when>
+			<when test="payment_method_type == 'CARD'">
+				  SET  o_status = 1,
+				  	   o_card_num = #{card_info.approved_id}
+ 			</when>
+        </choose>
+		WHERE o_order_num   = #{partner_order_id}
+	</update>
 	
+		
+<!-- 	
+	<update id="htOrderUpdate" parameterType="Ka">
+		UPDATE orderr
+		SET    o_status      = 1,
+			   O_DELIV_COM   = TO_NUMBER(DBMS_RANDOM.VALUE * 4 + 1), 1에서 5까지의 난수 생성
+  			   O_DELIV_TRACK = TO_NUMBER(DBMS_RANDOM.VALUE * 9000000000000000 + 1000000000000000) 16자리 난수 생성
+		 WHERE o_order_num   = #{partner_order_id}
+	</update>
+	 -->
 		
 </mapper>

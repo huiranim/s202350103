@@ -39,8 +39,16 @@
  	 
  	
     <div id="ht" class="card-body py-8 text-left">
-      <img src="${reviewOne.nb_image}" alt="Grocery Ecommerce Template"
-        class="mb-3">
+	  <c:choose>
+	     <c:when test="${fn:contains(reviewOne.nb_image, 'http')}">
+	            <img id="ht" src="${reviewOne.nb_image}" alt="bookImage">
+	     </c:when>
+	     <c:otherwise>
+	            <img id="ht" src="${pageContext.request.contextPath}/upload/${reviewOne.nb_image}" alt="Grocery Ecommerce Template"class="mb-3">
+	     </c:otherwise>
+	  </c:choose>    
+    
+      <%-- <img src="${reviewOne.nb_image}" alt="Grocery Ecommerce Template"class="mb-3"> --%>
       <div class="text-truncate">${reviewOne.nb_title}</div>
     </div>
 	
@@ -76,7 +84,7 @@
 	   <div class="d-flex justify-content-end">
 	      <input type="submit" class="btn btn-primary" value="리뷰 저장">
 	   </div>
-	</div>
+	   <input type="hidden" name="nb_num" value="${review.nb_num}">
  </form>
 	
 	

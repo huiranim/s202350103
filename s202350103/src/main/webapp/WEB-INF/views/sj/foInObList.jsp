@@ -13,8 +13,9 @@
  	function category2Click() {
 		// 클릭한 카테고리명
 		var category2Value = $("#category2").val();
-		alert("category2Value->"+category2Value);
-		location.href = "/folistOb?nb_category2="+category2Value;
+		var category1Value = '${oldBook.nb_category1}';
+		/* alert("category2Value->"+category2Value); */
+		location.href = "/folistOb?nb_category1="+category1Value+"&nb_category2="+category2Value;
 	
 	} 
 	
@@ -48,16 +49,25 @@
                 <div class="d-flex mt-2 mt-lg-0">
              <div class="me-2 flex-grow-1">
                <!-- 카테고리 검색 -->
-                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
-                   <option value=0 <c:if test ="${oldBook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
-                   <option value=1 <c:if test ="${oldBook.nb_category2 eq '1'}"> selected="selected"</c:if>>경제/경영</option>
-                   <option value=2 <c:if test ="${oldBook.nb_category2 eq '2'}"> selected="selected"</c:if>>과학</option>
-                   <option value=3 <c:if test ="${oldBook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
-                   <option value=4 <c:if test ="${oldBook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
-                   <option value=5 <c:if test ="${oldBook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
-     			   <option value=6 <c:if test ="${newbook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
-	               <option value=7 <c:if test ="${newbook.nb_category2 eq '7'}"> selected="selected"</c:if>>문학</option>
-     			</select>
+               
+                         <c:if test="${oldBook.nb_category1 eq 1 }">
+	                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
+	                   <option value=0 <c:if test ="${oldBook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
+	                   <option value=1 <c:if test ="${oldBook.nb_category2 eq '1'}"> selected="selected"</c:if>>경제/경영</option>
+	                   <option value=2 <c:if test ="${oldBook.nb_category2 eq '2'}"> selected="selected"</c:if>>과학</option>
+	                   <option value=3 <c:if test ="${oldBook.nb_category2 eq '3'}"> selected="selected"</c:if>>소설</option>
+	                   <option value=4 <c:if test ="${oldBook.nb_category2 eq '4'}"> selected="selected"</c:if>>역사/문화</option>
+	                   <option value=5 <c:if test ="${oldBook.nb_category2 eq '5'}"> selected="selected"</c:if>>인문</option>
+	     			</select>
+     			</c:if>
+     			<c:if test="${oldBook.nb_category1 eq 2 }">
+	                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
+	                   <option value=0 <c:if test ="${oldBook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
+	                   <option value=6 <c:if test ="${oldBook.nb_category2 eq '6'}"> selected="selected"</c:if>>과학/기술</option>
+	                   <option value=7 <c:if test ="${oldBook.nb_category2 eq '7'}"> selected="selected"</c:if>>문학</option>
+	     			</select>
+     			</c:if>
+     			
              </div>
              <!-- 정렬 조건 -->
           <%--   <div>
@@ -157,6 +167,8 @@
 		                       <!-- 장바구니 버튼 -->
 		                     
 		                       </a>
+		                
+		                       
 		                       </div>
 		                    </div>
 		                 </div>
@@ -168,7 +180,23 @@
 		 </div>
 	</div>    
 </c:forEach>       
-
+<div>
+<c:if test="${totalOb2 eq 0 }">
+					
+	<div class="alert alert-warning d-flex align-items-center" role="alert">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+         <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+      </svg>
+      <div>
+         	찾으시는 중고도서가 없습니다   	
+      </div>
+   
+   </div>
+	  <div>
+     <a href="/innewbookList?nb_category1=1"> <button type="button" class="btn btn-success mb-2" style="float: right;">새상품 보러가기</button></a>
+      </div>		
+	</c:if>
+</div>
 
 
 <br><br>
@@ -180,18 +208,18 @@
 
 			 	<c:if test="${page.startPage > page.pageBlock }">
 					 <li class="pagination justify-content-center">					
-						<a class="page-link" href="folistOb?currentPage=${page.startPage-page.pageBlock}">이전</a>
+						<a class="page-link" href="folistOb?currentPage=${page.startPage-page.pageBlock}&nb_category1=${oldBook.nb_category1 }&nb_category2=${oldBook.nb_category2 }">이전</a>
 					</li>
 				</c:if>
  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 					 <li class="pagination justify-content-center">
- 						<a class="page-link" href="folistOb?currentPage=${i}">${i}</a>&nbsp;&nbsp;
+ 						<a class="page-link" href="folistOb?currentPage=${i}&nb_category1=${oldBook.nb_category1 }&nb_category2=${oldBook.nb_category2 }">${i}</a>&nbsp;&nbsp;
 					</li>
 				</c:forEach>
 					
 				<c:if test="${page.endPage < page.totalObPage }">
 					 <li class="pagination justify-content-center">		 
-						<a class="page-link" href="folistOb?currentPage=${page.startPage+page.pageBlock}">다음</a>
+						<a class="page-link" href="folistOb?currentPage=${page.startPage+page.pageBlock}&nb_category1=${oldBook.nb_category1 }&nb_category2=${oldBook.nb_category2 }">다음</a>
 					</li>
 				</c:if>
 		</ul>

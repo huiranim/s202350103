@@ -18,13 +18,13 @@
         <div class="hero-slider ">
 
 		<div
-            style="background: url(../assets/images/slider/mainEx1.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+            style="background: url(../assets/images/png/7777.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center; height: 520px;">
             <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-              <span class="badge text-bg-info">타이틀</span>
+            
 
-              <h2 class="text-dark display-6 fw-bold mt-4">배너 내용 </h2>
-              <p class="lead">소제목 </p>
-              <a href="#!" class="btn btn-dark mt-3">버튼 <i class="feather-icon icon-arrow-right ms-1"></i></a>
+              <h2 class="text-dark display-6 fw-bold mt-4"> </h2>
+              <p class="lead"> </p>
+            
             </div>
           </div>
           
@@ -422,8 +422,8 @@
                 </div>
                 
                 <!-- 버튼  -->
-                <div class="d-grid mt-2">
-  					<button type="button" class="btn btn-success mb-2" onclick="foOldBookDetail?ob_num='${oldbook.ob_num}'">중고도서 보러가기 ▷</button>
+                <div class="d-grid mt-2" style="margin-left: 30px;">
+  					<a href="foOldBookDetail?ob_num=${RandomOb.ob_num}"><button type="button" class="btn btn-success mb-2" >중고도서 보러가기 ▷</button></a>
                 </div>
               </div>
             </div>
@@ -442,10 +442,10 @@
     
     
 <!-- 하단 컨텐츠  -->
-    <section class="my-lg-14 my-8">
+   <!--  <section class="my-lg-14 my-8">
       <div class="container">
         <div class="row">
-         <!-- 섹션 1 -->
+         섹션 1
           <div class="col-md-6 col-lg-3">
             <div class="mb-8 mb-xl-0">
               <div class="mb-6"><img src="assets/images/icons/clock.svg" alt=""></div>
@@ -455,7 +455,7 @@
             </div>
           </div>
           
-          <!-- 섹션 2 -->
+          섹션 2
           <div class="col-md-6  col-lg-3">
             <div class="mb-8 mb-xl-0">
               <div class="mb-6"><img src="assets/images/icons/gift.svg" alt=""></div>
@@ -465,7 +465,7 @@
             </div>
           </div>
           
-          <!--  섹션 3 -->
+           섹션 3
           <div class="col-md-6 col-lg-3">
             <div class="mb-8 mb-xl-0">
               <div class="mb-6"><img src="assets/images/icons/package.svg" alt=""></div>
@@ -476,7 +476,7 @@
           </div>
           
           
-          <!-- 섹션 4 -->
+          섹션 4
           <div class="col-md-6 col-lg-3">
             <div class="mb-8 mb-xl-0">
               <div class="mb-6"><img src="assets/images/icons/refresh-cw.svg" alt=""></div>
@@ -488,7 +488,9 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
+  
+  
   </main>
 
 

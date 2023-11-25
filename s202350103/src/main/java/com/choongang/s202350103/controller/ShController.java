@@ -7,7 +7,9 @@ import java.io.OutputStream;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -255,7 +257,7 @@ import lombok.extern.slf4j.Slf4j;
 			attendance.setA_add(a_add);
 			attendance.setA_addpoint(a_addpoint);
 			
-			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload/sh");
 			System.out.println("shController uploadPath->"+uploadPath);
 			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
 			attendance.setA_image(savedName);
@@ -484,6 +486,7 @@ import lombok.extern.slf4j.Slf4j;
 		public String selectMemberPoint(@RequestParam int m_num, String currentPage, Model model) {
 			System.out.println("shController selectMemberPoint() Start...");
 			int memberEvent = ps.memberPointList(m_num);
+			//페이징 작업
 			Paging page = new Paging(memberEvent, currentPage);
 			int start = page.getStart();
 			int end = page.getEnd();
@@ -554,5 +557,48 @@ import lombok.extern.slf4j.Slf4j;
 			model.addAttribute("pointList",pointList);
 			model.addAttribute("joinedCount",joinedCount);
 			return "sh/boJoinedMember";
+		}
+		
+		  	
+		@RequestMapping (value = "boSearchDetail1", produces = "application/json")
+		public Map<String, Object> searchDetail1(@RequestParam("status") String status, String currentPage) {
+			System.out.println("shController searchDetail1() Start...");
+			Map<String, Object> response = new HashMap<String, Object>();
+			
+			try {
+				int totalAtt = ps.totalAtt();
+				int totalQuiz = ps.totalQuiz();
+				int totalEvent = totalAtt + totalQuiz;
+				
+				Paging page = new Paging(totalEvent, currentPage);
+				int start = page.getStart();
+				int end = page.getEnd();
+				
+				Attendance attendance = new Attendance();
+				attendance.setStart(start);
+				attendance.setEnd(end);
+				
+				List<Attendance> eventList = null;
+				
+				if(status.equals("all")) {
+					System.out.println("status = all");
+					eventList = ps.searchDetail11(attendance);
+				} else if (status.equals("keep")){
+					System.out.println("status = keep");
+					eventList = ps.searchDetail12(attendance);
+				} else if(status.equals("stop")) {
+					System.out.println("status = stop");
+					eventList = ps.searchDetail13(attendance);
+				}		
+				response.put("event",eventList);
+				response.put("page",page);
+				response.put("sucess",true);
+				
+			} catch (Exception e) {
+				System.out.println("boSearchDetail1 Exception->"+e.getMessage());
+				response.put("sucess",false);
+				response.put("error", e.getMessage());
+			}
+			return response;
 		}
 }

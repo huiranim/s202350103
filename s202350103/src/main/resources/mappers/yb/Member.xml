@@ -13,7 +13,11 @@
 		</select>
 		
 		<select id="ybTotalWishList" parameterType="Member" resultType="int">
-			SELECT sum(w_wish) FROM wishlist  WHERE m_num = #{m_num} and w_wish = 1
+		  	SELECT sum(w_wish) 
+			FROM 	wishlist  
+			WHERE 	m_num = #{m_num}
+			AND 	w_wish = 1
+			
 		</select>
 		
 		<select id="ybTotalSellCnt" parameterType="Member" resultType="int">
@@ -21,7 +25,15 @@
 		</select>
 		
 		<select id="ybPointListCnt" parameterType="PointList" resultType="int">
-			SELECT count(*) FROM Point_List WHERE m_num = #{m_num}
+			SELECT count(*) 
+			FROM Point_List 
+			WHERE m_num = #{m_num}	
+		</select>
+		
+		<select id="ybTotalPoint" parameterType="int" resultType="int">
+			SELECT SUM(m_point)
+			FROM point_list
+			WHERE   m_num = #{m_num}
 		</select>
 		
 		<select id="ybTotalPrice" parameterType="cart" resultType="int">
@@ -62,36 +74,49 @@
 		
 	
 		<select id="ybMemberQuizList" parameterType="PointList" resultType="PointList">
-			SELECT  q.q_title title, p.m_point point, p.a_par_pdate date1, p.p_list_type type1 
-			FROM    point_list p, quiz q
-			WHERE   p.q_num = q.q_num
-			AND     m_num = #{m_num}
-			UNION
-			SELECT  to_char(o.o_order_num) title, p.m_point point, p.a_par_pdate date1, p.p_list_type type1
-			FROM    point_list p, orderr o
-			WHERE   p.o_order_num = o.o_order_num
-			AND     p.m_num = #{m_num}
-			UNION
-			SELECT  a.a_title title,  p.m_point point, p.a_par_pdate date1, p.p_list_type type1
-			FROM    point_list p,attendance a
-			WHERE   p.a_num = a.a_num
-			AND     m_num = #{m_num}
-			UNION
-			SELECT  '추천인 적립' title, m_point point, a_par_pdate date1, p_list_type type1
-            FROM    point_list 
-            WHERE   m_num = #{m_num}
-            AND 	p_list_type = 5 
-            UNION
-            SELECT  '회원가입 적립' title, m_point point, a_par_pdate date1, p_list_type type1
-            From    point_list 
-            WHERE   m_num = #{m_num}
-            AND 	p_list_type = 4
-            UNION
-            SELECT  '주문 차감' title, m_point point, a_par_pdate date1, p_list_type type1
-            From    point_list 
-            WHERE   m_num = #{m_num}
-            AND 	p_list_type = 7
-            ORDER   by date1
+            SELECT *
+			FROM
+			(
+			        SELECT rownum rn, a.*
+			        FROM
+			                   (SELECT  q.q_title title, p.m_point point, p.a_par_pdate date1, p.p_list_type type1 
+			                    FROM    point_list p, quiz q
+			                    WHERE   p.q_num = q.q_num
+			                    AND     m_num = #{m_num}
+			                    UNION
+			                    SELECT  to_char(o.o_order_num) title, p.m_point point, p.a_par_pdate date1, p.p_list_type type1
+			                    FROM    point_list p, orderr o
+			                    WHERE   p.o_order_num = o.o_order_num
+			                    AND     p.m_num = #{m_num}
+			                    UNION
+			                    SELECT  a.a_title title,  p.m_point point, p.a_par_pdate date1, p.p_list_type type1
+			                    FROM    point_list p,attendance a
+			                    WHERE   p.a_num = a.a_num
+			                    AND     m_num = #{m_num}
+			                    UNION
+			                    SELECT  '추천인 적립' title, m_point point, a_par_pdate date1, p_list_type type1
+			                    FROM    point_list 
+			                    WHERE   m_num = #{m_num}
+			                    AND    p_list_type = 5 
+			                    UNION
+			                    SELECT  '회원가입 적립' title, m_point point, a_par_pdate date1, p_list_type type1
+			                    From    point_list 
+			                    WHERE   m_num = #{m_num}
+			                    AND    p_list_type = 4
+			                    UNION
+			                    SELECT  '주문 차감' title, m_point point, a_par_pdate date1, p_list_type type1
+			                    From    point_list 
+			                    WHERE   m_num = #{m_num}
+			                    AND    p_list_type = 7
+			                    UNION
+			                    SELECT  '포인트 충전' title, m_point point, a_par_pdate date1, p_list_type type1
+			                    From    point_list 
+			                    WHERE   m_num = #{m_num}
+			                    AND    p_list_type = 8
+			                    ORDER BY date1 DESC
+			                    ) a
+			)
+			WHERE   rn BETWEEN #{start} and #{end}
 		</select>
 		
 		<select id="ybOldBookSellList" parameterType="OldBook" resultType="OldBook">
@@ -149,8 +174,7 @@
 		<update id="ybMemberPwChangeByPh" parameterType="map">
 			UPDATE member set m_pw = #{m_pw} WHERE m_ph = #{m_ph}
 		</update>
-		
-		
+
 	</mapper>
 
 

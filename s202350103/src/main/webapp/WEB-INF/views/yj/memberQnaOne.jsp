@@ -37,7 +37,7 @@
           <div class="mb-8">
               <!-- heading -->
             <h1 class="h3">
-            	<span style="color: #6699FF;">신속하게 친절하게 답변 드리겠습니다.</span> </h1>
+            	<span style="color: #024098;">신속하게 친절하게 연락 드리겠습니다.</span> </h1>
             <p class="lead mb-0"><strong>답변일 : 작성일 기준 1 ~ 3 이내</strong> </p>
           </div>
           <!-- form -->

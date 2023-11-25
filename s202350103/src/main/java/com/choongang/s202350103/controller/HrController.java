@@ -1,6 +1,7 @@
 package com.choongang.s202350103.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
@@ -9,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
+
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,9 +19,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseInt;
@@ -289,7 +295,7 @@ public class HrController {
 		
 		// session으로부터 member 도출
 		member = (Member) session.getAttribute("member");
-		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
+		System.out.println("HrController givingGift() member.getM_name()->"+member.getM_name());
 		model.addAttribute("member", member);
 		
 		// value 확인
@@ -320,80 +326,22 @@ public class HrController {
 			// o_gift_msg
 			System.out.println("orderGift.getO_gift_msg()->"+orderGift.getO_gift_msg());
 			
-		// Service Method 실행 후 model에 result 저장
-		int result = os.givingGiftAction(member, orderr, orderGift);
-		model.addAttribute("giftResult", result);
-		
-		// 메일 발송을 위해 주요 객체 redirect에 저장
-		redirect.addFlashAttribute("member", member);
+		// 결제 미연결
+//		// Service Method 실행 후 model에 result 저장
+//		int result = os.givingGiftAction(member, orderr, orderGift);
+//		model.addAttribute("mailingResult", result);
+//		
+//		
+//		System.out.println("HrController givingGiftAction() end..");
+//		return "/hr/foGivingGiftAction";
+			
+		// 결제 연결
 		redirect.addFlashAttribute("orderr", orderr);
 		redirect.addFlashAttribute("orderGift", orderGift);
+		int destination = 0;
+		redirect.addFlashAttribute("destination", destination);
 		
-		System.out.println("HrController givingGiftAction() end..");
-		return "redirect:giftMailing";
-	}
-	
-	// FO 선물하기 - 메일 발송
-	@RequestMapping("/giftMailing")
-	public String giftMailing(HttpServletRequest request, Model model, HttpSession session, 
-							  @ModelAttribute("member") Member member,
-							  @ModelAttribute("orderr") Orderr orderr,
-							  @ModelAttribute("orderGift") OrderGift orderGift
-							  ) {
-		System.out.println("HrController giftMailing() start..");
-		
-		// 정보 GET
-		String tomail = orderr.getO_rec_mail();
-		String m_name = member.getM_name();
-		String n_title = ns.selectNewbook(orderr.getNb_num()).getNb_title();
-		int o_de_count = orderr.getO_de_count();
-		String o_gift_msg = orderGift.getO_gift_msg();
-		long o_order_num = orderr.getO_order_num();
-
-		// 받는 사람
-		System.out.println("HrController giftMailing() tomail -> "+tomail);
-		
-		// 보내는 사람
-		String setfrom = "gml2511@gmail.com";
-		
-		// 제목
-		String title = "[DADOK] "+m_name+"님으로부터 선물이 도착했습니다!";
-		
-		// 내용
-		String contents = "안녕하세요. DADOK입니다. \n"
-							+ m_name + "님이 선물과 메시지를 보냈습니다. \n\n"
-							
-							+ "선물 : " + n_title + " " + o_de_count + "개 \n"
-							+ "메시지 : " + o_gift_msg + "\n\n"
-							
-							+ "아래 링크를 클릭하여 선물을 받아보세요! \n"
-							+ "http://localhost:8200/foGettingGift?o_order_num="+o_order_num+"\n\n"
-							
-							+ "* 받는 사람 정보를 정확히 입력해주세요. \n"
-							+ "* 입력 후 수락하기 버튼을 클릭해야 발송이 시작됩니다.";
-		
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-			messageHelper.setFrom(setfrom);
-			messageHelper.setTo(tomail);
-			messageHelper.setSubject(title);
-			messageHelper.setText(contents);
-			mailSender.send(message);
-			model.addAttribute("mailingResult", 1);
-			
-			model.addAttribute("member", member);
-			model.addAttribute("orderr", orderr);
-			model.addAttribute("n_title", n_title);
-			model.addAttribute("orderGift", orderGift);
-
-		} catch (Exception e) {
-			System.out.println("HrController giftMailing() e.getMessage() -> "+e.getMessage());		
-			model.addAttribute("mailingResult", 0);
-		}
-		
-		System.out.println("HrController giftMailing() end..");		
-		return "/hr/foGivingGiftAction";
+		return "redirect:orderAction";
 	}
 	
 	// FO 선물받기 - 화면
@@ -473,18 +421,36 @@ public class HrController {
 		return "/hr/boOrderUploadPopup";
 	}
 	// BO 주문목록 - 임의 주문 생성 액션(CSV 파일 업로드)
-	@RequestMapping("/boOrderUploadAction")
-	public String orderUpload(Model model) {
+	@PostMapping("/boOrderUploadAction")
+	public String orderUpload(Model model, HttpServletRequest request, MultipartFile csvFile) throws IOException {
 		System.out.println("HrController orderUpload() start..");
 		
-		// 파일 저장되어 있는 경로
-		String path = System.getProperty("user.dir") + "\\src\\main\\webapp\\upload\\hr\\test.csv";
-
+		// result 선언
+		int result = 2;
+		
+		// csvFile 확인
+		System.out.println("HrController orderUpload() csvFile -> "+csvFile);
+		
+		// 업로드 경로&파일명 선언
+		String uploadPath = "";		
+		String savedName  = "";
+		
+		// file에 담긴 값이 있다면 업로드 경로 할당 & 업로드
+		if(csvFile.getOriginalFilename().length() > 0) {
+			// 업로드 경로 할당
+			uploadPath = request.getSession().getServletContext().getRealPath("/upload/hr");
+			System.out.println("HrController orderUpload() uploadPath -> "+uploadPath);
+			
+			// 업로드
+			savedName = uploadFile(csvFile.getOriginalFilename(), csvFile.getBytes(), uploadPath);
+			System.out.println("HrController orderUpload() savedName -> "+savedName);
+		}
+		
 		// CSV 파일 읽을 수 있는 CsvBeanReader 인스턴스 생성
 		try(CsvBeanReader reader = new CsvBeanReader(
 								   new BufferedReader(
 								   new InputStreamReader(
-								   new FileInputStream(path), "EUC-KR")),
+								   new FileInputStream(uploadPath+"/"+savedName), "EUC-KR")),
 								   CsvPreference.STANDARD_PREFERENCE)){
 			
 			// 헤더
@@ -529,17 +495,45 @@ public class HrController {
 			}
 			
 			// Service Insert Method 실행
-			int result = os.orderUpload(orderrList);
+			result = os.orderUpload(orderrList);
 			System.out.println("HrController orderUpload() 최종 result -> "+result);
-			
-			// model에 result 저장
-			model.addAttribute("result", result);
 			
 		} catch (Exception e) {
 			System.out.println("HrController orderUpload() e.getMessage() -> "+e.getMessage());
 		} 
+		
+		// model에 result 저장
+		model.addAttribute("result", result);
 
 		System.out.println("HrController orderUpload() end..");
-		return "/hr/boOrderUploadAction";
+		return "/hr/boOrderUploadPopup";
 	}
+	// 내장 메소드
+	// 파일 업로드 후 파일명 반환
+	private String uploadFile(String originalName, byte[] fileData, String uploadPath) throws IOException {
+		System.out.println("HrController uploadFile() start..");
+		 
+		// 파일명에 붙여 식별자 역할을 할 고유의 문자열 생성
+		// Universally Unique IDentifier (세계적으로 유일한 식별자)
+		UUID uid = UUID.randomUUID();
+		
+		// Directory가 존재하지 않을 경우, 신규 Directory 생성
+		File fileDirectory = new File(uploadPath);
+		if(!fileDirectory.exists()) {
+			// 신규 폴더(Directory) 자동 생성
+			fileDirectory.mkdirs();
+			System.out.println("업로드용 폴더 생성 : "+uploadPath);
+		}
+		
+		// 파일명이 동일할 경우 덮어씌워질 수 있기 때문에 UUID를 붙여 식별
+		String savedName = uid.toString() + "_" + originalName;
+		
+		// 파일 업로드
+		File target = new File(uploadPath, savedName);
+		FileCopyUtils.copy(fileData, target);	// org.springframework.util.FileCopyUtils
+		
+		System.out.println("HrController uploadFile() end..");
+		return savedName;
+	}
+
 }

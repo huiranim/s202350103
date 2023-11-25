@@ -8,28 +8,54 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style type="text/css">
+
+.ddidi {
+  width : 300px;
+  height : 150px;
+ 
+  margin: auto;
+}
+
+
+</style>
 <title>Insert title here</title>
 </head>
 <body>
-
+<div class="container">
+<div>
 <p class="text-center fs-1 ">중고 도서 판매 신청완료
+</div>
 				<div class="text-center  position-relative ">
 	<img src="assets/images/png/comple.png" alt="판매신청"
                       class="mb-3 img-fluid">
-	
+
+<div class="ddidi">
+<table  class="table table-striped" >
+  <thead>
+    <tr>
+      <th scope="col">회원 번호 : </th>
+      <th scope="col">${member.m_num }	</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>회원 아이디 :</th>
+      <td> ${member.m_id }</td>
+    </tr>
+ 
+
+  </tbody>
+</table>
+</div>	
+
+
 	</div>
 			
-			<br><br>
 			<br>
-			<br>
-	</p>
-	<p class="text-end fs-3">
-		회원번호 : ${member.m_num }	<br>
-		회원 아이디 : ${member.m_id } <br>
-		
- </p>
- 
-			<p class="text-center fs-1 ">
+
+		<div> 
+			<p class="text-center" style="font-size: 18px;">
 			신청이 완료 되었습니다 . <br>
 			이용해 주셔서 감사합니다 . <br>
 			검수및 정산결과는 
@@ -37,9 +63,10 @@
 			</p>
 		
 	<div class="d-grid gap-2 col-6 mx-auto">										
- 		 <button class="btn btn-primary" type="button" onclick="location.href='memberMyPage?m_num=${member.m_num }'" >마이페이지 이동</button>
+ 		 <button class="btn btn-success " type="button" onclick="location.href='memberSellList?m_num=${member.m_num }'" >마이페이지 이동</button>
 	</div>
-
+	</div>
+</div>
 </body>
 
 <%@ include file="../common/footerFo.jsp" %>

@@ -48,8 +48,15 @@
 		                <c:forEach var="oldbook" items="${oldBookSellList }">
 		                  <tr>
 		                    <td class="align-middle">
-		                      <a href="newbookDetail?nb_num=${oldbook.nb_num }"><img src="${oldbook.nb_image }"
-		                          class="icon-shape icon-xxl" alt=""></a>
+		                      <a href="newbookDetail?nb_num=${oldbook.nb_num }">
+		                      	<c:choose>
+				                   	<c:when test="${fn:contains(oldbook.nb_image, 'http')}">
+				                   		<img src="${oldbook.nb_image }" alt="도서 썸네일" class="icon-shape icon-xxl" >
+				                   	</c:when>
+				                   	<c:otherwise>
+				                   		<img src="${pageContext.request.contextPath}/upload/${oldbook.nb_image}" alt="도서 썸네일" class="icon-shape icon-xxl">
+				                   	</c:otherwise>
+			                    </c:choose></a>
 		                    </td>
 		                    <td class="align-middle">
 		                      <div>

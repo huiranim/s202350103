@@ -19,14 +19,14 @@
 				return false;
 			}
 		} else
-			alert("포인트를 입력해주세요.");
+			alert("숫자를 입력해주세요.");
 			return false;
 	}
 	
 	function minusPoint(){
 		var point = $('#point').val();
 		var sum = ${sum};
-		alert("sum->"+sum);
+		//alert("sum->"+sum);
 		if(sum >= point){
 			if(point>0){
 				if(confirm(point+"만큼 차감하시겠습니까?")){
@@ -37,7 +37,7 @@
 					return false;
 				}
 			} else {
-				alert("포인트를 입력해주세요.");
+				alert("숫자를 입력해주세요.");
 				return false;
 			}
 		}else{
