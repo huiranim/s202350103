@@ -503,10 +503,10 @@
 				커뮤니티
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="memberCommunity">커뮤니티 목록</a></li>
+                    <li><a class="dropdown-item" href="memberCommunity">독후감 보러가기</a></li>
                     
                  <c:if test="${sessionScope.member != null }">
-                    <li><a class="dropdown-item" href="memberMyCommunity?m_num=${member.m_num }">내 게시글들</a></li>                  
+                    <li><a class="dropdown-item" href="memberMyCommunity?m_num=${member.m_num }">내 독후감</a></li>                  
                   </c:if>  
                     
                   </ul>
