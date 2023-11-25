@@ -36,7 +36,8 @@
                                         <div class="mb-5">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <h5 class="fs-6">일반 회원</h5>
-                                                <span><span class="me-1 text-dark">${nomalMember } 명</span>( ${averNomalMember } % )</span>
+                                                <span><span class="me-1 text-dark">${nomalMember } 명</span>
+                                                ( <fmt:formatNumber value="${averNomalMember }" maxFractionDigits="0"/> % )</span>
                                             </div>
                                             <!-- main wrapper -->
                                             <div>
@@ -52,7 +53,8 @@
                                             <div class="mb-5">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <h5 class="fs-6">관리자</h5>
-                                                <span><span class="me-1 text-dark">${adminMember } 명</span>( ${averAdminMember } % )</span>
+                                                <span><span class="me-1 text-dark">${adminMember } 명</span>
+                                                ( <fmt:formatNumber value="${averAdminMember }" maxFractionDigits="0"/> % )</span>
                                             </div>
                                             <!-- main wrapper -->
                                             <div>
@@ -70,7 +72,8 @@
                                             <!-- text -->
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <h5 class="fs-6">활동 회원</h5>
-                                                <span><span class="me-1 text-dark">${activeMember } 명</span>( ${averActiveMember } % )</span>
+                                                <span><span class="me-1 text-dark">${activeMember } 명</span>
+                                               ( <fmt:formatNumber value="${averActiveMember }" maxFractionDigits="0"/> % )</span>
                                             </div>
                                             <div>
                                                 <!-- progressbar -->
@@ -85,7 +88,8 @@
                                             <!-- text -->
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <h5 class="fs-6">탈퇴 회원</h5>
-                                                <span><span class="me-1 text-dark">${wdMember } 명</span>( ${averWdMember } % )</span>
+                                                <span><span class="me-1 text-dark">${wdMember } 명</span>
+                                                 ( <fmt:formatNumber value="${averWdMember }" maxFractionDigits="0"/> % )</span>
                                             </div>
                                             <div>
                                                 <!-- progressbar -->
@@ -147,9 +151,61 @@
                             </div>
                         </div>
                         
-           </div>
+                          <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
+                            <div class=" position-relative h-100">
+                              <a href="#">
+                                <div class="card card-lg mb-6">
+                                    <div class="card-body px-6 py-8">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                               <i class="bi bi-card-text" style="font-size: 32px; color: #ffc107;"></i>
+                                            </div>
+                                            
+                                            
+                                            <div class="ms-4">
+                                                <h5 class="mb-1">게시물 관리</h5>
+                                                <p class="mb-0">신고접수 게시물</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </a>
+           					 </div>     
+				           </div>
+				           
+				           
+				            <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
+                            <div class=" position-relative h-100">
+                             <a href="adminDeclReply">   
+                                <!-- card -->
+                                <div class="card card-lg mb-6">
+                                    <!-- card body -->
+                                    <div class="card-body px-6 py-8">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+												<i class="bi bi-chat-left-text" style="font-size: 32px; color: #198754;"></i>
+                                            </div>
+                                            
+                                            <div class="ms-4">
+                                                <h5 class="mb-1">답글 관리</h5>
+                                            <c:if test="${declReplyCount > 0 }">
+                                                <p class="mb-0">${declReplyCount } 건 의 신고 접수이력이 있습니다.</p>
+                                            </c:if>
+                                            <c:if test="${declReplyCount == 0 }">
+                                                <p class="mb-0">접수 이력이 없습니다 .</p>
+                                            </c:if>
+                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </a>
+           					 </div>     
+				           </div>
                         
-                        
+                   
+                   
+                   </div>     
 
 
 <%@ include file="footerBo.jsp" %>

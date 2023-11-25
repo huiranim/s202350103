@@ -69,7 +69,7 @@
                </thead>
                <tbody>
     	           <tr>
-                    
+    	           
                  <c:forEach items="${memberQnaList }" var="mq">
                     <tr> 
  	                 <td class="align-middle">
@@ -96,11 +96,17 @@
 			                </c:if>
  	
  					      </td>
+ 					      <c:if test="${mq.m_admin == 0 }">
  							 <td class="align-middle">
  							 	<c:set var="maskId" value="${fn:substring(mq.m_id,0,3) }****"/>
 								<c:out value="${maskId }"/>
  							 </td>
- 							
+ 						</c:if>
+ 						
+ 						<c:if test="${mq.m_admin == 1 }">
+	 	                 <td><span style="color: green; font-weight: bold;" >DADOK</span></td>
+ 	                 	</c:if>	
+ 								
  						</c:when>	                 
 	 	                 
 	 	                 <c:otherwise>
@@ -110,9 +116,12 @@
 	 	                 	<strong>${mq.mq_title }</strong>
 	 	                </a> 	
  	                 	</td>
- 	                 	
- 	                 			
+ 	                 	<c:if test="${mq.m_admin == 0 }">
 	 	                 <td class="align-middle">${mq.m_id }</td>
+						</c:if>
+ 	                 	<c:if test="${mq.m_admin == 1 }">
+	 	                 <td><span style="color: green; font-weight: bold;" >DADOK</span></td>
+ 	                 	</c:if>		
  	                 
 	 	                 </c:otherwise>
  	                 

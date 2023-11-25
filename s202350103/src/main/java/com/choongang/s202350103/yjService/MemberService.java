@@ -82,6 +82,18 @@ public interface MemberService {
 	int likeReply(Long mqr_num);
 	// 답글 신고
 	int declReply(MqReply reply);
+	// 관리자 - 답글 관리
+	List<MemberQ> adminDeclReply();
+	// 신고접수 횟수
+	int declCount(int mqr_num);
+	// 신고누적 답글삭제
+	void deleteReply(int mqr_num);
+	// 관리자 - 신고횟수 초기화
+	int replyUpdate(int mqr_num);
+	// 관리자 - 신고 댓글 카운트
+	int declReplyCount();
+	// 문의 글에 달린 댓글삭제
+	void deleteReplyAndMQ(int mq_num);
 	
 	
 

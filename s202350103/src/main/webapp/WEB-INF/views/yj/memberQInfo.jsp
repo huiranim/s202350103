@@ -86,9 +86,17 @@
 	
 		<div class="mb-3">
 			<img alt="" src="${mq.m_image }" width="35px;" height="35px;" class="rounded-circle"> &nbsp;
+		    	
+		    	<c:if test="${mq.m_admin == 1 }">
+					<span style="font-weight: bold; color: green; font-size: 22px;">DADOK</span>
+		    	</c:if>
+
+		    	<c:if test="${mq.m_admin == 0 }">
 		    	<span style="font-size: 20px;"> 
 			    	<strong>${mq.m_id } <small>(${mq.m_name})</small></strong>
 		    	</span>
+				</c:if>		    	
+		    	
 		</div>
 	
 	  </div>
@@ -249,9 +257,9 @@
 			  <div class="modal-dialog modal-dialog-centered" role="document">
 			    
         		<form action="replyDecl" method="post" id="replyDeclId">
-        			<input type="text" name="mqr_num" value="${reply.mqr_num }" >
-        			<input type="text" name="mqr_decl" value="${reply.mqr_decl }" >
-        			<input type="text" name="m_num" value="${member.m_num }">
+        			<input type="hidden" name="mqr_num" value="${reply.mqr_num }" >
+        			<input type="hidden" name="mqr_decl" value="${reply.mqr_decl }" >
+        			<input type="hidden" name="m_num" value="${member.m_num }">
         			
 				    <div class="modal-content">
 				      <div class="modal-header">

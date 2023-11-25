@@ -41,7 +41,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberQnaOne");						// 1:1 문의
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOna");						// 내 질문
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberPointList");					// 내 포인트 이력
-
+		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/myMqDelete");						// 내 문의 삭제
+		
 		// 로그인 후 관리자 권한 InterCeptor (비관리자 접근 막을 페이지)
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/mainBo");				// 관리자 메인
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminMemberList");		// 관리자 회원목록
@@ -57,9 +58,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 관리자 이벤트목록
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boAttendance");			// 관리자 이벤트(출석) 생성
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boQuiz");				// 관리자 이벤트(퀴즈) 생성
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/selectMemberPoint");	// 회원 포인트 수정
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventDetail");		// 이벤트 정보 수정
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 이벤트 목록
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boJoinedMember");		// 이벤트 포인트 내역
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/selectMemberPoint");	// 관리자 회원 포인트 수정
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventDetail");		// 관리자 이벤트 정보 수정
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 관리자 이벤트 목록
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boJoinedMember");		// 관리자 이벤트 포인트 내역
+		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminDeclReply");		// 관리자 신고 답글 관리
+		
 	}
 }

@@ -702,6 +702,10 @@ public class YjController {
 		  model.addAttribute("averActiveMember",averActiveMember);
 		  model.addAttribute("averWdMember",averWdMember);
 		  
+		  
+		  int declReplyCount = declReplyCount();
+		  model.addAttribute("declReplyCount",declReplyCount);
+		  
 		  return "common/mainBo";
 	  }
 	  
@@ -902,7 +906,7 @@ public class YjController {
 			messageHelper2.setSubject(title);   		// 메일제목 (생략 가능) -> 생략시 try 안걸어줘도됨
 													
 			// 메일 내용 
-			messageHelper2.setText("(" +m_id +") 님의 발신 : " + mq_content); 
+			messageHelper2.setText("(" +m_id +") 님의 발신 / 수신가능 메일 ( "+m_email+ " )" + " 내용 : " + mq_content); 
 			// 메일 전송
 			mailSender.send(message2);
 			
@@ -970,6 +974,9 @@ public class YjController {
 		  System.out.println("yj myDel ->" + mq_num);
 		  System.out.println("yj myDel ->" + m_num);
 		  
+		  // 게시글에 달린 댓글 삭제
+		  ms.deleteReplyAndMQ(mq_num);
+		  // 게시글 삭제 
 		  int myMqDelete = ms.myMqDelete(mq_num);
 		  
 		  List<MemberQ> memberMyQnaList = ms.memberMyQnaList(m_num);
@@ -1093,12 +1100,56 @@ public class YjController {
 	  
 	  // 문의 답변 신고 
 	  @PostMapping("/replyDecl")
-	  public String replyDecl( 
+	  public String replyDecl( int mqr_num,
 			  @ModelAttribute MqReply reply, Model model) {
-		
+
 		  int declReply = ms.declReply(reply);
 
+		  // 신고 접수 후 총 신고 횟수
+		  int declCount = ms.declCount(mqr_num);
+		  // 신고 15회 누적시 답글삭제
+		  if(declCount >= 15) {
+			  ms.deleteReply(mqr_num);
+		  }
+		  
 		  return "redirect:/memberQnaList";
 	  }
+	  
+	  // 관리자 - 답글 관리 
+	  @GetMapping("/adminDeclReply")
+	  public String adminDeclReply(Model model) {
+		  
+		  List<MemberQ> adminDeclReply = ms.adminDeclReply();
+		  int declReplyCount = declReplyCount();
+		  
+		  model.addAttribute("declReplyCount",declReplyCount);
+		  model.addAttribute("adminDeclReply",adminDeclReply);
+		  
+		  return "yj/adminDeclReply";
+	  }
+	  
+	  // 관리자 - 신고 횟수 초기화
+	  @PostMapping("/replyUpdate")
+	  public String replyUpdate(int mqr_num) {
+		  
+		  int replyUpdate = ms.replyUpdate(mqr_num);
+		  
+		  return "redirect:/adminDeclReply";
+	  }
+	  // 관리자 - 문의 답변 직접 삭제
+	  @ResponseBody
+	  @PostMapping("/replyDelete")
+		  public String replyDelete(@RequestParam int mqr_num) {
+			  ms.deleteReply(mqr_num);
+			  return "success";
+	  }
+	  
+	  
+	  // 관리자 - 신고 댓글 카운트
+	  public int declReplyCount() {
+		  int declReplyCount = ms.declReplyCount();
+		  return declReplyCount;
+	  }
+	  
 	  
 }

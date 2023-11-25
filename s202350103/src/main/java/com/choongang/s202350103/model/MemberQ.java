@@ -28,7 +28,8 @@ public class MemberQ {
 	private String 	mqr_content;	// 답글 내용
 	private Date	mqr_date;		// 답글 작성일
 	private int 	mqr_recomen;	// 답글 추천수
-	private int 	mqr_decl; 		// 댓글 신고여부
+	private int 	mqr_decl; 		// 댓글 신고수
+	private int 	mqr_decl_val;	// 신고 유형
 	
 	// 페이징 
 	private String  pageNum;		

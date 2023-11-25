@@ -372,4 +372,43 @@
 	
 	</update>
 	
+	<select id="declCount" resultType="int">
+		
+		select mqr_decl from memberq_reply 
+		where mqr_num = #{mqr_num}	
+	
+	</select>
+	
+	<delete id="deleteReply" parameterType="int">
+		delete memberq_reply where mqr_num = #{mqr_num}	
+	</delete>
+	
+	<select id="adminDeclReply" resultType="MemberQ">
+	
+		select * from 
+			memberq_reply mqr
+		join member m
+			on m.m_num = mqr.m_num
+		where mqr_decl > 0 
+		order by  
+        mqr.mqr_decl desc
+		
+	</select>
+	
+	<update id="replyUpdate" parameterType="int">
+	
+		update memberq_reply set 
+	        mqr_decl = 0 ,
+	        mqr_decl_val = 0
+        where mqr_num = #{mqr_num}
+	
+	</update>
+	
+	<select id="declReplyCount" resultType="int">
+		 select count(*) from memberq_reply where mqr_decl > 0
+	</select>
+	
+	<delete id="deleteReplyAndMQ" parameterType="int">
+		delete memberq_reply where mq_num = #{mq_num}	
+	</delete>
 </mapper>

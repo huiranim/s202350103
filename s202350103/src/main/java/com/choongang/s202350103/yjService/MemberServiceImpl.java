@@ -239,6 +239,40 @@ public class MemberServiceImpl implements MemberService{
 		int declReply = md.declReply(reply);
 		return declReply;
 	}
+	// 관리자 - 답글 관리
+	@Override
+	public List<MemberQ> adminDeclReply() {
+		List<MemberQ> adminDeclReply = md.adminDeclReply();
+		return adminDeclReply;
+	}
+	// 신고접수 횟수
+	@Override
+	public int declCount(int mqr_num) {
+		int declCount = md.declCount(mqr_num);
+		return declCount;
+	}
+	// 신고누적 답글 삭제
+	@Override
+	public void deleteReply(int mqr_num) {
+		md.deleteReply(mqr_num);
+	}
+	// 관리자 - 신고횟수 초기화
+	@Override
+	public int replyUpdate(int mqr_num) {
+		int replyUpdate = md.replyUpdate(mqr_num);
+		return replyUpdate;
+	}
+	// 관리자 - 신고댓글 카운트
+	@Override
+	public int declReplyCount() {
+		int declReplyCount = md.declReplyCount();
+		return declReplyCount;
+	}
+	// 문의글에 달린 댓글 삭제
+	@Override
+	public void deleteReplyAndMQ(int mq_num) {
+		md.deleteReplyAndMQ(mq_num);
+	}
 	
 	
 	

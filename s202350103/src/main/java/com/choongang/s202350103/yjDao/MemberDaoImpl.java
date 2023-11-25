@@ -242,6 +242,40 @@ public class MemberDaoImpl implements MemberDao{
 		int declReply = session.update("declReply",reply);
 		return declReply;
 	}
+	// 관리자 - 답글 관리
+	@Override
+	public List<MemberQ> adminDeclReply() {
+		List<MemberQ> adminDeclReply = session.selectList("adminDeclReply");
+		return adminDeclReply;
+	}
+	// 신고 접수 횟수
+	@Override
+	public int declCount(int mqr_num) {
+		int declCount = session.selectOne("declCount",mqr_num);
+		return declCount;
+	}
+	// 신고 누적 답글삭제
+	@Override
+	public void deleteReply(int mqr_num) {
+		session.delete("deleteReply",mqr_num);
+	}
+	// 관리자 - 신고 횟수 초기화
+	@Override
+	public int replyUpdate(int mqr_num) {
+		int replyUpdate = session.update("replyUpdate",mqr_num);
+		return replyUpdate;
+	}
+	// 관리자 - 신고댓글 카운트
+	@Override
+	public int declReplyCount() {
+		int declReplyCount = session.selectOne("declReplyCount");
+		return declReplyCount;
+	}
+	// 문의글에 달린 댓글 삭제
+	@Override
+	public void deleteReplyAndMQ(int mq_num) {
+		session.delete("deleteReplyAndMQ",mq_num);
+	}
 	
 
 	
