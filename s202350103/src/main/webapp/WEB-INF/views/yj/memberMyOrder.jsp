@@ -135,10 +135,15 @@ function cart(pNb_num) {
 
 		              <div class="col-md-4 col-12">
 		                 <div class="text-center position-relative ">
-							<a href="newbookDetail?nb_num=${order.nb_num }">
-		                      <img src="${order.nb_image }" alt="썸네일" class="mb-3 img-fluid" width="130px" height="150px">
-							</a>
-
+							
+							<c:choose>
+							     <c:when test="${fn:contains(order.nb_image, 'http')}">
+							            <img src="${order.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" width="130px;" height="150px;">
+							     </c:when>
+							     <c:otherwise>
+							            <img src="${pageContext.request.contextPath}/upload/${order.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+							     </c:otherwise>
+							</c:choose>
 		                 </div>
 		              </div>
 
@@ -232,19 +237,6 @@ function cart(pNb_num) {
 
   <p></p>
 
-<nav aria-label="Page navigation example">
-	  <ul class="pagination justify-content-center">
-		    <li class="page-item disabled">
-		      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전</a>
-		    </li>
-		    <li class="page-item"><a class="page-link" href="#">1</a></li>
-		    <li class="page-item"><a class="page-link" href="#">2</a></li>
-		    <li class="page-item"><a class="page-link" href="#">3</a></li>
-		    <li class="page-item">
-	     	 <a class="page-link" href="#">다음</a>
-	    </li>
-	  </ul>
-	</nav>
 
 
 <%@ include file="../common/footerFo.jsp"%>

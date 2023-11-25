@@ -500,6 +500,48 @@ public class MemberDaoImpl1 implements MemberDao {
 		}	
 		return communityMyList;
 	}
+	@Override
+	public int deleteImage(int cm_num) {
+		System.out.println("MemberDaoImpl1 deleteImage() start...");
+		System.out.println("MemberDaoImpl1 deleteImage() cm_num -> " + cm_num);
+		int deleteImage = 0;
+		try {
+			deleteImage = session.update("ybDeleteImage", cm_num);
+			
+			System.out.println("MemberDaoImpl1 deleteImage -> " + deleteImage);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 deleteImage Exception -> " + e.getMessage());
+		}	
+		return deleteImage;
+	}
+	@Override
+	public int deleteImage1(int cm_num) {
+		System.out.println("MemberDaoImpl1 deleteImage1() start...");
+		System.out.println("MemberDaoImpl1 deleteImage1() cm_num -> " + cm_num);
+		int deleteImage1 = 0;
+		try {
+			deleteImage1 = session.update("ybDeleteImage1", cm_num);
+			
+			System.out.println("MemberDaoImpl1 deleteImage1 -> " + deleteImage1);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 deleteImage1 Exception -> " + e.getMessage());
+		}	
+		return deleteImage1;
+	}
+	@Override
+	public int totalPoint(int m_num) {
+		System.out.println("MemberDaoImpl1 totalPoint() start...");
+		System.out.println("MemberDaoImpl1 totalPoint() cm_num -> " + m_num);
+		int totalPoint = 0;
+		try {
+			totalPoint = session.selectOne("ybTotalPoint", m_num);
+			
+			System.out.println("MemberDaoImpl1 totalPoint -> " + totalPoint);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 totalPoint Exception -> " + e.getMessage());
+		}	
+		return totalPoint;
+	}
 	
 
 	

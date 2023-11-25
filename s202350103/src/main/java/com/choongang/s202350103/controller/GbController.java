@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.gbService.NewBookOldBookService;
 import com.choongang.s202350103.gbService.NewBookService;
@@ -546,7 +547,7 @@ public class GbController {
 		
 		String toMail = newbook.getRecipient();			// 받는 사람
 		System.out.println("toMail -> "+toMail);
-		String sendMail = "gml2511@gmail.com";			// 보내는 사람
+		String sendMail = "dadok202350103@gmail.com";			// 보내는 사람
 		System.out.println("sendMail -> "+sendMail);	
 		String mailTitle = member.getM_name()+"님께서 다독 도서 상품을 추천하였습니다.";	// 메일 제목
 		String e_message = newbook.getE_message();
@@ -589,9 +590,7 @@ public class GbController {
 			messageHelper.setText(messageText, true);
             // true는 html을 사용하겠다는 의미입니다.
             
-            /*
-             * 단순한 텍스트만 사용하신다면 다음의 코드를 사용하셔도 됩니다. messageHelper.setText(messageText);
-             */
+			// 단순한 텍스트만 사용하신다면 다음의 코드를 사용하셔도 됩니다. messageHelper.setText(messageText);
 			
 			// 메일 발송
 			mailSender.send(message);
@@ -609,29 +608,6 @@ public class GbController {
 		}
 		
 		return "gb/shareEmailPopup"; 
-	}
-	
-	@RequestMapping("pointChargeTest")
-	public String pointChargeTest(HttpSession session, Member member, Orderr orderr, Model model) {
-		System.out.println("GbController pointChargeTest start...");
-		int result = 0;
-		
-		// 로그인한 멤버 값 불러오기
-		member =(Member) session.getAttribute("member");
-		int m_num = member.getM_num();
-		
-		orderr.setNb_title("포인트 충전");				// 상품명
-		orderr.setM_num(m_num);			// 회원번호
-		orderr.setO_rec_name(member.getM_name());	// 회원이름
-		orderr.setO_order_count(1);					// 결제수량
-		// 결제금액은 form으로 넘어온다.
-		
-		result = pcs.InsertUpdatePointCharge(orderr);
-		System.out.println("GbController pointChargeTest result -> "+result);
-		// model.addAttribute("result", result);
-		// model.addAttribute("result", result);
-		
-		return "redirect:memberPointList?m_num="+m_num+"&result="+result;
 	}
 	 
 }

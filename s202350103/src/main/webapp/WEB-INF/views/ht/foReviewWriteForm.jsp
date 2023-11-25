@@ -84,7 +84,7 @@
 	   <div class="d-flex justify-content-end">
 	      <input type="submit" class="btn btn-primary" value="리뷰 저장">
 	   </div>
-	</div>
+	   <input type="hidden" name="nb_num" value="${review.nb_num}">
  </form>
 	
 	

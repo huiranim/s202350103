@@ -33,7 +33,13 @@
 	function cartQuantityMinus(pIndex) {
 		var pNb_num = $('#nb_num'+pIndex).val();
 		var pQuantity = Number($("#quantity"+pIndex).val())-1;
-		alert("pQuantity -> "+pQuantity);
+		// alert("pQuantity -> "+pQuantity);
+		
+		if(pQuantity < 1){
+			alert("수량은 1보다 작을 수 없습니다");
+			location.reload();
+			return;
+		}
 		
 		$.ajax({
 					url : "cartList",
@@ -122,7 +128,7 @@
 		                    <!-- 도서 제목 -->
 		                    <a href="newbookDetail?nb_num=${cart.nb_num }" class="text-inherit"><h6 class="mb-0">${cart.nb_title }</h6></a>
 		                    <span><small class="text-muted">${cart.nb_publisher }</small></span>
-		                    <!-- text -->
+		                    <!-- 삭제하기 -->
 		                    <div class="mt-2 small lh-1"> <a onclick="deleteCart(${cart.nb_num})" class="text-decoration-none text-inherit"> <span
 		                          class="me-1 align-text-bottom">
 		                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -135,12 +141,12 @@
 		                            <line x1="14" y1="11" x2="14" y2="17"></line>
 		                          </svg></span><span class="text-muted">삭제하기</span></a></div>
 		                  </div>
-		                   <!-- input group -->
+		                   <!-- 수량 -->
 		                  <div class="col-4 col-md-3 col-lg-3">
-		                       <!-- input -->
+		                       <!-- 수량 수정 -->
 		                  	<div class="input-group input-spinner  ">
 		                    	<input type="button" id="minus${status.index }" value="-" class="button-minus btn btn-sm " data-field="quantity" onclick="cartQuantityMinus(${status.index})">
-					            <input type="number" id="quantity${status.index}" step="1" max="10" value="${cart.c_count }" name="quantity" class="quantity-field form-control-sm form-input">
+					            <input type="number" id="quantity${status.index}" min=1  step="1" max="10" value="${cart.c_count }" name="quantity" class="quantity-field form-control-sm form-input">
 					            <input type="button" id="plus${status.index }" value="+" class="button-plus btn btn-sm " data-field="quantity" onclick="cartQuantityPlus(${status.index})">
 		                  	</div>
 		                  </div>

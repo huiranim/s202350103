@@ -247,8 +247,8 @@
 			               	
 			               	<div>
 								<a href="memberMyPage?m_num=${member.m_num }" style="color: #002b63;"><strong>
-								${member.m_name }(${member.m_id })</strong></a>
-								님 환영합니다.
+								${member.m_name }(${member.m_id })님</strong></a><br>
+								 환영합니다.
 								<p>
 
 			               	</div>
@@ -383,7 +383,10 @@
                 <li><a class="dropdown-item" href="innewbookList?nb_category1=2">해외도서
                 <i class="bi bi-dot"></i>
                 </a></li>
-                <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category2=0">중고도서
+                <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category1=1">중고 국내도서
+                <i class="bi bi-dot"></i>
+                </a></li>
+                <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category1=2">중고 해외도서
                 <i class="bi bi-dot"></i>
                 </a></li>
                 <li><a class="dropdown-item" href="writeFormObReport">중고판매
@@ -409,7 +412,8 @@
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="innewbookList?nb_category1=1">국내도서</a></li>
                     <li><a class="dropdown-item" href="innewbookList?nb_category1=2">해외도서</a></li>
-                    <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category2=0">중고도서</a></li>
+                    <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category1=1">중고 국내도서</a></li>
+                    <li><a class="dropdown-item" href="folistOb?currentPage=1&nb_category1=2">중고 해외도서</a></li>
                   </ul>
                 </li>
              
@@ -517,7 +521,7 @@
                     <li><a class="dropdown-item" href="memberQnaList">Q & A</a></li>
                     
                  <c:if test="${sessionScope.member != null }">
-                    <li><a class="dropdown-item" href="memberQna?m_num=${member.m_num }">문의하기</a></li>
+                   
                     <li><a class="dropdown-item" href="memberQnaOne?m_num=${member.m_num }">1 : 1 문의</a></li>
                     <li><a class="dropdown-item" href="memberMyOna?m_num=${member.m_num }">내 문의</a></li>
                   

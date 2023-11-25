@@ -218,6 +218,30 @@ public class MemberDaoImpl implements MemberDao{
 		List<MqReply> mqReplyList = session.selectList("mqReplyList",mq_num);
 		return mqReplyList;
 	}
+	// 답글 카운트
+	@Override
+	public int replyCount(int mq_num) {
+		int replyCount = session.selectOne("replyCount",mq_num);
+		return replyCount;
+	}
+	// 답글 작성
+	@Override
+	public int replyInsert(MqReply reply) {
+		int replyInsert = session.insert("replyInsert",reply);
+		return replyInsert;
+	}
+	// 답글 추천
+	@Override
+	public int likeReply(Long mqr_num) {
+		int likeReply = session.update("likeReply",mqr_num);
+		return likeReply;
+	}
+	// 답글 신고
+	@Override
+	public int declReply(MqReply reply) {
+		int declReply = session.update("declReply",reply);
+		return declReply;
+	}
 	
 
 	

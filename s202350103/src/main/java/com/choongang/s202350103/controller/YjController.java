@@ -3,6 +3,7 @@ package com.choongang.s202350103.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -218,10 +219,10 @@ public class YjController {
 			
 			System.out.println("마이페이지 회원 넘버 ->"+m_num);
 			int totalOrderCnt = ms.totalOrderCnt(m_num);
-			
+			int totalPoint = ys.totalPoint(member.getM_num());
 			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
 			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
-			
+			model.addAttribute("totalPoint", totalPoint);
 			model.addAttribute("totalWishList", totalWishList);
 			model.addAttribute("totalSellCnt", totalSellCnt);
 			model.addAttribute("totalOrderCnt",totalOrderCnt);
@@ -622,18 +623,6 @@ public class YjController {
 //		  }
 		  
 		  List<Member> memberMyOrder = ms.memberMyOrder(m_num);
-//
-//		  for(Member member : memberMyOrder) {
-//			  int mNum = member.getM_num();
-//			  int orderNum = (int) member.getO_order_num();
-//			  String orderDate = formatDate(member.getO_order_date());
-//			  
-//			  System.out.println(mNum);
-//			  System.out.println(orderNum);
-//			  System.out.println(orderDate);
-//			  
-//			  
-//		  }
 		  
 		  //LinkedHashMap  맵의 키-값 쌍 을 유지 시켜 삽입 순서 보장 -> 키와 값을 순서대로 유지하고 순서기반 접근
 		  Map<String, List<Member>> orderNumGroups = new LinkedHashMap<>();
@@ -823,19 +812,22 @@ public class YjController {
 	  // 문의 상세조회
 	  @GetMapping("/memberQInfo")
 	  public String memberQInfo(@RequestParam int mq_num, 
-			  					String currentPage, Model model, HttpServletRequest request) {
+			  					Model model, HttpServletRequest request) {
 		  
+		  // 문의 상세 조회
 		  MemberQ memberQInfo  = ms.memberQInfo(mq_num);
-		  
+		  // 답글 카운트
+		  int replyCount = ms.replyCount(mq_num);
+		  // 답글 조회
 		  List<MqReply> mqReplyList = ms.mqReplyList(mq_num);
 		  
 		  int mq_hidden = memberQInfo.getMq_hidden();
 		  int m_num = memberQInfo.getM_num();
 		  int m_admin = memberQInfo.getM_admin();
 
-		  System.out.println(mq_hidden);
-		  System.out.println(m_num);
-		  System.out.println(m_admin);
+		  System.out.println("yj con memberQInfo mq_hidden :" +mq_hidden);
+		  System.out.println("yj con memberQInfo m_num :" +m_num);
+		  System.out.println("yj con memberQInfo m_admin :" +m_admin);
 		  
 		  // 비밀글 일 때  
 		  if(mq_hidden == 1) {
@@ -855,6 +847,7 @@ public class YjController {
 			model.addAttribute("recentBookList", recentBookList);
 		  
 		  model.addAttribute("memberQInfo",memberQInfo);
+		  model.addAttribute("replyCount",replyCount);
 		  model.addAttribute("mqReplyList",mqReplyList);
 
 		  return "yj/memberQInfo";
@@ -1067,8 +1060,50 @@ public class YjController {
 			
 			return m_addr;
 	  }
-	
 	  
+	  // 문의 답변 작성
+	  @PostMapping("/replyInsert")
+	  public String replyInsert(@ModelAttribute MqReply reply,@RequestParam int mq_num , Model model) {
+		  
+		  System.out.println(mq_num);
+		  
+		  int replyInsert = ms.replyInsert(reply);
+		  
+		  model.addAttribute("replyInsert",replyInsert);
+		  
+		  return "redirect:/memberQInfo?mq_num="+mq_num;
+	  }
 	  
+	  // 문의 답변 추천
+	  @ResponseBody
+	  @PostMapping("/likeReply")
+	  public Map<String, Object> likeReply(@RequestParam("mqr_num") Long mqr_num) {
+		Map<String, Object> response = new HashMap<>();  	
+
+		try {
+			int likeReply = ms.likeReply(mqr_num);
+			response.put("success", true);
+
+		}catch (Exception e) {
+			response.put("success", false);
+		}
+		
+		return response;
+	  }
+	  
+	  // 문의 답변 신고 
+	  @PostMapping("/replyDecl")
+	  public String replyDecl(@ModelAttribute MqReply reply, Model model) {
+		  
+		  int declReply = ms.declReply(reply);
+		  
+		  if(declReply > 0) {
+			  model.addAttribute("decSuccess", true);
+		  }else {
+			  model.addAttribute("decSuccess", false);
+		  }
+		  
+		  return "redirect:/memberQnaList";
+	  }
 	  
 }

@@ -103,7 +103,7 @@
 			         <!-- heading -->
 				         <h2 class="mb-2">포인트 목록</h2>
 				         <p><a href="#">${member.m_id } 님의 포인트 목록입니다.</a></p>
-				               총 포인트 : ${member.m_point} P		
+				               총 포인트 : ${totalPoint} P		
 				         <!-- 포인트 충전하기 -->
 						 <div class="d-grid gap-2 d-md-flex justify-content-md-end" 
 						 		style="float: right; margin-top: -20px;" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
@@ -123,7 +123,9 @@
 					      </div>
 					    <!-- 내용 -->
 					      <div class="modal-body">
-					      	<form action="pointChargeTest" method="post">
+					      	<form action="orderAction" method="post">
+					      		<input type="hidden" name="o_order_num" value="${member.m_num }">
+					      		<input type="hidden" name="destination" value=0>
 						        <div class="mb-3">
 						        <!-- 충전 금액 -->
 								  <label class="form-label" for="textInput">충전 금액</label>
@@ -152,23 +154,6 @@
 									  <label class="btn btn-outline-primary" for="charge10">10만원</label>
 								  </div>
 								  <hr>
-								 <!-- 결제수단은 카카오페이 -->
-								  <input type="hidden" name="o_pay_type" value="1"> 
-								 <!-- 
-								 결제 수단
-								  <div>
-								  	<label class="form-label" for="textInput">결제수단</label>
-								  	<div class="d-grid gap-2 col-6 mx-auto">
-						            	<tr>
-											<td>
-												<a href="#" role="radio" name="o_pay_type" checked="checked" class="btn btn-secondary popover-test" title="Popover title" >카카오</a>
-												<input type="radio" name="o_pay_type" checked="checked"  value="1" class="btn btn-soft-secondary mb-2">카카오
-												<input type="radio" name="o_pay_type"                    value="2" class="btn btn-soft-secondary mb-2">토스
-											</td>
-										</tr>
-					            	</div>
-								  </div>
-								  <hr> -->
 								 <!-- 유의사항 -->
 								  <label class="form-label" for="textInput">유의사항</label>
 								  <div id="comment" >
@@ -220,7 +205,7 @@
 										<c:when test="${point.type1 == 5}"><span>추천인 적립</span></c:when>
 										<c:when test="${point.type1 == 6}"><span>포인트 사용</span></c:when>
 										<c:when test="${point.type1 == 7}"><span>관리자에 의한 조정</span></c:when>
-										
+										<c:when test="${point.type1 == 8}"><span>포인트 충전</span></c:when>
 									</c:choose>
 								</h5>
 		                      </div>
@@ -245,6 +230,8 @@
 											<c:when test="${point.point > 0 }"><span id=first>+${point.point }P</span></c:when>
 											<c:when test="${point.point < 0 }"><span>${point.point }P</span></c:when>
 									</c:choose>
+									
+									
 		                        </h5>
 		                      </div>
 		                    </td>
@@ -268,18 +255,18 @@
 
 			 	<c:if test="${page.startPage > page.pageBlock }">
 					 <li class="page-item justify-content-center">					
-						<a class="page-link mx-1 text-body" href="memberPointList?currentPage=${page.startPage-page.pageBlock}">이전</a>
+						<a class="page-link mx-1 text-body" href="memberPointList?m_num=${member.m_num }&currentPage=${page.startPage-page.pageBlock}">이전</a>
 					</li>
 				</c:if>
  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 					 <li class="page-item justify-content-center">
- 						<a class="page-link mx-1 text-body" href="memberPointList?currentPage=${i}">${i}</a>
+ 						<a class="page-link mx-1 text-body" href="memberPointList?m_num=${member.m_num }&currentPage=${i}">${i}</a>
 					</li>
 				</c:forEach>
 					
 				<c:if test="${page.endPage < page.totalPage }">
 					 <li class="page-item justify-content-center">		 
-						<a class="page-link mx-1 text-body" href="memberPointList?currentPage=${page.startPage+page.pageBlock}">다음</a>
+						<a class="page-link mx-1 text-body" href="memberPointList?m_num=${member.m_num }&currentPage=${page.startPage+page.pageBlock}">다음</a>
 					</li>
 				</c:if>
 		  </ul>

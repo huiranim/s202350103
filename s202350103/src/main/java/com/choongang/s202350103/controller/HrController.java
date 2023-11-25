@@ -326,13 +326,22 @@ public class HrController {
 			// o_gift_msg
 			System.out.println("orderGift.getO_gift_msg()->"+orderGift.getO_gift_msg());
 			
-		// Service Method 실행 후 model에 result 저장
-		int result = os.givingGiftAction(member, orderr, orderGift);
-		model.addAttribute("mailingResult", result);
+		// 결제 미연결
+//		// Service Method 실행 후 model에 result 저장
+//		int result = os.givingGiftAction(member, orderr, orderGift);
+//		model.addAttribute("mailingResult", result);
+//		
+//		
+//		System.out.println("HrController givingGiftAction() end..");
+//		return "/hr/foGivingGiftAction";
+			
+		// 결제 연결
+		redirect.addFlashAttribute("orderr", orderr);
+		redirect.addFlashAttribute("orderGift", orderGift);
+		int destination = 0;
+		redirect.addFlashAttribute("destination", destination);
 		
-		
-		System.out.println("HrController givingGiftAction() end..");
-		return "/hr/foGivingGiftAction";
+		return "redirect:orderAction";
 	}
 	
 	// FO 선물받기 - 화면
