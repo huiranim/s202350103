@@ -1093,16 +1093,11 @@ public class YjController {
 	  
 	  // 문의 답변 신고 
 	  @PostMapping("/replyDecl")
-	  public String replyDecl(@ModelAttribute MqReply reply, Model model) {
-		  
+	  public String replyDecl( 
+			  @ModelAttribute MqReply reply, Model model) {
+		
 		  int declReply = ms.declReply(reply);
-		  
-		  if(declReply > 0) {
-			  model.addAttribute("decSuccess", true);
-		  }else {
-			  model.addAttribute("decSuccess", false);
-		  }
-		  
+
 		  return "redirect:/memberQnaList";
 	  }
 	  

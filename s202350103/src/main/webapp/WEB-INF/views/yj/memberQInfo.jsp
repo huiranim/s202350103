@@ -18,7 +18,7 @@
 </script>
 
 <script type="text/javascript">
-
+	// 댓글 추천
 	function likeReply(mqr_num){
 		
 		$.ajax({
@@ -44,25 +44,24 @@
 </script>
 
 
-<script type="text/javascript">
+<script>
+	// 댓글 신고
+	  document.addEventListener("DOMContentLoaded", function () {
+	    const form = document.getElementById("replyDeclId");
+	    const select = form.querySelector("select[name='mqr_decl_val']");
+	    const submitButton = form.querySelector("button[type='submit']");
 	
-		$(document).ready(function() {
-			  // 폼이 제출될 때
-			  $("#replyDecl").submit(function(event) {
-			    event.preventDefault(); // 기본 제출 동작 방지
-		
-			    // 알림창을 띄웁니다.
-			    var isConfirmed = confirm("접수 완료 되었습니다.");
-		
-			    if (isConfirmed) {
-			      // 사용자가 확인을 누르면 폼을 자동으로 서버로 제출합니다.
-			      submitForm();
-			    } else {
-			      // 사용자가 취소를 누른 경우, 아무 작업도 수행하지 않습니다.
-			    }
-			  });
-	
-	
+	    form.addEventListener("submit", function (event) {
+	      if (select.value === "명확한 사유가 있는 경우 신고해주시기 바랍니다. 감사합니다") {
+	        event.preventDefault(); // 폼 제출 중지
+	        alert("신고 유형을 선택해 주세요.");
+	      
+	      }else{
+	    	  alert("접수가 완료 되었습니다.");
+	      }
+	      
+	    });
+	  });
 </script>
 
 </head>
@@ -88,7 +87,7 @@
 		<div class="mb-3">
 			<img alt="" src="${mq.m_image }" width="35px;" height="35px;" class="rounded-circle"> &nbsp;
 		    	<span style="font-size: 20px;"> 
-		    	<strong>${mq.m_id } <small>(${mq.m_name})</small></strong>
+			    	<strong>${mq.m_id } <small>(${mq.m_name})</small></strong>
 		    	</span>
 		</div>
 	
@@ -170,7 +169,6 @@
 			            <input type="hidden" name="mq_num" value="${mq.mq_num }">
 			            <input type="hidden" name="m_num_write" value="${mq.m_num }">
 			            
-	
 			          	<span style="font-weight: bold;">
 				          	${member.m_id } ( ${member.m_name } )
 			          	</span>	
@@ -204,8 +202,16 @@
 <c:forEach items="${mqReplyList }" var="reply">
 	<div class="mb-6">
 		<img alt="" src="${reply.m_image }" width="30px;" height="30px;" class="rounded-circle"> 
-			&nbsp;${reply.m_id } (${reply.m_name })  &nbsp; |  &nbsp;
-			<fmt:formatDate value="${reply.mqr_date }" pattern="yyyy 년 MM 월 dd 일 HH:mm"/>
+			<c:if test="${reply.m_admin == 0 }">
+				&nbsp;${reply.m_id } (${reply.m_name })  &nbsp; |  &nbsp;
+				<fmt:formatDate value="${reply.mqr_date }" pattern="yyyy 년 MM 월 dd 일 HH:mm"/>
+			</c:if>
+
+			<c:if test="${reply.m_admin == 1 }">
+				&nbsp;<span style="color: green; font-weight: bold; font-size: 18px;">DADOK</span>  <small>(관리자 답변)</small> &nbsp; |  &nbsp;
+				<fmt:formatDate value="${reply.mqr_date }" pattern="yyyy 년 MM 월 dd 일 HH:mm"/>
+			</c:if>
+
 	</div>
 	
 	
@@ -215,25 +221,37 @@
 				<p style="font-size: 19px;">${reply.mqr_content }</p>
 			</div>
 			
+	<c:choose>
+		<c:when test="${sessionScope.member != null }">
+		
 		<div class="mb-5" style="display: flex; justify-content: flex-end; align-items: flex-end;">
-
+			<c:if test="${reply.m_admin == 0 }">
+			
 			   <button class="btn btn-soft-success" onclick="likeReply(${reply.mqr_num})">
 			 	<i class="bi bi-hand-thumbs-up-fill"></i> &nbsp; 
 			    <span id="likeCount${reply.mqr_num}">${reply.mqr_recomen }</span></button>&nbsp;&nbsp; 
 	
-			    <button class="btn btn-soft-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+			    <button class="btn btn-soft-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenter${reply.mqr_num}">
 			 	 <i class="bi bi-bell-fill"></i> &nbsp;
 				    신고하기
 				</button>
-			</div>
+			
+			</c:if>
+			
+		</div>
+			
+		</c:when>
+		
+		
+	</c:choose>
 
-			<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal fade" id="exampleModalCenter${reply.mqr_num}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 			  <div class="modal-dialog modal-dialog-centered" role="document">
 			    
-        		<form action="replyDecl" method="post" id="replyDecl">
-        			<input type="hidden" name="mqr_num" value="${reply.mqr_num }">
-        			<input type="hidden" name="mqr_decl" value="${reply.mqr_decl }">
-        			<input type="hidden" name="m_num" value="${member.m_num }">
+        		<form action="replyDecl" method="post" id="replyDeclId">
+        			<input type="text" name="mqr_num" value="${reply.mqr_num }" >
+        			<input type="text" name="mqr_decl" value="${reply.mqr_decl }" >
+        			<input type="text" name="m_num" value="${member.m_num }">
         			
 				    <div class="modal-content">
 				      <div class="modal-header">
@@ -247,7 +265,7 @@
 				       <label for="message-text" class="col-form-label">신고 유형을 선택 해 주세요.</label><p>
 			        		
 			        		 <select class="form-select" aria-label="Default select example" name="mqr_decl_val">
-							  <option selected>명확한 사유가 있는 경우 신고해주시기 바랍니다. 감사합니다</option>
+							  <option selected disabled>명확한 사유가 있는 경우 신고해주시기 바랍니다. 감사합니다</option>
 							  <option value="1">- 불쾌한 표현이 포함되어있습니다. -</option>
 							  <option value="2">- 불법 정보를 포함하고 있습니다. -</option>
 							  <option value="3">- 지나친 욕설 및 비방 -</option>
