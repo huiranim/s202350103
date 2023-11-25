@@ -288,61 +288,52 @@ public class HrController {
 		return "/hr/foGivingGift";
 	}
 	
-	// FO 선물하기 - 액션
-	@RequestMapping("foGivingGiftAction")
-	public String givingGiftAction(Model model, HttpSession session, Member member, Orderr orderr, OrderGift orderGift, RedirectAttributes redirect) {
-		System.out.println("HrController givingGiftAction() start..");
-		
-		// session으로부터 member 도출
-		member = (Member) session.getAttribute("member");
-		System.out.println("HrController givingGift() member.getM_name()->"+member.getM_name());
-		model.addAttribute("member", member);
-		
-		// value 확인
-		// ORDERR
-			// m_num
-			System.out.println("member.getM_num()->"+member.getM_num());
-			System.out.println("orderr.getM_num()->"+orderr.getM_num());
-			// o_pay_price
-			System.out.println("orderr.getO_pay_price()->"+orderr.getO_pay_price());
-			// o_deliv_price
-			System.out.println("orderr.getO_deliv_price()->"+orderr.getO_deliv_price());
-			// o_point
-			System.out.println("orderr.getO_point()->"+orderr.getO_point());
-			// o_rec_name
-			System.out.println("orderr.getO_rec_name()->"+orderr.getO_rec_name());
-			// o_rec_mail
-			System.out.println("orderr.getO_rec_mail()->"+orderr.getO_rec_mail());
-			// o_rec_ph 
-			System.out.println("orderr.getO_rec_ph()->"+orderr.getO_rec_ph());
-			// nb_num
-			System.out.println("orderr.getNb_num()->"+orderr.getNb_num());
-			// o_de_count
-			System.out.println("orderr.getO_de_count()->"+orderr.getO_de_count());
-
-		// ORDER_GIFT
-			// o_gift_card
-			System.out.println("orderGift.getO_gift_card()->"+orderGift.getO_gift_card());
-			// o_gift_msg
-			System.out.println("orderGift.getO_gift_msg()->"+orderGift.getO_gift_msg());
-			
-		// 결제 미연결
-//		// Service Method 실행 후 model에 result 저장
-//		int result = os.givingGiftAction(member, orderr, orderGift);
-//		model.addAttribute("mailingResult", result);
+//	// FO 선물하기 - 액션   ---> HtController의 "orderAction"로 바로 연결하게 됨
+//	@RequestMapping("foGivingGiftAction")
+//	public String givingGiftAction(Model model, HttpSession session, Member member, Orderr orderr, OrderGift orderGift, RedirectAttributes redirect) {
+//		System.out.println("HrController givingGiftAction() start..");
 //		
+//		// session으로부터 member 도출
+//		member = (Member) session.getAttribute("member");
+//		System.out.println("HrController givingGift() member.getM_name()->"+member.getM_name());
+//		model.addAttribute("member", member);
 //		
-//		System.out.println("HrController givingGiftAction() end..");
-//		return "/hr/foGivingGiftAction";
-			
-		// 결제 연결
-		redirect.addFlashAttribute("orderr", orderr);
-		redirect.addFlashAttribute("orderGift", orderGift);
-		int destination = 0;
-		redirect.addFlashAttribute("destination", destination);
-		
-		return "redirect:orderAction";
-	}
+//		// value 확인
+//		// ORDERR
+//			// m_num
+//			System.out.println("member.getM_num()->"+member.getM_num());
+//			System.out.println("orderr.getM_num()->"+orderr.getM_num());
+//			// o_pay_price
+//			System.out.println("orderr.getO_pay_price()->"+orderr.getO_pay_price());
+//			// o_deliv_price
+//			System.out.println("orderr.getO_deliv_price()->"+orderr.getO_deliv_price());
+//			// o_point
+//			System.out.println("orderr.getO_point()->"+orderr.getO_point());
+//			// o_rec_name
+//			System.out.println("orderr.getO_rec_name()->"+orderr.getO_rec_name());
+//			// o_rec_mail
+//			System.out.println("orderr.getO_rec_mail()->"+orderr.getO_rec_mail());
+//			// o_rec_ph 
+//			System.out.println("orderr.getO_rec_ph()->"+orderr.getO_rec_ph());
+//			// nb_num
+//			System.out.println("orderr.getNb_num()->"+orderr.getNb_num());
+//			// o_de_count
+//			System.out.println("orderr.getO_de_count()->"+orderr.getO_de_count());
+//
+//		// ORDER_GIFT
+//			// o_gift_card
+//			System.out.println("orderGift.getO_gift_card()->"+orderGift.getO_gift_card());
+//			// o_gift_msg
+//			System.out.println("orderGift.getO_gift_msg()->"+orderGift.getO_gift_msg());
+//			
+//		// 결제 연결
+//		redirect.addFlashAttribute("orderr", orderr);
+//		redirect.addFlashAttribute("orderGift", orderGift);
+//		int destination = 0;
+//		redirect.addFlashAttribute("destination", destination);
+//		
+//		return "redirect:orderAction";
+//	}
 	
 	// FO 선물받기 - 화면
 	// foGettingGift.jsp
@@ -398,8 +389,8 @@ public class HrController {
 			System.out.println("orderr.getO_rec_ph()->"+orderr.getO_rec_ph());
 			
 		// value 세팅
-			orderGift.setO_gift_name(orderr.getO_rec_name());
-			orderGift.setO_gift_ph(orderr.getO_rec_mail());
+//			orderGift.setO_gift_name(orderr.getO_rec_name());
+//			orderGift.setO_gift_ph(orderr.getO_rec_mail());
 			
 			orderr.setO_rec_addr("("+o_rec_addr1+")/"+ o_rec_addr2 +"/"+ o_rec_addr3 );
 			System.out.println("orderr.getO_rec_addr()->"+orderr.getO_rec_addr());

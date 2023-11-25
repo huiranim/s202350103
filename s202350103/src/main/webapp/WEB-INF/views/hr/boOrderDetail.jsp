@@ -189,8 +189,8 @@
                      <th class="table-light">결제 수단</th>
                      <td class="align-middle">
                      	<c:choose>
-                     		<c:when test="${orderr.o_type == 1}">카카오페이</c:when>
-                     		<c:when test="${orderr.o_type == 2}">토스페이</c:when>
+                     		<c:when test="${orderr.o_pay_type == 1}">카카오페이</c:when>
+                     		<c:when test="${orderr.o_pay_type == 2}">토스페이</c:when>
                      		<c:otherwise>(결제 대기 중)</c:otherwise>
                      	</c:choose>
                      </td>

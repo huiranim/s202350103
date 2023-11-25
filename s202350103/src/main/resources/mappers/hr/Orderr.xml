@@ -136,7 +136,7 @@
 	 <insert id="hrInsertOrderGift" parameterType="OrderGift">
 	 	INSERT INTO order_gift
 	 	VALUES(#{o_order_num}, 'G' || #{o_order_num},
-	 		   #{o_gift_name}, #{o_gift_ph}, #{o_gift_card}, #{o_gift_msg}, 0)
+	 		   #{o_gift_card}, #{o_gift_msg}, 0)
 	 </insert>
 	 <update id="hrUpdateMemberP" parameterType="Orderr">
 	 	UPDATE member
@@ -175,13 +175,13 @@
 	 foGettingGiftAction.jsp -->
 	 <update id="hrUpdateOrderrGiftType" parameterType="Orderr">
 	 	UPDATE orderr
-		SET    o_status = 1, o_rec_name = #{o_rec_name}, o_rec_mail = #{o_rec_mail}
+		SET    o_rec_name = #{o_rec_name}, o_rec_mail = #{o_rec_mail}
 			   , o_rec_ph = #{o_rec_ph}, o_rec_addr = #{o_rec_addr}, o_rec_msg = #{o_rec_msg}
 		WHERE  o_order_num = #{o_order_num}
 	 </update>
 	 <update id="hrUpdateOrderGift" parameterType="OrderGift">
 	 	UPDATE order_gift
-		SET    o_gift_name = #{o_gift_name}, o_gift_ph = #{o_gift_ph}, o_gift_accept = 1
+		SET    o_gift_accept = 1
 		WHERE  o_order_num = #{o_order_num}
 	 </update>
 	 

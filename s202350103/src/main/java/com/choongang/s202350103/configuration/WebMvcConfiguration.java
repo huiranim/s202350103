@@ -19,7 +19,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberCartList");					// 장바구니
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/foGivingGift");					// 선물하기
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/foOrderDetail");					// 마이페이지 - 주문상세
-//		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeForm");						// 커뮤니티 글 등록
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeForm");						// 커뮤니티 글 등록
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/searchBook");						// 커뮤니티 글 등록 책 선택
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/FodetailOb");						// 마이페이지 - 정산화면
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/eventIn");						// 이벤트 페이지
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/reviewList");						// 제품별 리뷰 리스트

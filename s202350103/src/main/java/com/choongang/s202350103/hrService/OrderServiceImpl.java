@@ -159,8 +159,8 @@ public class OrderServiceImpl implements OrderService {
 		int result = 0;
 		
 		// 1) 선물 받는사람 정보, nb_title 저장
-		orderGift.setO_gift_name(orderr.getO_rec_name());
-		orderGift.setO_gift_ph(orderr.getO_rec_mail());
+//		orderGift.setO_gift_name(orderr.getO_rec_name());
+//		orderGift.setO_gift_ph(orderr.getO_rec_mail());
 		orderr.setNb_title(ns.selectNewbook(orderr.getNb_num()).getNb_title());
 		
 		// 2-1) 주문번호 생성
