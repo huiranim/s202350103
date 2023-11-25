@@ -175,7 +175,7 @@
 	   var nb_image = '${newbook.nb_image}';
 	   var nb_num = '${newbook.nb_num}';
 	   var nb_summary = `${newbook.nb_summary}`	// 도서 줄거리에는 줄바꿈이 있어 줄바꿈은 자바스크립트에서 지원하지 않는다. (``(백틱)를 넣어주면 줄바꿈도 문제 없음)
-	   alert("nb_title -> "+nb_title);
+	   // alert("nb_title -> "+nb_title);
 	   
 	   // 카카오링크 버튼 생성
 	   Kakao.Share.sendDefault({
