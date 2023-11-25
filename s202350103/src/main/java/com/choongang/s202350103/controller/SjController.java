@@ -52,20 +52,20 @@ public class SjController {
 		}
 		
 		
-		int totalOb = obs.totalOb();
+		int totalOb = obs.totalOb(oldBook);
 		//Paging 작업
 		Paging  page = new Paging(totalOb, currentPage);
 		oldBook.setStart(page.getStart());
 		oldBook.setEnd(page.getEnd());
 		
-		System.out.println("gpgpgpgpgp"+oldBook.getOb_status());
+		System.out.println("oldBook.getOb_status()->"+oldBook.getOb_status());
 		List<OldBook> listOb = obs.listOb(oldBook);
 		
 		model.addAttribute("member" , member);
 		model.addAttribute("totalOb", totalOb);
 		model.addAttribute("listOb" , listOb);
 		model.addAttribute("page" , page);
-		
+		model.addAttribute("oldBook",oldBook);
 		
 		return "sj/boOldBookList";
 		
@@ -185,6 +185,7 @@ public class SjController {
 		System.out.println("sjController writeFormObTrans oldBook.getOb_num()->"+oldBook.getOb_num());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_trans_com()->"+oldBook.getOb_trans_com());
 		System.out.println("sjController writeFormObTrans oldBook.getOb_trans_num()->"+oldBook.getOb_trans_num());
+		System.out.println("sjController writeFormObTrans oldBook.getNb_title()->"+oldBook.getNb_title());
 		System.out.println("member getM_num() ->"+member.getM_num());
 		System.out.println("member getM_id() ->"+member.getM_id());
 		System.out.println("member getM_name() ->"+member.getM_name());
@@ -302,7 +303,7 @@ public class SjController {
 		
 		System.out.println("SjController Start ");
 		
-		int totalOb2 = obs.totalOb2();
+		int totalOb2 = obs.totalOb2(oldBook);
 		//Paging 작업
 		Paging  page = new Paging(totalOb2, currentPage);
 		
@@ -313,7 +314,7 @@ public class SjController {
 		
 		model.addAttribute("listObFo" , OblistFo);
 		model.addAttribute("totalOb2", totalOb2);
-		
+		model.addAttribute("oldBook",oldBook);
 		model.addAttribute("page" , page);
 		
 		return "sj/foInObList";

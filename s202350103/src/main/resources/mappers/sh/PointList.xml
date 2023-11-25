@@ -3,14 +3,26 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.choongang.s202350103.PointListMapper">
-	<select id="shSelectMemberPoint" parameterType="int" resultType="PointList">
-		Select rownum rn, a.* 
-		From 
-			(Select * 
-			From point_list
-			Order By p_num) a 
-		Where m_num = #{m_num} 
+	<select id="shSelectMemberPoint" parameterType="Member" resultType="PointList">
+		<![CDATA[
+		Select *
+		From
+		(
+	 	 Select rownum rn, a.* 
+		 From 
+			 (Select * 
+			 From point_list
+			 Where m_num = #{m_num}
+			 Order By p_num) 
+		 a)
+		Where rn >= ${start}
+		And rn <= ${end}  
 		Order by rn desc
+		]]>
+	</select>
+	
+	<select id="shMemberPointList" parameterType="int" resultType="int">
+		Select count(*) From point_list Where m_num=${m_num}
 	</select>
 	
 	<select id="shPointSum" parameterType="int" resultType="int">
@@ -40,4 +52,30 @@
 		Set    m_point = m_point-#{m_point}
 		Where  m_num = #{m_num}
 	</update>
+	
+	<select id="shBoJoinedMember" parameterType="int" resultType="PointList">
+		Select *
+		From (
+		 Select rownum rn, a.*
+		 From
+		 (
+		  Select p_num, m_num, a_num, q_num, a_par_pdate, p_list_type, m_point 
+		  From point_list 
+		  Where a_num = #{eNum} 
+		  Or q_num = #{eNum}
+		 ) a)
+		 Order by rn desc
+	</select>
+	
+	<select id="shJoinedCount" parameterType="int" resultType="int">
+		Select count(*) 
+		From 
+		(
+			Select count(*) 
+			From point_list 
+			Where a_num =#{eNum} 
+			Or q_num=#{eNum}
+			Group by m_num
+		)
+	</select>
 </mapper>

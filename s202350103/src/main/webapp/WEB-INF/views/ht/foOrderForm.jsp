@@ -73,6 +73,13 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 
+	function changePaymentType(select){
+		if(select == 1){
+			$('#o_pay_type').val(select);
+		} else if(select == 2){
+			$('#o_pay_type').val(select);
+		}
+	}
 
 	function selStatus(selTab) {
 		$('#o_selTab').val(selTab);  // Input Tag
@@ -94,41 +101,38 @@
 		var sendData4;
 		var sendData5;
 		var omessage;
-	
-		var o_selTab = $('#o_selTab').val();
-		if (o_selTab == '1') {
-			sendData2 =  $('#destination1').serialize();
-			
-		}else {
-			sendData2 =  $('#destination2').serialize();
-
-		}
-		sendData3 = sendData1+"&"+sendData2;
-		// 두개 Form 병합으로 인한 문자열 치환
-		//sendData3 = sendData3.replace('"&"', '&');
-		//alert('sendData1->'+sendData1);
-		//alert('sendData2->'+sendData2);
-		alert('sendData3->'+sendData3);
+		var selectedMessage = $('#omessage_select').val();
 		
-		if($('#omessage_select').val() == "직접 입력"){
-			omessage =  $('#omessage').val();
-			alert('omessage->'+omessage)
-			sendData4 = "o_rec_msg=" + omessage;
+		if(selectedMessage == "-- 메시지 선택 (선택사항) --"){
+			$('#omessage_select').focus();
+			alert("메세지를 선택해주세요!!")
+		} else if($('#o_pay_type').val() != 1 && $('#o_pay_type').val() != 2){
+			$('#radio').focus();
+			alert("결제방식을 선택해주세요!!")
 		} else {
-			sendData4 = "o_rec_msg=" + $('#omessage_select').val();
-			alert('sendData4->'+sendData4)
+			var o_selTab = $('#o_selTab').val();
+			if (o_selTab == '1') {
+				sendData2 =  $('#destination1').serialize();
+				
+			}else {
+				sendData2 =  $('#destination2').serialize();
+
+			}
+			sendData3 = sendData1+"&"+sendData2;
 			
+			if($('#omessage_select').val() == "직접 입력"){
+				omessage =  $('#omessage').val();
+				sendData4 = "o_rec_msg=" + omessage;
+			} else {
+				sendData4 = "";
+			}
+			//alert(sendData4);
+			sendData5 = sendData3+"&"+sendData4;
+			//alert(sendData5);
+			location.href= "orderAction?"+sendData5;	
 		}
 		
-		sendData5 = sendData3+"&"+sendData4;
-		//sendData5 = sendData5.replace('"&', '&');
-		//alert('sendData5-1->'+sendData5)
 		
-		// 찾으면 좋음 
-		//sendData5 = sendData5.replace('"paymentT', 'paymentT');
-		//alert('sendData5-2->'+sendData5)
-		
-		location.href= "orderAction?"+sendData5;	
 	}
 
 	
@@ -143,7 +147,15 @@
 		var fail_total_price 	= (p_total_price + p_deliv_price).toLocaleString();					// 총 결제 금액(성공)
 		var fail_save_point 	= ((p_total_price + p_deliv_price) * 0.01).toLocaleString();  		// 적립금(실패)
 		
-		if(Number(p_point) <= Number('${member.m_point}') ){
+		if(Number(p_point) < 0 ) {
+			$("#pointMsg").html("양수값만 입력 가능합니다.");
+			$("#o_point_result").html("");
+			$("#o_point").val(0);
+			$("#o_point2").val("");
+			$("#o_pay_price").html(fail_total_price);
+			$("#o_deliv_price_submit").html(fail_total_price);
+			$("#o_point_save").html(fail_save_point);
+		} else if(Number(p_point) <= Number('${member.m_point}') ){
 			// 가능 여부 메세지
 			$("#pointMsg").html("사용 가능합니다.");
 			// 포인트 사용값
@@ -152,23 +164,21 @@
 			$("#o_pay_price").html(success_total_price);
 			$("#o_pay_price_submit").html(success_total_price);
 			// 적립금(성공)
-			$("#o_point_save").html(success_save_pointy);
-			
+			$("#o_point_save").html(Math.round(success_save_pointy));
+			$('#o_point').val(p_point);
 		} else {
 			$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
 			$("#o_point_result").html("");
-			$("#o_point").val("");
+			$("#o_point").val(0);
+			$("#o_point2").val("");
 			$("#o_pay_price").html(fail_total_price);
 			$("#o_deliv_price_submit").html(fail_total_price);
 			$("#o_point_save").html(fail_save_point);
-			
 		}
-		
 	}
 	
 	function chk() {
 		return false;
-		
 	}
 	
 	
@@ -199,7 +209,7 @@
 				    <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" 
 				                               role="tab" aria-controls="pills-home" 
 				                               onclick="selStatus(1)"
-				                               aria-selected="true">최근 배송지</a>
+				                               aria-selected="true">나의 배송지</a>
 				  </li>
 				  <li class="nav-item col" id="k">
 				    <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" 
@@ -300,21 +310,20 @@
           	
  <!--  공통으로 보내줘야하는 form -->       	
         <form action="orderAction"   id="orderActionForm"  onsubmit="return chk()">
-        
+        	<input type="hidden" name="o_order_count" value="${orderList[0].quantity}">
+        	<input type="hidden" name="nb_title" value="${orderList[0].nb_title}">
             <c:if test="${paymentType == 1}">
             	<c:forEach var="book" items="${orderList}">
         			<input type="hidden" name="nb_num" value="${book.nb_num}">
         		</c:forEach>
         		<input type="hidden" name="paymentType" value="${paymentType}">
-        		<input type="hidden" name="totalPrice" value="${cart.totalPrice}">
         	</c:if>
         	<c:if test="${paymentType == 2}">
         		<input type="hidden" name="paymentType" value="${paymentType}">
-        		<input type="hidden" name="totalPrice" value="${cart.totalPrice}">
         	</c:if>
         	
           	<div class="mb-3">
-			  <select class="form-select" id="omessage_select" name="o_rec_msg" >
+			  <select class="form-select" id="omessage_select" name="o_rec_msg">
 			    <option selected>-- 메시지 선택 (선택사항) --</option>
 			    <option value="배송 전에 미리 연락바랍니다.">배송 전에 미리 연락바랍니다.</option>
 			    <option value="부재 시 경비실에 맡겨주세요.">부재 시 경비실에 맡겨주세요.</option>
@@ -324,7 +333,6 @@
 			    <option value="직접 입력">직접 입력</option>
 			  </select>
 			</div>
-			
 			
 			<div class="mb-3">
 			  <div class="ec-shippingInfo-omessageInput gBlank10" style="display:none;">
@@ -338,6 +346,7 @@
 		    var textareaDiv = document.querySelector('.ec-shippingInfo-omessageInput');
 		    var selectedOption = this.options[this.selectedIndex].value;
 		    var omessageTextarea = document.getElementById('omessage');
+		    var omessageTextarea2 = document.getElementById('omessage_select');
 		    var o_rec_msgInput = document.querySelector('[name="o_rec_msg"]');
 		
 		    if (selectedOption === '직접 입력') {
@@ -350,6 +359,9 @@
 		      o_rec_msgInput.value = selectedOption; // 선택된 값을 직접 입력 값으로 설정
 		      omessageTextarea.value = ''; // 값 초기화
 		    }
+		    if (selectedOption === '직접 입력') {
+		    	omessageTextarea2.removeAttribute('name');
+		      } 
 		  });
 	</script>
 			
@@ -384,7 +396,23 @@
 				              </div>
 				              <div class="col-md-8 col-12 flex-grow-1">
 				                 <!-- heading -->
-				                 <h2 class="fs-6">${newbook.nb_title}</h2>
+				                 <h2 class="fs-6">
+				                   <c:choose>
+				                   		<c:when test="${newbook.ob_num != 0}">
+				                   		  <c:choose>
+											<c:when test="${newbook.ob_grade eq '0' }"><c:out value="[중고 A]"/></c:when>
+											<c:when test="${newbook.ob_grade eq '1' }"><c:out value="[중고 B]"/></c:when>
+											<c:when test="${newbook.ob_grade eq '2' }"><c:out value="[중고 C]"/></c:when>
+											<c:when test="${newbook.ob_grade eq '3' }"><c:out value="[중고 D]"/></c:when>
+										    <c:otherwise><c:out value="kkk"/></c:otherwise>
+									      </c:choose>
+				                   		</c:when>
+				                   </c:choose>
+									 ${newbook.nb_title}
+				                 </h2>
+				                 
+				                 
+				                <%--  <h2 class="fs-6">${newbook.nb_title}</h2> --%>
 				                 
 				                 <c:if test="${paymentType == 1}">
 				                 	<div class="text-small mb-1"><small><fmt:formatNumber value="1" groupingUsed="true"/>개</small></div>
@@ -395,7 +423,14 @@
 				                 
 				                 <div class=" mt-6">
 				                    <!-- price -->
-				                    <div><span class="text-dark"><fmt:formatNumber value="${newbook.nb_price}" groupingUsed="true"/>원</span></div>
+				                    <c:choose>
+									     <c:when test="${paymentType == 1}">
+									        <div><span class="text-dark"><fmt:formatNumber value="${cart.totalPrice}" groupingUsed="true"/>원</span></div>
+									     </c:when>
+									     <c:otherwise>
+									        <div><span class="text-dark"><fmt:formatNumber value="${newbook.nb_price * newbook.c_count}" groupingUsed="true"/>원</span></div>
+									     </c:otherwise>
+									</c:choose>
 				                 </div>
 				              </div>
 				             </c:forEach> 
@@ -414,7 +449,8 @@
             <div class="col-md-12 mb-3">
               <label class="form-label" for="o_point"> 사용 포인트  (보유 : <fmt:formatNumber value="${member.m_point }" groupingUsed="true"/>원)</label>
               <span class="text-danger" id="pointMsg" ></span>
-              <input type="text" id="o_point" class="form-control" name="o_point" onchange="changeChk(o_point.value)">
+              <input type="text" id="o_point2" class="form-control" onchange="changeChk(o_point2.value)" value="">
+              <input type="hidden" id="o_point" name="o_point" value="0">
             </div>
 				
             <p><p><hr class="my-4" style="border-width: 2px; border-color: #333;"><p><p>
@@ -455,6 +491,7 @@
             				</span> 원
             			</td>
             		</tr>
+            		
             		<tr height="40px">
             			<td class="form-label" width="70%">적립 혜택</td>
             			<td class="h6" width="30%" align="right">
@@ -470,9 +507,9 @@
             
             <h5 class="h5">결제 수단</h5><p>
             	<div class="d-grid gap-2 col-6 mx-auto">
-	            	<tr>
-						<td><button type="radio" name="o_pay_type" checked="checked"  value="1" class="btn btn-soft-secondary mb-2">카카오</button>
-							<button type="radio" name="o_pay_type"                    value="2" class="btn btn-soft-secondary mb-2">토스</button>
+	            	<tr >
+						<td><button id="radio" type="radio"  name="paymentMethod" onclick="changePaymentType(1)" value="1" class="btn btn-soft-secondary mb-2" required>카카오</button>
+							<!-- <button type="radio"  name="paymentMethod" onclick="changePaymentType(2)" value="2" class="btn btn-soft-secondary mb-2">토스</button> -->
 						</td>
 					</tr>
             	</div>
@@ -481,6 +518,7 @@
             
             <input type="hidden" id="o_pay_price_submit"   name="o_pay_price"   value="${cart.totalPrice + cart.o_deliv_price}">
             <input type="hidden" id="o_deliv_price_submit" name="o_deliv_price" value="${cart.o_deliv_price}">
+            <input type="hidden" id="o_pay_type" name="o_pay_type" value="0">
             <input type="hidden" name="o_selTab"   id="o_selTab" value="1">
             <div class="d-grid gap-2">
 	            <input class="btn btn-primary" type="button" value="결제하기" onclick="orderActionController()">

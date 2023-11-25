@@ -102,7 +102,7 @@
    
    // 선물하기
    function gift(pNb_num){
-	   alert("nb_num : "+pNb_num);
+	   location.href = "foGivingGift?nb_num="+pNb_num+"&quantity="+$("#c_count").val();
    }
    
    // 장바구니
@@ -170,12 +170,12 @@
 	   // 카카오에서 발급 받은 javascript 키 입력
 	   Kakao.init('e4937df49a5c278ef8006ad75759dbed');
 	   
-	   var nb_title = '${newbook.nb_title}';
+	   var nb_title = '${newbook.nb_title}'+" | "+'${newbook.nb_writer}';
 	   var nb_price = Number('${newbook.nb_price}');
 	   var nb_image = '${newbook.nb_image}';
 	   var nb_num = '${newbook.nb_num}';
 	   var nb_summary = `${newbook.nb_summary}`	// 도서 줄거리에는 줄바꿈이 있어 줄바꿈은 자바스크립트에서 지원하지 않는다. (``(백틱)를 넣어주면 줄바꿈도 문제 없음)
-	   // alert("nb_summary -> "+nb_summary);
+	   alert("nb_title -> "+nb_title);
 	   
 	   // 카카오링크 버튼 생성
 	   Kakao.Share.sendDefault({
@@ -206,7 +206,17 @@
 	   location.reload();
    }
    
-   // url 복사하기
+   // 이메일 공유하기
+   function shareEmail() {
+	   
+	   var nb_num = '${newbook.nb_num}';
+	   var popup = "shareEmailPopup?nb_num="+nb_num;
+	   var name = "shareEmail";
+	   var option = "width = 550, height = 750, top = 100, left = 200, location = yes";
+	   
+	   window.open(popup, name, option);
+   }
+   
    function shareUrl() {
 	   var url = '';
 	   var textarea = document.createElement("textarea");	// textarea를 만든다.
@@ -222,7 +232,6 @@
 </script>
 </head>
 <body onload="onPageLoad(${review.p_status})">
-   <h3>조회수 : ${newbook.nb_readcnt }</h3>
    <!-- 도서 목록 돌아가기 버튼 -->
    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 	  <button class="btn btn-soft-primary mb-2" type="button" 
@@ -333,7 +342,7 @@
                     <!-- 선물하기 -->
                     <!-- <input type="submit" value="선물하기" class="btn btn-warning" onclick="javascript: form.action='/foGivingGift';">
                     	 <i class="feather-icon icon-shopping-bag me-2"></i> -->
-                    <button type="button" class="btn btn-secondary" onclick="gift(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>선물하기</button>
+                    <button type="button" class="btn btn-warning" onclick="gift(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>선물하기</button>
 					
 					<!-- 장바구니 -->
                     <button type="button" class="btn btn-secondary" onclick="cart(${newbook.nb_num })"><i class="feather-icon icon-shopping-bag me-2"></i>장바구니</button>
@@ -364,11 +373,12 @@
                          </c:when>
                        </c:choose>
                      
-                     <!-- 공유하기 -->
+                     <!-- 공유  버튼 -->
 		                <a class="btn btn-icon btn-sm btn-outline-gray-400 text-muted" href="#" role="button"
 		                  data-bs-toggle="dropdown" aria-expanded="false">
 		                  <i class="bi bi-arrow-left-right"></i>
 		                </a>
+		                <!-- sns 공유 버튼들 -->
 		                <ul class="dropdown-menu" >
 		                  <li><a id="btnKakao" class="dropdown-item" href="javascript:shareKakao();">
 		                  	<img alt="" src="../assets/images/icons/icon-kakao.png" style="height: 25px;">&nbsp; 카카오톡</a>

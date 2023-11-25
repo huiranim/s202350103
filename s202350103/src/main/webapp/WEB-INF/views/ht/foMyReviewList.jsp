@@ -45,11 +45,20 @@
           <ul class="list-group list-group-flush">
           
           	 <c:forEach var="orderList" items="${reviewWriteList }">
+          	 	 <input type="hidden" name="nb_num" >
 	             <li class="list-group-item py-5">
 	                <div class="d-flex justify-content-between">
 	                   <div class="d-flex">
 	                      <!-- img -->
-	                      <img id="ht" src="${orderList.nb_image}" alt="bookImage">
+	                      <c:choose>
+						     <c:when test="${fn:contains(orderList.nb_image, 'http')}">
+						            <img id="ht" src="${orderList.nb_image}" alt="bookImage">
+						     </c:when>
+						     <c:otherwise>
+						            <img src="${pageContext.request.contextPath}/upload/${orderList.nb_image}" id="ht" alt="bookImage">
+						     </c:otherwise>
+						 </c:choose>
+	                      <%-- <img id="ht" src="${orderList.nb_image}" alt="bookImage"> --%>
 	                      <!-- text -->
 	                      <div class="ms-4">
 	                         <h5 class="mb-0 h6 h6">${orderList.nb_title}</h5>
@@ -63,7 +72,7 @@
 	                      </div>
 	                   </div>
 	                   <div>
-	                      <a class="btn btn-primary" href="reviewForm?o_order_num=${orderList.o_order_num}&currentPage=${page.currentPage}">리뷰 작성하기</a>
+	                      <a class="btn btn-primary" href="reviewForm?o_order_num=${orderList.o_order_num}&currentPage=${page.currentPage}&nb_num=${orderList.nb_num}">리뷰 작성하기</a>
 	                   </div>
 	                </div>
 	             </li>

@@ -135,18 +135,6 @@ public class AttJoinDaoImpl implements AttJoinDao {
 	}
 
 	@Override
-	public int checkAddAtt1(AttJoin attJoin) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int checkAddAtt2(AttJoin attJoin) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int countAttRow(AttJoin attJoin) {
 		System.out.println("AttJoinDao countAttRow() Start..");
 		int rowCount = 0;

@@ -20,4 +20,11 @@ public class PointList {			//포인트 이력
 	private Date    date1;			//이벤트 지급날짜
 	private int     type1;			//이벤트 유형
 	private int		rn;				//rownum
+	private String  date;			//참가인원 조회용
+
+   // 페이징 작업용
+   private String  pageNum;      // 페이지   
+   private int     start;         // 첫 페이지
+   private int     end;         // 마지막 페이지
 }
+

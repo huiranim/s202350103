@@ -17,7 +17,5 @@ public interface AttJoinDao {
 	void 			 saveAddAtt(AttJoin attJoin);
 	void 			 searchAddAtt(AttJoin attJoin);
 	void 			 stampAddAtt(AttJoin attJoin);
-	int 			 checkAddAtt1(AttJoin attJoin);
-	int 			 checkAddAtt2(AttJoin attJoin);
 	int 			 countAttRow(AttJoin attJoin);
 }

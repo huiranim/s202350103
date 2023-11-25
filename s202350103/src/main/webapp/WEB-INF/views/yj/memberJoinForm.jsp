@@ -86,11 +86,33 @@
 		}
 	}
 </script>
+
+
+<script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
+
+
+function emailOptionChange(){
+	
+    var emailSelect = document.getElementById("emailSelect");
+    var mEmail2 = document.getElementById("m_email2").value;
+	var selectedOption = emailSelect.value;
+
+    if (emailSelect.value === "직접 입력") {
+        mEmail2.removeAttribute("disabled");
+    } else {
+        mEmail2.setAttribute("disabled", "disabled");
+        mEmail2.value = selectedOption;
+        alert(mEmail2.value);
+    }
+	
+}
+
 
 function valiForm() {
 
 	var isValid = true;
+	
 	
 	// 이름 유효성 검사
 	function nameCk() {
@@ -207,12 +229,13 @@ function valiForm() {
 	birthCk();
 	genCk();
 	
-	
+
 	// 폼 제출 여부 결정
     if (!isValid) {
         return false; // 유효성 검사에서 실패한 경우 폼 제출 중단
     }
 	
+    $("#m_email2").attr("disabled", false);
 	
     // 유효성 검사 통과 시  폼 제출
     return true;
@@ -277,7 +300,7 @@ function valiForm() {
 	        <input type="text" class="form-control" id="m_email2" name="m_email2" required="required">
 	        &nbsp;
 	        <div class="col-lg-3">
-	            <select name="m_email" class="form-select" id="emailSelect">
+	            <select  class="form-select" id="emailSelect" onchange="emailOptionChange();">
 	                <option value="naver.com">naver.com</option>
 	                <option value="gmail.com">gmail.com</option>
 	                <option value="daum.com">daum.com</option>
@@ -431,13 +454,12 @@ function valiForm() {
 	    // "직접 입력" 옵션을 선택한 경우 m_email2 입력 필드를 활성화하고 포커스를 설정
 	    if (selectedOption === "직접 입력") {
 	        mEmail2.removeAttribute("disabled");
-	        mEmail2.value = ""; // 입력 필드 초기화
 	        mEmail2.focus();
 	        
 	    } else {
 	        // 다른 옵션을 선택한 경우 m_email2 입력 필드를 비활성화하고 선택한 옵션 값이 설정됩니다.
 	        mEmail2.setAttribute("disabled", "disabled");
-	        mEmail2.value = selectedOption;
+		     mEmail2.value = selectedOption;
 	    }
 	});
 	

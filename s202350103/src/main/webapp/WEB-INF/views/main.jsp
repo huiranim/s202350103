@@ -7,6 +7,7 @@
 <head>
 <meta charset="utf-8">
   <title>DADOK</title>
+
 </head>
 <body>
 
@@ -15,28 +16,42 @@
     <section class="mt-8">
       <div class="container">
         <div class="hero-slider ">
+
+		<div
+            style="background: url(../assets/images/png/7777.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center; height: 520px;">
+            <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
+            
+
+              <h2 class="text-dark display-6 fw-bold mt-4"> </h2>
+              <p class="lead"> </p>
+            
+            </div>
+          </div>
+          
+          
           <div
-            style="background: url(./assets/images/slider/mainEx1.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+            style="background: url(../assets/images/slider/quiz.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
             <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-              <span class="badge text-bg-warning">메인 광고1</span>
+              <span class="badge text-bg-info">퀴즈 이벤트</span>
 
-              <h2 class="text-dark display-6 fw-bold mt-4">메인 슬라이드 광고 1 </h2>
-              <p class="lead">이벤트 광고 입니다</p>
-              <a href="#!" class="btn btn-dark mt-3">출석체크 하러가기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
+              <h2 class="text-dark display-6 fw-bold mt-4">퀴즈 풀고 ! <br> <span style="color: #fff3cd;">포인트도 받고 !</span></h2>
+              <p class="lead">정답을 맞춰보세요</p>
+              <a href="eventList" class="btn btn-dark mt-3">퀴즈 풀러가기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
             </div>
           </div>
-
-          <div class=" "
-            style="background: url(./assets/images/slider/mainEx2.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
-            <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-              <span class="badge text-bg-warning">메인 광고 2</span>
-              <h2 class="text-dark display-6 fw-bold mt-4">메인광고 2 <br> 메인광고 입니다 <span
-                  class="text-primary">우최3</span></h2>
-              <p class="lead">광고 설명
-              </p>
-              <a href="#!" class="btn btn-dark mt-3">바로가기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
-            </div>
-          </div>
+			
+         <div class="position-relative"
+		  style="background: url(./assets/images/slider/attendanceEvent.png) no-repeat,
+		  url('../assets/images/slider/mainEx2.png') no-repeat;
+		  background-size:70%, 100%; border-radius: .5rem; background-position: center;">
+		  <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
+		    <span class="badge text-bg-warning">출석 이벤트</span>
+		    <h2 class="text-dark display-6 fw-bold mt-4"><span style="color:#198754;">출석</span> 하고<br>포인트 적립받자!</h2>
+		    <p class="lead" style="font-weight: bold;">3일 연속 출석 시 <span style="color: #016bf8;">추가 포인트 적립 !</span>
+		    </p>
+		    <a href="eventList" class="btn btn-dark mt-3">출석체크 하러가기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
+		  </div>
+		</div>
           
             <div class=" "
             style="background: url(./assets/images/slider/memberQnAImage.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
@@ -49,6 +64,17 @@
             </div>
           </div>
           
+		 <div class=" "
+            style="background: url(./assets/images/slider/dadokMain.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+         <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
+              <span class="badge bg-light-primary text-dark-primary">DADOK</span>
+              <h2 class="text-dark display-7 fw-bold mt-4 text-white">소중한 사람에게 <p>책 선물 어떠세요?</h2>
+              <p class="lead">DADOK 과 함께 <br><span style="color:#198754; font-weight: bold;">행복한<span style="color: #581313;">크리스마스</span>  되세요!</span> 
+              </p>
+              <a href="innewbookList" class="btn btn-dark mt-3">선물고르기<i class="feather-icon icon-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+
           
 
         </div>
@@ -229,12 +255,12 @@
           <div class="col-12 col-md-6 mb-3 mb-lg-0">
             <div>
               <div class="py-10 px-8 rounded"
-                style="background:url(./assets/images/banner/grocery-banner.png)no-repeat; background-size: cover; background-position: center;">
+                style="background:url(./assets/images/banner/event.png)no-repeat; background-size: cover; background-position: center;">
                 <div>
-                  <h3 class="fw-bold mb-1">이벤트 바로가기
+                  <h3 class="fw-bold mb-1">이벤트 리스트
                   </h3>
-                  <p class="mb-4">내용 1 </p>
-                  <a href="#!" class="btn btn-dark">바로가기</a>
+                  <p class="mb-4">다양한 이벤트에 참여하고<br> <span style="color: #198754;">포인트를 적립</span>하세요. </p>
+                  <a href="eventList" class="btn btn-dark">이벤트 바로가기</a>
                 </div>
               </div>
 
@@ -245,12 +271,12 @@
 
             <div>
               <div class="py-10 px-8 rounded"
-                style="background:url(./assets/images/banner/grocery-banner-2.jpg)no-repeat; background-size: cover; background-position: center;">
+                style="background:url(./assets/images/banner/orderBook.png)no-repeat; background-size: cover; background-position: center;">
                 <div>
                   <h3 class="fw-bold mb-1">중고상품 등록
                   </h3>
-                  <p class="mb-4">내용1 </p>
-                  <a href="#!" class="btn btn-dark">바로가기</a>
+                  <p class="mb-4">다 읽은 책. 버리기 아까우시죠?<br><span style="color: #198754;">DADOK</span>에서 고민 해결하세요!</p>
+                  <a href="writeFormObReport" class="btn btn-dark">중고상품 등록</a>
                 </div>
               </div>
 
@@ -340,191 +366,86 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-6">
-            <h3 class="mb-0">하단 베치 상품</h3>
+            <h3 class="mb-0">추천 중고 서적</h3>
           </div>
         </div>
       
         <div class="table-responsive-xl pb-6">
         <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
+         <!-- 카드의 시작 1 -->
+        
+         <c:forEach var="RandomOb" items="${ObNumRedomSel}" >
           <div class="col">
-            <div class=" pt-8 px-6 px-xl-8 rounded"
-              style="background:url(./assets/images/banner/banner-deal.jpg)no-repeat; background-size: cover; height: 470px;">
-              <div>
-                <h3 class="fw-bold text-white">광고 ? 서적 노출
-                </h3>
-                <p class="text-white">내용</p>
-                <a href="#!" class="btn btn-primary">바로가기 <i class="feather-icon icon-arrow-right ms-1"></i></a>
-              </div>
-            </div>
-          </div>
           
-          <!--  하단 배치 상품 1 -->
-          <div class="col">
             <div class="card card-product">
               <div class="card-body">
-              
               <!-- 상품 이미지 -->
-                <div class="text-center  position-relative "> <a href="./pages/shop-single.html"><img
-                      src="assets/images/products/product-img-11.jpg" alt="Grocery Ecommerce Template"
-                      class="mb-3 img-fluid"></a>
-
-                  <div class="card-product-action">
-                    <a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
-                      class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                    <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist"><i
-                        class="bi bi-heart"></i></a>
-                    <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true" title="Compare"><i
-                        class="bi bi-arrow-left-right"></i></a>
-                  </div>
+                <div class="text-center  position-relative ">
+                      <c:choose>
+					     <c:when test="${fn:contains(RandomOb.nb_image, 'http')}">
+					            <img src="${RandomOb.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 18rem;">
+					     </c:when>
+					     <c:otherwise>
+					            <img src="${pageContext.request.contextPath}/upload/${RandomOb.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 18rem;">
+					     </c:otherwise>
+					</c:choose>
                 </div>
                 <!--  이미지 끝(액션) -->
                 
                 <!-- 내용 -->
-                <div class="text-small mb-1"><a href="#!" class="text-decoration-none text-muted"><small>소제목
-                     </small></a></div>
-                <h2 class="fs-6"><a href="./pages/shop-single.html" class="text-inherit text-decoration-none">메인제목
-                   </a></h2>
-				
-				<!--  별점, 가격 -->
+                <div class="text-small mb-1">
+                 <small>
+		            	<c:choose>
+							  <c:when test="${RandomOb.nb_category1 eq 1}">국내도서 </c:when>
+							  <c:when test="${RandomOb.nb_category1 eq 2}">해외도서 </c:when>
+							</c:choose>
+									            >
+				            <c:choose>
+				               <c:when test="${RandomOb.nb_category2 eq 1}"> 경제/경영</c:when>
+				               <c:when test="${RandomOb.nb_category2 eq 2}"> 과학</c:when>
+				               <c:when test="${RandomOb.nb_category2 eq 3}"> 소설</c:when>
+				               <c:when test="${RandomOb.nb_category2 eq 4}"> 역사/문화</c:when>
+				               <c:when test="${RandomOb.nb_category2 eq 5}"> 인문</c:when>
+				               <c:when test="${RandomOb.nb_category2 eq 6}"> 과학/기술</c:when>
+				               <c:when test="${RandomOb.nb_category2 eq 7}"> 문학</c:when>
+				            </c:choose>
+                </small></div> 
+                <div>
+                <h2 class="fs-6"> ${RandomOb.nb_title} </h2>
+				</div>
+				<!--  가격 -->
                 <div class="d-flex justify-content-between align-items-center mt-3">
-                  <div><span class="text-dark">할인가격</span> <span
-                      class="text-decoration-line-through text-muted">가격</span>
-                  </div>
-                  <!--  별점  -->
                   <div>
-                    <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                      <!--  한개 별 -->
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-						<!--  반개 별 -->
-                      <i class="bi bi-star-half"></i>
-                    </small>
-                    <span><small>4.5</small></span>
+                  
+                  <span class="text-muted"><fmt:formatNumber value="${RandomOb.ob_sell_price}" groupingUsed="true"/>원</span>
                   </div>
                 </div>
                 
                 <!-- 버튼  -->
-                <div class="d-grid mt-2"><a href="#!" class="btn btn-primary ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      class="feather feather-plus">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>장바구니 추가 </a></div>
-                    
-			<!-- 남은 기간 표시 가능 -->
-                <div class="d-flex justify-content-start text-center mt-3">
-                  <div class="deals-countdown w-100" data-countdown="2023/10/28 00:00:00"></div>
+                <div class="d-grid mt-2" style="margin-left: 30px;">
+  					<a href="foOldBookDetail?ob_num=${RandomOb.ob_num}"><button type="button" class="btn btn-success mb-2" >중고도서 보러가기 ▷</button></a>
                 </div>
-                
               </div>
             </div>
+         </div>
+          </c:forEach>
+         </div>
+        
           </div>
           
-          <!--  하단 배치 상품 2 -->
-          <div class="col">
-            <div class="card card-product">
-              <div class="card-body">
-                <div class="text-center  position-relative "> <a href="./pages/shop-single.html"><img
-                      src="assets/images/products/product-img-12.jpg" alt="Grocery Ecommerce Template"
-                      class="mb-3 img-fluid"></a>
-                  <div class="card-product-action">
-                    <a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
-                        class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                    <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist"><i
-                        class="bi bi-heart"></i></a>
-                    <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true" title="Compare"><i
-                        class="bi bi-arrow-left-right"></i></a>
-                  </div>
-                </div>
-                <div class="text-small mb-1"><a href="#!" class="text-decoration-none text-muted"><small>Fruits &
-                      Vegetables</small></a></div>
-                <h2 class="fs-6"><a href="./pages/shop-single.html" class="text-inherit text-decoration-none">Crushed
-                    Tomatoes</a></h2>
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                  <div><span class="text-dark">$13</span> <span
-                      class="text-decoration-line-through text-muted">$18</span>
-                  </div>
-                  <div>
-                    <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-half"></i>
-                    </small>
-                    <span><small>4.5</small></span>
-                  </div>
-                </div>
-                <div class="d-grid mt-2"><a href="#!" class="btn btn-primary ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      class="feather feather-plus">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg> Add to cart </a></div>
-                <div class="d-flex justify-content-start text-center mt-3 w-100">
-                  <div class="deals-countdown w-100" data-countdown="2028/12/9 00:00:00"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card card-product">
-              <div class="card-body">
-                <div class="text-center  position-relative "> <a href="./pages/shop-single.html"><img
-                      src="assets/images/products/product-img-13.jpg" alt="Grocery Ecommerce Template"
-                      class="mb-3 img-fluid"></a>
-                  <div class="card-product-action">
-                    <a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
-                        class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                    <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist"><i
-                        class="bi bi-heart"></i></a>
-                    <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true" title="Compare"><i
-                        class="bi bi-arrow-left-right"></i></a>
-                  </div>
-                </div>
-                <div class="text-small mb-1"><a href="#!" class="text-decoration-none text-muted"><small>Fruits &
-                      Vegetables</small></a></div>
-                <h2 class="fs-6"><a href="./pages/shop-single.html" class="text-inherit text-decoration-none">Golden
-                    Pineapple</a></h2>
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                  <div><span class="text-dark">$13</span> <span
-                      class="text-decoration-line-through text-muted">$18</span>
-                  </div>
-                  <div>
-                    <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-half"></i></small>
-                    <span><small>4.5</small></span>
-                  </div>
-                </div>
-                <div class="d-grid mt-2"><a href="#!" class="btn btn-primary ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      class="feather feather-plus">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg> Add to cart </a></div>
-                <div class="d-flex justify-content-start text-center mt-3">
-                  <div class="deals-countdown w-100" data-countdown="2028/11/11 00:00:00"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+         
+        <!-- 카드의 끝 -->
+			   </div>
+            
+   
     </section>
     
     
 <!-- 하단 컨텐츠  -->
-    <section class="my-lg-14 my-8">
+   <!--  <section class="my-lg-14 my-8">
       <div class="container">
         <div class="row">
-         <!-- 섹션 1 -->
+         섹션 1
           <div class="col-md-6 col-lg-3">
             <div class="mb-8 mb-xl-0">
               <div class="mb-6"><img src="assets/images/icons/clock.svg" alt=""></div>
@@ -534,7 +455,7 @@
             </div>
           </div>
           
-          <!-- 섹션 2 -->
+          섹션 2
           <div class="col-md-6  col-lg-3">
             <div class="mb-8 mb-xl-0">
               <div class="mb-6"><img src="assets/images/icons/gift.svg" alt=""></div>
@@ -544,7 +465,7 @@
             </div>
           </div>
           
-          <!--  섹션 3 -->
+           섹션 3
           <div class="col-md-6 col-lg-3">
             <div class="mb-8 mb-xl-0">
               <div class="mb-6"><img src="assets/images/icons/package.svg" alt=""></div>
@@ -555,7 +476,7 @@
           </div>
           
           
-          <!-- 섹션 4 -->
+          섹션 4
           <div class="col-md-6 col-lg-3">
             <div class="mb-8 mb-xl-0">
               <div class="mb-6"><img src="assets/images/icons/refresh-cw.svg" alt=""></div>
@@ -567,7 +488,9 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
+  
+  
   </main>
 
 

@@ -166,7 +166,7 @@
 	<insert id="memberQInsert" parameterType="MemberQ">
 	
 		insert into memberq values 
-		(#{m_num}, MEMBERQ_MQ_NUM_SEQ.nextval, #{mq_title} , #{mq_content}, sysdate, #{mq_hidden})
+		(MEMBERQ_MQ_NUM_SEQ.nextval, #{m_num}, #{mq_title} , #{mq_content}, sysdate, #{mq_hidden})
 	
 	</insert>
 	
@@ -227,12 +227,12 @@
 	
 	<update id="adminMemberUpdate" parameterType="Member">
 	
-	update member set
-		 m_id = #{m_id} , m_name = #{m_name},
-	    m_email = #{m_email}, m_ph = #{m_ph}, 
-	    m_addr = #{m_addr}, m_birth = #{m_birth}, m_pw = #{m_pw},
-	    m_admin = #{m_admin} ,m_wd = #{m_wd}, m_image=#{m_image}
-	where m_num = #{m_num}
+		update member set
+			 m_id = #{m_id} , m_name = #{m_name},
+		    m_email = #{m_email}, m_ph = #{m_ph}, 
+		    m_addr = #{m_addr}, m_birth = #{m_birth}, m_pw = #{m_pw},
+		    m_admin = #{m_admin} ,m_wd = #{m_wd}, m_image=#{m_image}
+		where m_num = #{m_num}
 	
 	</update>
 	
@@ -255,51 +255,49 @@
 	</delete>
 	
 	<select id="memberSearchCnt" parameterType="Member" resultType="int">
-	  select count(*) 
- 		from member
-		<where>
-    	 <choose>
-           <when test="keyword != null and keyword != ''">
-
-            and (
-               m_num like '%' || #{keyword} || '%'
-               or m_id like '%' || #{keyword} || '%'
-               or m_name like '%' || #{keyword} || '%'
-               or m_addr like '%' || #{keyword} || '%'
-               or m_email like '%' || #{keyword} || '%'
-            )
-
-          </when>
-     	 </choose>
-	   </where>
+	  select count(*) from member
+    	 	 <choose>
+		           <when test="search == 's_num'">
+		         	   where m_num like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_name'">
+		         	   where m_name like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_id'">
+		         	   where m_id like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_email'">
+		          	  where m_email like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_addr'">
+		          	  where m_addr like '%' || #{keyword} || '%'
+		          </when>
+	     	 </choose>
 	</select>
 	
 	
 	<select id="adminMemberSearch" parameterType="Member" resultType="Member">
 		
-			select * from (	
-				
-				select rownum rn , m.* 
-				
-				from (select * from member order by m_num desc) m
-			)
-			
-			where rn BETWEEN #{start} and #{end}
+             select rownum rn, m.* from member m where 
 			
 	    	 <choose>
-	           <when test="keyword != null and keyword != ''">
-	
-	            and (
-	               m_num like '%' || #{keyword} || '%'
-	               or m_id like '%' || #{keyword} || '%'
-	               or m_name like '%' || #{keyword} || '%'
-	               or m_addr like '%' || #{keyword} || '%'
-	               or m_email like '%' || #{keyword} || '%'
-	            )
-	
-	          </when>
-     	 </choose>
-
+		           <when test="search == 's_num'">
+		             m_num like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_name'">
+		             m_name like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_id'">
+		             m_id like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_email'">
+		             m_email like '%' || #{keyword} || '%'
+		          </when>
+		           <when test="search == 's_addr'">
+		             m_addr like '%' || #{keyword} || '%'
+		          </when>
+	     	 </choose>
+	     	 order by m_num
 	</select>
 	
 	
@@ -324,5 +322,54 @@
 	<select id="wdMember" resultType="int">
 		select count(*) from member where m_wd = 1
 	</select>
+	
+	
+	<select id="mqReplyList" parameterType="int" resultType="MemberQ">
+		
+		select * from 
+			memberq_reply mqr
+		join member m
+			on m.m_num = mqr.m_num
+		where mq_num = #{mq_num} 
+
+		order by mqr.mqr_recomen desc, 
+        mqr.mqr_date desc
+		
+	</select>
+	
+	<select id="replyCount" resultType="int" parameterType="int">
+	
+		select count(*) from 
+			memberq_reply mqr
+		join member m
+			on m.m_num = mqr.m_num
+		where mq_num = #{mq_num}
+	
+	</select>
+	
+	<insert id="replyInsert" parameterType="MqReply">
+		
+		insert into memberq_reply 
+        values 
+        (MEMBERQ_REPLY_MQR_NUM_SEQ.nextval, #{m_num}, #{m_num_write}, #{mq_num}, #{mqr_content}, sysdate,0, 0, 0, null)
+	
+	</insert>
+	
+	<update id="likeReply" parameterType="Long" >
+	
+		 update memberq_reply 
+		    set mqr_recomen = mqr_recomen + 1 
+	   	 where mqr_num = #{mqr_num}
+	
+	</update>
+	
+	<update id="declReply" parameterType="MqReply">
+		
+		update memberq_reply set 
+	        mqr_decl = mqr_decl +1 ,
+	        mqr_decl_val = #{mqr_decl_val}
+        where mqr_num = #{mqr_num}
+	
+	</update>
 	
 </mapper>

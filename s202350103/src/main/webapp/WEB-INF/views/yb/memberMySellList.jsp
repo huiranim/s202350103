@@ -18,7 +18,7 @@
 
 
 <!-- row -->
-		      <div class="row">
+		     <div class="row">
 		        <div class="col-lg-12" style="padding-left: 0px; padding-right: 0px;">
 		          <div class="card py-1 border-0 mb-8">
            			 <div class="mb-8">
@@ -48,8 +48,15 @@
 		                <c:forEach var="oldbook" items="${oldBookSellList }">
 		                  <tr>
 		                    <td class="align-middle">
-		                      <a href="newbookDetail?nb_num=${oldbook.nb_num }"><img src="${oldbook.nb_image }"
-		                          class="icon-shape icon-xxl" alt=""></a>
+		                      <a href="newbookDetail?nb_num=${oldbook.nb_num }">
+		                      	<c:choose>
+				                   	<c:when test="${fn:contains(oldbook.nb_image, 'http')}">
+				                   		<img src="${oldbook.nb_image }" alt="도서 썸네일" class="icon-shape icon-xxl" >
+				                   	</c:when>
+				                   	<c:otherwise>
+				                   		<img src="${pageContext.request.contextPath}/upload/${oldbook.nb_image}" alt="도서 썸네일" class="icon-shape icon-xxl">
+				                   	</c:otherwise>
+			                    </c:choose></a>
 		                    </td>
 		                    <td class="align-middle">
 		                      <div>
@@ -101,24 +108,30 @@
 		        </div>
 		
 		      </div>
-		
+			<nav aria-label="Page navigation example">
+			  <ul class="pagination justify-content-center">
+				 	<c:if test="${page.startPage > page.pageBlock }">
+						 <li class="page-item justify-content-center">					
+							<a class="page-link mx-1 text-body" href="memberSellList?currentPage=${page.startPage-page.pageBlock}">이전</a>
+						</li>
+					</c:if>
+	 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+						 <li class="page-item justify-content-center">
+	 						<a class="page-link mx-1 text-body" href="memberSellList?currentPage=${i}">${i}</a>
+						</li>
+					</c:forEach>
+						
+					<c:if test="${page.endPage < page.totalPage }">
+						 <li class="page-item justify-content-center">		 
+							<a class="page-link mx-1 text-body" href="memberSellList?currentPage=${page.startPage+page.pageBlock}">다음</a>
+						</li>
+					</c:if>
+			  	</ul>
+	   		</nav>
 		
 		
 		    </div>
-
-<nav aria-label="Page navigation example">
-	  <ul class="pagination justify-content-center">
-		    <li class="page-item disabled">
-		      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-		    </li>
-		    <li class="page-item"><a class="page-link" href="#">1</a></li>
-		    <li class="page-item"><a class="page-link" href="#">2</a></li>
-		    <li class="page-item"><a class="page-link" href="#">3</a></li>
-		    <li class="page-item">
-	     	 <a class="page-link" href="#">Next</a>
-	    </li>
-	  </ul>
-	</nav>
+		
 
 
 <%@ include file="../common/footerFo.jsp"%>

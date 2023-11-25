@@ -73,7 +73,6 @@ public class MemberServiceImpl1 implements MemberService {
 	// 찜 갯수
 	@Override
 	public int totalWishList(Member member) {
-		// TODO Auto-generated method stub
 		System.out.println("MemberServiceImpl1 totalWishList start...");
 		System.out.println("MemberServiceImpl1 totalWishList member.m_num -> " + member.getM_num());
 		int totalWishList = 0;
@@ -96,6 +95,13 @@ public class MemberServiceImpl1 implements MemberService {
 		System.out.println("MemberServiceImpl1 totalSellCnt member.m_num -> " + member.getM_num());
 		int totalSellCnt = md.totalSellCnt(member);
 		return totalSellCnt;
+	}
+	// 포인트 리스트 개수
+	@Override
+	public int pointListCnt(PointList pointList) {
+		System.out.println("MemberServiceImpl1 pointListCnt start...");
+		int pointListCnt = md.pointListCnt(pointList);
+		return pointListCnt;
 	}
 
 	// 회원 찜목록
@@ -237,16 +243,92 @@ public class MemberServiceImpl1 implements MemberService {
 		System.out.println("MemberServiceImpl1 searchBookCnt searchBookCnt -> " + searchBookCnt);
 		return searchBookCnt;
 	}
+	// 커뮤니티 조회
+	@Override
+	public Community selectBookDetail(int cm_num) {
+		System.out.println("MemberServiceImpl1 selectBookDetail start...");
+		System.out.println("MemberDaoImpl1 selectBookDetail() cm_num -> " + cm_num);
+		Community community = md.selectBookDetail(cm_num);
+		return community;
+	}
 
-	
+	@Override
+	public List<Community> sameDetailList(int nb_num) {
+		System.out.println("MemberServiceImpl1 selectBookDetail start...");
+		List<Community> sameDetailList = md.sameDetailList(nb_num);
+		return sameDetailList;
+	}
+
+	@Override
+	public int readCntUp(int cm_num) {
+		System.out.println("MemberServiceImpl1 readCntUp start...");
+		int readCntUp = md.readCntUp(cm_num);
+		return readCntUp;
+	}
+
+	@Override
+	public int communityUpdateDo(Community community) {
+		System.out.println("MemberServiceImpl1 communityUpdateDo start...");
+		System.out.println("MemberServiceImpl1  communityUpdateDo() community -> " + community);
+		int communityUpdateDo = md.communityUpdateDo(community);
+		return communityUpdateDo;
+	}
+
+	@Override
+	public int communityHitPush(int cm_num) {
+		System.out.println("MemberServiceImpl1 communityUpdateDo start...");
+		System.out.println("MemberServiceImpl1  communityUpdateDo() cm_num -> " + cm_num);
+		int communityHitPush = md.communityHitPush(cm_num);
+		return communityHitPush;
+	}
+
+	@Override
+	public int communityDelete(int cm_num) {
+		System.out.println("MemberServiceImpl1 communityDelete start...");
+		System.out.println("MemberServiceImpl1 communityDelete() cm_num -> " + cm_num);
+		int communityDelete = md.communityDelete(cm_num);
+		return communityDelete;
+	}
+
+	@Override
+	public int comMyListTotalCnt(int m_num) {
+		int comMyListTotalCnt = 0;
+		comMyListTotalCnt = md.comMyListTotalCnt(m_num);
+		return comMyListTotalCnt;
+	}
+
+	@Override
+	public List<Community> communityMyList(Community community) {
+		System.out.println("MemberServiceImpl1 communityMyList start...");
+		List<Community> communityMyList = md.communityMyList(community);
+
+		return communityMyList;
+	}
+
+	@Override
+	public int deleteImage(int cm_num) {
+		System.out.println("MemberServiceImpl1 deleteImage start...");
+		int deleteImage = md.deleteImage(cm_num);
+		System.out.println("MemberServiceImpl1 deleteImage start...");
+		return deleteImage;
+	}
+
+	@Override
+	public int deleteImage1(int cm_num) {
+		System.out.println("MemberServiceImpl1 deleteImage1 start...");
+		int deleteImage1 = md.deleteImage1(cm_num);
+		System.out.println("MemberServiceImpl1 deleteImage1 start...");
+		return deleteImage1;
+	}
+
+	@Override
+	public int totalPoint(int m_num) {
+		System.out.println("MemberServiceImpl1 totalPoint start...");
+		int totalPoint = md.totalPoint(m_num);
+		return totalPoint;
+	}
 
 
-	
-
-	
-
-	
-	
 	
 	
 }

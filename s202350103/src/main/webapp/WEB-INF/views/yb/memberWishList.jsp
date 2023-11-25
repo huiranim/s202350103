@@ -108,8 +108,16 @@
 		                <c:forEach var="wishList" items="${memberWishList }">
 		                  <tr>
 		                    <td class="align-middle">
-		                      <a href="newbookDetail?nb_num=${wishList.nb_num }"><img src="${wishList.nb_image }"
-		                          class="icon-shape icon-xxl" alt=""></a>
+		                      <div class="col-3 col-md-2">
+			                	<c:choose>
+		                           <c:when test="${fn:contains(wishList.nb_image, 'http')}">
+		                              <img src="${wishList.nb_image}" alt="Ecommerce"  width="75px" height="90px">
+		                           </c:when>
+		                           <c:otherwise>
+		                              <img src="${pageContext.request.contextPath}/upload/${wishList.nb_image}" alt="Ecommerce"  width="75px" height="90px">
+		                           </c:otherwise>
+	                        	</c:choose>
+		               		  </div>
 							 
 		                    </td>
 		                    <td class="align-middle">
@@ -134,6 +142,26 @@
 		              </table>
 		            </div>
 		          </div>
+		          <nav aria-label="Page navigation example">
+					  <ul class="pagination justify-content-center">
+						 	<c:if test="${page.startPage > page.pageBlock }">
+								 <li class="page-item justify-content-center">					
+									<a class="page-link mx-1 text-body" href="memberWishList?currentPage=${page.startPage-page.pageBlock}">이전</a>
+								</li>
+							</c:if>
+			 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+								 <li class="page-item justify-content-center">
+			 						<a class="page-link mx-1 text-body" href="memberWishList?currentPage=${i}">${i}</a>
+								</li>
+							</c:forEach>
+								
+							<c:if test="${page.endPage < page.totalPage }">
+								 <li class="page-item justify-content-center">		 
+									<a class="page-link mx-1 text-body" href="memberWishList?currentPage=${page.startPage+page.pageBlock}">다음</a>
+								</li>
+							</c:if>
+					  	</ul>
+	   				</nav>
 		        </div>
 		
 		      </div>

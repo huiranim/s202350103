@@ -22,6 +22,16 @@
 	.rate input input:checked ~ label:hover,
 	.rate input:checked ~ .rate label:hover ~ label,  
 	.rate label:hover ~ input:checked ~ label { color: #f73c32 !important;  } 
+	  #ht img {
+			    width: 200px; /* 이미지의 가로 크기 조절 */
+			    height: auto; /* 세로 크기를 가로 크기에 맞게 자동으로 조절 */
+ 			  }
+  	#ht .text-truncate {
+    					font-size: 18px; /* 텍스트 크기 조절 */
+  						}
+   .text-truncate {
+    font-weight: bold;
+  					}
 </style>
 </head>
 <body>
@@ -29,9 +39,18 @@
  	 <input type="hidden" name="o_order_num" value="${writedReview.o_order_num}">
  	 <input type="hidden" name="nb_num"      value="${writedReview.nb_num}">
  	 <input type="hidden" name="currentPage" value="${writedReview.currentPage}">
-	 <div>
+	 <div id="ht">
 	   <!-- rating -->
 	   <h3 class="mb-5">리뷰 수정</h3>
+	   <c:choose>
+	     <c:when  test="${fn:contains(writedReview.nb_image, 'http')}">
+	            <img src="${writedReview.nb_image}" alt="bookImage">
+	     </c:when>
+	     <c:otherwise>
+	            <img src="${pageContext.request.contextPath}/upload/${writedReview.nb_image}" alt="Grocery Ecommerce Template"class="mb-3">
+	     </c:otherwise>
+	  </c:choose>
+	   <div class="text-truncate">${writedReview.nb_title}</div>
 	   <div class="border-bottom py-4 mb-4">
 	      <h4 class="mb-3">별점</h4>
 	       <fieldset class="rate"><c:if test=""></c:if>

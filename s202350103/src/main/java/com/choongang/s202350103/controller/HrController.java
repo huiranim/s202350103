@@ -1,8 +1,16 @@
 package com.choongang.s202350103.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +19,19 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.supercsv.cellprocessor.Optional;
+import org.supercsv.cellprocessor.ParseInt;
+import org.supercsv.cellprocessor.constraint.NotNull;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvBeanReader;
+import org.supercsv.prefs.CsvPreference;
 import com.choongang.s202350103.hrService.MemberService;
 import com.choongang.s202350103.hrService.NewbookService;
 import com.choongang.s202350103.hrService.OrderService;
@@ -234,7 +251,7 @@ public class HrController {
 	
 	// FO 주문상세
 	// foOrderDetail.jsp
-	@RequestMapping(value = "foOrderDetail")
+	@RequestMapping(value = "/foOrderDetail")
 	public String selectOrderrFo(Model model, long o_order_num) {
 		System.out.println("HrController selectOrderrFo() start..");
 		
@@ -250,7 +267,7 @@ public class HrController {
 	
 	// FO 선물하기 - 화면
 	// foGivingGift.jsp
-	@RequestMapping("foGivingGift")
+	@RequestMapping("/foGivingGift")
 	public String givingGift(Model model, Member member, HttpSession session, int nb_num, int quantity) {
 		System.out.println("HrController givingGift() start..");
 		
@@ -278,7 +295,7 @@ public class HrController {
 		
 		// session으로부터 member 도출
 		member = (Member) session.getAttribute("member");
-		System.out.println("HrController givingGift() member.getM_name()"+member.getM_name());
+		System.out.println("HrController givingGift() member.getM_name()->"+member.getM_name());
 		model.addAttribute("member", member);
 		
 		// value 확인
@@ -309,85 +326,27 @@ public class HrController {
 			// o_gift_msg
 			System.out.println("orderGift.getO_gift_msg()->"+orderGift.getO_gift_msg());
 			
-		// Service Method 실행 후 model에 result 저장
-		int result = os.givingGiftAction(member, orderr, orderGift);
-		model.addAttribute("giftResult", result);
-		
-		// 메일 발송을 위해 주요 객체 redirect에 저장
-		redirect.addFlashAttribute("member", member);
+		// 결제 미연결
+//		// Service Method 실행 후 model에 result 저장
+//		int result = os.givingGiftAction(member, orderr, orderGift);
+//		model.addAttribute("mailingResult", result);
+//		
+//		
+//		System.out.println("HrController givingGiftAction() end..");
+//		return "/hr/foGivingGiftAction";
+			
+		// 결제 연결
 		redirect.addFlashAttribute("orderr", orderr);
 		redirect.addFlashAttribute("orderGift", orderGift);
+		int destination = 0;
+		redirect.addFlashAttribute("destination", destination);
 		
-		System.out.println("HrController givingGiftAction() end..");
-		return "redirect:giftMailing";
-	}
-	
-	// FO 선물하기 - 메일 발송
-	@RequestMapping("giftMailing")
-	public String giftMailing(HttpServletRequest request, Model model, HttpSession session, 
-							  @ModelAttribute("member") Member member,
-							  @ModelAttribute("orderr") Orderr orderr,
-							  @ModelAttribute("orderGift") OrderGift orderGift
-							  ) {
-		System.out.println("HrController giftMailing() start..");
-		
-		// 정보 GET
-		String tomail = orderr.getO_rec_mail();
-		String m_name = member.getM_name();
-		String n_title = ns.selectNewbook(orderr.getNb_num()).getNb_title();
-		int o_de_count = orderr.getO_de_count();
-		String o_gift_msg = orderGift.getO_gift_msg();
-		long o_order_num = orderr.getO_order_num();
-
-		// 받는 사람
-		System.out.println("HrController giftMailing() tomail -> "+tomail);
-		
-		// 보내는 사람
-		String setfrom = "gml2511@gmail.com";
-		
-		// 제목
-		String title = "[DADOK] "+m_name+"님으로부터 선물이 도착했습니다!";
-		
-		// 내용
-		String contents = "안녕하세요. DADOK입니다. \n"
-							+ m_name + "님이 선물과 메시지를 보냈습니다. \n\n"
-							
-							+ "선물 : " + n_title + " " + o_de_count + "개 \n"
-							+ "메시지 : " + o_gift_msg + "\n\n"
-							
-							+ "아래 링크를 클릭하여 선물을 받아보세요! \n"
-							+ "http://localhost:8200/foGettingGift?o_order_num="+o_order_num+"\n\n"
-							
-							+ "* 받는 사람 정보를 정확히 입력해주세요. \n"
-							+ "* 입력 후 수락하기 버튼을 클릭해야 발송이 시작됩니다.";
-		
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-			messageHelper.setFrom(setfrom);
-			messageHelper.setTo(tomail);
-			messageHelper.setSubject(title);
-			messageHelper.setText(contents);
-			mailSender.send(message);
-			model.addAttribute("mailingResult", 1);
-			
-			model.addAttribute("member", member);
-			model.addAttribute("orderr", orderr);
-			model.addAttribute("n_title", n_title);
-			model.addAttribute("orderGift", orderGift);
-
-		} catch (Exception e) {
-			System.out.println("HrController giftMailing() e.getMessage() -> "+e.getMessage());		
-			model.addAttribute("mailingResult", 0);
-		}
-		
-		System.out.println("HrController giftMailing() end..");		
-		return "/hr/foGivingGiftAction";
+		return "redirect:orderAction";
 	}
 	
 	// FO 선물받기 - 화면
 	// foGettingGift.jsp
-	@RequestMapping("foGettingGift")
+	@RequestMapping("/foGettingGift")
 	public String gettingGift(Model model, long o_order_num) {
 		System.out.println("HrController gettingGift() start..");
 		
@@ -422,7 +381,7 @@ public class HrController {
 	}
 	
 	// FO 선물받기 - 액션
-	@RequestMapping("foGettingGiftAction")
+	@RequestMapping("/foGettingGiftAction")
 	public String gettingGiftAction(Model model, HttpSession session, Orderr orderr, OrderGift orderGift
 									, String o_rec_addr1, String o_rec_addr2, String o_rec_addr3) {
 		System.out.println("HrController gettingGiftAction() start..");
@@ -453,99 +412,128 @@ public class HrController {
 		return "/hr/foGettingGiftAction";
 	}
 
-	// BO 주문목록 - 임의 주문 생성(CSV 파일 업로드)
-	@RequestMapping("boOrderUpload")
-	public String orderUpload() {
-		// 파일 관련 객체 선언
-		String path 		 = System.getProperty("user.dir");
-		FileReader in 		 = null;
-		BufferedReader bufIn = null;
+	// BO 주문목록 - 임의 주문 생성 팝업
+	@RequestMapping("/boOrderUploadPopup")
+	public String orderUploadPopup(Model model) {
+		System.out.println("HrController orderUploadPopup() start..");
 		
-		// DTO 선언
-		Orderr orderr 			= new Orderr();
-		
-		try {
-			in 	  = new FileReader(path + "\\src\\main\\webapp\\upload\\test.csv");
-			bufIn = new BufferedReader(in);
-			bufIn.readLine();
-			
-			String data;
-			do {
-				// 라인별 읽기
-				data = bufIn.readLine();
-				
-				if(data != null) {
-					// 콤마로 분리
-					String[] splitData = data.split(",");
-					
-					// DTO에 setter로 저장
-					// m_num
-					System.out.println("HrController orderUpload() splitData[0] -> "+splitData[0]);
-					orderr.setM_num(Integer.parseInt(splitData[0]));
-					System.out.println("HrController orderUpload() m_num -> "+orderr.getM_num());
-					
-					// o_pay_price
-					System.out.println("HrController orderUpload() splitData[1] -> "+splitData[1]);
-					orderr.setO_pay_price(Integer.parseInt(splitData[1]));
-					System.out.println("HrController orderUpload() o_pay_price -> "+orderr.getO_pay_price());
-					
-					// o_deliv_price
-					System.out.println("HrController orderUpload() splitData[2] -> "+splitData[2]);
-					orderr.setO_deliv_price(Integer.parseInt(splitData[2]));
-					System.out.println("HrController orderUpload() o_deliv_price -> "+orderr.getO_deliv_price());
-					
-					// o_rec_name
-					System.out.println("HrController orderUpload() splitData[3] -> "+splitData[3]);
-					orderr.setO_rec_name(splitData[3]);
-					System.out.println("HrController orderUpload() o_rec_name -> "+orderr.getO_rec_name());
-					
-					// o_rec_mail
-					System.out.println("HrController orderUpload() splitData[4] -> "+splitData[4]);
-					orderr.setO_rec_mail(splitData[4]);
-					System.out.println("HrController orderUpload() o_rec_mail -> "+orderr.getO_rec_mail());
-					
-					// o_rec_ph
-					System.out.println("HrController orderUpload() splitData[5] -> "+splitData[5]);
-					orderr.setO_rec_ph(splitData[5]);
-					System.out.println("HrController orderUpload() o_rec_ph -> "+orderr.getO_rec_ph());
-					
-					// o_rec_add
-					System.out.println("HrController orderUpload() splitData[6] -> "+splitData[6]);
-					orderr.setO_rec_addr(splitData[6]);
-					System.out.println("HrController orderUpload() o_rec_add -> "+orderr.getO_rec_addr());
-					
-					// o_rec_msg
-					System.out.println("HrController orderUpload() splitData[7] -> "+splitData[7]);
-					orderr.setO_rec_msg(splitData[7]);
-					System.out.println("HrController orderUpload() o_rec_msg -> "+orderr.getO_rec_msg());
-					
-					// nb_num
-					System.out.println("HrController orderUpload() splitData[8] -> "+splitData[8]);
-					orderr.setNb_num(Integer.parseInt(splitData[8]));
-					System.out.println("HrController orderUpload() nb_num -> "+orderr.getNb_num());
-					
-					// o_de_count
-					System.out.println("HrController orderUpload() splitData[9] -> "+splitData[9]);
-					orderr.setO_de_count(Integer.parseInt(splitData[9]));
-					System.out.println("HrController orderUpload() o_de_count -> "+orderr.getO_de_count());
-					
-					// o_de_prodtype
-					System.out.println("HrController orderUpload() splitData[10] -> "+splitData[10]);
-					orderr.setO_de_prodtype(Integer.parseInt(splitData[10]));
-					System.out.println("HrController orderUpload() o_de_prodtype -> "+orderr.getO_de_prodtype());
-					
-				}
-			} while (data != null);
-		} catch (Exception e1) {
-			System.out.println("HrController orderUpload() e.getMessage() 1 -> "+e1.getMessage());
-		} finally {
-			try {
-				in.close();
-				bufIn.close();
-			} catch (Exception e2) {
-				System.out.println("HrController orderUpload() e.getMessage() 2 -> "+e2.getMessage());
-			}
-		}
-	return "";
+		System.out.println("HrController orderUploadPopup() end..");
+		return "/hr/boOrderUploadPopup";
 	}
+	// BO 주문목록 - 임의 주문 생성 액션(CSV 파일 업로드)
+	@PostMapping("/boOrderUploadAction")
+	public String orderUpload(Model model, HttpServletRequest request, MultipartFile csvFile) throws IOException {
+		System.out.println("HrController orderUpload() start..");
+		
+		// result 선언
+		int result = 2;
+		
+		// csvFile 확인
+		System.out.println("HrController orderUpload() csvFile -> "+csvFile);
+		
+		// 업로드 경로&파일명 선언
+		String uploadPath = "";		
+		String savedName  = "";
+		
+		// file에 담긴 값이 있다면 업로드 경로 할당 & 업로드
+		if(csvFile.getOriginalFilename().length() > 0) {
+			// 업로드 경로 할당
+			uploadPath = request.getSession().getServletContext().getRealPath("/upload/hr");
+			System.out.println("HrController orderUpload() uploadPath -> "+uploadPath);
+			
+			// 업로드
+			savedName = uploadFile(csvFile.getOriginalFilename(), csvFile.getBytes(), uploadPath);
+			System.out.println("HrController orderUpload() savedName -> "+savedName);
+		}
+		
+		// CSV 파일 읽을 수 있는 CsvBeanReader 인스턴스 생성
+		try(CsvBeanReader reader = new CsvBeanReader(
+								   new BufferedReader(
+								   new InputStreamReader(
+								   new FileInputStream(uploadPath+"/"+savedName), "EUC-KR")),
+								   CsvPreference.STANDARD_PREFERENCE)){
+			
+			// 헤더
+			// 첫번째 행을 column명으로 취급하기 위해 별도의 배열에 저장
+			String[] headers = reader.getHeader(true);
+			for(String columnName : headers) {
+				System.out.println("HrController orderUpload() columnName -> "+columnName);
+			}
+			
+			// 제약 조건 & 데이터 타입 파싱
+			CellProcessor[] processors = new CellProcessor[] {new ParseInt(new NotNull()),
+															  new ParseInt(new NotNull()),
+															  new ParseInt(new NotNull()),
+															  new NotNull(),
+															  new NotNull(),
+															  new NotNull(),
+															  new NotNull(),
+															  new Optional(),
+															  new ParseInt(new NotNull()),
+															  new ParseInt(new NotNull())
+															 };
+			
+			// 데이터 저장할 DTO 선언
+			Orderr orderr = new Orderr();
+			List<Orderr> orderrList = new ArrayList<Orderr>();
+			
+			// 라인별 읽기 & DTO 저장
+			while(true) {
+				// 라인별 읽기
+				orderr = reader.read(Orderr.class, headers, processors);
+				
+				// 읽은 데이터가 null이면 반복문 종료
+				if(orderr == null) {
+					break;
+				
+				// 읽은 데이터가 null이 아니면 orderrList에 누적 저장
+				} else {
+					System.out.println("");
+					System.out.println("HrController orderUpload() orderr -> "+orderr);
+					orderrList.add(orderr);
+				}
+			}
+			
+			// Service Insert Method 실행
+			result = os.orderUpload(orderrList);
+			System.out.println("HrController orderUpload() 최종 result -> "+result);
+			
+		} catch (Exception e) {
+			System.out.println("HrController orderUpload() e.getMessage() -> "+e.getMessage());
+		} 
+		
+		// model에 result 저장
+		model.addAttribute("result", result);
+
+		System.out.println("HrController orderUpload() end..");
+		return "/hr/boOrderUploadPopup";
+	}
+	// 내장 메소드
+	// 파일 업로드 후 파일명 반환
+	private String uploadFile(String originalName, byte[] fileData, String uploadPath) throws IOException {
+		System.out.println("HrController uploadFile() start..");
+		 
+		// 파일명에 붙여 식별자 역할을 할 고유의 문자열 생성
+		// Universally Unique IDentifier (세계적으로 유일한 식별자)
+		UUID uid = UUID.randomUUID();
+		
+		// Directory가 존재하지 않을 경우, 신규 Directory 생성
+		File fileDirectory = new File(uploadPath);
+		if(!fileDirectory.exists()) {
+			// 신규 폴더(Directory) 자동 생성
+			fileDirectory.mkdirs();
+			System.out.println("업로드용 폴더 생성 : "+uploadPath);
+		}
+		
+		// 파일명이 동일할 경우 덮어씌워질 수 있기 때문에 UUID를 붙여 식별
+		String savedName = uid.toString() + "_" + originalName;
+		
+		// 파일 업로드
+		File target = new File(uploadPath, savedName);
+		FileCopyUtils.copy(fileData, target);	// org.springframework.util.FileCopyUtils
+		
+		System.out.println("HrController uploadFile() end..");
+		return savedName;
+	}
+
 }
