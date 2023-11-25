@@ -16,19 +16,23 @@
     }
 </style>
 <script type="text/javascript">
-	function openWrite() {
-		if(${sessionScope.member == null }) {
-			alert("로그인 후 이용해주시기 바랍니다.");
-			window.close();
-			location.href = "loginForm"
-		} else {
-			var url = "writeForm";
-	        var name = "writeForm";
-	        var option = "position= absolute, top= 50%, left= 50%, width= 600, height= 750px, padding= 40px, text-align= center, background-color= rgb(255, 255, 255), border-radius= 10px, box-shadow= 0 2px 3px 0 rgba(34, 36, 38, 0.15), transform= translateX(-50%) translateY(-50%);"
-	        
-	        window.open(url, name, option);
-		}
+function openWrite() {
+	if(${sessionScope.member == null }) {
+		alert("로그인 후 이용해주시기 바랍니다.");
+		window.close();
+		location.href = "loginForm"
+	} else {
+		var popupW = 600;
+		var popupH = 900;
+		var left = Math.ceil((window.screen.width - popupW)/2);
+		var top = Math.ceil((window.screen.height - popupH)/2);
+	
+		var url = "writeForm";
+        var name = "writeForm";
+        
+        window.open(url, name, 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes,resizable=no,toolbar=no,titlebar=no,menubar=no,location=no')
 	}
+}
 </script>
 </head>
 
@@ -121,6 +125,7 @@
 				                 <span class="text-muted small" style="margin-left: 10px;">(${community.cm_rating })</span>
 				                </div>
 				          </div></p>
+				          <p><div class="mb-4"><i class="bi bi-hand-thumbs-up"></i>(${community.cm_hitCnt })</div></p>
 			            <div class="d-flex justify-content-between text-muted mt-4"><span><small><fmt:formatDate value="${community.cm_regDate }" pattern="yyyy년MM월dd일"/>
 			                  </small></span><span><small>조회수: <span class="text-dark fw-bold">(${community.cm_readCnt }건)</span></small></span>
 			            </div>

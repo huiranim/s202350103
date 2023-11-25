@@ -27,7 +27,7 @@
 <style type="text/css">
 	#container {
 		 position: absolute;
-		  top: 90%;
+		  top: 80%;
 		  left: 50%;
 		
 		  width: 600px;
@@ -99,9 +99,7 @@
 							                    <span><small class="text-muted">${book.nb_publisher }</small></span>
 							                    <!-- text -->
 							                    <span class="text-muted">${book.nb_writer }</span>
-
 				                		</td>
-				                		
 				                		<td  width="10px;" style="padding-top: 30px;">
 				                			<a href="javascript:sendChildValue('${book.nb_title}', '${book.nb_image }', '${book.nb_num }')">
 				                				<button type="button" class="rounded btn  btn-outline-gray-400 text-muted">선택</button>
@@ -117,7 +115,7 @@
 				  <ul class="pagination justify-content-center">
 		
 					 	<c:if test="${page.startPage > page.pageBlock }">
-							<a href="searchListBook?currentPage=${page.startPage-page.pageBlock }">[이전]</a>
+							<a href="bookList?currentPage=${page.startPage-page.pageBlock }">[이전]</a>
 						</c:if>
 						
 						<c:if test="${newbook.search_keyword != null }">
@@ -127,11 +125,11 @@
 						</c:if>
 						<c:if test="${newbook.search_keyword == null }">
 								<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-									<a href="searchListBook?currentPage=${i}">[${i}]</a>
+									<a href="bookList?currentPage=${i}">[${i}]</a>
 								</c:forEach>
 							</c:if>
 						<c:if test="${page.endPage < page.totalPage }">
-							<a href="searchListBook?currentPage=${page.startPage+page.pageBlock }">[다음]</a>
+							<a href="bookList?currentPage=${page.startPage+page.pageBlock }">[다음]</a>
 						</c:if>
 				    </ul>
 			     </nav>

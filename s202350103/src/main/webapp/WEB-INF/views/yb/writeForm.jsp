@@ -44,8 +44,8 @@
     }
 	.upload-box .drag-file {
 				position: relative;
-				width: 20%;
-				height: 100px;
+				width: 25%;
+				height: 110px;
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
@@ -64,7 +64,7 @@
 		  left: 50%;
 		  width: 600px;
 		  height: auto;
-		  padding: 40px;
+		  padding: 20px;
 		  background: linear-gradient(180deg, #f4faf2 0, #f4faf2 473px, #edf7ea 473px, #edf7ea 100%);
 		  border-radius: 10px;
 		  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
@@ -113,10 +113,16 @@
 	}
 	
 	function searchBtn() {			
-			var url = "searchBook";
-	        var name = "searchBook";
-	        var option = "position= absolute, top= 50%, left= 50%, width= 600, height= 750px, padding= 40px, text-align= center, background-color= rgb(255, 255, 255), border-radius= 10px, box-shadow= 0 2px 3px 0 rgba(34, 36, 38, 0.15), transform= translateX(-50%) translateY(-50%);"
-			window.open(url, name, option);
+		var popupW = 600;
+		var popupH = 900;
+		var left = Math.ceil((window.screen.width - popupW)/2);
+		var top = Math.ceil((window.screen.height - popupH)/2);
+	
+		var url = "searchBook";
+        var name = "searchBook";
+        
+        window.open(url, name, 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes,resizable=no,toolbar=no,titlebar=no,menubar=no,location=no')
+	
 	}
 	
 	var receivedImageURL = "";

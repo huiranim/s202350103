@@ -36,6 +36,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.model.Cart;
+import com.choongang.s202350103.model.CommHeart;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.OldBook;
@@ -786,11 +787,22 @@ public class YbController {
 	   
 	   @GetMapping(value = "searchBook")
 	   public String searchBook(NewBook newbook, Model model, String currentPage) {
-	      System.out.println("YbController searchBook() start..");
-	      
-	      return "yb/searchBook";
+		   System.out.println("YbController searchBook() start..");
+		      int searchBookCnt = ms.searchBookCnt(newbook);
+		      Paging page = new Paging(searchBookCnt, currentPage);
+		      
+		      newbook.setStart(page.getStart());
+		      newbook.setEnd(page.getEnd());
+		      
+		      List<NewBook> searchListBook = ms.ybBookList(newbook);
+		      model.addAttribute("page", page);
+		      model.addAttribute("newbook", newbook);
+		      model.addAttribute("searchListBook", searchListBook);
+		      return "yb/searchBook";
 	      
 	   }
+	   
+	
 	   @GetMapping(value = "communityUpdate")
 	   public String communityUpdate(NewBook newbook, Model model, Community community, int cm_num) {
 	      System.out.println("YbController searchBook() start..");
@@ -813,11 +825,16 @@ public class YbController {
 	      List<Community> sameDetailList = ms.sameDetailList(nb_num);
 	      System.out.println();
 	      int readCntUp = ms.readCntUp(cm_num);
-	      
-	      
-	      System.out.println("YbController postDetailForm() member->"+member);
-	      
-	      
+	      CommHeart commHeart = new CommHeart();
+	      if(member != null) {
+	    	  
+	    	  commHeart.setCm_num(cm_num);
+		      commHeart.setM_num(member.getM_num());
+	    	  commHeart = ms.confirmHeart(commHeart);
+
+		      System.out.println("YbController postDetailForm() confirmHeart commHeart->"+commHeart);
+		      model.addAttribute("commHeart", commHeart);
+	      }
 	      model.addAttribute("member", member);
 	      model.addAttribute("sameDatailList", sameDetailList);      
 	      model.addAttribute("community", community);      
@@ -921,12 +938,14 @@ public class YbController {
 	      newbook.setEnd(page.getEnd());
 	      
 	      List<NewBook> searchListBook = ms.searchListBook(newbook);
+	      List<NewBook> bookList = ms.ybBookList(newbook);
 	      model.addAttribute("page", page);
 	      model.addAttribute("newbook", newbook);
 	      model.addAttribute("searchListBook", searchListBook);
-	      return "yb/searchBook";
-	      
+	      return "yb/searchBook";   
 	   }
+	   
+	   
 	   // 게시글 수정
 	   @PostMapping(value = "communityUpdateDo")
 	   public String communityUpdateDo(Community community, Member member, Model model,HttpServletRequest request,  MultipartHttpServletRequest files, 
@@ -1049,26 +1068,51 @@ public class YbController {
 	   
 	   // 게시글 삭제
 	   @GetMapping(value = "communityDelete")
-	   public String communityDelete(Community community, Member member, int cm_num) {
-		   System.out.println("YbController communityUpdateDo() start..");
+	   public String communityDelete(Community community, Member member, int cm_num, Model model) {
+		   System.out.println("YbController communityDelete() start..");
 		   member =(Member) session.getAttribute("member");
-		  
+
 		   int communityDelete = ms.communityDelete(cm_num);
-   
+		   System.out.println("YbController communityDelete() -> " +communityDelete);
+		   model.addAttribute("result", communityDelete);   
 		   return "redirect:/memberCommunity";
 	   }
 	   
-	   @GetMapping(value = "communityHitPush")
-	   public String communityHitPush(Member member, int cm_num, Model model, RedirectAttributes redirect) {
+	   @GetMapping(value = "communityClickHeart")
+	   public String communityClickHeart(Member member, int cm_num, Model model, RedirectAttributes redirect, 
+			   							 CommHeart commHeart, Community community) {
 		   member =(Member) session.getAttribute("member");
-		   
-		   int communityHitPush = ms.communityHitPush(cm_num);
+		   int m_num = member.getM_num();
+		   int communityHitPush = 0;
+		   int commHeartInsert = 0;
+		   int commHeartUpdate = 0;
+		   commHeart.setM_num(m_num);
+		   community = ms.selectBookDetail(cm_num);
+		   // 데이터 있는지 확인
+		   commHeart = ms.confirmHeart(commHeart);
+//		   System.out.println("communityClickHeart confirmHeart getCm_num-> " + commHeart.getCm_num());
+//		   System.out.println("communityClickHeart confirmHeart getM_num-> " + commHeart.getM_num());
+//		   System.out.println("communityClickHeart confirmHeart getH_status-> " + commHeart.getH_status());
+		   // 데이터 없을 떄
+		   if(commHeart == null) {
+			  commHeartInsert = ms.commHeartInsert(cm_num, m_num);
+			  communityHitPush = ms.communityHitPush(cm_num);
+		   } else {
+			  commHeartUpdate = ms.commHeartUpdate(commHeart);
+			  System.out.println("communityClickHeart confirmHeart community-> " + community);
+			  int updateHitCnt = ms.updateHitCnt(community, commHeart);  
+		   }
+			   	   
 		   redirect.addAttribute("cm_num", cm_num);
 		   model.addAttribute("communityHitPush", communityHitPush);
+		   model.addAttribute("commHeartInsert", commHeartInsert);
+		   model.addAttribute("commHeartUpdate", commHeartUpdate);
+		   
 		   return "redirect:/postDetailForm";
 	   }
 	 
 	
+	 
 }
 
 	   

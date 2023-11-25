@@ -46,8 +46,17 @@
 		    	return false;
 	 	}
 	}
+	function clickHeart(cm_num, m_num, m_num1) {
+		if(${sessionScope.member == null }) {
+			alert("로그인 후 이용해주시기 바랍니다.");
+		} else if(m_num1 == m_num){ 
+			alert("본인 게시물은 좋아요 누를 수 없습니다.");
+		} else {
+			location.href="communityClickHeart?cm_num="+cm_num;
+		}	
+	}
 
-	
+
 </script>
 
 </head>
@@ -68,13 +77,14 @@
               <c:set var="cm_image" value="${community.cm_image }"/>
               <c:choose>
            		<c:when test="${fn:contains(cm_image, 'http')}">
-           			<img src="${community.cm_image }" alt="도서 썸네일" ">
+           			<img src="${community.cm_image }" alt="도서 썸네일">
            		</c:when>
            		<c:otherwise>
            			<img src="${pageContext.request.contextPath}/upload/${community.cm_image}" alt="도서 썸네일">
            		</c:otherwise>
 		 	  </c:choose>
             </div>
+
             <div>
               <div class="" onmousemove="zoom(event)"
                 style="background-image: url()">
@@ -97,7 +107,7 @@
                	<c:set var="cm_image" value="${community.cm_image }"/>
               	<c:choose>
 	           		<c:when test="${fn:contains(cm_image2, 'http')}">
-	           			<img src="${community.cm_image2 }" alt="도서 썸네일" ">
+	           			<img src="${community.cm_image2 }" alt="도서 썸네일">
 	           		</c:when>
 	           		<c:otherwise>
 	           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="도서 썸네일">
@@ -171,8 +181,9 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 pt-12" id="div1" style="margin-left: 90px; width: 30rem; height: 50rem">
+        <div class="col-md-6 pt-12" id="div1" style="margin-left: 90px; width: 35rem; height: auto">
           <div class="ps-lg-10 mt-6 mt-md-0">
+          	조회수 : ${community.cm_readCnt }
             <!-- heading -->
             <h1 class="mb-1 d-block">${community.nb_title } </h1>
             <div class="mb-4">
@@ -226,6 +237,8 @@
                 </tbody>
               </table>
 			<input type="hidden" name="cm_num" value="${community.cm_num }" id="cm_num">	
+			<input type="hidden" name="m_num" value="${community.m_num }" id="m_num">	
+			<input type="hidden" name="m_num" value="${member.m_num }" id="m_num1">
             </div>
             <div class="mt-6 mb-10 row justify-content-start g-2 align-items-center">
               <div class="col-md-10 col-10">
@@ -237,8 +250,13 @@
 	            <c:if test="${member.m_num == community.m_num }">
 	               <button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-trash" title="삭제" onclick="deleteConfirm(cm_num.value)"></i></button>
 	            </c:if>
-		            <a class="btn btn-soft-primary" href="communityHitPush?cm_num=${community.cm_num }">
-                <i class="bi bi-hand-thumbs-up" title="좋아요"></i>(${community.cm_hitCnt })</a>
+				<c:if test="${commHeart.h_status == 0 || commHeart == null}">
+                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up" title="삭제" onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
+                </c:if>
+                <c:if test="${commHeart.h_status == 1 }">
+                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up-fill" title="삭제" onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
+                </c:if>
+                
                 
               </div>
             </div>
@@ -268,6 +286,7 @@
       <div class="row g-4 row-cols-lg-4 row-cols-2 row-cols-md-2 mt-2">
         <!-- col -->
         <c:forEach var="sameDetail" items="${sameDatailList }">
+        <c:if test="${sameDetail.cm_num != community.cm_num }">
         	<div class="col">
 	          <div class="card card-product">
 	            <div class="card-body">
@@ -308,7 +327,8 @@
 	              </div>
 	            </div>
 	          </div>
-	        </div>    
+	        </div>  
+	        </c:if>  
         </c:forEach>
       </div>
     </div>
@@ -338,12 +358,12 @@
                 class="zoom"
                 onmousemove="zoom(event)"
                 style="
-                  background-image: url(../assets/images/products/product-single-img-1.jpg);
+                  background-image: ;
                 "
               >
                 <!-- img -->
                 <img
-                  src="../assets/images/products/product-single-img-1.jpg"
+                  src=""
                   alt=""
             >
               </div>
@@ -352,12 +372,12 @@
                   class="zoom"
                   onmousemove="zoom(event)"
                   style="
-                    background-image: url(../assets/images/products/product-single-img-2.jpg);
+                    background-image: ;
                   "
                 >
                   <!-- img -->
                   <img
-                    src="../assets/images/products/product-single-img-2.jpg"
+                    src=""
                     alt=""
               >
                 </div>
@@ -367,12 +387,12 @@
                   class="zoom"
                   onmousemove="zoom(event)"
                   style="
-                    background-image: url(../assets/images/products/product-single-img-3.jpg);
+                    background-image:;
                   "
                 >
                   <!-- img -->
                   <img
-                    src="../assets/images/products/product-single-img-3.jpg"
+                    src=""
                     alt=""
               >
                 </div>
@@ -382,14 +402,10 @@
                   class="zoom"
                   onmousemove="zoom(event)"
                   style="
-                    background-image: url(../assets/images/products/product-single-img-4.jpg);
+                    background-image: ;
                   "
                 >
-                  <!-- img -->
-                  <img
-                    src="../assets/images/products/product-single-img-4.jpg"
-                    alt=""
-              >
+               
                 </div>
               </div>
             </div>
@@ -399,47 +415,27 @@
                 <div class="col-3" class="tns-nav-active">
                   <div class="thumbnails-img">   
                     <!-- img -->
-                    <img
-                      src="../assets/images/products/product-single-img-1.jpg"
-                      alt=""
-                >
+                    
                   </div>
                 </div>
                 <div class="col-3">
                   <div class="thumbnails-img" >
-                    <!-- img -->
-                    <!-- img -->
-	               	<c:set var="cm_image" value="${community.cm_image }"/>
-	              	<c:choose>
-		           		<c:when test="${fn:contains(cm_image1, 'http')}">
-		           			<img src="${community.cm_image1 }" alt="도서 썸네일" ">
-		           		</c:when>
-		           		<c:otherwise>
-		           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image1}" alt="도서 썸네일">
-		           		</c:otherwise>
-			 	    </c:choose>
+                    
+
                   </div>
                 </div>
                 <div class="col-3">
                   <div class="thumbnails-img">
                     <!-- img -->
                     <!-- img -->
-	               	<c:set var="cm_image" value="${community.cm_image }"/>
-	              	<c:choose>
-		           		<c:when test="${fn:contains(cm_image2, 'http')}">
-		           			<img src="${community.cm_image2 }" alt="도서 썸네일" ">
-		           		</c:when>
-		           		<c:otherwise>
-		           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="도서 썸네일">
-		           		</c:otherwise>
-			 	    </c:choose>
+	               	
                   </div>
                 </div>
                 <div class="col-3">
                   <div class="thumbnails-img">
                     <!-- img -->
                     <img
-                      src="../assets/images/products/product-single-img-4.jpg"
+                      src=""
                       alt=""
                 >
                   </div>
