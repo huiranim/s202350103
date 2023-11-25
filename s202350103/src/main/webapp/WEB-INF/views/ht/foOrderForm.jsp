@@ -148,7 +148,7 @@
 		var fail_save_point 	= ((p_total_price + p_deliv_price) * 0.01).toLocaleString();  		// 적립금(실패)
 		
 		if(Number(p_point) < 0 ) {
-			$("#pointMsg").html("보유 포인트 이상값만 입력 가능합니다.");
+			$("#pointMsg").html("양수값만 입력 가능합니다.");
 			$("#o_point_result").html("");
 			$("#o_point").val(0);
 			$("#o_point2").val("");
@@ -509,7 +509,7 @@
             	<div class="d-grid gap-2 col-6 mx-auto">
 	            	<tr >
 						<td><button id="radio" type="radio"  name="paymentMethod" onclick="changePaymentType(1)" value="1" class="btn btn-soft-secondary mb-2" required>카카오</button>
-							<button type="radio"  name="paymentMethod" onclick="changePaymentType(2)" value="2" class="btn btn-soft-secondary mb-2">토스</button>
+							<!-- <button type="radio"  name="paymentMethod" onclick="changePaymentType(2)" value="2" class="btn btn-soft-secondary mb-2">토스</button> -->
 						</td>
 					</tr>
             	</div>

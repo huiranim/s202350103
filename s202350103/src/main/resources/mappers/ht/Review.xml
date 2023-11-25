@@ -91,8 +91,12 @@
 		        AND    od.nb_num     = n.nb_num
 		        AND    o.m_num       = #{m_num}
 		        AND    o.o_status    IN (3, 4) 
-		        AND    o.o_order_num NOT IN (SELECT r.o_order_num
-                                     		 FROM   review r)
+		        AND    NOT EXISTS (
+                                    SELECT 1
+                                    FROM review r
+                                    WHERE r.o_order_num = o.o_order_num
+                                    AND r.nb_num = n.nb_num
+                                  )
 		        order by o_order_date DESC
 		        )a
 		)
@@ -110,8 +114,12 @@
 		        AND    od.nb_num   = n.nb_num
 		        AND    o.m_num       = #{m_num}
 		        AND    o.o_status    IN (3, 4) 
-		        AND    o.o_order_num NOT IN (SELECT r.o_order_num
-                                     FROM   review r)
+		        AND     NOT EXISTS (
+                                    SELECT 1
+                                    FROM review r
+                                    WHERE r.o_order_num = o.o_order_num
+                                    AND r.nb_num = n.nb_num
+                                  )
 		        order by o_order_date DESC
 		        )
 	 </select>
@@ -131,7 +139,7 @@
 			AND    o.o_order_num IN (SELECT oo.o_order_num
 			                         FROM   orderr oo
 			                         WHERE  oo.m_num = #{m_num})
-			order by o_order_date DESC
+			order by r.r_create_date DESC
 		    )a
 		WHERE rn BETWEEN #{start} and #{end}
 	 </select>
