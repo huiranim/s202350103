@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
 import com.choongang.s202350103.model.Cart;
+import com.choongang.s202350103.model.CommHeart;
 import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
@@ -251,21 +252,21 @@ public class MemberServiceImpl1 implements MemberService {
 		Community community = md.selectBookDetail(cm_num);
 		return community;
 	}
-
+	// 같은 책 독후감 리스트
 	@Override
 	public List<Community> sameDetailList(int nb_num) {
 		System.out.println("MemberServiceImpl1 selectBookDetail start...");
 		List<Community> sameDetailList = md.sameDetailList(nb_num);
 		return sameDetailList;
 	}
-
+	// 조회수 up
 	@Override
 	public int readCntUp(int cm_num) {
 		System.out.println("MemberServiceImpl1 readCntUp start...");
 		int readCntUp = md.readCntUp(cm_num);
 		return readCntUp;
 	}
-
+	// 독후감 수정
 	@Override
 	public int communityUpdateDo(Community community) {
 		System.out.println("MemberServiceImpl1 communityUpdateDo start...");
@@ -273,7 +274,7 @@ public class MemberServiceImpl1 implements MemberService {
 		int communityUpdateDo = md.communityUpdateDo(community);
 		return communityUpdateDo;
 	}
-
+	// 독후감 좋아요 up
 	@Override
 	public int communityHitPush(int cm_num) {
 		System.out.println("MemberServiceImpl1 communityUpdateDo start...");
@@ -281,7 +282,7 @@ public class MemberServiceImpl1 implements MemberService {
 		int communityHitPush = md.communityHitPush(cm_num);
 		return communityHitPush;
 	}
-
+	// 독후감 삭제
 	@Override
 	public int communityDelete(int cm_num) {
 		System.out.println("MemberServiceImpl1 communityDelete start...");
@@ -326,6 +327,45 @@ public class MemberServiceImpl1 implements MemberService {
 		System.out.println("MemberServiceImpl1 totalPoint start...");
 		int totalPoint = md.totalPoint(m_num);
 		return totalPoint;
+	}
+
+	@Override
+	public List<NewBook> ybBookList(NewBook newbook) {
+		System.out.println("MemberServiceImpl1 ybBookList start...");
+		List<NewBook> ybBookList = md.ybBookList(newbook);
+		
+		return ybBookList;
+	}
+	// 좋아요 누르기 insert
+	@Override
+	public int commHeartInsert(int cm_num, int m_num) {
+		System.out.println("MemberServiceImpl1 commHeartInsert start...");
+		System.out.println("MemberServiceImpl1 commHeartInsert cm_num -> " + cm_num);
+		System.out.println("MemberServiceImpl1 commHeartInsert m_num -> " + m_num);
+		
+		int commHeartInsert = md.commHeartInsert(cm_num, m_num);
+		return commHeartInsert;
+	}
+
+	@Override
+	public int commHeartUpdate(CommHeart commHeart) {
+		System.out.println("MemberServiceImpl1 commHeartUpdate start...");
+		int commHeartUpdate = md.commHeartUpdate(commHeart);
+		return commHeartUpdate;
+	}
+
+	@Override
+	public CommHeart confirmHeart(CommHeart commHeart) {
+		System.out.println("MemberServiceImpl1 confirmHeart start...");
+		CommHeart CommHeart = md.confirmHeart(commHeart);
+		return CommHeart;
+	}
+
+	@Override
+	public int updateHitCnt(Community community, CommHeart commHeart) {
+		System.out.println("MemberServiceImpl1 updateHitCnt start...");
+		int updateHitCnt = md.updateHitCnt(commHeart, community);
+		return updateHitCnt;
 	}
 
 

@@ -9,6 +9,7 @@
 		<typeAlias alias="AttJoin" 			type="com.choongang.s202350103.model.AttJoin"/>
 		<typeAlias alias="Cart" 			type="com.choongang.s202350103.model.Cart"/>
 		<typeAlias alias="Community" 		type="com.choongang.s202350103.model.Community"/>
+		<typeAlias alias="CommHeart" 		type="com.choongang.s202350103.model.CommHeart"/>
 		<typeAlias alias="Member" 			type="com.choongang.s202350103.model.Member"/>
 		<typeAlias alias="MemberQ" 			type="com.choongang.s202350103.model.MemberQ"/>
 		<typeAlias alias="MqReply" 			type="com.choongang.s202350103.model.MqReply"/>

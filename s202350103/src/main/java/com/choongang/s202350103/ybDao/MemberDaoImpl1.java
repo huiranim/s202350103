@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.choongang.s202350103.model.Cart;
+import com.choongang.s202350103.model.CommHeart;
 import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
@@ -542,11 +543,105 @@ public class MemberDaoImpl1 implements MemberDao {
 		}	
 		return totalPoint;
 	}
-	
-
-	
-
+	@Override
+	public List<NewBook> ybBookList(NewBook newbook) {
+		System.out.println("MemberDaoImpl1 ybBookList() start...");
+		System.out.println("MemberDaoImpl1 ybBookList() newbook -> " + newbook);
+		List<NewBook> ybBookList = null;
+		try {
+			ybBookList = session.selectList("ybBookList", newbook);
+			
+			System.out.println("MemberDaoImpl1 ybBookList -> " + ybBookList);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 ybBookList Exception -> " + e.getMessage());
+		}	
+		return ybBookList;
+	}
+	@Override
+	public int commHeartInsert(int cm_num, int m_num) {
+		System.out.println("MemberDaoImpl1 ybBookList() start...");
+		System.out.println("MemberServiceImpl1 commHeartInsert cm_num -> " + cm_num);
+		System.out.println("MemberServiceImpl1 commHeartInsert m_num -> " + m_num);
+		int commHeartInsert = 0;
+		try { // 좋아요 상태에 따른 값 설정
+			CommHeart commHeart = new CommHeart();
+			commHeart.setCm_num(cm_num);
+			commHeart.setM_num(m_num);
+				commHeartInsert = session.insert("ybCommHeartInsert", commHeart);
+			} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 commHeartInsert Exception -> " + e.getMessage());
+		}
+		return commHeartInsert;
+	}
+	@Override
+	public CommHeart confirmHeart(CommHeart commHeart) {
+		System.out.println("MemberDaoImpl1 confirmHeart() start...");
+		
+		try {
+			commHeart = session.selectOne("ybConfirmHeart",commHeart);
+			System.out.println("MemberDaoImpl1 confirmHeart() commHeart -> " + commHeart);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 confirmHeart Exception -> " + e.getMessage());
+		}
+		return commHeart;
+	}
+	// 좋아요 상태 변경
+	@Override
+	public int commHeartUpdate(CommHeart commHeart) {
+		System.out.println("MemberDaoImpl1 commHeartUpdate() start...");
+		System.out.println("MemberDaoImpl1 commHeartUpdate cm_num -> " + commHeart.getCm_num());
+		System.out.println("MemberDaoImpl1 commHeartUpdate commHeart.getM_num -> " + commHeart.getM_num());
+		System.out.println("MemberDaoImpl1 commHeartUpdate before commHeart.getH_status -> " + commHeart.getH_status());
+		int status = commHeart.getH_status();
+		int commHeartInsert = 0;
+		int h_status = 0;
+		try { // 좋아요 상태에 따른 값 설정
+			if(status == 1) {
+				h_status = 0;
+				commHeart.setH_status(h_status);
+				commHeartInsert = session.insert("ybCommHeartUpdate", commHeart);
+				System.out.println("MemberDaoImpl1 commHeartUpdate after commHeart.getH_status -> " + commHeart.getH_status());
+			} else {
+				h_status = 1;
+				commHeart.setH_status(h_status);
+				commHeartInsert = session.insert("ybCommHeartUpdate", commHeart);
+				System.out.println("MemberDaoImpl1 commHeartUpdate after commHeart.getH_status -> " + commHeart.getH_status());
+			}	
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 commHeartInsert Exception -> " + e.getMessage());
+		}
+		return commHeartInsert;
+	}
+	@Override
+	public int updateHitCnt(CommHeart commHeart, Community community) {
+		System.out.println("MemberDaoImpl1 updateHitCnt() start...");
+		System.out.println("MemberDaoImpl1 updateHitCnt cm_num -> " + commHeart.getCm_num());
+		System.out.println("MemberDaoImpl1 updateHitCnt m_num -> " + commHeart.getM_num());
+		System.out.println("MemberDaoImpl1 updateHitCnt before community.getHitCnt -> " + community.getCm_hitCnt());
+		int status = commHeart.getH_status();
+		int updateHitCnt = 0;
+		int cm_hitCnt = community.getCm_hitCnt();
+		try { // 좋아요 상태에 따른 값 설정
+			if(status == 0) {
+				community.setCm_hitCnt(cm_hitCnt-1);
+				updateHitCnt = session.insert("ybUpdateHitCnt", community);
+				System.out.println("MemberDaoImpl1 updateHitCnt after community.getHitCnt -> " + community.getCm_hitCnt());
+			} else {
+				community.setCm_hitCnt(cm_hitCnt+1);
+				updateHitCnt = session.insert("ybUpdateHitCnt", community);
+				System.out.println("MemberDaoImpl1 updateHitCnt after community.getHitCnt -> " + community.getCm_hitCnt());
+			}	
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 commHeartInsert Exception -> " + e.getMessage());
+		}
+		return updateHitCnt;
+	}
 }
+	
+
+	
+
+
 	
 
 	

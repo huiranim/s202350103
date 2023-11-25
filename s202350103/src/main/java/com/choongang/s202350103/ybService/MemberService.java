@@ -3,6 +3,7 @@ package com.choongang.s202350103.ybService;
 import java.util.List;
 
 import com.choongang.s202350103.model.Cart;
+import com.choongang.s202350103.model.CommHeart;
 import com.choongang.s202350103.model.Community;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.NewBook;
@@ -81,6 +82,16 @@ public interface MemberService {
 	int 			deleteImage1(int cm_num);
 
 	int 			totalPoint(int m_num);
+
+	List<NewBook> 	ybBookList(NewBook newbook);
+
+	int 			commHeartInsert(int cm_num, int m_num);
+
+	int 			commHeartUpdate(CommHeart commHeart);
+
+	CommHeart 		confirmHeart(CommHeart commHeart);
+
+	int 			updateHitCnt(Community community, CommHeart commHeart);
 
 
 

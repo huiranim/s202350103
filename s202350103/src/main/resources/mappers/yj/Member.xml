@@ -332,8 +332,8 @@
 			on m.m_num = mqr.m_num
 		where mq_num = #{mq_num} 
 
-		order by mqr.mqr_recomen desc, 
-        mqr.mqr_date desc
+		order by 
+       	 mqr.mqr_date desc
 		
 	</select>
 	

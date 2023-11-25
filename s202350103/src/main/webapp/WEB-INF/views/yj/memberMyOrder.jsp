@@ -103,13 +103,13 @@ function cart(pNb_num) {
 				<div class="row">
   				  <div class="col-md-6">
 				 
-		                 <h1 class="fs-5 mt-2 mb-3">
+		                 <h1 class="fs-5 mt-2 mb-2">
 		                 	
 		                 	 	<span style="color: #581313;">${firstOrder.o_rec_name }</span>
 		                 	/  <span style="color: #db3030;">결제금액 : 
 		                 		<fmt:formatNumber value="${firstOrder.o_pay_price }" pattern="#,###"/> 원
 		                 		</span>
-		                 </h1>
+		                 </h1> 
 		                 
 	                 </div>
 		                 

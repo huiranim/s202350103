@@ -21,7 +21,7 @@
 	}
 	
 	function wishlist(pNb_num) {
-		alert("pNb_num ->"+pNb_num);
+		// alert("pNb_num ->"+pNb_num);
 		
 		$.ajax({
 			url : "/wish/wishclick", 
@@ -46,6 +46,8 @@
 	
 	function cart(pNb_num) {
 		var m_num = '${member.m_num}';
+		// alert("pNb_num ->"+pNb_num);
+		
 		$.ajax({
 			url : "/cart/cartclick",
 			data : {nb_num : pNb_num},
@@ -218,7 +220,7 @@
 					                  		바로구매
 					                       </a>
 					                       <!-- 장바구니 버튼 -->
-					                       <a class="btn btn-secondary" onclick="cart(${inNewbook.nb_num })">
+					                       <a class="btn btn-secondary" onclick="cart(${searchNewbook.nb_num })">
 					                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
 					                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
 					                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">

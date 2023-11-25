@@ -22,8 +22,17 @@
 									</otherwise>
 								</choose>
 								) a
-						 
-						
+				)
+				WHERE rn BETWEEN #{start} and #{end}
+		</select>
+		
+		<select id="ybBookList" parameterType="NewBook" resultType="NewBook">
+				SELECT *
+				FROM
+				(
+						SELECT rownum rn, a.*
+						FROM
+								(select * From newbook) a
 				)
 				WHERE rn BETWEEN #{start} and #{end}
 		</select>
