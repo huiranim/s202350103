@@ -698,11 +698,7 @@
         <!-- col -->
         <div class="col-12">
           <!-- breadcrumb -->
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-              <li class="breadcrumb-item"><a href="/">Home</a></li>
-            </ol>
-          </nav>
+    
         </div>
       </div>
     </div>
