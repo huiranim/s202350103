@@ -56,7 +56,7 @@
 		
 		<insert id="ybCommunityInsert" parameterType="Community">
 			INSERT INTO community values 
-			(COMMNITY_CM_NUM_SEQ.nextval, #{m_num}, #{nb_num}, #{cm_title}, #{cm_content}, 0, 0, #{cm_rating}, #{cm_image}, sysdate, #{cm_image1}, #{cm_image2})
+			(COMMUNITY_CM_NUM_SEQ.nextval, #{m_num}, #{nb_num}, #{cm_title}, #{cm_content}, 0, 0, #{cm_rating}, #{cm_image}, sysdate, #{cm_image1}, #{cm_image2})
 		</insert>
 		
 		<select id="ybCommnuityList"  resultType="Community">
@@ -74,6 +74,14 @@
 								)
 			WHERE   rn BETWEEN #{start} and #{end}
 
+		</select>
+		
+		<select id="ybPopularList"  resultType="Community">
+			 SELECT  cm.*, nb.nb_title, nb.nb_writer, nb.nb_publisher, m.m_name
+             FROM   community cm, newbook nb, member m
+             WHERE  cm.nb_num = nb.nb_num
+	         AND    m.m_num = cm.m_num
+	         ORDER  by cm_hitCnt
 		</select>
 		
 		<select id="ybCommunityMyList"  resultType="Community">

@@ -93,6 +93,8 @@ public interface MemberService {
 
 	int 			updateHitCnt(Community community, CommHeart commHeart);
 
+	List<Community> popularList(Community community);
+
 
 
 	

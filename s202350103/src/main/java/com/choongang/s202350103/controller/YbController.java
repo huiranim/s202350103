@@ -451,7 +451,7 @@ public class YbController {
 		return "yb/memberMySellList";
 	}
 	// 커뮤니티 리스트
-	@GetMapping(value = "memberCommunity")
+	@RequestMapping(value = "memberCommunity")
 	public String memberCommunity(Community community, Model model, String currentPage, Member member) {
 		System.out.println("YbController memberCommunity() start..");
 		member =(Member) session.getAttribute("member");
@@ -461,9 +461,13 @@ public class YbController {
 		
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());
+		// 독후감 리스트
 		List<Community> communityList = ms.communityList(community);
 		System.out.println("YbController memberCommunity() communityList.size() -> " +communityList.size());
+		// 인기있는 독후감 리스트
+		List<Community> popularList = ms.popularList(community);
 		
+		model.addAttribute("popularList", popularList);
 		model.addAttribute("member", member);
 		model.addAttribute("page", page);
 		model.addAttribute("comListTotalCnt", comListTotalCnt);
@@ -818,16 +822,18 @@ public class YbController {
 	   public String postDetailForm(Community community, Model model, String currentPage, int cm_num, Member member) {
 	      System.out.println("YbController postDetailForm() start..");
 	      member =(Member) session.getAttribute("member");
+	      // 선택 책 정보
 	      community = ms.selectBookDetail(cm_num);
 	      community.setCm_num(cm_num);
 	      
 	      int nb_num = community.getNb_num();
+	      // 관련 게시물
 	      List<Community> sameDetailList = ms.sameDetailList(nb_num);
 	      System.out.println();
 	      int readCntUp = ms.readCntUp(cm_num);
 	      CommHeart commHeart = new CommHeart();
 	      if(member != null) {
-	    	  
+	    	  // 좋아요 정보
 	    	  commHeart.setCm_num(cm_num);
 		      commHeart.setM_num(member.getM_num());
 	    	  commHeart = ms.confirmHeart(commHeart);
@@ -922,6 +928,7 @@ public class YbController {
 		      int communityInsert = ms.communityInsert(community);
 		      
 		      System.out.println("YbController communityInsert result -> " + communityInsert );
+		      model.addAttribute("communityInsert", communityInsert);
 		      model.addAttribute("member", member);
 		      model.addAttribute("check", 1);
 		      return "yb/writeForm";
@@ -1110,7 +1117,7 @@ public class YbController {
 		   
 		   return "redirect:/postDetailForm";
 	   }
-	 
+
 	
 	 
 }

@@ -290,14 +290,14 @@ public class MemberServiceImpl1 implements MemberService {
 		int communityDelete = md.communityDelete(cm_num);
 		return communityDelete;
 	}
-
+	// 내 독후감 개수
 	@Override
 	public int comMyListTotalCnt(int m_num) {
 		int comMyListTotalCnt = 0;
 		comMyListTotalCnt = md.comMyListTotalCnt(m_num);
 		return comMyListTotalCnt;
 	}
-
+	// 내 독후감 리스트
 	@Override
 	public List<Community> communityMyList(Community community) {
 		System.out.println("MemberServiceImpl1 communityMyList start...");
@@ -305,7 +305,7 @@ public class MemberServiceImpl1 implements MemberService {
 
 		return communityMyList;
 	}
-
+	// 독후감 수정 시 이미지 삭제
 	@Override
 	public int deleteImage(int cm_num) {
 		System.out.println("MemberServiceImpl1 deleteImage start...");
@@ -313,7 +313,7 @@ public class MemberServiceImpl1 implements MemberService {
 		System.out.println("MemberServiceImpl1 deleteImage start...");
 		return deleteImage;
 	}
-
+	// 독후감 수정 시 이미지 삭제
 	@Override
 	public int deleteImage1(int cm_num) {
 		System.out.println("MemberServiceImpl1 deleteImage1 start...");
@@ -321,14 +321,14 @@ public class MemberServiceImpl1 implements MemberService {
 		System.out.println("MemberServiceImpl1 deleteImage1 start...");
 		return deleteImage1;
 	}
-
+	// 총 포인트
 	@Override
 	public int totalPoint(int m_num) {
 		System.out.println("MemberServiceImpl1 totalPoint start...");
 		int totalPoint = md.totalPoint(m_num);
 		return totalPoint;
 	}
-
+	// 독후감 등록 시 책 검색
 	@Override
 	public List<NewBook> ybBookList(NewBook newbook) {
 		System.out.println("MemberServiceImpl1 ybBookList start...");
@@ -346,26 +346,33 @@ public class MemberServiceImpl1 implements MemberService {
 		int commHeartInsert = md.commHeartInsert(cm_num, m_num);
 		return commHeartInsert;
 	}
-
+	// 좋아요 누를 시 업데이트
 	@Override
 	public int commHeartUpdate(CommHeart commHeart) {
 		System.out.println("MemberServiceImpl1 commHeartUpdate start...");
 		int commHeartUpdate = md.commHeartUpdate(commHeart);
 		return commHeartUpdate;
 	}
-
+	// 좋아요 확인
 	@Override
 	public CommHeart confirmHeart(CommHeart commHeart) {
 		System.out.println("MemberServiceImpl1 confirmHeart start...");
 		CommHeart CommHeart = md.confirmHeart(commHeart);
 		return CommHeart;
 	}
-
+	// 좋아요 누를 시 좋아요 갯수 수정
 	@Override
 	public int updateHitCnt(Community community, CommHeart commHeart) {
 		System.out.println("MemberServiceImpl1 updateHitCnt start...");
 		int updateHitCnt = md.updateHitCnt(commHeart, community);
 		return updateHitCnt;
+	}
+	// 인기있는 독후감 리스트
+	@Override
+	public List<Community> popularList(Community community) {
+		System.out.println("MemberServiceImpl1 popularList start...");
+		List<Community> popularList = md.popularList(community);
+		return popularList;
 	}
 
 

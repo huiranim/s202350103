@@ -636,6 +636,21 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return updateHitCnt;
 	}
+	@Override
+	public List<Community> popularList(Community community) {
+		List<Community> popularList = new ArrayList<Community>();
+		System.out.println("MemberDaoImpl1 popularList() start...");
+		System.out.println("MemberDaoImpl1 popularList() cart.m_num -> " +community.getM_num());
+		try {
+			popularList = session.selectList("ybPopularList", community);
+			
+			System.out.println("MemberDaoImpl1 popularList.size() -> " + popularList.size());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 popularList Exception -> " + e.getMessage());
+		}
+		
+		return popularList;	
+	}
 }
 	
 

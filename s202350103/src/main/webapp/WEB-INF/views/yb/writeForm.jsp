@@ -136,14 +136,15 @@
 		  document.getElementById("nb_num").value = nb_num;		  
 	}
 	
+	
 	$(function(){
-		var check = '${check}';
+		var result = '${communityInsert}';
 		
-		if(check == 1){
+		if(result == 1){
 			alert("글 등록이 완료되었습니다.");
 			window.close();
 			opener.parent.location.reload();
-		}else if(check == 2){
+		}else if(result != 1){
 			alert("글 등록에 실패했습니다.");
 		}
 	});
@@ -164,7 +165,7 @@
 	    <div class="col-md-12 mb-3">
           <label class="form-label" for="title"></label>
           <button type="button" id="cm_bookTitle" name="cm_bookTitle" class="rounded btn form-control btn-outline-gray-400" onclick="searchBtn()">책 검색</button>
-          <input type="text" id="nb_title" name="nb_title" class="form-control" placeholder="책 제목" style="margin-top: 15px;">
+          <input type="text" id="nb_title" name="nb_title" class="form-control" placeholder="책 제목" style="margin-top: 15px;" readonly="readonly">
 <!--           <input type="text" id="book_image" name="book_image" class="form-control" placeholder=""> -->
         </div>
 		<div class="col-md-12 mb-3">
