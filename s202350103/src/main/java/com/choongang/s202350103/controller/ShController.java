@@ -303,7 +303,7 @@ import lombok.extern.slf4j.Slf4j;
 			quiz.setQ_select4(q_select4);
 			quiz.setQ_answer(q_answer);
 			
-			String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload/sh");
 			System.out.println("shController uploadPath->"+uploadPath);
 			String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
 			quiz.setQ_image(savedName);
@@ -418,7 +418,7 @@ import lombok.extern.slf4j.Slf4j;
 			if(file == null) {
 				quiz.setQ_image(q_image);
 			} else {
-				String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+				String uploadPath = request.getSession().getServletContext().getRealPath("/upload/sh");
 				System.out.println("shController uploadPath->"+uploadPath);
 				String savedName = uploadFile(file.getOriginalFilename(), file.getBytes(), uploadPath);
 				quiz.setQ_image(savedName);
@@ -456,7 +456,7 @@ import lombok.extern.slf4j.Slf4j;
 			if(file == null) {
 				attendance.setA_image(a_image);
 			} else {
-				String uploadPath = request.getSession().getServletContext().getRealPath("/upload");
+				String uploadPath = request.getSession().getServletContext().getRealPath("/upload/sh");
 				System.out.println("shController uploadPath->"+uploadPath);
 				String savedName = uploadFile(file.getOriginalFilename(), file.getBytes(), uploadPath);
 				attendance.setA_image(savedName);

@@ -35,8 +35,8 @@
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <body>
 
- <p class="fs-1 mb-6">DADOK 이벤트</p>
-
+ <p class="fs-1 mb-6" style="margin: auto;">이벤트</p>
+ <hr><br>
    <div class="card card-product mb-5">
 			<div class="card-body row align-items-center">
 	           <div class="col-12" style="width: 500px; height: 170px;" >

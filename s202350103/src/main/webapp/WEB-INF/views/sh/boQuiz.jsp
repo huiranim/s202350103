@@ -21,9 +21,9 @@
 		if(sdate>edate){
 			alert("이벤트 기간 설정을 잘 못 되었습니다.");
 			return false;
-		} else if(curDate1>=sdate&&curDate1<=edate){
+/* 		} else if(curDate1>=sdate&&curDate1<=edate){
 			alert("이벤트 기간을 도중으로 생성할 수 없습니다.");
-			return false;
+			return false; */
 		} else if(curDate1 >= edate){
 			alert("기간이 종료된 이벤트는 생성하실 수 없습니다.");
 			return false;

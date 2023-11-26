@@ -69,7 +69,7 @@
 			<tr>
 				<th scope="row">질문</th>
 				<td>
-					<textarea name="q_question" required="required">${quiz.q_question }</textarea>
+					<textarea name="q_question" required="required" readonly="readonly">${quiz.q_question }</textarea>
 				</td>
 			</tr>
 			<tr>
@@ -93,7 +93,7 @@
          				<tr>
 							<th>1.</th>
 							<td>
-								<input type="text" name="q_select1" value="${quiz.q_select1}"	required="required">
+								<input type="text" name="q_select1" value="${quiz.q_select1}"	required="required" readonly="readonly">
 							</td>
 						</tr>
 					</tbody>
@@ -101,7 +101,7 @@
 						<tr>	
 							<th>2.</th>
 							<td>
-								<input type="text" name="q_select2" value="${quiz.q_select2}"	required="required">
+								<input type="text" name="q_select2" value="${quiz.q_select2}"	required="required" readonly="readonly">
 							</td>
 						</tr>
 					</tbody>
@@ -109,7 +109,7 @@
 						<tr>
 							<th>3.</th>
 							<td>
-								<input type="text" name="q_select3" value="${quiz.q_select3}" required="required">
+								<input type="text" name="q_select3" value="${quiz.q_select3}" required="required" readonly="readonly">
 							</td>
 						</tr>
 					</tbody>
@@ -117,7 +117,7 @@
 						<tr>
 							<th>4.</th>
 							<td>
-								<input type="text" name="q_select4" value="${quiz.q_select4}" required="required">
+								<input type="text" name="q_select4" value="${quiz.q_select4}" required="required" readonly="readonly">
 							</td>
 						</tr>
 					</tbody>

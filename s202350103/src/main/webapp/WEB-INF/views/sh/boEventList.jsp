@@ -43,7 +43,6 @@
 <style>
 	table{
 		text-align: center; 
-		vertical-align: middle;
 		margin: auto;
 	}
 
@@ -93,20 +92,20 @@
       <th scope="col">시작일</th>
       <th scope="col">종료일</th>
       <th scope="col">포인트</th>
-      <th scope="col">이벤트 유형</th>
+      <th scope="col">연속출석 유무</th>
       <th scope="col">관리</th>
     </tr>
   </thead>
   <tbody>
   	<c:forEach var="event" items="${event }">
-		<tr>
+		<tr style="vertical-align: middle;">
 			<th scope="row">${event.rn }</th>
 			<td>${event.a_num }	 </td>
 			<td>${event.a_title }</td>
 			<td>${event.a_sdate }</td>
 			<td>${event.a_edate }</td>
 			<td>${event.a_point }</td>
-			<td>${event.a_add }</td>
+			<td>${event.a_add }일</td>
 			<td><input type="button" class="btn btn-soft-primary mb-2" value="수정" onclick="openPopUp(${event.a_num})">  
 				<input type="button" class="btn btn-soft-success mb-2" value="내역" onclick="openDetail(${event.a_num})"> </td>
 		</tr>
