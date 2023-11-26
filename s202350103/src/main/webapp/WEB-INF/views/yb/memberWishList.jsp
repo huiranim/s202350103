@@ -55,6 +55,10 @@
 					  }
 				});
 		}
+		
+		function bookListPage() {
+			location.href="innewbookList";
+		}
 </script>
 </head>
 <body>
@@ -72,7 +76,7 @@
 				         <c:if test="${memberWishList.size() != 0 }">총 상품 개수 : ${totalWishList }</c:if>
 				         <c:if test="${memberWishList.size() == 0 }">
 				         	찜한 상품이 없습니다!!!!
-				         	<div class="col-lg-8 col-md-7">
+				         	<div class="col-lg-8 col-md-7 mt-5">
 					          <div class="py-3">
 					         	<button class="btn btn-primary justify-content-between align-items-center" onclick="bookListPage()">상품 보러가기</button>
 					          </div>

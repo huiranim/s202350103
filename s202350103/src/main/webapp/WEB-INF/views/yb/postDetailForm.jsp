@@ -43,6 +43,19 @@
 	    var option = "position= absolute, top= 50%, left= 50%, width= 600, height= 750px, padding= 40px, text-align= center, background-color= rgb(255, 255, 255), border-radius= 10px, box-shadow= 0 2px 3px 0 rgba(34, 36, 38, 0.15), transform= translateX(-50%) translateY(-50%);"
 		window.open(url, name, option);
 	}
+	
+	function openUpdate(cm_num) {			
+		var popupW = 600;
+		var popupH = 900;
+		var left = Math.ceil((window.screen.width - popupW)/2);
+		var top = Math.ceil((window.screen.height - popupH)/2);
+	
+		var url = "communityUpdate?cm_num="+cm_num;
+        var name = "openUpdate";
+        
+        window.open(url, name, 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes,resizable=no,toolbar=no,titlebar=no,menubar=no,location=no')
+	
+	}
 
 	function deleteConfirm(cm_num) {
 		if (confirm("정말로 삭제하시겠습니까?") == true){   

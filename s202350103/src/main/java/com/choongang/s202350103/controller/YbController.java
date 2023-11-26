@@ -485,12 +485,16 @@ public class YbController {
 		int comMyListTotalCnt = ms.comMyListTotalCnt(m_num);
 		communityPaging page = new communityPaging(comMyListTotalCnt, currentPage);
 		
+		// 인기있는 독후감 리스트
+		List<Community> popularList = ms.popularList(community);
+		
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());
 		community.setM_num(m_num);
 		List<Community> communityMyList = ms.communityMyList(community);
 		System.out.println("YbController memberCommunity() communityMyList.size() -> " +communityMyList.size());
 		
+		model.addAttribute("popularList", popularList);
 		model.addAttribute("member", member);
 		model.addAttribute("page", page);
 		model.addAttribute("comMyListTotalCnt", comMyListTotalCnt);

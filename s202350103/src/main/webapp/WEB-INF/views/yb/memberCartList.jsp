@@ -172,7 +172,7 @@
 		<c:if test="${listCart.size() == 0 }">
 			<div class="col-lg-8 col-md-7">
 	          <div class="py-3">
-	         	<button class="btn btn-primary justify-content-between align-items-center" onclick="bookListPage()">상품 보러가기</button>
+	         	<button type="button" class="btn btn-primary justify-content-between align-items-center" onclick="bookListPage()">상품 보러가기</button>
 	          </div>
 			</div>
 		</c:if>

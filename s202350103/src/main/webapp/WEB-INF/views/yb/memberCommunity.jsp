@@ -7,10 +7,10 @@
 <title>Insert title here</title>
 <style type="text/css">
 	#div1 {
+		  padding: 15px;
 		  background-color: rgb(255, 255, 255);
 		  border-radius: 10px;
 		  box-shadow: 0 5px 5px 0 rgba(34, 36, 38, 0.3);
-		
 	}
 	.pagination .page-item {
 						    width: 50%;
@@ -20,6 +20,7 @@
      	  border-radius: 10px;
      	  border: 1px solid black;
     }
+
 </style>
 <script type="text/javascript">
 function openWrite() {
@@ -64,40 +65,77 @@ function openWrite() {
       </div>
 
     </div>
-    	    
-    <div id="div1" class="mb-3">
-       <h3 class="mb-0">인기 있는</h3>
-       <div id="container1">
-          
-          <c:forEach items="${popularList }" var="popList" varStatus="status" end="2"></c:forEach>
+    <h3 class="mb-3 ">인기글!</h3>
+    <div id="div1" class="mb-10">
+       
+        <div class="row g-4 row-cols-xl-3 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">  
+          <c:forEach items="${popularList }" var="popList" varStatus="status" end="2">
+          <div id="container2">
+          <div class="col">
+              <!-- card -->
+              <div class="card card-product" style="width: 370px;">
+                <!-- card body -->
+                <div class="card-body">
+                  <div class=" row align-items-center">
+                    <!-- col -->
+                    <div class="col-md-4 col-12">
+					  <div class=" position-absolute top-0">
+                          <!-- badge --> <span class="badge bg-danger">HIT</span>
+                      </div>
+                      <div class="text-center ">
+                        
+                          <a href="postDetailForm?cm_num=${popList.cm_num }">
+				              <!-- img -->
+				              <div class="img-zoom">  
+				                <!-- 도서 이미지 -->	
+				                  <c:set var="cm_image" value="${popList.cm_image }"/>
+				                  <c:choose>
+				               		<c:when test="${fn:contains(cm_image, 'http')}">
+				               			<img src="${popList.cm_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 8rem; height: 10rem;">
+				               		</c:when>
+				               		<c:otherwise>
+				               			<img src="${pageContext.request.contextPath}/upload/${popList.cm_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 8rem;  height: 10rem;">
+				               		</c:otherwise>
+				                  </c:choose>
+				              </div>
+				            </a>               	
+                      </div>
+                    </div>
          <div class="col-md-8 col-12 flex-grow-1">
                 <!-- heading -->
                  <h2 class="fs-6"><a href="shop-single.html" class="text-inherit text-decoration-none">${popList.nb_title }</a>
                 </h2>
                 <div class="text-small mb-1"><a href="#!" class="text-decoration-none text-muted"><small>${popList.cm_title }</small></a></div>
                
-                  <p><div class="mb-4">
+                  <p><div class="mb-2">
                             <div class="text-warning">
-                               <c:forEach var="i" begin="1" end="2">
-                                  <i class="bi bi-star-fill"></i>
-                               </c:forEach>
-                               <c:forEach var="i" begin="${popList.cm_rating + 1}" end="5">
-                                  <i class="bi bi-star"></i>
-                               </c:forEach>
-                             <span class="text-muted small" style="margin-left: 10px;">(${popList.cm_rating })</span>
-                            </div>
+				                   <c:forEach var="i" begin="1" end="${popList.cm_rating}">
+				                      <i class="bi bi-star-fill"></i>
+				                   </c:forEach>
+				                   <c:forEach var="i" begin="${popList.cm_rating + 1}" end="5">
+				                      <i class="bi bi-star"></i>
+				                   </c:forEach>
+				                 <span class="text-muted small" style="margin-left: 10px;">(${popList.cm_rating })</span>
+				           </div>
                       </div>
-                <div class=" mt-6">
-                  <!-- price -->
-                  <div><span class="text-dark"></span> <span
-                      class="text-decoration-line-through text-muted">$24</span>
-                  </div>
+                	<div class=" mt-2">
+                  		<div class=""><span class="text-dark"><i class="bi bi-hand-thumbs-up"></i>(${popList.cm_hitCnt })</span> 
+                  	</div>
                   
                   </div>
                 </div>
+                </div>
+   
+            </div>
           </div>
-       </div>
- 
+        </div>
+
+      </div>
+         </c:forEach>
+         </div>
+    </div>
+
+            
     <div style="float: right; margin-bottom: 20px;" >
 	   
 	   <nav aria-label="...">
@@ -120,7 +158,7 @@ function openWrite() {
               총 독후감 : ${comListTotalCnt }		
      </div>
      <button type="button" class="btn btn-soft-primary mb-2" id="openWrite" onclick="openWrite()">작성하기</button>
-	 <div class="row g-4 row-cols-xl-3 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
+	 <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
 	 	<c:forEach items="${communityList }" var="community">
 			<div class="col" style="margin-bottom:16px;" >
               <!-- card -->
@@ -143,9 +181,7 @@ function openWrite() {
 				               		</c:otherwise>
 				                  </c:choose>
 				              </div>
-				            </a>
-                    <!-- action btn -->
-                	
+				            </a>               	
                   </div>
                   <h5 class="text-dark" ><a href="#!" class="text-inherit">${community.nb_title}</a></h5>
                   <div class="text-small text-dark mb-1">

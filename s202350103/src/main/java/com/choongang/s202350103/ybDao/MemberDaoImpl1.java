@@ -480,7 +480,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		int comMyListTotalCnt = 0;
 		try {
 			comMyListTotalCnt = session.selectOne("ybComListTotalCnt", m_num);
-			System.out.println("MemberDaoImpl1 comListTotalCnt() totalCart -> " + comMyListTotalCnt);
+			System.out.println("MemberDaoImpl1 comListTotalCnt() comListTotalCnt -> " + comMyListTotalCnt);
 		} catch (Exception e) {
 			System.out.println("MemberDaoImpl1 comListTotalCnt() Exception -> " + e.getMessage());
 		}
@@ -559,7 +559,7 @@ public class MemberDaoImpl1 implements MemberDao {
 	}
 	@Override
 	public int commHeartInsert(int cm_num, int m_num) {
-		System.out.println("MemberDaoImpl1 ybBookList() start...");
+		System.out.println("MemberDaoImpl1 commHeartInsert() start...");
 		System.out.println("MemberServiceImpl1 commHeartInsert cm_num -> " + cm_num);
 		System.out.println("MemberServiceImpl1 commHeartInsert m_num -> " + m_num);
 		int commHeartInsert = 0;
@@ -640,7 +640,6 @@ public class MemberDaoImpl1 implements MemberDao {
 	public List<Community> popularList(Community community) {
 		List<Community> popularList = new ArrayList<Community>();
 		System.out.println("MemberDaoImpl1 popularList() start...");
-		System.out.println("MemberDaoImpl1 popularList() cart.m_num -> " +community.getM_num());
 		try {
 			popularList = session.selectList("ybPopularList", community);
 			

@@ -77,11 +77,19 @@
 		</select>
 		
 		<select id="ybPopularList"  resultType="Community">
-			 SELECT  cm.*, nb.nb_title, nb.nb_writer, nb.nb_publisher, m.m_name
-             FROM   community cm, newbook nb, member m
-             WHERE  cm.nb_num = nb.nb_num
-	         AND    m.m_num = cm.m_num
-	         ORDER  by cm_hitCnt
+			 SELECT *
+			FROM
+			(
+					SELECT rownum rn, a.*
+					FROM
+								(SELECT  cm.*, nb.nb_title, nb.nb_writer, nb.nb_publisher, m.m_name
+	                           	 FROM   community cm, newbook nb, member m
+                                 WHERE  cm.nb_num = nb.nb_num
+                                 AND    m.m_num = cm.m_num
+                                 ORDER by cm_hitCnt desc
+	                             )a
+								)
+			WHERE   rn BETWEEN 1 and 3
 		</select>
 		
 		<select id="ybCommunityMyList"  resultType="Community">

@@ -23,8 +23,6 @@
 					data : {m_pw : m_pw},
 					dataType : 'text',
 					success : function(memberPw) {
-						alert(m_pw)
-						alert('memberChkPw -> '+memberPw);
 						if(m_pw == memberPw){
 							$('#msg').html("비밀번호가 일치합니다.");
 							$('#msg').css("color","#0aad0a");
