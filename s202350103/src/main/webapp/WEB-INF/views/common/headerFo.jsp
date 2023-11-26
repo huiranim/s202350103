@@ -524,6 +524,7 @@
                    
                     <li><a class="dropdown-item" href="memberQnaOne?m_num=${member.m_num }">1 : 1 문의</a></li>
                     <li><a class="dropdown-item" href="memberMyOna?m_num=${member.m_num }">내 문의</a></li>
+                    <li><a class="dropdown-item" href="memberMyReply?m_num=${member.m_num }">내 댓글</a></li>
                   
                   </c:if>  
                     

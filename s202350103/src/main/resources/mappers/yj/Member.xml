@@ -411,4 +411,23 @@
 	<delete id="deleteReplyAndMQ" parameterType="int">
 		delete memberq_reply where mq_num = #{mq_num}	
 	</delete>
+	
+	<select id="memberMyReply" parameterType="int" resultType="MemberQ">
+		select * 
+			from memberq_reply mqr
+		join member m
+			on mqr.m_num = m.m_num
+		join memberq mq 
+			on mqr.mq_num = mq.mq_num
+		where mqr.m_num = #{m_num}
+		order by mqr_date desc
+	</select>
+	
+	<update id="myReplyUpdate" parameterType="MemberQ">
+		update memberq_reply 
+		set
+		mqr_content  = #{mqr_content} 
+		where mqr_num = #{mqr_num}
+	</update>
+	
 </mapper>

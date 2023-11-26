@@ -43,6 +43,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOna");						// 내 질문
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberPointList");					// 내 포인트 이력
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/myMqDelete");						// 내 문의 삭제
+		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyReply");						// 내 댓글
 		
 		// 로그인 후 관리자 권한 InterCeptor (비관리자 접근 막을 페이지)
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/mainBo");				// 관리자 메인

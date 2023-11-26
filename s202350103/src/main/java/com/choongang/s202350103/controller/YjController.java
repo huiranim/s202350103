@@ -1077,6 +1077,9 @@ public class YjController {
 		  int replyInsert = ms.replyInsert(reply);
 		  
 		  model.addAttribute("replyInsert",replyInsert);
+  			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
 		  
 		  return "redirect:/memberQInfo?mq_num="+mq_num;
 	  }
@@ -1084,7 +1087,8 @@ public class YjController {
 	  // 문의 답변 추천
 	  @ResponseBody
 	  @PostMapping("/likeReply")
-	  public Map<String, Object> likeReply(@RequestParam("mqr_num") Long mqr_num) {
+	  public Map<String, Object> likeReply(@RequestParam("mqr_num") Long mqr_num
+			  								) {
 		Map<String, Object> response = new HashMap<>();  	
 
 		try {
@@ -1151,5 +1155,43 @@ public class YjController {
 		  return declReplyCount;
 	  }
 	  
+	  // 내가 작성한 답글
+	  @GetMapping("/memberMyReply")
+	  public String memberMyReply(@RequestParam int m_num, Model model) {
+		  
+		  List<MemberQ> memberMyReply = ms.memberMyReply(m_num);
+		  model.addAttribute("memberMyReply",memberMyReply);
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+		  
+		  return "yj/memberMyReply";
+	  }
+	  // 내 답글 수정
+	  @PostMapping("/myReplyUpdate")
+	  public String myReplyUpdate(String mqr_content ,
+			  				      @RequestParam int m_num,
+								  @ModelAttribute MemberQ memberq ,
+								  Model model) {
+		  
+		  memberq.setMqr_content(mqr_content + " (수정)");
+		  System.out.println(memberq.getMqr_content());
+		  
+		  int myReplyUpdate = ms.myReplyUpdate(memberq);
+
+		  // 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			model.addAttribute("recentBookList", recentBookList);
+
+		  return "redirect:/memberMyReply?m_num="+m_num;
+	  }
 	  
+	  // 내 댓글 삭제 
+	  @PostMapping("/myReplyDelete")
+	  public String myReplyDelete(@RequestParam int mqr_num, @RequestParam int m_num) {
+		  ms.deleteReply(mqr_num);
+		  return "redirect:/memberMyReply?m_num="+m_num;
+	  }
+
+
 }

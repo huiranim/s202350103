@@ -94,6 +94,10 @@ public interface MemberService {
 	int declReplyCount();
 	// 문의 글에 달린 댓글삭제
 	void deleteReplyAndMQ(int mq_num);
+	// 내가 작성한 답글
+	List<MemberQ> memberMyReply(int m_num);
+	// 내 답글 수정
+	int myReplyUpdate(MemberQ memberq);
 	
 	
 

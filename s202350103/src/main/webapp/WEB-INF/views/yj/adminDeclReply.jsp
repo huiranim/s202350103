@@ -56,8 +56,9 @@
 		<div class="col-lg-12">
 			  <div class="mb-8">
           <p class="fs-1 mb-3"><strong>신고 답글</strong></p>
-          <p class="fs-5 mb-3"><strong>${declReplyCount }건의 신고 접수 답글</strong></p>
-			
+          <p class="fs-6 mb-3"><strong>${declReplyCount }건의 신고 접수 답글</strong></p>
+			   <span class="text-danger">*</span> 누적 신고 15 회 이상 시 자동 삭제 됩니다
+			      <span class="text-danger">*</span>
       </div>
 			<div>
 
