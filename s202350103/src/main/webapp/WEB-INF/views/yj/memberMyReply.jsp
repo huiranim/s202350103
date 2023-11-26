@@ -41,9 +41,14 @@
             <div class="card card-product mb-4">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
-                        <h6>${reply.mqr_content}</h6>
+                    <div class="mb-3">
+                      <c:if test="${member.m_admin == 0 }">
+                        	<span style="color: green;">추천 수 
                         <i class="bi bi-hand-thumbs-up-fill" style="color: green;"></i>
-                        <span style="color: green;">${reply.mqr_recomen}</span> 
+                        ${reply.mqr_recomen}</span> 
+                      </c:if>
+                    </div>
+                     <p class="fs-5">${reply.mqr_content}</p>
                     </div>
 
                     <div class="dropdown">
@@ -110,7 +115,7 @@
                     
                     
                 </div>
-                <hr>
+                <hr style="border: dashed;">
                 <div class="card-body">
                 	<a href="memberQInfo?mq_num=${reply.mq_num }" class="link-info">${reply.mq_title }</a> 에 남긴 댓글
                 
