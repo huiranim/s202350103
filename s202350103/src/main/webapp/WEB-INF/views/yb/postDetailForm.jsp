@@ -29,6 +29,12 @@
 		background: #f0f3f2;
 		border-radius: 10px;
 	}
+	#container {
+		background-color: rgb(255, 255, 255);
+		border-radius: 10px;
+	    box-shadow: 0 5px 5px 0 rgba(34, 36, 38, 0.3);
+	    padding: 10px;
+	}
 </style>
 <script type="text/javascript">
 	function openUpdate(cm_num) {
@@ -63,11 +69,12 @@
 <%@ include file="../common/headerFo.jsp" %>
 <body>
 <main>
+<div id="container">
   <section class="mt-8">
     <div class="container align-items-center">
-      <div class="row" style="padding-left: 120px;">
+      <div class="row" style="padding-left: 20px;">
 
-        <div class="col-md-5" style="width: 25rem;">
+        <div class="col-md-5" style="width: 30rem;">
           <!-- img slide -->
           <div class="product" id="product" >
             <div class="" onmousemove="zoom(event)"
@@ -77,29 +84,31 @@
               <c:set var="cm_image" value="${community.cm_image }"/>
               <c:choose>
            		<c:when test="${fn:contains(cm_image, 'http')}">
-           			<img src="${community.cm_image }" alt="도서 썸네일">
+           			<a href="newbookDetail?nb_num=${community.nb_num }"><img src="${community.cm_image }" alt="도서 썸네일"  height="650px;"></a>
            		</c:when>
            		<c:otherwise>
-           			<img src="${pageContext.request.contextPath}/upload/${community.cm_image}" alt="도서 썸네일">
+           			<a href="newbookDetail?nb_num=${community.nb_num }"><img src="${pageContext.request.contextPath}/upload/${community.cm_image}" alt="도서 썸네일"  height="650px"></a>
            		</c:otherwise>
 		 	  </c:choose>
             </div>
-
-            <div>
-              <div class="" onmousemove="zoom(event)"
-                style="background-image: url()">
-                <!-- img -->
-               	<c:set var="cm_image" value="${community.cm_image }"/>
-              	<c:choose>
+			<c:if test="${community.cm_image1 != null }">
+	           <div>
+	             <div class="" onmousemove="zoom(event)"
+	               style="background-image: url()">
+	               <!-- img -->
+	              	<c:set var="cm_image" value="${community.cm_image }"/>
+	             	<c:choose>
 	           		<c:when test="${fn:contains(cm_image1, 'http')}">
-	           			<img src="${community.cm_image1 }" alt="도서 썸네일">
+	           			<img src="${community.cm_image1 }" alt="도서 썸네일" height="650px;">
 	           		</c:when>
 	           		<c:otherwise>
-	           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image1}" alt="도서 썸네일">
+	           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image1}" alt="도서 썸네일" height="650px;">
 	           		</c:otherwise>
 		 	    </c:choose>
-              </div>
-            </div>
+	             </div>
+	           </div>
+            </c:if>
+            <c:if test="${community.cm_image2 != null }">
             <div>
               <div class="" onmousemove="zoom(event)"
                 style="background-image: url()">
@@ -107,19 +116,20 @@
                	<c:set var="cm_image" value="${community.cm_image }"/>
               	<c:choose>
 	           		<c:when test="${fn:contains(cm_image2, 'http')}">
-	           			<img src="${community.cm_image2 }" alt="도서 썸네일">
+	           			<img src="${community.cm_image2 }" alt="도서 썸네일" height="650px;">
 	           		</c:when>
 	           		<c:otherwise>
-	           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="도서 썸네일">
+	           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="도서 썸네일"  height="650px;">
 	           		</c:otherwise>
 		 	    </c:choose>
               </div>
             </div>
+            </c:if>
             <div>
               <div class="" onmousemove="zoom(event)"
                 style="background-image: url()">
                 <!-- img -->
-                <img src="../assets/images/products/product-single-img-4.jpg" alt="">
+                <img src="" alt="">
               </div>
             </div>
           </div>
@@ -132,10 +142,10 @@
                   <c:set var="cm_image" value="${community.cm_image }"/>
                   <c:choose>
                		<c:when test="${fn:contains(cm_image, 'http')}">
-               			<img src="${community.cm_image }" alt="도서 썸네일" ">
+               			<img src="${community.cm_image }" alt="도서 썸네일" height="111.625px">
                		</c:when>
                		<c:otherwise>
-               			<img src="${pageContext.request.contextPath}/upload/${community.cm_image}" alt="도서 썸네일">
+               			<img src="${pageContext.request.contextPath}/upload/${community.cm_image}" alt="도서 썸네일" height="111.625px">
                		</c:otherwise>
 				  </c:choose>
                 </div>
@@ -147,10 +157,10 @@
                   <c:set var="cm_image" value="${community.cm_image }"/>
               	  <c:choose>
 	           		<c:when test="${fn:contains(cm_image1, 'http')}">
-	           			<img src="${community.cm_image1 }" alt="도서 썸네일" " height="111.625px">
+	           			<img src="${community.cm_image1 }" alt="도서 썸네일" height="111.625px">
 	           		</c:when>
 	           		<c:otherwise>
-	           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image1}" alt="도서 썸네일" height="111.625px">
+	           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image1}" alt=" " height="111.625px">
 	           		</c:otherwise>
 		 	      </c:choose>
                 </div>
@@ -163,10 +173,10 @@
                   <c:set var="cm_image" value="${community.cm_image }"/>
               	  <c:choose>
 	           		<c:when test="${fn:contains(cm_image2, 'http')}">
-	           			<img src="${community.cm_image2 }" alt="도서 썸네일" ">
+	           			<img src="${community.cm_image2 }" alt="도서 썸네일" height="111.625px">
 	           		</c:when>
 	           		<c:otherwise>
-	           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="도서 썸네일" height="111.625px">
+	           			<img src="${pageContext.request.contextPath}/upload/yb/${community.cm_image2}" alt="" height="111.625px">
 	           		</c:otherwise>
 		 	      </c:choose>
                 </div>
@@ -181,8 +191,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 pt-12" id="div1" style="margin-left: 90px; width: 35rem; height: auto">
-          <div class="ps-lg-10 mt-6 mt-md-0">
+        <div class="col-md-6 pt-12" id="div1" style="margin-left: 30px; width: 43rem; height: auto">
+          <div class="ps-lg-5 mt-6 mt-md-0">
           	조회수 : ${community.cm_readCnt }
             <!-- heading -->
             <h1 class="mb-1 d-block">${community.nb_title } </h1>
@@ -211,29 +221,22 @@
                   <tr>
                     <th>글 제목:</th>
                     <td>${community.cm_title }</td>
-
                   </tr>
                   <tr>
                     <th>작성자:</th>
                     <td>${community.m_name }</td>
-
                   </tr>
                   <tr>
                     <th>내용:</th>
                     <td></td>
-
                   </tr>
                   <tr>
-                    <td colspan="2">${community.cm_content }</td>
-                    
-
+                    <td colspan="2" style="word-break:break-all">${community.cm_content }</td>                   
                   </tr>
                   <tr>
                     <th>등록일:</th>
-                    <td><small><fmt:formatDate value="${community.cm_regDate}" pattern="yyyy년MM월dd일"/></span></small></td>
+                    <td><fmt:formatDate value="${community.cm_regDate}" pattern="yyyy년MM월dd일"/></td>
                   </tr>
-
-
                 </tbody>
               </table>
 			<input type="hidden" name="cm_num" value="${community.cm_num }" id="cm_num">	
@@ -264,14 +267,16 @@
         </div>
       </div>
     </div>
+    <div class="d-grid gap-2 mt-10 d-md-flex justify-content-center">
+		 <button class="btn btn-soft-primary mb-2" type="button" 
+			 	 onclick="location.href='memberCommunity'">목록 이동</button>
+	</div>
     </div>
   </section>
+</div>
   <!-- section -->
   
-  <div class="d-grid gap-2 mt-10 d-md-flex justify-content-center">
-	  <button class="btn btn-soft-primary mb-2" type="button" 
-	  		onclick="location.href='memberCommunity'">목록 이동</button>
-   </div>
+  
    <hr class="my-6">
   <section class="my-lg-14 my-14">
     <div class="container">
@@ -279,7 +284,7 @@
       <div class="row">
         <div class="col-12">
           <!-- heading -->
-          <h3>관련 게시물들</h3>
+          <h3>관련 독후감들</h3>
         </div>
       </div>
       <!-- row -->
@@ -442,111 +447,7 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="ps-lg-8 mt-6 mt-lg-0">
-              <a href="#!" class="mb-4 d-block">Bakery Biscuits</a>
-              <h2 class="mb-1 h1">${community.cm_num }</h2>
-              <div class="mb-4">
-                <small class="text-warning">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-half"></i></small
-                ><a href="#" class="ms-2">(30 reviews)</a>
-              </div>
-              <div class="fs-4">
-                <span class="fw-bold text-dark">$32</span>
-                <span class="text-decoration-line-through text-muted">$35</span
-                ><span
-                  ><small class="fs-6 ms-2 text-danger">26% Off</small></span
-                >
-              </div>
-              <hr class="my-6">
-              <div class="mb-4">
-                <button type="button" class="btn btn-outline-secondary">
-                  250g
-                </button>
-                <button type="button" class="btn btn-outline-secondary">
-                  500g
-                </button>
-                <button type="button" class="btn btn-outline-secondary">
-                  1kg
-                </button>
-              </div>
-              <div>
-                <!-- input -->
-                <!-- input -->
-                <div class="input-group input-spinner  ">
-                  <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity">
-                  <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input   ">
-                  <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity">
-                </div>
-              </div>
-              <div
-                class="mt-3 row justify-content-start g-2 align-items-center"
-              >
-
-                <div class="col-lg-4 col-md-5 col-6 d-grid">
-                  <!-- button -->
-                  <!-- btn -->
-                  <button type="button" class="btn btn-primary">
-                    <i class="feather-icon icon-shopping-bag me-2"></i>Add to
-                    cart
-                  </button>
-                </div>
-                <div class="col-md-4 col-5">
-                  <!-- btn -->
-                  <a
-                    class="btn btn-light"
-                    href="#"
-                    data-bs-toggle="tooltip"
-                    data-bs-html="true"
-                    aria-label="Compare"
-                    ><i class="bi bi-arrow-left-right"></i
-                  ></a>
-                  <a
-                    class="btn btn-light"
-                    href="#!"
-                    data-bs-toggle="tooltip"
-                    data-bs-html="true"
-                    aria-label="Wishlist"
-                    ><i class="feather-icon icon-heart"></i
-                  ></a>
-                </div>
-              </div>
-              <hr class="my-6">
-              <div>
-                <table class="table table-borderless">
-                  <tbody>
-                    <tr>
-                      <td>Product Code:</td>
-                      <td>FBB00255</td>
-                    </tr>
-                    <tr>
-                      <td>Availability:</td>
-                      <td>In Stock</td>
-                    </tr>
-                    <tr>
-                      <td>Type:</td>
-                      <td>Fruits</td>
-                    </tr>
-                    <tr>
-                      <td>Shipping:</td>
-                      <td>
-                        <small
-                          >01 day shipping.<span class="text-muted"
-                            >( Free pickup today)</span
-                          ></small
-                        >
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+          </div>        
         </div>
       </div>
     </div>

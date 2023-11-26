@@ -29,7 +29,7 @@
 			      	</div>
 		          <div>
 		            <!-- table -->
-		            <div class="table-responsive">
+		            <div class="">
 		              <table class="table text-nowrap table-with-checkbox">
 		              
 		                <thead class="table-light">
