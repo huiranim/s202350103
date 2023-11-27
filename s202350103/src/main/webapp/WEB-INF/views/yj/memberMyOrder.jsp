@@ -198,11 +198,11 @@ function cart(pNb_num) {
 			                    </button><p>
 			                    
 			                    	<c:if test="${firstOrder.o_status == 3 }">
-	                            		<a href="reviewForm?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-2">리뷰작성</a>
+	                            		<a href="reviewForm?o_order_num=${order.o_order_num}&nb_num=${order.nb_num}"  class="btn btn-soft-success mt-2">리뷰작성</a>
 			                    	</c:if>
 
 			                    	<c:if test="${firstOrder.o_status == 4 }">
-	                            		<a href="reviewForm?o_order_num=${order.o_order_num}"  class="btn btn-soft-success mt-2">리뷰작성</a>
+	                            		<a href="reviewForm?o_order_num=${order.o_order_num}&nb_num=${order.nb_num}"  class="btn btn-soft-success mt-2">리뷰작성</a>
 			                    	</c:if>
 
 								

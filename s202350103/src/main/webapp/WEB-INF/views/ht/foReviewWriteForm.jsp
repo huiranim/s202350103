@@ -81,7 +81,7 @@
 	         placeholder="솔직한 사용후기를 작성해주세요!"></textarea>
 	   </div>
 	   <!-- button -->
-	   <div class="d-flex justify-content-end">
+	   <div class="d-flex justify-content-left">
 	      <input type="submit" class="btn btn-primary" value="리뷰 저장">
 	   </div>
 	   <input type="hidden" name="nb_num" value="${review.nb_num}">

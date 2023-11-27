@@ -124,24 +124,31 @@
 		        )
 	 </select>
 	 
+	 
+	 
 	 <select id="htMyReviewedList" parameterType="Review" resultType="Review">
 		SELECT *
 		FROM
 		( 
-			SELECT rownum rn, r.*, n.nb_title, n.nb_image, od.o_de_count, o.o_order_date
-			FROM   review        r,
-			       orderr        o,
-			       newbook       n,
-			       order_detail  od
-			WHERE  r.o_order_num = o.o_order_num
-			AND    o.o_order_num = od.o_order_num
-			AND    r.nb_num      = n.nb_num
-			AND    o.o_order_num IN (SELECT oo.o_order_num
-			                         FROM   orderr oo
-			                         WHERE  oo.m_num = #{m_num})
-			order by r.r_create_date DESC
-		    )a
-		WHERE rn BETWEEN #{start} and #{end}
+			SELECT rownum rn, a.*
+            FROM
+              (
+                SELECT  r.*, o.o_order_date, n.nb_title, n.nb_image, od.o_de_count
+                FROM    review        r
+                       , orderr        o
+                       , newbook       n
+                       , order_detail  od
+    
+                WHERE  r.o_order_num = o.o_order_num
+                and    o.m_num       =  #{m_num}
+                AND    r.nb_num      = n.nb_num
+                AND    r.o_order_num = od.o_order_num
+                AND    r.nb_num = od.nb_num
+                order by r_create_date DESC
+              ) a
+			
+		   )
+		 WHERE rn BETWEEN #{start} and #{end}
 	 </select>
 	 
 	 <select id="htMyReviewedCnt" parameterType="Review" resultType="int">
@@ -151,12 +158,10 @@
 			       newbook       n,
 			       order_detail  od
 			WHERE  r.o_order_num = o.o_order_num
-			AND    o.o_order_num = od.o_order_num
-			AND    r.nb_num      = n.nb_num
-			AND    o.o_order_num IN (SELECT oo.o_order_num
-			                         FROM   orderr oo
-			                         WHERE  oo.m_num = #{m_num})
-			order by o_order_date
+            and    o.m_num       = #{m_num}
+   			AND    r.nb_num      = n.nb_num
+ 			AND    r.o_order_num = od.o_order_num
+			AND    r.nb_num = od.nb_num
 	 </select>
 	 
 	 <select id="htWritedReview" parameterType="Review" resultType="Review">
