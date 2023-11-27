@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Insert title here</title>
 <!-- 다음  주소 API -->
 <script
@@ -226,18 +227,18 @@ function valiForm() {
 								
 						<c:choose>
    							 <c:when test="${member.m_image == basick}">
-									<span class="rounded-circle border border-primary ">
+									<span class="rounded-circle border border-success ">
 										<a onclick="memberImageSelect();">
-											<img id="memberImage" src="../assets/images/memberImage/basick.jpg" width="160px" height="160px" alt="회원이미지" class="rounded-circle">
+											<img id="memberImage" src="../assets/images/memberImage/basick.jpg" width="120px" height="120px" alt="회원이미지" class="rounded-circle">
 										</a>
 									</span>
 								</c:when>
 								
 																
   								<c:otherwise>
-									<span class="rounded-circle border border-primary">
+									<span class="rounded-circle border border-success">
 										<a onclick="memberImageSelect();">
-											<img id="memberImage" src="${member.m_image }" width="160px" height="160px" alt="회원이미지" class="rounded-circle">
+											<img id="memberImage" src="${member.m_image }" width="120px" height="120px" alt="회원이미지" class="rounded-circle">
 										</a>
 									</span>
 								</c:otherwise>
@@ -251,10 +252,13 @@ function valiForm() {
 					
 					<div class="col-lg-4">
 						<div class="input-group mb-8">
-							아이디 &nbsp;&nbsp; 
+							<span style="font-weight: bold; ">아이디</span> &nbsp;&nbsp; 
+							<div  style="padding-left: 20px;">
+							</div>							
 							<input type="text" class="form-control"
 								id="m_id" name="m_id" 
-								 value="${member.m_id }" disabled="disabled">
+								 value="${member.m_id }" disabled="disabled" style="border-radius: 10px;">
+
 						</div>
 					</div>
 
@@ -262,10 +266,12 @@ function valiForm() {
 
 					<div class="col-lg-4">
 						<div class="input-group mb-8 ">
-							이름 &nbsp;&nbsp;&nbsp; 
+							<span style="font-weight: bold;">이름</span> &nbsp;&nbsp;&nbsp; 
+							<div  style="padding-left: 33px;">
+							</div>	
 							<input type="text" class="form-control"
 								id="m_name" name="m_name" 
-								 value="${member.m_name }" disabled="disabled">
+								 value="${member.m_name }" disabled="disabled" style="border-radius: 10px;">
 							<p>
 						</div>
 					</div>
@@ -273,14 +279,15 @@ function valiForm() {
 
 					<div class="col-lg-11">
 						<div class="input-group mb-8">
-							이메일 &nbsp;&nbsp; 
-								
-								<input type="text" class="form-control" id="m_email1" name="m_email1"
+							<span style="font-weight: bold;">이메일</span> &nbsp;&nbsp; 
+							<div  style="padding-left: 20px;">
+							</div>	
+								<input type="text" class="form-control rounded-start" id="m_email1" name="m_email1"
 								 required="required" value="${splitEmail[0] }"> 
 								
 								<span class="input-group-text" style="background: #dfe2e1;">@</span> 
 								
-								<input type="text" class="form-control" id="m_email2" name="m_email2"
+								<input type="text" class="form-control rounded-end" id="m_email2" name="m_email2"
 								required="required" value="${splitEmail[1] }"> &nbsp;
 							
 							<div class="col-lg-3">
@@ -309,60 +316,73 @@ function valiForm() {
 
 					<div class="col-lg-7">
 						<div class="input-group mb-8">
-							휴대전화 &nbsp;&nbsp; 
-							
+							<span style="font-weight: bold;">휴대전화</span> &nbsp;&nbsp; 
+							<div  style="padding-left: 2px;">
+							</div>	
 							<input type="text" class="form-control"
 								size="10" maxlength="3" id="m_ph1" name="m_ph1"
-								required="required" value="${splitPh[0]}">  
+								required="required" value="${splitPh[0]}" style="border-radius: 10px;">  
 							&nbsp;&nbsp;
 							  -
 							&nbsp;&nbsp; 
 							<input type="text" class="form-control" size="4"
 								maxlength="4" id="m_ph2" name="m_ph2" 
-								required="required" value="${splitPh[1]}">
+								required="required" value="${splitPh[1]}" style="border-radius: 10px;">
 							&nbsp;&nbsp;
 							  - 
 							&nbsp;&nbsp; 
 							<input type="text" class="form-control" size="4"
 								maxlength="4" id="m_ph3" name="m_ph3" 
-								required="required" value="${splitPh[2] }">
+								required="required" value="${splitPh[2] }" style="border-radius: 10px;">
 						</div>
 					</div>
 
 
 					<div class="col-lg-13">
 						<div class="input-group mb-2">
-							주소 &nbsp;&nbsp; <input type="text" class="form-control"
+							<span style="font-weight: bold;">주소 </span>&nbsp;&nbsp; 
+							<div  style="padding-left: 40px;">
+							</div>	
+							
+							<input type="text" class="form-control rounded-start"
 								name="m_addr1" id="sample6_postcode"
 								required="required"
-								readonly="readonly" value="${splitAddr[0] }">
-							<div class="col-lg-3">
-								<input type="button" class="form-control"
+								readonly="readonly" value="${splitAddr[0] }" >
+							<div class="col-lg-3" style="padding-right: 70px;">
+								<input type="button" class="form-control rounded-end"
 									onclick="sample6_execDaumPostcode()" value="주소 변경"
 									style="background: #d1e7dd;">
 							</div>
 						</div>
 
 						<div class="input-group mb-2 ">
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
-								type="text" class="form-control" name="m_addr2"
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+							<div  style="padding-left: 35px;">
+							</div>	
+							<input type="text" class="form-control" name="m_addr2"
 								id="sample6_address" placeholder="주소" required="required"
-								readonly="readonly" value="${splitAddr[1] }">
+								readonly="readonly" value="${splitAddr[1] }" style="border-radius: 10px;">
+								
 						</div>
 
 						<div class="input-group mb-3 ">
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
-								type="text" class="form-control" id="sample6_extraAddress"
-								placeholder="참고항목 입니다" readonly="readonly">
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<div  style="padding-left: 35px;">
+							</div>	
+							<input type="text" class="form-control" id="sample6_extraAddress"
+								placeholder="참고항목 입니다" readonly="readonly" style="border-radius: 10px;">
+						</div>	
 							<p>
-						</div>
 
 
 						<div class="col-lg-15">
 							<div class="input-group mb-10 ">
-								상세주소입력 &nbsp;&nbsp; <input type="text" class="form-control"
+								<span style="font-weight: bold;">상세주소 </span>&nbsp;&nbsp; 
+							<div  style="padding-left: 2px;">
+							</div>	
+								<input type="text" class="form-control"
 									name="m_addr" id="sample6_detailAddress"
-									 required="required" value="${splitAddr[2] }">
+									 required="required" value="${splitAddr[2] }" style="border-radius: 10px;">
 								<p>
 							</div>
 						</div>

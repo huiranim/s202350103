@@ -49,7 +49,7 @@
 		      <td colspan="2">${oldBook.nb_title }</td>
       </tr>
         <tr>
-		      <td>중고매입가격 </td>
+		      <td>중고 판매 예상가</td>
 		      <td colspan="2">	
 		   		<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.ob_pur_price}"/>원     
 		      </td>
@@ -108,7 +108,7 @@
 	       </td>
 	    </tr>
 	    <tr>
-	      <td>정산 가격 </td>
+	      <td>정산 금액 </td>
 	      <td colspan="2"> <fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.ob_pur_price}" />원</td>
 	    </tr>
 	</table>
@@ -124,7 +124,7 @@
 	</div>
 	</form>		
 			 <div class="d-grid gap-2">
-		    <button class="btn btn-success" type="button" onclick="location.href='memberMyPage?m_num=${member.m_num }'">마이페이지 이동</button>
+		    <button class="btn btn-success" type="button" onclick="location.href='memberSellList?m_num=${member.m_num }'">목록 보기</button>
 		</div>
 
 </body>

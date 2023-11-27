@@ -97,6 +97,13 @@ public class MemberServiceImpl1 implements MemberService {
 		int totalSellCnt = md.totalSellCnt(member);
 		return totalSellCnt;
 	}
+	// 상품 총 개수
+	@Override
+	public int bookListCnt(NewBook newbook) {
+		System.out.println("MemberServiceImpl1 bookListCnt start...");
+		int bookListCnt = md.bookListCnt(newbook);
+		return bookListCnt;
+	}
 	// 포인트 리스트 개수
 	@Override
 	public int pointListCnt(PointList pointList) {
@@ -374,6 +381,8 @@ public class MemberServiceImpl1 implements MemberService {
 		List<Community> popularList = md.popularList(community);
 		return popularList;
 	}
+
+	
 
 
 	

@@ -234,7 +234,7 @@ public class SjController {
 		}
 	}
 	
-	@GetMapping(value = "ModalList")
+	@GetMapping(value = "bookList")
 	public String listMoOb(OldBook oldBook, Model model, String currentPage2) {
 		
 		System.out.println("SjController Start modalList ");

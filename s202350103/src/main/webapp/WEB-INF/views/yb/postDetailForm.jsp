@@ -66,6 +66,9 @@
 	 	}
 	}
 	function clickHeart(cm_num, m_num, m_num1) {
+		alert(cm_num)
+		alert(m_num)
+		alert(m_num1)
 		if(${sessionScope.member == null }) {
 			alert("로그인 후 이용해주시기 바랍니다.");
 		} else if(m_num1 == m_num){ 
@@ -264,13 +267,13 @@
 	                <i class="bi bi-pencil" title="수정하기"></i></button>
 	            </c:if>
 	            <c:if test="${member.m_num == community.m_num }">
-	               <button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-trash" title="삭제" onclick="deleteConfirm(cm_num.value)"></i></button>
+	               <button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-trash"  onclick="deleteConfirm(cm_num.value)"></i></button>
 	            </c:if>
 				<c:if test="${commHeart.h_status == 0 || commHeart == null}">
-                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up" title="삭제" onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
+                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up"  onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
                 </c:if>
                 <c:if test="${commHeart.h_status == 1 }">
-                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up-fill" title="삭제" onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
+                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up-fill" onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
                 </c:if>
                 
                 

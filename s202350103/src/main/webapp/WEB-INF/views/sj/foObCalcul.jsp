@@ -83,7 +83,7 @@
                        <span><small class="fs-6 ms-2 text-muted">
                         ${oldBook.nb_writer } 지음 | ${oldBook.nb_publisher } | ${oldBook.nb_publi_date }
                         </small></span>
-                         <p style="font-size: 18px; margin-right: 30px;" class="text-end"> <fmt:formatNumber value="${oldBook.nb_price}" groupingUsed="true"/>원</p>
+                         <p style="font-size: 18px; margin-right: 30px;" class="text-start">가격: <fmt:formatNumber value="${oldBook.nb_price}" groupingUsed="true"/>원</p>
                     </th>
                     </tr>
                     

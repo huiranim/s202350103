@@ -93,7 +93,9 @@ public interface MemberDao {
 
 	int 				updateHitCnt(CommHeart commHeart, Community community);
 
-	List<Community> popularList(Community community);
+	List<Community>	 	popularList(Community community);
+
+	int 				bookListCnt(NewBook newbook);
 
 
 }

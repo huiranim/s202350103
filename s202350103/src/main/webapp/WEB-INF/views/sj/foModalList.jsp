@@ -51,10 +51,31 @@
 
 
 <!-- End Tag -->
-
+<style type="text/css">
+	.top {
+                position: relative;
+                display: flex; 
+                justify-content: space-between;
+                padding: 0.5rem 1.4rem;
+                background-color: #3CB371;
+                vertical-align: middle;
+            }
+            
+     h1.infoTit {
+     				margin-top : 10px;
+                    font-size: 20px; 
+                    color:#ffffff;
+                }
+</style>
 </head>
 <body>
-	<p class="text-center fs-1 ">새상품 도서 내역 </p>
+
+<header class="top">
+			<h1 class="infoTit">
+				
+				도서 상품 목록</h1>
+		</header>
+
  			<c:set var="num" value="${page.totalNb-page.start+1 }"></c:set>	  
 
 <div class="row">
@@ -122,19 +143,19 @@
 		    <ul class="pagination justify-content-center">
 			 	<c:if test="${page.startPage > page.pageBlock }">
 					 <li class="pagination justify-content-center">					
-						<a class="page-link" href="ModalList?currentPage2=${page.startPage-page.pageBlock}">이전</a>
+						<a class="page-link" href="bookList?currentPage2=${page.startPage-page.pageBlock}">이전</a>&nbsp;&nbsp;
 					</li>
 				</c:if>
 				
  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 					 <li class="pagination justify-content-center">
- 						<a class="page-link" href="ModalList?currentPage2=${i}">${i}</a>&nbsp;&nbsp;
+ 						<a class="page-link" href="bookList?currentPage2=${i}">${i}</a>&nbsp;&nbsp;
 					</li>
 				</c:forEach>
 					
 				<c:if test="${page.endPage < page.totalNbPage }">
 					 <li class="pagination justify-content-center">		 
-						<a class="page-link" href="ModalList?currentPage2=${page.startPage+page.pageBlock}">다음</a>
+						<a class="page-link" href="bookList?currentPage2=${page.startPage+page.pageBlock}">다음</a>
 					</li>
 				</c:if>
 		</ul>

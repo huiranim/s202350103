@@ -266,10 +266,10 @@ function valiForm() {
    <form action="memberJoinAction" method="post" id="frm" onsubmit="return valiForm();">
 	 <div class="col-lg-12">
 		<div class="input-group mb-1">
-				아이디 &nbsp;&nbsp;
-			 <input type="text"  class="form-control"  id="m_id" name="m_id" maxlength="13" placeholder="아이디를 입력해주세요" required="required" value="${m_id }">
-			  <button class="btn btn-outline-secondary btn-rounded" type="button" id="button-addon2" onclick="chkId()">중복확인</button> &nbsp;&nbsp;&nbsp;&nbsp;
-
+				<span style="font-weight: bold;">아이디</span> &nbsp;&nbsp;
+				<div style="padding-left: 30px;"></div>
+			 <input type="text"  class="form-control rounded-start"   id="m_id" name="m_id" maxlength="13" placeholder="아이디를 입력해주세요" required="required" value="${m_id }">
+			  <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="chkId()">중복확인</button> &nbsp;&nbsp;&nbsp;&nbsp;
 				<c:if test="${not empty no}">
 					<small class="fs-6" style="color: red;">${no}</small>
 				</c:if>
@@ -278,15 +278,16 @@ function valiForm() {
 					<small class="fs-6" style="color: red;">${ok}</small>
 				</c:if><p>
 		</div>
-	</div>
-		<mark style="font-size: 13px;">* (6자 ~ 12자라의 영문자, 숫자 / @,#,$ 등 특수문자는 제외)</mark><p>
+	</div> <span class="text-danger">*</span>
+		<mark style="font-size: 13px;">(6자 ~ 12자라의 영문자, 숫자 / @,#,$ 등 특수문자는 제외)</mark><p>
 
 
 
  	<div class="col-lg-6">
 		<div class="input-group mb-5 ">
-				이름 &nbsp;&nbsp;
-		 <input type="text" class="form-control" id="m_name" name="m_name" placeholder="이름을 입력해주세요." required="required"><p>
+				<span style="font-weight: bold;">이름 </span>&nbsp;&nbsp;
+					<div style="padding-left: 48px;"></div>
+		 <input type="text" class="form-control rounded" id="m_name" name="m_name" placeholder="이름을 입력해주세요." required="required"><p>
 
 		</div>
 	</div>
@@ -294,10 +295,11 @@ function valiForm() {
 		
 	<div class="col-lg-11">
 	    <div class="input-group mb-5">
-	        이메일 &nbsp;&nbsp;
-	        <input type="text" class="form-control" id="m_email1" name="m_email1" required="required">
+	        <span style="font-weight: bold;">이메일</span> &nbsp;&nbsp;
+	        	<div style="padding-left: 30px;"></div>
+	        <input type="text" class="form-control rounded-start" id="m_email1" name="m_email1" required="required">
 	        <span class="input-group-text" style="background: #dfe2e1;">@</span>
-	        <input type="text" class="form-control" id="m_email2" name="m_email2" required="required">
+	        <input type="text" class="form-control rounded-end" id="m_email2" name="m_email2" required="required">
 	        &nbsp;
 	        <div class="col-lg-3">
 	            <select  class="form-select" id="emailSelect" onchange="emailOptionChange();">
@@ -316,76 +318,84 @@ function valiForm() {
 	
 	<div class="col-lg-6">
 		<div class="input-group mb-1 ">
-				비밀번호 &nbsp;&nbsp;
-		<input type="password" class="form-control" id="m_pw" name="m_pw" placeholder="비밀번호를 입력해주세요"  required="required"><p>
+				<span style="font-weight: bold;">비밀번호</span> &nbsp;&nbsp;
+					<div style="padding-left: 10px;"></div>
+		<input type="password" class="form-control rounded" id="m_pw" name="m_pw" placeholder="비밀번호를 입력해주세요"  required="required"><p>
 
 		</div>
-	</div>	
-	<mark style="font-size: 13px;">* 영문,숫자,특수문자 조합하여 8자~20자리</mark><p>
+	</div>	 <span class="text-danger">*</span>
+	<mark style="font-size: 13px;">영문,숫자,특수문자 조합하여 8자~20자리</mark><p>
 		
 		
 	<div class="col-lg-8">
 		<div class="input-group mb-5 ">
-				비밀번호 재입력  &nbsp;&nbsp;
-		 <input type="password" class="form-control" id="pw_ck" placeholder="비밀번호를  다시 입력해 주세요"  required="required"><p>
+				<span style="font-weight: bold;">비밀번호 재입력</span>  &nbsp;&nbsp;
+				<div style="padding-left: 5px;"></div>
+		 <input type="password" class="form-control rounded" id="pw_ck" placeholder="비밀번호를  다시 입력해 주세요"  required="required"><p>
 		</div>
 	</div>	
 		
 
 	 <div class="col-lg-7">
 		<div class="input-group mb-5 ">
-				휴대전화 &nbsp;&nbsp;
-		<input type="text" class="form-control" size="3" maxlength="3" id="m_ph1" name="m_ph1" required="required" value="010"> &nbsp;&nbsp;
+				<span style="font-weight: bold;">휴대전화</span> &nbsp;&nbsp;
+				<div style="padding-left: 10px;"></div>
+		<input type="text" class="form-control rounded-start" size="3" maxlength="3" id="m_ph1" name="m_ph1" required="required" value="010"> &nbsp;&nbsp;
 		-  &nbsp;&nbsp; <input type="text" class="form-control" size="4" maxlength="4" id="m_ph2" name="m_ph2" required="required">&nbsp;&nbsp;
-		-  &nbsp;&nbsp; <input type="text" class="form-control" size="4" maxlength="4" id="m_ph3" name="m_ph3" required="required">
+		-  &nbsp;&nbsp; <input type="text" class="form-control rounded-end" size="4" maxlength="4" id="m_ph3" name="m_ph3" required="required">
 		</div>
 	</div>		
 	
 	
 	<div class="col-lg-10">
 	  <div class="input-group mb-1">
-			    생년월일 &nbsp;&nbsp;
-	    <input type="text" class="form-control" id="m_birth" name="m_birth" maxlength="6" placeholder="ex) 201001"> &nbsp;&nbsp; 
+			<span style="font-weight: bold;">생년월일</span> &nbsp;&nbsp;
+			    	<div style="padding-left: 10px;"></div>
+	    <input type="text" class="form-control rounded" id="m_birth" name="m_birth" maxlength="6" placeholder="ex) 201001"> &nbsp;&nbsp; 
 	    -  &nbsp;&nbsp; 
 	    	<div class="col-lg-7 d-flex align-items-center">
-		      <input type="text" class="form-control" id="m_birth1" name="m_birth1"  maxlength="1">
-		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
-		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
-		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
-		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
-		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
-		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6">
+		      <input type="text" class="form-control" id="m_birth1" name="m_birth1"  maxlength="1" >
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6; ">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6; ">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6; ">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6; ">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6; ">
+		      <input type="text" class="form-control" disabled="disabled" style="background: #c1c7c6; ">
 
 	    	</div>
 	  </div>
-	</div>
-		<mark style="font-size: 13px;">* 생년월일 6 자리와 앞 1 자리 를 입력하세요</mark><p>
+	</div> <span class="text-danger">*</span>
+		<mark style="font-size: 13px;">생년월일 6 자리와 앞 1 자리 를 입력하세요</mark><p>
 	
 	
 	<div class="col-lg-8">
 		<div class="input-group mb-2 ">
-				주소  &nbsp;&nbsp;
-			<input type="text" class="form-control"  name="m_addr1" id="sample6_postcode" placeholder="주소검색 버튼을 이용해주세요" required="required" readonly="readonly" >
+				<span style="font-weight: bold;">주소</span>  &nbsp;&nbsp;
+				<div style="padding-left: 48px;"></div>
+			<input type="text" class="form-control rounded-start"  name="m_addr1" id="sample6_postcode" placeholder="주소검색 버튼을 이용해주세요" required="required" readonly="readonly" >
 				<div class="col-lg-3">
-					<input type="button" class="form-control"  onclick="sample6_execDaumPostcode()" value="주소 검색" style="background: #d1e7dd;">
+					<input type="button" class="form-control rounded-end"  onclick="sample6_execDaumPostcode()" value="주소 검색" style="background: #d1e7dd;">
 				</div>
 		</div>
 		
 		<div class="input-group mb-2 ">
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="text" class="form-control"  name="m_addr2" id="sample6_address" placeholder="주소" required="required" readonly="readonly">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<div style="padding-left: 48px;"></div>
+			<input type="text" class="form-control rounded"  name="m_addr2" id="sample6_address" placeholder="주소" required="required" readonly="readonly">
 		</div>	
 		
 		<div class="input-group mb-5 ">
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목"  readonly="readonly"><p>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<div style="padding-left: 48px;"></div>
+			<input type="text" class="form-control rounded" id="sample6_extraAddress" placeholder="참고항목"  readonly="readonly"><p>
 		</div>	
 		
 		
 	<div class="col-lg-15">
 		<div class="input-group mb-5 ">
-				상세주소입력  &nbsp;&nbsp;
-		 <input type="text" class="form-control"  name="m_addr" id="sample6_detailAddress" placeholder="상세주소를 입력해주세요"  required="required"><p>
+				<span style="font-weight: bold;">상세주소</span>  &nbsp;&nbsp;
+				<div style="padding-left: 10px;"></div>
+		 <input type="text" class="form-control rounded"  name="m_addr" id="sample6_detailAddress" placeholder="상세주소를 입력해주세요"  required="required"><p>
 		</div>
 	</div>	
 		
@@ -393,11 +403,12 @@ function valiForm() {
 		
 	<div class="col-lg-10">
 		<div class="input-group mb-1 ">
-				추천인  &nbsp;&nbsp;
-		 <input type="text" class="form-control" id="m_reid" name="m_reid" placeholder="추천인 아이디를 입력해주세요 : 선택 "><p>
+				<span style="font-weight: bold;">추천인</span>  &nbsp;
+				<div style="padding-left: 30px;"></div>
+		 <input type="text" class="form-control rounded" id="m_reid" name="m_reid" placeholder="추천인 아이디를 입력해주세요 : 선택 "><p>
 		</div>
-	</div>	
-	<mark style="font-size: 13px;">* 선택 사항입니다</mark><p><p>
+	</div>	 <span class="text-danger">*</span>
+	<mark style="font-size: 13px;">선택 사항입니다</mark><p><p>
 	
 </div>
 <hr>

@@ -37,6 +37,10 @@
 				WHERE rn BETWEEN #{start} and #{end}
 		</select>
 		
+		<select id="ybBookListCnt" parameterType="NewBook" resultType="int">
+				select count(*) from newbook
+		</select>
+		
 		<select id="ybSearchBookCnt" parameterType="NewBook" resultType="int">
 
 						select count(*) from newbook
@@ -48,9 +52,9 @@
 							<when test="search_type == 'nb_writer'">
 								WHERE nb_writer Like '%' || #{search_keyword} || '%'
 							</when>
-							<otherwise>
-								WHERE nb_publisher like '%'
-							</otherwise>
+							<when test="search_type == 'nb_publisher'">
+								WHERE nb_publisher like '%' || #{search_keyword} || '%'
+							</when>
 						</choose>
 		</select>
 		

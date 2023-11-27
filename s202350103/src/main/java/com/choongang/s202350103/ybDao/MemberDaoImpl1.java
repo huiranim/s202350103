@@ -86,7 +86,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		}
 		return pointListCnt;
 	}
-	
+	// 커뮤니티 총 개수
 	@Override
 	public int comListTotalCnt(Community community) {
 		System.out.println("MemberDaoImpl1 comListTotalCnt() start...");
@@ -98,6 +98,19 @@ public class MemberDaoImpl1 implements MemberDao {
 			System.out.println("MemberDaoImpl1 comListTotalCnt() Exception -> " + e.getMessage());
 		}
 		return comListTotalCnt;
+	}
+	// 상품 총 개수
+	@Override
+	public int bookListCnt(NewBook newbook) {
+		System.out.println("MemberDaoImpl1 bookListCnt() start...");
+		int bookListCnt = 0;
+		try {
+			bookListCnt = session.selectOne("ybBookListCnt", bookListCnt);
+			System.out.println("MemberDaoImpl1 bookListCnt() totalCart -> " + bookListCnt);
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl1 bookListCnt() Exception -> " + e.getMessage());
+		}
+		return bookListCnt;
 	}
 	// 장바구니 총 가격
 	@Override
@@ -650,6 +663,7 @@ public class MemberDaoImpl1 implements MemberDao {
 		
 		return popularList;	
 	}
+	
 }
 	
 
