@@ -50,7 +50,7 @@
              <div class="me-2 flex-grow-1">
                <!-- 카테고리 검색 -->
                
-                         <c:if test="${oldBook.nb_category1 eq 1 }">
+                <c:if test="${oldBook.nb_category1 eq 1 }">
 	                <select id="category2" class="form-select" aria-label="Default select example" onchange = "category2Click()">
 	                   <option value=0 <c:if test ="${oldBook.nb_category2 eq '0'}"> selected="selected"</c:if>>전체</option>
 	                   <option value=1 <c:if test ="${oldBook.nb_category2 eq '1'}"> selected="selected"</c:if>>경제/경영</option>

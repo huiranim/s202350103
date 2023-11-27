@@ -71,7 +71,7 @@
 			}
 	#cm_bookTitle:hover{background: ##c1c7c6; color: white;}
 	#cm_bookTitle {color: black;font-size: bold;}
-	.form-label {font-size: bold;}
+	.form-label {font-weight: bold;}
 	.star-rating {
 	  display: flex;
 	  flex-direction: row-reverse;
@@ -150,7 +150,23 @@
 			opener.parent.location.reload();
 		}
 	});
-
+	
+	function chkForm() {
+		 var radios = document.getElementsByName('cm_rating');
+		 var formValid = false;
+		 var i = 0;
+		 
+		 while (!formValid && i < radios.length) {
+			    if (radios[i].checked) formValid = true;
+			    i++;        
+			  }
+		if(!formValid){
+			alert("별점을 선택해주세요");
+			return false;
+		}else {
+			return true;
+		}
+	}
 </script>
 </head>
 <body>
@@ -159,7 +175,7 @@
      <div class="container" id="container">
       <div class="row">
        <div class="offset-lg-2 col-lg-8 col-12">
-	   <form action="communityUpdateDo" method="post" name="" enctype="multipart/form-data">
+	   <form action="communityUpdateDo" method="post" name="" enctype="multipart/form-data" id="frm" onsubmit="return chkForm()">
 		   <input type="hidden" name="cm_num" value="${community.cm_num }">
 		   <input type="hidden" name="m_num" value="${community.m_num }">
 		   <input type="hidden" name="nb_num" value="${community.nb_num }">
@@ -205,13 +221,19 @@
 				    <input type="hidden" id="cm_image" name="cm_image"> 
 				  </span>  
 				</div>
-				<c:if test="${community.cm_image1 != null }">
-					<input type="checkbox" name="cm_imageChk1" id="cm_imageChk1" value="n" onclick="clickImage1()"> ${community.cm_image1 } 
-				</c:if> <p>
-				<c:if test="${community.cm_image2 != null }">
-					<input type="checkbox" name="cm_imageChk2" id="cm_imageChk2" value="n" onclick="clickImage2()"> ${community.cm_image2 }
-				</c:if>
+			</div>
+			<div class="col-md-12 mb-3">	
+				<label class="form-label mt-3" for="comments"> 등록 된 이미지</label>
+				<div>
+					<c:if test="${community.cm_image1 != null }">
+						<input type="checkbox" name="cm_imageChk1" id="cm_imageChk1" value="n" onclick="clickImage1()"> ${community.cm_image1 } 
+					</c:if> <p>
+					<c:if test="${community.cm_image2 != null }">
+						<input type="checkbox" name="cm_imageChk2" id="cm_imageChk2" value="n" onclick="clickImage2()"> ${community.cm_image2 }
+					</c:if>
+				</div>
 	        </div>
+	        
 	        <div class="col-md-12 mb-3">
 		        <c:if test="${community.cm_image1 != null  && community.cm_image2 == null }">
 					이미지 삭제하기 <button type="button" class="btn btn-soft-primary" onclick="imageDelete(cm_num.value, cm_imageChk1.value)" style="border: none;">
@@ -229,7 +251,7 @@
 	        <label class="form-label" for="comments" style="color: red;"><small> * 이미지는 최대 2개까지 선택 가능합니다 *</small></label>
 	        <div class="form-group">
 			   <input type="file" class="form-control form-control-user" id="product_detail_image" name="multiFile" 
-			   		  multiple="multiple" onchange="setDetailImage()"></input>
+			   		  multiple="multiple" accept="image/jpeg, image/png" onchange="setDetailImage()"></input>
 	        </div>
 	        
 	       <div class="d-grid gap-2 col-3 mx-auto mt-5">

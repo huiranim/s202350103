@@ -31,7 +31,7 @@
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
 		function closeWindow(p_order_num, p_deliv, p_track) {
-			alert("안녕");
+			// alert("안녕");
 			
 			$.ajax(
 					{
@@ -41,7 +41,8 @@
 								o_ex_track : p_track},
 						dataType : 'text',
 						success : function(data) {
-							alert('statusExchange data -> '+ data);
+							// 확인용
+							// alert('statusExchange data -> '+ data);
 							if(data == "1") {
 								alert('교환 정보가 등록되었습니다.');
 								opener.parent.location.reload();
@@ -87,7 +88,8 @@
 	               <!-- input -->
 	               <div class="mb-3">
 	                  <label class="form-label">송장번호</label>
-	                  <input type="text" class="form-control" id="track" placeholder="송장번호를 입력하세요." required="required">
+	                  <input type="text" class="form-control" id="track" placeholder="송장번호를 입력하세요." required="required"
+	                  		 maxlength="10" pattern="[0-9]+" title="10자리 이하의 숫자만 입력해주세요">
 	               </div>
 	               <!-- button -->
 	               <div class="mb-3">

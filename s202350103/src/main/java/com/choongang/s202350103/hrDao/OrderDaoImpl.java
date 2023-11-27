@@ -266,8 +266,15 @@ public class OrderDaoImpl implements OrderDao {
 			mResult = session.update("hrUpdateMemberP", orderr);
 			
 			// INSERT - POINT_LIST
-			plResult1 = session.insert("hrInsertPointListG1", orderr);
-			plResult2 = session.insert("hrInsertPointListG2", orderr);
+			// 0이 아닐 때 수행
+			if(orderr.getO_pay_price() != 0) {
+				// 적립
+				plResult1 = session.insert("hrInsertPointListG1", orderr);
+			}
+			if(orderr.getO_point() != 0) {
+				// 사용
+				plResult2 = session.insert("hrInsertPointListG2", orderr);
+			}
 			
 			System.out.println("OrderDaoImpl givingGiftAction() oResult -> "+oResult);
 			System.out.println("OrderDaoImpl givingGiftAction() odResult -> "+odResult);
@@ -282,6 +289,8 @@ public class OrderDaoImpl implements OrderDao {
 			} else {
 				result = 0;
 			}
+			
+			System.out.println("OrderDaoImpl givingGiftAction() 최종 result -> "+result);
 			
 			// COMMIT
 			transactionManager.commit(txStatus);

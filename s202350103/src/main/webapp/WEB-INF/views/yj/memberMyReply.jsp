@@ -22,20 +22,43 @@
 	}
 
 </script>
+<style type="text/css">
+.center-text {
+  text-align: center; /* 텍스트 가운데 정렬 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-weight: bold;
+  color:black;
+  transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+}
 
+</style>
 </head>
 <body>
 
 	<h2>내 댓글</h2>
-	<p>
+	<div class="mb-8">
 		<a href="#">${member.m_id } 님이 작성하신 댓글입니다.</a>
-	</p>
+	</div>
+	<p>
+
+<div class="offset-lg-2 col-lg-8 col-12">	
 	
+	<c:if test="${empty memberMyReply}">
+		 <div class="row">
+		<div class="center-text">
+			작성한 댓글이 없습니다. 
+		</div>
+		</div>
+	</c:if>
+
 	<c:forEach items="${memberMyReply}" var="reply">
+	
     <div class="row">
         <div class="col-12">
             <div class="mb-3">
-                <h6><fmt:formatDate value="${reply.mqr_date}" pattern="MM 월 dd 일" /></h6>
+                <h5><fmt:formatDate value="${reply.mqr_date}" pattern="MM 월 dd 일" /></h5>
             </div>
 
             <div class="card card-product mb-4">
@@ -48,7 +71,9 @@
                         ${reply.mqr_recomen}</span> 
                       </c:if>
                     </div>
-                     <p class="fs-5">${reply.mqr_content}</p>
+						<span style="font-weight: bold; font-size: 16px;">
+		                    ${reply.mqr_content}
+						</span>
                     </div>
 
                     <div class="dropdown">
@@ -114,7 +139,9 @@
                     
                     
                 </div>
-                <hr style="border: dashed;">
+
+				 <span class="placeholder col-12 placeholder-xs bg-primary"></span>
+                
                 <div class="card-body">
                 	<a href="memberQInfo?mq_num=${reply.mq_num }" class="link-info">${reply.mq_title }</a> 에 남긴 댓글
                 
@@ -124,7 +151,7 @@
         </div>
     </div>
 </c:forEach>
-
+</div>
 
 
 	<%@ include file="../common/footerFo.jsp"%>

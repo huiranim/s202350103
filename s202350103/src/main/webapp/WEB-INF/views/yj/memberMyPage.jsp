@@ -127,6 +127,63 @@
       </div>
       
       
+        <div class="col-md-4">
+        <div class="card mb-3">
+          <a href="memberMyCommunity?m_num=${member.m_num }">
+          <div class="card-body ">
+         	<div class="group mb-10 ">
+		          <i class="bi bi-book-fill fs-1 me-1" style="color:#21313c;">
+		          		&nbsp;&nbsp;&nbsp;&nbsp;
+		          		<span style=" font-size: 20px; font-style: normal;">
+		          		<strong>내독후감</strong>
+		          		</span> 
+		          </i>
+         	</div>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >독후감 바로가기</p>
+          </div>
+	          </a>
+        </div>
+      </div>
+      
+      
+        <div class="col-md-4">
+        <div class="card mb-3">
+          <a href="memberMyOna?m_num=${member.m_num }">
+          <div class="card-body ">
+         	<div class="group mb-10 ">
+		          <i class="bi bi-card-heading fs-1 me-1" style="color:#21313c;">
+		          		&nbsp;&nbsp;&nbsp;&nbsp;
+		          		<span style=" font-size: 20px; font-style: normal;">
+		          		<strong>내게시글</strong>
+		          		</span> 
+		          </i>
+         	</div>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >작성 게시글</p>
+          </div>
+	          </a>
+        </div>
+      </div>
+      
+      
+        <div class="col-md-4">
+        <div class="card mb-3">
+          <a href="memberMyReply?m_num=${member.m_num }">
+          <div class="card-body ">
+         	<div class="group mb-10 ">
+		          <i class="bi bi-chat-left-quote-fill fs-1 me-1" style="color:#21313c;">
+		          		&nbsp;&nbsp;&nbsp;&nbsp;
+		          		<span style=" font-size: 20px; font-style: normal;">
+		          		<strong>내댓글</strong>
+		          		</span> 
+		          </i>
+         	</div>
+            <p class="card-text mb-0 ml-auto" style="display: flex; justify-content: flex-end;" >작성 댓글</p>
+          </div>
+	          </a>
+        </div>
+      </div>
+      
+      
       
     </div>
   </div>

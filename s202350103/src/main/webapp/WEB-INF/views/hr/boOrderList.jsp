@@ -163,11 +163,11 @@
 		
 		// 취소처리 (1 -> 5)
 		function statusCancellation() {
-			// 체크 수 = 0일 때만 미동작
+			// 체크 수 = 0일 때
 			if($('input[name="checkBox"]:checked').length == 0){
 				alert("처리할 주문을 선택해주세요.");
 				
-			// 체크 수 = 0 아닐 때
+			// 체크 수 = 0 아닐 때만 동작
 			} else {
 				// 확인창
 				if(confirm("취소 처리하시겠습니까?")){
@@ -183,7 +183,7 @@
 										data : {o_order_num : $('#o_order_num'+index).val()},
 										dataType : 'text',
 										success : function(data) {
-											alert('statusCancellation data -> '+data);
+											// alert('statusCancellation data -> '+data);
 											if(data == "1"){
 												alert('취소 처리 완료되었습니다.');
 												//$('#o_status').load(location.href+' #o_status');
@@ -203,11 +203,11 @@
 		
 		// 배송완료 (2 -> 3)
 		function statusDelivered() {
-			// 체크 수 = 0일 때만 미동작
+			// 체크 수 = 0일 때
 			if($('input[name="checkBox"]:checked').length == 0){
 				alert("처리할 주문을 선택해주세요.");
 				
-			// 체크 수 = 0 아닐 때
+			// 체크 수 = 0 아닐 때만 동작
 			} else {
 				// 확인창
 				if(confirm("배송완료 처리하시겠습니까?")){
@@ -223,7 +223,7 @@
 										data : {o_order_num : $('#o_order_num'+index).val()},
 										dataType : 'text',
 										success : function(data) {
-											alert('statusDelivered data -> '+data);
+											// alert('statusDelivered data -> '+data);
 											if(data == "1"){
 												alert('배송완료 처리 완료되었습니다.');
 												//$('#o_status').load(location.href+' #o_status');
@@ -243,11 +243,11 @@
 		
 		// 구매확정 (3 -> 4)
 		function statusConfirmation() {
-			// 체크 수 = 0일 때만 미동작
+			// 체크 수 = 0일 때
 			if($('input[name="checkBox"]:checked').length == 0){
 				alert("처리할 주문을 선택해주세요.");
 				
-			// 체크 수 = 0 아닐 때
+			// 체크 수 = 0 아닐 때만 동작
 			} else {
 				// 확인창
 				if(confirm("구매확정 처리하시겠습니까?")){
@@ -263,7 +263,7 @@
 										data : {o_order_num : $('#o_order_num'+index).val()},
 										dataType : 'text',
 										success : function(data) {
-											alert('statusConfirmation data -> '+data);
+											// alert('statusConfirmation data -> '+data);
 											if(data == "1"){
 												alert('구매확정 처리 완료되었습니다.');
 												//$('#o_status').load(location.href+' #o_status');
@@ -273,7 +273,7 @@
 									}	
 							)
 						} else {
-							alert('배송완료 상태일 때만 취소 처리 가능합니다.');
+							alert('배송완료 상태일 때만 구매확정 처리 가능합니다.');
 							return false;
 						}
 					});
@@ -426,30 +426,32 @@
 			</nav> --%>
 			
             <!-- 페이지네이션 -->
-            <nav aria-label="...">
-			  <ul class="pagination">
-			    <!-- 이전 -->
-			    <c:if test="${page.startPage > page.pageBlock }">
-				    <li class="page-item">
-				      <a class="page-link" href="boOrderList?currentPage=${page.startPage-page.pageBlock }">이전</a>
-				    </li>
-				</c:if>
-			    
-			    <!-- 1~10 -->
-			    <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-			    	<li class="page-item">
-			    		<a class="page-link" href="boOrderList?currentPage=${i }">${i }</a>
-			    	</li>
-			    </c:forEach>
-			    
-			    <!-- 다음 -->
-			    <c:if test="${page.endPage < page.totalPage }">
-				    <li class="page-item">
-				      <a class="page-link" href="boOrderList?currentPage=${page.startPage+page.pageBlock }">다음</a>
-				    </li>
-			    </c:if>
-			  </ul>
-            </nav>
+            <div class="d-flex justify-content-center">
+	            <nav aria-label="...">
+				  <ul class="pagination">
+				    <!-- 이전 -->
+				    <c:if test="${page.startPage > page.pageBlock }">
+					    <li class="page-item">
+					      <a class="page-link" href="boOrderList?currentPage=${page.startPage-page.pageBlock }">이전</a>
+					    </li>
+					</c:if>
+				    
+				    <!-- 1~10 -->
+				    <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
+				    	<li class="page-item">
+				    		<a class="page-link" href="boOrderList?currentPage=${i }">${i }</a>
+				    	</li>
+				    </c:forEach>
+				    
+				    <!-- 다음 -->
+				    <c:if test="${page.endPage < page.totalPage }">
+					    <li class="page-item">
+					      <a class="page-link" href="boOrderList?currentPage=${page.startPage+page.pageBlock }">다음</a>
+					    </li>
+				    </c:if>
+				  </ul>
+	            </nav>
+            </div>
             
             <%-- <c:if test="${page.startPage > page.pageBlock }">
 				<a href="boOrderList?currentPage=${page.startPage-page.pageBlock }">[이전]</a>

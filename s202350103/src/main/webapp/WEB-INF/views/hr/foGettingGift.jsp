@@ -224,6 +224,37 @@
 	<input type="hidden" name="nb_title" value="${orderr.nb_title }"> 
 	<input type="hidden" name="o_de_count" value="${orderr.o_de_count }"> 
 	          </form>
+	          
+<%-- 	          <div style="border: 1px solid #dfe2e1;
+					      border-radius: 0.5rem;
+					      padding: 50px 50px;
+					      width: 700px">
+	          	<img src="../assets/images/gift/giftcard${orderGift.o_gift_card }.png" alt="card"
+	          		 style="border-radius: 0.5rem;
+	          		 		width: 600px">
+	          	<div>
+		          	<h4 style="color: #5c6c75; margin-top: 20px;">
+		          		${orderGift.o_gift_msg }<br>
+		          	</h4>
+		          	<h5 style="color: #889397;">
+		          		"${orderGift.o_gift_msg }"
+					</h5>
+		          	<button type="button"
+		          			style="background-color: #0aad0a;
+		          				   padding: 10px;
+		          				   border-radius: 10px;
+		          				   color: white;
+		          				   margin-top: 20px;
+		          				   margin-bottom: 20px;
+		          				   font-weight : bold;
+		          				   float: right;
+		          				   width: 120px;">선물받기</button><br>
+	          	</div>
+	          	<span style="color: red;">
+	          		* 받는 사람 정보를 정확히 입력해주세요.<br>
+					* 입력 후 수락하기 버튼을 클릭해야 발송이 시작됩니다.
+				</span>
+	          </div> --%>
         </div>
       </div>
     </div>

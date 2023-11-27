@@ -126,7 +126,7 @@
 	 <insert id="hrInsertOrderrG" parameterType="Orderr">
 	 	INSERT INTO orderr
 	 	VALUES(#{o_order_num}, #{m_num}, sysdate, 0, 2,
-	 		   #{o_pay_price}, 1, 1234567890, #{o_deliv_price}, #{o_point},
+	 		   #{o_pay_price}, #{o_pay_type}, 1234567890, #{o_deliv_price}, #{o_point},
 	 		   #{o_rec_name}, #{o_rec_mail}, #{o_rec_ph}, '선물 수락 대기 중', '선물 수락 대기 중', null, null)
 	 </insert>
 	 <insert id="hrInsertOrderDetailG" parameterType="Orderr">
@@ -140,12 +140,12 @@
 	 </insert>
 	 <update id="hrUpdateMemberP" parameterType="Orderr">
 	 	UPDATE member
-		SET m_point = m_point + (#{o_pay_price} * 0.01) - #{o_point}
+		SET m_point = m_point + ROUND(#{o_pay_price} * 0.01) - #{o_point}
 		WHERE m_num = #{m_num}
 	 </update>
 	 <insert id="hrInsertPointListG1" parameterType="Orderr">
 	 	INSERT INTO point_list
-	 	VALUES(POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 1, (#{o_pay_price} * 0.01))
+	 	VALUES(POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 1, ROUND(#{o_pay_price} * 0.01))
 	 </insert>
 	 <insert id="hrInsertPointListG2" parameterType="Orderr">
 	 	INSERT INTO point_list

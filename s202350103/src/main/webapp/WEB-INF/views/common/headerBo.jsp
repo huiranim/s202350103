@@ -16,6 +16,12 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta content="Codescandy" name="author">
 <title>DADOK-AD</title>
+<style>
+  .float-right {
+    float: right;
+  }
+</style>
+
 <!-- Favicon icon-->
 <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon/DADOKLOGO.png">
 
@@ -63,20 +69,18 @@
                   </svg>
 						</a>
 
-				  <!-- <form role="search">
-                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-
-                </form>  -->
-                	<a href="/">
-                	<div>
-	                	<i class="bi bi-universal-access-circle me-1" ></i>
-	                	회원페이지 전환
-                	</div>
-                	</a>
+				
+                	<a href="/" style="float: right;">
+					  <div>
+					    <i class="bi bi-universal-access-circle me-1"></i>
+					    회원페이지 전환
+					  </div>
+					</a>
                 	
                 
 					</div>
-					<div></div>
+					<div>
+					</div>
 				</div>
 
 
