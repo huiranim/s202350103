@@ -123,6 +123,8 @@
 				  target.disabled = false;
 				
 				  
+				  
+				  
 			}
 </script>
 <head>
@@ -224,7 +226,7 @@
 			   		 	<input type="hidden"  name="ob_pur_price" id="totalCalculVal" value="0" > 
 	      		 		<input type="hidden"  name="ob_sell_price" id="totalCalculValSell" value="0"> 
 	      		 	<div >	
-	      		 <input type="text"   disabled="disabled"  id="totalCalculVal2" style="border: none; background: transparent; width: 52px;"/>원
+	      		 <input type="text"  disabled="disabled"  pattern="###,###" id="totalCalculVal2" style="border: none; background: transparent; width: 52px;"/>원
 		      	<!-- 	 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum6"> 
 		      		 	 <input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum7">
 		      		 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum8">

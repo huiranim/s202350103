@@ -108,13 +108,16 @@ function cart(pNb_num) {
 		                 	 	<span style="color: #581313;">${firstOrder.o_rec_name }</span>
 		                 	/  <span style="color: #db3030;">결제금액 : 
 		                 		<fmt:formatNumber value="${firstOrder.o_pay_price }" pattern="#,###"/> 원
-		                 		</span>
+		                 		</span>  
 		                 </h1> 
+		                 		<span class="text-danger">*</span> 
+		                 			배송비 포함
+		                 		 <span class="text-danger">*</span>
 		                 
 	                 </div>
 		                 
 				<div class="col-md-6">
-				  	<span style="float: right; margin-right: 20px; font-weight: bold; color: #044504;" class="mb-3">
+				  	<span style="float: right; margin-right: 20px; padding-top:25px; font-weight: bold; color: #044504;" class="mb-3" >
 		         	 <a href="foOrderDetail?o_order_num=${orderNum}" class="link-success" style="font-size: 14px;">주문상세보기
 		         	 <i class="bi bi-arrow-right-short"></i>
 		         	 </a>

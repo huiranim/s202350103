@@ -30,7 +30,7 @@
           
           
           <div
-            style="background: url(../assets/images/slider/quiz.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+            style="background: url(../assets/images/slider/quiz.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center; height: 520px;">
             <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
               <span class="badge text-bg-info">퀴즈 이벤트</span>
 
@@ -42,7 +42,7 @@
 			
          <div class="position-relative"
 		  style="background: url(./assets/images/slider/attendanceEvent.png) no-repeat,
-		  url('../assets/images/slider/mainEx2.png') no-repeat;
+		  url('../assets/images/slider/mainEx2.png') no-repeat; height: 520px;
 		  background-size:70%, 100%; border-radius: .5rem; background-position: center;">
 		  <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
 		    <span class="badge text-bg-warning">출석 이벤트</span>
@@ -54,7 +54,7 @@
 		</div>
           
             <div class=" "
-            style="background: url(./assets/images/slider/memberQnAImage.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+            style="background: url(./assets/images/slider/memberQnAImage.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center; height: 520px;">
             <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
               <span class="badge bg-light-primary text-dark-primary">Q & A</span>
               <h2 class="text-dark display-6 fw-bold mt-4">무엇이든 <br>물어보세요 !</h2>
@@ -65,7 +65,7 @@
           </div>
           
 		 <div class=" "
-            style="background: url(./assets/images/slider/dadokMain.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+            style="background: url(./assets/images/slider/dadokMain.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center; height: 520px;">
          <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
               <span class="badge bg-light-primary text-dark-primary">DADOK</span>
               <h2 class="text-dark display-7 fw-bold mt-4 text-white">소중한 사람에게 <p>책 선물 어떠세요?</h2>
@@ -398,7 +398,7 @@
                 
                 <!-- 내용 -->
                 <div class="text-small mb-1">
-                 <small>
+                 <small style="color: #8C8C8C;">
 		            	<c:choose>
 							  <c:when test="${RandomOb.nb_category1 eq 1}">국내도서 </c:when>
 							  <c:when test="${RandomOb.nb_category1 eq 2}">해외도서 </c:when>
@@ -421,7 +421,7 @@
                 <div class="d-flex justify-content-between align-items-center mt-3">
                   <div>
                   
-                  <span class="text-muted"><fmt:formatNumber value="${RandomOb.ob_sell_price}" groupingUsed="true"/>원</span>
+                  <span class="text" style="color: #000000;"><fmt:formatNumber value="${RandomOb.ob_sell_price}" groupingUsed="true"/>원</span>
                   </div>
                 </div>
                 

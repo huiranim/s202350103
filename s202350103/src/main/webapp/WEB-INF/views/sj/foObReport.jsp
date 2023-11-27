@@ -15,7 +15,7 @@
 	window.close();
 	
 	function showPopup(){
-		window.open("ModalList","pop","width=1000, height=900, left=300, top=150");
+		window.open("bookList","pop","width=900, height=800, left=300, top=150");
 	}
 	
 	function doAction(){
@@ -59,7 +59,7 @@
                  <div class="text-center position-relative " >
                     <div class=" position-absolute top-0">
                     <input type="hidden" name="m_num" value="${oldBook.m_num }">
-                       <!-- badge --> <span class="badge bg-danger">새상품</span>
+                       <!-- badge --> <!-- <span class="badge bg-danger">새상품</span> -->
                        <input type="hidden"  name="nb_num" value="${oldBook.nb_num }" >
                     </div>
                        <!-- img --><img src="${oldBook.nb_image }"
@@ -97,14 +97,14 @@
                     <!-- btn -->
           
                     <!-- btn -->
-                    <div class="text-end">
+                    <div class="text-center">
                     
                <!--    <button type="button" class="btn btn-primary text-end" data-bs-toggle="modal" data-bs-target="#exampleModal-2" 
                   				onclick="openfoModalList()">
                   				 -->
-                  <button type="button" class="btn btn-success text-end"  data-bs-toggle="modal" data-bs-target="#exampleModal-2" 
+                  <button type="button" class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#exampleModal-2" 
                   				onclick="showPopup()">
-   					새상품 조회
+   					새상품 선택
 					</button>
 					</div>
 
@@ -120,7 +120,7 @@
 		
       		<div class="text-end">
       		<label class="form-label" for="comments"> 
-          <strong >다독다독 중고 도서 판매 이용약관</strong>
+          <strong >중고 도서 판매 이용약관</strong>
           </label><p>
 			<input class="form-check-input"  type="checkbox" value="ck1" id="ck1" required="required">
 			서비스 이용약관(동의)
