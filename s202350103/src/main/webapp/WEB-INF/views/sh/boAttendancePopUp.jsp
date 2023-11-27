@@ -122,7 +122,11 @@
 	                alert("수정 실패");
 	                return false;
 	            }
-	        }
+	        },
+			error:function(result){
+				alert('정보를 잘 못 입력하셨습니다.');
+				return false;
+			}
 	    });
 	}else{
 		alert("수정을 취소하셨습니다.");
