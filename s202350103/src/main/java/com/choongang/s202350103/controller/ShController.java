@@ -129,13 +129,16 @@ import lombok.extern.slf4j.Slf4j;
 			attJoin.setM_num(m_num);
 			System.out.println(a_num);
 			System.out.println(m_num);
-			//출석 참여
+			
+			//출석 참여(att_join list)
 			ps.stampAtt(attJoin);
-			//포인트 적립메소드
+			//멤버 포인트 적립
 			ps.savePoint(attJoin);
-			//포인트 이력 저장
+			//당일 기록 체크 
 			attJoin = ps.searchAtt(attJoin);
+			//멤버 포인트 적립
 			ps.attPointList(attJoin);
+			
 			return "forward:/attendancePage?eNum="+a_num+"&m_num="+m_num;
 		}
 		
@@ -152,21 +155,21 @@ import lombok.extern.slf4j.Slf4j;
 			int add = ps.checkAddAtt(a_num);		// 연속출석 일자		
 			System.out.println("연속 출석 일자 :"+add);
 			
-			Calendar calendar = Calendar.getInstance();
-			Date checkTime = calendar.getTime();
-			attJoin.setA_par_pdate(checkTime);
-			
 			int result=0;
 			
 			for(int i = 0; i < add;) {
+				System.out.println("i->"+i);
+				Calendar calendar = Calendar.getInstance();
+				Date checkTime = calendar.getTime();
+				attJoin.setA_par_pdate(checkTime);
+				calendar.add(Calendar.DAY_OF_MONTH,-i);
+				checkTime = calendar.getTime();
+				attJoin.setA_par_pdate(checkTime);
 				int rowCount = ps.countAttRow(attJoin);
 				if(rowCount == 1) {
 					System.out.println("rowCount == 1");
 					result = 1;
-					++i;
-					calendar.add(Calendar.DAY_OF_MONTH,-i);
-					checkTime = calendar.getTime();
-					attJoin.setA_par_pdate(checkTime);
+					i++;
 					continue;
 				}else {
 					System.out.println("result = 0");
@@ -213,10 +216,27 @@ import lombok.extern.slf4j.Slf4j;
 			return "sh/foQuizPage";
 		}
 		
-		//Quiz 정답 제출
+		//Quiz 오답 제출
 		@RequestMapping(value = "checkQuiz", method = RequestMethod.GET)
 		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
-			System.out.println("shController quizAnswer() Start...");
+			System.out.println("shController checkQuiz() Start...");
+			QuizJoin quizJoin = new QuizJoin();
+			quizJoin.setM_num(m_num);
+			quizJoin.setQ_num(eNum);
+			//퀴즈 참여
+			ps.checkedAnswer(quizJoin);
+			//member table 포인트 적립
+			ps.savePoint(quizJoin);
+			//포인트 이력 저장
+			quizJoin = ps.searchQuiz(quizJoin);
+			ps.quizPointList(quizJoin);
+			return "forward:/quizPage?eNum="+eNum+"&m_num="+m_num;
+		}
+		
+		//Quiz 정답 제출
+		@RequestMapping(value = "wrongQuiz", method = RequestMethod.GET)
+		public String wrongQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
+			System.out.println("shController wrongQuiz() Start...");
 			QuizJoin quizJoin = new QuizJoin();
 			quizJoin.setM_num(m_num);
 			quizJoin.setQ_num(eNum);
