@@ -129,6 +129,10 @@ public class SjController {
 	public String writeFormObReport(HttpSession session,Member member , OldBook oldBook,Model model) {
 		System.out.println("sjController writeFormObReport start...");
 		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+		model.addAttribute("recentBookList", recentBookList);
+		
 		//멤버값 불러오기 
 		member = (Member) session.getAttribute("member");
 		if(member == null) {
@@ -309,9 +313,12 @@ public class SjController {
 		
 		oldBook.setStart(page.getStart());
 		oldBook.setEnd(page.getEnd());
+		System.out.println("folistOb  page.getStart()"+page.getStart());
+		System.out.println("folistOb page.getEnd() "+page.getEnd());
 		
 		List<OldBook> OblistFo = obs.listObFo(oldBook);
 		
+		System.out.println("SjController oldBook " + oldBook);
 		model.addAttribute("listObFo" , OblistFo);
 		model.addAttribute("totalOb2", totalOb2);
 		model.addAttribute("oldBook",oldBook);

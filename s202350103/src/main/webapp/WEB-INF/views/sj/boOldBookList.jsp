@@ -57,7 +57,7 @@
 	       <p class="fs-1 text-center">중고 판매 신청 목록   </p>
 	       </div>
 	       
-	       <select id="obstatus1" class="pl " style="margin-left: 650px;" onchange="toglestatus()" >
+	       <select id="obstatus1" class="pl " style="margin-left: 120px;" onchange="toglestatus()" >
 	       <option value=0 <c:if test="${oldBook.ob_status eq '0'}"> selected="selected"</c:if>>   전체</option>
 	        <option value=1 <c:if test="${oldBook.ob_status eq '1'}"> selected="selected"</c:if>>  검수 중</option>
 	         <option value=2<c:if test="${oldBook.ob_status eq '2'}"> selected="selected"</c:if>> 검수 완료</option>

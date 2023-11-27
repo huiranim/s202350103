@@ -54,9 +54,9 @@ function openWrite() {
     <!-- contianer -->
 
     <h3 class="mb-3">인기글</h3>
-    <div id="div1" class="mb-10">
+    <div id="div1" class="mb-10" style="background-color: #EDF7EA;">
        
-        <div class="row g-4 row-cols-xl-3 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2" style="padding-left: 17px;">  
+        <div class="row g-4 row-cols-xl-3 row-cols-lg-3 row-cols-2 row-cols-md-2" style="padding-left: 17px;">  
           <c:forEach items="${popularList }" var="popList" varStatus="status" end="2">
           <div id="container2">
           <div class="col">
@@ -139,11 +139,15 @@ function openWrite() {
 
 
 <div id="div1" class="mb-3">
-	 <div class="mb-3 mt-6">
-         <p><a href="#">${member.m_name } 님의 독후감 목록입니다.</a></p>
-               총 게시글 : ${comMyListTotalCnt }		
+	 <div class="mb-7 mt-3">
+		 <div class="mb-3" style="float: left;"> 
+		 	${member.m_name } 님의 총 독후감 : ${comMyListTotalCnt } 
+		 	
+		 </div>
+         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+   			<button class="btn btn-soft-primary" type="button" id="openWrite" onclick="openWrite()">작성하기</button>
+ 		 </div>		
      </div>
-     <button type="button" class="btn btn-soft-primary mb-2" id="openWrite" onclick="openWrite()">작성하기</button>
 	 <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
 	 	<c:forEach items="${communityMyList }" var="community">
 			<div class="col" style="margin-bottom:16px;" >
