@@ -58,14 +58,13 @@
   				width: 100px; height: 95px;
 	}
 
-	.container {
+	#container {
 		 position: absolute;
 		  top: 50%;
 		  left: 50%;
-		  width: 600px;
-		  height: auto;
-		  padding: 20px;
-		  background: linear-gradient(180deg, #f4faf2 0, #f4faf2 473px, #edf7ea 473px, #edf7ea 100%);
+		  width: 800px;
+		  height: 800px;
+		  padding: 20px;	
 		  border-radius: 10px;
 		  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
 		
@@ -141,13 +140,12 @@
 		var result = '${communityInsert}';
 		
 		if(result == 1){
-			alert("글 등록이 완료되었습니다.");
+			alert("등록되었습니다.");
 			window.close();
 			opener.parent.location.reload();
-		}else if(result != 1){
-			alert("글 등록에 실패했습니다.");
 		}
 	});
+	
 	
 	  
 	
