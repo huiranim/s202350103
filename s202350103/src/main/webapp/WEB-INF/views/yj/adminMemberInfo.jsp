@@ -9,7 +9,100 @@
 <title>Insert title here</title>
 
 <script type="text/javascript">
+      // 아이디 유효성 검사
+  	function chkId() {
+  		var m_id = document.getElementById("m_id").value;
+  		// 정규식 6~12자 + @, #, $ 제외 , 영문자와 숫자 허용
+  		var regex = /^[a-zA-Z0-9]{6,12}$/;
+  		// 정규표현식 유효성 검사
+  		if (!regex.test(m_id)) {
+  			alert("아이디는 6자에서 12자 사이의 영문자와 숫자로만 작성해주세요.");
+  			frm.m_id.value = "";
+  			return false;
+  		} 
+  	}
+</script>
+<script type="text/javascript">
+	//이름 유효성 검사
+	function nameCk() {
+		var m_name = document.getElementById("m_name").value;
+		// 특수문자 제외, 영문 대소문자,한글
+		var regex = /^[a-zA-Z가-힣]+$/;
 	
+		if (!regex.test(m_name)) {
+			alert("이름에는 특수문자가 포함 될 수 없습니다.");
+			frm.m_name.value = "";
+			return false; 
+		}
+	}
+</script>    	
+<script type="text/javascript">
+	//이메일 유효성 검사
+	function emailCk() {
+		 var m_email = document.getElementById("m_email").value;
+		 
+		if (m_email == ""){
+			alert("이메일을 입력해주세요.");
+			return false; 
+		}
+	}
+</script>    	
+<script type="text/javascript">
+	//전화번호 유효성 검사
+	function phCon() {
+	    var m_ph = document.getElementById("m_ph").value;
+	
+	    // 하이픈 포함, 다른 특수 문자 또는 공백 허용 안 함
+	    var phonePattern = /^\d{2,4}-\d{2,4}-\d{4}$/;
+	    if (!phonePattern.test(m_ph)) {
+	        alert("유효한 전화번호 형식이 아닙니다. (예: 010-1234-5678)");
+	        return false; 
+	    }
+	}
+</script>    	
+<script type="text/javascript">
+	//생년월일 유효성 검사
+	function birthCk() {
+		var m_birth = document.getElementById("m_birth").value;
+	
+		// 6자리 숫자
+		var regex = /^[0-9]{6}$/;
+	
+		if (!regex.test(m_birth)) {
+			alert("생년월일을 6자리 숫자로 입력하세요.");
+			return false; 
+		}
+	
+	}
+</script>
+<script type="text/javascript">
+	// 주소 유효성 검사
+	function addrCon(){
+		var m_birth = document.getElementById("m_addr").value;
+		
+		if(m_birth == ""){
+			alert("주소를 입력하세요.");
+			return false; 
+		}
+	}
+</script>
+<script type="text/javascript">
+	//비밀번호 유효성 검사 
+	function pwCk() {
+		var m_pw = document.getElementById("m_pw").value;
+		//  영문, 숫자, 특수문자 조합으로 8자~20자
+		var regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,20}$/;
+	
+		if (!regex.test(m_pw)) {
+			alert("비밀번호는 영문, 숫자, 특수문자 조합으로 8자에서 20자 사이여야 합니다.");
+			frm.m_pw.value ="";
+			return false; 
+		}
+	}
+</script>    	
+
+<script type="text/javascript">
+
 	function adminMemberupdate(){
 		
 		var con = confirm("수정하시겠습니까?");
@@ -74,6 +167,7 @@
 	}
 
 </script>
+
 
 
 </head>
@@ -153,31 +247,31 @@
               <!-- input -->
             <div class="col-md-6 mb-3">
               <label class="form-label" for="fname">아이디<span class="text-danger">*</span></label>
-              <input type="text" id="m_id" class="form-control" name="m_id" value="${member.m_id }" >
+              <input type="text" id="m_id" class="form-control" name="m_id" value="${member.m_id }" onblur="chkId();" required="required">
             </div>
             <div class="col-md-6 mb-3">
               <!-- input -->
               <label class="form-label" for="lname">회원 이름<span class="text-danger">*</span></label>
-              <input type="text" id="m_name" class="form-control" name="m_name" value="${member.m_name }" >
+              <input type="text" id="m_name" class="form-control" name="m_name" value="${member.m_name }" onblur="nameCk();" required="required">
             </div>
             <div class="col-md-6 mb-3">
               <label class="form-label" for="emailContact">이메일<span class="text-danger">*</span></label>
-              <input type="email" id="m_email" name="m_email" class="form-control" value="${member.m_email }" >
+              <input type="email" id="m_email" name="m_email" class="form-control" value="${member.m_email }" onblur="emailCk();" required="required">
             </div>
             <div class="col-md-6 mb-3">
               <!-- input -->
               <label class="form-label" for="phone">연락처<span class="text-danger">*</span></label>
-              <input type="text" id="m_ph" name="m_ph" class="form-control" value="${member.m_ph }">
+              <input type="text" id="m_ph" name="m_ph" class="form-control" value="${member.m_ph }" onblur="phCon();"required="required">
             </div>
             <div class="col-md-12 mb-3">
               <!-- input -->
               <label class="form-label" for="company">주소<span class="text-danger">*</span></label>
-              <input type="text" id="m_addr" name="m_addr" class="form-control" value="${member.m_addr }">
+              <input type="text" id="m_addr" name="m_addr" class="form-control" value="${member.m_addr }" onblur="addrCon();"required="required">
             </div>
      
             <div class="col-md-6 mb-3">
               <label class="form-label" for="fname">생년월일<span class="text-danger">*</span></label>
-              <input type="text" id="m_birth" class="form-control" name="m_birth" value="${member.m_birth }" >
+              <input type="text" id="m_birth" class="form-control" name="m_birth" value="${member.m_birth }" onblur="birthCk();" required="required">
             </div>
             <div class="col-md-6 mb-3">
               <!-- input -->
@@ -191,7 +285,7 @@
               <div class="col-md-12 mb-8">
               <!-- input -->
               <label class="form-label" for="company">PW<span class="text-danger">*</span></label>
-              <input type="password" id="m_pw" name="m_pw" class="form-control" value="${member.m_pw }">
+              <input type="password" id="m_pw" name="m_pw" class="form-control" value="${member.m_pw }" onblur="pwCk();" required="required">
             </div>
             
             

@@ -54,10 +54,6 @@
 			</div>
 			<div>
 	
-	  <div class="mb-2" style="display: flex; justify-content: space-between; align-items: center;">
-	    <a class="btn btn-primary ml-auto" href="memberMyReply">내가 작성한 댓글</a>
-	</div>
-
 				<div class="card-body p-0">
 					<!-- table -->
 					<div class="table-responsive ">

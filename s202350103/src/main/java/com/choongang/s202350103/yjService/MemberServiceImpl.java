@@ -273,6 +273,18 @@ public class MemberServiceImpl implements MemberService{
 	public void deleteReplyAndMQ(int mq_num) {
 		md.deleteReplyAndMQ(mq_num);
 	}
+	// 내가 작성한 답글
+	@Override
+	public List<MemberQ> memberMyReply(int m_num) {
+		List<MemberQ> memberMyReply = md.memberMyReply(m_num);
+		return memberMyReply;
+	}
+	// 내 답글 수정
+	@Override
+	public int myReplyUpdate(MemberQ memberq) {
+		int myReplyUpdate = md.myReplyUpdate(memberq);
+		return myReplyUpdate;
+	}
 	
 	
 	
