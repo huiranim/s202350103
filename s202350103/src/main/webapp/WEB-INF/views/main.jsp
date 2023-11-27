@@ -363,7 +363,8 @@
     
 <!-- 하단 메뉴 -->
     <section>
-      <div class="container">
+      
+      <div class="container" style="margin: auto;">
         <div class="row">
           <div class="col-md-12 mb-6">
             <h3 class="mb-0">추천 중고 서적</h3>
@@ -371,14 +372,17 @@
         </div>
       
         <div class="table-responsive-xl pb-6">
+       
         <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
+       
          <!-- 카드의 시작 1 -->
-        
+       
          <c:forEach var="RandomOb" items="${ObNumRedomSel}" >
           <div class="col">
           
             <div class="card card-product">
               <div class="card-body">
+        <a href="foOldBookDetail?ob_num=${RandomOb.ob_num}">
               <!-- 상품 이미지 -->
                 <div class="text-center  position-relative ">
                       <c:choose>
@@ -422,13 +426,14 @@
                 </div>
                 
                 <!-- 버튼  -->
-                <div class="d-grid mt-2" style="margin-left: 30px;">
-  					<a href="foOldBookDetail?ob_num=${RandomOb.ob_num}"><button type="button" class="btn btn-success mb-2" >중고도서 보러가기 ▷</button></a>
-                </div>
+               
+  					
+                </a>
               </div>
             </div>
          </div>
           </c:forEach>
+       
          </div>
         
           </div>
@@ -436,7 +441,7 @@
          
         <!-- 카드의 끝 -->
 			   </div>
-            
+              
    
     </section>
     
