@@ -86,7 +86,7 @@
   <section class="mt-8">
     <div class="container align-items-center">
       <div class="row" style="padding-left: 20px;">
-
+	
         <div class="col-md-5" style="width: 30rem;">
           <!-- img slide -->
           <div class="product" id="product" >
@@ -195,12 +195,12 @@
                 </div>
               </div>
               </c:if>
-              <div class="col-3">
-                <div class="thumbnails-img">
-                  <!-- img -->
-                  <img src="" alt="">
-                </div>
-              </div>
+<!--               <div class="col-3"> -->
+<!--                 <div class="thumbnails-img"> -->
+<!--                   img -->
+<!--                   <img src="" alt=""> -->
+<!--                 </div> -->
+<!--               </div> -->
             </div>
           </div>
         </div>

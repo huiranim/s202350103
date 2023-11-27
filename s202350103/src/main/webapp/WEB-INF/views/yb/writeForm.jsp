@@ -121,7 +121,7 @@
         var name = "searchBook";
         
         window.open(url, name, 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes,resizable=no,toolbar=no,titlebar=no,menubar=no,location=no')
-	
+		
 	}
 	
 	var receivedImageURL = "";
@@ -143,10 +143,32 @@
 			alert("등록되었습니다.");
 			window.close();
 			opener.parent.location.reload();
+		} else if(result == 0) {
+			alert("필수값(*)들을 빠짐없이 입력해주세요");
 		}
 	});
 	
 	
+
+	function chkForm() {
+		 var radios = document.getElementsByName('cm_rating');
+		 var formValid = false;
+		 var i = 0;
+		 
+		 while (!formValid && i < radios.length) {
+			    if (radios[i].checked) formValid = true;
+			    i++;        
+			  }
+		if(!frm.nb_title.value) {
+			alert("책을 선택해주세요");
+			return false;
+		} else if(!formValid){
+			alert("별점을 선택해주세요");
+			return false;
+		}else {
+			return true;
+		}
+	}
 	  
 	
 </script>
@@ -156,23 +178,23 @@
      <!-- container -->
      <div class="container" id="container">
       <div class="row">
-       <div class="offset-lg-2 col-lg-8 col-12">
-	   <form action="communityInsert" method="post" name="frm" enctype="multipart/form-data">
+       <div class="offset-lg-2 col-lg-8 col-12" onsubmit="return chkForm()">
+	   <form action="communityInsert" method="post" name="frm" enctype="multipart/form-data" id="frm">
 	   	<input type="hidden" name="m_num" id="m_num" value="${member.m_num }">
 	   	<input type="hidden" name="nb_num" id="nb_num">
 	    <div class="col-md-12 mb-3">
           <label class="form-label" for="title"></label>
           <button type="button" id="cm_bookTitle" name="cm_bookTitle" class="rounded btn form-control btn-outline-gray-400" onclick="searchBtn()">책 검색</button>
-          <input type="text" id="nb_title" name="nb_title" class="form-control" placeholder="책 제목" style="margin-top: 15px;" readonly="readonly">
+          <input type="text" id="nb_title" name="nb_title" class="form-control" placeholder="책 제목" style="margin-top: 15px;" readonly="readonly" required="required">
 <!--           <input type="text" id="book_image" name="book_image" class="form-control" placeholder=""> -->
         </div>
 		<div class="col-md-12 mb-3">
           <label class="form-label" for="title" > 제목 *</label>
-          <input type="text" id="cm_title" name="cm_title" class="form-control" placeholder="Your Title" required>
+          <input type="text" id="cm_title" name="cm_title" class="form-control" placeholder="제목을 입력하세요" required>
         </div>
         <div class="col-md-12 mb-3">
           <label class="form-label" for="comments"> 독후감 작성 *</label>
-          <textarea rows="3" name="cm_content" id="cm_content" class="form-control" placeholder="내용을 10자 이상 입력해 주세요. 주제와 무관한 댓글, 악플, 배송문의 등의 글은 임의 삭제될 수 있습니다."></textarea>
+          <textarea rows="3" name="cm_content" id="cm_content" class="form-control" placeholder="내용을 10자 이상 입력해 주세요. 주제와 무관한 댓글, 악플, 배송문의 등의 글은 임의 삭제될 수 있습니다." required="required"></textarea>
         </div>
         <div class="col-md-12 mb-3">
         <label class="form-label" for="comments" style="color: red;"><small> * 500자까지 입력 가능합니다. *</small></label>
@@ -186,7 +208,7 @@
 				<label for="3-stars" class="star">★</label>
 				<input type="radio" id="2-stars" name="cm_rating" value="2"/>
 				<label for="2-stars" class="star">★</label>
-				<input type="radio" id="1-star"  name="cm_rating" value="1" />
+				<input type="radio" id="1-star"  name="cm_rating" value="1"/>
 				<label for="1-star" class="star">★</label>
 			</div>
 	      </div>
@@ -204,7 +226,7 @@
         <label class="form-label" for="comments" style="color: red;"><small> * 이미지는 최대 2개까지 선택 가능합니다 *</small></label>
         <div class="form-group">
 		          <input type="file" class="form-control form-control-user" name="multiFile" multiple
-		          		 id="product_detail_image"> <br>
+		          		 id="product_detail_image" accept="image/jpeg, image/png"> <br>
         </div>
         
        	<div class="d-grid gap-2 col-3 mx-auto mt-5">
