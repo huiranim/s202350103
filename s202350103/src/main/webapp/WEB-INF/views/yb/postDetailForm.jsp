@@ -264,13 +264,13 @@
 	                <i class="bi bi-pencil" title="수정하기"></i></button>
 	            </c:if>
 	            <c:if test="${member.m_num == community.m_num }">
-	               <button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-trash" title="삭제" onclick="deleteConfirm(cm_num.value)"></i></button>
+	               <button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-trash"  onclick="deleteConfirm(cm_num.value)"></i></button>
 	            </c:if>
 				<c:if test="${commHeart.h_status == 0 || commHeart == null}">
-                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up" title="삭제" onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
+                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up"  onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
                 </c:if>
                 <c:if test="${commHeart.h_status == 1 }">
-                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up-fill" title="삭제" onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
+                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up-fill" onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
                 </c:if>
                 
                 
@@ -308,30 +308,44 @@
         	<div class="col">
 	          <div class="card card-product">
 	            <div class="card-body">
-	              <!-- badge -->
-	
-<!-- 	              <div class="text-center position-relative "> -->
-<!-- 	                <a href="#!"> -->
-<%-- 	                  <!-- img --><img src="${sameDetail.cm_image }" alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a> --%>
-<!-- 	                action btn -->
-<!-- 	                <div class="card-product-action"> -->
-<!-- 	                  <a href="#!" class="btn-action"><i -->
-<!-- 	                      class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a> -->
-<!-- 	                </div> -->
-<!-- 	              </div> -->
-	              <!-- heading -->
-	              <h3 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">${sameDetail.nb_title }</a></h3>
+	              <h2 class="fs-5"><a href="postDetailForm?cm_num=${sameDetail.cm_num }" class="text-inherit text-decoration-none">${sameDetail.cm_title }</a></h2>
 	              <input type="hidden" value="${sameDetail.cm_num }"  name="cm_num1">
-	              <h2 class="fs-5"><a href="#!" class="text-inherit text-decoration-none">${sameDetail.cm_title }</a></h2>
-	              <h2 class="fs-5"><a href="#!" class="text-inherit text-decoration-none">${sameDetail.m_name }</a></h2>
-	              <div class="text-warning">
-					 <c:forEach var="i" begin="1" end="${sameDetail.cm_rating}">
-	                    <i class="bi bi-star-fill"></i>
-	                 </c:forEach>
-	                 <c:forEach var="i" begin="${sameDetail.cm_rating + 1}" end="5">
-	                    <i class="bi bi-star"></i>
-	                 </c:forEach>
-               	 	 <span class="text-muted small" style="margin-left: 10px;">${sameDetail.cm_rating }</span>
+	              <div class="d-flex justify-content-between text-muted mt-4">
+	              	  <div>
+			          	 <div class="text-center position-relative ">
+				            <a href="postDetailForm?cm_num=${sameDetail.cm_num }">
+				              <!-- img -->
+				              <div class="img-zoom">  
+				                <!-- 도서 이미지 -->	
+				                  <c:set var="cm_image" value="${sameDetail.cm_image }"/>
+				                  <c:choose>
+				               		<c:when test="${fn:contains(cm_image, 'http')}">
+				               			<img src="${sameDetail.cm_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 7rem; height: 6rem;">
+				               		</c:when>
+				               		<c:otherwise>
+				               			<img src="${pageContext.request.contextPath}/upload/${sameDetail.cm_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 8rem;  height: 10rem;">
+				               		</c:otherwise>
+				                  </c:choose>
+				              </div>
+				            </a>               	
+                 		 </div>
+			          </div>
+	              
+		              <div class="mt-4">
+			              <h4 class="fs-6"><small>작성자: ${sameDetail.m_name }</small></h4>
+			              <h3 class="fs-6"><a href="newbookDetail?nb_num=${sameDetail.nb_num }" class="text-inherit text-decoration-none">${sameDetail.nb_title }</a></h3>
+			              <div class="text-warning">
+							 <c:forEach var="i" begin="1" end="${sameDetail.cm_rating}">
+			                    <i class="bi bi-star-fill"></i>
+			                 </c:forEach>
+			                 <c:forEach var="i" begin="${sameDetail.cm_rating + 1}" end="5">
+			                    <i class="bi bi-star"></i>
+			                 </c:forEach>
+		               	 	 <span class="text-muted small" style="margin-left: 10px;">${sameDetail.cm_rating }</span>
+			              </div>
+			          </div>
+			          
+			         
 	              </div>
 	              <div class="d-flex justify-content-between align-items-center mt-3">
 	                <div><span class="text-dark"><fmt:formatDate value="${sameDetail.cm_regDate}" pattern="yyyy년MM월dd일"/></span>

@@ -56,7 +56,7 @@
 						     <c:otherwise>
 						            <img src="${pageContext.request.contextPath}/upload/${reviewedList.nb_image}" id="ht" alt="bookImage">
 						     </c:otherwise>
-						 </c:choose>
+						  </c:choose>
 	                      <%-- <img id="ht" src="${reviewedList.nb_image}" alt="bookImage"> --%>
 	                      <!-- text -->
 	                      <div class="ms-4">
@@ -81,7 +81,6 @@
 			                		<i class="bi bi-star-fill"></i>
 				                </c:forEach>
 			                </small>
-	                        
 	                      </div>
 	                   </div>
 	                   <div style="display: flex; justify-content: center; align-items: center;">
@@ -91,7 +90,7 @@
 	                   </div>
 	                </div>
 	             </li>
-               </c:forEach>
+              </c:forEach>
           </ul>
        </div>
          <div style="text-align: center;">

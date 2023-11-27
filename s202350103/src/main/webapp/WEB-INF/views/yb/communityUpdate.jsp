@@ -65,9 +65,8 @@
 		  width: 600px;
 		  height: auto;
 		  padding: 40px;
-		  background: linear-gradient(180deg, #f4faf2 0, #f4faf2 473px, #edf7ea 473px, #edf7ea 100%);
 		  border-radius: 10px;
-		  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+		  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.25);
 		  transform: translateX(-50%) translateY(-50%);
 			}
 	#cm_bookTitle:hover{background: ##c1c7c6; color: white;}
@@ -138,11 +137,19 @@
 		location.href = "deleteImage?cm_num="+cm_num +"&cm_imageChk2="+cm_imageChk2;
 	}
 	function imageDelete2(cm_num, cm_imageChk1, cm_imageChk2) {
-		alert(cm_imageChk1)
-		alert(cm_imageChk2)
 		location.href = "deleteImage?cm_num="+cm_num +"&cm_imageChk1="+cm_imageChk1 +"&cm_imageChk2="+cm_imageChk2;
 	}
-
+	
+	
+	$(function(){
+		var result = '${result}';
+		
+		if(result == 1){
+			alert("수정되었습니다.");
+			window.close();
+			opener.parent.location.reload();
+		}
+	});
 
 </script>
 </head>

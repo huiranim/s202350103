@@ -32,6 +32,7 @@
 					}
 				} else {
 					alert("오답입니다.");
+					location.href = "wrongQuiz?m_num="+${m_num}+"&eNum="+${eNum};
 					return false;
 				}
 			}
@@ -39,12 +40,12 @@
 </script>
 <body>
 <div>
-	<div class="card card-product mb-8">
-		<div class="card-body text-center py-8">
-	      <h3 class="fs-3 mb-5" style="color: #0a3622;">${quiz.q_title }</h3>
-			<p>${quiz.q_sdate} 00:00 ~${quiz.q_edate} 00:00 </p>
+	<div class="card-body text-center py-8">
+	      <p class="fs-1 mb-5" style="text-align: center;">${quiz.q_title }</p>
+			<div style="text-align: center; color: #0aad0a;">${quiz.q_sdate} 00:00 ~${quiz.q_edate} 00:00 </div>
 			<p><mark>*퀴즈를 풀고 포인트를 적립해 보세요 !</mark> </p>    
-		<div>
+	<div>
+	<div class="card card-product mb-8">
 			<textarea rows="8" class="form-control mb-8" style="border: none; background:#ecf0ef; font-size: 20px; font-weight: bold;"  class="form-control">${quiz.q_question }</textarea>
 		</div>
 			<div class="form-check" style="display: flex; align-items: center; justify-content: center;">

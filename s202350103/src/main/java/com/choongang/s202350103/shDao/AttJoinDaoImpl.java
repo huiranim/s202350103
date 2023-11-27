@@ -39,6 +39,17 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		}
 		return dateList;
 	}
+	
+	@Override
+	public int checkChance(AttJoin attJoin) {
+		int chance = 0;
+		try {
+			chance = session.selectOne("shCheckAttChance",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttJoinDao checkChance() Exception->"+e.getMessage());
+		}
+		return chance;
+	}	
 
 	@Override
 	public int stampAtt(AttJoin attJoin) {
@@ -63,26 +74,6 @@ public class AttJoinDaoImpl implements AttJoinDao {
 	}
 
 	@Override
-	public int checkChance(AttJoin attJoin) {
-		int chance = 0;
-		try {
-			chance = session.selectOne("shCheckAttChance",attJoin);
-		} catch (Exception e) {
-			System.out.println("AttJoinDao checkChance() Exception->"+e.getMessage());
-		}
-		return chance;
-	}
-
-	@Override
-	public void attPointList(AttJoin attJoin) {
-		try {
-			session.insert("shAttPointList",attJoin);
-		} catch (Exception e) {
-			System.out.println("AttJoinDao attPointList() Exception->"+e.getMessage());
-		}
-	}
-
-	@Override
 	public AttJoin searchAtt(AttJoin attJoin) {
 		try {
 			attJoin = session.selectOne("shSearchAtt",attJoin);
@@ -90,6 +81,15 @@ public class AttJoinDaoImpl implements AttJoinDao {
 			System.out.println("AttJoinDao searchAtt() Exception->"+e.getMessage());
 		}
 		return attJoin;
+	}	
+	
+	@Override
+	public void attPointList(AttJoin attJoin) {
+		try {
+			session.insert("shAttPointList",attJoin);
+		} catch (Exception e) {
+			System.out.println("AttJoinDao attPointList() Exception->"+e.getMessage());
+		}
 	}
 
 	@Override

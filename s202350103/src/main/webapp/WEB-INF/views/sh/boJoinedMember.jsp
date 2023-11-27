@@ -22,7 +22,7 @@
 		<th>회원번호</th
 		><th>획득일자</th>
 		<th>이벤트 유형</th>
-		<th>연속출석 일자</th>
+		<th>포인트</th>
 	</thead>
 	<tbody>
 		<c:forEach var="pl" items="${pointList}">

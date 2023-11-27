@@ -127,6 +127,12 @@ public class ReviewDaoImpl implements ReviewDao {
 		try {
 			list = session.selectList("htMyReviewedList", review);
 			System.out.println("ReviewDaoImpl reviewedWriteList() list-> " + list);
+			for(Review review1 : list) {
+				System.out.println("ReviewDaoImpl reviewedWriteList() review1-> " + review1);
+				
+			}
+			
+			
 		}catch (Exception e) {
 			System.out.println("ReviewDaoImpl reviewedWriteList() Exception-->" + e.getMessage());
 		}

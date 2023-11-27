@@ -165,7 +165,6 @@
 			      <div class="modal-header">
 			        <h5 class="modal-title" id="exampleModalLabelOne">답변등록</h5>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-			          <span aria-hidden="true">&times;</span>
 			        </button>
 			      </div>
 		      
