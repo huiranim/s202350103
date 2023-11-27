@@ -104,31 +104,86 @@
 		var selectedMessage = $('#omessage_select').val();
 		var o_selTab = $('#o_selTab').val();
 		
-	
-		if($('#o_pay_type').val() != 1 && $('#o_pay_type').val() != 2){
-			$('#radio').focus();
-			alert("결제방식을 선택해주세요!!")
-		} else {
-			if (o_selTab == '1') {
-				sendData2 =  $('#destination1').serialize();
-				
-			}else {
-				sendData2 =  $('#destination2').serialize();
+		if(o_selTab == '2'){
+	        if(($("#destination2 #o_rec_name").val()) == ""){
+	            alert("이름을 입력하세요!!")
+	            $('#o_rec_name').focus();
+        	} else if(($("#destination2 #o_rec_mail1").val()) == ""){
+        		alert("메일을 입력하세요!!")
+	            $('#o_rec_mail1').focus();
+        	} else if(($("#destination2 #o_rec_mail2").val()) == ""){
+        		alert("메일을 입력하세요!!")
+	            $('#o_rec_mail2').focus();
+        	} else if(($("#destination2 #sample6_postcode").val()) == ""){
+        		alert("주소를 입력하세요!!")
+	            $('#sample6_postcode').focus();
+        	} else if(($("#destination2 #sample6_detailAddress").val()) == ""){
+        		alert("상세주소를 입력하세요!!")
+	            $('#sample6_detailAddress').focus();
+        	} else if(($("#destination2 #o_rec_ph1").val()) == ""){
+        		alert("전화번호를 입력하세요!!")
+	            $('#o_rec_ph1').focus();
+        	} else if(($("#destination2 #o_rec_ph2").val()) == ""){
+        		alert("전화번호를 입력하세요!!")
+	            $('#o_rec_ph2').focus();
+        	} else if(($("#destination2 #o_rec_ph3").val()) == ""){
+        		alert("전화번호를 입력하세요!!")
+	            $('#o_rec_ph3').focus();
+        	} else {
+        		if ($('#o_pay_type').val() != 1 && $('#o_pay_type').val() != 2){
+    				$('#radio').focus();
+    				alert("결제방식을 선택해주세요!!")
+    			} else {
+    				if (o_selTab == '1') {
+    					sendData2 =  $('#destination1').serialize();
+    					
+    				}else {
+    					sendData2 =  $('#destination2').serialize();
 
-			}
-			sendData3 = sendData1+"&"+sendData2;
-			
-			if($('#omessage_select').val() == "직접 입력"){
-				omessage =  $('#omessage').val();
-				sendData4 = "o_rec_msg=" + omessage;
+    				}
+    				sendData3 = sendData1+"&"+sendData2;
+    				
+    				if($('#omessage_select').val() == "직접 입력"){
+    					omessage =  $('#omessage').val();
+    					sendData4 = "o_rec_msg=" + omessage;
+    				} else {
+    					sendData4 = "";
+    				}
+    				//alert(sendData4);
+    				sendData5 = sendData3+"&"+sendData4;
+    				//alert(sendData5);
+    				location.href= "orderAction?"+sendData5;	
+    			}
+        	}
+	        
+		} else {
+			if ($('#o_pay_type').val() != 1 && $('#o_pay_type').val() != 2){
+				$('#radio').focus();
+				alert("결제방식을 선택해주세요!!")
 			} else {
-				sendData4 = "";
+				if (o_selTab == '1') {
+					sendData2 =  $('#destination1').serialize();
+					
+				}else {
+					sendData2 =  $('#destination2').serialize();
+
+				}
+				sendData3 = sendData1+"&"+sendData2;
+				
+				if($('#omessage_select').val() == "직접 입력"){
+					omessage =  $('#omessage').val();
+					sendData4 = "o_rec_msg=" + omessage;
+				} else {
+					sendData4 = "";
+				}
+				//alert(sendData4);
+				sendData5 = sendData3+"&"+sendData4;
+				//alert(sendData5);
+				location.href= "orderAction?"+sendData5;	
 			}
-			//alert(sendData4);
-			sendData5 = sendData3+"&"+sendData4;
-			//alert(sendData5);
-			location.href= "orderAction?"+sendData5;	
 		}
+		
+		
 		
 		
 	}
@@ -137,19 +192,17 @@
 	
 	function changeChk(p_point){
 		
-		var p_point_result		       = Number(p_point);                      							// 사용 포인트
-		var p_total_price		       = Number(${cart.totalPrice});										// 총 상품 금액
-		var p_deliv_price 		       = Number(${cart.o_deliv_price});									// 배송비
-		var success_total_price        = (p_total_price + p_deliv_price - p_point_result).toLocaleString();// 총 결제 금액(성공)
-		var success_total_price_submit = (p_total_price + p_deliv_price - p_point_result);// 총 결제 금액(성공)
-		var success_save_pointy        = ((p_total_price + p_deliv_price - p_point_result) * 0.01).toLocaleString();// 적립금(성공)
-		var fail_total_price 	       = (p_total_price + p_deliv_price).toLocaleString();					// 총 결제 금액(성공)
-		var fail_total_price_submit    = (p_total_price + p_deliv_price);					// 총 결제 금액(성공)
-		var fail_save_point 	       = ((p_total_price + p_deliv_price) * 0.01).toLocaleString();  		// 적립금(실패)
+		var p_point_result		= Number(p_point);                      							// 사용 포인트
+		var p_total_price		= Number(${cart.totalPrice});										// 총 상품 금액
+		var p_deliv_price 		= Number(${cart.o_deliv_price});									// 배송비
+		var success_total_price = (p_total_price + p_deliv_price - p_point_result).toLocaleString();// 총 결제 금액(성공)
+		var success_save_pointy = ((p_total_price + p_deliv_price - p_point_result) * 0.01).toLocaleString();// 적립금(성공)
+		var fail_total_price 	= (p_total_price + p_deliv_price).toLocaleString();					// 총 결제 금액(성공)
+		var fail_save_point 	= ((p_total_price + p_deliv_price) * 0.01).toLocaleString();  		// 적립금(실패)
 		
 		if(Number(p_point) < 0 ) {
 			$("#pointMsg").html("양수값만 입력 가능합니다.");
-			$("#o_point_result").html(0);
+			$("#o_point_result").html("");
 			$("#o_point").val(0);
 			$("#o_point2").val("");
 			$("#o_pay_price").html(fail_total_price);
@@ -162,17 +215,16 @@
 			$("#o_point_result").html(p_point_result);
 			// 최종 결제 금액
 			$("#o_pay_price").html(success_total_price);
-			$("#o_pay_price_submit").val(success_total_price_submit);
+			$("#o_pay_price_submit").html(success_total_price);
 			// 적립금(성공)
 			$("#o_point_save").html(Math.round(success_save_pointy));
 			$('#o_point').val(p_point);
 		} else {
 			$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
-			$("#o_point_result").html(0);
+			$("#o_point_result").html("");
 			$("#o_point").val(0);
 			$("#o_point2").val("");
 			$("#o_pay_price").html(fail_total_price);
-			$("#o_pay_price_submit").val(fail_total_price_submit);
 			$("#o_deliv_price_submit").html(fail_total_price);
 			$("#o_point_save").html(fail_save_point);
 		}
@@ -264,9 +316,9 @@
 		              <label class="form-label" for="o_rec_mail"> 이메일<span class="text-danger">*</span></label>
 		              <div class="form-group">
 					    <div class="d-flex">
-					     <input type="text" id="o_rec_mail" name=m_email1 class="form-control" placeholder="abc" required style="width: 200px;"> 
+					     <input type="email" id="o_rec_mail1" name=m_email1 class="form-control" placeholder="abc" required style="width: 200px;"> 
 					     <span class="mx-1"> @ </span>
-					     <input type="text" id="o_rec_mail" name="m_email" class="form-control" placeholder="naver.com" required style="width: 200px;">
+					     <input type="email" id="o_rec_mail2" name="m_email" class="form-control" placeholder="naver.com" required style="width: 200px;">
 					    </div>
 		              </div>
 		            </div>  
@@ -295,11 +347,11 @@
 		              <label class="form-label" for="o_rec_ph"> 휴대전화<span class="text-danger">*</span></label>
 		              <div class="form-group">
 					    <div class="d-flex">
-					     <input type="text" id="o_rec_ph" name="m_ph1" class="form-control" placeholder="010" required>
+					     <input type="tel" id="o_rec_ph1" name="m_ph1" class="form-control" placeholder="010" required>
 					     <span class="mx-1">-</span>
-					     <input type="text" id="o_rec_ph" name="m_ph2" class="form-control" placeholder="0000" required>
+					     <input type="tel" id="o_rec_ph2" name="m_ph2" class="form-control" placeholder="0000" required>
 					     <span class="mx-1">-</span>
-					     <input type="text" id="o_rec_ph" name="m_ph3" class="form-control" placeholder="0000" required>
+					     <input type="tel" id="o_rec_ph3" name="m_ph3" class="form-control" placeholder="0000" required>
 					    </div>
 					  </div>
 		            </div>
@@ -508,7 +560,7 @@
             
             <h5 class="h5">결제 수단</h5><p>
             	<div class="d-grid gap-2 col-6 mx-auto">
-	            	<tr>
+	            	<tr >
 						<td><button id="radio" type="radio"  name="paymentMethod" onclick="changePaymentType(1)" value="1" class="btn btn-soft-secondary mb-2" required>카카오</button>
 							<!-- <button type="radio"  name="paymentMethod" onclick="changePaymentType(2)" value="2" class="btn btn-soft-secondary mb-2">토스</button> -->
 						</td>
