@@ -1012,11 +1012,13 @@ public class YbController {
 			System.out.println("getCm_image1 -> " + community.getCm_image1());
 			System.out.println("getCm_image2 -> " + community.getCm_image2());
 		}
-
+		// 업데이트
 		int communityUpdateDo = ms.communityUpdateDo(community);
+		
+		model.addAttribute("result", communityUpdateDo);
 		System.out.println("ybController communityUpdateDo result -> " + communityUpdateDo);
 
-		return "yb/postDetailForm";
+		return "yb/communityUpdate";
 	}
 
 	// 게시글 수정 시 이미지 삭제
