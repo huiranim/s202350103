@@ -15,9 +15,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3>조회수 : ${oldBook.ob_readcnt }</h3>
+<%-- <h3>조회수 : ${oldBook.ob_readcnt }</h3> --%>
+
 	<div class="row">
+	
 	  <div class="col-md-12 row justify-content-center">
+	  
+<div class="d-grid gap-2 d-md-flex justify-content-md-end" style="margin-right: 150px;" >
+	  <button class="btn btn-soft-primary mb-2" type="button" 
+	  		onclick="location.href='folistOb?nb_category1=${oldBook.nb_category1}'">도서목록</button>
+	  		
+   </div>
 		<!-- 도서 이미지 -->
 		 <div class="product" id="product" style="width: 20rem;">
 		    <div class="zoom" onmousemove="zoom(event)"
@@ -26,10 +34,10 @@
 		    </div>
 		 </div>
 	  <!-- 도서 간략 정보 -->
-	  <div class="col-md-6 text-end">
+	  <div class="col-md-6 text-end" style="width: 770px;">
 		 <div class="ps-lg-4 mt-4 mt-md-0">
 		    <!-- 카테고리 -->
-		   <span class="mb-4 d-block">
+		   <span class="mb-4 d-block text-start" style="margin-left: 100px;">
 		    	<c:choose>
 					<c:when test="${oldBook.nb_category1 eq 1}">국내도서 </c:when>
 					<c:when test="${oldBook.nb_category1 eq 2}">해외도서 </c:when>
@@ -48,7 +56,7 @@
 	  
 	  
 		    <!-- 도서명 -->
-		    <h1 class="mb-1 text-center">
+		    <h1 class="mb-1 text-center" style="width: 550px; margin-left: 100px;">
 	      	<c:choose>
 					<c:when test="${oldBook.ob_grade eq '0' }"><c:out value="[중고 A]"/></c:when>
 					<c:when test="${oldBook.ob_grade eq '1' }"><c:out value="[중고 B]"/></c:when>
@@ -69,14 +77,15 @@
 	  
 	     
 		    <!-- 한 줄 긋기 -->
-		    <hr class="my-6">
+		    <hr style="width: 620px; margin-left: 100px;">
 	  </div>
 	    
 		    <!-- 도서 간략 내용 -->
-		    <div>
+		    <div style="width: 500px;">
 		       <!-- table -->
-		       <table class="table table-borderless">
-		          <tbody>
+		       <table class="table table-borderless" style="margin-left: 100px;">
+		         
+		          <tbody style="margin-left: 200px;">
 		             <tr>
 		                <td>지은이:</td>
 		                <td>${oldBook.nb_writer }</td>
@@ -93,7 +102,7 @@
 		                </td>
 		             </tr>
 		                <tr>
-		                <td>매입번호 :</td>
+		                <td>   매입번호 :</td>
 		                <td>${oldBook.ob_num }</td>
 		             </tr>
 		          </tbody>
@@ -113,7 +122,7 @@
 		          <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" style="height: 42px;width: 40px;"> -->
 				  <div class="g-2 align-items-center">
 				     <!-- 구매버튼 -->
-				     <div style="margin-left: 15px;">
+				     <div style="margin-left: 15px; margin-right:  70px;">
 				       <a href="orderForm?ob_num=${oldBook.ob_num}&paymentType=1" class="btn btn-primary ">
 		                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
 		                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -180,7 +189,9 @@
               tabindex="0">
               <div class="my-8">
                <div>
-			<label>현재 중고도서 등급 내역</label>
+			 <div class="badge bg-primary text-wrap" style="width: 150px;">
+  	현재 중고 도서 등급 내역 
+ </div>
 		<c:if test="${oldBook.ob_grade eq 0 }">	
 			<div class="table-responsive d-block">
 			  <table class="table">
@@ -390,7 +401,7 @@
          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
       </svg>
       <div>
-        <a href="#chkgrade">중고 등급 확인하로 가기 </a>
+        <a href="#chkgrade">중고 등급 확인하러 가기 </a>
       </div>
    </div>
 
@@ -422,8 +433,12 @@
 				     </tr>  
 				   </table>
                 </div>
-                                	<div id="chkgrade">
-	중고도서 등급 확인란
+   <div id="chkgrade">
+	 <div class="badge bg-primary text-wrap" style="width: 150px;">
+   중고 도서 등급 확인란 
+ </div>
+
+	
 	</div>
 <div class="table-responsive d-block">
 			  <table class="table">

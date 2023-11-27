@@ -160,7 +160,7 @@
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="BolistOb"> 판매 신청 목록 </a></li>
+										href="BolistOb?currentPage=1&ob_status=0"> 판매 신청 목록 </a></li>
 									<!-- Nav item -->
 									<!-- <li class="nav-item "><a class="nav-link "
 										href="../dashboard/order-single.html"> 메뉴2 </a></li> -->
@@ -295,7 +295,7 @@
 								data-bs-parent="#sideNavbar">
 								<ul class="nav flex-column">
 									<li class="nav-item "><a class="nav-link "
-										href="BolistOb"> 판매 신청 목록 </a></li>
+										href="BolistOb?currentPage=1&ob_status=0"> 판매 신청 목록 </a></li>
 									<!-- Nav item -->
 									<!-- <li class="nav-item "><a class="nav-link "
 										href="../dashboard/order-single.html"> 메뉴2 </a></li> -->

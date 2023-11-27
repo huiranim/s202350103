@@ -29,7 +29,7 @@
  <div class="col-12">
     <div class="d-lg-flex justify-content-between align-items-center">
        <div class="mb-3 mb-lg-0">
-          <p class="mb-0"> <span class="text-dark">${totalOb2} </span> 중고 도서 </p>  
+          <p class="mb-0">총 &nbsp;<span class="text-dark">${totalOb2} </span>&nbsp; 개 </p>  
        </div>
            <div class="d-md-flex justify-content-between align-items-center">
           <div class="d-flex align-items-center justify-content-between">

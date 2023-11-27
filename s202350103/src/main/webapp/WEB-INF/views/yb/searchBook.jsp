@@ -98,7 +98,7 @@
 							                    <a href="newbookDetail?nb_num=${book.nb_num }" class="text-inherit"><h6 class="mb-0">${book.nb_title }</h6></a>
 							                    <span><small class="text-muted">${book.nb_publisher }</small></span>
 							                    <!-- text -->
-							                    <span class="text-muted">${book.nb_writer }</span>
+							                    <span><small class="text-muted">${book.nb_writer }</small></span>
 				                		</td>
 				                		<td  width="10px;" style="padding-top: 30px;">
 				                			<a href="javascript:sendChildValue('${book.nb_title}', '${book.nb_image }', '${book.nb_num }')">
@@ -115,24 +115,29 @@
 				  <ul class="pagination justify-content-center">
 		
 					 	<c:if test="${page.startPage > page.pageBlock }">
-							<a href="bookList?currentPage=${page.startPage-page.pageBlock }">[이전]</a>
+							<a href="searchBook?currentPage=${page.startPage-page.pageBlock }">[이전]</a>
 						</c:if>
 						
-						<c:if test="${newbook.search_keyword != null }">
-							<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-								<a href="searchListBook?currentPage=${i}&search_type=${newbook.search_type }&search_keyword=${newbook.search_keyword}">[${i}]</a>
-							</c:forEach>
-						</c:if>
-						<c:if test="${newbook.search_keyword == null }">
+						<c:choose>
+							<c:when test="${newbook.search_keyword != null }">
 								<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-									<a href="bookList?currentPage=${i}">[${i}]</a>
+									<a href="searchListBook?currentPage=${i}&search_type=${newbook.search_type }&search_keyword=${newbook.search_keyword}">[${i}]</a>
 								</c:forEach>
-							</c:if>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
+									<a href="searchBook?currentPage=${i}">[${i}]</a>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+						
+
 						<c:if test="${page.endPage < page.totalPage }">
-							<a href="bookList?currentPage=${page.startPage+page.pageBlock }">[다음]</a>
+							<a href="searchBook?currentPage=${page.startPage+page.pageBlock }">[다음]</a>
 						</c:if>
 				    </ul>
 			     </nav>
+   
 
 	          </div>
 

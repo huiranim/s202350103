@@ -150,22 +150,47 @@
 					              <!-- col -->
 					              <div class="col-md-4 col-12">
 					                 <div class="text-center position-relative ">
-					                    <a href="newbookDetail?nb_num=${searchNewbook.nb_num }">
-					                       <!-- 도서 이미지 -->
-					                       <c:choose>
-							                  <c:when test="${fn:contains(searchNewbook.nb_image, 'http')}">
-							                     <img src="${searchNewbook.nb_image}" alt="${searchNewbook.nb_title}" style="width: 13rem; height: 19rem;">
-							                  </c:when>
-							                  <c:otherwise>
-							                     <img src="${pageContext.request.contextPath}/upload/${searchNewbook.nb_image}" alt="${searchNewbook.nb_title}" style="width: 13rem; height: 19rem;">
-							                  </c:otherwise>
-							               </c:choose>
-					                    </a>
+					                 	<!-- 새상품 도서일 때 -->
+					                 	<c:if test="${searchNewbook.nb_num < 200000}">
+					                 		<a href="newbookDetail?nb_num=${searchNewbook.nb_num }">
+						                       <!-- 도서 이미지 -->
+						                       <c:choose>
+								                  <c:when test="${fn:contains(searchNewbook.nb_image, 'http')}">
+								                     <img src="${searchNewbook.nb_image}" alt="${searchNewbook.nb_title}" style="width: 13rem; height: 19rem;">
+								                  </c:when>
+								                  <c:otherwise>
+								                     <img src="${pageContext.request.contextPath}/upload/${searchNewbook.nb_image}" alt="${searchNewbook.nb_title}" style="width: 13rem; height: 19rem;">
+								                  </c:otherwise>
+								               </c:choose>
+						                    </a>
+					                 	</c:if>
+					                 	<!-- 중고도서 일 때 -->
+					                 	<c:if test="${searchNewbook.nb_num > 200000}">
+						                 	<a href="foOldBookDetail?ob_num=${searchNewbook.nb_num }">
+						                       <!-- 도서 이미지 -->
+						                       <c:choose>
+								                  <c:when test="${fn:contains(searchNewbook.nb_image, 'http')}">
+								                     <img src="${searchNewbook.nb_image}" alt="${searchNewbook.nb_title}" style="width: 13rem; height: 19rem;">
+								                  </c:when>
+								                  <c:otherwise>
+								                     <img src="${pageContext.request.contextPath}/upload/${searchNewbook.nb_image}" alt="${searchNewbook.nb_title}" style="width: 13rem; height: 19rem;">
+								                  </c:otherwise>
+								               </c:choose>
+						                    </a>
+					                 	</c:if>
 					                 </div>
 					              </div>
 					              <div class="col-md-8 col-12 flex-grow-1">
 					                 <!-- 도서 제목 -->
-					                 <h1 class="fs-2 mb-3"><a href="newbookDetail?nb_num=${searchNewbook.nb_num }" class="text-inherit text-decoration-none">${searchNewbook.nb_title}</a>
+					                 <h1 class="fs-2 mb-3">
+					                 <!-- 새 도서 일 때 -->
+					                 <c:if test="${searchNewbook.nb_num < 200000}">
+					                 	<a href="newbookDetail?nb_num=${searchNewbook.nb_num }" class="text-inherit text-decoration-none">${searchNewbook.nb_title}</a>
+					                 </c:if>
+					                 <!-- 중고도서 일때 -->
+									 <c:if test="${searchNewbook.nb_num > 200000}">
+									 	<a href="foOldBookDetail?ob_num=${searchNewbook.nb_num }" class="text-inherit text-decoration-none">${searchNewbook.nb_title}</a>
+									 </c:if>
 					                 </h1>
 					                 <!-- 지은이, 출판사, 출판일 -->
 					                 <h3 class="fs-6 mb-3">${searchNewbook.nb_writer} | ${searchNewbook.nb_publisher} | ${searchNewbook.nb_publi_date}

@@ -95,6 +95,8 @@ public interface MemberService {
 
 	List<Community> popularList(Community community);
 
+	int 			bookListCnt(NewBook newbook);
+
 
 
 	
