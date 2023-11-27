@@ -38,7 +38,7 @@
 		                    <th>제목</th>
 		                    <th>상태</th>
 		                    <th style="padding-left: 10px;">등급</th>
-		                    <th>매입 예상가</th>
+		                    <th>판매 예상가</th>
 		                    <th>정산 금액</th>
 		                    <th style="padding-left: 10px;">신청일자</th>
 		                    <th style="padding-left: 0px; padding-right: 10px;">정산여부 / 상세보기</th>

@@ -75,7 +75,7 @@
 </head>
 
 <body>
-<form action="" method="post" class="col-lg-12 d-block">
+<form action="" method="post" class="col-xl-8 col-lg-8 col-md-8 col-8 mb-6" style="margin-left: auto; margin-right: auto;">
 <p class="fs-1 text-center">중고 검수 상세 내역</p>
 
 <input type="hidden" name="ob_num" value="${oldBook.ob_num }">
@@ -173,11 +173,12 @@
 	      <td colspan="2"><fmt:formatNumber type="number" pattern="###,###,###,###,###,###"  value="${oldBook.ob_sell_price}" />원</td>
 	    </tr>
 	</table>
-	</form>		
-			 <div class="d-grid gap-2">
+		 <div class="d-grid gap-2">
 		    <button class="btn btn-success" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
 		</div>
    
+	</form>		
+		
 
 </body>
 </html>
