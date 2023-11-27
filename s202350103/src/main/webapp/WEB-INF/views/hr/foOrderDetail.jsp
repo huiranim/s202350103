@@ -13,7 +13,7 @@
 		// 취소처리 (1 -> 5)
 		function statusCancellation(p_order_num) {
 			// 확인용
-			alert("statusCancellation p_order_num -> "+p_order_num);
+			// alert("statusCancellation p_order_num -> "+p_order_num);
 			
 			if("${orderr.o_status}" == 1) {
 				$.ajax(
@@ -22,7 +22,8 @@
 							data : {o_order_num : p_order_num},
 							dataType : 'text',
 							success : function(data) {
-								alert('statusCancellation data -> '+data);
+								// 확인용
+								// alert('statusCancellation data -> '+data);
 								if(data == "1"){
 									alert('취소 처리 완료되었습니다.');
 									//$('#o_status').load(location.href+' #o_status');
@@ -38,7 +39,8 @@
 		
 		// 교환처리 (3 -> 6)
 		function statusExchange(p_order_num) {
-			alert("statusExchange p_order_num -> "+p_order_num);
+			// 확인용
+			// alert("statusExchange p_order_num -> "+p_order_num);
 			
 			if("${orderr.o_status}" == 3) {
 				window.open("/boExchangePopup?o_order_num=${orderr.o_order_num}",
@@ -51,7 +53,8 @@
 		
 		// 반품처리 (3 -> 7)
 		function statusReturn(p_order_num) {
-			alert("statusReturn p_order_num -> "+p_order_num);
+			// 확인용
+			// alert("statusReturn p_order_num -> "+p_order_num);
 			
 			if("${orderr.o_status}" == 3) {
 				window.open("/boReturnPopup?o_order_num=${orderr.o_order_num}",
@@ -64,7 +67,8 @@
 		
 		// 주문상품목록
 		function ProductPopup(p_order_num) {
-			alert("ProductPopup p_order_num -> "+p_order_num);
+			// 확인용
+			// alert("ProductPopup p_order_num -> "+p_order_num);
 			
 			window.open("/boOrderDetail/List?o_order_num=${orderr.o_order_num}",
 					"주문 상품 목록",
@@ -124,8 +128,8 @@
                      <th class="table-light">결제 수단</th>
                      <td class="align-middle">
                      	<c:choose>
-                     		<c:when test="${orderr.o_type == 1}">카카오페이</c:when>
-                     		<c:when test="${orderr.o_type == 2}">토스페이</c:when>
+                     		<c:when test="${orderr.o_pay_type == 1}">카카오페이</c:when>
+                     		<c:when test="${orderr.o_pay_type == 2}">토스페이</c:when>
                      		<c:otherwise>(결제 대기 중)</c:otherwise>
                      	</c:choose>
                      </td>

@@ -12,7 +12,7 @@
 		// 취소처리 (1 -> 5)
 		function statusCancellation(p_order_num) {
 			// 확인용
-			alert("statusCancellation p_order_num -> "+p_order_num);
+			// alert("statusCancellation p_order_num -> "+p_order_num);
 			
 			if("${orderr.o_status}" == 1) {
 				$.ajax(
@@ -21,7 +21,8 @@
 							data : {o_order_num : p_order_num},
 							dataType : 'text',
 							success : function(data) {
-								alert('statusCancellation data -> '+data);
+								// 확인용
+								// alert('statusCancellation data -> '+data);
 								if(data == "1"){
 									alert('취소 처리 완료되었습니다.');
 									//$('#o_status').load(location.href+' #o_status');
@@ -37,7 +38,7 @@
 		// 배송완료 (2 -> 3)
 		function statusDelivered(p_order_num) {
 			// 확인용
-			alert("statusDelivered p_order_num -> "+p_order_num);
+			// alert("statusDelivered p_order_num -> "+p_order_num);
 			
 			if("${orderr.o_status}" == 2) {
 				$.ajax(
@@ -46,7 +47,8 @@
 							data : {o_order_num : p_order_num},
 							dataType : 'text',
 							success : function(data) {
-								alert('statusDelivered data -> '+data);
+								// 확인용
+								// alert('statusDelivered data -> '+data);
 								if(data == "1"){
 									alert('배송완료 처리 완료되었습니다.');
 									location.reload();
@@ -61,7 +63,7 @@
 		// 구매확정 (3 -> 4)
 		function statusConfirmation(p_order_num) {
 			// 확인용
-			alert("statusConfirmation p_order_num -> "+p_order_num);
+			// alert("statusConfirmation p_order_num -> "+p_order_num);
 			
 			if("${orderr.o_status}" == 3) {
 				$.ajax(
@@ -70,7 +72,8 @@
 							data : {o_order_num : p_order_num},
 							dataType : 'text',
 							success : function(data) {
-								alert('statusConfirmation data -> '+data);
+								// 확인용
+								// alert('statusConfirmation data -> '+data);
 								if(data == "1"){
 									alert('구매확정 처리 완료되었습니다.');
 									location.reload();
@@ -84,7 +87,8 @@
 		}
 		// 발송처리 (1 -> 2)
 		function statusShipping(p_order_num) {
-			alert("statusShipping p_order_num -> "+p_order_num);
+			// 확인용
+			// alert("statusShipping p_order_num -> "+p_order_num);
 			
 			if("${orderr.o_status}" == 1) {
 				window.open("/boShippingPopup?o_order_num=${orderr.o_order_num}",
@@ -97,7 +101,8 @@
 		
 		// 교환처리 (3 -> 6)
 		function statusExchange(p_order_num) {
-			alert("statusExchange p_order_num -> "+p_order_num);
+			// 확인용
+			// alert("statusExchange p_order_num -> "+p_order_num);
 			
 			if("${orderr.o_status}" == 3) {
 				window.open("/boExchangePopup?o_order_num=${orderr.o_order_num}",
@@ -110,7 +115,8 @@
 		
 		// 반품처리 (3 -> 7)
 		function statusReturn(p_order_num) {
-			alert("statusReturn p_order_num -> "+p_order_num);
+			// 확인용
+			// alert("statusReturn p_order_num -> "+p_order_num);
 			
 			if("${orderr.o_status}" == 3) {
 				window.open("/boReturnPopup?o_order_num=${orderr.o_order_num}",
@@ -123,7 +129,8 @@
 		
 		// 주문상품목록
 		function ProductPopup(p_order_num) {
-			alert("ProductPopup p_order_num -> "+p_order_num);
+			// 확인용
+			// alert("ProductPopup p_order_num -> "+p_order_num);
 			
 			window.open("/boOrderDetail/List?o_order_num=${orderr.o_order_num}",
 						"주문 상품 목록",

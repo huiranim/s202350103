@@ -16,7 +16,13 @@
 			//alert("입력 포인트 : "+p_point);
 			//alert("입력 포인트 type : "+typeof(p_point));
 			
-			if(Number(p_point) <= Number('${member.m_point }')){
+			// 음수 또는 숫자 아닌 값 입력 시
+			if(Number(p_point) < 0){
+				$("#o_point").val("");
+				$("#o_point_result").html(0);
+
+			// 보유 포인트 이하로 입력 시
+			} else if(Number(p_point) <= Number('${member.m_point }')){
 				//alert("사용 가능합니다.");
 				$("#pointMsg").html("사용 가능합니다.");
 				
@@ -41,6 +47,7 @@
 				const p_point_save_result = p_point_save.toLocaleString();
 				$("#o_point_save").html(p_point_save_result);
 				
+			// 그 외 (이상 입력 시)
 			} else {
 				//alert("보유 포인트보다 많이 사용할 수 없습니다.");
 				$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
@@ -265,7 +272,8 @@
             			<td class="form-label" width="70%">적립 혜택</td>
             			<td class="h6" width="30%" align="right">
             				<span id="o_point_save">
-            					<fmt:formatNumber value="${(newbook.nb_price * quantity + o_deliv_price) * 0.01}" groupingUsed="true"/>
+            					<fmt:formatNumber value="${(newbook.nb_price * quantity + o_deliv_price) * 0.01}"
+            									  pattern="###,###,###,###,###,###" groupingUsed="true"/>
             				</span> 원
             			</td>
             		</tr>
@@ -276,8 +284,7 @@
             
             <h5 class="h5">결제 수단</h5><p>
             	<div class="d-grid gap-2 col-6 mx-auto">
-	            	<button type="button" class="btn btn-soft-secondary mb-2">카카오</button>
-	            	<button type="button" class="btn btn-soft-secondary mb-2">토스</button>
+					<input type="button" class="btn btn-outline-secondary mb-2" value="카카오">
             	</div>
             	
             <p><p><p><p><p><p>
@@ -294,6 +301,7 @@
 <input type="hidden" name="o_de_count"  value="${quantity}"> 
 <input type="hidden" name="o_type" 		value="2"> 
 <input type="hidden" name="destination" value="0"> 
+<input type="hidden" name="o_pay_type"  value="1">
 
           </form>
 
