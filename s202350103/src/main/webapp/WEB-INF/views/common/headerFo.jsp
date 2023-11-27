@@ -159,7 +159,8 @@
                   </svg>
                 </button>
               </div>
-             
+                
+                <c:if test="${sessionScope.member != null }">	
                		<div>
              			 <c:if test="${member.m_admin == 1 }">  		
 						<a href="mainBo" style="color: #581313;"><strong>
@@ -168,12 +169,14 @@
 						 </c:if>
 						 	<br>
 						<c:if test="${member.m_num != 0 }"> 	
-						 	<a href="memberLogout" style="color: #581313;"><strong>
+						 	<a href="memberLogout" style="color: #581313;">
+						 	<strong>
 				               		<i ></i>
 									 로그아웃 </strong></a>
 						</c:if> 	
 	               	</div>
-        
+       			</c:if>
+       			 
             </div>
 
           </div>

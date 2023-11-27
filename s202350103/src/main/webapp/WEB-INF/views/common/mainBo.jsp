@@ -143,43 +143,14 @@
 												  data: data
 												});
 												</script>
-
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                          <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
-                            <div class=" position-relative h-100">
-                              <a href="#">
-                                <div class="card card-lg mb-6">
-                                    <div class="card-body px-6 py-8">
-                                        <div class="d-flex align-items-center">
-                                            <div>
-                                               <i class="bi bi-card-text" style="font-size: 32px; color: #ffc107;"></i>
-                                            </div>
-                                            
-                                            
-                                            <div class="ms-4">
-                                                <h5 class="mb-1">게시물 관리</h5>
-                                                <p class="mb-0">신고접수 게시물</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </a>
-           					 </div>     
-				           </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
 				           
-				           
-				            <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
-                            <div class=" position-relative h-100">
+                             
                              <a href="adminDeclReply">   
-                                <!-- card -->
                                 <div class="card card-lg mb-6">
-                                    <!-- card body -->
                                     <div class="card-body px-6 py-8">
                                         <div class="d-flex align-items-center">
                                             <div>
@@ -199,11 +170,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                </a>
-           					 </div>     
-				           </div>
-                        
-                   
+                               </a>
                    
                    </div>     
 
