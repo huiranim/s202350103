@@ -61,10 +61,10 @@ function openWrite() {
           <div id="container2">
           <div class="col">
               <!-- card -->
-              <div class="card card-product" style="width: 370px;">
+              <div class="card card-product" style="width: 370px; height: 250px;">
                 <!-- card body -->
              
-                <div class="card-body mt-5">
+                <div class="card-body mt-5" style="height: 195px;">
 	                
                   <div class=" row align-items-center">
                     <!-- col -->
@@ -93,10 +93,10 @@ function openWrite() {
                     </div>
          <div class="col-md-8 col-12 flex-grow-1">
                 <!-- heading -->
-                 <h2 class="fs-6">${popList.nb_title }
+                 <h2 class="fs-6">${popList.cm_title }
                 </h2>
-                <div class="text-small mb-1"><small>${popList.cm_title }</small></div>
-               
+                <div class="text-small"><small>작성자: ${popList.m_name }</small></div>
+                <div class="text-small mb-1" "><small>${popList.nb_title }</small></div>               
                   <p><div class="mb-2">
                             <div class="text-warning">
 				                   <c:forEach var="i" begin="1" end="${popList.cm_rating}">
@@ -127,10 +127,10 @@ function openWrite() {
 
 		  <nav aria-label="...">
 				<ul class="pagination pagination-lg justify-content-center">
-				  <li  class="page-item active">
+				  <li  class="page-item ">
 				  	<a href="memberCommunity" class="page-link">전체 독후감</a>
 				  </li>
-				  <li  class="page-item ">
+				  <li  class="page-item active">
 				  	<a href="memberMyCommunity" class="page-link">내 독후감</a>
 				  </li>
 				  
@@ -169,14 +169,14 @@ function openWrite() {
 				              </div>
 				            </a>               	
                   </div>
-                  <h5 class="text-dark" ><a href="#!" class="text-inherit">${community.nb_title}</a></h5>
-                  <div class="text-small text-dark mb-1">
-                  	<a href="#!" class="text-dark text-muted"><small>${community.m_name}</small></a></div>
+                  <h5 class="text-dark" ><a href="#!" class="text-inherit">${community.cm_title}</a></h5>
+                  <div class="text-small text-dark mb-1 mt-4">
+                  	<a href="#!" class="text-dark text-muted "><small>작성자: ${community.m_name}</small></a></div>
 	              <div>
 	              
 			            
-			           <small>${community.cm_title}</small>
-			            <p><div class="mb-4">
+			           <small class="fs-6">${community.nb_title}</small>
+			            <p><div class="d-flex justify-content-between text-muted mt-3">
 				                <div class="text-warning">
 				                   <c:forEach var="i" begin="1" end="${community.cm_rating}">
 				                      <i class="bi bi-star-fill"></i>
@@ -186,10 +186,11 @@ function openWrite() {
 				                   </c:forEach>
 				                 <span class="text-muted small" style="margin-left: 10px;">(${community.cm_rating })</span>
 				                </div>
+				                <p><p><div class="mb-2"><i class="bi bi-hand-thumbs-up"></i>(${community.cm_hitCnt })</div></p>
 				          </div></p>
-				          <p><div class="mb-4"><i class="bi bi-hand-thumbs-up"></i>(${community.cm_hitCnt })</div></p>
+				          
 			            <div class="d-flex justify-content-between text-muted mt-4"><span><small><fmt:formatDate value="${community.cm_regDate }" pattern="yyyy년MM월dd일"/>
-			                  </small></span><span><small>조회수: <span class="text-dark fw-bold">(${community.cm_readCnt }건)</span></small></span>
+			                  </small></span><span><small>조회수: <span class="text-dark">(${community.cm_readCnt }건)</span></small></span>
 			            </div>
 				 </div>
                 </div>

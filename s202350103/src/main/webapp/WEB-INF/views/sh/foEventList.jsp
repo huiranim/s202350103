@@ -33,8 +33,42 @@
 }
 </style>
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+<script type="text/javascript">
+	//이벤트 클릭 function
+	function checkTime(e_sdate,e_edate){
+		var curDate = new Date();
+		var curDate1 = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
+		var sysdate = new Date(curDate1);
+		var sdate = convertToDate(e_sdate);
+		var edate = convertToDate(e_edate);
+		var target = document.getElementById("subButton");
+		if(sysdate>=sdate&&sysdate<=edate){
+			return true;
+		} else{
+			alert("이벤트 기간이 아닙니다.");
+			eventClick(mNum,eNum);
+			event.stopPropagation();
+			return false;
+		}
+	}
+	
+	function convertToDate(dateStr) {
+		var parts = dateStr.split('-');
+		return new Date(parts[0], parts[1] - 1, parts[2]);
+		}
+		
+	
+	function eventClick(mNum, eNum) {
+	    if (!mNum) {
+	        alert("로그인이 필요한 페이지입니다.");
+	        location.href = "loginForm";
+	    	}else{
+	    	mNum = parseInt(mNum);
+	        location.href = "eventIn?m_num=" + mNum + "&eNum=" + eNum;
+	    }
+	}
+</script>
 <body>
-
  <p class="fs-1 mb-6" style="margin: auto;">이벤트</p>
  <hr><br>
    <div class="card card-product mb-5">
@@ -109,45 +143,6 @@
 		</ul>
 </nav>
    
-
-
-
-<script type="text/javascript">
-	//이벤트 클릭 function
-	function checkTime(e_sdate,e_edate){
-		var curDate = new Date();
-		var curDate1 = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
-		var sysdate = new Date(curDate1);
-		var sdate = convertToDate(e_sdate);
-		var edate = convertToDate(e_edate);
-		var target = document.getElementById("subButton");
-		if(sysdate>=sdate&&sysdate<=edate){
-			return true;
-		} else{
-			alert("이벤트 기간이 아닙니다.");
-			eventClick(mNum,eNum);
-			event.stopPropagation();
-			return false;
-		}
-	}
-	
-	function convertToDate(dateStr) {
-		var parts = dateStr.split('-');
-		return new Date(parts[0], parts[1] - 1, parts[2]);
-		}
-		
-	
-	function eventClick(mNum, eNum) {
-	    if (!mNum) {
-	        alert("로그인이 필요한 페이지입니다.");
-	        location.href = "loginForm";
-	    	}else{
-	    	mNum = parseInt(mNum);
-	        location.href = "eventIn?m_num=" + mNum + "&eNum=" + eNum;
-	    }
-	}
-</script>
-
 <%@ include file="../common/footerFo.jsp" %>
 </body>
 </html>
