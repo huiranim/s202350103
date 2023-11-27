@@ -133,7 +133,7 @@
           <div class="card-body ">
          	<div class="group mb-10 ">
 		          <i class="bi bi-book-fill fs-1 me-1" style="color:#21313c;">
-		          		&nbsp;&nbsp;&nbsp;&nbsp;
+		          		&nbsp;&nbsp;
 		          		<span style=" font-size: 20px; font-style: normal;">
 		          		<strong>내독후감</strong>
 		          		</span> 
@@ -152,7 +152,7 @@
           <div class="card-body ">
          	<div class="group mb-10 ">
 		          <i class="bi bi-card-heading fs-1 me-1" style="color:#21313c;">
-		          		&nbsp;&nbsp;&nbsp;&nbsp;
+		          		&nbsp;&nbsp;
 		          		<span style=" font-size: 20px; font-style: normal;">
 		          		<strong>내게시글</strong>
 		          		</span> 

@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="../assets/libs/simplebar/dist/simplebar.min.js"></script>
 
 <script type="text/javascript">
 	
@@ -39,8 +40,14 @@
 	  </div>
 	  <p>매너 있는 DADOK 회원이 되어주세요.</p>
 	</div>
+	
 
-	<div class="offset-lg-2 col-lg-8 col-12">
+	<div style="float: right;" >
+	  <button class="btn btn-primary" onclick="location.href='memberQnaList'">글 목록</button>
+	</div>
+
+	<div class="offset-lg-2 col-lg-8 col-12 " >
+
           <div class="mb-8">
 
           </div>
@@ -84,7 +91,8 @@
             <div class="col-md-12 mb-5">
               <!-- input -->
               <label class="form-label" for="comments" style="font-weight: bold; font-size: 14px;">글내용<span class="text-danger">*</span></label>
-              <textarea rows="5" id="mq_content" name="mq_content" class="form-control" placeholder="내용을 입력하세요" required="required"></textarea>
+              <textarea rows="5"  id="mq_content" name="mq_content" class="form-control" placeholder="내용을 입력하세요" required="required"></textarea>
+
             </div>
 				<!-- Button Block -->
 				<div class="d-grid gap-2 col-6 mx-auto">
