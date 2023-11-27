@@ -304,7 +304,7 @@
     
     
 
-    <nav class="navbar navbar-expand-lg navbar-light navbar-default py-0 pb-lg-4 " aria-label="Offcanvas navbar large">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-default py-0 pb-lg-4 mt-3" aria-label="Offcanvas navbar large">
     
     <!-- 메인 광고  -->
       <div class="container">
@@ -358,7 +358,7 @@
             <!-- 작은화면 메인메뉴 버튼 -->
             <div class="d-block d-lg-none mb-4">
               <a class="btn btn-primary w-100 d-flex justify-content-center align-items-center" data-bs-toggle="collapse"
-                href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size:18px;" >
                 <span class="me-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                     class="feather feather-grid">
@@ -404,11 +404,11 @@
            <!-- 전체화면 메뉴 클릭시  -->
             <div class="dropdown me-3 d-none d-lg-block">
               <button class="btn btn-primary px-6 " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                aria-expanded="false">
+                aria-expanded="false" style="font-size:18px;">
                 <span class="me-1">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-grid">
+                    class="feather feather-grid" style="font-size:18px;">
                     <rect x="3" y="3" width="7" height="7"></rect>
                     <rect x="14" y="3" width="7" height="7"></rect>
                     <rect x="14" y="14" width="7" height="7"></rect>
@@ -450,7 +450,7 @@
                <!-- 상세 메뉴 -->
                 <li class="nav-item dropdown w-100 w-lg-auto dropdown-fullwidth">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                    aria-expanded="false" style="font-size:18px;">
                   <span style="font-weight: bold;">도서 상품</span>  
                   </a>
                   <div class=" dropdown-menu pb-0">
@@ -518,7 +518,7 @@
              
 
                  <li class="nav-item w-100 w-lg-auto">
-                  <a class="nav-link" href="writeFormObReport">
+                  <a class="nav-link" href="writeFormObReport" style="font-size:18px;">
        		   <span style="font-weight: bold;">중고판매 </span>
        		   <i class="bi bi-dot"></i>
                   </a>
@@ -526,7 +526,7 @@
                
                
                  <li class="nav-item w-100 w-lg-auto">
-                  <a class="nav-link" href="eventList">
+                  <a class="nav-link" href="eventList" style="font-size:18px;">
                	<span style="font-weight: bold;">이벤트 </span>
                	<i class="bi bi-dot"></i>
                   </a>
@@ -537,7 +537,7 @@
                 
                 <li class="nav-item dropdown w-100 w-lg-auto">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                    aria-expanded="false" style="font-size:18px;">
 				<span style="font-weight: bold;">커뮤니티</span>
                   </a>
                   <ul class="dropdown-menu" style="font-size: 15px;">
@@ -549,7 +549,7 @@
                 
                 <li class="nav-item dropdown w-100 w-lg-auto">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                    aria-expanded="false" style="font-size:18px;">
 				<span style="font-weight: bold;">고객센터</span>
                   </a>
                   <ul class="dropdown-menu" style="font-size: 15px;">
