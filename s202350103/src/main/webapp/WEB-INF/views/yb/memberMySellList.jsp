@@ -74,7 +74,7 @@
 		                 	</td>
 		                    <td class="align-middle" style="padding-left: 10px;">
 		                    	<c:choose>
-		                    			<c:when test="${oldbook.ob_status == 1}"><span></span></c:when>
+		                    			<c:when test="${oldbook.ob_status == 1}"><span>  -</span></c:when>
 										<c:when test="${oldbook.ob_grade == 0}"><span>A 등급</span></c:when>
 										<c:when test="${oldbook.ob_grade == 1}"><span>B 등급</span></c:when>
 										<c:when test="${oldbook.ob_grade == 2}"><span>C 등급</span></c:when>
@@ -91,10 +91,12 @@
 								</c:choose>
 		                    </td>
 		                    <td class="align-middle" style="padding-left: 10px;"> ${oldbook.ob_report_date }</td>
-		                    <td style="padding-left: 0px; padding-right: 10px;">
-		                    	<div class="d-flex justify-content-between mt-4">
+		                    <td style="padding-left: 0px; padding-right: 10px; text-align: center;" >
+		                    	<div class="justify-content-between mt-4">
 		                    		<c:if test="${oldbook.ob_status == 2}"><input type="text" disabled="disabled" style="border: none; background: transparent; width: 65px;" value="정산가능"></c:if>	
-		                    		<c:if test="${oldbook.ob_status != 1}"><button class="btn btn-success btn-sm" onclick="location.href='FodetailOb?ob_num=${oldbook.ob_num}'">상세보기</button></c:if>	
+		                    		<c:if test="${oldbook.ob_status != 1}"><button class="btn btn-success btn-sm" onclick="location.href='FodetailOb?ob_num=${oldbook.ob_num}'">상세보기</button></c:if>
+		                    		<c:if test="${oldbook.ob_status == 1}"><span>-</span></c:if>
+		                    			
 					            </div>
 					        </td>
 		                  </tr>

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.choongang.s202350103.model.Member;
 
 public class LoginInterCeptor implements HandlerInterceptor {
 	

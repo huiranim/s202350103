@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class communityPaging {
-	private int currentPage = 1;		private int rowPage = 9;
+	private int currentPage = 1;		private int rowPage = 12;
 	private int pageBlock = 10;
 	private int start; 					private int end;
 	private int startPage;				private int endPage;

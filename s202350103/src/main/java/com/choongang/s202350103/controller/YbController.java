@@ -252,24 +252,33 @@ public class YbController {
 	
 	
 	// 로그아웃
-	@GetMapping(value = "memberLogout")
-	   public String logout(HttpSession session, HttpServletRequest request) {
-			System.out.println("YbController userLogout start... ");
-	      try {
-				
-				  session = request.getSession(false); //세션이 있으면 기존 세션을 반환한다.
-				  // 세션이 없으면 새로운  세션을 생성하지 않고, null을 반환
-				  if (session != null) {
-					  System.out.println("YbController logout() session null ");
-					  session.removeAttribute("member"); 
-					  session.invalidate(); // 세션 초기화
-				  }
-		  } catch (Exception e) {
-	         System.out.println("logout Exception -> "+e.getMessage());
-	      }
-	      return "redirect:/";
+//	@GetMapping(value = "memberLogout")
+//	   public String logout(HttpSession session, HttpServletRequest request) {
+//			System.out.println("YbController userLogout start... ");
+//	      try {
+//				
+//				  session = request.getSession(false); //세션이 있으면 기존 세션을 반환한다.
+//				  // 세션이 없으면 새로운  세션을 생성하지 않고, null을 반환
+//				  if (session != null) {
+//					  System.out.println("YbController logout() session null ");
+//					  session.removeAttribute("member"); 
+//					  session.invalidate(); // 세션 초기화
+//				  }
+//		  } catch (Exception e) {
+//	         System.out.println("logout Exception -> "+e.getMessage());
+//	      }
+//	      return "redirect:/";
+//	}
+	
+	@RequestMapping(value="memberLogout") 
+	public String logout(HttpServletRequest request,  HttpSession session )throws Exception{
+		log.info("logout");
+		
+		Object URL = session.getAttribute("URL");
+		session.invalidate();
+		
+		return "redirect:"+(String)URL;
 	}
-
 	// 비밀번호 찾기 페이지 이동
 	@GetMapping(value = "memberFindPwForm")
 	public String findMemberPw() {
@@ -485,12 +494,16 @@ public class YbController {
 		int comMyListTotalCnt = ms.comMyListTotalCnt(m_num);
 		communityPaging page = new communityPaging(comMyListTotalCnt, currentPage);
 		
+		// 인기있는 독후감 리스트
+		List<Community> popularList = ms.popularList(community);
+		
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());
 		community.setM_num(m_num);
 		List<Community> communityMyList = ms.communityMyList(community);
 		System.out.println("YbController memberCommunity() communityMyList.size() -> " +communityMyList.size());
 		
+		model.addAttribute("popularList", popularList);
 		model.addAttribute("member", member);
 		model.addAttribute("page", page);
 		model.addAttribute("comMyListTotalCnt", comMyListTotalCnt);
