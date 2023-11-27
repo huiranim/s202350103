@@ -160,7 +160,7 @@
 					     </tr>
 						 <tr>
 					       <th class="table-light text-center">쪽수</th>
-					       <td><input type="text" name="nb_page" class="form-control" required="required"></td>
+					       <td><input type="number" name="nb_page" class="form-control" required="required"></td>
 					     </tr>
 					     <tr>
 					       <th class="table-light text-center">크기</th>

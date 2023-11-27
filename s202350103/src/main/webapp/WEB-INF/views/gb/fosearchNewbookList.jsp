@@ -220,19 +220,22 @@
 					                    
 					                    <!-- 찜, 바로구매,  장바구니 버튼 -->
 					                    <div class="mt-2">
-					                       <!-- 찜하기 버튼 -->	
-					                       <c:choose>
-					                       	<c:when test="${searchNewbook.w_wish == 0}">
-						                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
-						                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
-						                          <i id="wishbtn" class="bi bi-heart"></i></a>
-						                    </c:when>
-						                    <c:when test="${searchNewbook.w_wish == 1}">
-						                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
-						                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
-						                          <i id="wishbtn" class="bi bi-heart-fill" style="color:red;"></i></a>
-						                    </c:when>
-					                       </c:choose>
+					                    	<!-- 새상품일 떄만 조회 -->
+					                       <c:if test="${searchNewbook.nb_num < 200000}">
+						                       <!-- 찜하기 버튼 -->	
+						                       <c:choose>
+						                       	<c:when test="${searchNewbook.w_wish == 0}">
+							                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+							                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
+							                          <i id="wishbtn" class="bi bi-heart"></i></a>
+							                    </c:when>
+							                    <c:when test="${searchNewbook.w_wish == 1}">
+							                       <a id="wish" class="btn btn-icon btn-sm btn-outline-gray-400 text-muted"
+							                          data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist" onclick="wishlist(${searchNewbook.nb_num })">
+							                          <i id="wishbtn" class="bi bi-heart-fill" style="color:red;"></i></a>
+							                    </c:when>
+						                       </c:choose>
+					                       </c:if>
 					                       <!-- 바로구매 버튼 -->   
 					                       <a href="orderForm?nb_num=${searchNewbook.nb_num }&paymentType=1" class="btn btn-primary ">
 					                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -244,17 +247,20 @@
 					                 	   </svg>
 					                  		바로구매
 					                       </a>
-					                       <!-- 장바구니 버튼 -->
-					                       <a class="btn btn-secondary" onclick="cart(${searchNewbook.nb_num })">
-					                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-					                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-					                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
-						                  	   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-						                  	   <line x1="3" y1="6" x2="21" y2="6"></line>
-						                       <path d="M16 10a4 4 0 0 1-8 0"></path>
-					                 	   </svg>
-					                  		장바구니
-					                       </a>
+					                       <!-- 새상품 도서만 조회 -->
+					                       <c:if test="${searchNewbook.nb_num < 200000}">
+						                       <!-- 장바구니 버튼 -->
+						                       <a class="btn btn-secondary" onclick="cart(${searchNewbook.nb_num })">
+						                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+						                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+						                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
+							                  	   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+							                  	   <line x1="3" y1="6" x2="21" y2="6"></line>
+							                       <path d="M16 10a4 4 0 0 1-8 0"></path>
+						                 	   </svg>
+						                  		장바구니
+						                       </a>
+					                       </c:if>
 					                    </div>
 					                 </div>
 					              </div>

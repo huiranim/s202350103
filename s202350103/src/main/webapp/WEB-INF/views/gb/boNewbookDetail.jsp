@@ -48,7 +48,6 @@
 </head>
 <body>
 	<form action="updateNewbook" method="post" enctype="multipart/form-data" style="margin-left: 10%; margin-right: 10%;">
-		<input type="hidden" name="nb_num" value="${newbook.nb_num }">
 		<div class="row">
 		  <div class="col-md-6 row justify-content-center">
 			<!-- 도서 이미지 -->
@@ -77,6 +76,7 @@
 		<!-- 도서 간략 정보 -->
 		 <div class="col-md-5">
 			 <div class="ps-lg-3 mt-6 mt-md-0 ">
+			 <input type="hidden" name="nb_num" value="${newbook.nb_num }">
 			    <!-- 카테고리 -->
 			    <div class="d-flex mt-2 mt-lg-0 mb-3">
 	             <div class="me-2 flex-grow">
@@ -106,6 +106,11 @@
 	     			</c:if>
 	             </div>
 	          </div>
+	          	<!-- 상품번호 -->
+	          	<div class="mb-3">
+	          		  <span class="form-label">상품번호 : </span>
+	                  <input type="text" name="nb_num1" value="${newbook.nb_num }" class="form-control" disabled="disabled">
+	            </div>
 			    <!-- 도서제목 -->
 			    <div class="mb-3">
 	                  <span class="form-label">제목 : </span>
@@ -168,7 +173,7 @@
 					     </tr>
 						 <tr>
 					       <th class="table-light text-center">쪽수</th>
-					       <td><input type="text" name="nb_page" value="${newbook.nb_page}" class="form-control" required="required"></td>
+					       <td><input type="number" name="nb_page" value="${newbook.nb_page}" class="form-control" required="required"></td>
 					     </tr>
 					     <tr>
 					       <th class="table-light text-center">크기</th>
