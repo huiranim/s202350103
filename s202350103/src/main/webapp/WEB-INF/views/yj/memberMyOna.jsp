@@ -38,7 +38,18 @@
 	}
 
 </script>
+<style type="text/css">
+.center-text {
+  text-align: center; /* 텍스트 가운데 정렬 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-weight: bold;
+  color:black;
+  transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+}
 
+</style>
 
 </head>
 <body>
@@ -47,12 +58,28 @@
 		<div class="col-lg-12">
 			<div class="mb-8">
 				<!-- heading -->
-				<h2 class="mb-2">내 문의함</h2>
+				<h2 class="mb-2">내 게시글</h2>
 				<p>
-					<a href="#">${member.m_id } 님의 문의 목록입니다.</a>
+					<a href="#">${member.m_id } 님의 작성 목록입니다.</a>
 				</p>
 			</div>
 			<div>
+	
+	
+	<c:choose>
+		<c:when test="${empty memberMyQnaList}">
+			
+			 <div class="row">
+			<div class="center-text">
+				작성한 게시글이 없습니다. 
+			</div>
+			</div>
+			
+		</c:when>
+		
+		<c:otherwise>
+		
+	
 	
 				<div class="card-body p-0">
 					<!-- table -->
@@ -127,10 +154,12 @@
 				</div>
 
 			</div>
+
+		</c:otherwise>
+			
+		</c:choose>
 		</div>
 	</div>
-
-
 	<%@ include file="../common/footerFo.jsp"%>
 
 </body>

@@ -60,6 +60,20 @@
 			location.href="innewbookList";
 		}
 </script>
+
+<style type="text/css">
+.center-text {
+  text-align: center; /* 텍스트 가운데 정렬 */
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  font-weight: bold;
+  color:black;
+  transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+}
+
+</style>
+
 </head>
 <body>
 <%@ include file="../common/sideFo.jsp" %>
@@ -74,23 +88,24 @@
 				         <h2 class="mb-2">찜목록</h2>
 				         <p><a href="#">${member.m_id } 님의 찜 목록입니다.</a></p>
 				         <c:if test="${memberWishList.size() != 0 }">총 상품 개수 : ${totalWishList }</c:if>
-				         <c:if test="${memberWishList.size() == 0 }">
-				         	찜한 상품이 없습니다!!!!
-				         	<div class="col-lg-8 col-md-7 mt-5">
-					          <div class="py-3">
-					         	<button class="btn btn-primary justify-content-between align-items-center" onclick="bookListPage()">상품 보러가기</button>
-					          </div>
-							</div>
-				         </c:if>
 				         	
 			      	</div>
 		          <div>
-		          <c:if test="${memberWishList.size() == 0 }">
-					 <div class="mb-8">
-					 
-					            
-				      </div>
-				  </c:if>
+				
+				
+				<c:choose>
+					<c:when test="${empty memberWishList}">
+						
+						 <div class="row">
+						<div class="center-text mt-14">
+							작성한 게시글이 없습니다. 
+						</div>
+						</div>
+						
+					</c:when>
+					
+					<c:otherwise>
+		
 		          	
 		            <!-- table -->
 		            <div class="table-responsive">
@@ -170,9 +185,11 @@
 		
 		      </div>
 		
-		
-		
 		    </div>
+		    
+		    </c:otherwise>
+			
+		</c:choose>
 	
 <%@ include file="../common/footerFo.jsp" %>
 </body>
