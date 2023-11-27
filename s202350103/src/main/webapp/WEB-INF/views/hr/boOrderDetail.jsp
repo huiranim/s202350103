@@ -160,29 +160,88 @@
               <input type="button" class="btn btn-success mb-2" value="반품"    onclick="statusReturn(${orderr.o_order_num})">
            </div>
            
-         <!-- 주문 정보 -->
+         <!-- 테스트 -->
          <div class="table-responsive">
-            <p>주문 정보</p>
-            <table class="table text-nowrap">
-            <tr>
-                     <th class="table-light">주문번호</th>
-                     <td class="align-middle">${orderr.o_order_num}</td>
-                     <th class="table-light">주문일시</th>
-                     <td class="align-middle"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
+					            <p>테스트</p>
+					            <table class="table text-nowrap">
+					            <tr>
+					                     <th class="table-light" width="200px">주문번호</th>
+					                     <td class="align-middle" width="400px">${orderr.o_order_num}</td>
+					                     <th class="table-light" width="200px">주문일시</th>
+					                     <td class="align-middle" width="500px"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
+					            </tr>
+					            <tr>
+					                     <th class="table-light">주문상태</th>
+					                     <td class="align-middle" id="o_status">
+					                     	<c:choose>
+					                     		<c:when test="${orderr.o_status == 0}">주문접수</c:when>
+					                     		<c:when test="${orderr.o_status == 1}">주문확정</c:when>
+					                     		<c:when test="${orderr.o_status == 2}">배송중</c:when>
+					                     		<c:when test="${orderr.o_status == 3}">배송완료</c:when>
+					                     		<c:when test="${orderr.o_status == 4}">구매확정</c:when>
+					                     		<c:when test="${orderr.o_status == 5}">취소</c:when>
+					                     		<c:when test="${orderr.o_status == 6}">교환</c:when>
+					                     		<c:otherwise>반품</c:otherwise>
+					                     	</c:choose>
+                     </td>
+                     <th class="table-light">주문유형</th>
+                     <td class="align-middle">
+                     	<c:choose>
+                     		<c:when test="${orderr.o_type == 1}">일반</c:when>
+                     		<c:otherwise>선물</c:otherwise>
+                     	</c:choose>
+                     </td>
             </tr>
             <tr>
-                     <th class="table-light">주문상태</th>
-                     <td class="align-middle" id="o_status">
+                     <th class="table-light">결제 수단</th>
+                     <td class="align-middle">
                      	<c:choose>
-                     		<c:when test="${orderr.o_status == 0}">주문접수</c:when>
-                     		<c:when test="${orderr.o_status == 1}">주문확정</c:when>
-                     		<c:when test="${orderr.o_status == 2}">배송중</c:when>
-                     		<c:when test="${orderr.o_status == 3}">배송완료</c:when>
-                     		<c:when test="${orderr.o_status == 4}">구매확정</c:when>
-                     		<c:when test="${orderr.o_status == 5}">취소</c:when>
-                     		<c:when test="${orderr.o_status == 6}">교환</c:when>
-                     		<c:otherwise>반품</c:otherwise>
+                     		<c:when test="${orderr.o_pay_type == 1}">카카오페이</c:when>
+                     		<c:when test="${orderr.o_pay_type == 2}">토스페이</c:when>
+                     		<c:otherwise>(결제 대기 중)</c:otherwise>
                      	</c:choose>
+                     </td>
+                     <th class="table-light">택배사/송장번호</th>
+                     <td class="align-middle">
+                     	<c:choose>
+                     		<c:when test="${orderr.o_deliv_com == 1}">대한통운</c:when>
+                     		<c:when test="${orderr.o_deliv_com == 2}">우체국택배</c:when>
+                     		<c:when test="${orderr.o_deliv_com == 3}">로젠택배</c:when>
+                     		<c:when test="${orderr.o_deliv_com == 4}">한진택배</c:when>
+                     		<c:when test="${orderr.o_deliv_com == 5}">한진택배</c:when>
+                     		<c:otherwise>(발송 대기 중)</c:otherwise>
+                     	</c:choose>
+                     	<c:choose>
+                     		<c:when test="${orderr.o_deliv_track == 0}"></c:when>
+                     		<c:otherwise> / ${orderr.o_deliv_track}</c:otherwise>
+                     	</c:choose>
+                     </td>
+            </tr>
+            </table>
+         </div>
+         <!-- 주문 정보 -->
+         <div class="table-responsive">
+					            <p>주문 정보</p>
+					            <table class="table text-nowrap">
+					            <tr>
+					                     <th class="table-light">주문번호</th>
+					                     <td class="align-middle">${orderr.o_order_num}</td>
+					                     <th class="table-light">주문일시</th>
+					                     <td class="align-middle"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
+					            </tr>
+					            <tr>
+					                     <th class="table-light">주문상태</th>
+					                     <td class="align-middle" id="o_status">
+					                     	<c:choose>
+					                     		<c:when test="${orderr.o_status == 0}">주문접수</c:when>
+					                     		<c:when test="${orderr.o_status == 1}">주문확정</c:when>
+					                     		<c:when test="${orderr.o_status == 2}">배송중</c:when>
+					                     		<c:when test="${orderr.o_status == 3}">배송완료</c:when>
+					                     		<c:when test="${orderr.o_status == 4}">구매확정</c:when>
+					                     		<c:when test="${orderr.o_status == 5}">취소</c:when>
+					                     		<c:when test="${orderr.o_status == 6}">교환</c:when>
+					                     		<c:otherwise>반품</c:otherwise>
+					                     	</c:choose>
                      </td>
                      <th class="table-light">주문유형</th>
                      <td class="align-middle">

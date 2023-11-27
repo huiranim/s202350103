@@ -52,7 +52,7 @@ public class HrController {
 	private final OrderService 	 os;
 	private final NewbookService ns;
 	private final JavaMailSender mailSender;
-	private final MemberService  ms;			// ybSer
+	private final MemberService  ms;			// ybService
 	
 	@RequestMapping(value = "helloFo")
 	public String memTot1(Model model) {

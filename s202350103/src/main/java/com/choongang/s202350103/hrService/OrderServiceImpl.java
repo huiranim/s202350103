@@ -192,6 +192,7 @@ public class OrderServiceImpl implements OrderService {
 		String m_name = member.getM_name();
 		String nb_title = orderr.getNb_title();
 		int o_de_count = orderr.getO_de_count();
+		int o_gift_card = orderGift.getO_gift_card();
 		String o_gift_msg = orderGift.getO_gift_msg();
 
 		// 받는 사람
@@ -211,7 +212,7 @@ public class OrderServiceImpl implements OrderService {
 							"					      border-radius: 0.5rem;\r\n" + 
 							"					      padding: 50px 50px;\r\n" + 
 							"					      width: 700px\">\r\n" + 
-							"	          	<img src=\"../assets/images/gift/giftcard${orderGift.o_gift_card }.png\" alt=\"card\"\r\n" + 
+							"	          	<img src=\"../assets/images/gift/giftcard"+o_gift_card+".png\" alt=\"card\"\r\n" + 
 							"	          		 style=\"border-radius: 0.5rem;\r\n" + 
 							"	          		 		width: 600px\">\r\n" + 
 							"	          	<div>\r\n" + 
@@ -219,7 +220,7 @@ public class OrderServiceImpl implements OrderService {
 							"		          		"+nb_title+" " +o_de_count+"개\r\n" + 
 							"		          	</h4>\r\n" + 
 							"		          	<h5 style=\"color: #889397;\">\r\n" + 
-							"		          		"+o_gift_msg+"\r\n" + 
+							"		          		\""+o_gift_msg+"\"\r\n" + 
 							"					</h5>\r\n" + 
 							"		          	<button type=\"button\"\r\n" + 
 							"		          			style=\"background-color: #0aad0a;\r\n" + 
@@ -230,14 +231,14 @@ public class OrderServiceImpl implements OrderService {
 							"		          				   margin-bottom: 20px;\r\n" + 
 							"		          				   font-weight : bold;\r\n" + 
 							"		          				   float: right;\r\n" + 
-							"		          				   width: 120px;\">선물받기</button><br>\r\n" + 
+							"		          				   width: 120px;\"\r\n" +
+							"		          			onclick='location.href=\"http://localhost:8200/foGettingGift?o_order_num="+o_order_num+"\"'>선물받기</button><br>\r\n" + 
 							"	          	</div>\r\n" + 
 							"	          	<span style=\"color: red;\">\r\n" + 
 							"	          		* 받는 사람 정보를 정확히 입력해주세요.<br>\r\n" + 
 							"					* 입력 후 수락하기 버튼을 클릭해야 발송이 시작됩니다.\r\n" + 
 							"				</span>\r\n" + 
 							"	          </div>";
-							//"http://localhost:8200/foGettingGift?o_order_num="+o_order_num+"\n\n"
 
 		//Transaction 관리
 		TransactionStatus txStatus = 
