@@ -451,7 +451,7 @@
                 <li class="nav-item dropdown w-100 w-lg-auto dropdown-fullwidth">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false" style="font-size:18px;">
-                  <span style="font-weight: bold;">도서 상품</span>  
+                  <span style="font-weight: bold; ">도서 상품</span>  
                   </a>
                   <div class=" dropdown-menu pb-0">
                     <div class="row p-2 p-lg-4" style="font-size: 15px; ">

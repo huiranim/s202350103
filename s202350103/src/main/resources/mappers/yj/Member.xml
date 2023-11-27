@@ -426,7 +426,8 @@
 	<update id="myReplyUpdate" parameterType="MemberQ">
 		update memberq_reply 
 		set
-		mqr_content  = #{mqr_content} 
+		mqr_content  = #{mqr_content} ,
+		mqr_date = sysdate
 		where mqr_num = #{mqr_num}
 	</update>
 	
