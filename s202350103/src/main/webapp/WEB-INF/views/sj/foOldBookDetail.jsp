@@ -10,9 +10,26 @@
 #box-right {
   align: right;
 }
+.top {
+                position: relative;
+               
+                justify-content: space-between;
+                padding: 0.5rem 1.4rem;
+                background-color: #3CB371;
+                vertical-align: middle;
+            }
+            
+     h1.infoTit {
+     				margin-top : 10px;
+                    font-size: 20px; 
+                    color:#ffffff;
+                }
+
+
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 <%-- <h3>조회수 : ${oldBook.ob_readcnt }</h3> --%>
@@ -187,11 +204,34 @@
             <!-- 도서 상세 내용 -->
             <div class="tab-pane fade show active" id="product-tab-pane" role="tabpanel" aria-labelledby="product-tab"
               tabindex="0">
+    		
+    		
+    		<table style="margin-top: 20px;">
+    		
+    		<tr>
+    		<th>
+    		<div class="w-100">
+			<h3 class="mb-3">중고 품질 판정 </h3> 
+			</div></th>
+			<th >
+				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" style="float: right; margin-left: 40px;">
+        	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
+         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      </svg>	   
+ 중고 품질 판정 가이드 
+	</button>			
+			</th>
+    		</tr>
+    		</table>
+  
+     
+			</div>
               <div class="my-8">
                <div>
-			 <div class="badge bg-primary text-wrap" style="width: 150px;">
-  	현재 중고 도서 등급 내역 
- </div>
+			
+			<div class="w-100">
+	
+			
 		<c:if test="${oldBook.ob_grade eq 0 }">	
 			<div class="table-responsive d-block">
 			  <table class="table">
@@ -204,9 +244,9 @@
 					        <th scope="col">내부 / 제본상태 </th>
 			      </tr>
 			    </thead>
-			    <tbody>
+			    <tbody >
 			      <tr>
-			        <th>A 등급</th>
+			        <th style="border: none;">A 등급</th>
 			        <td>	새것에 가까움</td>
 		        <td>
 				<ul>
@@ -258,7 +298,7 @@
 			    </thead>
 			    <tbody>
 			        <tr>
-		        <th>B 등급</th>
+		        <th style="border: none;">B 등급</th>
 		        <td>	약간의 사용감은 있으나 깨끗한 책</td>
 		        <td>
 		<ul>
@@ -308,7 +348,7 @@
 			    </thead>
 			    <tbody>
 			     <tr>
-		        <th >C 등급</th>
+		        <th  style="border: none;">C 등급</th>
 		        <td>사용감이 많으며 <br>헌 느낌이 나는 책</td>
 		        <td>
 				<ul>
@@ -357,7 +397,7 @@
 			      </tr>
 			    </thead>    
 			  <tr>
-		        <th >D 등급 </th>
+		        <th style="border: none;" >D 등급 </th>
 		        <td>사용감이 많고 세월이 <br>있는책 </td>
 		     <td>
 				<ul>
@@ -396,21 +436,11 @@
 	
 	
 					
-    <div class="alert alert-primary d-flex align-items-center" role="alert">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
-         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-      </svg>
-      <div>
-        <a href="#chkgrade">중고 등급 확인하러 가기 </a>
-      </div>
-   </div>
-
+ 
 		
 		<br><br><br>
-		
- 
-
                </div>  
+               
                 <div class="mb-5">
                   <h3 class="mb-3">줄거리</h3>
                   <p class="mb-0 fs-5">${oldBook.nb_summary }</p>
@@ -433,15 +463,32 @@
 				     </tr>  
 				   </table>
                 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width:700px;">
+
+        	<header class="top">
+			<h1 class="infoTit">
+				
+				 중고 품질 판정 가이드 </h1>
+		</header>
+
+      
+     
+      <div class="modal-body">
+        
+          
    <div id="chkgrade">
-	 <div class="badge bg-primary text-wrap" style="width: 150px;">
-   중고 도서 등급 확인란 
- </div>
+<div>
+			<h3 class="mb-3"> </h3>
+</div>
 
 	
 	</div>
-<div class="table-responsive d-block">
-			  <table class="table">
+<div class="">
+			  <table class="">
 			    <thead class="table-light text-center">
 			      <tr>
 					        <th scope="col" class="col-2">품질 등급</th>
@@ -451,7 +498,7 @@
 					        <th scope="col">내부 / 제본상태 </th>
 			      </tr>
 			    </thead>
-			    <tbody>
+			    <tbody style="border:none; ">
 			      <tr>
 			        <th  >A 등급</th>
 			        <td>	새것에 가까움</td>
@@ -502,8 +549,8 @@
        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
        <div class="accordion-body">
        
-        <div class="table-responsive d-block">
-				 	 <table class="table">
+        <div class="">
+				 	 <table class="">
 						 		   <thead class="table-light text-center">
 						 	     <tr>
 								        <th scope="col" class="col-2">품질 등급</th>
@@ -564,8 +611,8 @@
     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
        data-bs-parent="#accordionExample">
        <div class="accordion-body">
-          	 <div class="table-responsive d-block">
-				 	 <table class="table">
+          	 <div class="">
+				 	 <table class="">
 						 		   <thead class="table-light text-center">
 						 	     <tr>
 								        <th scope="col" class="col-2">품질 등급</th>
@@ -630,8 +677,8 @@
        aria-labelledby="headingThree" data-bs-parent="#accordionExample">
        <div class="accordion-body">
         
-              <div class="table-responsive d-block">
-				 	 <table class="table">
+              <div class="">
+				 	 <table class="">
 						 		   <thead class="table-light text-center">
 						 	     <tr>
 								        <th scope="col" class="col-2">품질 등급</th>
@@ -684,11 +731,24 @@
 								    </div>
 								</div>
 							</div>
+							   <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+     		 </div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+        
+      </div>
+   
+    </div>
+  </div>
+</div>
+   
+   
+   
+ 
 	
 
            					<!-- 새거 -->
@@ -851,16 +911,16 @@
    <div class="tab-pane fade" id="details-tab-pane" role="tabpanel" aria-labelledby="details-tab" tabindex="0">
         <div class="my-8">
            <div class="row">
-               <div class="col-12">
+               <div class="col-10" style="margin: auto;">
        <div class="py-5">
           <ul class="list-group list-group-flush">
              <!-- list group -->
-             <li class="list-group-item py-3 py-lg-0 px-0 border-top">
+             <li class="list-group-item py-3 py-lg-0 px-0 " style="border: 1px solid; border-color: green; border-radius: 30px; margin: 10px; " >
                 <!-- row -->
                
                 <div class="row align-items-center">
                    <div class="col-3 col-md-2">
-                      <!-- img --> <img src="${oldBook.nb_image}" alt="Ecommerce" class="img-fluid">
+                      <!-- img --> <img src="${oldBook.nb_image}" alt="Ecommerce" class="img-fluid" style="margin-left: 35px;">
                   	<input type="hidden" name="nb_image" value="${oldBook.nb_image }">
                    </div>
                    <div class="col-3 col-md-4">

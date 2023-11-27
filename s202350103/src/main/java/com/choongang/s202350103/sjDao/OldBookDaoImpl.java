@@ -38,6 +38,7 @@ public class OldBookDaoImpl implements OldBookDao {
 		try {
 			totObCount2 = session.selectOne("totObCnt2",oldBook);
 			System.out.println("OldBookDaoImpl totalOb2 totObCnt2->"+ totObCount2);
+			System.out.println("OldBookDaoImpl totalOb2 "+ oldBook);
 		} catch (Exception e) {
 			System.out.println("OldBookDaoImpl totalOb2 Exception->"+e.getMessage());
 		}

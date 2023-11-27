@@ -63,7 +63,7 @@
                        <input type="hidden"  name="nb_num" value="${oldBook.nb_num }" >
                     </div>
                        <!-- img --><img src="${oldBook.nb_image }"
-                         alt="" class="mb-3 img" style="width: 110px ">
+                         alt="" class="mb-3 img" style="width: 150px;">
                          <input type="hidden" name="nb_image" value="${oldBook.nb_image }">
                  </div>
               </div>
@@ -79,8 +79,8 @@
                  <input type="hidden" name="nb_title" id="nb_ti" value="${oldBook.nb_title }" required="required">
                  </h2>
                  <div class="text-start">
-                  <span id="sss"><small class="text-muted "><input type="hidden" name="nb_writer" value="${oldBook.nb_writer}">지은이 : ${oldBook.nb_writer}/ 
-                      <input type="hidden"  name="nb_publisher" value="${oldBook.nb_publisher }">출판사 : ${oldBook.nb_publisher }  
+                  <span id="sss"><small class="text-muted "><input type="hidden" name="nb_writer" value="${oldBook.nb_writer}">지은이 : ${oldBook.nb_writer}<br>
+                      <input type="hidden"  name="nb_publisher" value="${oldBook.nb_publisher }">출판사 : ${oldBook.nb_publisher } <br> 
                          <input type="hidden" name="nb_publi_date" value="${oldBook.nb_publi_date }"> 출간일: ${oldBook.nb_publi_date }
                       </small></span>
                  </div>
