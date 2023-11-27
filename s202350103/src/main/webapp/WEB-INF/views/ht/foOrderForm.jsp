@@ -102,15 +102,13 @@
 		var sendData5;
 		var omessage;
 		var selectedMessage = $('#omessage_select').val();
+		var o_selTab = $('#o_selTab').val();
 		
-		if(selectedMessage == "-- 메시지 선택 (선택사항) --"){
-			$('#omessage_select').focus();
-			alert("메세지를 선택해주세요!!")
-		} else if($('#o_pay_type').val() != 1 && $('#o_pay_type').val() != 2){
+	
+		if($('#o_pay_type').val() != 1 && $('#o_pay_type').val() != 2){
 			$('#radio').focus();
 			alert("결제방식을 선택해주세요!!")
 		} else {
-			var o_selTab = $('#o_selTab').val();
 			if (o_selTab == '1') {
 				sendData2 =  $('#destination1').serialize();
 				
@@ -139,17 +137,19 @@
 	
 	function changeChk(p_point){
 		
-		var p_point_result		= Number(p_point);                      							// 사용 포인트
-		var p_total_price		= Number(${cart.totalPrice});										// 총 상품 금액
-		var p_deliv_price 		= Number(${cart.o_deliv_price});									// 배송비
-		var success_total_price = (p_total_price + p_deliv_price - p_point_result).toLocaleString();// 총 결제 금액(성공)
-		var success_save_pointy = ((p_total_price + p_deliv_price - p_point_result) * 0.01).toLocaleString();// 적립금(성공)
-		var fail_total_price 	= (p_total_price + p_deliv_price).toLocaleString();					// 총 결제 금액(성공)
-		var fail_save_point 	= ((p_total_price + p_deliv_price) * 0.01).toLocaleString();  		// 적립금(실패)
+		var p_point_result		       = Number(p_point);                      							// 사용 포인트
+		var p_total_price		       = Number(${cart.totalPrice});										// 총 상품 금액
+		var p_deliv_price 		       = Number(${cart.o_deliv_price});									// 배송비
+		var success_total_price        = (p_total_price + p_deliv_price - p_point_result).toLocaleString();// 총 결제 금액(성공)
+		var success_total_price_submit = (p_total_price + p_deliv_price - p_point_result);// 총 결제 금액(성공)
+		var success_save_pointy        = ((p_total_price + p_deliv_price - p_point_result) * 0.01).toLocaleString();// 적립금(성공)
+		var fail_total_price 	       = (p_total_price + p_deliv_price).toLocaleString();					// 총 결제 금액(성공)
+		var fail_total_price_submit    = (p_total_price + p_deliv_price);					// 총 결제 금액(성공)
+		var fail_save_point 	       = ((p_total_price + p_deliv_price) * 0.01).toLocaleString();  		// 적립금(실패)
 		
 		if(Number(p_point) < 0 ) {
 			$("#pointMsg").html("양수값만 입력 가능합니다.");
-			$("#o_point_result").html("");
+			$("#o_point_result").html(0);
 			$("#o_point").val(0);
 			$("#o_point2").val("");
 			$("#o_pay_price").html(fail_total_price);
@@ -162,16 +162,17 @@
 			$("#o_point_result").html(p_point_result);
 			// 최종 결제 금액
 			$("#o_pay_price").html(success_total_price);
-			$("#o_pay_price_submit").html(success_total_price);
+			$("#o_pay_price_submit").val(success_total_price_submit);
 			// 적립금(성공)
 			$("#o_point_save").html(Math.round(success_save_pointy));
 			$('#o_point').val(p_point);
 		} else {
 			$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
-			$("#o_point_result").html("");
+			$("#o_point_result").html(0);
 			$("#o_point").val(0);
 			$("#o_point2").val("");
 			$("#o_pay_price").html(fail_total_price);
+			$("#o_pay_price_submit").val(fail_total_price_submit);
 			$("#o_deliv_price_submit").html(fail_total_price);
 			$("#o_point_save").html(fail_save_point);
 		}
@@ -507,7 +508,7 @@
             
             <h5 class="h5">결제 수단</h5><p>
             	<div class="d-grid gap-2 col-6 mx-auto">
-	            	<tr >
+	            	<tr>
 						<td><button id="radio" type="radio"  name="paymentMethod" onclick="changePaymentType(1)" value="1" class="btn btn-soft-secondary mb-2" required>카카오</button>
 							<!-- <button type="radio"  name="paymentMethod" onclick="changePaymentType(2)" value="2" class="btn btn-soft-secondary mb-2">토스</button> -->
 						</td>
