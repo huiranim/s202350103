@@ -113,16 +113,16 @@
 
   <!-- section -->
 
-  <section class="my-lg-14 my-8">
+  <section class="my-lg-10 my-8">
       <!-- container -->
     <div class="container">
       <div class="row">
-          <!-- col -->
-        <div class="offset-lg-2 col-lg-8 col-12">
           <div class="mb-8">
               <!-- heading -->
-            <h3 style="align: center;">선물하기</h3><p>
+            <h3 class="mb-10" style="text-align: center;">선물하기</h3><p>
           </div>
+          <!-- col -->
+        <div class="offset-lg-2 col-lg-8 col-12">
           <!-- form -->
           <form class="row" action="orderAction">
           

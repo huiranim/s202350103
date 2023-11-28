@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.choongang.s202350103.gbService.RecentlyBook;
 import com.choongang.s202350103.model.AttJoin;
 import com.choongang.s202350103.model.Attendance;
 import com.choongang.s202350103.model.Member;
+import com.choongang.s202350103.model.NewBook;
 import com.choongang.s202350103.model.PointList;
 import com.choongang.s202350103.model.Quiz;
 import com.choongang.s202350103.model.QuizJoin;
@@ -44,13 +48,18 @@ import lombok.extern.slf4j.Slf4j;
 		
 		private final PointService ps;
 		private final MemberService ms;
+		private final RecentlyBook rb;
 		
 		//fo
 		
 		//EventList Page
 		@RequestMapping(value = "eventList")
-		public String eventList(Attendance attendance, Quiz quiz, String currentPage, Model model) {
+		public String eventList(HttpSession session, Attendance attendance, Quiz quiz, String currentPage, Model model) {
 			System.out.println("shController eventList() Start..");
+			
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			
 			int totalAtt = ps.totalAtt();
 			int totalQuiz = ps.totalQuiz();
 			int totalEvent = totalAtt + totalQuiz;
@@ -66,6 +75,7 @@ import lombok.extern.slf4j.Slf4j;
 			List<Attendance> eventList = ps.listEvent(attendance);
 
 			model.addAttribute("totalEvent",totalEvent);
+			model.addAttribute("recentBookList",recentBookList);
 			model.addAttribute("eventList",eventList);
 			model.addAttribute("page",page);
 			
@@ -88,8 +98,12 @@ import lombok.extern.slf4j.Slf4j;
 		}
 		//Attendance Page		
 		@RequestMapping(value = "attendancePage")
-		public String attendancePage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num,AttJoin attJoin, Model model) {
+		public String attendancePage(HttpSession session, @RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num,AttJoin attJoin, Model model) {
 			System.out.println("shController attendancePage() Start..");
+
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+			
 			//캘린더
 			Calendar cal = Calendar.getInstance();
 			int month = ps.startMonth(eNum);
@@ -107,6 +121,7 @@ import lombok.extern.slf4j.Slf4j;
 		    int chance = ps.checkChance(attJoin);
 		    System.out.println("chance->"+ chance);
 		    
+		    model.addAttribute("recentBookList",recentBookList);
 		    model.addAttribute("attendance", attendance);
 		    model.addAttribute("date",dateList);
 		    model.addAttribute("attJoin", attJoinList);
@@ -191,8 +206,11 @@ import lombok.extern.slf4j.Slf4j;
 				
 		//Quiz Page
 		@RequestMapping (value = "quizPage")
-		public String quizPage(@RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
+		public String quizPage(HttpSession session, @RequestParam("eNum") int eNum, @RequestParam("m_num") int m_num, Model model) {
 			System.out.println("shController quizPage() Start..");
+			
+			// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+			ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
 			
 			//해당 퀴즈 페이지 정보 호출
 			Quiz quiz = ps.detailQuiz(eNum);
@@ -207,7 +225,7 @@ import lombok.extern.slf4j.Slf4j;
 			
 			List<QuizJoin> quizJoinList = ps.listQuizJoin(m_num);
 			
-			System.out.println("shController divideEventNum() quizJoinList.size->"+quizJoinList.size());
+			model.addAttribute("recentBookList",recentBookList);
 			model.addAttribute("quizJoin",quizJoinList);
 			model.addAttribute("quiz",quiz);
 			model.addAttribute("chance",chance);
@@ -225,12 +243,7 @@ import lombok.extern.slf4j.Slf4j;
 			quizJoin.setQ_num(eNum);
 			//퀴즈 참여
 			ps.checkedAnswer(quizJoin);
-			//member table 포인트 적립
-			ps.savePoint(quizJoin);
-			//포인트 이력 저장
-			quizJoin = ps.searchQuiz(quizJoin);
-			ps.quizPointList(quizJoin);
-			return "forward:/quizPage?eNum="+eNum+"&m_num="+m_num;
+			return "redirect:/quizPage?eNum="+eNum+"&m_num="+m_num;
 		}
 		
 		//Quiz 정답 제출
@@ -247,7 +260,7 @@ import lombok.extern.slf4j.Slf4j;
 			//포인트 이력 저장
 			quizJoin = ps.searchQuiz(quizJoin);
 			ps.quizPointList(quizJoin);
-			return "forward:/quizPage?eNum="+eNum+"&m_num="+m_num;
+			return "redirect:/quizPage?eNum="+eNum+"&m_num="+m_num;
 		}
 		
 		//bo
