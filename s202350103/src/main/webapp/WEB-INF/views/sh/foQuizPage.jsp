@@ -9,6 +9,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Quiz이벤트</title>
+<style type="text/css">
+	#quiz-div {
+		display: flex; 
+		justify-content: center;
+		position: relative;
+	}
+	#quiz-image {
+		background-image: url(../assets/images/png/sketchbook2.png); 
+		height: 450px;
+		width: 600px; 
+		background-repeat: no-repeat;
+		vertical-align: middle;
+	}
+	#quiz-content{
+		position: absolute;
+		top: 50%;
+		left: 49%;
+		width: 50%;
+		transform: translate(-50%, -50%);
+		font-size : 20px;
+		text-align: center;
+	}
+	label {
+		width : 200px;
+		font-size : 20px;
+	}
+</style>
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javascript">
@@ -53,38 +80,39 @@
 </script>
 <body>
 <div>
-	<div class="card-body text-center py-8">
-	      <p class="fs-1 mb-5" style="text-align: center;">${quiz.q_title }</p>
-			<div style="text-align: center; color: #0aad0a;">${quiz.q_sdate} 00:00 ~${quiz.q_edate} 00:00 </div>
-			<p><mark>*퀴즈를 풀고 포인트를 적립해 보세요 !</mark> </p>    
-	<div>
-	<div class="card card-product mb-8">
-			<textarea rows="8" class="form-control mb-8" style="border: none; background:#ecf0ef; font-size: 20px; font-weight: bold; margin-top: 32px;"  class="form-control">${quiz.q_question }</textarea>
-		</div>
+	<div class="card-body text-center py-8" style="background-color: #F2F2F2; border-radius: 100px;">
+		<h1 class="mb-5" style="text-align: center;">✨${quiz.q_title }✨</h1>
+		<div style="text-align: center; color: #0aad0a;">${quiz.q_sdate} 00:00 ~${quiz.q_edate} 00:00 </div>   
+			<div>
+			<div id="quiz-div">
+				<div id="quiz-image"></div>
+				<div id="quiz-content">
+					<p>${quiz.q_question }</p>
+				</div>
+			</div>
 			<div class="form-check" style="display: flex; align-items: center; justify-content: center;">
 			<form onsubmit="checkAnswer()">
 				<input type="hidden" name="m_num" value="${m_num}">
-	   			<input type="hidden" name="eNum" value="${eNum}">
+		  		<input type="hidden" name="eNum" value="${eNum}">
 				<input type="hidden" name="answer"   value="${quiz.q_answer}">
 				<c:choose>
-					<c:when test="${chance==0}">	
-						<div style="display: flex; flex-direction: column; align-items: center;">
-					   	
-					   	<label>
-					         <input class="form-check-input" type="radio" name="select" value="1">${quiz.q_select1}
-					    </label><br>
-					    
-					    <label>
-					         <input class="form-check-input" type="radio" name="select" value="2">${quiz.q_select2}
-					    </label><br>
-					    <label>
-					        <input class="form-check-input" type="radio" name="select"  value="3">${quiz.q_select3}
-					    </label><br>
-					    <label>
-					         <input class="form-check-input" type="radio" name="select" value="4">${quiz.q_select4}
-					    </label><br>
-					    <input type="submit" class="btn btn-primary" id="subButton" value="정답 제출">
-						</div>
+					<c:when test="${chance==0}">
+						<div class="d-grid gap-2 d-md-block mt-5">
+		                    <input type="radio" class="btn-check" name="select" id="success-outlined1" value="1" autocomplete="off" >
+							<label class="btn btn-outline-success" for="success-outlined1" style="font-size : 20px;">${quiz.q_select1}</label>
+							
+							<input type="radio" class="btn-check" name="select" id="success-outlined2" value="2" autocomplete="off" >
+							<label class="btn btn-outline-success" for="success-outlined2" style="font-size : 20px;">${quiz.q_select2}</label>
+							
+							<input type="radio" class="btn-check" name="select" id="success-outlined3" value="3" autocomplete="off" >
+							<label class="btn btn-outline-success" for="success-outlined3" style="font-size : 20px;">${quiz.q_select3}</label>
+							
+							<input type="radio" class="btn-check" name="select" id="success-outlined4" value="4" autocomplete="off" >
+							<label class="btn btn-outline-success" for="success-outlined4" style="font-size : 20px;">${quiz.q_select4}</label>
+		                </div>
+		                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-8">
+						   <button type="submit" class="btn btn-dark mb-2" type="button">정답 제출</button>
+						</div>	
 					</c:when>
 				</c:choose>	
 			</form>
