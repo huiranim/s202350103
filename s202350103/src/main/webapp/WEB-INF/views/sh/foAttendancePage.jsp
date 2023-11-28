@@ -5,7 +5,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../common/headerFo.jsp" %>
-<%@ include file="../common/sideFo.jsp" %>
 
 <!DOCTYPE html>
 <html>
@@ -32,29 +31,33 @@
         }
         
         tbody td {
-            width: 14.3%;
+            width: 10%;
         }
 
 </style>
 <meta charset="UTF-8">
-<title>11월 출석 이벤트</title>
+	</div>
+</div>
+
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
-<script type="text/javaScript">
-	
-</script>
 </head>
-<body>
+
+<!-- <div class=" mt-8 mb-lg-14 mb-8" style="background: #f8d6d6;"> -->
+<div class=" mt-8 mb-lg-14 mb-8" style="background: #FAF5EF;">
+
+
+
+ <div class="mb-8">
 	<div class="offset-lg-2 col-lg-8 col-12 " >
 
-          <div class="mb-8">
 
-
-<p class="fs-1 mb-5" style="text-align: center;">${month}월 출석 이벤트</p>
+<p class="fs-1 mb-5" style="text-align: center; font-weight: bold;">${month}월 출석 현황</p>
 
 <div style="text-align: center; color: #0aad0a;">
     ${attendance.a_sdate } 00:00 ~ ${attendance.a_edate } 00:00
 </div>
 
+<div style="background: white;">
 <div class="table-responsive">
 <table cellspacing="0" class="table ">
 	<colgroup>
@@ -83,17 +86,19 @@
 	</thead>
 	<tbody>
 	    <c:forEach var="i" begin="1" end="${dayOfWeek - 1}">
-	        <td>
-	            <span></span>
-	            <div class="calDate">
-	                &nbsp;<!-- 공백 추가 -->
-	            </div>
-	        </td>
+	        <div style="background: white;">
+		        <td>
+		            <span></span>
+		            <div class="calDate">
+		                &nbsp;<!-- 공백 추가 -->
+		            </div>
+		        </td>
+	        </div>
 	    </c:forEach>
 	
 	    <c:forEach var="i" begin="1" end="${lastday}">
 	        <td style="text-align: left; vertical-align: top;">
-	            <span>${i}</span><hr>
+	            <span>${i}</span>
 	            <div>
 	            <c:forEach var="date" items="${date }">
 	    	        <c:if test="${date == i}">
@@ -110,7 +115,7 @@
 	</tbody>
 </table>
 </div>
-
+</div>
 <div class="d-grid gap-2 col-6 mx-auto mt-5">
 	<input type="button" id="subButton" onClick="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num })" disabled="disabled" value="출석" class="btn btn-soft-success">
 </div>
@@ -194,7 +199,8 @@
 </script>
 </div>
 </div>
-
+</div>
 </body>
+
 <%@ include file="../common/footerFo.jsp" %>
 </html>
