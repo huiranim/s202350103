@@ -27,9 +27,9 @@ ISMS 인증획득
 고객센터 1544-1004 (발신자 부담) <br>
 서울특별시 마포구 신촌로 176 501호 <br> Fax 02-2023-50103<br><br>
 
-  <a  href="memberCommunity"><button type="button" class="btn btn-outline-secondary mb-2">커뮤니티</button></a>
+  <a  href="memberCommunity"><button type="button" class="btn btn-outline-secondary mb-2">독후감</button></a>
 &nbsp;&nbsp;&nbsp;
- <a  href="memberQnaList"> <button type="button" class="btn btn-outline-secondary mb-2">Q&A</button></a>
+ <a  href="memberQnaList"> <button type="button" class="btn btn-outline-secondary mb-2">자유게시판</button></a>
   
     </div>
     

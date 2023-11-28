@@ -54,17 +54,23 @@ function cart(pNb_num) {
       
        <div class="card-body p-6 ">
        
-			<c:forEach var="orderNum" items="${orderNumGroups.keySet() }">
+       
+	<c:forEach var="orderNum" items="${orderNumGroups.keySet() }">
 				
 				<c:set var="firstOrder" value="${orderNumGroups[orderNum][0] }" />
     			<c:set var="orderDate" value="${firstOrder.o_order_date }" />
 				
+       <c:if test="${firstOrder.o_status != 0}">
 				
 				<h4 class="mb-2"><a href="#" class="link-success">
 					<fmt:formatDate value="${orderDate }" pattern="yyy. MM. dd "/>
 					&nbsp; 주문  &nbsp;
 					</a>
 						 <c:choose>
+                            
+                            <c:when test="${firstOrder.o_status == 0}">
+				               <span>- 주문취소</span>
+                            </c:when>
                             
                      	    <c:when test="${firstOrder.o_status == 1}">
 				               <span>- 주문확정</span>
@@ -103,21 +109,10 @@ function cart(pNb_num) {
 				<div class="row">
   				  <div class="col-md-6">
 				 
-		                 <h1 class="fs-5 mt-2 mb-2">
-		                 	
-		                 	 	<span style="color: #581313;">${firstOrder.o_rec_name }</span>
-		                 	/  <span style="color: #db3030;">결제금액 : 
-		                 		<fmt:formatNumber value="${firstOrder.o_pay_price }" pattern="#,###"/> 원
-		                 		</span>  
-		                 </h1> 
-		                 		<span class="text-danger">*</span> 
-		                 			배송비 포함
-		                 		 <span class="text-danger">*</span>
-		                 
 	                 </div>
 		                 
 				<div class="col-md-6">
-				  	<span style="float: right; margin-right: 20px; padding-top:25px; font-weight: bold; color: #044504;" class="mb-3" >
+				  	<span style="float: right;  font-weight: bold; color: #044504;" class="mb-3" >
 		         	 <a href="foOrderDetail?o_order_num=${orderNum}" class="link-success" style="font-size: 14px;">주문상세보기
 		         	 <i class="bi bi-arrow-right-short"></i>
 		         	 </a>
@@ -230,7 +225,8 @@ function cart(pNb_num) {
 				</c:forEach>
 				
 					</div>
-					
+				</c:if>	
+				
 			</c:forEach>
 
      	  </div>

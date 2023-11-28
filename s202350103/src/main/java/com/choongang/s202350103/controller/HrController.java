@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,7 +31,8 @@ import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
-import com.choongang.s202350103.hrService.MemberService;
+//import com.choongang.s202350103.hrService.MemberService;
+import com.choongang.s202350103.ybService.MemberService;
 import com.choongang.s202350103.hrService.NewbookService;
 import com.choongang.s202350103.hrService.OrderService;
 import com.choongang.s202350103.hrService.Paging;
@@ -48,26 +48,27 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j 
 public class HrController {
-	private final MemberService  ms;
+	//private final MemberService  msTest;
 	private final OrderService 	 os;
 	private final NewbookService ns;
 	private final JavaMailSender mailSender;
+	private final MemberService  ms;			// ybService
 	
 	@RequestMapping(value = "helloFo")
 	public String memTot1(Model model) {
 		System.out.println("Controller start..");
-		int result = ms.memTot();
-		System.out.println("Controller result -> "+ result);
-		model.addAttribute("result", result);
+		//int result = msTest.memTot();
+		//System.out.println("Controller result -> "+ result);
+		//model.addAttribute("result", result);
 		return "commonFo";
 	}
 	
 	@RequestMapping(value = "helloBo")
 	public String memTot2(Model model) {
 		System.out.println("Controller start..");
-		int result = ms.memTot();
-		System.out.println("Controller result -> "+ result);
-		model.addAttribute("result", result);
+		//int result = msTest.memTot();
+		//System.out.println("Controller result -> "+ result);
+		//model.addAttribute("result", result);
 		return "commonBo";
 	}
 	
@@ -273,6 +274,8 @@ public class HrController {
 		
 		// model에 회원 정보 저장
 		member = (Member) session.getAttribute("member");
+		// 실시간 포인트 업데이트
+		member.setM_point(ms.totalPoint(member.getM_num()));
 		System.out.println("HrController givingGift() member.getM_name() -> "+member.getM_name());
 		model.addAttribute("member", member);
 		

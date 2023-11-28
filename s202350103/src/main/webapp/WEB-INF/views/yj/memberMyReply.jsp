@@ -22,36 +22,77 @@
 	}
 
 </script>
+<style type="text/css">
+.center-text {
+  text-align: center; /* 텍스트 가운데 정렬 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-weight: bold;
+  color:black;
+  transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+}
 
+</style>
 </head>
 <body>
 
 	<h2>내 댓글</h2>
-	<p>
+	<div class="mb-8">
 		<a href="#">${member.m_id } 님이 작성하신 댓글입니다.</a>
-	</p>
+	</div>
+	<p>
+
+<div class="offset-lg-1 col-lg-9 col-12">	
 	
-	<c:forEach items="${memberMyReply}" var="reply">
-    <div class="row">
-        <div class="col-12">
-            <div class="mb-3">
-                <h6><fmt:formatDate value="${reply.mqr_date}" pattern="MM 월 dd 일" /></h6>
+	<c:if test="${empty memberMyReply}">
+		 <div class="row">
+		<div class="center-text">
+			작성한 댓글이 없습니다. 
+		</div>
+		</div>
+	</c:if>
+
+	<c:forEach items="${memberMyReply}" var="reply" varStatus="status">
+   <div class="row">
+      <div class="col-12">
+         <div style="font-weight: bold; font-size: 15px; ">
+            <fmt:formatDate value="${reply.mqr_date }" pattern="yy년 MM월 dd일 HH시 ss분"/> 작성
+         </div>
+         
+         <div class="d-flex justify-content-between align-items-center">
+            <div></div>
+            <div class="mb-2" style="font-weight: bold;">
+               <a class="link-success" href="memberQInfo?mq_num=${reply.mq_num }">게시글보기</a>
+               <i class="bi bi-arrow-right" style="color: #198754;"></i>
             </div>
-
-            <div class="card card-product mb-4">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                    <div class="mb-3">
-                      <c:if test="${member.m_admin == 0 }">
-                        	<span style="color: green;">추천 수 
-                        <i class="bi bi-hand-thumbs-up-fill" style="color: green;"></i>
-                        ${reply.mqr_recomen}</span> 
-                      </c:if>
-                    </div>
-                     <p class="fs-5">${reply.mqr_content}</p>
-                    </div>
-
-                    <div class="dropdown">
+            
+         </div>
+         <div class="accordion mb-6" id="accordionExample">
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="heading${status.index + 1 }">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                     data-bs-target="#collapse${status.index + 1 }" aria-expanded="false" aria-controls="collapse${status.index + 1 }">
+                    <div class="link-info" style="font-size: 16px;">${reply.mq_title }</div>&nbsp;에 작성한 댓글
+                  </button>
+               </h2>
+               <div id="collapse${status.index + 1 }" class="accordion-collapse collapse"
+                  aria-labelledby="heading${status.index + 1 }" data-bs-parent="#accordionExample">
+                 
+                  <div class="accordion-body d-flex justify-content-between align-items-center">
+           			
+           			<div class="d-flex">
+					   <div>
+					      <strong style="font-size: 18px;">${reply.mqr_content }</strong>
+					   </div>&nbsp;
+					   <div>
+					      <code><i class="bi bi-hand-thumbs-up-fill"></i>(${reply.mqr_recomen })</code>
+					   </div>
+					</div>
+                     
+                     
+                     
+                  	<div class="dropdown">
                         <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="feather-icon icon-more-vertical fs-5"></i>
                         </a>
@@ -76,9 +117,9 @@
                             </li>
                         </ul>
                     </div>
-                    
-                    
-							<div class="modal fade" id="exampleModal${reply.mqr_num }" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelOne" aria-hidden="true">
+                     
+                     
+                     <div class="modal fade" id="exampleModal${reply.mqr_num }" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelOne" aria-hidden="true">
 							  <div class="modal-dialog" role="document">
 						        <form action="myReplyUpdate" method="post">
 						        <input type="hidden" name="mqr_num" value="${reply.mqr_num }">
@@ -108,23 +149,21 @@
 						        </form>
 							  </div>
 							</div> 
-                            
-                    
-                    
-                    
-                    
-                </div>
-                <hr style="border: dashed;">
-                <div class="card-body">
-                	<a href="memberQInfo?mq_num=${reply.mq_num }" class="link-info">${reply.mq_title }</a> 에 남긴 댓글
-                
-                </div>
-                
+                     
+                     
+                     
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
+   
+   
 </c:forEach>
 
+	
+	</div>
 
 
 	<%@ include file="../common/footerFo.jsp"%>

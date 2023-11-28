@@ -31,9 +31,9 @@
 		</select>
 		
 		<select id="ybTotalPoint" parameterType="int" resultType="int">
-			SELECT SUM(m_point)
-			FROM point_list
-			WHERE   m_num = #{m_num}
+			SELECT m_point
+			FROM   member
+			WHERE  m_num = #{m_num}
 		</select>
 		
 		<select id="ybTotalPrice" parameterType="cart" resultType="int">

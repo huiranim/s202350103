@@ -80,6 +80,7 @@
 		             <thead class="table-light">
 		                <tr>
 		                   <th>순번</th>
+		                   <th>상품번호</th>
 		                   <th></th>
 		                   <th>제목</th>
 		                   <th>지은이</th>
@@ -97,6 +98,7 @@
 		             	<c:forEach var="newbook" items="${listBoNewbook }" varStatus="status">
 			                <tr id="newbookRow${status.index }">
 			                   <td class="align-middle">${StartRow }</td>
+			                   <td class="align-middle">${newbook.nb_num }</td>
 			                   <td class="align-middle">
 			                   	   <input type="hidden" id="newbook${status.index }" value="${newbook.nb_num }">
 				                   <!-- 도서 이미지 출력 -->

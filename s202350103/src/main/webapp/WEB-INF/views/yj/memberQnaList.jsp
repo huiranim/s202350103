@@ -33,23 +33,24 @@
 <div class="col-lg-12">
 
       <div class="mb-2">
-         <!-- heading -->
-         <h1 class="mb-1">Q & A</h1>
-         <p>요청 또는 문의 사항을 남겨주세요.</p>
-         </div>
-      </div>
-      
+	  <div class="d-flex align-items-center mb-3">
+	    <img alt="" src="../assets/images/favicon/write.png" style="width: 60px; height: 60px;" class="me-3">
+	    <h2 class="mb-1">자유 게시판</h2>
+	  </div>
+	  <p>DADOK 회원들과의 소통 공간입니다.</p>
+	</div>
+	      
       <div class="mb-2" style="display: flex; justify-content: space-between; align-items: center;">
     <!-- 전체 문의글 텍스트 -->
-	    <p style="margin: 0;">전체 문의글 : ${mqCount }</p>
+	    <p style="margin: 0;">전체 글 : ${mqCount }</p>
 
     <!-- 버튼 -->
 		 <c:if test="${sessionScope.member != null }">
-	    	<a  class="btn btn-primary" href="memberQna?m_num=${member.m_num}">문의등록</a>
+	    	<a  class="btn btn-primary" href="memberQna?m_num=${member.m_num}">글 작성</a>
 		</c:if>
 		
 		 <c:if test="${sessionScope.member == null }">
-	    	<a onclick="QnaForm();" class="btn btn-primary">문의등록</a>
+	    	<a onclick="QnaForm();" class="btn btn-primary">글 작성</a>
 		</c:if>
 		
 	</div>

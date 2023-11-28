@@ -59,7 +59,7 @@
          				<tr>
 				 			<th scope="row">지급 포인트 :</th>
 				 			<td>
-				 				<input type="number"  name="q_point" min="1" maxlength="3" value="${quiz.q_point}" required="required">point
+				 				<input type="text"  name="q_point" min="1" maxlength="3" value="${quiz.q_point}" required="required">point
 							</td>
 						</tr>
 					</thead>
@@ -125,17 +125,24 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">	
+				<td colspan="2" style="text-align: center;">	
 					<input type="button" onclick="updateQuiz()" value="수정">																	
 					<input type="button" onclick="deleteQuiz(${quiz.q_num },'${quiz.q_title}')" value="삭제">
 					<input type="button" value="닫기" onclick="window.close();">
 				</td>
-			</tr>	
+			</tr>
+			<tr>
+			<td colspan="3">
+				<span style="background-color:yellow; color: red;">*포인트 수령 기록이 있으면 삭제가 되지 않습니다!</span><p>
+				<span>이미지 교체는 선택사항이며, 선택 안할 시, 기존 이미지가 사용됩니다.</span>
+			</td>
+		</tr>	
 		</table>	
 	</form>
 	
 	<script type="text/javascript">
 	function updateQuiz(){
+		var point = $('input[name=q_point]').val();
 		var confirmMessage = "수정하시겠습니까?"
 		var quizForm = $("#quizForm");
 		var formData = new FormData(quizForm[0]);
@@ -156,6 +163,10 @@
 					alert("수정 실패");
 					return false;
 				}
+			},
+			error:function(result){
+					alert('정보를 잘 못 입력하셨습니다.');
+					return false;
 			}
 		});
 	}else{

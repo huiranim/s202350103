@@ -70,7 +70,7 @@
 	<div class="card mb-8" style="border-left: none; border-right: none; border-top: none;" >
 	  <div class="card-header">
 		  <div class="mb-3">
-			<span style="color: #024098;">Q&A</span>
+			<span style="color: #024098;">자유게시판</span>
 		  </div>	
 	
 		<div class="mb-3" style="display: flex; align-items: center;">
@@ -102,7 +102,8 @@
 	</div>	
 
 		<div class="mb-15">
-		<p style="font-size: 18px;">${mq.mq_content }</p>
+		
+		<pre style="font-size: 18px; font-weight: bold;">${mq.mq_content }</pre>
 		</div>		
 
 		<div class="mb-8">
@@ -222,7 +223,7 @@
 				
 			<div style="display: grid; grid-template-columns: 1fr auto;">
 				<div class="mb-15">
-					<p style="font-size: 19px;">${reply.mqr_content }</p>
+				<pre style="font-size: 17px; font-weight: bold;">${reply.mqr_content }</pre>
 				</div>
 				
 		<c:choose>
@@ -260,7 +261,6 @@
 					      <div class="modal-header">
 					        <h5 class="modal-title" id="exampleModalCenterTitle">댓글 신고 접수</h5>
 					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-					          <span aria-hidden="true">&times;</span>
 					        </button>
 					      </div>
 					    

@@ -67,7 +67,74 @@
           </div>
           	
           	<!-- 우측 최상단 구성 -->
-          
+          	 <div class="col-6 text-end d-none d-md-block">
+
+
+				 <c:if test="${sessionScope.member == null }">
+             			<div class="list-inline-item me-6">
+						<!-- 로그인 아이콘 -->
+				       	<a href="loginForm" class="position-relative text-success">                  
+				        	<strong><i class="feather-icon icon-log-out me-1">
+				        	</i>로그인</strong>
+		               		<span class="visually-hidden">unread messages</span>
+		                </a></div>
+
+
+						<div class="list-inline-item me-6">
+						<!-- 회원가입 아이콘 -->
+				       	<a href="memberJoin" class="text-success">                  
+				        	<strong><i class="bi bi-person-plus-fill me-1">
+				        	</i>회원가입</strong>
+		               		<span class="visually-hidden">unread messages</span>
+		                </a>
+		                </div>
+		                
+		                
+	                    <div class="list-inline-item me-6">
+						<a href="memberMyPage?m_num=${member.m_num }" class="text-success">
+							<strong><i class="bi bi-person-circle"></i>&nbsp;
+							마이페이지</strong>
+		               		<span class="visually-hidden">unread messages</span>
+		               	</a>
+		               	</div>
+		                
+		          </c:if> 
+		                
+		            <!-- 로그인 시 -->
+			     		<c:if test="${sessionScope.member != null }">
+			                <!-- 장바구니 아이콘 -->
+						    <div class="list-inline-item me-5" >
+						    	<a href="memberCartList" style="color: #002b63;" class="text-success"><strong>
+						      		<i class="bi bi-cart2 fs-6 me-1" style="color: #198754;"></i>장바구니
+						     	 	<span class="visually-hidden">unread messages</span></strong>
+						    	</a>
+						  </div>
+			     			<div class="list-inline-item me-5">
+								<!-- 로그아웃 아이콘 -->
+								<a href="memberLogout"  style="color: #002b63;" class="text-success"><strong>
+									<i class="feather-icon icon-log-out me-1"></i>로그아웃
+				               		<span class="visually-hidden">unread mes</span></strong>
+			               		</a>
+			               	</div>
+			             
+		                  <div class="list-inline-item me-5">
+								<a href="memberMyPage?m_num=${member.m_num }" style="color: #002b63;" class="text-success"><strong>
+								<i class="bi bi-person-circle"></i>
+								마이페이지</strong></a>
+			               	</div>
+			               	
+			             <c:if test="${member.m_admin == 1 }">
+			               		 <div class="list-inline-item me-5">
+									<a href="mainBo" style="color: #581313;"><strong>
+				               		<i class="bi bi-universal-access-circle" ></i>
+									 관리자전환</strong></a>
+				               	</div>
+			             </c:if>
+			             
+		              </c:if>  
+
+          	 </div>
+          	
         </div>
       </div>
     </div>
@@ -150,6 +217,28 @@
 
                 </div>
                 
+                    <c:if test="${sessionScope.member != null }">	
+               		<div>
+						<c:if test="${member.m_num != 0 }"> 	
+									 
+							 <a href="memberLogout"  style="color: #002b63;" class="text-success">
+							<i class="feather-icon icon-log-out me-1" style="font-size: 20px;"></i>
+	               		</a>
+						
+						<c:if test="${member.m_admin == 1 }"> 	
+							 
+							 <a href="mainBo" style="color: #581313;">
+		               		<i class="bi bi-universal-access-circle" style="font-size: 20px;"></i>
+							 </a>&nbsp;
+						</c:if>							 
+						
+						</c:if> 	
+	               	</div>
+       			</c:if>
+                
+                
+                
+                
               <!-- 메뉴 버튼 -->  
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbar-default" aria-controls="navbar-default" aria-label="Toggle navigation">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
@@ -158,25 +247,10 @@
                       d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
                   </svg>
                 </button>
+              
+              
               </div>
                 
-                <c:if test="${sessionScope.member != null }">	
-               		<div>
-             			 <c:if test="${member.m_admin == 1 }">  		
-						<a href="mainBo" style="color: #581313;"><strong>
-	               		<i class="bi bi-universal-access-circle me-1" ></i>
-						 관리자 페이지 </strong></a>
-						 </c:if>
-						 	<br>
-						<c:if test="${member.m_num != 0 }"> 	
-						 	<a href="memberLogout" style="color: #581313;">
-						 	<strong>
-				               		<i ></i>
-									 로그아웃 </strong></a>
-						</c:if> 	
-	               	</div>
-       			</c:if>
-       			 
             </div>
 
           </div>
@@ -195,7 +269,7 @@
 		
         <!-- 검색 버튼 -->
         <div class="col-md-1 col-xxl-2 d-lg-block">
-          <div style="margin-left: 10px; width: 65px; margin-right: 30px;">
+          <div style="margin-left: 40px; width: 65px; margin-right: 30px;">
 	          <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
             	data-bs-target="#locationModal" onclick="search()">검색  </button>
             	</div>
@@ -203,97 +277,34 @@
 </div>
         </div>
           
-          <div class="col-md-2 col-xxl-2 text-end d-none d-lg-block" style="width: 180px; margin-left: 10px; padding-left: 10px;">
-		          	<!-- 비 로그인 시 -->	
-	          <div class="list-inline" style="margin-left: 13px;">
-		            <c:if test="${sessionScope.member == null }">
-             			<div class="list-inline-item me-6">
-						<!-- 로그인 아이콘 -->
-				       	<a href="loginForm" class="position-relative">                  
-				        	<i class="feather-icon icon-log-out me-1">
-				        	</i>로그인
-		               		<span class="visually-hidden">unread messages</span>
-		                </a></div>
-
-
-						<div class="list-inline-item me-6">
-						<!-- 회원가입 아이콘 -->
-				       	<a href="memberJoin">                  
-				        	<i class="bi bi-person-plus-fill me-1">
-				        	</i>회원가입
-		               		<span class="visually-hidden">unread messages</span>
-		                </a>
-		                
-		                </div>
-			            </c:if>
-		                
-		            <!-- 로그인 시 -->
+          <div class="col-md-2 col-xxl-2 text-end d-none d-lg-block" style="margin-left: 40px;">
+		  
+		     <!-- 로그인 시 -->
+		     <div class="text-center">
 			     		<c:if test="${sessionScope.member != null }">
-			                <!-- 장바구니 아이콘 -->
-						    <div class="list-inline-item me-5" style="margin-left: 30px;">
-						    	<a href="memberCartList" class="" >
-						      		<i class="bi bi-cart2 fs-6 me-1"></i>장바구니
-						     	 	<span class="visually-hidden">unread messages</span>
-						    	</a>
-						  </div>
-			     			<div class="list-inline-item me-5">
-								<!-- 로그아웃 아이콘 -->
-								<a href="memberLogout" class="">
-									<i class="feather-icon icon-log-out me-1"></i>로그아웃
-				               		<span class="visually-hidden">unread mes</span>
-			               		</a>
-			               	</div><p>
-			               	
-			               	
+			     		
 			               	<c:if test="${member.m_image != null}">
-				               	<div class="list-inline-item me-5">
 									<!-- 내 아이콘 -->
 									<a href="memberMyInfo?m_num=${member.m_num }" class="">
-									<img  src="${member.m_image }" width="55px" height="55px" alt="회원이미지" class="rounded-circle">
-	
-										<span class="visually-hidden">unread mes</span>
-				               		</a>
-				               	</div><p>
+									<img  src="${member.m_image }" width="50px" height="50px" alt="회원이미지" class="rounded-circle">
+				               		</a><br>
 			               	</c:if>
 			               	
-			               	<div>
-								<a href="memberMyPage?m_num=${member.m_num }" style="color: #002b63;"><strong>
-								${member.m_name }(${member.m_id })님</strong></a><br>
-								 환영합니다.
-								<p>
-
-			               	</div>
-			               	<div>
-								<a href="memberMyPage?m_num=${member.m_num }" style="color: #002b63;"><strong>
-								<i class="bi bi-person-circle"></i>&nbsp;
-								마이페이지</strong></a>
-								<p>
-
-			               	</div>
-			               	
-			             <c:if test="${member.m_admin == 1 }">
-			               		<div>
-									<a href="mainBo" style="color: #581313;"><strong>
-				               		<i class="bi bi-universal-access-circle me-1" ></i>
-									 관리자 페이지 </strong></a>
-				               	</div>
-			             </c:if>
-			               	
-			               	
-			               	
-			     		</c:if>	
-		 		   </div>
-		 		   
-   	  	    	  </div>
+								<a href="memberMyPage?m_num=${member.m_num }" style="color: #002b63; font-weight: bold;">
+								${member.m_name }(${member.m_id })<span style="color: black;">님<br> 환영합니다.</span></a>			     		
+						</c:if>	
+			     	</div>
+			     	</div>	
+   	  		</div>
       
-    </div>
+    	</div>
   
     </div>
    </div>
     
     
 
-    <nav class="navbar navbar-expand-lg navbar-light navbar-default py-0 pb-lg-4 " aria-label="Offcanvas navbar large">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-default py-0 pb-lg-4 mt-3" aria-label="Offcanvas navbar large">
     
     <!-- 메인 광고  -->
       <div class="container">
@@ -347,7 +358,7 @@
             <!-- 작은화면 메인메뉴 버튼 -->
             <div class="d-block d-lg-none mb-4">
               <a class="btn btn-primary w-100 d-flex justify-content-center align-items-center" data-bs-toggle="collapse"
-                href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size:18px;" >
                 <span class="me-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                     class="feather feather-grid">
@@ -382,7 +393,7 @@
                 <li><a class="dropdown-item" href="memberCommunity">독후감
                 <i class="bi bi-dot"></i>
                 </a></li>
-                <li><a class="dropdown-item" href="memberQnaList">Q&A
+                <li><a class="dropdown-item" href="memberQnaList">자유게시판
                 <i class="bi bi-dot"></i>
                 </a></li>
                   </ul>
@@ -393,11 +404,11 @@
            <!-- 전체화면 메뉴 클릭시  -->
             <div class="dropdown me-3 d-none d-lg-block">
               <button class="btn btn-primary px-6 " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                aria-expanded="false">
+                aria-expanded="false" style="font-size:18px;">
                 <span class="me-1">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-grid">
+                    class="feather feather-grid" style="font-size:18px;">
                     <rect x="3" y="3" width="7" height="7"></rect>
                     <rect x="14" y="3" width="7" height="7"></rect>
                     <rect x="14" y="14" width="7" height="7"></rect>
@@ -426,7 +437,7 @@
                 <li><a class="dropdown-item" href="memberCommunity">독후감
                 <i class="bi bi-dot"></i>
                 </a></li>
-                <li><a class="dropdown-item" href="memberQnaList">Q&A
+                <li><a class="dropdown-item" href="memberQnaList">자유게시판
                 <i class="bi bi-dot"></i>
                 </a></li>
               </ul>
@@ -439,13 +450,13 @@
                <!-- 상세 메뉴 -->
                 <li class="nav-item dropdown w-100 w-lg-auto dropdown-fullwidth">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    도서 상품
+                    aria-expanded="false" style="font-size:18px;">
+                  <span style="font-weight: bold; ">도서 상품</span>  
                   </a>
                   <div class=" dropdown-menu pb-0">
-                    <div class="row p-2 p-lg-4">
+                    <div class="row p-2 p-lg-4" style="font-size: 15px; ">
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0" style="width: 20%;">
-                        <h6 class="text-primary ps-3"><a href="innewbookList?nb_category1=1">국내 도서</a></h6>
+                        <h6 class="text-success ps-3" style="font-size: 17px;"><a href="innewbookList?nb_category1=1" class="link-success">국내 도서</a></h6>
                         <a class="dropdown-item" href="innewbookList?nb_category1=1&nb_category2=1">경제/경영</a>
                         <a class="dropdown-item" href="innewbookList?nb_category1=1&nb_category2=2">과학</a>
                         <a class="dropdown-item" href="innewbookList?nb_category1=1&nb_category2=3">소설</a>
@@ -453,13 +464,13 @@
                         <a class="dropdown-item" href="innewbookList?nb_category1=1&nb_category2=5">인문</a>
                       </div>
                       <div class="col-lg-3 col-12 mb-4 mb-lg-0" style="width: 20%;">
-                        <h6 class="text-primary ps-3"><a href="innewbookList?nb_category1=2">해외 도서</a></h6>
+                        <h6 class="text-success ps-3" style="font-size: 17px;"><a href="innewbookList?nb_category1=2" class="link-success">해외 도서</a></h6>
                         <a class="dropdown-item" href="innewbookList?nb_category1=2&nb_category2=6">과학/기술</a>
                         <a class="dropdown-item" href="innewbookList?nb_category1=2&nb_category2=7">문학</a>
                       </div>
                       
                    <div class="col-lg-3 col-12 mb-4 mb-lg-0" style="width: 20%;">
-                        <h6 class="text-primary ps-3"><a href="folistOb?currentPage=1&nb_category1=1">중고 국내도서</a></h6>
+                        <h6 class="text-success ps-3" style="font-size: 17px;"><a href="folistOb?currentPage=1&nb_category1=1" class="link-success">중고 국내도서</a></h6>
                         <a class="dropdown-item" href="folistOb?nb_category1=1&nb_category2=1">경제/경영</a>
                         <a class="dropdown-item" href="folistOb?nb_category1=1&nb_category2=2">과학</a>
                         <a class="dropdown-item" href="folistOb?nb_category1=1&nb_category2=3">소설</a>
@@ -468,7 +479,7 @@
                       </div>
                       
   					 <div class="col-lg-3 col-12 mb-4 mb-lg-0" style="width: 20%;">
-                        <h6 class="text-primary ps-3"><a href="folistOb?currentPage=1&nb_category1=2">중고 해외도서</a></h6>
+                        <h6 class="text-success ps-3" style="font-size: 17px;"><a href="folistOb?currentPage=1&nb_category1=2" class="link-success">중고 해외도서</a></h6>
                         <a class="dropdown-item" href="folistOb?nb_category1=2&nb_category2=6">과학/기술</a>
                         <a class="dropdown-item" href="folistOb?nb_category1=2&nb_category2=7">문학</a>
                       </div>
@@ -480,9 +491,6 @@
 						     	<i class="bi bi-hand-thumbs-up"></i>
 						      </h5>
 						 
-							    <p class="fs-5" style="font-weight: bold;">『 제 1회 넥서스 경장편 작가상』</p>
-								<mark style="font-weight: bold;"> 대상 수상 작가</mark><p>
-								<p class="fs-7" style="font-weight: bold;"><span style="color: #198754;">장류진 작가</span> 강력 추천 !</p>
 						 	</div>
 			
 							  <div class="table-responsive-xxl">
@@ -510,16 +518,16 @@
              
 
                  <li class="nav-item w-100 w-lg-auto">
-                  <a class="nav-link" href="writeFormObReport">
-       		   중고판매 
+                  <a class="nav-link" href="writeFormObReport" style="font-size:18px;">
+       		   <span style="font-weight: bold;">중고판매 </span>
        		   <i class="bi bi-dot"></i>
                   </a>
                 </li>
                
                
                  <li class="nav-item w-100 w-lg-auto">
-                  <a class="nav-link" href="eventList">
-               	이벤트 
+                  <a class="nav-link" href="eventList" style="font-size:18px;">
+               	<span style="font-weight: bold;">이벤트 </span>
                	<i class="bi bi-dot"></i>
                   </a>
                 </li>
@@ -529,29 +537,22 @@
                 
                 <li class="nav-item dropdown w-100 w-lg-auto">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-				커뮤니티
+                    aria-expanded="false" style="font-size:18px;">
+				<span style="font-weight: bold;">커뮤니티</span>
                   </a>
-                  <ul class="dropdown-menu">
+                  <ul class="dropdown-menu" style="font-size: 15px;">
                     <li><a class="dropdown-item" href="memberCommunity">독후감</a></li>
-                    <li><a class="dropdown-item" href="memberQnaList">Q & A</a></li>
-                    
-                 <c:if test="${sessionScope.member != null }">
-                    <li><span style="font-weight: bold;"><a class="dropdown-item" href="memberMyCommunity?m_num=${member.m_num }">내 독후감</a></span></li>                  
-                    <li><span style="font-weight: bold;"><a class="dropdown-item" href="memberMyOna?m_num=${member.m_num }">내 문의</a></span></li>
-                    <li><span style="font-weight: bold;"><a class="dropdown-item" href="memberMyReply?m_num=${member.m_num }">내 댓글</a></span></li>
-                 
-                  </c:if>  
+                    <li><a class="dropdown-item" href="memberQnaList">자유게시판</a></li>
                     
                   </ul>
                 </li>
                 
                 <li class="nav-item dropdown w-100 w-lg-auto">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-				고객센터
+                    aria-expanded="false" style="font-size:18px;">
+				<span style="font-weight: bold;">고객센터</span>
                   </a>
-                  <ul class="dropdown-menu">
+                  <ul class="dropdown-menu" style="font-size: 15px;">
                
                  <c:if test="${sessionScope.member != null }">
                     <li><a class="dropdown-item" href="memberQnaOne?m_num=${member.m_num }">1 : 1 문의</a></li>

@@ -30,8 +30,14 @@
 
 </head>
 <body>
-
-<h1 class="mb-8">1 : 1 문의</h1>	
+	
+	 <div class="mb-6">
+	  <div class="d-flex align-items-center">
+	    <img alt="" src="../assets/images/favicon/one.png" style="width: 60px; height: 60px;" class="me-3">
+	    <h2>1 : 1 문의</h2>
+	  </div>
+	</div>
+	
 	<div class="offset-lg-2 col-lg-8 col-12">
 
           <div class="mb-8">

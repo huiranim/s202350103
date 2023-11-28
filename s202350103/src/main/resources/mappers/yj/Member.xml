@@ -222,7 +222,7 @@
 	</select>
 	
 	<select id="totalOrderCnt" parameterType="int" resultType="int">
-		select count(*) from orderr where m_num = #{m_num}
+		select count(*) from orderr where m_num = #{m_num} and o_status > 0
 	</select>
 	
 	<update id="adminMemberUpdate" parameterType="Member">
@@ -426,7 +426,8 @@
 	<update id="myReplyUpdate" parameterType="MemberQ">
 		update memberq_reply 
 		set
-		mqr_content  = #{mqr_content} 
+		mqr_content  = #{mqr_content} ,
+		mqr_date = sysdate
 		where mqr_num = #{mqr_num}
 	</update>
 	
