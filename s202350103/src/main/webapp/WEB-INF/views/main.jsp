@@ -121,10 +121,10 @@
                               <a href="newbookDetail?nb_num=${hitBook1.nb_num }"> 
                               	<c:choose>
 								     <c:when test="${fn:contains(hitBook1.nb_image, 'http')}">
-								            <img src="${hitBook1.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 21rem;">
+								            <img src="${hitBook1.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 18rem;">
 								     </c:when>
 								     <c:otherwise>
-								            <img src="${pageContext.request.contextPath}/upload/${hitBook1.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 21rem;">
+								            <img src="${pageContext.request.contextPath}/upload/${hitBook1.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 18rem;">
 								     </c:otherwise>
 								</c:choose>
                               </a>
@@ -201,10 +201,10 @@
 	                              <a href="newbookDetail?nb_num=${categoryHitBook.nb_num }">
 	                              	<c:choose>
 									     <c:when test="${fn:contains(categoryHitBook.nb_image, 'http')}">
-									            <img src="${categoryHitBook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 21rem;">
+									            <img src="${categoryHitBook.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 18rem;">
 									     </c:when>
 									     <c:otherwise>
-									            <img src="${pageContext.request.contextPath}/upload/${categoryHitBook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 21rem;">
+									            <img src="${pageContext.request.contextPath}/upload/${categoryHitBook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 18rem;">
 									     </c:otherwise>
 									</c:choose>
 	                              </a>

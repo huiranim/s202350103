@@ -362,16 +362,16 @@
 			<section style="margin-left: 5%; margin-right: 5%;">
 
 				<!-- row -->
-				<div class="row ">
+				<!-- <div class="row ">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-6">
 						<div class="card h-100 card-lg">
-							<!-- heading -->
+							heading
 							<div class="p-6">
 								<h3 class="mb-0 fs-5">DADOK-ADMIN</h3>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 
 				<div class="row mb-10">
