@@ -45,11 +45,10 @@
 	                    }
 	                    // 조합된 참고항목을 해당 필드에 넣는다.
 	                    document.getElementById("sample6_extraAddress").value = extraAddr;
-	                
+	                    
 	                } else {
 	                    document.getElementById("sample6_extraAddress").value = '';
 	                }
-	
 	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
 	                document.getElementById('sample6_postcode').value = data.zonecode;
 	                document.getElementById("sample6_address").value = addr;
@@ -57,7 +56,20 @@
 	                document.getElementById("sample6_detailAddress").focus();
 	            }
 	        }).open();
+	        
+            // 실행 여부 체크
+            $("#execDaumPostcodeYN").val("Y");
 	    }
+		
+		// 선물받기(submit) 전 주소 검색 API 실행 체크
+		function execDaumPostcodeChk(){
+			if(document.getElementById("execDaumPostcodeYN").value == "N"){
+				$("#addrMsg").html("우편번호를 찾은 후 주소를 입력해주세요.");
+				false;
+			} else {
+				true;
+			}
+		}
 	    
 	    // 배송메시지 콤보박스 onchange
 	    function msgCombo(){
@@ -85,35 +97,68 @@
 	    function msgDirect(){
 	    	var writedMsg = document.getElementById("writedMsg").value;
 	    	// alert("writedMsg : "+writedMsg);
-	    	
 	    	$('#o_rec_msg').val(writedMsg);
 	    }
+	    
+		// 받는사람 이메일 입력 시 수행
+		function mailChk(mail) {
+			// alert("mail -> "+mail);
+			const mailPattern = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+			
+			if(mail == ""){
+				$("#mailMsg").html("이메일을 입력해주세요.");
+				$("#o_rec_mail").val("");
+				$("#o_rec_mail").focus();
+			} else if(mailPattern.test(mail) === false){
+				$("#mailMsg").html("이메일 형식이 잘못되었습니다.");
+				$("#o_rec_mail").val("");
+				$("#o_rec_mail").focus();
+			} else {
+				$("#mailMsg").html("");
+			}
+		}
+		
+		// 받는사람 휴대전화 입력 시 수행
+		function phChk(ph) {
+			// alert("ph -> "+ph);
+			const phPattern = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
+			
+			if(ph == ""){
+				$("#phMsg").html("휴대전화를 입력해주세요.");
+				$("#o_rec_ph").val("");
+				$("#o_rec_ph").focus();
+			} else if(phPattern.test(ph) === false){
+				$("#phMsg").html("휴대전화 형식이 잘못되었습니다.");
+				$("#o_rec_ph").val("");
+				$("#o_rec_ph").focus();
+			} else {
+				$("#phMsg").html("");
+			}
+		}
 	</script>	
 </head>
 <body>
 
   <!-- section -->
-
-  <section class="my-lg-14 my-8">
+  <section class="my-lg-10 my-8">
       <!-- container -->
     <div class="container">
       <div class="row">
-          <!-- col -->
-        <div class="offset-lg-2 col-lg-8 col-12">
           <div class="mb-8">
               <!-- heading -->
-            <h3 style="align: center;">선물받기</h3><p>
+            <h3 class="mb-10" style="text-align: center;">선물받기</h3><p>
           </div>
-          
+          <!-- col -->
+        <div class="offset-lg-2 col-lg-8 col-12">
           <!-- 선물받기 전 -->
 	          <!-- form -->
-	          <form class="row" action="foGettingGiftAction">
+	          <form class="row" action="foGettingGiftAction" onsubmit="return execDaumPostcodeChk();">
 	          
 	            <h5 class="h5">메시지 카드</h5><p>
-				<div class="card">
+				<div class="card" style="width: 700px; margin-left: 80px;">
 				   <img src="../assets/images/gift/giftcard${orderGift.o_gift_card }.png" class="card-img-top" alt="card" style="margin-top: 17px;">
 				     <div class="card-body">
-				       <h5 class="card-title">${orderGift.o_gift_msg }</h5>
+				       <pre><h5 class="h5" style="color: #889397;">"${orderGift.o_gift_msg }"</h5></pre>
 				     </div>
 				</div>
 	            
@@ -143,23 +188,28 @@
 	            </div>
 	            <div class="col-md-12 mb-3">
 	              <label class="form-label" for="o_rec_mail">이메일<span class="text-danger">*</span></label>
-	              <input type="text" id="o_rec_mail" class="form-control" name="o_rec_mail" value="${orderr.o_rec_mail }" required>
+              	  &nbsp;&nbsp;<span class="text-danger" id="mailMsg" ></span>
+	              <input type="text" id="o_rec_mail" class="form-control" name="o_rec_mail"
+	              		 value="${orderr.o_rec_mail }" required onchange="mailChk(o_rec_mail.value)">
 	            </div>
 	            <div class="col-md-12 mb-3">
 	              <!-- input -->
 	              <label class="form-label" for="o_rec_ph">휴대전화<span class="text-danger">*</span></label>
-	              <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control" value="${orderr.o_rec_ph }" required>
+              	  &nbsp;&nbsp;<span class="text-danger" id="phMsg" ></span>
+	              <input type="text" id="o_rec_ph" name="o_rec_ph" class="form-control"
+	              		 value="${orderr.o_rec_ph }" required onchange="phChk(o_rec_ph.value)">
 	            </div>
 	            <div class="col-md-6 mb-3">
 	              <!-- input -->
 	              <label class="form-label" for="o_rec_addr">주소<span class="text-danger">*</span></label>
-	              <input type="text" id="sample6_postcode"  name="o_rec_addr1" class="form-control" placeholder="우편번호">
+	              &nbsp;&nbsp;<span class="text-danger" id="addrMsg" ></span>
+	              <input type="text" id="sample6_postcode"  name="o_rec_addr1" class="form-control" placeholder="우편번호" required readonly>
 	              <label class="form-label">
 	              	<input type="button" class="form-control" onclick="execDaumPostcode()" value="우편번호 찾기" style="background-color: lightgray;">
 	              </label>
-	              <input type="text" id="sample6_address" name="o_rec_addr2" class="form-control" placeholder="주소">
+	              <input type="text" id="sample6_address" name="o_rec_addr2" class="form-control" placeholder="주소" required readonly>
 	              <input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" readonly>
-	              <input type="text" id="sample6_detailAddress" name="o_rec_addr3" class="form-control" placeholder="상세주소" required="required">
+	              <input type="text" id="sample6_detailAddress" name="o_rec_addr3" class="form-control" placeholder="상세주소">
 	            </div>
 	            <div class="col-md-12 mb-3">
 	              <label class="form-label" for="o_rec_msg">배송 메시지<span class="text-danger">*</span></label>
@@ -223,9 +273,11 @@
 	<input type="hidden" name="m_ph" value="${orderr.m_ph }"> 
 	<input type="hidden" name="nb_title" value="${orderr.nb_title }"> 
 	<input type="hidden" name="o_de_count" value="${orderr.o_de_count }"> 
+	<input type="hidden" name="execDaumPostcodeYN" value="N"> 
 	          </form>
 	          
-<%-- 	          <div style="border: 1px solid #dfe2e1;
+<%--			메일 발송용 태그
+	          	<div style="border: 1px solid #dfe2e1;
 					      border-radius: 0.5rem;
 					      padding: 50px 50px;
 					      width: 700px">
