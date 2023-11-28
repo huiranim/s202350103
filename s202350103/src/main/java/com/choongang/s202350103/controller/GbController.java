@@ -518,7 +518,9 @@ public class GbController {
 		
 		// 로그인한 멤버 값 불러오기 
 		member =(Member) session.getAttribute("member");
-		if(member == null) { return "yb/loginForm"; }
+		if(member == null) { 
+			return "yb/loginForm"; 
+		}
 		
 		NewBook popUpNewbook = nbs.selectBoNewBookDetail(newbook);
 		String publi_date1 = popUpNewbook.getNb_publi_date().substring(0,10);
@@ -549,7 +551,7 @@ public class GbController {
 		System.out.println("toMail -> "+toMail);
 		String sendMail = "dadok202350103@gmail.com";			// 보내는 사람
 		System.out.println("sendMail -> "+sendMail);	
-		String mailTitle = member.getM_name()+"님께서 다독 도서 상품을 추천하였습니다.";	// 메일 제목
+		String mailTitle = "[DADOK] "+member.getM_name()+"님께서 다독 도서 상품을 추천하였습니다.";	// 메일 제목
 		String e_message = newbook.getE_message();
 		
 		try {
@@ -574,14 +576,14 @@ public class GbController {
 			// 메일 내용
 			String messageText = "<div style='border: 1px solid black; float: left;'>"
 							   + "<img id='newbookImg' style='width: 140px; margin: 10px; float: left;' src='"+popUpNewbook.getNb_image()+"' alt='"+popUpNewbook.getNb_title()+"'>"
-							   + "<div style='margin-top: 25px; width: 600px;'><span style='font-size: 20px; font-weight: bold;'> 제목 : "+ popUpNewbook.getNb_title() +"</span><br>"
+							   + "<div style='margin-top: 25px; width: 600px;'><span style='font-size: 20px; font-weight: bold;'>"+popUpNewbook.getNb_title() +"</span><br><br>"
 							   + "<span> 작가 : "+ popUpNewbook.getNb_writer() +"</span><br>"
 							   + "<span> 출판사 : "+ popUpNewbook.getNb_publisher() +"</span><br>"
 							   + "<span> 가격 : " + popUpNewbook.getNb_price() +"</span><br>"
 							   + "<button type='button' style=' background-color: #3CB371; padding: 10px; border-radius: 10px; color: white; margin-top: 45px;'"
 							   + " onclick='location.href='"
 							   + "newbookDetail?nb_num="+popUpNewbook.getNb_num()+"'>상품보러가기</button></div>"
-							   + "<div style='border: 1px solid black;margin: 45px 20px 10px 15px;'> <span> 메일 내용 : <br><pre>"+ e_message + "</pre></span></div>"
+							   + "<div style='border: 1px solid black;margin: 25px 20px 10px 15px;'> <span> 메일 내용 : <br><pre>"+ e_message + "</pre></span></div>"
 							   + "</div>";
 			
 			System.out.println("messageText -> "+messageText);

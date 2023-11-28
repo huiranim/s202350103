@@ -228,6 +228,15 @@
 	   document.body.removeChild(textarea);					// textarea를 삭제한다.
 	   alert("URL이 복사되었습니다.");
    }
+   
+   function minusClick() {
+	   var c_count = $('#c_count').val() - 1;
+	   if(c_count < 1) {
+		   alert("수량은 1보다 작을 수 없습니다.");
+		   location.reload();
+		   return;
+	   }
+   }
 
 </script>
 </head>
@@ -241,18 +250,21 @@
      <div class="col-md-6 row justify-content-center">
       <!-- 도서 이미지 -->
        <div class="product" id="product" style="width: 20rem;">
-          <div class="zoom" onmousemove="zoom(event)"
-             style="background-image: url(${newbook.nb_image})">
-             <c:set var="nb_image" value="${newbook.nb_image }"/>
-             <c:choose>
-                  <c:when test="${fn:contains(nb_image, 'http')}">
-                     <img src="${newbook.nb_image}" alt="${newbook.nb_title}">
-                  </c:when>
-                  <c:otherwise>
-                     <img src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" alt="${newbook.nb_title}">
-                  </c:otherwise>
-               </c:choose>
-          </div>
+         <c:set var="nb_image" value="${newbook.nb_image }"/>
+         <c:choose>
+              <c:when test="${fn:contains(nb_image, 'http')}">
+              	<div class="zoom" onmousemove="zoom(event)"
+         				style="background-image: url(${newbook.nb_image})">
+                 	<img src="${newbook.nb_image}" alt="${newbook.nb_title}">
+                 </div>
+              </c:when>
+              <c:otherwise>
+              	<div>
+                 <img src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" alt="${newbook.nb_title}"
+                 		style="height:27rem;">
+              	</div>
+              </c:otherwise>
+           </c:choose>
        </div>
      </div>
 
@@ -330,11 +342,11 @@
           
          <div>
              <!-- 수량 선택 버튼 및 구매 버튼, 찜하기 버튼 -->
-             <form action="">
              <input name="nb_num" type="hidden" value="${newbook.nb_num }">
              <div class="input-group input-spinner">
                   <!-- 수량 선택 버튼 -->
-                <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
+                <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" 
+                		onclick="minusClick()" style="height: 42px;width: 40px;">
                 <input id="c_count" type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" style="height: 42px;width: 40px;">
                 <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" style="height: 42px;width: 40px;">
               <div class="g-2 align-items-center">
@@ -394,7 +406,6 @@
                  </div>
                </div>
             </div>
-            </form>
          </div>
        </div>
      </div>
@@ -402,7 +413,7 @@
    
    <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-10 mt-5">
+        <div class="col-md-10 mt-5" style="width:95%;">
           <!-- 탭 메뉴들 -->
           <ul class="nav nav-pills nav-lb-tab" id="myTab" role="tablist">
             <!-- 도서 상세 내용 탭 버튼 -->
