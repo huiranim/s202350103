@@ -57,18 +57,18 @@
 </style>
 <body>
 <form action="javascript:void(0);">
-<table>
+<table class="table" style="float: left; width: 40%;">
 	<tr>
-		<th>이벤트</th>
+		<th scope="row">이벤트</th>
 	</tr>
 	<tr>
-		<th>이벤트 기간 :</th> 
+		<th scope="row">이벤트 기간 :</th> 
 		<td><input type="checkbox" name="date" 	   id="dateCheckbox" checked>전체기간 
 			<input type="date"	   name="e_sdate"  id="sdate"> ~ 
 			<input type="date"	   name="e_edate"  id="edate"></td>
 	</tr>
 	<tr>
-		<th>이벤트 상태</th>
+		<th scope="row">이벤트 상태</th>
 		<td>
 			<input type="radio" name="status" value="all" checked="checked"> 전체
 			<input type="radio" name="status" value="keep"> 진행 중
@@ -76,8 +76,8 @@
 		</td>
 	</tr>
 	<tr>
-		<td></td>
-		<td><input type="submit" value="검색" onclick="checkDetail()"> <input type="reset" value="초기화"></td>
+		<td colspan="2"><input type="submit" class="btn btn-outline-dark mb-2" value="검색" onclick="checkDetail()">
+		<input type="reset" class="btn btn-outline-primary mb-2 value="초기화"></td>
 	</tr>
 </table>
 </form>

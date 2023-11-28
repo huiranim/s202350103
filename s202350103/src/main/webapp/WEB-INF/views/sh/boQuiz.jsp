@@ -86,15 +86,8 @@
 			<td><input type="file" name="file1" required="required"></td>
 		</tr>
 		<tr>
-			<th class="table-active">출석 혜택지급</th>
-			<td>
-				<table>
-				<tr>
-					<th class="s_title">포인트 </th>
-					<td><input type="number" name="q_point" min="1" maxlength="3" style="margin-left: 10px; width: 80px;" required="required"> point</td>
-				</tr>
-				</table>
-			</td>
+			<th class="table-active">포인트</th>
+			<td><input type="number" name="q_point" min="1" maxlength="3" style="margin-left: 10px; width: 80px;" required="required"> point</td>
 		</tr>
 		<tr>
 			<th class="table-active">질문</th>
@@ -133,12 +126,18 @@
 		<tr>
 			<td></td>
 			<td style="float: right; margin-right: 40px; margin-top: 10px;">
-				<input type="submit" class="btn btn-soft-primary mb-2" value="생성" id="button"> 
+				<input type="submit" class="btn btn-soft-primary mb-2" value="생성"> 
 				&nbsp;
-				<input type="button" class="btn btn-soft-danger mb-2"  value="취소" id="button">
+				<input type="button" class="btn btn-soft-danger mb-2" id="cancleButton"  value="취소">
 			</td>
 		</tr>
 	</table>
 </form>
+<script type="text/javascript">
+	var cancleButton = document.getElementById("cancleButton");
+	cancleButton.addEventListener('click',function(){
+		location.href='mainBo';
+	});
+</script>
 </body>
 </html>

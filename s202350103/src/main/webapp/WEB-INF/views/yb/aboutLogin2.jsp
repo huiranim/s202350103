@@ -7,6 +7,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon/DADOKLOGO.png">
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
+
 	// 아이디 기억하기
 	$(document).ready(function(){
 		 
