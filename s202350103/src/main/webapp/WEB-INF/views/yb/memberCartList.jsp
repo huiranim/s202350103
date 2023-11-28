@@ -21,10 +21,10 @@
 					dataType : 'text',
 					success : function(data){
 							if (data == '1'){
-								alert("수정되었습니다.");
+								// alert("수정되었습니다.");
 								location.reload();
 							}else {
-								alert("수정되지 않았습니다.")
+								// alert("수정되지 않았습니다.")
 							}
 					}
 		});
@@ -47,10 +47,10 @@
 					dataType : 'text',
 					success : function(data){
 							if (data == '1'){
-								alert("수정되었습니다.");
+								// alert("수정되었습니다.");
 								location.reload();
 							}else {
-								alert("수정되지 않았습니다.")
+								// alert("수정되지 않았습니다.")
 							}
 					}
 		});
