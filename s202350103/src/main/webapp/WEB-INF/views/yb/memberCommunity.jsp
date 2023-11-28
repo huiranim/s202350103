@@ -124,13 +124,13 @@ function openWrite() {
          </div>
     </div>
 
-	   <nav aria-label="...">
-		<ul class="pagination pagination-lg justify-content-center">
-		  <li  class="page-item active">
-		  	<a href="memberCommunity" class="page-link">전체 독후감</a>
+    <nav aria-label="...">
+		<ul class="nav nav-tabs justify-content-center">
+		  <li  class="nav-item justify-content-center">
+		  	<a href="memberCommunity" class="nav-link active">전체 독후감</a>
 		  </li>
-		  <li  class="page-item ">
-		  	<a href="memberMyCommunity" class="page-link">내 독후감</a>
+		  <li  class="nav-item justify-content-center">
+		  	<a href="memberMyCommunity" class="nav-link">내 독후감</a>
 		  </li>
 		  
 		</ul>
@@ -204,20 +204,19 @@ function openWrite() {
 	
 	<nav aria-label="Page navigation example">
 		  <ul class="pagination justify-content-center">
-
 			 	<c:if test="${page.startPage > page.pageBlock }">
-					 <li>					
+					 <li class="page-item" style="width:48px">					
 						<a class="page-link mx-1 text-body" href="memberCommunity?currentPage=${page.startPage-page.pageBlock}">이전</a>
 					</li>
 				</c:if>
  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-					 <li>
+					 <li class="page-item justify-content-center" style="width:48px">
  						<a class="page-link mx-1 text-body" href="memberCommunity?currentPage=${i}">${i}</a>
 					</li>
 				</c:forEach>
 					
 				<c:if test="${page.endPage < page.totalPage }">
-					 <li>		 
+					 <li class="page-item justify-content-center" style="width:48px">		 
 						<a class="page-link mx-1 text-body" href="memberCommunity?currentPage=${page.startPage+page.pageBlock}">다음</a>
 					</li>
 				</c:if>

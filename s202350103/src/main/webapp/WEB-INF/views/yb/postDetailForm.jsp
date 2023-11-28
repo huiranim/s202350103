@@ -26,8 +26,13 @@
 <!-- End Tag -->
 <style type="text/css">
 	#div1 {
-		background: #f0f3f2;
+		background: #fff;
 		border-radius: 10px;
+		border-left: 1px solid #dfe2e1;
+	}
+	#div2 {
+		background: #fff;
+		border-left: 1px solid #dfe2e1;
 	}
 	#container {
 		background-color: rgb(255, 255, 255);
@@ -212,7 +217,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 pt-12" id="div1" style="margin-left: 30px; width: 43rem; height: auto">
+        <div class="col-md-6 pt-12" id="div2" style="margin-left: 30px; width: 43rem; height: auto">
           <div class="ps-lg-5 mt-6 mt-md-0">
           	조회수 : ${community.cm_readCnt }
             <!-- heading -->
