@@ -10,10 +10,10 @@
 
 <style>
 
-.chart {
- width: 290px; 
- height: 290px; 
-}
+	.chart {
+	 width: 290px; 
+	 height: 290px; 
+	}
 
 </style>
 
@@ -148,7 +148,138 @@
 	                            </div>
 	                        </div>
 				           
+				           <!-- 주문 총계 -->
+						  	<div class="row">
+						       <div class="col-lg-4 col-12 mb-6">
+						           <!-- 한달 총 수입 -->
+						           <div class="card h-100 card-lg">
+						               <!-- card body -->
+						               <div class="card-body p-6">
+						                   <!-- heading -->
+						                   <div class="d-flex justify-content-between align-items-center mb-6">
+						                       <div>
+						                           <h4 class="mb-0 fs-5" _msttexthash="9833616" _msthash="87">${month }월 총수입</h4>
+						                       </div>
+						                       <div class="icon-shape icon-md bg-light-danger text-dark-danger rounded-circle">
+						                           <i class="bi bi-currency-dollar fs-5"></i>
+						                       </div>
+						                   </div>
+						                   <!-- 한달 총 수입 금액 -->
+						                   <div class="lh-1">
+						                       <h1 class=" mb-2 fw-bold fs-2" _msttexthash="76492" _msthash="88">
+						                       	<fmt:formatNumber value="${totalIncome }" groupingUsed="true"/>원
+						                       </h1>
+						                       <c:if test="${totalIncome - lastTotalIncome > 0}">
+							                       <span _msttexthash="21663070" _msthash="89">
+							                       	지난달과 비교 : 
+							                       	<span class="me-1" _istranslated="1" style="color:red">
+							                       		+<fmt:formatNumber value="${totalIncome - lastTotalIncome }" groupingUsed="true"/>원
+							                       	</span>
+							                       </span>
+						                       </c:if>
+						                       <c:if test="${totalIncome - lastTotalIncome <= 0}">
+							                       <span _msttexthash="21663070" _msthash="89">
+							                       	지난달과 비교 : 
+							                       	<span class="me-1" _istranslated="1" style="color:blue">
+							                       		-<fmt:formatNumber value="${totalIncome - lastTotalIncome }" groupingUsed="true"/>원
+							                       	</span>
+							                       </span>
+						                       </c:if>
+						                   </div>
+						               </div>
+						           </div>
+						       </div>
+						       <div class="col-lg-4 col-12 mb-6">
+						           <!-- 한달 총 주문건수 -->
+						           <div class="card h-100 card-lg">
+						               <!-- card body -->
+						               <div class="card-body p-6">
+						                   <!-- heading -->
+						                   <div class="d-flex justify-content-between align-items-center mb-6">
+						                       <div>
+						                           <h4 class="mb-0 fs-5" _msttexthash="9666644" _msthash="90">${month }월 주문건수</h4>
+						                       </div>
+						                       <div class="icon-shape icon-md bg-light-warning text-dark-warning rounded-circle">
+						                           <i class="bi bi-cart fs-5"></i>
+						                       </div>
+						                   </div>
+						                   <!-- project number -->
+						                   <div class="lh-1">
+						                       <h1 class=" mb-2 fw-bold fs-2" _msttexthash="37895" _msthash="91">
+						                       	<fmt:formatNumber value="${monthTotalCnt }" groupingUsed="true"/>건
+						                       </h1>
+						                       <c:if test="${monthTotalCnt - lastTotalCnt > 0 }">
+							                       <span _msttexthash="48127183" _msthash="92">
+							                       	지난달과 비교 : 
+							                       	 <span class="me-1" _istranslated="1" style="color:red">
+							                         	+<fmt:formatNumber value="${monthTotalCnt - lastTotalCnt }" groupingUsed="true"/>건
+							                         </span>
+							                       </span>
+						                       </c:if>
+						                       <c:if test="${monthTotalCnt - lastTotalCnt < 0 }">
+							                       <span _msttexthash="48127183" _msthash="92">
+							                       	지난달과 비교 : 
+							                       	 <span class="me-1" _istranslated="1" style="color:blue">
+							                         	-<fmt:formatNumber value="${monthTotalCnt - lastTotalCnt }" groupingUsed="true"/>건
+							                         </span>
+							                       </span>
+						                       </c:if>
+						                   </div>
+						               </div>
+						           </div>
+						       </div>
+						       <div class="col-lg-4 col-12 mb-6">
+						           <!-- 한달 신규고객 인원수 -->
+						           <div class="card h-100 card-lg">
+						               <!-- card body -->
+						               <div class="card-body p-6">
+						                   <!-- heading -->
+						                   <div class="d-flex justify-content-between align-items-center mb-6">
+						                       <div>
+						                           <h4 class="mb-0 fs-5" _msttexthash="8609640" _msthash="93">${month }월 신규고객</h4>
+						                       </div>
+						                       <div class="icon-shape icon-md bg-light-info text-dark-info rounded-circle">
+						                           <i class="bi bi-people fs-5"></i>
+						                       </div>
+						                   </div>
+						                   <!-- project number -->
+						                   <div class="lh-1">
+						                       <h1 class=" mb-2 fw-bold fs-2" _msttexthash="38038" _msthash="94">
+						                       		<fmt:formatNumber value="${monthTotalNewMember }" groupingUsed="true"/>명
+						                       </h1>
+						                       <c:if test="${monthTotalNewMember - lastTotalNewMember > 0 }">
+							                       <span _msttexthash="72624214" _msthash="95">
+							                       	지난달과 비교 : 
+							                       	<span class="me-1" _istranslated="1" style="color:red">
+							                       		+<fmt:formatNumber value="${monthTotalNewMember - lastTotalNewMember }" groupingUsed="true"/>명
+							                       	</span>
+							                       </span>
+						                       </c:if>
+						                       <c:if test="${monthTotalNewMember - lastTotalNewMember < 0 }">
+							                       <span _msttexthash="72624214" _msthash="95">
+							                       	지난달과 비교 : 
+							                       	<span class="me-1" _istranslated="1" style="color:blue">
+							                       		-<fmt:formatNumber value="${monthTotalNewMember - lastTotalNewMember }" groupingUsed="true"/>명
+							                       	</span>
+							                       </span>
+						                       </c:if>
+						                   </div>
+						               </div>
+						           </div>
+						       </div>
+						  	</div>
+						  	
+						  	<!-- 연도 그래프 -->
+						  	<div class="card card-lg mb-6">
+                                <div class="card-body px-6 py-8">
+                                	<h3 class="mb-0 fs-5">Order Chart </h3>
+                                    <div class="d-flex align-items-center">
+                                        
+                                    </div>
+                                </div>
+                            </div>
                              
+                             <!-- 답글관리 -->
                              <a href="adminDeclReply">   
                                 <div class="card card-lg mb-6">
                                     <div class="card-body px-6 py-8">
