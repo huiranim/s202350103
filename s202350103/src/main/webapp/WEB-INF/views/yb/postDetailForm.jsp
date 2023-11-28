@@ -26,8 +26,13 @@
 <!-- End Tag -->
 <style type="text/css">
 	#div1 {
-		background: #f0f3f2;
+		background: #fff;
 		border-radius: 10px;
+		border-left: 1px solid #dfe2e1;
+	}
+	#div2 {
+		background: #fff;
+		border-left: 1px solid #dfe2e1;
 	}
 	#container {
 		background-color: rgb(255, 255, 255);
@@ -212,7 +217,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 pt-12" id="div1" style="margin-left: 30px; width: 43rem; height: auto">
+        <div class="col-md-6 pt-12" id="div2" style="margin-left: 30px; width: 43rem; height: auto">
           <div class="ps-lg-5 mt-6 mt-md-0">
           	조회수 : ${community.cm_readCnt }
             <!-- heading -->
@@ -264,21 +269,21 @@
 			<input type="hidden" name="m_num" value="${community.m_num }" id="m_num">	
 			<input type="hidden" name="m_num" value="${member.m_num }" id="m_num1">
             </div>
-            <div class="mt-6 mb-10 row justify-content-start g-2 align-items-center">
+            <div class="mt-6 mb-10 row justify-content-start g-17 align-items-center">
               <div class="col-md-10 col-10">
                 <!-- btn -->
                 <c:if test="${member.m_num == community.m_num }">
-	                <button type="button" class="btn btn-soft-primary"onclick="openUpdate(cm_num.value)">
+	                <button type="button" class="btn btn-outline-success"onclick="openUpdate(cm_num.value)">
 	                <i class="bi bi-pencil" title="수정하기"></i></button>
 	            </c:if>
 	            <c:if test="${member.m_num == community.m_num }">
-	               <button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-trash"  onclick="deleteConfirm(cm_num.value)"></i></button>
+	               <button type="button" class="btn btn-outline-success" onclick=""><i class="bi bi-trash"  onclick="deleteConfirm(cm_num.value)"></i></button>
 	            </c:if>
 				<c:if test="${commHeart.h_status == 0 || commHeart == null}">
-                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up"  onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
+                	<button type="button" class="btn btn-outline-success" onclick=""><i class="bi bi-hand-thumbs-up"  onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
                 </c:if>
                 <c:if test="${commHeart.h_status == 1 }">
-                	<button type="button" class="btn btn-soft-primary" onclick=""><i class="bi bi-hand-thumbs-up-fill" onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
+                	<button type="button" class="btn btn-outline-success" onclick=""><i class="bi bi-hand-thumbs-up-fill" onclick="clickHeart(cm_num.value, m_num.value, m_num1.value)">(${community.cm_hitCnt })</i></button>
                 </c:if>
                 
                 
@@ -289,7 +294,7 @@
       </div>
     </div>
     <div class="d-grid gap-2 mt-10 d-md-flex justify-content-center">
-		 <button class="btn btn-soft-primary mb-2" type="button" 
+		 <button class="btn btn-outline-success mb-2" type="button" 
 			 	 onclick="communityList()">목록 이동</button>
 	</div>
     </div>

@@ -60,16 +60,15 @@
 						 </c:choose>
 	                      <%-- <img id="ht" src="${orderList.nb_image}" alt="bookImage"> --%>
 	                      <!-- text -->
-	                      <div class="ms-4">
-	                         <h5 class="mb-0 h6 h6">${orderList.nb_title}</h5>
-	                         <p style="margin: 10px;">
-	                         <p class="mb-0 small">수량 : ${orderList.o_de_count}
-	                         <p style="margin: 10px;">
-	                         <p class="mb-0 small">구매일자 :
-	                         <fmt:formatDate value="${orderList.o_order_date}" pattern="yyyy-MM-dd"/>
-	                         
-	                        </p>
-	                      </div>
+	                      <div class="ms-4" style="font-size: 16px;">
+							    <h5 class="mb-0 h6 h6">${orderList.nb_title}</h5>
+							    <p style="margin: 10px;">
+						        <p class="mb-0 small">수량 : ${orderList.o_de_count}</p>
+						        <p style="margin: 10px;">
+					            <p class="mb-0 small">구매일자 :
+					                <fmt:formatDate value="${orderList.o_order_date}" pattern="yyyy-MM-dd"/>
+					            </p>
+							</div>
 	                   </div>
 	                   <div>
 	                      <a class="btn btn-primary" href="reviewForm?o_order_num=${orderList.o_order_num}&currentPage=${page.currentPage}&nb_num=${orderList.nb_num}">리뷰 작성하기</a>

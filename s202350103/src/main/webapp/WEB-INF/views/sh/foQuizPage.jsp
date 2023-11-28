@@ -9,6 +9,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Quiz이벤트</title>
+<style type="text/css">
+	#quiz-div {
+		display: flex; 
+		justify-content: center;
+		position: relative;
+	}
+	#quiz-image {
+		background-image: url(../assets/images/png/sketchbook2.png); 
+		height: 450px;
+		width: 600px; 
+		background-repeat: no-repeat;
+		vertical-align: middle;
+	}
+	#quiz-content{
+		position: absolute;
+		top: 50%;
+		left: 49%;
+		width: 50%;
+		transform: translate(-50%, -50%);
+		font-size : 20px;
+		text-align: center;
+	}
+	label {
+		width : 200px;
+		font-size : 20px;
+	}
+</style>
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javascript">
@@ -18,6 +45,8 @@
 	        alert("정답을 선택하세요.");
 	        return false;
 	    } else{ 
+	    		var confirmMessage = "제출 기회는 1번입니다. 제출하시겠습니까?";
+	    		if(confirm(confirmMessage)){
 	    		var point = '${quiz.q_point}';
 				var select = selected.value;
 				var answer = $('[name=answer]').val();
@@ -26,52 +55,64 @@
 						alert("정답입니다. "+point+"포인트 획득하셨습니다.");
 						location.href="checkQuiz?m_num="+${m_num}+"&eNum="+${eNum};
 						return true;
-					} else{
-						alert("이미 참여하셨습니다");
-						return false;
 					}
 				} else {
 					alert("오답입니다.");
 					location.href = "wrongQuiz?m_num="+${m_num}+"&eNum="+${eNum};
 					return false;
 				}
-			}
+	    	} else {
+	    		return false;
+	    	}
 		}
+	    
+	    if (!window.checkAnswerExecuted) {
+	        // 이 부분에는 초기 로딩 시에 실행되어야 하는 코드를 작성할 수 있습니다.
+	        $(function(){
+				if(${chance == 1}){
+					alert("이미 참여하셨습니다.");
+				}
+			});
+	        // 실행 여부 플래그 설정
+	        window.checkAnswerExecuted = true;
+		}
+	}
 </script>
 <body>
 <div>
-	<div class="card-body text-center py-8">
-	      <p class="fs-1 mb-5" style="text-align: center;">${quiz.q_title }</p>
-			<div style="text-align: center; color: #0aad0a;">${quiz.q_sdate} 00:00 ~${quiz.q_edate} 00:00 </div>
-			<p><mark>*퀴즈를 풀고 포인트를 적립해 보세요 !</mark> </p>    
-	<div>
-	<div class="card card-product mb-8">
-			<textarea rows="8" class="form-control mb-8" style="border: none; background:#ecf0ef; font-size: 20px; font-weight: bold;"  class="form-control">${quiz.q_question }</textarea>
-		</div>
+	<div class="card-body text-center py-8" style="background-color: #F2F2F2; border-radius: 100px;">
+		<h1 class="mb-5" style="text-align: center;">✨${quiz.q_title }✨</h1>
+		<div style="text-align: center; color: #0aad0a;">${quiz.q_sdate} 00:00 ~${quiz.q_edate} 00:00 </div>   
+			<div>
+			<div id="quiz-div">
+				<div id="quiz-image"></div>
+				<div id="quiz-content">
+					<p>${quiz.q_question }</p>
+				</div>
+			</div>
 			<div class="form-check" style="display: flex; align-items: center; justify-content: center;">
 			<form onsubmit="checkAnswer()">
 				<input type="hidden" name="m_num" value="${m_num}">
-	   			<input type="hidden" name="eNum" value="${eNum}">
+		  		<input type="hidden" name="eNum" value="${eNum}">
 				<input type="hidden" name="answer"   value="${quiz.q_answer}">
 				<c:choose>
-					<c:when test="${chance==0}">	
-						<div style="display: flex; flex-direction: column; align-items: center;">
-					   	
-					   	<label>
-					         <input class="form-check-input" type="radio" name="select" value="1">${quiz.q_select1}
-					    </label><br>
-					    
-					    <label>
-					         <input class="form-check-input" type="radio" name="select" value="2">${quiz.q_select2}
-					    </label><br>
-					    <label>
-					        <input class="form-check-input" type="radio" name="select"  value="3">${quiz.q_select3}
-					    </label><br>
-					    <label>
-					         <input class="form-check-input" type="radio" name="select" value="4">${quiz.q_select4}
-					    </label><br>
-					    <input type="submit" class="btn btn-primary" id="subButton" value="정답 제출">
-						</div>
+					<c:when test="${chance==0}">
+						<div class="d-grid gap-2 d-md-block mt-5">
+		                    <input type="radio" class="btn-check" name="select" id="success-outlined1" value="1" autocomplete="off" >
+							<label class="btn btn-outline-success" for="success-outlined1" style="font-size : 20px;">${quiz.q_select1}</label>
+							
+							<input type="radio" class="btn-check" name="select" id="success-outlined2" value="2" autocomplete="off" >
+							<label class="btn btn-outline-success" for="success-outlined2" style="font-size : 20px;">${quiz.q_select2}</label>
+							
+							<input type="radio" class="btn-check" name="select" id="success-outlined3" value="3" autocomplete="off" >
+							<label class="btn btn-outline-success" for="success-outlined3" style="font-size : 20px;">${quiz.q_select3}</label>
+							
+							<input type="radio" class="btn-check" name="select" id="success-outlined4" value="4" autocomplete="off" >
+							<label class="btn btn-outline-success" for="success-outlined4" style="font-size : 20px;">${quiz.q_select4}</label>
+		                </div>
+		                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-8">
+						   <button type="submit" class="btn btn-dark mb-2" type="button">정답 제출</button>
+						</div>	
 					</c:when>
 				</c:choose>	
 			</form>
@@ -98,6 +139,7 @@
 		<span>[공통 안내]</span><br>
 		<span>-본 이벤트는 당사의 사정에 따라 일정 및 내용이 변경될 수 있습니다.</span><br>
 		<span>-이벤트 기간 내 ID당 1회 참여 가능합니다.(모바일, PC 중복 응모 불가)</span><br>
+		<span>-이벤트 기간 내 정답 제출 기회는 1회 가능합니다.(모바일, PC 중복 불가)</span><br>
 		<span>-본 이벤트 혜택은 참여 즉시 자동 지급되며, 최대 1분까지 시간 소요될 수 있습니다.</span><br>
 		<span>-포인트는 적립금으로 부여되며, 지급된 이벤트 혜택은 '마이페이지 -> 포인트' 항목에서 확인 가능합니다.</span><br>
 		<span>-타인의 명의도용 등 부정한 방법으로 이벤트 참여 시, 지급된 혜택은 회수될 수 있으며 법적 책임이 따를 수 있습니다.</span><br>
@@ -106,11 +148,7 @@
 	
 	
 	<script type="text/javascript">
-	$(function(){
-		if(${chance == 1}){
-			alert("이미 참여하셨습니다.");
-		}
-	});
+
 </script>
 <%@ include file="../common/footerFo.jsp" %>
 </body>

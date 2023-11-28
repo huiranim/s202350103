@@ -31,9 +31,24 @@
     font-weight: bold;
   					}
 </style>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+function validateForm() {
+	var rating = frm.r_rating.value;
+	alert('rating--> '+rating);
+	if(rating == "") rating = 0;
+    // 별점이 선택되지 않았을 경우
+    if (rating == 0) {
+        alert('별점을 선택해주세요.');
+        return false;
+    } else{
+    	 return true;
+    }
+}
+</script>
 </head>
 <body>
- <form action="reviewWritePro">
+ <form action="reviewWritePro" id="form"  name="frm" onsubmit="return validateForm()">
  	 <input type="hidden" name="o_order_num" value="${review.o_order_num}">
  	 <input type="hidden" name="currentPage" value="${review.currentPage}">
  	 
@@ -59,11 +74,11 @@
 	   <div class="border-bottom py-4 mb-4">
 	      <h4 class="mb-3">별점</h4>
 	       <fieldset class="rate">
-	             <input type="radio" id="rating5" name="r_rating" value="5"><label for="rating5" title="5점"></label>
-	             <input type="radio" id="rating4" name="r_rating" value="4"><label for="rating4" title="4점"></label>
-	             <input type="radio" id="rating3" name="r_rating" value="3"><label for="rating3" title="3점"></label>
-	             <input type="radio" id="rating2" name="r_rating" value="2"><label for="rating2" title="2점"></label>
-	             <input type="radio" id="rating1" name="r_rating" value="1"><label for="rating1" title="1점"></label>
+	             <input type="radio" id="rating5"  name="r_rating" value="5"><label for="rating5" title="5점"></label>
+	             <input type="radio" id="rating4"  name="r_rating" value="4"><label for="rating4" title="4점"></label>
+	             <input type="radio" id="rating3"  name="r_rating" value="3"><label for="rating3" title="3점"></label>
+	             <input type="radio" id="rating2"  name="r_rating" value="2"><label for="rating2" title="2점"></label>
+	             <input type="radio" id="rating1"  name="r_rating" value="1"><label for="rating1" title="1점"></label>
             </fieldset>
 	      </div>
 	   </div>
@@ -71,18 +86,19 @@
 	   <!-- form control -->
 	   <div class="border-bottom py-4 mb-4">
 	      <h5>제목</h5>
-	      <input type="text" name="r_title" class="form-control" placeholder="제목을 작성해주세요!">
+	      <input type="text" name="r_title" class="form-control" placeholder="제목을 작성해주세요!" required="required">
 	   </div>
 	 
 	   <div class=" py-4 mb-4">
 	      <!-- heading -->
 	      <h5>텍스트 리뷰</h5>
 	      <textarea name="r_content" class="form-control" rows="3"
-	         placeholder="솔직한 사용후기를 작성해주세요!"></textarea>
+	         placeholder="솔직한 사용후기를 작성해주세요!" required="required"></textarea>
 	   </div>
 	   <!-- button -->
 	   <div class="d-flex justify-content-left">
 	      <input type="submit" class="btn btn-primary" value="리뷰 저장">
+	      <!-- <button class="btn btn-primary" value="리뷰 저장"  onclick="validateForm()">리뷰 저장</button> -->
 	   </div>
 	   <input type="hidden" name="nb_num" value="${review.nb_num}">
  </form>

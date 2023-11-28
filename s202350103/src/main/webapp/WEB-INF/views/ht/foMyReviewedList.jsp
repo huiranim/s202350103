@@ -59,7 +59,7 @@
 						  </c:choose>
 	                      <%-- <img id="ht" src="${reviewedList.nb_image}" alt="bookImage"> --%>
 	                      <!-- text -->
-	                      <div class="ms-4">
+	                      <div class="ms-4" style="font-size: 16px;">
 	                         <h5 class="mb-0 h6 h6">${reviewedList.nb_title}</h5>
 	                         <p style="margin: 10px;">
 	                         <p class="mb-0 small">구매 수량 : ${reviewedList.o_de_count}

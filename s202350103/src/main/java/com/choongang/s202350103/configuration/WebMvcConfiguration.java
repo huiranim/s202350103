@@ -5,6 +5,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.choongang.s202350103.ybService.AdminAuthorityInterCeptor;
+import com.choongang.s202350103.ybService.AfterLoginInterCeptor;
 import com.choongang.s202350103.ybService.LoginInterCeptor;
 import com.choongang.s202350103.yjService.YjInterceptor;
 

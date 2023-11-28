@@ -2,6 +2,7 @@ package com.choongang.s202350103.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +32,7 @@ import com.choongang.s202350103.gbService.NewBookService;
 import com.choongang.s202350103.gbService.Paging;
 import com.choongang.s202350103.gbService.PointChargeService;
 import com.choongang.s202350103.gbService.RecentlyBook;
+import com.choongang.s202350103.gbService.TotalOrderService;
 import com.choongang.s202350103.htService.ReviewService;
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.Member;
@@ -52,6 +54,7 @@ public class GbController {
 	private final RecentlyBook rb;
 	private final JavaMailSender mailSender;
 	private final PointChargeService pcs;
+	private final TotalOrderService tos;
 	
 	// 도서 전체 리스트 조회
 	@RequestMapping("innewbookList")
@@ -480,7 +483,7 @@ public class GbController {
 	
 	// 상품 등록하는 화면으로 이동
 	@GetMapping("bonewbookInsert")
-	public String insertFormMove() {
+	public String insertFormMove(Model model) {
 		System.out.println("GbController insertFormMove start...");
 		
 		return "gb/boNewbookInsertForm";
@@ -611,5 +614,6 @@ public class GbController {
 		
 		return "gb/shareEmailPopup"; 
 	}
+	
 	 
 }
