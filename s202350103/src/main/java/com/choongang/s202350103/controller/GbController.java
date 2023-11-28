@@ -518,7 +518,9 @@ public class GbController {
 		
 		// 로그인한 멤버 값 불러오기 
 		member =(Member) session.getAttribute("member");
-		if(member == null) { return "yb/loginForm"; }
+		if(member == null) { 
+			return "yb/loginForm"; 
+		}
 		
 		NewBook popUpNewbook = nbs.selectBoNewBookDetail(newbook);
 		String publi_date1 = popUpNewbook.getNb_publi_date().substring(0,10);

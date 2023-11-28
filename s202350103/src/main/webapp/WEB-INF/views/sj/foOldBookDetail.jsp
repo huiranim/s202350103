@@ -224,11 +224,9 @@
     		</tr>
     		</table>
   
-     
-			</div>
+     	
               <div class="my-8">
                <div>
-			
 			<div class="w-100">
 	
 			
@@ -745,167 +743,17 @@
     </div>
   </div>
 </div>
-   
-   
-   
- 
-	
-
-           					<!-- 새거 -->
-				<!-- A 등급 테이블 -->
-
-                
-           
-           
-        <!--           중고 등급 상세  테이블 
-			 <div class="table-responsive d-block">
-			  <table class="table">
-			    <thead class="table-light text-center">
-			      <tr>
-					        <th scope="col" class="col-2">품질 등급</th>
-					        <th scope="col">헌 상태</th>
-					        <th scope="col">표지</th>
-					        <th scope="col">책등 / 책배</th>
-					        <th scope="col">내부 / 제본상태 </th>
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-			        <th  >A 등급</th>
-			        <td>	새것에 가까움</td>
-		        <td>
-				<ul>
-						<li>변색 없음</li>
-						<li>찢어진 흔적 없음</li>
-						<li>닳은 흔적 없음</li>
-						<li>낙서 없음</li>
-						<li>얼룩 없음</li>
-						<li>도서 겉표지 있음</li>	
-				</ul>
-			</td>
-	        <td>
-		        <ul>
-				       	<li>변색 없음</li>
-						<li>닳은 흔적 없음</li>
-						<li>낙서 없음</li>
-						<li>얼룩 없음</li>
-		        </ul>
-	        </td>
-	        <td>
-		    	<ul>
-			        	<li>변색 없음</li>
-						<li>닳은 흔적 없음</li>
-						<li>낙서 없음</li>
-						<li>얼룩 없음</li>
-						<li>변형 없음</li>
-						<li>제본 탈착 없음</li>
-		        </ul>
-			</td>
-		 </tr>
-		    
-		    
-		      <tr>
-		        <th  >B 등급</th>
-		        <td>	약간의 사용감은 있으나 깨끗한 책</td>
-		        <td>
-		<ul>
-						<li>희미한 변색이나 작은 얼룩이 있음</li>
-						<li>찢어진 흔적 없음</li>
-						<li>약간의 모서리 해짐</li>
-						<li>낙서 없음</li>
-						<li>도서 겉표지 있음</li>
-			</ul>
-			</td>
-		        <td>
-		        <ul>
-				        <li>희미한 변색이나 작은 얼룩이 있음</li>
-						<li>약간의 닳은 흔적 있음</li>
-						<li>낙서 없음</li>   
-		        </ul>
-		        
-		        </td>
-		        <td>
-		        <ul>
-						<li>변색 없음</li>
-						<li>낙서 없음</li>
-						<li>변형 없음</li>
-						<li>아주 약간의 접힌 흔적 있음</li>
-						<li>얼룩 없음</li>
-						<li>제본 탈착 없음</li>
-		        </ul>
-		        </td>
-		      </tr>
-		      <tr>
-		        <th  >C 등급</th>
-		        <td>사용감이 많으며 <br>헌 느낌이 나는 책</td>
-		        <td>
-				<ul>
-						<li>전체적인 변색
-						<li>모서리 해짐 있음</li>
-						<li>2cm 이하의 찢어짐</li>
-						<li>오염 있음</li>
-						<li>낙서 있음</li>
-						<li>도서 겉표지 없음</li>
-						<li>아웃케이스 없음</li>
-				</ul>
-				</td>
-		        <td>
-		        <ul>
-						<li> 전체적인 변색</li>
-						<li>모서리 해짐 있음</li>
-						<li>오염 있음</li>
-						<li>낙서 있음 (이름 포함)</li>
-		        </ul>
-		        </td>
-		        <td>
-		        <ul>
-				        <li>변색 없음</li>
-						<li>2cm 이하 찢어짐 있음</li>
-						<li>5쪽 이하의 필기 및 풀이 또는 밑줄 있음</li>
-						<li>얼룩 및 오염 있음</li>
-						<li>제본 탈착 없음</li>
-						<li>본문 읽기에 지장 없는 부록 없음</li>
-		        </ul>
-		        </td>
-		      </tr>
-		        <tr>
-		        <th  >D 등급 </th>
-		        <td>사용감이 많고 세월이 <br>있는책 </td>
-		               <td>
-				<ul>
-						<li>전체적인 변색
-						<li>모서리 해짐 </li>
-						<li>2cm 이상의 찢어짐</li>
-						<li>오염 있음</li>
-						<li>낙서 있음</li>
-						<li>도서 겉표지 없음</li>
-						<li>아웃케이스 없음</li>
-				</ul>
-				</td>
-		        <td>
-		        <ul>
-		     		 <li> 전체적인 변색</li>
-					<li>모서리 해짐 있음</li>
-					<li>오염 있음</li>
-					<li>낙서 있음 (이름 포함)</li>
-		        </ul>
-		        </td>
-		        <td>
-		        <ul>
-		        <li>변색 없음</li>
-					<li>2cm 이상의 찢어짐 있음</li>
-					<li>20쪽 이하의 필기 및 풀이 또는 밑줄 있음</li>
-					<li>얼룩 및 오염 있음</li>
-					<li>제본 탈착 없음</li>
-					<li>본문 읽기에 지장 없는 부록 있음</li>
-		        </ul>
-		        </td>
-		      </tr>
-		      
-		    </tbody>
-		  </table>
-	  </div> -->
-          
+          </div>
+          </div>
+     
+     
+     
+     
+     
+			</div>
+			
+			
+		
           
             <!-- 동일 새상품 도서 리스트 -->
    <div class="tab-pane fade" id="details-tab-pane" role="tabpanel" aria-labelledby="details-tab" tabindex="0">

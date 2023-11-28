@@ -234,49 +234,49 @@
 				                 	<c:if test="${inNewbook.nb_num eq hitBook.nb_num}">
 				                       		<c:choose>
 					                       		<c:when test="${inNewbook.nb_category2 eq '1'}">
-					                       			<button id="hit" class="mb-6" type="button">
+					                       			<button id="hit" class="mb-6" type="button" disabled='disabled'>
 														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
 									              	   <span style="color: white; font-weight: bold;">
 										              	   경제/경영 Best 1</span>
 									                  </button>
 					                       		</c:when>
 					                       		<c:when test="${inNewbook.nb_category2 eq '2'}">
-					                       			<button id="hit" class="mb-6" type="button">
+					                       			<button id="hit" class="mb-6" type="button" disabled='disabled'>
 														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
 									              	   <span style="color: white; font-weight: bold;">
 										              	  	과학 Best 1</span>
 									                  </button>
 					                       		</c:when>
 					                       		<c:when test="${inNewbook.nb_category2 eq '3'}">
-					                       			<button id="hit" class="mb-6" type="button">
+					                       			<button id="hit" class="mb-6" type="button" disabled='disabled'>
 														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
 									              	   <span style="color: white; font-weight: bold;">
 										              	   소설 Best 1</span>
 									                  </button>
 					                       		</c:when>
 					                       		<c:when test="${inNewbook.nb_category2 eq '4'}">
-					         						<button id="hit" class="mb-6" type="button">
+					         						<button id="hit" class="mb-6" type="button" disabled='disabled'>
 														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
 									              	   <span style="color: white; font-weight: bold;">
 										              	   역사/문화 Best 1</span>
 									                  </button>
 					                       		</c:when>
 					                       		<c:when test="${inNewbook.nb_category2 eq '5'}">
-					                       				<button id="hit" class="mb-6" type="button">
+					                       				<button id="hit" class="mb-6" type="button" disabled='disabled'>
 														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
 									              	   <span style="color: white; font-weight: bold;">
 										              	 인문 Best 1 </span>
 									                  </button>
 					                       		</c:when>
 					                       		<c:when test="${inNewbook.nb_category2 eq '6'}">
-					                  				<button id="hit" class="mb-6" type="button">
+					                  				<button id="hit" class="mb-6" type="button" disabled='disabled'>
 														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
 									              	   <span style="color: white; font-weight: bold;">
 										              	   과학/기술 Best 1 </span>
 									                  </button>
 					                       		</c:when>
 					                       		<c:when test="${inNewbook.nb_category2 eq '7'}">
-					                       			  <button id="hit" class="mb-6" type="button">
+					                       			  <button id="hit" class="mb-6" type="button" disabled='disabled'>
 														<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
 									              	   <span style="color: white; font-weight: bold;">
 										              	   문학 Best 1 </span>
@@ -288,7 +288,7 @@
 			                 </c:when>
 			                 <c:otherwise>
 			                 	<c:if test="${inNewbook.nb_num eq hitBook1.nb_num}">
-									  <button id="hit" class="mb-6" type="button">
+									  <button id="hit" class="mb-6" type="button" disabled='disabled'>
 										<img alt="" src="../assets/images/memberImage/crown.png">&nbsp;	                  
 					              	   <span style="color: white; font-weight: bold;">
 						              	   다독 Best 1 </span>

@@ -93,8 +93,8 @@ function openWrite() {
                     </div>
          <div class="col-md-8 col-12 flex-grow-1">
                 <!-- heading -->
-                 <h2 class="fs-6">${popList.cm_title }
-                </h2>
+                 <a href="postDetailForm?cm_num=${popList.cm_num }"><h2 class="fs-6">${popList.cm_title }
+                </h2></a>
                 <div class="text-small"><small>작성자: ${popList.m_name }</small></div>
                 <div class="text-small mb-1" "><small>${popList.nb_title }</small></div>               
                   <p><div class="mb-2">
@@ -173,7 +173,7 @@ function openWrite() {
 				              </div>
 				            </a>               	
                   </div>
-                  <h5 class="text-dark" ><a href="#!" class="text-inherit">${community.cm_title}</a></h5>
+                  <h5 class="text-dark" ><a href="postDetailForm?cm_num=${community.cm_num }" class="text-inherit">${community.cm_title}</a></h5>
                   <div class="text-small text-dark mb-1 mt-4">
                   	<a href="#!" class="text-dark text-muted "><small>작성자: ${community.m_name}</small></a></div>
 	              <div>

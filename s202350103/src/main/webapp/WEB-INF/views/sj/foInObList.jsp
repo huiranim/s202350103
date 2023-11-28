@@ -203,28 +203,31 @@
 
 <!-- 페이징 처리 -->
 <c:set var="num" value="${num - 1 }"></c:set>
-	 <nav aria-label="Page navigation example">
-		  <ul class="pagination justify-content-center">
+
+ <div class="d-flex justify-content-center">
+	 <nav aria-label="...">
+		  <ul class="pagination">
 
 			 	<c:if test="${page.startPage > page.pageBlock }">
-					 <li class="pagination justify-content-center">					
-						<a class="page-link" href="folistOb?currentPage=${page.startPage-page.pageBlock}&nb_category1=${oldBook.nb_category1 }&nb_category2=${oldBook.nb_category2 }">이전</a>
+					 <li class="page-item">					
+						<a class="page-link" href="folistOb?currentPage=${page.startPage-page.pageBlock}&nb_category1=${oldBook.nb_category1 }&nb_category2=${oldBook.nb_category2 }">
+						이전</a>
 					</li>
 				</c:if>
  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-					 <li class="pagination justify-content-center">
- 						<a class="page-link" href="folistOb?currentPage=${i}&nb_category1=${oldBook.nb_category1 }&nb_category2=${oldBook.nb_category2 }">${i}</a>&nbsp;&nbsp;
+					 <li class="page-item">
+ 						<a class="page-link" href="folistOb?currentPage=${i}&nb_category1=${oldBook.nb_category1 }&nb_category2=${oldBook.nb_category2 }">${i}</a>
 					</li>
 				</c:forEach>
 					
 				<c:if test="${page.endPage < page.totalObPage }">
-					 <li class="pagination justify-content-center">		 
+					 <li class="page-item">		 
 						<a class="page-link" href="folistOb?currentPage=${page.startPage+page.pageBlock}&nb_category1=${oldBook.nb_category1 }&nb_category2=${oldBook.nb_category2 }">다음</a>
 					</li>
 				</c:if>
 		</ul>
 	</nav>
-
+</div>
 </body>
 <%@ include file="../common/footerFo.jsp" %>
 </html>
