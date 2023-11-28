@@ -513,7 +513,7 @@ public class HtController {
 	 // 내장 클래스
 	 // 카카오페이 결제하기 위해 필요한 필수 데이터를 카카오페이 DTO에 담는 내장 클래스
 	 // 필수 데이터 1.partner_order_id(주문번호 또는 회원번호), 
-	 //		    2.partner_user_id(회원 이름),
+	 //		    2.partner_user_id(회원 번호),
 	 //			3.amount(결제 금액),
 	 //         4.item_name(상품명),
 	 //			5.quantity(결제 수량)
@@ -523,16 +523,18 @@ public class HtController {
 		
 		//카카오에서 요청한 DTO 변수명과 타입으로 변경
 		String partner_order_id = String.valueOf(orderr.getO_order_num()); //주문번호 또는 회원번호
-		String partner_user_id  = String.valueOf(orderr.getM_name()); //회원 이름
+		String partner_user_id  = String.valueOf(orderr.getM_num()); //회원번호
 		Integer quantity = orderr.getO_order_count(); //결제 수량
+		Integer install_month = orderr.getO_type(); // 주문유형 (선물여부)
 		String item_name = null; //상품명
 		if(quantity == 1) {// 1개 구매일 경우
 			item_name = orderr.getNb_title(); 
 		} else {           // 여러개 구매일 경우
 			item_name = orderr.getNb_title() + " 외 " + (quantity-1) + "개";
 		}
-		AmountVO amountVO = new AmountVO(); //결제금액
-		amountVO.setTotal(orderr.getO_pay_price());
+		AmountVO amountVO = new AmountVO();
+		amountVO.setTotal(orderr.getO_pay_price()); //결제금액
+		amountVO.setPoint(orderr.getO_point());		//사용포인트
 		
 		// kakaopay에 보낼것을 KakaoPayApprovalVO DTO에 담기
 		KakaoPayApprovalVO kakaoDto = new KakaoPayApprovalVO();
@@ -540,6 +542,7 @@ public class HtController {
 		kakaoDto.setPartner_user_id(partner_user_id);
 		kakaoDto.setItem_name(item_name);
 		kakaoDto.setQuantity(quantity);
+		kakaoDto.setInstall_month(install_month);
 		kakaoDto.setAmount(amountVO);
 		
 		System.out.println("kakaoDto---> " + kakaoDto);
@@ -591,9 +594,20 @@ public class HtController {
 			kakaoDto =  kakaopay.kakaoPayInfo(pg_token, kakaoDto);
 			
 			System.out.println("kakaoDto---> " + kakaoDto);
+
+			// 일반 & 선물 주문
 			if(kakaoDto.getPartner_order_id().length() != 4) {
-				// orderr update(주문상태 변경)
-				result = os.paySuccess(kakaoDto);
+				// 일반 주문
+				if(kakaoDto.getInstall_month() == 1) {
+					// orderr update(주문상태 변경)
+					// result = os.paySuccess(kakaoDto);
+					
+				// 선물 주문 -> ORDERR UPDATE & POINT INSERT 수행
+				} else if(kakaoDto.getInstall_month() == 2) {
+					result = osHr.givingGiftActionSuccess(kakaoDto);
+				}
+			
+			// 포인트 충전
 			}else {
 				int m_num = member.getM_num();
 				
@@ -602,8 +616,6 @@ public class HtController {
 				
 				return "redirect:memberPointList?m_num="+m_num+"&result="+result;
 			}
-			// orderr update(주문상태 변경)
-			result = os.paySuccess(kakaoDto);
 			 
 		 }catch (Exception e) {
 		  System.out.println("kakaoPaySuccess Exception -> " + e.getMessage());

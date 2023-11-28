@@ -51,14 +51,18 @@ public class KakaoPay {
         params.add("cid", "TC0ONETIME");
         params.add("partner_order_id", ka.getPartner_order_id()); //가맹점 주문번호, 결제 준비 API 요청과 일치해야 함
         params.add("partner_user_id", ka.getPartner_user_id()); // 가맹점 회원 id, 결제 준비 API 요청과 일치해야 함
+        params.add("install_month", String.valueOf(ka.getInstall_month())); //주문유형(선물여부)
         params.add("item_name", ka.getItem_name());
         params.add("quantity", String.valueOf(ka.getQuantity()));
         params.add("total_amount", String.valueOf(ka.getAmount().getTotal()));
+        params.add("point_amount", String.valueOf(ka.getAmount().getPoint()));
         params.add("tax_free_amount", "100");
         
         String plus = "partner_order_id="+ka.getPartner_order_id()+
 		  			  "&partner_user_id="+ka.getPartner_user_id()+
-		  			  "&amount.total="+ka.getAmount().getTotal();
+		  			  "&amount.total="+ka.getAmount().getTotal()+
+		  			  "&amount.point="+ka.getAmount().getPoint()+
+		  			  "&install_month="+ka.getInstall_month();
         String total = "http://localhost:8200/kakaoPaySuccess?" + plus;
         
         params.add("approval_url", total);
@@ -71,7 +75,7 @@ public class KakaoPay {
         try {
             kakaoPayReadyVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyVO.class);
             
-            System.out.println("" + kakaoPayReadyVO);
+            System.out.println("kakaoPayReadyVO -> " + kakaoPayReadyVO);
             System.out.println("KakaoPay service 여기까지 왔어 5");
             
             System.out.println("KakaoPay getNext_redirect_pc_url --> "+kakaoPayReadyVO.getNext_redirect_pc_url() );
@@ -111,14 +115,18 @@ public class KakaoPay {
         params.add("tid", kakaoPayReadyVO.getTid());
         params.add("partner_order_id", ka.getPartner_order_id());
         params.add("partner_user_id", ka.getPartner_user_id());
+        params.add("install_month", String.valueOf(ka.getInstall_month())); //주문유형(선물여부)
         params.add("pg_token", pg_token);
         params.add("total_amount", String.valueOf(ka.getAmount().getTotal()));
+        params.add("point_amount", String.valueOf(ka.getAmount().getPoint()));
+        System.out.println("희라 확인용 params -> "+params);
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
-        
+        System.out.println("희라 확인용 body -> "+body);
+       
         try {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
-            System.out.println("" + kakaoPayApprovalVO);
+            System.out.println("kakaoPayApprovalVO -> " + kakaoPayApprovalVO);
           
             return kakaoPayApprovalVO;
         
