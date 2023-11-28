@@ -10,12 +10,12 @@
 	<select id="htOrderOne" parameterType="NewBook" resultType="NewBook">
 		 <choose>
  			<when test="ob_num == 0">
- 				SELECT nb.*, 1 AS quantity
+ 				SELECT nb.*, #{c_count} AS c_count, #{c_count} AS quantity
 				FROM   newbook nb
 				WHERE  nb.nb_num = #{nb_num}
   			</when>
 	        <otherwise>
-                SELECT   ob.ob_num, ob.OB_SELL_PRICE, ob.ob_grade, nb.*
+                SELECT   ob.ob_num, ob.OB_SELL_PRICE, ob.ob_grade, nb.*, 1 as quantity
                 FROM     OldBook ob, NewBook nb
                 WHERE    nb.nb_num = ob.nb_num
                 AND      ob.ob_num = #{ob_num}
@@ -63,6 +63,23 @@
 				             #{orderr.o_order_num}
 				            ,#{item.nb_num}
 				            ,#{item.c_count}
+				            ,1
+				            )
+	   </foreach>
+	</insert>
+	
+	<insert id="htOrderDetailInsertOld" parameterType="java.util.Map" >
+	    <foreach collection="list" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+			INTO order_detail (
+							  O_ORDER_NUM,
+							  NB_NUM,
+							  O_DE_COUNT,
+							  O_DE_PRODTYPE
+							 )
+					VALUES 	(
+				             #{orderr.o_order_num}
+				            ,#{item.ob_num}
+				            ,1
 				            ,1
 				            )
 	   </foreach>
@@ -134,4 +151,10 @@
 	</update>
 	 -->
 		
+	<select id="htMemberSelect" parameterType="Member" resultType="Member">
+		SELECT *
+		FROM   member
+		WHERE  m_num = #{m_num}
+	</select>
+	
 </mapper>

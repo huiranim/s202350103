@@ -61,6 +61,13 @@ public class OrderrServiceImpl implements OrderrService {
 		return result;
 	}
 
+	@Override
+	public Member selectMember(Member member) {
+		System.out.println("HtService selectMember Start...");
+		member = od.selectMember(member);
+		return member;
+	}
+
 
 
 	

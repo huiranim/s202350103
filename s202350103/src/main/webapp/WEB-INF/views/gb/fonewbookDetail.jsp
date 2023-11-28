@@ -237,6 +237,12 @@
 		   return;
 	   }
    }
+  // <a href="orderForm?nb_num=${newbook.nb_num }&paymentType=1" class="btn btn-primary ">
+   function action(){
+	   var c_count = $('#c_count').val();
+	   location.href= "orderForm?nb_num=${newbook.nb_num }&paymentType=1&c_count="+c_count;
+	   //location.href= "orderAction?"+sendData5;	
+   }
 
 </script>
 </head>
@@ -361,7 +367,8 @@
                      
 					<!-- 바로구매 -->
 					<!-- <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>바로구매</button> -->
-					<a href="orderForm?nb_num=${newbook.nb_num }&paymentType=1" class="btn btn-primary ">
+					<%-- <a href="orderForm?nb_num=${newbook.nb_num }&paymentType=1" class="btn btn-primary" onclick="action()" > --%>
+					<button type="button" class="btn btn-primary" onclick="action()">
 		                  	   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
 		                  		fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
 		                  		stroke-linejoin="round" class="feather feather-shopping-bag me-2">
@@ -370,7 +377,8 @@
 			                       <path d="M16 10a4 4 0 0 1-8 0"></path>
 		                  	   </svg>
 		                  		바로구매
-					</a>
+		                  		</button>
+					<!-- </a> -->
                     <!-- 찜하기 버튼 -->   
                         <c:choose>
                             <c:when test="${newbook.w_wish == 0}">

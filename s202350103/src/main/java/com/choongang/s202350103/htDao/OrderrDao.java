@@ -16,4 +16,5 @@ public interface OrderrDao {
 	void          orderInsert(Orderr orderr, List<Cart> list);
 	Orderr        orderPayment(Orderr orderr);
 	int           paySuccess(KakaoPayApprovalVO ka);
+	Member        selectMember(Member member);
 }
