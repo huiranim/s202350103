@@ -63,7 +63,7 @@
 	        alert("로그인이 필요한 페이지입니다.");
 	        location.href = "loginForm";
 	    	}else{
-	    	mNum = parseInt(mNum);
+	    	mNum = parseInt(mNum); 
 	        location.href = "eventIn?m_num=" + mNum + "&eNum=" + eNum;
 	    }
 	}
@@ -71,44 +71,19 @@
 <body>
  <p class="fs-1 mb-6" style="margin: auto;">이벤트</p>
  <hr><br>
-   <div class="card card-product mb-5">
-			<div class="card-body row align-items-center">
-	           <div class="col-12" style="width: 500px; height: 170px;" >
-	             <div class="text-center position-relative" style="border-right: solid;">
-	             	<img src="../assets/images/eventImage/quizEvent.png" 
-	             		onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});"
-	             		 style="width: 500px; height: 170px;">
-
-	              </div>
-	           	</div>
-           
-		        <div class="col-md-4 col-12">
-				  <div class="text-center">
-				  	<h2 class="fs-5 mb-2">이미지 확인 할라고 일단 띄워놓음, 이 이미지 쓰려면 a_image / q_image 에  <p>
-				  	<small style="color: red;"> ../assets/images/eventImage/quizEvent.png 나 atEvent.png  이 경로 넣어야 댐 </small>
-				  	</h2>
-					<div class="flex-column text-center">
-						<button onclick="checkTime('${event.a_sdate }','${event.a_edate}'); eventClick('${member.m_num}',${event.a_num});" id="subButton" class="eventInfo">참여</button>
-					</div>
-			   	  </div>
-			 	</div>
-			</div> 
-		</div>
-
-
-	<c:forEach var="event" items="${eventList }">
+   	<c:forEach var="event" items="${eventList }">
 	    <div class="card card-product mb-5">
 			<div class="card-body row align-items-center">
 	           <div class="col-12" style="width: 500px; height: 170px;" >
 	             <div class="text-center position-relative" style="border-right: solid;">
-	             	<img src="../assets/images/eventImage/atEvent.png" 
+	             	<img src="${event.a_image }"
 	             		onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});"
 	             		 style="width: 500px; height: 170px;">
 
-	              </div>
-	           	</div>
+	             </div>
+	           </div>
            
-		        <div class="col-md-4 col-12">
+		       <div class="col-md-4 col-12">
 				  <div class="text-center">
 				  	<h2 class="fs-5 mb-2">${event.a_title }</h2>
 							${event.a_sdate } ~ ${event.a_edate }

@@ -21,7 +21,7 @@
         }
 
         td {
-        	height: 150px;
+        	height: 100px;
             font-size: 17px;
             font: bold;
 	        }
@@ -44,6 +44,11 @@
 </script>
 </head>
 <body>
+	<div class="offset-lg-2 col-lg-8 col-12 " >
+
+          <div class="mb-8">
+
+
 <p class="fs-1 mb-5" style="text-align: center;">${month}월 출석 이벤트</p>
 
 <div style="text-align: center; color: #0aad0a;">
@@ -92,7 +97,7 @@
 	            <div>
 	            <c:forEach var="date" items="${date }">
 	    	        <c:if test="${date == i}">
-		    	        <img src="../assets/images/png/stamp1.png" width="87px;" height="72px;"/>
+		    	        <img src="../assets/images/png/stamp1.png" width="60px;" height="60px;"/>
 		            </c:if>
 	            </c:forEach>
 	            </div>
@@ -187,6 +192,9 @@
 		});
 	}
 </script>
-<%@ include file="../common/footerFo.jsp" %>
+</div>
+</div>
+
 </body>
+<%@ include file="../common/footerFo.jsp" %>
 </html>

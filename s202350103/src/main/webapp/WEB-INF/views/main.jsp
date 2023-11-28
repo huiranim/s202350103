@@ -17,11 +17,19 @@
       <div class="container">
         <div class="hero-slider ">
 
+
 		<div
             style="background: url(../assets/images/png/7777.png) no-repeat; background-size: cover; border-radius: .5rem; background-position: center; height: 520px;">
             <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
+              <h2 class="text-dark display-6 fw-bold mt-4"> </h2>
+              <p class="lead"> </p>
             
-
+            </div>
+          </div>
+          
+          <div
+            style="background: url(../assets/images/png/dadok.png) no-repeat; border-radius: .5rem; background-position: center; width:1264px;  height: 520px;  ">
+            <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
               <h2 class="text-dark display-6 fw-bold mt-4"> </h2>
               <p class="lead"> </p>
             

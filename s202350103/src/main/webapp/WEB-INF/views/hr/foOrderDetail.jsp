@@ -94,13 +94,15 @@
            
          <!-- 주문 정보 -->
          <div class="table-responsive">
-            <p>주문 정보</p>
             <table class="table text-nowrap">
             <tr>
-                     <th class="table-light">주문번호</th>
-                     <td class="align-middle">${orderr.o_order_num}</td>
-                     <th class="table-light">주문일시</th>
-                     <td class="align-middle"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
+            	<td style="padding: 16px 24px 8px 24px;"><h4 style="margin: 10px 0px 0px;">주문 정보</h4></td>
+            </tr>
+            <tr>
+                     <th class="table-light" width="200px">주문번호</th>
+                     <td class="align-middle" width="400px">${orderr.o_order_num}</td>
+                     <th class="table-light" width="200px">주문일시</th>
+                     <td class="align-middle" width="500px"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
             </tr>
             <tr>
                      <th class="table-light">주문상태</th>
@@ -120,7 +122,8 @@
                      <td class="align-middle">
                      	<c:choose>
                      		<c:when test="${orderr.o_type == 1}">일반</c:when>
-                     		<c:otherwise>선물</c:otherwise>
+                     		<c:when test="${orderr.o_type == 2}">선물</c:when>
+                     		<c:otherwise>수기업로드</c:otherwise>
                      	</c:choose>
                      </td>
             </tr>
@@ -149,12 +152,11 @@
                      	</c:choose>
                      </td>
             </tr>
-            </table>
-         </div>
+
          <!-- 상품 정보 -->
-         <div class="table-responsive">
-            <p>상품 정보</p>
-            <table class="table text-nowrap">
+            <tr>
+            	<td style="padding: 16px 24px 8px 24px;"><h4 style="margin: 10px 0px 0px;">상품 정보</h4></td>
+            </tr>
             <tr>
                      <th class="table-light">대표 상품명</th>
                      <td class="align-middle">
@@ -172,12 +174,35 @@
                      <th class="table-light">결제금액</th>
                      <td class="align-middle"><fmt:formatNumber value="${orderr.o_pay_price}" groupingUsed="true"/></td>
             </tr>
-            </table>
-         </div>
+            <tr>
+                     <th class="table-light">사용 포인트</th>
+                     <td class="align-middle">
+                     	<c:choose>
+                     		<c:when test="${orderr.o_point == 0}">
+                     			(미사용)
+                     		</c:when>
+                     		<c:otherwise>
+                     			<fmt:formatNumber value="${orderr.o_point}" groupingUsed="true"/>
+                     		</c:otherwise>
+                     	</c:choose> 
+                     </td>
+                     <th class="table-light">배송비</th>
+                     <td class="align-middle">
+                     	<c:choose>
+							<c:when test="${orderr.o_order_price > 50000}">
+								무료 배송
+							</c:when>
+							<c:otherwise>
+								3,000 원
+							</c:otherwise>
+						</c:choose>
+                     </td>
+            </tr>
+
          <!-- 주문자 정보 -->
-         <div class="table-responsive">
-            <p>주문자 정보</p>
-            <table class="table text-nowrap">
+            <tr>
+            	<td style="padding: 16px 24px 8px 24px;"><h4 style="margin: 10px 0px 0px;">주문자 정보</h4></td>
+            </tr>
             <tr>
                      <th class="table-light">아이디</th>
                      <td class="align-middle">${orderr.m_id}</td>
@@ -188,12 +213,11 @@
                      <th class="table-light">전화번호</th>
                      <td class="align-middle">${orderr.m_ph}</td>
             </tr>
-            </table>
-         </div>
+
          <!-- 수신자 정보 -->
-         <div class="table-responsive">
-            <p>수신자 정보</p>
-            <table class="table text-nowrap">
+            <tr>
+            	<td style="padding: 16px 24px 8px 24px;"><h4 style="margin: 10px 0px 0px;">수신자 정보</h4></td>
+            </tr>
             <tr>
                      <th class="table-light">이름</th>
                      <td class="align-middle">${orderr.o_rec_name}</td>

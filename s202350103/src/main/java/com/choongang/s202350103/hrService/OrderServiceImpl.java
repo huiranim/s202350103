@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -194,65 +195,70 @@ public class OrderServiceImpl implements OrderService {
 		int o_de_count = orderr.getO_de_count();
 		int o_gift_card = orderGift.getO_gift_card();
 		String o_gift_msg = orderGift.getO_gift_msg();
-
-		// 받는 사람
-		System.out.println("OrderServiceImpl giftMailing() tomail -> "+tomail);
 		
-		// 보내는 사람
-		String setfrom = "dadok202350103@gmail.com";
-		
-		// 제목
-		String title = "[DADOK] "+m_name+"님으로부터 선물이 도착했습니다!";
-		
-		// 내용
-		String contents = "안녕하세요. DADOK입니다. <br>"
-							+ m_name + "님이 선물과 메시지를 보냈습니다. <br><br>"
-							
-							+"<div style=\"border: 1px solid #dfe2e1;\r\n" + 
-							"					      border-radius: 0.5rem;\r\n" + 
-							"					      padding: 50px 50px;\r\n" + 
-							"					      width: 700px\">\r\n" + 
-							"	          	<img src=\"../assets/images/gift/giftcard"+o_gift_card+".png\" alt=\"card\"\r\n" + 
-							"	          		 style=\"border-radius: 0.5rem;\r\n" + 
-							"	          		 		width: 600px\">\r\n" + 
-							"	          	<div>\r\n" + 
-							"		          	<h4 style=\"color: #5c6c75; margin-top: 20px;\">\r\n" + 
-							"		          		"+nb_title+" " +o_de_count+"개\r\n" + 
-							"		          	</h4>\r\n" + 
-							"		          	<h5 style=\"color: #889397;\">\r\n" + 
-							"		          		\""+o_gift_msg+"\"\r\n" + 
-							"					</h5>\r\n" + 
-							"		          	<button type=\"button\"\r\n" + 
-							"		          			style=\"background-color: #0aad0a;\r\n" + 
-							"		          				   padding: 10px;\r\n" + 
-							"		          				   border-radius: 10px;\r\n" + 
-							"		          				   color: white;\r\n" + 
-							"		          				   margin-top: 20px;\r\n" + 
-							"		          				   margin-bottom: 20px;\r\n" + 
-							"		          				   font-weight : bold;\r\n" + 
-							"		          				   float: right;\r\n" + 
-							"		          				   width: 120px;\"\r\n" +
-							"		          			onclick='location.href=\"http://localhost:8200/foGettingGift?o_order_num="+o_order_num+"\"'>선물받기</button><br>\r\n" + 
-							"	          	</div>\r\n" + 
-							"	          	<span style=\"color: red;\">\r\n" + 
-							"	          		* 받는 사람 정보를 정확히 입력해주세요.<br>\r\n" + 
-							"					* 입력 후 수락하기 버튼을 클릭해야 발송이 시작됩니다.\r\n" + 
-							"				</span>\r\n" + 
-							"	          </div>";
-
 		//Transaction 관리
 		TransactionStatus txStatus = 
 				transactionManager.getTransaction(new DefaultTransactionDefinition());
 		
 		try {
+			// 메일링 인스턴스
+			MimeMessage message = mailSender.createMimeMessage();			// 멀티파트 메시지 사용 여부
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 			
+//			// 이미지 인스턴스
+//			ClassPathResource cardImg = new ClassPathResource("../assets/images/gift/giftcard"+o_gift_card+".png");
+//			messageHelper.addInline("cardImg", cardImg);
+			
+			// 받는 사람
+			System.out.println("OrderServiceImpl giftMailing() tomail -> "+tomail);
+			
+			// 보내는 사람
+			String setfrom = "dadok202350103@gmail.com";
+			
+			// 제목
+			String title = "[DADOK] "+m_name+"님으로부터 선물이 도착했습니다!";
+			
+			// 내용
+			String contents = "안녕하세요. DADOK입니다. <br>"
+								+ m_name + "님이 선물과 메시지를 보냈습니다. <br><br>"
+								
+								+"<div style=\"border: 1px solid #dfe2e1;\r\n" + 
+								"					      border-radius: 0.5rem;\r\n" + 
+								"					      padding: 20px 20px;\r\n" + 
+								"					      width: 500px\">\r\n" + 
+//								"	          	<img src=\"cardImg\" alt=\"card\"\r\n" + 
+//								"	          		 style=\"border-radius: 0.5rem;\r\n" + 
+//								"	          		 		width: 600px\">\r\n" + 
+								"	          	<div>\r\n" + 
+								"		          	<h3 style=\"color: #5c6c75;\">\r\n" + 
+								"		          		"+nb_title+" " +o_de_count+"개\r\n" + 
+								"		          	</h3>\r\n" + 
+								"		          	<pre><h5 style=\"color: #889397;\">\r\n" + 
+								"		          		\""+o_gift_msg+"\"\r\n" + 
+								"					</h5></pre>\r\n" + 
+								"		          	<button type=\"button\"\r\n" + 
+								"		          			style=\"background-color: #0aad0a;\r\n" + 
+								"		          				   padding: 10px;\r\n" + 
+								"		          				   border-radius: 10px;\r\n" + 
+								"		          				   color: white;\r\n" + 
+								"		          				   margin-top: 20px;\r\n" + 
+								"		          				   margin-bottom: 20px;\r\n" + 
+								"		          				   font-weight : bold;\r\n" + 
+								"		          				   float: right;\r\n" + 
+								"		          				   width: 120px;\"\r\n" +
+								"		          			onclick='location.href=\"http://localhost:8200/foGettingGift?o_order_num="+o_order_num+"\"'>선물받기</button><br>\r\n" + 
+								"	          	</div>\r\n" + 
+								"	          	<h5 style=\"color: red;\">\r\n" + 
+								"	          		* 받는 사람 정보를 정확히 입력해주세요.<br>\r\n" + 
+								"					* 입력 후 선물받기 버튼을 클릭해야 발송이 시작됩니다.\r\n" + 
+								"				</h5>\r\n" + 
+								"	          </div>";
+
 			// 4) 주문 INSERT & UPDATE
 			// 성공 시 result = 1
 			result = od.givingGiftAction(member, orderr, orderGift);
 
 			// 5) 메일링
-			MimeMessage message = mailSender.createMimeMessage();			// 멀티파트 메시지 사용 여부
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 			messageHelper.setFrom(setfrom);
 			messageHelper.setTo(tomail);
 			messageHelper.setSubject(title);

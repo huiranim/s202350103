@@ -157,6 +157,12 @@ public class SjController {
 	
 	@RequestMapping(value = "writeFormObCal" ,method = RequestMethod.POST )
 	public String writeFormObCal(HttpSession session,Member member ,OldBook oldBook,Model model) {
+		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+				ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+				model.addAttribute("recentBookList", recentBookList);
+		
+		
 		System.out.println("sjController writeFormObCal start...");
 		member = (Member) session.getAttribute("member");
 		
@@ -175,6 +181,10 @@ public class SjController {
 	@RequestMapping(value = "writeFormObTrans" , method = RequestMethod.POST )
 	public String writeFormObTrans(HttpSession session,Member member ,OldBook oldBook, Model model) {
 		System.out.println("sjController writeFormObTrans start...");
+		
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+				ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+				model.addAttribute("recentBookList", recentBookList);
 		
 		
 		member = (Member) session.getAttribute("member");
@@ -219,6 +229,10 @@ public class SjController {
 	@PostMapping(value = "writeOb")
 	public String writeOb(HttpSession session,Member member ,OldBook oldBook, Model model) {
 		System.out.println("sjController start writeOb...");
+		// 최근 본 상품 가져오기 (최근 본 상품이 없으면 초기화까지 하는 메소드) -> 최근 본 상품 가져오는 화면은 붙여넣기
+				ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
+				model.addAttribute("recentBookList", recentBookList);
+		
 		
 		
 		member = (Member) session.getAttribute("member");

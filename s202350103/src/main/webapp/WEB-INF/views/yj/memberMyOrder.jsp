@@ -34,7 +34,17 @@ function cart(pNb_num) {
 </script>
 
 <head>
+<style type="text/css">
+.center-text {
+  text-align: center; /* 텍스트 가운데 정렬 */
+  position: absolute;
+  left: 50%;
+  font-weight: bold;
+  color:black;
+  transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+}
 
+</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
@@ -51,6 +61,22 @@ function cart(pNb_num) {
          <p><a href="#">${member.m_id } 님의 주문 목록입니다.</a></p>
          <p>총 주문 건수 : ${totalOrderCnt }</p>
       </div>
+      
+      
+      <c:choose>
+		<c:when test="${empty orderNumGroups}">
+			
+			 <div class="row">
+			<div class="center-text">
+				주문 목록이 없습니다. <p><p>
+		    <a href="innewbookList?nb_category1=1&nb_category2=0&orderType=recently" class="btn btn-soft-success ">새상품 보러가기</a>
+			</div>
+			</div>
+			
+		</c:when>
+		
+		<c:otherwise>
+      	
       
        <div class="card-body p-6 ">
        
@@ -69,38 +95,47 @@ function cart(pNb_num) {
 						 <c:choose>
                             
                             <c:when test="${firstOrder.o_status == 0}">
-				               <span>- 주문취소</span>
+				               - <span>주문취소</span>
                             </c:when>
                             
                      	    <c:when test="${firstOrder.o_status == 1}">
-				               <span>- 주문확정</span>
+				               - <span style="color: #0aad0a;">주문확정</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 2}">
-                     			<span style="color: red;">- 배송중</span>
+                     			- <span style="color: red;">배송중</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 3}">
-				               <span>- 배송완료</span>
+				               - <span>배송완료</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 4}">
-				               <span>- 구매확정</span>
+				               - <span>구매확정</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 5}">
-				               <span style="color: gray;">- 취소</span>
+				               - <span style="color: gray;">취소</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 6}">
-				               <span>- 교환</span>
+				               - <span>교환</span>
                             </c:when>
                             
                             <c:when test="${firstOrder.o_status == 7}">
-                     		   <span>- 반품</span>
+                     		   - <span>반품</span>
                             </c:when>
                         </c:choose>
-					
+						
+						<c:if test="${firstOrder.o_type == 2 }">
+							&nbsp;<span style="color:##889397;font-size: 15px ">(선물)</span>
+						</c:if>
+						
+						<c:if test="${firstOrder.o_type == 3 }">
+							&nbsp;<span style="color: ##889397; font-size: 15px">(수기)</span>
+						</c:if>
+						
+						
 					</h4>
 					
 				
@@ -230,6 +265,10 @@ function cart(pNb_num) {
 			</c:forEach>
 
      	  </div>
+	     </c:otherwise>
+      </c:choose>
+     	  
+     	  
    		 </div>
 
 	 </div>

@@ -39,8 +39,7 @@
 	function convertToDate(dateStr) {
 		var parts = dateStr.split('-');
 		return new Date(parts[0], parts[1] - 1, parts[2]);
-		}
-
+		}	
 </script>
 <style>
 	.title{
@@ -90,7 +89,7 @@
 				<table>
 					<tr>
 		              <th>조건</th>
-		              <td><input type="text" name="a_add" min="1" maxlength="1" style="margin-left: 10px; width: 80px;" required="required"> 일 연속 출석 시</td>
+		              <td><input type="number" name="a_add" min="1" maxlength="1" style="margin-left: 10px; width: 80px;" required="required"> 일 연속 출석 시</td>
 		            </tr>
 		            <tr>
 		              <th>포인트</th>
@@ -104,10 +103,16 @@
 			<td style="float: right; margin-top: 10px; margin-right: 40px;">
 				<input type="submit" class="btn btn-soft-primary mb-2" value="생성">
 				&nbsp;
-				<input type="button" class="btn btn-soft-danger mb-2" value="취소">
+				<input type="button" class="btn btn-soft-danger mb-2" id="cancleButton" value="취소">
 			</td>	
 		</tr>
 	</table>
 </form>
+<script type="text/javascript">
+	var cancleButton = document.getElementById("cancleButton");
+	cancleButton.addEventListener('click',function(){
+		location.href='mainBo';
+	});
+</script>
 </body>
 </html>

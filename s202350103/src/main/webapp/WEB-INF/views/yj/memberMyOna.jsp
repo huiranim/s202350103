@@ -38,11 +38,11 @@
 	}
 
 </script>
+
 <style type="text/css">
 .center-text {
   text-align: center; /* 텍스트 가운데 정렬 */
   position: absolute;
-  top: 50%;
   left: 50%;
   font-weight: bold;
   color:black;
@@ -63,9 +63,7 @@
 					<a href="#">${member.m_id } 님의 작성 목록입니다.</a>
 				</p>
 			</div>
-			<div>
-	
-	
+			
 	<c:choose>
 		<c:when test="${empty memberMyQnaList}">
 			
@@ -78,8 +76,8 @@
 		</c:when>
 		
 		<c:otherwise>
-		
-	
+						
+			<div>
 	
 				<div class="card-body p-0">
 					<!-- table -->
