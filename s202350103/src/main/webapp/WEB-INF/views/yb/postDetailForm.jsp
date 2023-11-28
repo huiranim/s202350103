@@ -74,7 +74,15 @@
 			location.href="communityClickHeart?cm_num="+cm_num;
 		}	
 	}
-
+	
+	function communityList() {
+		if(document.referrer.includes("memberCommunity")) {
+			location.href = "memberCommunity";
+		} else {
+			location.href = "memberMyCommunity";
+				
+		}	
+	}
 
 </script>
 
@@ -282,7 +290,7 @@
     </div>
     <div class="d-grid gap-2 mt-10 d-md-flex justify-content-center">
 		 <button class="btn btn-soft-primary mb-2" type="button" 
-			 	 onclick="location.href='memberCommunity'">목록 이동</button>
+			 	 onclick="communityList()">목록 이동</button>
 	</div>
     </div>
   </section>
