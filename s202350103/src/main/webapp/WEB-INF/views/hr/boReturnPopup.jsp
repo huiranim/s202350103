@@ -92,7 +92,7 @@
 	               </div>
 	               <!-- button -->
 	               <div class="mb-3">
-	                  <button class="btn btn-primary" onclick="closeWindow(${o_order_num}, deliv.value, track.value)">확인</button>
+	                  <button type="button" class="btn btn-primary" onclick="closeWindow(${o_order_num}, deliv.value, track.value)">확인</button>
 	               </div>
 	        </form>
          </div>

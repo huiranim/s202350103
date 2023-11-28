@@ -2,6 +2,7 @@ package com.choongang.s202350103.hrDao;
 
 import java.util.List;
 
+import com.choongang.s202350103.domain.KakaoPayApprovalVO;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
 import com.choongang.s202350103.model.OrderGift;
@@ -25,5 +26,6 @@ public interface OrderDao {
 	int 			  gettingGiftAction(Orderr orderr, OrderGift orderGift);
 	long 			  selectTodayOrderr();
 	int 			  orderUpload(Orderr orderr);
+	int 			  givingGiftActionSuccess(KakaoPayApprovalVO ka);
 
 }

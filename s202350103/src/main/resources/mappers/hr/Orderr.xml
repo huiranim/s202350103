@@ -28,7 +28,7 @@
 <!-- BO 주문상세
 	 boOrderDetail.jsp -->
 	 <select id="hrSelectOrder" parameterType="long" resultType="Orderr">
-		SELECT o.*, m.m_name, m.m_id, m.m_ph, order_nb_title(o.o_order_num) nb_title, order_nb_price(o_order_num) o_order_price
+		SELECT o.*, m.m_name, m.m_id, m.m_ph, order_nb_title(o.o_order_num) nb_title, order_nb_price(o.o_order_num) o_order_price
 			   , (SELECT SUM(o_de_count)
 			  	  FROM order_detail od
 			  	  WHERE o.o_order_num = od.o_order_num) o_order_count
@@ -126,7 +126,7 @@
 	 <insert id="hrInsertOrderrG" parameterType="Orderr">
 	 	INSERT INTO orderr
 	 	VALUES(#{o_order_num}, #{m_num}, sysdate, 0, 2,
-	 		   #{o_pay_price}, #{o_pay_type}, 1234567890, #{o_deliv_price}, #{o_point},
+	 		   #{o_pay_price}, #{o_pay_type}, 0, #{o_deliv_price}, #{o_point},
 	 		   #{o_rec_name}, #{o_rec_mail}, #{o_rec_ph}, '선물 수락 대기 중', '선물 수락 대기 중', null, null)
 	 </insert>
 	 <insert id="hrInsertOrderDetailG" parameterType="Orderr">
@@ -138,18 +138,31 @@
 	 	VALUES(#{o_order_num}, 'G' || #{o_order_num},
 	 		   #{o_gift_card}, #{o_gift_msg}, 0)
 	 </insert>
-	 <update id="hrUpdateMemberP" parameterType="Orderr">
-	 	UPDATE member
-		SET m_point = m_point + ROUND(#{o_pay_price} * 0.01) - #{o_point}
-		WHERE m_num = #{m_num}
+	 <update id="hrUpdateOrderrG" parameterType="Ka">
+	 	UPDATE orderr
+		<choose>
+			<when test="payment_method_type == 'MONEY'">
+				  SET o_status = 1
+ 			</when>
+			<when test="payment_method_type == 'CARD'">
+				  SET o_status = 1,
+				  	  o_card_num = #{card_info.approved_id}
+ 			</when>
+        </choose>
+	 	WHERE o_order_num = #{partner_order_id}
 	 </update>
-	 <insert id="hrInsertPointListG1" parameterType="Orderr">
+	 <update id="hrUpdateMemberP" parameterType="Ka">
+	 	UPDATE member
+		SET m_point = m_point + ROUND(#{amount.total} * 0.01) - #{amount.point}
+		WHERE m_num = #{partner_user_id}
+	 </update>
+	 <insert id="hrInsertPointListG1" parameterType="Ka">
 	 	INSERT INTO point_list
-	 	VALUES(POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 1, ROUND(#{o_pay_price} * 0.01))
+	 	VALUES(POINTLIST_P_NUM_SEQ.nextval, #{partner_order_id}, #{partner_user_id}, null, null, sysdate, 1, ROUND(#{amount.total} * 0.01))
 	 </insert>
-	 <insert id="hrInsertPointListG2" parameterType="Orderr">
+	 <insert id="hrInsertPointListG2" parameterType="Ka">
 	 	INSERT INTO point_list
-	 	VALUES(POINTLIST_P_NUM_SEQ.nextval, #{o_order_num}, #{m_num}, null, null, sysdate, 6, (-1) * #{o_point})
+	 	VALUES(POINTLIST_P_NUM_SEQ.nextval, #{partner_order_id}, #{partner_user_id}, null, null, sysdate, 6, (-1) * #{amount.point})
 	 </insert>
 	 
 <!-- FO 선물받기 - 화면
