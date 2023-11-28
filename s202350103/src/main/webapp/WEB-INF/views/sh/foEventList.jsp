@@ -69,17 +69,26 @@
 	}
 </script>
 <body>
- <p class="fs-1 mb-6" style="margin: auto;">이벤트</p>
+
+   <div class="mb-2">
+	  <div class="d-flex align-items-center mb-3">
+	    <img alt="" src="../assets/images/favicon/even22.png" style="width: 60px; height: 60px;" class="me-3">
+	    <h2 class="mb-1">DADOK 이벤트</h2>
+	  </div>
+	  <p>다양한 이벤트에 참여하고 포인트를 적립하세요.</p>
+	</div>
+ 
+ 
  <hr><br>
    	<c:forEach var="event" items="${eventList }">
 	    <div class="card card-product mb-5">
 			<div class="card-body row align-items-center">
 	           <div class="col-12" style="width: 500px; height: 170px;" >
-	             <div class="text-center position-relative" style="border-right: solid;">
+	             <div class="text-center position-relative">
 	             	<img src="${event.a_image }"
 	             		onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});"
 	             		 style="width: 500px; height: 170px;">
-
+						
 	             </div>
 	           </div>
            
@@ -89,7 +98,20 @@
 							${event.a_sdate } ~ ${event.a_edate }
 				  
 					<div class="flex-column text-center">
-						<button onclick="checkTime('${event.a_sdate }','${event.a_edate}'); eventClick('${member.m_num}',${event.a_num});" id="subButton" class="eventInfo">참여</button>
+					
+					
+					<fmt:formatDate value="${sysdate}" pattern="yyyy-MM-dd" var="sys"/>
+					
+					<c:choose>
+						<c:when test="${sys >=  event.a_sdate  && sys <= event.a_edate }">
+							<button onclick="checkTime('${event.a_sdate }','${event.a_edate}'); eventClick('${member.m_num}',${event.a_num});" id="subButton" class="eventInfo">참여</button>
+						</c:when>
+						
+						<c:otherwise>
+							<br><span style="color: red;">종료된 이벤트 입니다.</span>
+						</c:otherwise>
+
+					</c:choose>						
 					</div>
 			   	  </div>
 			 	</div>

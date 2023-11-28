@@ -138,19 +138,19 @@
 		  <ul class="pagination justify-content-center">
 
 			 	<c:if test="${page.startPage > page.pageBlock }">
-					 <li class="pagination justify-content-center">					
-						<a class="page-link" href="memberQnaList?currentPage=${page.startPage-page.pageBlock}">이전</a>
+					 <li class="page-item justify-content-center">					
+						<a class="page-link mx-1 text-body" href="memberQnaList?currentPage=${page.startPage-page.pageBlock}">이전</a>
 					</li>
 				</c:if>
  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-					 <li class="pagination justify-content-center">
- 						<a class="page-link" href="memberQnaList?currentPage=${i}">${i}</a>&nbsp;&nbsp;
+					 <li class="page-item justify-content-center">
+ 						<a class="page-link mx-1 text-body" href="memberQnaList?currentPage=${i}">${i}</a>&nbsp;&nbsp;
 					</li>
 				</c:forEach>
 					
 				<c:if test="${page.endPage < page.totalPage }">
-					 <li class="pagination justify-content-center">		 
-						<a class="page-link" href="memberQnaList?currentPage=${page.startPage+page.pageBlock}">다음</a>
+					 <li class="page-item justify-content-center">		 
+						<a class="page-link mx-1 text-body" href="memberQnaList?currentPage=${page.startPage+page.pageBlock}">다음</a>
 					</li>
 				</c:if>
 		</ul>
