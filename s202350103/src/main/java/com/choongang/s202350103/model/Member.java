@@ -50,5 +50,7 @@ public class Member {					// 회원
 		private int	   o_pay_price;		// 결제금액
 		private int	   o_status;		// 주문상태
 		private int    o_de_count;		// 주문수량
+		private int    o_type;			// 주문유형
 		private int    nb_price;		// 도서가격	
+		
 }

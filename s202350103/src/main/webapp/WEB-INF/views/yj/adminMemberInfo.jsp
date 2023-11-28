@@ -233,10 +233,9 @@
             </div>
               <div class="col-md-12 mb-8">
            		 <div class="form-check form-switch">
-				  <input class="form-check-input" name="m_wd" type="checkbox" id="flexSwitchCheckDefault" value=1 >
-				  <input type="hidden" name="m_wd" value=0>
-					  <label class="form-check-label" for="flexSwitchCheckDefault">
-					  	탈퇴 처리
+				   <input class="form-check-input" name="m_wd" type="checkbox" id="flexSwitchCheckDefault" value="1" ${member.m_wd == 1 ? 'checked' : ''}>
+		      		  <label class="form-check-label" for="flexSwitchCheckDefault">				  	
+				        탈퇴 처리
 					  <span class="text-danger">*</span>&nbsp;&nbsp;
 					  	<small style="color: red;">해당 회원의 로그인 제한</small>
 					  </label>
@@ -247,12 +246,12 @@
               <!-- input -->
             <div class="col-md-6 mb-3">
               <label class="form-label" for="fname">아이디<span class="text-danger">*</span></label>
-              <input type="text" id="m_id" class="form-control" name="m_id" value="${member.m_id }" onblur="chkId();" required="required">
+              <input type="text" id="m_id" class="form-control" name="m_id" value="${member.m_id }" onblur="chkId();" required="required" readonly="readonly" >
             </div>
             <div class="col-md-6 mb-3">
               <!-- input -->
               <label class="form-label" for="lname">회원 이름<span class="text-danger">*</span></label>
-              <input type="text" id="m_name" class="form-control" name="m_name" value="${member.m_name }" onblur="nameCk();" required="required">
+              <input type="text" id="m_name" class="form-control" name="m_name" value="${member.m_name }" onblur="nameCk();" required="required" >
             </div>
             <div class="col-md-6 mb-3">
               <label class="form-label" for="emailContact">이메일<span class="text-danger">*</span></label>

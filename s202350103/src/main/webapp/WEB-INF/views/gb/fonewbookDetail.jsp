@@ -413,7 +413,7 @@
    
    <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-10 mt-5">
+        <div class="col-md-10 mt-5" style="width:95%;">
           <!-- 탭 메뉴들 -->
           <ul class="nav nav-pills nav-lb-tab" id="myTab" role="tablist">
             <!-- 도서 상세 내용 탭 버튼 -->

@@ -30,12 +30,10 @@
 </head>
 <body>
 
-
-      <div class="mb-8">
+	    <div class="mb-8">
          <!-- heading -->
-          <p class="fs-1 mb-3"><strong>회원조회</strong></p>
-          <p class="fs-4 mb-5"><mark ><strong>회원 : ${totalMember }</strong></mark></p>
-			
+         <h1 class="mb-1">회원 목록</h1>
+         <p>총  ${totalMember } 건</p>
       </div>
 	
  
@@ -115,7 +113,7 @@
                
                   <tr>
                    		<td class="align-middle ">
-                   		${num } / 
+                   		<span style="color: green;">${num }</span> / 
                    		<fmt:formatDate value="${member.m_date }" pattern="yyyy-MM-dd" />
                    		</td>
                    		<td class="align-middle">

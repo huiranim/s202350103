@@ -26,7 +26,6 @@
 .center-text {
   text-align: center; /* 텍스트 가운데 정렬 */
   position: absolute;
-  top: 50%;
   left: 50%;
   font-weight: bold;
   color:black;
@@ -42,16 +41,19 @@
 		<a href="#">${member.m_id } 님이 작성하신 댓글입니다.</a>
 	</div>
 	<p>
-
-<div class="offset-lg-1 col-lg-9 col-12">	
 	
 	<c:if test="${empty memberMyReply}">
 		 <div class="row">
-		<div class="center-text">
-			작성한 댓글이 없습니다. 
-		</div>
+			<div class="col-lg-12">
+			<div class="center-text mt-5 mb-10" >
+				작성된 댓글이 없습니다. <p><p>
+			    <a href="memberQnaList" class="btn btn-soft-success ">자유게시판</a> 
+			</div>
+			</div>
 		</div>
 	</c:if>
+
+<div class="offset-lg-1 col-lg-9 col-12">	
 
 	<c:forEach items="${memberMyReply}" var="reply" varStatus="status">
    <div class="row">

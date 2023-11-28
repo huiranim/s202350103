@@ -336,7 +336,7 @@ public class HtController {
 			List<NewBook> orderOne = os.orderOne(newBook);
 			System.out.println("HtController orderOne--->" + orderOne);
 			
-			// ob_num이 null이면 이거 아니면 다른거 생성
+			// ob_num이 null이면 새상품 아니면 중고
 			if(newBook.getOb_num() == 0) {
 				for(NewBook newBook2 : orderOne ) {
 					totalPrice += newBook2.getNb_price();
