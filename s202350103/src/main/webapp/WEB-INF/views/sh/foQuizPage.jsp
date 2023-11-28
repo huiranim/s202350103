@@ -18,6 +18,8 @@
 	        alert("정답을 선택하세요.");
 	        return false;
 	    } else{ 
+	    		var confirmMessage = "제출 기회는 1번입니다. 제출하시겠습니까?";
+	    		if(confirm(confirmMessage)){
 	    		var point = '${quiz.q_point}';
 				var select = selected.value;
 				var answer = $('[name=answer]').val();
@@ -26,17 +28,28 @@
 						alert("정답입니다. "+point+"포인트 획득하셨습니다.");
 						location.href="checkQuiz?m_num="+${m_num}+"&eNum="+${eNum};
 						return true;
-					} else{
-						alert("이미 참여하셨습니다");
-						return false;
 					}
 				} else {
 					alert("오답입니다.");
 					location.href = "wrongQuiz?m_num="+${m_num}+"&eNum="+${eNum};
 					return false;
 				}
-			}
+	    	} else {
+	    		return false;
+	    	}
 		}
+	    
+	    if (!window.checkAnswerExecuted) {
+	        // 이 부분에는 초기 로딩 시에 실행되어야 하는 코드를 작성할 수 있습니다.
+	        $(function(){
+				if(${chance == 1}){
+					alert("이미 참여하셨습니다.");
+				}
+			});
+	        // 실행 여부 플래그 설정
+	        window.checkAnswerExecuted = true;
+		}
+	}
 </script>
 <body>
 <div>
@@ -46,7 +59,7 @@
 			<p><mark>*퀴즈를 풀고 포인트를 적립해 보세요 !</mark> </p>    
 	<div>
 	<div class="card card-product mb-8">
-			<textarea rows="8" class="form-control mb-8" style="border: none; background:#ecf0ef; font-size: 20px; font-weight: bold;"  class="form-control">${quiz.q_question }</textarea>
+			<textarea rows="8" class="form-control mb-8" style="border: none; background:#ecf0ef; font-size: 20px; font-weight: bold; margin-top: 32px;"  class="form-control">${quiz.q_question }</textarea>
 		</div>
 			<div class="form-check" style="display: flex; align-items: center; justify-content: center;">
 			<form onsubmit="checkAnswer()">
@@ -98,6 +111,7 @@
 		<span>[공통 안내]</span><br>
 		<span>-본 이벤트는 당사의 사정에 따라 일정 및 내용이 변경될 수 있습니다.</span><br>
 		<span>-이벤트 기간 내 ID당 1회 참여 가능합니다.(모바일, PC 중복 응모 불가)</span><br>
+		<span>-이벤트 기간 내 정답 제출 기회는 1회 가능합니다.(모바일, PC 중복 불가)</span><br>
 		<span>-본 이벤트 혜택은 참여 즉시 자동 지급되며, 최대 1분까지 시간 소요될 수 있습니다.</span><br>
 		<span>-포인트는 적립금으로 부여되며, 지급된 이벤트 혜택은 '마이페이지 -> 포인트' 항목에서 확인 가능합니다.</span><br>
 		<span>-타인의 명의도용 등 부정한 방법으로 이벤트 참여 시, 지급된 혜택은 회수될 수 있으며 법적 책임이 따를 수 있습니다.</span><br>
@@ -106,11 +120,7 @@
 	
 	
 	<script type="text/javascript">
-	$(function(){
-		if(${chance == 1}){
-			alert("이미 참여하셨습니다.");
-		}
-	});
+
 </script>
 <%@ include file="../common/footerFo.jsp" %>
 </body>
