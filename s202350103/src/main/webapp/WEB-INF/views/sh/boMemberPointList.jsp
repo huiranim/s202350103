@@ -106,7 +106,7 @@
 		</c:if>
 			<c:forEach var="i" begin="${page.startPage }" end="${page.endPage}">
 			 <li class="page-item justify-content-center">
-					<a class="page-link mx-1 text-body"  href="selectMemberPoint?currentPage=${i }">${i}</a>
+					<a class="page-link mx-1 text-body"  href="selectMemberPoint?currentPage=${i }&m_num=${memberPoint.m_num }">${i}</a>
 			</li>
 		</c:forEach>
 			
