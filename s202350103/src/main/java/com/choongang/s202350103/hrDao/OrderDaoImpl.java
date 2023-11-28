@@ -8,6 +8,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.choongang.s202350103.domain.KakaoPayApprovalVO;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
 import com.choongang.s202350103.model.OrderGift;
@@ -245,8 +246,7 @@ public class OrderDaoImpl implements OrderDao {
 	public int givingGiftAction(Member member, Orderr orderr, OrderGift orderGift) {
 		System.out.println("OrderDaoImpl givingGiftAction() start..");
 		
-		int result = 0, oResult = 0, odResult = 0,
-				ogResult = 0, mResult = 0, plResult1 = 0, plResult2 = 0;
+		int result = 0, oResult = 0, odResult = 0, ogResult = 0;
 		
 		//Transaction 관리
 		TransactionStatus txStatus = 
@@ -261,30 +261,12 @@ public class OrderDaoImpl implements OrderDao {
 			
 			// INSERT - ORDER_GIFT
 			ogResult = session.insert("hrInsertOrderGift", orderGift);
-			
-			// UPDATE - MEMBER
-			mResult = session.update("hrUpdateMemberP", orderr);
-			
-			// INSERT - POINT_LIST
-			// 0이 아닐 때 수행
-			if(orderr.getO_pay_price() != 0) {
-				// 적립
-				plResult1 = session.insert("hrInsertPointListG1", orderr);
-			}
-			if(orderr.getO_point() != 0) {
-				// 사용
-				plResult2 = session.insert("hrInsertPointListG2", orderr);
-			}
-			
+						
 			System.out.println("OrderDaoImpl givingGiftAction() oResult -> "+oResult);
 			System.out.println("OrderDaoImpl givingGiftAction() odResult -> "+odResult);
 			System.out.println("OrderDaoImpl givingGiftAction() ogResult -> "+ogResult);
-			System.out.println("OrderDaoImpl givingGiftAction() mResult -> "+mResult);
-			System.out.println("OrderDaoImpl givingGiftAction() plResult1 -> "+plResult1);
-			System.out.println("OrderDaoImpl givingGiftAction() plResult2 -> "+plResult2);
 			
-			if(oResult == 1 && odResult == 1 && ogResult == 1
-					 && mResult == 1 && plResult1 == 1 && plResult2 == 1) {
+			if(oResult == 1 && odResult == 1 && ogResult == 1) {
 				result = 1;
 			} else {
 				result = 0;
@@ -305,6 +287,127 @@ public class OrderDaoImpl implements OrderDao {
 		return result;
 	}
 	
+	// FO 선물하기 - 액션 성공
+	@Override
+	public int givingGiftActionSuccess(KakaoPayApprovalVO ka) {
+		System.out.println("OrderDaoImpl givingGiftAction() start..");
+		
+		int result = 0, oResult = 0, mResult = 0, plResult1 = 0, plResult2 = 0;
+		
+		//Transaction 관리
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		
+		try {
+			// UPDATE - ORDERR
+			oResult = session.update("hrUpdateOrderrG", ka);
+			
+			// UPDATE - MEMBER
+			mResult = session.update("hrUpdateMemberP", ka);
+			
+			// INSERT - POINT_LIST
+			// 0이 아닐 때 수행
+			if(ka.getAmount().getTotal() != 0) {
+				// 적립
+				plResult1 = session.insert("hrInsertPointListG1", ka);
+			}
+			if(ka.getAmount().getPoint() != 0) {
+				// 사용
+				plResult2 = session.insert("hrInsertPointListG2", ka);
+			}
+			
+			System.out.println("OrderDaoImpl givingGiftAction() oResult -> "+oResult);
+			System.out.println("OrderDaoImpl givingGiftAction() mResult -> "+mResult);
+			System.out.println("OrderDaoImpl givingGiftAction() plResult1 -> "+plResult1);
+			System.out.println("OrderDaoImpl givingGiftAction() plResult2 -> "+plResult2);
+			
+			if(oResult == 1 && mResult == 1 && plResult1 == 1 && plResult2 == 1) {
+				result = 1;
+			} else {
+				result = 0;
+			}
+			
+			System.out.println("OrderDaoImpl givingGiftAction() 최종 result -> "+result);
+			
+			// COMMIT
+			transactionManager.commit(txStatus);
+		} catch (Exception e) {
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+			
+			System.out.println("OrderDaoImpl givingGiftAction() e.getMessage() -> "+e.getMessage());
+		}
+		
+		System.out.println("OrderDaoImpl givingGiftAction() end..");
+		return result;
+	}
+
+	
+//	// FO 선물하기 - 액션 --- 원본
+//	@Override
+//	public int givingGiftAction(Member member, Orderr orderr, OrderGift orderGift) {
+//		System.out.println("OrderDaoImpl givingGiftAction() start..");
+//		
+//		int result = 0, oResult = 0, odResult = 0,
+//				ogResult = 0, mResult = 0, plResult1 = 0, plResult2 = 0;
+//		
+//		//Transaction 관리
+//		TransactionStatus txStatus = 
+//				transactionManager.getTransaction(new DefaultTransactionDefinition());
+//		
+//		try {
+//			// INSERT - ORDERR
+//			oResult = session.insert("hrInsertOrderrG", orderr);
+//			
+//			// INSERT - ORDER_DETAIL
+//			odResult = session.insert("hrInsertOrderDetailG", orderr);
+//			
+//			// INSERT - ORDER_GIFT
+//			ogResult = session.insert("hrInsertOrderGift", orderGift);
+//			
+//			// UPDATE - MEMBER
+//			mResult = session.update("hrUpdateMemberP", orderr);
+//			
+//			// INSERT - POINT_LIST
+//			// 0이 아닐 때 수행
+//			if(orderr.getO_pay_price() != 0) {
+//				// 적립
+//				plResult1 = session.insert("hrInsertPointListG1", orderr);
+//			}
+//			if(orderr.getO_point() != 0) {
+//				// 사용
+//				plResult2 = session.insert("hrInsertPointListG2", orderr);
+//			}
+//			
+//			System.out.println("OrderDaoImpl givingGiftAction() oResult -> "+oResult);
+//			System.out.println("OrderDaoImpl givingGiftAction() odResult -> "+odResult);
+//			System.out.println("OrderDaoImpl givingGiftAction() ogResult -> "+ogResult);
+//			System.out.println("OrderDaoImpl givingGiftAction() mResult -> "+mResult);
+//			System.out.println("OrderDaoImpl givingGiftAction() plResult1 -> "+plResult1);
+//			System.out.println("OrderDaoImpl givingGiftAction() plResult2 -> "+plResult2);
+//			
+//			if(oResult == 1 && odResult == 1 && ogResult == 1
+//					&& mResult == 1 && plResult1 == 1 && plResult2 == 1) {
+//				result = 1;
+//			} else {
+//				result = 0;
+//			}
+//			
+//			System.out.println("OrderDaoImpl givingGiftAction() 최종 result -> "+result);
+//			
+//			// COMMIT
+//			transactionManager.commit(txStatus);
+//		} catch (Exception e) {
+//			// ROLLBACK
+//			transactionManager.rollback(txStatus);
+//			
+//			System.out.println("OrderDaoImpl givingGiftAction() e.getMessage() -> "+e.getMessage());
+//		}
+//		
+//		System.out.println("OrderDaoImpl givingGiftAction() end..");
+//		return result;
+//	}
+//	
 	// FO 선물받기 - 화면 - orderr 객체 조회
 	@Override
 	public Orderr selectOrderr_GiftType(long o_order_num) {

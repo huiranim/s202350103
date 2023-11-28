@@ -8,6 +8,9 @@
 <title>Insert title here</title>
 </head>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript">
+	$(function)
+</script>
 <style>
 		textarea {
       width: 80%;
@@ -69,17 +72,17 @@
 			<tr>
 				<th scope="row">질문</th>
 				<td>
-					<textarea name="q_question" required="required" readonly="readonly">${quiz.q_question }</textarea>
+					<textarea name="q_question" required="required">${quiz.q_question }</textarea>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">정답 :</th>
 				<td>
 					<select name="q_answer" required="required">
-						<option id="select" value="1" selected="selected">1
-						<option id="select" value="2">2
-						<option id="select" value="3">3
-						<option id="select" value="4">4
+						<option id="select" value="1" ${quiz.q_answer == 1 ? "selected" : "" }>1
+						<option id="select" value="2" ${quiz.q_answer == 2 ? "selected" : "" }>2
+						<option id="select" value="3" ${quiz.q_answer == 3 ? "selected" : "" }>3
+						<option id="select" value="4" ${quiz.q_answer == 4 ? "selected" : "" }>4
 					</select>						
 				</td>
 			</tr>
@@ -93,7 +96,7 @@
          				<tr>
 							<th>1.</th>
 							<td>
-								<input type="text" name="q_select1" value="${quiz.q_select1}"	required="required" readonly="readonly">
+								<input type="text" name="q_select1" value="${quiz.q_select1}"	required="required">
 							</td>
 						</tr>
 					</tbody>
@@ -101,7 +104,7 @@
 						<tr>	
 							<th>2.</th>
 							<td>
-								<input type="text" name="q_select2" value="${quiz.q_select2}"	required="required" readonly="readonly">
+								<input type="text" name="q_select2" value="${quiz.q_select2}"	required="required">
 							</td>
 						</tr>
 					</tbody>
@@ -109,7 +112,7 @@
 						<tr>
 							<th>3.</th>
 							<td>
-								<input type="text" name="q_select3" value="${quiz.q_select3}" required="required" readonly="readonly">
+								<input type="text" name="q_select3" value="${quiz.q_select3}" required="required">
 							</td>
 						</tr>
 					</tbody>
@@ -117,7 +120,7 @@
 						<tr>
 							<th>4.</th>
 							<td>
-								<input type="text" name="q_select4" value="${quiz.q_select4}" required="required" readonly="readonly">
+								<input type="text" name="q_select4" value="${quiz.q_select4}" required="required">
 							</td>
 						</tr>
 					</tbody>

@@ -2,6 +2,7 @@ package com.choongang.s202350103.hrService;
 
 import java.util.List;
 
+import com.choongang.s202350103.domain.KakaoPayApprovalVO;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
 import com.choongang.s202350103.model.OrderGift;
@@ -23,5 +24,6 @@ public interface OrderService {
 	OrderGift 		  selectOrderGift(long o_order_num);
 	int 			  gettingGiftAction(Orderr orderr, OrderGift orderGift);
 	int 			  orderUpload(List<Orderr> orderrList);
+	int 			  givingGiftActionSuccess(KakaoPayApprovalVO ka);
 	
 }

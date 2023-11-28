@@ -172,26 +172,36 @@ public class HtController {
 			return "yb/loginForm";
 		}
 		
-		review.setM_num(member.getM_num());
+		int totalReviewedCnt = 0;
+		// Paging 작업 
+		Paging page = new Paging(totalReviewedCnt, currentPage);
+		
+	    List<Review> reviewedWriteList = null;
+		
+		try {
+			 review.setM_num(member.getM_num());
+			 
+			 // orderr 전체 Count ?
+			 totalReviewedCnt = rs.totalReviewedCnt(review);
+			 System.out.println("totalReviewedCnt--> " + totalReviewedCnt);
+			 System.out.println("currentPage--> " + currentPage);
+			 
+			 
+			 //Parameter orderr --> Page만 추가 setting
+			 System.out.println("Start--> " + page.getStart());
+			 System.out.println("End--> " + page.getEnd());
+			 review.setStart(page.getStart());//시작시 1 
+			 review.setEnd(page.getEnd()); // 시작시 5
+			 
+			 review.setM_num(member.getM_num());
+			 
+			 
+			 reviewedWriteList = rs.reviewedWriteList(review);
+			 System.out.println("HtController MyReviewList() reviewedWriteList.size() --> "+ reviewedWriteList.size());
+		 } catch (Exception e) {
+			 System.out.println("HtController MyReviewList Exception -> " + e.getMessage());
+		}
 		 
-		 // orderr 전체 Count ?
-		 int totalReviewedCnt = rs.totalReviewedCnt(review);
-		 System.out.println("totalReviewedCnt--> " + totalReviewedCnt);
-		 System.out.println("currentPage--> " + currentPage);
-		 
-		 // Paging 작업 
-		 Paging page = new Paging(totalReviewedCnt, currentPage);
-		 //Parameter orderr --> Page만 추가 setting
-		 System.out.println("Start--> " + page.getStart());
-		 System.out.println("End--> " + page.getEnd());
-		 review.setStart(page.getStart());//시작시 1 
-		 review.setEnd(page.getEnd()); // 시작시 5
-		 
-		 review.setM_num(member.getM_num());
-		 
-		 
-		 List<Review> reviewedWriteList = rs.reviewedWriteList(review);
-		 System.out.println("HtController MyReviewList() reviewedWriteList.size() --> "+ reviewedWriteList.size());
 		 
 		 model.addAttribute("page", page);
 		 model.addAttribute("reviewedWriteList", reviewedWriteList);
@@ -322,24 +332,29 @@ public class HtController {
 			return "yb/loginForm";
 		}
 		
-		String[] splitPh   = member.getM_ph().split("-");
-		String[] splitAddr = member.getM_addr().split("/");
+		Member member2 = os.selectMember(member);
 		
-		System.out.println("orderForm member --> "+ member);
+		String[] splitPh   = member2.getM_ph().split("-");
+		String[] splitAddr = member2.getM_addr().split("/");
+		
+		System.out.println("orderForm member2 --> "+ member2);
 		System.out.println("paymentType--> "+ paymentType);
 		
-		
+		System.out.println("newBook getC_count--> "+ newBook.getC_count());
+		System.out.println("newBook getOb_num--> "+ newBook.getOb_num());
 		
 		// paymentType 1--> 바로결제, 2--> 장바구니 결제
 		if (paymentType == 1) {
 			// 바로 결제(1개)
-			List<NewBook> orderOne = os.orderOne(newBook);
-			System.out.println("HtController orderOne--->" + orderOne);
+//			List<NewBook> orderOne = os.orderOne(newBook);
+//			System.out.println("HtController orderOne--->" + orderOne);
 			
 			// ob_num이 null이면 새상품 아니면 중고
 			if(newBook.getOb_num() == 0) {
+				List<NewBook> orderOne = os.orderOne(newBook);
+				System.out.println("HtController orderOne--->" + orderOne);
 				for(NewBook newBook2 : orderOne ) {
-					totalPrice += newBook2.getNb_price();
+					totalPrice += (newBook2.getNb_price() * newBook2.getC_count());
 					newBook.setTotalPrice(totalPrice);
 					if ( totalPrice > 50000) newBook.setO_deliv_price(0);
 					else                     newBook.setO_deliv_price(3000);
@@ -350,12 +365,15 @@ public class HtController {
 				System.out.println("HtController totalPrice--->" + totalPrice);
 			} else {
 				List<NewBook> OldOrderOne = os.orderOne(newBook);
+				System.out.println("HtController OldOrderOne1--->" + OldOrderOne);
 				for(NewBook newBook3 : OldOrderOne ) {
 					totalPrice += newBook3.getOb_sell_price();
 					newBook.setTotalPrice(totalPrice);
 					if ( totalPrice > 50000) newBook.setO_deliv_price(0);
 					else                     newBook.setO_deliv_price(3000);
 				}
+				
+				System.out.println("HtController OldOrderOne2--->" + OldOrderOne.get(0).getOb_num());
 				
 				model.addAttribute("orderList", OldOrderOne);
 				model.addAttribute("cart", newBook);
@@ -365,7 +383,7 @@ public class HtController {
 			
 		} else if (paymentType == 2) {
 			// 장바구니 결제(여러개)
-			List<Cart> orderList = os.orderList(cart, member);
+			List<Cart> orderList = os.orderList(cart, member2);
 			System.out.println("HtController orderList kkk --->" + orderList);
 			for(Cart cart1 : orderList ) {
 				totalPrice += (cart1.getNb_price() * cart1.getC_count());
@@ -383,7 +401,7 @@ public class HtController {
 		
 		
 		model.addAttribute("paymentType",paymentType);
-		model.addAttribute("member",member);
+		model.addAttribute("member",member2);
 		model.addAttribute("splitPh",splitPh);
 		model.addAttribute("splitAddr",splitAddr);
 		
@@ -419,6 +437,8 @@ public class HtController {
 			return "yb/loginForm";
 		}
 		
+		System.out.println("HtController orderAction o_order_count--> "+ orderr.getO_order_count());
+		
 		orderr.setM_num(member.getM_num());
 		orderr.setM_name(member.getM_name());
 		
@@ -438,11 +458,18 @@ public class HtController {
 		
 		List<Cart> list =  new ArrayList<Cart>();
 		
+		System.out.println("HtController orderr.getOb_num()-->"+orderr.getOb_num());
+		System.out.println("HtController orderr.getNb_num()-->"+orderr.getNb_num());
 		
 		if(orderr.getPaymentType() == 1) {
 			cart.setM_num(member.getM_num());
-			cart.setNb_num(orderr.getNb_num());
-			cart.setC_count(1);
+			
+			if(orderr.getOb_num() == 0) {
+				cart.setNb_num(orderr.getNb_num());
+			} else {
+				cart.setOb_num(orderr.getOb_num());
+			}
+			cart.setC_count(orderr.getO_de_count());
 			list.add(cart);
 			System.out.println("orderAction list--> " + list);
 		} else if (orderr.getPaymentType() == 2) {

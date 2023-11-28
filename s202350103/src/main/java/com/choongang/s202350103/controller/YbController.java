@@ -746,7 +746,7 @@ public class YbController {
 			return "yb/memberFindPwPh";
 		}
 	}
-
+	// 독후감 작성 폼
 	@GetMapping(value = "writeForm")
 	public String writeForm(Member member, Model model) {
 		System.out.println("YbController writeForm() start..");
@@ -755,8 +755,7 @@ public class YbController {
 		return "yb/writeForm";
 	}
 
-
-
+	// 독후감 수정 폼 이동
 	@GetMapping(value = "communityUpdate")
 	public String communityUpdate(NewBook newbook, Model model, Community community, int cm_num) {
 		System.out.println("YbController searchBook() start..");
@@ -1065,11 +1064,12 @@ public class YbController {
 		model.addAttribute("result", communityDelete);
 		return "redirect:/memberCommunity";
 	}
-
+	// 독후감 좋아요 
 	@GetMapping(value = "communityClickHeart")
 	public String communityClickHeart(Member member, int cm_num, Model model, RedirectAttributes redirect,
 			CommHeart commHeart, Community community) {
 		member = (Member) session.getAttribute("member");
+		
 		int m_num = member.getM_num();
 		int communityHitPush = 0;
 		int commHeartInsert = 0;
@@ -1081,7 +1081,7 @@ public class YbController {
 //		   System.out.println("communityClickHeart confirmHeart getCm_num-> " + commHeart.getCm_num());
 //		   System.out.println("communityClickHeart confirmHeart getM_num-> " + commHeart.getM_num());
 //		   System.out.println("communityClickHeart confirmHeart getH_status-> " + commHeart.getH_status());
-		// 데이터 없을 떄
+		// 데이터 없을 때
 		if (commHeart == null) {
 			commHeartInsert = ms.commHeartInsert(cm_num, m_num);
 			communityHitPush = ms.communityHitPush(cm_num);
@@ -1090,7 +1090,7 @@ public class YbController {
 			System.out.println("communityClickHeart confirmHeart community-> " + community);
 			int updateHitCnt = ms.updateHitCnt(community, commHeart);
 		}
-
+		
 		redirect.addAttribute("cm_num", cm_num);
 		model.addAttribute("communityHitPush", communityHitPush);
 		model.addAttribute("commHeartInsert", commHeartInsert);

@@ -31,7 +31,7 @@
 			<td>${pl.p_num}</td>
 			<td>${pl.m_num}</td>
 			<td><fmt:formatDate value="${pl.a_par_pdate}" pattern="yy-MM-dd"/></td>
-			<td>${pl.p_list_type}</td>
+			<td><div title="안녕	">${pl.p_list_type}</div></td>
 			<td>${pl.m_point}</td>
 		</tr>
 		</c:forEach>

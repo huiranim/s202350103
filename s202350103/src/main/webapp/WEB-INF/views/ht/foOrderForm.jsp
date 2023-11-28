@@ -436,7 +436,12 @@
         	<input type="hidden" name="nb_title" value="${orderList[0].nb_title}">
             <c:if test="${paymentType == 1}">
             	<c:forEach var="book" items="${orderList}">
-        			<input type="hidden" name="nb_num" value="${book.nb_num}">
+            		<c:if test="${book.ob_num > 0}">
+            			<input type="hidden" name="ob_num" value="${book.ob_num}">
+            		</c:if>
+            		<c:if test="${book.ob_num == 0}">
+            			<input type="hidden" name="nb_num" value="${book.nb_num}">
+            		</c:if>
         		</c:forEach>
         		<input type="hidden" name="paymentType" value="${paymentType}">
         	</c:if>
@@ -537,7 +542,8 @@
 				                <%--  <h2 class="fs-6">${newbook.nb_title}</h2> --%>
 				                 
 				                 <c:if test="${paymentType == 1}">
-				                 	<div class="text-small mb-1"><small><fmt:formatNumber value="1" groupingUsed="true"/>개</small></div>
+				                 	<div class="text-small mb-1"><small><fmt:formatNumber value="${newbook.c_count}" groupingUsed="true"/>개</small></div>
+				                 	<input type="hidden" name="o_de_count" value="${newbook.c_count}">
 				                 </c:if>
 				                 <c:if test="${paymentType == 2}">
 				                 	<div class="text-small mb-1"><small><fmt:formatNumber value="${newbook.c_count}" groupingUsed="true"/>개</small></div>
@@ -593,8 +599,12 @@
             		<tr height="40px">
             			<td class="form-label" width="70%">배송비</td>
             			<td class="h6" width="30%" align="right">
-            			
-            				<fmt:formatNumber value="${cart.o_deliv_price}" groupingUsed="true"/> 원
+            				<c:if test="${cart.o_deliv_price == 3000}">
+            					<fmt:formatNumber value="${cart.o_deliv_price}" groupingUsed="true"/> 원
+            				</c:if>
+            				<c:if test="${cart.o_deliv_price == 0}">
+            					<span style="font-weight: bold; color: blue;">무료배송</span>
+            				</c:if>
             			</td>
             		</tr>
             		<tr height="40px">
@@ -637,7 +647,6 @@
             	</div>
             	
             <p><p><hr class="my-4" style="border-width: 2px; border-color: #333;"><p><p>
-            
             <input type="hidden" id="o_pay_price_submit"   name="o_pay_price"   value="${cart.totalPrice + cart.o_deliv_price}">
             <input type="hidden" id="o_deliv_price_submit" name="o_deliv_price" value="${cart.o_deliv_price}">
             <input type="hidden" id="o_pay_type" name="o_pay_type" value="0">

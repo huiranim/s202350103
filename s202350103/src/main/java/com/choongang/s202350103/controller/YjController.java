@@ -1,6 +1,7 @@
 package com.choongang.s202350103.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.choongang.s202350103.gbService.RecentlyBook;
+import com.choongang.s202350103.gbService.TotalOrderService;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.MemberQ;
 import com.choongang.s202350103.model.MqReply;
@@ -49,11 +51,12 @@ public class YjController {
 	private final com.choongang.s202350103.ybService.MemberService ys; // 용빈 서비스
 	private final MemberService ms;			// 서비스
 	private final RecentlyBook rb;
+	private final TotalOrderService tos;
 	
 	private final JavaMailSender mailSender;	// 메일 전송 객체
 	final DefaultMessageService messageService; // 문자전송 API
 	
-	public YjController(MemberService ms,HttpSession session,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys, RecentlyBook rb ) {
+	public YjController(MemberService ms,HttpSession session,JavaMailSender mailSender, com.choongang.s202350103.ybService.MemberService ys, RecentlyBook rb,  TotalOrderService tos) {
 		// 세션
 		this.session = session;
 		// 서비스
@@ -66,6 +69,8 @@ public class YjController {
 		this.ys = ys;
 		// 도서 최근상품 리스트 서비스  금비
 		this.rb = rb;
+		// 관리자페이지 주문 통계
+		this.tos = tos;
 		
 	}
 
@@ -705,6 +710,35 @@ public class YjController {
 		  
 		  int declReplyCount = declReplyCount();
 		  model.addAttribute("declReplyCount",declReplyCount);
+		  
+		  // 이번달 총 수입
+		  int monthTotalIncome = tos.selectMonthTotalIncome();
+		  // 지난달 총 수입
+		  int lastTotalIncome = tos.selectLastTotalIncome();		  
+		  
+		  // 이번달 주문 건수
+		  int monthTotalCnt = tos.selectMonthTotalCnt();
+		  // 지난달 주문 건수
+		  int lastTotalCnt = tos.selectLastTotalCnt();
+		  
+		  // 이번달 신규 가입 고객 수
+		  int monthTotalNewMember = tos.selectMonthTotalNewMember();
+		  // 지난달 주문 건수
+		  int lastTotalNewMember = tos.selectLastTotalNewMember();
+			
+		  // 이번달 월 구하기
+		  LocalDate date = LocalDate.now();
+			
+		  int month = date.getMonthValue();
+		  System.out.println("month -> "+month);
+			
+		  model.addAttribute("totalIncome", monthTotalIncome);
+		  model.addAttribute("monthTotalCnt", monthTotalCnt);
+		  model.addAttribute("monthTotalNewMember", monthTotalNewMember);
+		  model.addAttribute("lastTotalIncome",lastTotalIncome);
+		  model.addAttribute("lastTotalCnt",lastTotalCnt);
+		  model.addAttribute("lastTotalNewMember",lastTotalNewMember);
+		  model.addAttribute("month", month);
 		  
 		  return "common/mainBo";
 	  }

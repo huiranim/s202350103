@@ -76,7 +76,7 @@ public class OrderrDaoImpl implements OrderrDao {
 	@Override
 	public void orderInsert(Orderr orderr, List<Cart> list) {// 프로시저를 사용하기 때문에 void이어야 한다. 
 		System.out.println("OrderDaoImpl orderList() Start...");
-		
+		System.out.println("Dao orderInsert orderr1-->"+orderr);
 		// https://zorba91.tistory.com/189 --> list문을 insert하는 법
 		
 		//Transaction 관리
@@ -84,17 +84,26 @@ public class OrderrDaoImpl implements OrderrDao {
 		try {
 			// order insert (여기서 프로시저를 통해서 o_order_num을 orderr객체에 담아서 가지고 나온다.) 
 			session.selectOne("htOrderInsert", orderr); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. 파라미터 out이 있기 때문이다.
-			System.out.println("Dao orderInsert orderr-->"+orderr);
+			System.out.println("Dao orderInsert orderr2-->"+orderr);
 		
 			Map<String, Object> params = new HashMap<String, Object>();
 		    params.put("orderr", orderr);
 		    params.put("list", list);
 		    
 			// orderDetail insert
-			int od_result = session.insert("htOrderDetailInsert", params);
+		    int obNum = list.get(0).getOb_num();
+		    System.out.println("orderr.obNum()--> " + obNum);
+		    int od_result = 0;
+		    if(obNum == 0) {
+		    	od_result = session.insert("htOrderDetailInsert", params);
+		    }else {
+		    	od_result = session.insert("htOrderDetailInsertOld", params);
+		    }
+		    
 			System.out.println("Dao htOrderInsert od_result--->" + od_result);
 			System.out.println("orderr.getO_pay_price()--> " + orderr.getO_pay_price());
 			System.out.println("orderr.getM_num()--> " + orderr.getM_num());
+			
 			
 			// member 포인트 update
 			int update_result = session.update("htMemberPointUpdate", orderr);
@@ -154,6 +163,20 @@ public class OrderrDaoImpl implements OrderrDao {
 			System.out.println("OrderrDaoImpl PaySuccess Exception -> " + e.getMessage());
 		}
 		return result;
+	}
+
+	@Override
+	public Member selectMember(Member member) {
+		System.out.println("OrderDaoImpl selectMember() Start...");
+		try {
+			member = session.selectOne("htMemberSelect", member);
+			System.out.println("OrderrDaoImpl selectMember member--> "+ member);
+		
+		
+		}catch (Exception e) {
+			System.out.println("OrderrDaoImpl selectMember Exception -> " + e.getMessage());
+		}
+		return member;
 	}
 
 

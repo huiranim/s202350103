@@ -516,7 +516,7 @@ import lombok.extern.slf4j.Slf4j;
 		}
 		
 		@RequestMapping(value="selectMemberPoint")
-		public String selectMemberPoint(@RequestParam int m_num, String currentPage, Model model) {
+		public String selectMemberPoint(@RequestParam("m_num") int m_num, String currentPage, Model model) {
 			System.out.println("shController selectMemberPoint() Start...");
 			int memberEvent = ps.memberPointList(m_num);
 			//페이징 작업

@@ -294,14 +294,15 @@
             </div>
 
 <!-- hidden value -->
-<input type="hidden" name="m_num" 		value="${member.m_num }"> 
-<input type="hidden" name="o_pay_price" value="${newbook.nb_price * quantity + o_deliv_price}" id="o_pay_price_val"> <!-- ajax 통해 삽입 -->
-<input type="hidden" name="nb_num" 		value="${newbook.nb_num }"> 
-<input type="hidden" name="nb_title" 	value="${newbook.nb_title }"> 
-<input type="hidden" name="o_de_count"  value="${quantity}"> 
-<input type="hidden" name="o_type" 		value="2"> 
-<input type="hidden" name="destination" value="0"> 
-<input type="hidden" name="o_pay_type"  value="1">
+<input type="hidden" name="m_num" 		  value="${member.m_num }"> 
+<input type="hidden" name="o_pay_price"   value="${newbook.nb_price * quantity + o_deliv_price}" id="o_pay_price_val"> <!-- ajax 통해 삽입 -->
+<input type="hidden" name="nb_num" 		  value="${newbook.nb_num }"> 
+<input type="hidden" name="nb_title" 	  value="${newbook.nb_title }"> 
+<input type="hidden" name="o_de_count"    value="${quantity}"> 
+<input type="hidden" name="o_order_count" value="${quantity}"> 
+<input type="hidden" name="o_type" 		  value="2"> 
+<input type="hidden" name="destination"   value="0"> 
+<input type="hidden" name="o_pay_type"    value="1">
 
           </form>
 

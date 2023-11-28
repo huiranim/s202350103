@@ -44,5 +44,6 @@ public class NewBook {					// 새상품
 	private String 	m_email;			// 보내는 사람 메일
 	private String  recipient;			// 받는 사람 메일
 	private String 	e_message;			// 메일 내용
+	private int  	c_count; 		    // 각 구매수량
 	
 }
