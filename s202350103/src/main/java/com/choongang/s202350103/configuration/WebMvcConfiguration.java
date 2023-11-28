@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.choongang.s202350103.ybService.AdminAuthorityInterCeptor;
-import com.choongang.s202350103.ybService.AfterLoginInterCeptor;
+import com.choongang.s202350103.ybService.ReturnPageInterCeptor;
 import com.choongang.s202350103.ybService.LoginInterCeptor;
 import com.choongang.s202350103.yjService.YjInterceptor;
 
@@ -30,7 +30,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/reviewForm");						// 리뷰 등록
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/orderForm");						// 주문 등록
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberMyCommunity");				// 커뮤니티 내 게시물
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberPointList");				// 커뮤니티 내 게시물
+		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberPointList");				// 내 포인트리스트
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeOb");               			// 중고판매 신청완료
 	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObCal");         	   	// 중고판매 정산안내
 	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObTrans");       	  	// 중고판매 운송장
@@ -69,5 +69,28 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boJoinedMember");		// 관리자 이벤트 포인트 내역
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminDeclReply");		// 관리자 신고 답글 관리
 		
+		// 로그인 인터셉터 이후 이전 페이지로 돌아가기
+		registry.addInterceptor(new  ReturnPageInterCeptor()).addPathPatterns("/memberMyCommunity");
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/mainBo");							// 관리자메인
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/adminMemberList");				// 회원목록
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/memberCartList");					// 장바구니
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/foGivingGift");					// 선물하기
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/foOrderDetail");					// 마이페이지 - 주문상세
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/writeForm");						// 커뮤니티 글 등록
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/searchBook");						// 커뮤니티 글 등록 책 선택
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/FodetailOb");						// 마이페이지 - 정산화면
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/eventIn");						// 이벤트 페이지
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/reviewList");						// 제품별 리뷰 리스트
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/MyReviewList");					// 나의 리뷰 리스트(작성 가능한 리스트)
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/MyReviewedList");					// 나의 리뷰 리스트(작성한 리스트)
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/reviewForm");						// 리뷰 등록
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/orderForm");						// 주문 등록
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/memberMyCommunity");				// 커뮤니티 내 게시물
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/memberPointList");				// 커뮤니티 내 게시물
+		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/writeOb");               			// 중고판매 신청완료
+	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/writeFormObCal");         	   	// 중고판매 정산안내
+	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/writeFormObTrans");       	  	// 중고판매 운송장
+//	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/eventIn"); 						// 이벤트 페이지
+	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/memberPwChangeForm");
 	}
 }

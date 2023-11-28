@@ -274,7 +274,35 @@
                                 <div class="card-body px-6 py-8">
                                 	<h3 class="mb-0 fs-5">Order Chart </h3>
                                     <div class="d-flex align-items-center">
-                                        
+                                    	<div id="chart">
+                                    		<canvas id="myOrderChart" width="400" height="400"></canvas>
+                                    	</div>
+                                        <script>
+                                     		// 차트를 그럴 영역을 dom요소로 가져온다.
+                                        	var ctx = document.getElementById('myOrderChart').getContext('2d');
+                                        	// x축에 들어갈 이름들(Array)
+                                     		const monthLabels = Utils.months({count: 7});
+                                        	// 실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
+	                                        var data = {
+	                                          labels: ['1월','2월','3월','4월','5월','6월','7월'],
+	                                          datasets: [{
+	                                            label: 'My First Dataset',
+	                                            data: [65, 59, 80, 81, 56, 55, 40],
+	                                            fill: false,
+	                                            borderColor: 'rgb(75, 192, 192)',
+	                                            tension: 0.1
+	                                          }]
+	                                        };
+                                     		
+                                     		// 차트를 생성한다.
+                                     		var myOrderChart = new Chart(ctx, { 
+                                     			// 차트의 종류(String)
+                                     			type: 'line',
+                                     			// 차트의 데이터(Object)
+                                      		  	data: data
+                                        	}
+	                  
+                                        </script>
                                     </div>
                                 </div>
                             </div>
