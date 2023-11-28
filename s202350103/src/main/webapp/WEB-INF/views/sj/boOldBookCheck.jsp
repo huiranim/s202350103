@@ -16,6 +16,7 @@
 			  const target = document.getElementById('target_btn');
 			  target.disabled = true;
 			} */
+	
 			
 			function toggleChk(selectchk) {
 			/* 	alert("toggleOb_ripped start..."); */
@@ -112,11 +113,13 @@
 			    	totalCalculVal = 0;
 			    }
 			    	
+			    const format = Number(totalCalculVal).toLocaleString();
 			    
 			
 			 	//calcul의 그릇  --> 리턴으로 value값 전달
 			 	$("#totalCalculVal").val(totalCalculVal);
-			 	$("#totalCalculVal2").val(totalCalculVal);
+			 	/* $("#totalCalculVal2").; */
+			 	$("#totalCalculVal2").val(format); 
 			    $("#totalCalculValSell").val(parseInt(totalCalculVal*1.1));
 			     
 			    const target = document.getElementById('target_btn');
@@ -223,8 +226,8 @@
 			   		 	<input type="hidden"  name="ob_pur_price" id="totalCalculVal" value="0" > 
 	      		 		<input type="hidden"  name="ob_sell_price" id="totalCalculValSell" value="0"> 
 	      		 	<div >	
-	      		 <input type="number"  disabled="disabled"  pattern="###,###" id="totalCalculVal2" style="border: none; background: transparent; width: 52px;"/>원
-		      	
+	      		  <input type="text"   disabled="disabled"   id="totalCalculVal2" style="border: none; background: transparent; width: 52px;"/>원 
+		      		
 		      	
 		      	<!-- 	 	<input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum6"> 
 		      		 	 <input type="button" 	class="btn btn-ghost-secondary mb-2"   id="totalSum7">
