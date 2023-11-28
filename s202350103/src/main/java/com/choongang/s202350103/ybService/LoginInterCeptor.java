@@ -4,12 +4,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 
 public class LoginInterCeptor implements HandlerInterceptor {
 	
+	private static final String LOGIN = "login";
+
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		System.out.println("LoginInterCeptor postHandle Start...");
+
+		HttpSession session = request.getSession();
+
+		ModelMap modelMap = modelAndView.getModelMap();
+		Object member = modelMap.get("member");
+		Object dest = null;
+		if(member != null) {
+			System.out.println("Login success!");
+			session.setAttribute(LOGIN, member);
+			
+			// 이전 페이지 불러오기
+			dest = session.getAttribute("dest");
+			
+//			response.sendRedirect(dest != null ? dest.toString() : "/");
+			String redirectUrl = dest != null ? dest.toString() : "/";
+			System.out.println("LoginInterCeptor postHandle redirectUrl => " + redirectUrl);
+			
+			session.setAttribute("redirectUrl", redirectUrl);	
+			
+			 session.removeAttribute("dest");  // Clear the 'dest' attribute after using it
+			  
+		}
+	
+	}
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -18,26 +49,19 @@ public class LoginInterCeptor implements HandlerInterceptor {
 		// session 객체를 가져옴
         HttpSession session = request.getSession();
         // login처리를 담당하는 사용자 정보를 담고 있는 객체를 가져옴
-        Object obj = session.getAttribute("member");
+//        Object obj = session.getAttribute("member");
         
-        if ( obj == null ){
+        if ( session.getAttribute(LOGIN) == null ){
             // 로그인이 안되어 있는 상태임으로 로그인 폼으로 다시 돌려보냄(redirect)
         	System.out.println("LoginInterCeptor Start... You do not have permission. Please log in first");
-            response.sendRedirect("/loginForm");
-            return false; // 더이상 컨트롤러 요청으로 가지 않도록 false로 반환함
-        }
+//            response.sendRedirect("/loginForm");
+        	session.removeAttribute(LOGIN);
+            
 
-        // preHandle의 return은 컨트롤러 요청 uri로 가도 되냐 안되냐를 허가하는 의미임
-        // 따라서 true로하면 컨트롤러 uri로 가게 됨.
+//       	return false; // 더이상 컨트롤러 요청으로 가지 않도록 false로 반환함
+//             
+        }
 
         return true;
 	}
-	
-	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
-		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-	}
-	 
 }

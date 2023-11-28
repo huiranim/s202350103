@@ -73,7 +73,10 @@ import lombok.extern.slf4j.Slf4j;
 			attendance.setEnd(end);
 			
 			List<Attendance> eventList = ps.listEvent(attendance);
-
+			
+			Date sysdate = new Date();
+			model.addAttribute("sysdate",sysdate);
+			
 			model.addAttribute("totalEvent",totalEvent);
 			model.addAttribute("recentBookList",recentBookList);
 			model.addAttribute("eventList",eventList);

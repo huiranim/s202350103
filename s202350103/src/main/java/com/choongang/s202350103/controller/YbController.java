@@ -209,7 +209,14 @@ public class YbController {
 			session.setAttribute("member", member);
 			System.out.println("YbController login() session -> " + session.getId());
 			System.out.println("YbController login() member.getId -> " + member.getM_id());
-			return "redirect:/";
+			
+			String dest = (String) session.getAttribute("dest");
+		    String redirectUrl = dest != null ? dest : "/";
+		    System.out.println("ybController memberLogin dest => " + redirectUrl);
+//		   
+		    
+		    return "redirect:" + redirectUrl;
+
 		} else {
 			return "yb/loginForm";
 		}
@@ -445,7 +452,7 @@ public class YbController {
 	}
 
 	// 내 커뮤니티 리스트
-	@GetMapping(value = "memberMyCommunity")
+	@GetMapping(value = "/memberMyCommunity")
 	public String memberMyCommunity(Community community, Model model, String currentPage, Member member) {
 		System.out.println("YbController memberMyCommunity() start..");
 		member = (Member) session.getAttribute("member");
