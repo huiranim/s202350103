@@ -93,6 +93,69 @@
         }
 	}
 	
+	// 이름 유효성 검사
+	function nameCk(name) {
+		// 특수문자 제외, 영문 대소문자,한글, 공백 허용
+		var regex = /^[a-zA-Z가-힣\s]+$/;
+		
+		 if(!regex.test(name)){
+	        	alert("이름에는 특수문자가 포함 될 수 없습니다.");
+	        	$("#o_rec_name").val("");
+	        	$('#o_rec_name').focus();
+     	} 
+	}
+	
+	// 이메일 유효성 검사
+	function mailCk(mail) {
+		// 특문 제외 영문숫자와 마침표. 만 허용
+		var regex = /^[a-zA-Z0-9.]+$/;
+		
+		if(!regex.test(mail) || !regex.test(mail)){
+    		alert("이메일은 영문자와 숫자로만 작성해주세요.");
+    		$("#o_rec_mail1").val("");
+    		$("#o_rec_mail2").val("");
+            $('#o_rec_mail1').focus();
+    	}
+	}
+	
+	// 전화번호 유효성 검사
+	function phCk() {
+		var o_rec_ph1 =  $('#destination2 #o_rec_ph1').val();
+		var o_rec_ph2 =  $('#destination2 #o_rec_ph2').val();
+		var o_rec_ph3 =  $('#destination2 #o_rec_ph3').val();
+		// 숫자만 
+		// ph1 은 010 까지 이므로 3자리까지 허용
+		var regex1 = /^(02|010|031|[0-9]{3})$/;
+		// ph2, 3은 4자리
+		var regex = /^[0-9]{4}$/;
+
+		if (!regex1.test(o_rec_ph1)) {
+			alert("전화번호는 숫자로 입력하세요.");
+			$("#o_rec_ph1").val("");
+			$('#o_rec_ph1').focus();
+			return;
+		} 
+		
+		if(o_rec_ph2 !== "" && !regex.test(o_rec_ph2)) {
+			alert("전화번호는 숫자로 입력하세요.");
+			$("#o_rec_ph2").val("");
+			$('#o_rec_ph2').focus();
+			return;
+		} 
+		
+		if(o_rec_ph3 !== "" && !regex.test(o_rec_ph3)) {
+			alert("전화번호는 숫자로 입력하세요.");
+			$("#o_rec_ph3").val("");
+			$('#o_rec_ph3').focus();
+			return;
+		} 
+	}
+	
+	// 포인트 유효성 검사
+	function pointCk() {
+		
+	}
+		
 	function orderActionController() {
 		// 공통
 		var sendData1 =  $('#orderActionForm').serialize();
@@ -104,17 +167,20 @@
 		var selectedMessage = $('#omessage_select').val();
 		var o_selTab = $('#o_selTab').val();
 		
+		
+		
+		
 		if(o_selTab == '2'){
 	        if(($("#destination2 #o_rec_name").val()) == ""){
 	            alert("이름을 입력하세요!!")
 	            $('#o_rec_name').focus();
-        	} else if(($("#destination2 #o_rec_mail1").val()) == ""){
+	        } else if(($("#destination2 #o_rec_mail1").val()) == ""){
         		alert("메일을 입력하세요!!")
 	            $('#o_rec_mail1').focus();
         	} else if(($("#destination2 #o_rec_mail2").val()) == ""){
         		alert("메일을 입력하세요!!")
 	            $('#o_rec_mail2').focus();
-        	} else if(($("#destination2 #sample6_postcode").val()) == ""){
+        	}  else if(($("#destination2 #sample6_postcode").val()) == ""){
         		alert("주소를 입력하세요!!")
 	            $('#sample6_postcode').focus();
         	} else if(($("#destination2 #sample6_detailAddress").val()) == ""){
@@ -182,15 +248,18 @@
 				location.href= "orderAction?"+sendData5;	
 			}
 		}
-		
-		
-		
-		
 	}
 
 	
 	
 	function changeChk(p_point){
+		var regex = /^[1-9][0-9]*$/;
+		if(!regex.test(p_point)){
+			alert("숫자(양수)로 입력하세요.");
+			$("#o_point2").val("");
+			$('#o_point2').focus();
+			return;
+		}
 		
 		var p_point_result		= Number(p_point);                      							// 사용 포인트
 		var p_total_price		= Number(${cart.totalPrice});										// 총 상품 금액
@@ -310,15 +379,15 @@
 				  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 				  	<div class="col-md-12 mb-3">
 		              <label class="form-label" for="o_rec_name"> 이름<span class="text-danger">*</span></label>
-		              <input type="text" id="o_rec_name" class="form-control" name="o_rec_name" placeholder="홍길동" required  style="width: 150px;">
+		              <input type="text" id="o_rec_name" class="form-control" name="o_rec_name" placeholder="홍길동" required  style="width: 150px;" onchange="nameCk(o_rec_name.value)">
 		            </div>
 		            <div class="col-md-12 mb-3">
 		              <label class="form-label" for="o_rec_mail"> 이메일<span class="text-danger">*</span></label>
 		              <div class="form-group">
 					    <div class="d-flex">
-					     <input type="email" id="o_rec_mail1" name=m_email1 class="form-control" placeholder="abc" required style="width: 200px;"> 
+					     <input type="email" id="o_rec_mail1" name=m_email1 class="form-control" placeholder="abc" required style="width: 200px;" onchange="mailCk(o_rec_mail1.value)"> 
 					     <span class="mx-1"> @ </span>
-					     <input type="email" id="o_rec_mail2" name="m_email" class="form-control" placeholder="naver.com" required style="width: 200px;">
+					     <input type="email" id="o_rec_mail2" name="m_email" class="form-control" placeholder="naver.com" required style="width: 200px;" onchange="mailCk(o_rec_mail2.value)">
 					    </div>
 		              </div>
 		            </div>  
@@ -326,19 +395,19 @@
 		            <div class="col-md-12 mb-3">
 			              <label class="form-label" for="sample6_postcode"> 주소<span class="text-danger">*</span></label><br>
 			            <label class="form-label" for="o_rec_name">
-		                	<input type="text" id="sample6_postcode"  name="m_addr1" class="form-control" placeholder="우편번호">
+		                	<input type="text" id="sample6_postcode"  name="m_addr1" class="form-control" placeholder="우편번호" readonly>
 		                </label>
 		                <label class="form-label" for="o_rec_name">
-							<input type="button" class="form-control" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="background-color: lightgray;">
+							<input type="button" class="form-control" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="background-color: lightgray;" >
 						</label><br>
 						<label class="form-label" for="o_rec_name">
-							<input type="text" id="sample6_address" name="m_addr2" class="form-control" placeholder="주소">
+							<input type="text" id="sample6_address" name="m_addr2" class="form-control" placeholder="주소" readonly>
 						</label><br>
 						<label class="form-label" for="o_rec_name">
 							<input type="text" id="sample6_extraAddress" class="form-control" placeholder="참고항목" readonly>
 						</label><br>
 						<label class="form-label" for="o_rec_name">
-							<input type="text" id="sample6_detailAddress" name="m_addr" class="form-control" placeholder="상세주소" required="required">
+							<input type="text" id="sample6_detailAddress" name="m_addr" class="form-control" placeholder="상세주소" required="required" >
 						</label>
 		            </div>
 		            
@@ -347,11 +416,11 @@
 		              <label class="form-label" for="o_rec_ph"> 휴대전화<span class="text-danger">*</span></label>
 		              <div class="form-group">
 					    <div class="d-flex">
-					     <input type="tel" id="o_rec_ph1" name="m_ph1" class="form-control" placeholder="010" required>
+					     <input type="tel" id="o_rec_ph1" name="m_ph1" class="form-control" placeholder="010" required onchange="phCk()">
 					     <span class="mx-1">-</span>
-					     <input type="tel" id="o_rec_ph2" name="m_ph2" class="form-control" placeholder="0000" required>
+					     <input type="tel" id="o_rec_ph2" name="m_ph2" class="form-control" placeholder="0000" required onchange="phCk()">
 					     <span class="mx-1">-</span>
-					     <input type="tel" id="o_rec_ph3" name="m_ph3" class="form-control" placeholder="0000" required>
+					     <input type="tel" id="o_rec_ph3" name="m_ph3" class="form-control" placeholder="0000" required onchange="phCk()">
 					    </div>
 					  </div>
 		            </div>
@@ -377,7 +446,7 @@
         	
           	<div class="mb-3">
 			  <select class="form-select" id="omessage_select" name="o_rec_msg">
-			    <option selected>-- 메시지 선택 (선택사항) --</option>
+			    <option value="" selected>-- 메시지 선택 (선택사항) --</option>
 			    <option value="배송 전에 미리 연락바랍니다.">배송 전에 미리 연락바랍니다.</option>
 			    <option value="부재 시 경비실에 맡겨주세요.">부재 시 경비실에 맡겨주세요.</option>
 			    <option value="부재 시 문 앞에 놓아주세요.">부재 시 문 앞에 놓아주세요.</option>

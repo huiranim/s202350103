@@ -18,7 +18,7 @@
 	});
 	
 	function boNewbookUpdate(pNb_num) {
-		alert("선택한 도서는 ->" +pNb_num);
+		// alert("선택한 도서는 ->" +pNb_num);
 		
 		location.href = "boNewbookDetail?nb_num="+pNb_num;
 	}
@@ -51,7 +51,7 @@
 		    <div class="mb-8">
 		       <!-- heading -->
 		       <h1 class="mb-1">새상품 목록</h1>
-		       <p>총 개수 : ${boNewbookCnt } ${searchBoNewbookCnt }</p>
+		       <p>총 ${boNewbookCnt } ${searchBoNewbookCnt }건</p>
 		    </div>
 		    <div class="row mt-8">
 		    	<!-- 검색 -->
@@ -163,7 +163,7 @@
 			        <c:if test="${page.startPage > page.pageLimit}">
 				        <li class="page-item">
 				          <a class="page-link  mx-1 " href="bonewbookList?currentPage=${page.startPage-page.pageLimit}" aria-label="Previous">
-				            <i class="feather-icon icon-chevron-left"></i>
+				            	이전
 				          </a>
 				        </li>
 			        </c:if>
@@ -177,7 +177,7 @@
 			        <c:if test="${page.endPage < page.totalPage}">
 				        <li class="page-item">
 				          <a class="page-link mx-1 text-body" href="bonewbookList?currentPage=${page.startPage+page.pageLimit }" aria-label="Next">
-				            <i class="feather-icon icon-chevron-right"></i>
+				            	다음
 				          </a>
 				        </li>
 			        </c:if>
@@ -189,7 +189,7 @@
 			        <c:if test="${page.startPage > page.pageLimit}">
 				        <li class="page-item">
 				          <a class="page-link  mx-1 " href="boSearchNewbookList?currentPage=${page.startPage-page.pageLimit}&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}" aria-label="Previous">
-				            <i class="feather-icon icon-chevron-left"></i>
+				            	이전
 				          </a>
 				        </li>
 			        </c:if>
@@ -203,7 +203,7 @@
 			        <c:if test="${page.endPage < page.totalPage}">
 				        <li class="page-item">
 				          <a class="page-link mx-1 text-body" href="boSearchNewbookList?currentPage=${page.startPage+page.pageLimit }&search_type=${search_Newbook.search_type}&search_keyword=${search_Newbook.search_keyword}" aria-label="Next">
-				            <i class="feather-icon icon-chevron-right"></i>
+				            	다음
 				          </a>
 				        </li>
 			        </c:if>
