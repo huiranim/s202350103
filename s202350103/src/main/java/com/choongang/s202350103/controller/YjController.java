@@ -897,8 +897,8 @@ public class YjController {
 			// 메일전송 객체 
 			MimeMessageHelper messageHelper2 = new MimeMessageHelper(message2, true , "UTF-8");
 			
-			String setfrom = m_email;	// 보내는 사람 이메일 (생략시 오류)
-			String tomail = "ayj8487@naver.com";   		// 받는 사람 이메일
+			String setfrom = "dadok202350103@gmail.com";	// 보내는 사람 이메일 (생략시 오류)
+			String tomail = "dadok202350103@gmail.com";   		// 받는 사람 이메일
 			String title = mq_title;  	// 제목
 			
 			messageHelper2.setFrom(setfrom);    		// 보내는 사람 이메일 (생략시 오류)
@@ -906,7 +906,7 @@ public class YjController {
 			messageHelper2.setSubject(title);   		// 메일제목 (생략 가능) -> 생략시 try 안걸어줘도됨
 													
 			// 메일 내용 
-			messageHelper2.setText("(" +m_id +") 님의 발신 / 수신가능 메일 ( "+m_email+ " )" + " 내용 : " + mq_content); 
+			messageHelper2.setText("(" +m_id +") 님의 발신 \n수신가능 메일 ( "+m_email+ " ) \n \n"+mq_content ); 
 			// 메일 전송
 			mailSender.send(message2);
 			

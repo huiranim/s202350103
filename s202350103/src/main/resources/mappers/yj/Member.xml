@@ -116,6 +116,7 @@
 			       ord.o_pay_price,
 			       ord.o_order_num,
 			       ord.o_status,
+			       ord.o_type,
 			       odbooks.nb_num,
 			       odbooks.nb_title,
 			       odbooks.nb_writer,
