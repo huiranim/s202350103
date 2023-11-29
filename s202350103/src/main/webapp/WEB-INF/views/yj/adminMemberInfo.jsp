@@ -294,7 +294,7 @@
 			 <div class="col-md-12 mb-1 text-center"> 
 				 <div class="d-grid gap-2 d-md-flex justify-content-md-center ">
 				   	<button class="btn btn-primary mt-5 mb-2" type="submit" style="margin-right: 10px;">수정하기</button>
-				   	<a class="btn mt-5 mb-2 btn-secondary" type="submit" href="adminMemberList">목록가기</a>
+				   	<a class="btn mt-5 mb-2 btn-secondary" href="adminMemberList">목록가기</a>
 		  		</div>
 			</div>
         

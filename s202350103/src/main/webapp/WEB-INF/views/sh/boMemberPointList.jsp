@@ -8,47 +8,24 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
-	function plusPoint(){
-		var point = $('#point').val();
-		if (point>0){
-			if(confirm(point+"만큼 추가하시겠습니까?")){
-				alert(point + "포인트 추가 하셨습니다.");
-				location.href="boPlusPoint?m_num="+${m_num}+"&point="+point;
-			} else {
-				alert("포인트 추가를 취소하셨습니다.");
-				return false;
-			}
-		} else
-			alert("숫자를 입력해주세요.");
-			return false;
-	}
-	
-	function minusPoint(){
-		var point = $('#point').val();
-		var sum = ${sum};
-		//alert("sum->"+sum);
-		if(sum >= point){
-			if(point>0){
-				if(confirm(point+"만큼 차감하시겠습니까?")){
-					alert(point + "포인트 차감 하셨습니다.");
-					location.href="boMinusPoint?m_num="+${m_num}+"&point="+point;
-				}else{
-					alert("포인트 차감을 취소하셨습니다.");
-					return false;
-				}
-			} else {
-				alert("숫자를 입력해주세요.");
-				return false;
-			}
-		}else{
-			alert("보유한 포인트가 부족합니다.");
-			return false
-		}
-	}
+
 	
 	function mouse_click(){
 		alert("포인트 유형\n 1 주문 적립\n 2 출석 이벤트\n 3 퀴즈 이벤트\n 4 회원가입\n 5 추천인 코드\n 6 주문 포인트 사용\n 7 관리자 조정\n 8 포인트 충전");
 	}
+	
+	function boMemberPointUpdate() {
+			var popupW = 600;
+			var popupH = 800;
+			var left = Math.ceil((window.screen.width - popupW)/2);
+			var top = Math.ceil((window.screen.height - popupH)/2);
+		
+			var url = "boMemberPointUpdate";
+	        var name = "boMemberPointUpdate";
+	        
+	        window.open(url, name, 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes,resizable=no,toolbar=no,titlebar=no,menubar=no,location=no')
+	}
+
 </script>
 <style type="text/css">
 	table{
@@ -75,9 +52,12 @@
 			<th scope="col">포인트유형	</th>
 			<th scope="col">지급포인트</th>
 		</tr>
+		
 	</thead>
 	<tbody>
 		<c:forEach var="memberPoint" items="${memberPoint }">
+		<input type="text" id="m_num" name="m_num" value="${memberPoint.m_num }">
+		<input type="text" id="m_point" name="m_point" value="${memberPoint.point }">
 			<tr>
 				<th scope="row">${memberPoint.rn }</th>
 				<td>${memberPoint.p_num }</td>
@@ -96,7 +76,12 @@
 				<td>
 					<a onclick="mouse_click()">${memberPoint.p_list_type }</a>	
 				</td>
-				<td>${memberPoint.m_point }</td>		
+				<td>${memberPoint.m_point }
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					   <button class="btn btn-soft-primary" type="button" id="openWrite" onclick="boMemberPointUpdate()">수정하기</button>
+					</div>	
+				</td>
+						
 			</tr>
 		</c:forEach>
 	</tbody>
@@ -125,29 +110,6 @@
 <br>
 <hr>
 <br>
-	<div style="margin-left: 30%; margin-right: 30%; text-align: center;">
-		<h2>포인트 수정</h2>
-		<table class="table text-nowrap">
-    			<tr class="table-light">
-    				<th>회원 아이디</th>
-    			</tr>
-    			<tr>
-    				<td>${member.m_id}</td>
-    			</tr>
-    			<tr class="table-light">
-    				<th>회원 이름</th>
-    			</tr>
-    			<tr>
-    				<td>${member.m_name}</td>
-    			</tr>
-    			<tr class="table-light">
-             		<td><input type="text"  id="point" placeholder="포인트를 입력하세요" style="width: 150px; border:none;" >point<p></td>
-            	</tr>	
-            	<tr>	
-            		<td><button type="button" class="btn btn-ghost-primary mb-2" onclick="plusPoint()">추가하기 </button>
-            			<button type="button" class="btn btn-ghost-danger mb-2"  onclick="minusPoint()">차감하기</button></td>
-          		</tr>
-    	</table>
-	</div>
+	
 </body>
 </html>

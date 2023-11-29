@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,8 @@ import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.MemberQ;
 import com.choongang.s202350103.model.MqReply;
 import com.choongang.s202350103.model.NewBook;
+import com.choongang.s202350103.model.Orderr;
+import com.choongang.s202350103.model.TotalOrder;
 import com.choongang.s202350103.yjService.MemberService;
 import com.choongang.s202350103.yjService.Paging;
 
@@ -711,6 +714,11 @@ public class YjController {
 		  int declReplyCount = declReplyCount();
 		  model.addAttribute("declReplyCount",declReplyCount);
 		  
+		  // 이번달 월 구하기
+		  LocalDate date = LocalDate.now();
+		  int month = date.getMonthValue();
+		  System.out.println("month -> "+month);
+		  
 		  // 이번달 총 수입
 		  int monthTotalIncome = tos.selectMonthTotalIncome();
 		  // 지난달 총 수입
@@ -725,19 +733,34 @@ public class YjController {
 		  int monthTotalNewMember = tos.selectMonthTotalNewMember();
 		  // 지난달 주문 건수
 		  int lastTotalNewMember = tos.selectLastTotalNewMember();
-			
-		  // 이번달 월 구하기
-		  LocalDate date = LocalDate.now();
-			
-		  int month = date.getMonthValue();
-		  System.out.println("month -> "+month);
-			
+		  
+		  // 올해 주문 총 건수 *********
+		  HashMap<String, Object> map = new HashMap<String, Object>();
+		  tos.selectYearOrderCnt(map);
+		  
+		  List<TotalOrder> totalOrderList = (List<TotalOrder>) map.get("order_cnt_list");
+		  for(TotalOrder totalorder : totalOrderList) {
+			  System.out.println("totalorder.getOrder_cnt()"+totalorder.getOrder_cnt());
+		  }
+		  
+		  // 올해 반품 총 건수 **********
+		  tos.selectYearReturnCnt(map);
+		  
+		  List<TotalOrder> totalReturnList = (List<TotalOrder>) map.get("order_return_list");
+		  for(TotalOrder totalreturn : totalReturnList) {
+			  System.out.println("totalreturn.getOrder_cnt()->"+totalreturn.getOrder_cnt());
+		  }
+		  
+		  // model에 담아서 jsp 단으로 보내기	
 		  model.addAttribute("totalIncome", monthTotalIncome);
 		  model.addAttribute("monthTotalCnt", monthTotalCnt);
 		  model.addAttribute("monthTotalNewMember", monthTotalNewMember);
 		  model.addAttribute("lastTotalIncome",lastTotalIncome);
 		  model.addAttribute("lastTotalCnt",lastTotalCnt);
 		  model.addAttribute("lastTotalNewMember",lastTotalNewMember);
+		  model.addAttribute("totalOrderList", totalOrderList);
+		  model.addAttribute("totalReturnList", totalReturnList);
+		  
 		  model.addAttribute("month", month);
 		  
 		  return "common/mainBo";

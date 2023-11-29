@@ -55,7 +55,7 @@
            		 <div class="form-check form-switch">
 					<i class="bi bi-exclamation-circle"></i> &nbsp;&nbsp;
 					  <label class="form-check-label" for="flexSwitchCheckDefault">
-					  	연락받으실 <span style="color: red;">이메일</span> 또는 <span style="color: red;">연락처</span>를 확인해주세요.
+					  	연락받으실 <span style="color: red;">이메일</span> 과 <span style="color: red;">연락처</span>를 확인해주세요.
 					  <span class="text-danger">*</span>
 					  </label>
 				</div>

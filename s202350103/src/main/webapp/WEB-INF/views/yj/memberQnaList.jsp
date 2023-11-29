@@ -22,6 +22,7 @@
 	function QnaForm(){
 		
 			alert("로그인 후 이용 가능합니다.");
+			location.href="loginForm"
         }
 	
 </script>
@@ -38,7 +39,7 @@
 	    <h2 class="mb-1">자유 게시판</h2>
 	  </div>
 	  <p>DADOK 회원들과의 소통 공간입니다.</p>
-	</div>
+	</div><hr>
 	      
       <div class="mb-2" style="display: flex; justify-content: space-between; align-items: center;">
     <!-- 전체 문의글 텍스트 -->

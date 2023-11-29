@@ -64,79 +64,95 @@
 	textarea {
 	 width: 80%;
 	 height: 150px;
+	 
+	 
 }
+	#createQuizForm {
+		
+		
+	}
 	
 </style>
 <body>
-<form id="createQuizForm" action="createQuiz" onsubmit="return checkDate()" enctype="multipart/form-data" method="post">
-	<table class="table">
-		<tr>
-			<th class="title" colspan="2">퀴즈 설정</th>
-			</tr>
-			<tr>
-			<th class="table-active">이벤트 이름</th>
-			<td><input type="text" name="q_title" style="width: 300px;" required="required"></td>	
-		</tr>
-		<tr>
-			<th class="table-active">이벤트 기간</th>
-			<td><input type="date" name="q_sdate" required="required"> ~ <input type="date" name="q_edate" required="required"></td>
-		</tr>
-		<tr>
-			<th class="table-active">사진 등록</th>
-			<td><input type="file" name="file1" required="required"></td>
-		</tr>
-		<tr>
-			<th class="table-active">포인트</th>
-			<td><input type="number" name="q_point" min="1" maxlength="3" style="margin-left: 10px; width: 80px;" required="required"> point</td>
-		</tr>
-		<tr>
-			<th class="table-active">질문</th>
-			<td><textarea name="q_question" required="required"></textarea></td>
-		</tr>
-		<tr>
-			<th class="table-active">선택</th>
-			<td>
-				<table>
-					<tr>
-						<th class="s_title">1 </th><td><input type="text" name="q_select1" style="width: 300px;" required="required"></td>
-					</tr>
-					<tr>
-						<th class="s_title">2 </th><td><input type="text" name="q_select2" style="width: 300px;" required="required"></td>
-					</tr>
-					<tr>
-						<th class="s_title">3 </th><td><input type="text" name="q_select3" style="width: 300px;" required="required"></td>
-					</tr>
-					<tr>
-						<th class="s_title">4 </th><td><input type="text" name="q_select4" style="width: 300px;" required="required"></td>
-					</tr>
-				</table>
-			</td>						
-		</tr>
-		<tr>
-			<th scope="row" class="table-active">정답</th>
-			<td>
-				<select name="q_answer" required="required" style="width: 50px; height: 25px; text-align: center;">
-					<option id="select" value="1" selected="selected">1
-					<option id="select" value="2">2
-					<option id="select" value="3">3
-					<option id="select" value="4">4
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td style="float: right; margin-right: 40px; margin-top: 10px;">
-				<input type="submit" class="btn btn-soft-primary mb-2" value="생성"> 
-				&nbsp;
-				<input type="button" class="btn btn-soft-danger mb-2" id="cancleButton"  value="취소">
-			</td>
-		</tr>
-	</table>
-</form>
+	  <div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-1">QUIZ 설정</h1>
+      </div>
+      <div class="mt-10 md-10 justify-content-center">
+		<form class="" id="createQuizForm" action="createQuiz" onsubmit="return checkDate()" enctype="multipart/form-data" method="post">
+			<table class="table" style="width: 70%;  border: 1px solid #dfe2e1; margin-left: 300px;">
+			
+				<tr>		
+					<th class="table-active">이벤트 이름</th>
+					<td><input class="form-control" type="text" name="q_title" style="width: 300px;" required="required"></td>	
+				</tr>
+				
+				<tr>
+					<th class="table-active">이벤트 기간</th>	
+					<td>
+						<div style="display: flex;">
+							<input class="form-control" type="date" name="q_sdate" required="required" style="width: 21%; margin-right: 5px;"><div class="mt-2">~</div>					
+							<input class="form-control" type="date" name="q_edate" required="required" style="width: 21%; margin-left: 5px;">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-active">사진 등록</th>
+					<td><input class="form-control" type="file" name="file1" required="required" style="width: 300px;"></td>
+				</tr>
+				<tr>
+					
+					<th class="table-active">포인트</th>
+					<td><div style="display: flex;"><input class="form-control" type="number" name="q_point" min="1" maxlength="3" 
+														   style="width: 80px; margin-right: 5px;" required="required"> <div class="mt-2">point</div></div></td>
+				</tr>
+				<tr>
+					<th class="table-active">질문</th>
+					<td style="padding-left: 0; padding-left: 21px;"><textarea name="q_question" required="required" style="border: 1px solid #dfe2e1"></textarea></td>
+				</tr>
+				<tr>
+					<th class="table-active">선택</th>
+					<td style="padding-left: 0">
+						<table>
+							<tr>
+								<th class="s_title">1 </th><td><input class="form-control" type="text" name="q_select1" style="width: 300px;" required="required"></td>
+							</tr>
+							<tr>
+								<th class="s_title">2 </th><td><input class="form-control" type="text" name="q_select2" style="width: 300px;" required="required"></td>
+							</tr>
+							<tr>
+								<th class="s_title">3 </th><td><input class="form-control" type="text" name="q_select3" style="width: 300px;" required="required"></td>
+							</tr>
+							<tr>
+								<th class="s_title">4 </th><td><input class="form-control" type="text" name="q_select4" style="width: 300px;" required="required"></td>
+							</tr>
+						</table>
+					</td>						
+				</tr>
+				<tr>
+					<th scope="row" class="table-active">정답</th>
+					<td>
+						<select class="w-10 rounded" name="q_answer" required="required" style="width: 45px;height: 35px;text-align: center;padding-left: 0;border: 1px solid #dfe2e1;">
+							<option id="select" value="1" selected="selected" >1
+							<option id="select" value="2">2
+							<option id="select" value="3">3
+							<option id="select" value="4">4
+						</select>
+					</td>
+				</tr>
+				
+			</table>
+		
+			<div class="d-grid gap-2 d-md-flex justify-content-center" style="padding-left: 320px;">
+				<input type="submit" class="btn btn-primary mb-2" value="등록하기" style="margin-right: 10px"> 
+				<input type="button"  class="btn btn-secondary mb-2" id="cancleButton"  value="목록가기">
+			</div>
+			</form>
+	</div>
 <script type="text/javascript">
 	var cancleButton = document.getElementById("cancleButton");
 	cancleButton.addEventListener('click',function(){
-		location.href='mainBo';
+		location.href='boEventList';
 	});
 </script>
 </body>

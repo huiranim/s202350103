@@ -3,6 +3,12 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.choongang.s202350103.TotalOrderMapper">
+
+	<resultMap id="TotalOrderVO" type="TotalOrder">
+		<result property = "order_cnt" column="cnt1" />
+	</resultMap>
+	
+	
 	<select id="gbSelectMonthTotalIncome" resultType="int">
 		SELECT sum (o_pay_price)  
 		FROM orderr
@@ -41,5 +47,22 @@
 		SELECT count(m_num)  
 		FROM member
 		WHERE SUBSTR(m_date,0,8) BETWEEN (ADD_MONTHS(TRUNC(SYSDATE, 'mm'), -1)) AND (TRUNC(SYSDATE, 'mm') - 1)
+	</select>
+	
+	
+	<select id="gbSelectYearOrderCnt" statementType="CALLABLE" parameterType="java.util.Map">
+		call cur_mon_order_cnt(
+			#{order_cnt_list, mode=OUT, jdbcType=CURSOR, 
+						 javaType  = java.sql.ResultSet, 
+						 resultMap = TotalOrderVO}
+		)
+	</select>
+	
+	<select id="gbSelectYearReturnCnt" statementType="CALLABLE" parameterType="java.util.Map">
+		call cur_mon_return_cnt(
+			#{order_return_list, mode=OUT, jdbcType=CURSOR, 
+						 javaType  = java.sql.ResultSet, 
+						 resultMap = TotalOrderVO}
+		)
 	</select>
 </mapper>
