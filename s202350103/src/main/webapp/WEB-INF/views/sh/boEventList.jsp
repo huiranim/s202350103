@@ -7,39 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script type="text/javascript" src="assets/js/jquery.js"></script>
-<script type="text/javascript">
-	function checkDetail(){
-		var date = $('input[name=date]').val();
-		var status = $('input[name=status]:checked').val();
-		// 체크박스가 체크되었을 때 실행
-		if($('input[name=date]').is(':checked')){
-			$.ajax({
-				url:"boSearchDetail1",
-				data:{status:status},
-				dataType: "json",  
-				success: function(response){
-					console.log("성공");
-				},
-				error : function(){
-					console.log("실패");
-				}
-			});
-		} else{
-			var sdate = $('input[name=e_sdate]').val();
-			var edate = $('input[name=e_edate]').val();
-			var curDate = new Date();
-			var curDate1 = curDate.getFullYear() +"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
-			if(new Date(sdate) > new Date(edate)){
-				alert("이벤트 기간 설정을 잘 못 하셨습니다.");
-				return false;
-			} else {
-				location.href='searchDetail'
-			}
-		}
-	}
-</script>
-
 <style>
 	table{
 		text-align: center; 
@@ -56,31 +23,6 @@
 	}
 </style>
 <body>
-<form action="javascript:void(0);">
-<table class="table" style="float: left; width: 40%;">
-	<tr>
-		<th scope="row">이벤트</th>
-	</tr>
-	<tr>
-		<th scope="row">이벤트 기간 :</th> 
-		<td><input type="checkbox" name="date" 	   id="dateCheckbox" checked>전체기간 
-			<input type="date"	   name="e_sdate"  id="sdate"> ~ 
-			<input type="date"	   name="e_edate"  id="edate"></td>
-	</tr>
-	<tr>
-		<th scope="row">이벤트 상태</th>
-		<td>
-			<input type="radio" name="status" value="all" checked="checked"> 전체
-			<input type="radio" name="status" value="keep"> 진행 중
-			<input type="radio" name="status" value="stop"> 종료
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2"><input type="submit" class="btn btn-outline-dark mb-2" value="검색" onclick="checkDetail()">
-		<input type="reset" class="btn btn-outline-primary mb-2 value="초기화"></td>
-	</tr>
-</table>
-</form>
 <div class="tab	le-responsive" >
 	<p>이벤트 목록</p>
 <table class="table">

@@ -39,7 +39,13 @@
 <body>
 
 <form action="writeFormObCal" name="frm"   method="post"  onsubmit="return doAction()">
-<p class="text-center fs-1 ">중고 도서 판매 신청 </p>
+
+	  <div class="d-flex align-items-center mb-3">
+	    <img alt="" src="../assets/images/png/obsell.png" style="width: 50px; height: 50px;" class="me-3">
+	    <h2 class="mb-1">중고 도서 판매 신청 </h2>
+	  </div>
+	
+	
 	<div class="text-center  position-relative ">
 	<img src="assets/images/png/obreport.png" alt="판매신청"
                       class="mb-3 img-fluid">

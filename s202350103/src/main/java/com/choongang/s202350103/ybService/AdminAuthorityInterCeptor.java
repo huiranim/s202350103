@@ -38,7 +38,7 @@ public class AdminAuthorityInterCeptor implements HandlerInterceptor {
 			
 			session.setAttribute("redirectUrl", redirectUrl);	
 			// 마지막에 세션에 저장된 주소 삭제
-			session.removeAttribute("dest");  //	  
+			session.removeAttribute("dest");  	  
 		} else if(member1.getM_admin() != 1) {
 			System.out.println("AdminAuthorityInterCeptor Start... You do not have permission. Just Administrator allow");
           response.sendRedirect("custom404");
@@ -50,8 +50,10 @@ public class AdminAuthorityInterCeptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		System.out.println("AdminAuthorityInterCeptor preHandle() Start...");
+		
 		// session 객체를 가져옴
         HttpSession session = request.getSession();
+        
         // login처리를 담당하는 사용자 정보를 담고 있는 객체를 가져옴
 //        Object obj = session.getAttribute("member");
         

@@ -45,6 +45,10 @@
 			return false
 		}
 	}
+	
+	function mouse_click(){
+		alert("포인트 유형\n 1 주문 적립\n 2 출석 이벤트\n 3 퀴즈 이벤트\n 4 회원가입\n 5 추천인 코드\n 6 주문 포인트 사용\n 7 관리자 조정\n 8 포인트 충전");
+	}
 </script>
 <style type="text/css">
 	table{
@@ -89,8 +93,8 @@
 				<td>
 					<fmt:formatDate pattern="yyyy-MM-dd" value="${memberPoint.a_par_pdate }"/>
 				</td>
-				<td class="tooltip" onmouseover="mouse_over()" onmouseout="mouse_out" title="포인트 유형<br>1 주문 적립<br>2 출석 이벤트<br>3 퀴즈 이벤트<br>4 회원가입<br>5 추천인 코드<br>6 주문 포인트 사용<br>7 관리자 조정<br>8 포인트 충전">
-						${memberPoint.p_list_type }	
+				<td>
+					<a onclick="mouse_click()">${memberPoint.p_list_type }</a>	
 				</td>
 				<td>${memberPoint.m_point }</td>		
 			</tr>

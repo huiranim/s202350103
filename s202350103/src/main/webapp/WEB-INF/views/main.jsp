@@ -13,7 +13,7 @@
 
 <!-- 메인 상단 슬라이드( 이벤트 노출? )  -->
   <main>
-    <section class="mt-8">
+    <section class="">
       <div class="container">
         <div class="hero-slider ">
 
@@ -379,7 +379,7 @@
           </div>
         </div>
       
-        <div class="table-responsive-xl pb-6">
+        <div class="table-responsive-xl pb-10">
        
         <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
        

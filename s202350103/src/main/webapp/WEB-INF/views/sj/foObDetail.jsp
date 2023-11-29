@@ -18,22 +18,26 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="container" style="width: 650px;">
+      <div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-1">중고 검수 상세내역</h1>
+      </div>
 
-<p class="fs-1 text-center">중고 검수 상세내역</p>
 
 <input type="hidden" name="ob_num" value="${oldBook.ob_num }">
 
 <table class="table table-bordered">
     <tr>
-	      <td scope="col">신청 일자</td>
+	      <td scope="col" class="text-center" style="width:220px; background-color: #f0f3f2;">신청 일자</td>
 	      <td scope="col" colspan="2">${oldBook.ob_report_date }</td> 
     </tr>
     <tr>
-	      <td>중고상품번호 </td>
+	      <td class="text-center" style="width:220px; background-color: #f0f3f2;">중고상품번호 </td>
 	      <td colspan="2" id="ob_num" >${oldBook.ob_num }</td>
     </tr>
       <tr>
-	      <td>검수매입상태</td>
+	      <td class="text-center" style="width:220px; background-color: #f0f3f2;">검수매입상태</td>
 	      <td colspan="2">
       	<c:choose>		
 				<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수중"/></c:when>
@@ -45,11 +49,11 @@
       </td>
     </tr>
       <tr>
-		      <td>책이름 </td>
+		      <td class="text-center" style="width:220px; background-color: #f0f3f2;">책이름 </td>
 		      <td colspan="2">${oldBook.nb_title }</td>
       </tr>
         <tr>
-		      <td>중고 판매 예상가</td>
+		      <td class="text-center" style="width:220px; background-color: #f0f3f2;">중고 판매 예상가</td>
 		      <td colspan="2">	
 		   		<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.ob_pur_price}"/>원     
 		      </td>
@@ -57,7 +61,7 @@
 	
 	
      <tr>
-      <td rowspan="3"> <br>
+      <td rowspan="3" class="text-center" style="width:220px; height:130px; background-color: #f0f3f2;"> <br>
       	검수내역 </td>
 	   <td>찢김</td>
 	    <td> 
@@ -97,7 +101,7 @@
 	      </td>
     </tr>
      <tr>
-      <td>등급</td>
+      <td class="text-center" style="width:220px; background-color: #f0f3f2;">등급</td>
       <td colspan="2">
       		<c:choose>
 				<c:when test="${oldBook.ob_grade eq '0' }"><c:out value="A"/></c:when>
@@ -108,24 +112,30 @@
 	       </td>
 	    </tr>
 	    <tr>
-	      <td>정산 금액 </td>
+	      <td class="text-center" style="width:220px; background-color: #f0f3f2;">정산 금액 </td>
 	      <td colspan="2"> <fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.ob_pur_price}" />원</td>
 	    </tr>
 	</table>
+	
+	
+	<div class=" text-center">
 	<form action="foObUpComple" method="post">
-	<div class="d-grid gap-2">
 		   <c:if test="${oldBook.ob_status != 3 }">
-		    <button class="btn btn-dark" type="submit" onclick="chkcalcul()" >정산받기</button>
+		    <button class="btn btn-primary mt-5 mb-2" type="submit" onclick="chkcalcul()" style="margin-right: 10px;" >정산받기</button>
 		    <input type="hidden" name="ob_status" value="3">
 		    <input type="hidden" name="ob_write_date" value="">
 		    <input type="hidden" name="ob_readcnt" value="0">
 		    <input type="hidden" name="ob_num" value="${oldBook.ob_num }">
 		    </c:if>
+	  <button class="btn btn-secondary  mt-5 mb-2" type="button" onclick="location.href='memberSellList?m_num=${member.m_num }'">목록 보기</button>
+	</form>	
+		
+		  
+		
 	</div>
-	</form>		
-			 <div class="d-grid gap-2">
-		    <button class="btn btn-success" type="button" onclick="location.href='memberSellList?m_num=${member.m_num }'">목록 보기</button>
-		</div>
+		
+</div>
+		
 
 </body>
 
