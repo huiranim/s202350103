@@ -31,7 +31,7 @@ function openWrite() {
 		location.href = "loginForm"
 	} else {
 		var popupW = 600;
-		var popupH = 900;
+		var popupH = 800;
 		var left = Math.ceil((window.screen.width - popupW)/2);
 		var top = Math.ceil((window.screen.height - popupH)/2);
 	
@@ -51,6 +51,13 @@ function openWrite() {
         
 <main>
     <!-- contianer -->
+    <div class="mb-6">
+	  <div class="d-flex align-items-center mb-3">
+	    <img alt="" src="../upload/yb/community.png" style="width: 60px; height: 60px;" class="me-3">
+	    <h2 class="mb-1">독후감</h2>
+	  </div>
+	  <p>DADOK 회원들과의 소통 공간입니다.</p>
+	</div>
  	
    <h3 class="mb-3">인기글</h3>
     <div id="div1" class="mb-10" style="background-color: #EDF7EA;">
