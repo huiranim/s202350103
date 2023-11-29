@@ -10,6 +10,7 @@ public class KakaoPayApprovalVO { // 카카오페이에서 결과값 받는 DTO
     private String aid;
     private String tid; //결제 고유번호, 결제 준비 API 응답에 포함
     private String cid; //가맹점 코드
+    private String cid_secret; //가맹점 코드 인증키
     private String sid; 
     private String partner_order_id; //가맹점 주문번호, 결제 준비 API 요청과 일치해야 함
     private String partner_user_id;  // 가맹점 회원 id, 결제 준비 API 요청과 일치해야 함
@@ -25,4 +26,5 @@ public class KakaoPayApprovalVO { // 카카오페이에서 결과값 받는 DTO
     private Date created_at;  // 결제 준비 요청 시각
     private Date approved_at; // 결제 승인 시각
     private Integer install_month;	// 카드 할부개월, 0~12 (-> o_type 선물여부로 사용)
+    
 }

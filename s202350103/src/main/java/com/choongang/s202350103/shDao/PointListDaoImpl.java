@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.choongang.s202350103.model.Attendance;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.PointList;
 
@@ -88,13 +89,25 @@ public class PointListDaoImpl implements PointListDao {
 		}
 		return updateResult;
 	}
+	
+	@Override
+	public int joinedList(int eNum) {
+		System.out.println("PointList joinedList() Start...");
+		int result = 0;
+		try {
+			result = session.selectOne("shJoinedList", eNum);
+		} catch (Exception e) {
+			System.out.println("PointList joinedList() Exception->"+e.getMessage());
+		}
+		return result;
+	}
 
 	@Override
-	public List<PointList> boJoinedMember(int eNum) {
+	public List<PointList> boJoinedMember(Attendance attendance) {
 		System.out.println("PointList boJoinedMember() Start...");
 		List<PointList> pointList = null;
 		try {
-			pointList = session.selectList("shBoJoinedMember", eNum);
+			pointList = session.selectList("shBoJoinedMember", attendance);
 		} catch (Exception e) {
 			System.out.println("PointList boJoinedMember() Exception->"+e.getMessage());
 		}
@@ -124,5 +137,31 @@ public class PointListDaoImpl implements PointListDao {
 		}
 		return count;
 	}
+
+	@Override
+	public List<PointList> boMemberSelect(PointList pointList) {
+		System.out.println("PointList boMemberSelect() Start...");
+		List<PointList> pointListList = null;
+		try {
+			pointListList = session.selectList("boMemberSelect", pointList);
+		} catch (Exception e) {
+			System.out.println("PointList boJoinedMember() Exception->"+e.getMessage());
+		}
+		return pointListList;
+	}
+
+	@Override
+	public int joinedCountSelect(int eNum) {
+		System.out.println("PointList joinedCount() Start..");
+		int count = 0;
+		try {
+			count = session.selectOne("shJoinedCountSelect",eNum);
+		} catch (Exception e) {
+			System.out.println("PointList joinedCount() Start...");
+		}
+		return count;
+	}
+
+	
 
 }

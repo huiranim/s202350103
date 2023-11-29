@@ -85,7 +85,7 @@
 			<div class="card-body row align-items-center">
 	           <div class="col-12" style="width: 500px; height: 170px;" >
 	             <div class="text-center position-relative">
-	             	<img src="${event.a_image }"
+	             	<img src="${pageContext.request.contextPath}/upload/sh/${event.a_image}"
 	             		onclick="checkTime('${event.a_sdate }','${event.a_edate }'); eventClick('${member.m_num}',${event.a_num});"
 	             		 style="width: 500px; height: 170px;">
 						

@@ -771,7 +771,7 @@
                       <!-- img --> <img src="${oldBook.nb_image}" alt="Ecommerce" class="img-fluid" style="margin-left: 35px;">
                   	<input type="hidden" name="nb_image" value="${oldBook.nb_image }">
                    </div>
-                   <div class="col-3 col-md-4">
+                   <div class="col-3 col-md-4" style="margin-left: 35px;">
                       <!-- title -->
                         <h6 class="mb-0"><input type="hidden" name="nb_num" value="${oldBook.nb_num}"> 
                         			<input type="hidden"  name="nb_title" value="${oldBook.nb_title }">

@@ -45,6 +45,7 @@ public class Orderr {				// 주문
 	private int    o_re_track;		// 반품 송장번호
 	private String nb_image;		// 책 이미지
 	private int    paymentType;     // 1-> 바로 결제   /  2-> 장바구니 결제
+	private String o_gift_msg;      // 선물메세지
 	
 	
 

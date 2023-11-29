@@ -52,12 +52,17 @@ public interface PointService {
 	int 			 countAttRow(AttJoin attJoin);
 	int 			 deleteAtt(int a_num);						//관리자페이지 Attendance 이벤트 삭제
 	int 			 deleteQuiz(int q_num);						//관리자 페이지 Quiz 이벤트 삭제
-	List<PointList>  boJoinedMember(int eNum);
+	int 			 joinedList(int eNum);
+	List<PointList>  boJoinedMember(Attendance attendance);
 	int 			 memberPointList(int m_num);
 	int 			 joinedCount(int eNum);
+	List<PointList>  boMemberSelect(PointList pointList);
+	int 			 joinedCountSelect(int eNum);
 	List<Attendance> searchDetail11(Attendance attendance);
 	List<Attendance> searchDetail12(Attendance attendance);
 	List<Attendance> searchDetail13(Attendance attendance);
+	
+
 	
 
 	

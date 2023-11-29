@@ -302,11 +302,18 @@ public class PointServiceImpl implements PointService {
 		int result = qd.deleteQuiz(q_num);
 		return result;
 	}
+	
+	@Override
+	public int joinedList(int eNum) {
+		System.out.println("PointService joinedList() Start..");
+		int result = pld.joinedList(eNum);
+		return result;
+	}
 
 	@Override
-	public List<PointList> boJoinedMember(int eNum) {
+	public List<PointList> boJoinedMember(Attendance attendance) {
 		System.out.println("PointService boJoinedMember() Start...");
-		List<PointList> pointList = pld.boJoinedMember(eNum); 
+		List<PointList> pointList = pld.boJoinedMember(attendance); 
 		return pointList;
 	}
 
@@ -321,6 +328,20 @@ public class PointServiceImpl implements PointService {
 	public int joinedCount(int eNum) {
 		System.out.println("PointService JoinedCount start");
 		int count = pld.joinedCount(eNum);
+		return count;
+	}
+	
+	@Override
+	public List<PointList> boMemberSelect(PointList pointList) {
+		System.out.println("PointService boMemberSelect start");
+		List<PointList> pointListList = pld.boMemberSelect(pointList);
+		return pointListList;
+	}
+
+	@Override
+	public int joinedCountSelect(int eNum) {
+		System.out.println("PointService joinedCountSelect start");
+		int count = pld.joinedCountSelect(eNum);
 		return count;
 	}
 
@@ -345,6 +366,5 @@ public class PointServiceImpl implements PointService {
 		list = ad.searchDetail13(attendance);
 		return null;
 	}
-
 
 }

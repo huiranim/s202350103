@@ -321,7 +321,7 @@
               <input type="button" class="btn btn-success mb-2" value="교환"    onclick="statusExchange()">
               <input type="button" class="btn btn-success mb-2" value="반품"    onclick="statusReturn()">
    			</div>
-         <div class="table-responsive">
+         <div class="table-responsive" style="text-align: center;">
          	<c:set var="num" value="${page.total-page.start+1 }"></c:set>
             <table class="table text-nowrap">
                <thead class="table-light">

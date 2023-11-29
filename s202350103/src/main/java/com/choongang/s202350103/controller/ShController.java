@@ -50,8 +50,6 @@ import lombok.extern.slf4j.Slf4j;
 		private final MemberService ms;
 		private final RecentlyBook rb;
 		
-		//fo
-		
 		//EventList Page
 		@RequestMapping(value = "eventList")
 		public String eventList(HttpSession session, Attendance attendance, Quiz quiz, String currentPage, Model model) {
@@ -585,16 +583,44 @@ import lombok.extern.slf4j.Slf4j;
 		}
 		
 		@RequestMapping(value = "boJoinedMember")
-		public String boJoinedMember(@RequestParam("eNum") int eNum, Model model) {
+		public String boJoinedMember(@RequestParam("eNum") int eNum, String currentPage,Model model) {
 			System.out.println("shController boMinusPoint() Start...");
-			List<PointList> pointList = ps.boJoinedMember(eNum);
+			//페이징 작업
+			Attendance attendance = new Attendance();
+			int totalList = ps.joinedList(eNum);
+			Paging page = new Paging(totalList, currentPage);
+			int start = page.getStart();
+			int end = page.getEnd();
+			attendance.setStart(start);
+			attendance.setEnd(end);
+			attendance.setA_num(eNum);
+			//List 작업
+			List<PointList> pointList = ps.boJoinedMember(attendance);
+			//참여인원
 			int joinedCount = ps.joinedCount(eNum);
 			System.out.println("joinedCount->"+joinedCount);
 			model.addAttribute("pointList",pointList);
 			model.addAttribute("joinedCount",joinedCount);
+			model.addAttribute("eNum",eNum);
+			model.addAttribute("page",page);
 			return "sh/boJoinedMember";
 		}
 		
+		@RequestMapping(value = "boMemberSelect", method = RequestMethod.GET)
+		public String boMemberSelect(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum, Model model) {
+			System.out.println("shController boMinusPoint() Start...");
+			PointList pointList = new PointList();
+			pointList.setM_num(m_num);
+			pointList.setENum(eNum);
+			
+			List<PointList> pointListList = ps.boMemberSelect(pointList);
+			int joinedCount = ps.joinedCountSelect(eNum);
+			System.out.println("joinedCount->"+joinedCount);
+			model.addAttribute("pointList",pointListList);
+			model.addAttribute("joinedCount",joinedCount);
+			model.addAttribute("eNum",eNum);
+			return "redirect:/sh/boJoinedMember";
+		}
 		  	
 		@RequestMapping (value = "boSearchDetail1", produces = "application/json")
 		public Map<String, Object> searchDetail1(@RequestParam("status") String status, String currentPage) {
@@ -636,5 +662,10 @@ import lombok.extern.slf4j.Slf4j;
 				response.put("error", e.getMessage());
 			}
 			return response;
+		}
+		
+		@RequestMapping(value = "boMemberPointUpdate") 
+		public String boMemberPointUpdate() {
+			return "sh/boMemberPointUpdate";
 		}
 }

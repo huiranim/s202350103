@@ -38,14 +38,9 @@
 	    <img alt="" src="../assets/images/favicon/pen.png" style="width: 60px; height: 60px;" class="me-3">
 	    <h2 class="mb-1">글 쓰기</h2>
 	  </div>
-	  <p>매너 있는 DADOK 회원이 되어주세요.</p>
-	</div>
+	  <p>친절하고 매너 있는 DADOK 회원이 되어주세요.</p>
+	</div><hr>
 	
-
-	<div style="float: right;" >
-	  <button class="btn btn-primary" onclick="location.href='memberQnaList'">글 목록</button>
-	</div>
-
 	<div class="offset-lg-2 col-lg-8 col-12 " >
 
           <div class="mb-8">
@@ -65,7 +60,7 @@
 					  <label class="form-check-label" for="flexSwitchCheckDefault">
 					  	<span style="font-weight: bold;" ><span style="color: #198754;">비밀글</span> 로 작성하기 </span>
 					  <span class="text-danger">*</span>&nbsp;&nbsp;
-					  	<small style="color: red;">나 와 관리자만 조회 할수 있습니다</small>
+					  	<small style="color: red; font-weight: bold;">나 와 관리자만 조회 할수 있습니다</small>
 					  </label>
 				</div>
 				</div>
@@ -94,10 +89,15 @@
               <textarea rows="5"  id="mq_content" name="mq_content" class="form-control" placeholder="내용을 입력하세요" required="required"></textarea>
 
             </div>
-				<!-- Button Block -->
-				<div class="d-grid gap-2 col-6 mx-auto">
-				  <button class="btn btn-primary" type="submit">등록</button>
-				</div>
+            
+            
+             <div class="col-md-12 mb-1 text-center"> 
+				 <div class="d-grid gap-2 d-md-flex justify-content-md-center ">
+				   	<button class="btn btn-primary mt-5 mb-2" type="submit" style="margin-right: 10px;">등록</button>
+				   	<button class="btn mt-5 mb-2 btn-secondary" onclick="location.href='memberQnaList'" >목록가기</button>
+		  		</div>
+			</div>
+            
 	          </form>
             </div>
 

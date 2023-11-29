@@ -24,7 +24,12 @@
 <body>
 <div class="container">
 <div>
-<p class="text-center fs-1 ">중고 도서 판매 신청완료
+
+  <div class="d-flex align-items-center mb-3">
+	    <img alt="" src="../assets/images/png/obsell.png" style="width: 50px; height: 50px;" class="me-3">
+	    <h2 class="mb-1">중고 도서 판매 신청완료</h2>
+	  </div>
+
 </div>
 				<div class="text-center  position-relative ">
 	<img src="assets/images/png/comple.png" alt="판매신청"

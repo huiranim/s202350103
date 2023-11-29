@@ -15,14 +15,14 @@
 			 Where m_num = #{m_num}
 			 Order By p_num) 
 		 a)
-		Where rn >= ${start}
-		And rn <= ${end}  
+		Where rn >= #{start}
+		And rn <= #{end}  
 		Order by rn desc
 		]]>
 	</select>
 	
-	<select id="shMemberPointList" parameterType="int" resultType="int">
-		Select count(*) From point_list Where m_num=${m_num}
+	<select id="shMemberPointList" parameterType="int" resultType="PointList">
+		Select count(*) From point_list Where m_num=#{m_num}
 	</select>
 	
 	<select id="shPointSum" parameterType="int" resultType="int">
@@ -78,4 +78,37 @@
 			Group by m_num
 		)
 	</select>
+	
+	<select id="boMemberSelect" parameterType="PointList" resultType="PointList">
+		Select *
+		From (
+		 Select rownum rn, a.*
+		 From
+		 (
+		  Select p_num, m_num, a_num, q_num, a_par_pdate, p_list_type, m_point 
+		  From point_list 
+		  Where a_num = #{eNum}
+		  Or q_num = #{eNum}
+		 ) a
+          Where m_num = #{m_num}
+         )
+		 Order by rn desc
+	</select>
+	
+	<select id="shJoinedCountSelect" parameterType="int" resultType="int">
+		SELECT count(*)
+        From
+         (
+         Select * 
+		 From 
+		   (
+		    Select *
+			From point_list 
+			Where a_num =#{eNum}
+			Or q_num=#{eNum}
+		   )
+          Where m_num = #{m_num}
+         )
+	</select>
+	
 </mapper>

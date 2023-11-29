@@ -53,6 +53,8 @@ public class KakaoPay {
         params.add("partner_user_id", ka.getPartner_user_id()); // 가맹점 회원 id, 결제 준비 API 요청과 일치해야 함
         params.add("install_month", String.valueOf(ka.getInstall_month())); //주문유형(선물여부)
         params.add("item_name", ka.getItem_name());
+        params.add("cid_secret", ka.getCid_secret());
+        params.add("item_code", ka.getItem_code());
         params.add("quantity", String.valueOf(ka.getQuantity()));
         params.add("total_amount", String.valueOf(ka.getAmount().getTotal()));
         params.add("point_amount", String.valueOf(ka.getAmount().getPoint()));
@@ -62,7 +64,11 @@ public class KakaoPay {
 		  			  "&partner_user_id="+ka.getPartner_user_id()+
 		  			  "&amount.total="+ka.getAmount().getTotal()+
 		  			  "&amount.point="+ka.getAmount().getPoint()+
-		  			  "&install_month="+ka.getInstall_month();
+		  			  "&install_month="+ka.getInstall_month()+
+		  			  "&cid_secret="+ka.getCid_secret()+
+		  			  "&item_code="+ka.getItem_code()+
+		  			  "&item_name="+ka.getItem_name()+
+		  			  "&quantity"+ka.getQuantity();
         String total = "http://localhost:8200/kakaoPaySuccess?" + plus;
         
         params.add("approval_url", total);
@@ -119,6 +125,8 @@ public class KakaoPay {
         params.add("pg_token", pg_token);
         params.add("total_amount", String.valueOf(ka.getAmount().getTotal()));
         params.add("point_amount", String.valueOf(ka.getAmount().getPoint()));
+        params.add("cid_secret", ka.getCid_secret());
+        params.add("item_code", ka.getItem_code());
         System.out.println("희라 확인용 params -> "+params);
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
@@ -126,6 +134,12 @@ public class KakaoPay {
        
         try {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
+            
+            // 추가 parameter 임의 세팅
+            kakaoPayApprovalVO.setInstall_month(ka.getInstall_month());
+            kakaoPayApprovalVO.getAmount().setPoint(ka.getAmount().getPoint());
+            kakaoPayApprovalVO.setCid_secret(ka.getCid_secret());
+            kakaoPayApprovalVO.setItem_code(ka.getItem_code());
             System.out.println("kakaoPayApprovalVO -> " + kakaoPayApprovalVO);
           
             return kakaoPayApprovalVO;

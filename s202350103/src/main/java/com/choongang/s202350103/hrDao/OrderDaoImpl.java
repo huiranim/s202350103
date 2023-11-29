@@ -290,9 +290,9 @@ public class OrderDaoImpl implements OrderDao {
 	// FO 선물하기 - 액션 성공
 	@Override
 	public int givingGiftActionSuccess(KakaoPayApprovalVO ka) {
-		System.out.println("OrderDaoImpl givingGiftAction() start..");
-		
-		int result = 0, oResult = 0, mResult = 0, plResult1 = 0, plResult2 = 0;
+		System.out.println("OrderDaoImpl givingGiftActionSuccess() start..");
+		//										   포인트는 필수가 아니므로 기본적으로 1 (수행해야하는데 수행하지 않았을 때 0으로 할당)
+		int result = 0, oResult = 0, mResult = 0, plResult1 = 1, plResult2 = 1;
 		
 		//Transaction 관리
 		TransactionStatus txStatus = 
@@ -316,10 +316,10 @@ public class OrderDaoImpl implements OrderDao {
 				plResult2 = session.insert("hrInsertPointListG2", ka);
 			}
 			
-			System.out.println("OrderDaoImpl givingGiftAction() oResult -> "+oResult);
-			System.out.println("OrderDaoImpl givingGiftAction() mResult -> "+mResult);
-			System.out.println("OrderDaoImpl givingGiftAction() plResult1 -> "+plResult1);
-			System.out.println("OrderDaoImpl givingGiftAction() plResult2 -> "+plResult2);
+			System.out.println("OrderDaoImpl givingGiftActionSuccess() oResult -> "+oResult);
+			System.out.println("OrderDaoImpl givingGiftActionSuccess() mResult -> "+mResult);
+			System.out.println("OrderDaoImpl givingGiftActionSuccess() plResult1 -> "+plResult1);
+			System.out.println("OrderDaoImpl givingGiftActionSuccess() plResult2 -> "+plResult2);
 			
 			if(oResult == 1 && mResult == 1 && plResult1 == 1 && plResult2 == 1) {
 				result = 1;
@@ -327,7 +327,7 @@ public class OrderDaoImpl implements OrderDao {
 				result = 0;
 			}
 			
-			System.out.println("OrderDaoImpl givingGiftAction() 최종 result -> "+result);
+			System.out.println("OrderDaoImpl givingGiftActionSuccess() 최종 result -> "+result);
 			
 			// COMMIT
 			transactionManager.commit(txStatus);
@@ -335,10 +335,10 @@ public class OrderDaoImpl implements OrderDao {
 			// ROLLBACK
 			transactionManager.rollback(txStatus);
 			
-			System.out.println("OrderDaoImpl givingGiftAction() e.getMessage() -> "+e.getMessage());
+			System.out.println("OrderDaoImpl givingGiftActionSuccess() e.getMessage() -> "+e.getMessage());
 		}
 		
-		System.out.println("OrderDaoImpl givingGiftAction() end..");
+		System.out.println("OrderDaoImpl givingGiftActionSuccess() end..");
 		return result;
 	}
 

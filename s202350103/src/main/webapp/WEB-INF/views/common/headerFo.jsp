@@ -49,6 +49,7 @@
 	
 	function loginCon(){
 		alert("로그인 후 이용해주세요.");
+		location.href="loginForm"
 	}
 
 </script>
@@ -304,7 +305,7 @@
     
     
 
-    <nav class="navbar navbar-expand-lg navbar-light navbar-default py-0 pb-lg-4 mt-3" aria-label="Offcanvas navbar large">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-default" style="padding-bottom: 0px;" aria-label="Offcanvas navbar large">
     
     <!-- 메인 광고  -->
       <div class="container">
@@ -740,7 +741,7 @@
   
   
   <!-- section -->
-  <div class=" mt-8 mb-lg-14 mb-8">
+  <div>
     <!-- container -->
     <div class="container">
       <!-- row -->

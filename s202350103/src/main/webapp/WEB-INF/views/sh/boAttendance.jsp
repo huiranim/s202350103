@@ -55,22 +55,29 @@
 	
 </style>
 <body>
+<div class="mb-8">
+   <!-- heading -->
+   <h1 class="mb-1">출석체크 설정</h1>
+</div>
+<div class="mt-10 md-10 justify-content-center">
 <form id="createAttForm" action="createAtt" onsubmit="return checkDate()" method="post" enctype="multipart/form-data">
-	<table class="table">
-		<tr>
-			<th colspan="2" class="title">출석체크 설정</th>
-		<tr>
+	<table class="table" style="width: 70%;  border: 1px solid #dfe2e1; margin-left: 300px;">
 		<tr>
 			<th scope="col" class="table-active">이벤트 이름</th>
-			<td><input type="text" name="a_title" style="width: 300px;" required="required"></td>
+			<td><input class="form-control" type="text" name="a_title" style="width: 300px;" required="required"></td>	
 		</tr>
 		<tr>
 			<th scope="col" class="table-active">이벤트 기간</th>
-			<td><input type="date" name="a_sdate" required="required"> ~ <input type="date" name="a_edate" required="required"></td>
+			<td>
+				<div style="display: flex;">
+					<input class="form-control" type="date" name="a_sdate" required="required" style="width: 22%; margin-right: 5px;"><div class="mt-2">~</div>					
+					<input class="form-control" type="date" name="a_edate" required="required" style="width: 22%; margin-left: 5px;">
+				</div>
+			</td>
 		</tr>
 		<tr>	
 			<th scope="col" class="table-active">사진 등록</th>
-			<td><input type="file" name="file1" required="required"></td>
+			<td><input class="form-control" type="file" name="file1" required="required" style="width: 300px;"></td>		
 		</tr>
 		<tr>
 			<th scope="row" class="table-active">출석 관리</th>
@@ -78,7 +85,10 @@
 				<table>
 				<tr>
 	              <th>포인트</th>
-	              <td><input type="number" name="a_point" min="1" maxlength="3" style="margin-left: 10px; width: 80px;" required="required"> point</td>
+	               <td>
+	               		<div style="display: flex;"><input class="form-control" type="number" name="a_point" 
+														   style="width: 80px; margin-right: 5px;" required="required"> <div class="mt-2">point</div></div>
+					</td>        
 	            </tr>
 	        	</table>
 	        </td>
@@ -89,25 +99,24 @@
 				<table>
 					<tr>
 		              <th>조건</th>
-		              <td><input type="number" name="a_add" min="1" maxlength="1" style="margin-left: 10px; width: 80px;" required="required"> 일 연속 출석 시</td>
+		           	  <td><div style="display: flex;"><input class="form-control" type="number" name="a_add" min="1" maxlength="1" 
+														   style="width: 80px; margin-right: 5px;" required="required"> <div class="mt-2">일 연속 출석 시</div></div></td>
 		            </tr>
 		            <tr>
 		              <th>포인트</th>
-		              <td><input type="number" name="a_addpoint" min="1" maxlength="5" style="margin-left: 10px; width: 80px;" required="required"> point</td>
+		              <td><div style="display: flex;"><input class="form-control" type="number" name="a_addpoint" min="1" maxlength="5" 
+														     style="width: 80px; margin-right: 5px;" required="required"> <div class="mt-2">point</div></div></td>           
 		            </tr>
 		        </table>
 	        </td>
 		</tr>
-		<tr>
-			<td></td>
-			<td style="float: right; margin-top: 10px; margin-right: 40px;">
-				<input type="submit" class="btn btn-soft-primary mb-2" value="생성">
-				&nbsp;
-				<input type="button" class="btn btn-soft-danger mb-2" id="cancleButton" value="취소">
-			</td>	
-		</tr>
 	</table>
+	<div class="d-grid gap-2 d-md-flex justify-content-center" style="padding-left: 250px;">
+		<input type="submit" class="btn btn-primary mb-2" value="등록하기" style="margin-right: 10px"> 
+		<input type="button"  class="btn btn-secondary mb-2" id="cancleButton"  value="목록가기">
+	</div>
 </form>
+</div>
 <script type="text/javascript">
 	var cancleButton = document.getElementById("cancleButton");
 	cancleButton.addEventListener('click',function(){

@@ -195,14 +195,6 @@ public class MemberServiceImpl1 implements MemberService {
 		Member memberPwChange = md.memberPwChange(m_num, m_pw);
 		return memberPwChange;
 	}
-	// 
-	@Override
-	public int memCount() {
-		System.out.println("MemberServiceImpl1 memCount start...");
-		int memCount = md.memCount();
-		
-		return memCount;
-	}
 	// 회원 비밀번호 변경
 	@Override
 	public Member memberPwChange1(String m_email, String m_pw) {

@@ -199,15 +199,90 @@ public class OrderServiceImpl implements OrderService {
 	public int givingGiftActionSuccess(KakaoPayApprovalVO ka) {
 		System.out.println("OrderServiceImpl givingGiftActionSuccess() start..");
 		
+		// UPDATE & INSERT
 		int result = od.givingGiftActionSuccess(ka);
 		System.out.println("OrderServiceImpl statusReturn() result -> "+result);		
 		
+		// 3) 메일링 정보 GET
+		String o_order_num = ka.getPartner_order_id();
+		String tomail = ka.getCid_secret();
+		String m_name = ka.getItem_code();
+		String nb_title = ka.getItem_name();
+		int o_de_count = ka.getQuantity();
+		//String o_gift_msg = ka.getPayload();
+
+		try {
+			// 메일링 인스턴스
+			MimeMessage message = mailSender.createMimeMessage();			// 멀티파트 메시지 사용 여부
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			
+			// 받는 사람
+			System.out.println("OrderServiceImpl giftMailing() tomail -> "+tomail);
+			
+			// 보내는 사람
+			String setfrom = "dadok202350103@gmail.com";
+			
+			// 제목
+			String title = "[DADOK] "+m_name+"님으로부터 선물이 도착했습니다!";
+			
+			// 내용
+			String contents = "안녕하세요. DADOK입니다. <br>"
+					+ m_name + "님이 선물과 메시지를 보냈습니다. <br><br>"
+					
+								+"<div style=\"border: 1px solid #dfe2e1;\r\n" + 
+								"					      border-radius: 0.5rem;\r\n" + 
+								"					      padding: 20px 20px;\r\n" + 
+								"					      width: 500px\">\r\n" + 
+	//							"	          	<img src=\"cardImg\" alt=\"card\"\r\n" + 
+	//							"	          		 style=\"border-radius: 0.5rem;\r\n" + 
+	//							"	          		 		width: 600px\">\r\n" + 
+								"	          	<div>\r\n" + 
+								"		          	<h3 style=\"color: #5c6c75;\">\r\n" + 
+								"		          		"+nb_title+" " +o_de_count+"개\r\n" + 
+								"		          	</h3>\r\n" + 
+//								"		          	<pre><h5 style=\"color: #889397;\">\r\n" + 
+//								"		          		\""+o_gift_msg+"\"\r\n" + 
+//								"					</h5></pre>\r\n" + 
+								"		          	<button type=\"button\"\r\n" + 
+								"		          			style=\"background-color: #0aad0a;\r\n" + 
+								"		          				   padding: 10px;\r\n" + 
+								"		          				   border-radius: 10px;\r\n" + 
+								"		          				   color: white;\r\n" + 
+								"		          				   margin-top: 20px;\r\n" + 
+								"		          				   margin-bottom: 20px;\r\n" + 
+								"		          				   font-weight : bold;\r\n" + 
+								"		          				   float: right;\r\n" + 
+								"		          				   width: 120px;\"\r\n" +
+								"		          			onclick='location.href=\"http://localhost:8200/foGettingGift?o_order_num="+o_order_num+"\"'>선물받기</button><br>\r\n" + 
+								"	          	</div>\r\n" + 
+								"	          	<h5 style=\"color: red;\">\r\n" + 
+								"	          		* 받는 사람 정보를 정확히 입력해주세요.<br>\r\n" + 
+								"					* 입력 후 선물받기 버튼을 클릭해야 발송이 시작됩니다.\r\n" + 
+								"				</h5>\r\n" + 
+								"	          </div>";
+					
+			// 5) 메일링
+			messageHelper.setFrom(setfrom);
+			messageHelper.setTo(tomail);
+			messageHelper.setSubject(title);
+			messageHelper.setText(contents,true);	// HTML 사용 여부
+			mailSender.send(message);
+			
+			// 메일링까지 성공 시
+			result = 1;
+		} catch (Exception e) {
+			// try블록 실패 시
+			result = 0;
+			
+		System.out.println("OrderServiceImpl giftMailing() e.getMessage() -> "+e.getMessage());
+	}
+		
 		System.out.println("OrderServiceImpl givingGiftActionSuccess() end..");
-		return 0;
+		return result;
 	}
 
 	
-//	// FO 선물하기 - 액션 --- 원본
+//	// FO 선물하기 - 액션 --- 
 //	@Override
 //	public int givingGiftAction(Member member, Orderr orderr, OrderGift orderGift) {
 //		System.out.println("OrderServiceImpl givingGiftAction() start..");

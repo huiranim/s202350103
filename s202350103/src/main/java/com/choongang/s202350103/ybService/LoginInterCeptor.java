@@ -17,13 +17,13 @@ public class LoginInterCeptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		System.out.println("LoginInterCeptor postHandle Start...");
-
+		
 		HttpSession session = request.getSession();
 
 		ModelMap modelMap = modelAndView.getModelMap();
 		Object member = modelMap.get("member");
 		Object dest = null;
-		if(member != null) {
+		if(member != null) {			
 			System.out.println("Login success!");
 			session.setAttribute(LOGIN, member);
 			
@@ -36,7 +36,7 @@ public class LoginInterCeptor implements HandlerInterceptor {
 			
 			session.setAttribute("redirectUrl", redirectUrl);	
 			
-			 session.removeAttribute("dest");  // Clear the 'dest' attribute after using it
+			session.removeAttribute("dest");  
 			  
 		}
 	
@@ -50,7 +50,9 @@ public class LoginInterCeptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         // login처리를 담당하는 사용자 정보를 담고 있는 객체를 가져옴
 //        Object obj = session.getAttribute("member");
-        
+        System.out.println("LoginInterCeptor preHandle() dest before remove => " + session.getAttribute("dest"));
+		session.removeAttribute("dest");  
+		System.out.println("LoginInterCeptor preHandle() dest after remove => " + session.getAttribute("dest"));
         if ( session.getAttribute(LOGIN) == null ){
             // 로그인이 안되어 있는 상태임으로 로그인 폼으로 다시 돌려보냄(redirect)
         	System.out.println("LoginInterCeptor Start... You do not have permission. Please log in first");

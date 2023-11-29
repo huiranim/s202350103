@@ -210,7 +210,15 @@
 				              <!-- col -->
 				              <div class="col-md-4 col-12">
 				                 <div class="text-center position-relative ">
-				                       <!-- img --><img src="${newbook.nb_image}" alt="${newbook.nb_title}" class="mb-3 img-fluid" style="height: 150px;">
+									<%-- <img src="${newbook.nb_image}" alt="${newbook.nb_title}" class="mb-3 img-fluid" style="height: 150px;"> --%>
+									<c:choose>
+									     <c:when test="${fn:contains(newbook.nb_image, 'http')}">
+									            <img src="${newbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 150px;">
+									     </c:when>
+									     <c:otherwise>
+									            <img src="${pageContext.request.contextPath}/upload/${newbook.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="height: 150px;">
+									     </c:otherwise>
+									</c:choose>
 				                 </div>
 				              </div>
 				              <div class="col-md-8 col-12 flex-grow-1">
