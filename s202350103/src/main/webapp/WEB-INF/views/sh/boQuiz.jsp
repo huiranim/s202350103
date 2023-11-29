@@ -91,8 +91,8 @@
 					<th class="table-active">이벤트 기간</th>	
 					<td>
 						<div style="display: flex;">
-							<input class="form-control" type="date" name="q_sdate" required="required" style="width: 20%; margin-right: 5px;"><div class="mt-2">~</div>					
-							<input class="form-control" type="date" name="q_edate" required="required" style="width: 20%; margin-left: 5px;">
+							<input class="form-control" type="date" name="q_sdate" required="required" style="width: 21%; margin-right: 5px;"><div class="mt-2">~</div>					
+							<input class="form-control" type="date" name="q_edate" required="required" style="width: 21%; margin-left: 5px;">
 						</div>
 					</td>
 				</tr>

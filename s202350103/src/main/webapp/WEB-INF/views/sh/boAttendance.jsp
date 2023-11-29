@@ -64,14 +64,14 @@
 	<table class="table" style="width: 70%;  border: 1px solid #dfe2e1; margin-left: 300px;">
 		<tr>
 			<th scope="col" class="table-active">이벤트 이름</th>
-			<td><input type="text" name="a_title" style="width: 300px;" required="required"></td>
+			<td><input class="form-control" type="text" name="a_title" style="width: 300px;" required="required"></td>	
 		</tr>
 		<tr>
 			<th scope="col" class="table-active">이벤트 기간</th>
 			<td>
 				<div style="display: flex;">
-					<input class="form-control" type="date" name="a_sdate" required="required" style="width: 20%; margin-right: 5px;"><div class="mt-2">~</div>					
-					<input class="form-control" type="date" name="a_edate" required="required" style="width: 20%; margin-left: 5px;">
+					<input class="form-control" type="date" name="a_sdate" required="required" style="width: 22%; margin-right: 5px;"><div class="mt-2">~</div>					
+					<input class="form-control" type="date" name="a_edate" required="required" style="width: 22%; margin-left: 5px;">
 				</div>
 			</td>
 		</tr>

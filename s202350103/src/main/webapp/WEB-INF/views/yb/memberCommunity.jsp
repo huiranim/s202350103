@@ -56,7 +56,7 @@ function openWrite() {
 	    <img alt="" src="../upload/yb/community.png" style="width: 60px; height: 60px;" class="me-3">
 	    <h2 class="mb-1">독후감</h2>
 	  </div>
-	  <p>DADOK 회원들과의 소통 공간입니다.</p>
+	  <p>DADOK과 함께하며 인상깊었던 경험을 공유해보세요.</p>
 	</div>
  	
    <h3 class="mb-3">인기글</h3>
