@@ -55,9 +55,12 @@ public interface PointService {
 	List<PointList>  boJoinedMember(int eNum);
 	int 			 memberPointList(int m_num);
 	int 			 joinedCount(int eNum);
+	List<PointList>  boMemberSelect(PointList pointList);
+	int 			 joinedCountSelect(int eNum);
 	List<Attendance> searchDetail11(Attendance attendance);
 	List<Attendance> searchDetail12(Attendance attendance);
 	List<Attendance> searchDetail13(Attendance attendance);
+
 	
 
 	

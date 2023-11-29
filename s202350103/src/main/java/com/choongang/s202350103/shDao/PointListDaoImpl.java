@@ -125,4 +125,28 @@ public class PointListDaoImpl implements PointListDao {
 		return count;
 	}
 
+	@Override
+	public List<PointList> boMemberSelect(PointList pointList) {
+		System.out.println("PointList boMemberSelect() Start...");
+		List<PointList> pointListList = null;
+		try {
+			pointListList = session.selectList("boMemberSelect", pointList);
+		} catch (Exception e) {
+			System.out.println("PointList boJoinedMember() Exception->"+e.getMessage());
+		}
+		return pointListList;
+	}
+
+	@Override
+	public int joinedCountSelect(int eNum) {
+		System.out.println("PointList joinedCount() Start..");
+		int count = 0;
+		try {
+			count = session.selectOne("shJoinedCountSelect",eNum);
+		} catch (Exception e) {
+			System.out.println("PointList joinedCount() Start...");
+		}
+		return count;
+	}
+
 }

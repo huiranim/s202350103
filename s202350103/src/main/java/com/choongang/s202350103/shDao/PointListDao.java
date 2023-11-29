@@ -16,5 +16,7 @@ public interface PointListDao {
 	List<PointList> boJoinedMember(int eNum);
 	int 			memberPointList(int m_num);
 	int 			joinedCount(int eNum);
+	List<PointList> boMemberSelect(PointList pointList);
+	int 			joinedCountSelect(int eNum);
 
 }

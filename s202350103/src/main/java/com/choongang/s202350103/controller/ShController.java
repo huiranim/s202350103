@@ -592,9 +592,25 @@ import lombok.extern.slf4j.Slf4j;
 			System.out.println("joinedCount->"+joinedCount);
 			model.addAttribute("pointList",pointList);
 			model.addAttribute("joinedCount",joinedCount);
+			model.addAttribute("eNum",eNum);
 			return "sh/boJoinedMember";
 		}
 		
+		@RequestMapping(value = "boMemberSelect", method = RequestMethod.GET)
+		public String boMemberSelect(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum, Model model) {
+			System.out.println("shController boMinusPoint() Start...");
+			PointList pointList = new PointList();
+			pointList.setM_num(m_num);
+			pointList.setENum(eNum);
+			
+			List<PointList> pointListList = ps.boMemberSelect(pointList);
+			int joinedCount = ps.joinedCountSelect(eNum);
+			System.out.println("joinedCount->"+joinedCount);
+			model.addAttribute("pointList",pointListList);
+			model.addAttribute("joinedCount",joinedCount);
+			model.addAttribute("eNum",eNum);
+			return "redirect:/sh/boJoinedMember";
+		}
 		  	
 		@RequestMapping (value = "boSearchDetail1", produces = "application/json")
 		public Map<String, Object> searchDetail1(@RequestParam("status") String status, String currentPage) {
