@@ -134,21 +134,27 @@
 <body>
 
 	<form action="updateOb" method="post" class="col-xl-8 col-lg-8 col-md-8 col-8 mb-6" style="margin-left: auto; margin-right: auto;">
-	<p class="fs-1 text-center">중고 검수 등록 </p>
+	
+	    <div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-1">중고 검수 등록</h1>
+      </div>
+	
+	
 	
 	<input type="hidden" name="ob_report_date" value="${oldBook.ob_report_date }">
 	
 	<table class="table table-bordered col-8 ">
 		    <tr>
-			      <td scope="col" class="col-2">신청 일자</td>
+			      <td scope="col" class="col-2 text-center" style="background-color: #f0f3f2;">신청 일자</td>
 			      <td scope="col" colspan="2">${oldBook.ob_report_date }</td> 
 		    </tr>
 		     <tr>
-				      <td>중고상품번호 </td>
+				      <td class="text-center" style="background-color: #f0f3f2;">중고상품번호 </td>
 				      <td colspan="2"><input type="hidden" name="ob_num" value="${oldBook.ob_num }">${oldBook.ob_num } </td>
 			    </tr>
 			      <tr>
-				      <td>검수매입상태</td>
+				      <td class="text-center" style="background-color: #f0f3f2;">검수매입상태</td>
 				      <td colspan="2">
 			      	<c:choose>		
 							<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수중"/></c:when>
@@ -159,18 +165,18 @@
 		      </td>
 		    </tr>
 		     <tr>
-			      <td>책이름 </td>
+			      <td class="text-center" style="background-color: #f0f3f2;">책이름 </td>
 			      
 			      <td colspan="2"><input type="hidden" name="nb_title"> ${oldBook.nb_title }</td>
 	      </tr>
 	     <tr>
-			      <td>중고매입가격 </td>
+			      <td class="text-center" style="background-color: #f0f3f2;">중고매입가격 </td>
 			      <td colspan="2">
 			   	<fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${oldBook.nb_price *0.6}"/>원   
 			      </td>
 	       </tr>
 	     <tr>					
-	      <td rowspan="3"> 검수내역 <br><input type="button" class="btn btn-danger" value="RESET" onclick="location.reload(true)" >    </td>
+	      <td rowspan="3" class="text-center" style="background-color: #f0f3f2;"> 검수내역 <br><input type="button" class="btn btn-danger" value="RESET" onclick="location.reload(true)" >    </td>
 		      <td>찢김</td>
 		      <td>
 		        <input class="form-check-input" type="checkbox" onclick="toggleChk(1)">
@@ -194,8 +200,8 @@
 	 
     
      <tr>
-	      <td>등급 
-	      	<input type="button"  class="btn btn-success mb-2" value="등급확인" onclick="toggleSum()">
+	      <td class="text-center" style="background-color: #f0f3f2;">등급 
+	      	<input type="button"  class="btn btn-primary mb-2" value="등급확인" onclick="toggleSum()">
 	      </td>
 	      <td colspan="2">
 	       		 	<input type="hidden" name="ob_grade" id="totalSum" value="0" >
@@ -220,7 +226,7 @@
 			</tr>
 			
 		    <tr>
-			    <td>중고 정산가격   </td> 
+			    <td style="background-color: #f0f3f2;">중고 정산가격   </td> 
 			  <!--      <input type="button"  class="btn btn-dark mb-2" value="정산가격 계산" onclick="togglecalcul()"> -->
 			 <td colspan="2">
 			   		 	<input type="hidden"  name="ob_pur_price" id="totalCalculVal" value="0" > 
@@ -245,15 +251,16 @@
 	    	</tr>
 	  
 		</table>
-			 	<br>
-			 	<br>
-			 	<div class="d-grid gap-2">
-				    <button class="btn btn-success" id="target_btn" type="submit" disabled="disabled"  >등록하기</button>
-				</div>
-		<br> 
-		        <div class="d-grid gap-2">
-				    <button class="btn btn-success" type="button" onclick="location.href='BolistOb'">중고 리스트 보기</button>
-			</div>
+
+     <div class="col-12 " style="margin: auto;">
+     <div class="text-center">
+	   	<button class="btn btn-primary mt-5 mb-2 center" type="button" onclick="location.href='bonewbookList'" style="margin-right: 10px;">등록하기</button>
+	   	<button class="btn btn-secondary  mt-5 mb-2" type="submit">중고 리스트 보기</button>
+	  </div>
+	  </div>
+   
+   
+   
    
 		</form>
 

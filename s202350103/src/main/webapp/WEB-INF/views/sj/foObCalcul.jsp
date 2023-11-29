@@ -38,7 +38,11 @@
 <body>
 <div class="container"></div>
 <form action="writeFormObTrans" method="post">
-<p class="text-center fs-1 ">중고 도서 정산 안내 </p>
+	  <div class="d-flex align-items-center mb-3">
+	    <img alt="" src="../assets/images/favicon/even22.png" style="width: 60px; height: 60px;" class="me-3">
+	    <h2 class="mb-1">중고 도서 정산 안내 </h2>
+	  </div>
+
 	<div class="text-center  position-relative ">
 	<img src="assets/images/png/calcul.png" alt="판매신청"
                       class="mb-3 img-fluid">
