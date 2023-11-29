@@ -10,7 +10,7 @@
 </main>
 
 <!-- footer -->
-<footer class="footer">
+<footer class="footer" style="margin-top:110px;">
     <div class="row g-4 py-4" style="margin-left: auto; margin-right: auto; width: 1336px;">
    <div style="width: 50%; ">
     ㈜다독다독 컴퍼니
