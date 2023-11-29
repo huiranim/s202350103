@@ -32,7 +32,7 @@
 						}	
 				)
 			} else {
-				alert('주문접수 상태일 때만 취소 처리 가능합니다.');
+				alert('주문확정 상태일 때만 취소 처리 가능합니다.');
 			}
 		}
 		// 배송완료 (2 -> 3)
@@ -137,10 +137,15 @@
 						"width=500 height=400");
 		}
 	</script>
+	<style type="text/css">
+		.table-light {text-align: center;}
+		
+		.order-operating-buttons > input {margin-left: 5px;}
+	</style>
 </head>
 <body>
-<div class="row" >
-<div class="col-30" style="width: 1200px;">
+<div class="row">
+<div class="col-30" style="width: 1200px; margin-left: 95px;">
       <div class="mb-8">
          <!-- heading -->
          <h1 class="mb-1">주문 상세</h1>
@@ -148,10 +153,8 @@
       <div>
          <!-- table -->
            <!-- Button -->
-           <input type="button" class="btn btn-secondary mb-2" value="목록가기"
-              	  onclick="location.href='boOrderList?currentPage=${currentPage }'"
-              	  style="float: right">
-           <div class="order-operating-buttons">
+           <div class="order-operating-buttons"
+           		style="display:flex; justify-content:right;">
               <input type="button" class="btn btn-success mb-2" value="발송"    onclick="statusShipping(${orderr.o_order_num})">
               <input type="button" class="btn btn-success mb-2" value="배송완료" onclick="statusDelivered(${orderr.o_order_num})">
               <input type="button" class="btn btn-success mb-2" value="구매확정" onclick="statusConfirmation(${orderr.o_order_num})">
@@ -168,9 +171,9 @@
             </tr>
             <tr>
                      <th class="table-light" width="200px">주문번호</th>
-                     <td class="align-middle" width="400px">${orderr.o_order_num}</td>
+                     <td class="align-middle" width="500px">${orderr.o_order_num}</td>
                      <th class="table-light" width="200px">주문일시</th>
-                     <td class="align-middle" width="500px"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
+                     <td class="align-middle" width="400px"><fmt:formatDate value="${orderr.o_order_date}" type="both"/></td>
             </tr>
             <tr>
                      <th class="table-light">주문상태</th>
@@ -250,7 +253,7 @@
                      			(미사용)
                      		</c:when>
                      		<c:otherwise>
-                     			<fmt:formatNumber value="${orderr.o_point}" groupingUsed="true"/>
+                     			<fmt:formatNumber value="${orderr.o_point}" groupingUsed="true"/>P
                      		</c:otherwise>
                      	</c:choose> 
                      </td>
@@ -300,8 +303,14 @@
             </tr>
             </table>
          </div>
+         
+	  <div style="display:flex; justify-content:center;">
+         <input type="button" class="btn btn-secondary mb-2" value="목록가기"
+		   	    onclick="location.href='boOrderList?currentPage=${currentPage }'">
+	  </div>
+         
  </div>
- </div>
- </div>
+</div>
+</div>
 </body>
 </html>
