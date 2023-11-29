@@ -19,11 +19,11 @@ public interface AttendanceDao {
 	List<Attendance> boEventList(Attendance attendance);
 	int 			 updateAttendance(Attendance attendance);
 	List<Attendance> searchEvent(Attendance attendance);
-	int 			 checkAddAtt(int a_num);
 	int 			 deleteAtt(int a_num);
 	List<Attendance> searchDetail11(Attendance attendance);
 	List<Attendance> searchDetail12(Attendance attendance);
 	List<Attendance> searchDetail13(Attendance attendance);
+	int 			 checkAddAtt(int a_num);
 
 	
 
