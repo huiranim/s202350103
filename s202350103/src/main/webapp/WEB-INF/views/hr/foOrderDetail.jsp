@@ -33,7 +33,7 @@
 						}	
 				)
 			} else {
-				alert('주문접수 상태일 때만 취소 처리 가능합니다.')
+				alert('주문확정 상태일 때만 취소 처리 가능합니다.')
 			}
 		}
 		
@@ -75,6 +75,11 @@
 					"width=500 height=400");
 		}
 	</script>
+	<style type="text/css">
+		.table-light {text-align: center;}
+		
+		.order-operating-buttons > input {margin-left: 5px;}
+	</style>
 </head>
 <body>
 <div class="row" >
@@ -86,7 +91,8 @@
       <div>
          <!-- table -->
            <!-- Button -->
-           <div class="order-operating-buttons">
+           <div class="order-operating-buttons"
+           		style="display:flex; justify-content:right;">
               <input type="button" class="btn btn-success mb-2" value="취소" onclick="statusCancellation(${orderr.o_order_num})">
               <input type="button" class="btn btn-success mb-2" value="교환" onclick="statusExchange(${orderr.o_order_num})">
               <input type="button" class="btn btn-success mb-2" value="반품" onclick="statusReturn(${orderr.o_order_num})">
@@ -182,7 +188,7 @@
                      			(미사용)
                      		</c:when>
                      		<c:otherwise>
-                     			<fmt:formatNumber value="${orderr.o_point}" groupingUsed="true"/>
+                     			<fmt:formatNumber value="${orderr.o_point}" groupingUsed="true"/>P
                      		</c:otherwise>
                      	</c:choose> 
                      </td>
