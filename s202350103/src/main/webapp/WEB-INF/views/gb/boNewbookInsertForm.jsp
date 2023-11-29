@@ -59,6 +59,10 @@
 <body>
 	<form action="insertBoNewbook" name="frm" method="post" enctype="multipart/form-data" onsubmit="return chk()" style="margin-left: 10%; margin-right: 10%;">
 		<div class="row">
+		  <div class="mb-8">
+	         <!-- heading -->
+	         <h1 class="mb-1">상품 등록</h1>
+	      </div>
 		  <div class="col-md-6 row justify-content-center">
 			<!-- 도서 이미지 -->
 			 <div class="product" id="product" style="width: 20rem;">
@@ -174,9 +178,9 @@
 		  </div>
 		 </div>
 	  </div>
-	  <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="border-top: 1px solid gray; margin-right: 10%;">
-	   	<button class="btn btn-primary mt-5 mb-2" type="button" onclick="location.href='bonewbookList'" style="margin-right: 2%;">상품목록</button>
-	   	<button class="btn btn-info mt-5 mb-2" type="submit">등록하기</button>
+	  <div class="d-grid gap-2 d-md-flex justify-content-md-center" style="border-top: 1px solid gray; margin-right: 10%;">
+	   	<button class="btn btn-primary mt-5 mb-2" type="submit" style="margin-right: 10px;">등록하기</button>
+	   	<button class="btn btn-secondary mt-5 mb-2" type="button" onclick="location.href='bonewbookList'">목록가기</button>
 	  </div>
 	 </form>
 </body>

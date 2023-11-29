@@ -46,5 +46,6 @@ public class Orderr {				// 주문
 	private String nb_image;		// 책 이미지
 	private int    paymentType;     // 1-> 바로 결제   /  2-> 장바구니 결제
 	
+	
 
 }

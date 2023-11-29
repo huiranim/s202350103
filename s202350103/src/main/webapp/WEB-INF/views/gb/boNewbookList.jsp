@@ -213,6 +213,5 @@
 	    </nav>
 	  </div>
 	</div>
-<%@ include file="../common/footerFo.jsp" %>
 </body>
 </html>

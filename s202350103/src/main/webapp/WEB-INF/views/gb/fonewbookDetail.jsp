@@ -596,6 +596,7 @@
 					             </div>
 					             <div>
 					             	<form action="" >
+					             	   <input type="hidden" name="nb_num"   value="${newbook.nb_num }">
 					             	   <select name="r_reviewSelect" id="chk2" 
 					                	        class="form-select" 
 					                	        aria-label="Default select example"
@@ -636,6 +637,7 @@
 					                </c:forEach>
 					          	
 					                <form action="">
+					                   <input type="hidden" name="nb_num"   value="${newbook.nb_num }">
 					           	       <input type="hidden" name="start"   value="1">
 					          	       <input type="hidden" name="end"     value="${review.end + 5}">
 					          	       <input type="hidden" name="p_status" value="1">   

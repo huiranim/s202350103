@@ -1,9 +1,16 @@
 package com.choongang.s202350103.gbDao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+
+import com.choongang.s202350103.model.Orderr;
+import com.choongang.s202350103.model.TotalOrder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -95,6 +102,29 @@ public class TotalOrderDao {
 		}
 		
 		return lastTotalNewMember;
+	}
+
+	public void selectYearOrderCnt(HashMap<String, Object> map) {
+		System.out.println("TotalOrderDao selectYearOrderCnt start...");
+		
+		try {
+			session.selectOne("gbSelectYearOrderCnt", map);
+		} catch (Exception e) {
+			System.out.println("TotalOrderDao selectYearOrderCnt Exception -> "+e.getMessage());
+		}
+		
+	}
+
+	public void selectYearReturnCnt(HashMap<String, Object> map) {
+		System.out.println("TotalOrderDao selectYearReturnCnt start...");
+		
+		try {
+			session.selectOne("gbSelectYearReturnCnt", map);
+			System.out.println("TotalOrderDao selectYearReturnCnt end...");
+		} catch (Exception e) {
+			System.out.println("TotalOrderDao selectYearReturnCnt Exception -> "+e.getMessage());
+		}
+		
 	}
 
 }

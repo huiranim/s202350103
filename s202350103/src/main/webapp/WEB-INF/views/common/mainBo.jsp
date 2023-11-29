@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="assets/js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -116,7 +117,7 @@
                                     <h3 class="mb-0 fs-5">Member Chart </h3>
                                     <div class="mt-4 d-flex justify-content-center">
 										
-										<div class="chart">
+										<div class="chart1">
 												<canvas id="memberChart"></canvas>
 										</div>
 
@@ -275,34 +276,68 @@
                                 	<h3 class="mb-0 fs-5">Order Chart </h3>
                                     <div class="d-flex align-items-center">
                                     	<div id="chart">
-                                    		<canvas id="myOrderChart" width="400" height="400"></canvas>
+                                    		<canvas id="myOrderChart" width="1570vw" height="600vh"></canvas>
+                                    		<script>
+	                                    		// 차트를 그럴 영역을 dom요소로 가져온다.
+	                                        	var orderctx = document.getElementById('myOrderChart').getContext('2d');
+	                                        	
+	                                    		// 월별 총 주문 건수
+	                                        	var totalOrderList = new Array();
+	                                        	// javaScript에서도 jstl이 가능하다.
+	                                        	<c:forEach items="${totalOrderList}" var="totalOrder">
+	                                        		totalOrderList.push("${totalOrder.order_cnt}") // 선언한 list에 컨트롤러에서 받아온 리스트 값들을 담는다.
+		                                        </c:forEach>
+		                                        // alert("totalOrderList ->"+totalOrderList);
+	                                        	
+		                                     	// 월별 총 반품 건수
+	                                        	var totalReturnList = new Array();
+	                                        	// javaScript에서도 jstl이 가능하다.
+	                                        	<c:forEach items="${totalReturnList}" var="totalReturn">
+	                                        		totalReturnList.push("${totalReturn.order_cnt}") // 선언한 list에 컨트롤러에서 받아온 리스트 값들을 담는다.
+		                                        </c:forEach>
+		                                        // alert("totalReturnList ->"+totalReturnList);
+		                                        
+	                                    		// 실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
+	                                            var orderdata = {
+	                                              // x축에 들어갈 이름들(Array)
+	                                              labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	                                              datasets: [
+	                                            	{
+		                                                label: '2023 주문 건수 현황',
+		                                                data: totalOrderList,
+		                                                fill: false,
+		                                                borderColor: '#EE204D',
+		                                                borderWidth: 3,
+		                                                tension: 0.1
+	                                                },
+	                                                {
+	                                                	label: '2023 반품 건수 현황',
+		                                                data: totalReturnList,
+		                                                fill: false,
+		                                                borderColor: '#007AFF',
+		                                                borderWidth: 3,
+		                                                tension: 0.1
+	                                                }
+	                                              ]
+	                                            }
+	                                     		
+	                                     		// 차트를 생성한다.
+	                                     		var myOrderChart = new Chart(orderctx, { 
+	                                     			// 차트의 종류(String)
+	                                     			type: 'line',
+	                                     			// 차트의 데이터(Object)
+	                                      		  	data: orderdata,
+	                                      		  	options: {
+		                                      		  	responsive: false,
+		                                      		    plugins: {
+		                                      		      legend: {
+		                                      		        position: 'top',
+		                                      		      }
+		                                      		    }
+		                                            }
+	                                        	});
+                                    		</script>
                                     	</div>
-                                        <script>
-                                     		// 차트를 그럴 영역을 dom요소로 가져온다.
-                                        	var ctx = document.getElementById('myOrderChart').getContext('2d');
-                                        	// x축에 들어갈 이름들(Array)
-                                     		const monthLabels = Utils.months({count: 7});
-                                        	// 실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
-	                                        var data = {
-	                                          labels: ['1월','2월','3월','4월','5월','6월','7월'],
-	                                          datasets: [{
-	                                            label: 'My First Dataset',
-	                                            data: [65, 59, 80, 81, 56, 55, 40],
-	                                            fill: false,
-	                                            borderColor: 'rgb(75, 192, 192)',
-	                                            tension: 0.1
-	                                          }]
-	                                        };
-                                     		
-                                     		// 차트를 생성한다.
-                                     		var myOrderChart = new Chart(ctx, { 
-                                     			// 차트의 종류(String)
-                                     			type: 'line',
-                                     			// 차트의 데이터(Object)
-                                      		  	data: data
-                                        	}
-	                  
-                                        </script>
                                     </div>
                                 </div>
                             </div>
@@ -333,8 +368,6 @@
                    
                    </div>     
 
-
-<%@ include file="footerBo.jsp" %>
 
 </body>
 </html>
