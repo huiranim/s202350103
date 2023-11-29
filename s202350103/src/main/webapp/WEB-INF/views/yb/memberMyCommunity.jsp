@@ -50,7 +50,13 @@ function openWrite() {
 
         
 <main>
-
+	 <div class="mb-6">
+	  <div class="d-flex align-items-center mb-3">
+	    <img alt="" src="../upload/yb/community.png" style="width: 60px; height: 60px;" class="me-3">
+	    <h2 class="mb-1">독후감</h2>
+	  </div>
+	  <p>DADOK과 함께하며 인상깊었던 경험을 공유해보세요.</p>
+	</div>
     <!-- contianer -->
 
     <h3 class="mb-3">인기글</h3>
