@@ -103,8 +103,8 @@
         <div class="col-md-5" style="width: 30rem;">
           <!-- img slide -->
           <div class="product" id="product" >
-            <div class="" onmousemove="zoom(event)"
-              style="background-image: url()">
+            <div class="zoom tns-item tns-slide-active" onmousemove="zoom(event)"
+              style="background-image: url(${community.cm_image})" id="product-item0">
               <!-- img -->
               <!-- img -->
               <c:set var="cm_image" value="${community.cm_image }"/>
@@ -119,8 +119,8 @@
             </div>
 			<c:if test="${community.cm_image1 != null }">
 	           <div>
-	             <div class="" onmousemove="zoom(event)"
-	               style="background-image: url()">
+	             <div class="zoom" onmousemove="zoom(event)"
+	               style="background-image: url(${community.cm_image1})">
 	               <!-- img -->
 	              	<c:set var="cm_image" value="${community.cm_image }"/>
 	             	<c:choose>
@@ -136,8 +136,8 @@
             </c:if>
             <c:if test="${community.cm_image2 != null }">
             <div>
-              <div class="" onmousemove="zoom(event)"
-                style="background-image: url()">
+              <div class="zoom" onmousemove="zoom(event)"
+                style="background-image: url(${community.cm_image2})">
                 <!-- img -->
                	<c:set var="cm_image" value="${community.cm_image }"/>
               	<c:choose>

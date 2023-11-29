@@ -168,14 +168,18 @@
 
 </script>
 
-
-
 </head>
 <body>
+
+	<div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-10">회원 상세</h1>
+      </div>
+
 	
 	    <div class="mb-8">
          <!-- heading -->
-          <p class="fs-1 mb-3"><strong>${member.m_name} 님 (${member.m_id })</strong> 
+          <p class="fs-2 mb-3"><strong>${member.m_name} 님 (${member.m_id })</strong> 
           	<c:if test="${member.m_admin == 1}">
           		<span style="color: green; font-size: 18px;"> * 해당 회원은 관리자 입니다.*</span>
           	</c:if>
@@ -286,18 +290,20 @@
               <label class="form-label" for="company">PW<span class="text-danger">*</span></label>
               <input type="password" id="m_pw" name="m_pw" class="form-control" value="${member.m_pw }" onblur="pwCk();" required="required">
             </div>
-            
-            
-				<!-- Button Block -->
-				<div class="d-grid gap-2 col-6 mx-auto">
-				  <button class="btn btn-primary mb-3" type="submit">수정</button>
-				  <a class="btn btn-primary" href="adminMemberList">목록으로</a>
-				</div>
-	          </form>
-            </div>
+			
+			 <div class="col-md-12 mb-1 text-center"> 
+				 <div class="d-grid gap-2 d-md-flex justify-content-md-center ">
+				   	<button class="btn btn-primary mt-5 mb-2" type="submit" style="margin-right: 10px;">수정하기</button>
+				   	<a class="btn mt-5 mb-2 btn-secondary" type="submit" href="adminMemberList">목록가기</a>
+		  		</div>
+			</div>
+        
+         </form>
+		
+		</div>
 
 
-<%@ include file="../common/footerFo.jsp" %>
+
 
 </body>
 </html>
