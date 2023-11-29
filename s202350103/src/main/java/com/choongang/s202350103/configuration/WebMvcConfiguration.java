@@ -61,13 +61,13 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/bonewbookList");		// 관리자 상품상세
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/bonewbookInsert");		// 관리자 상품등록
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boSearchNewbookList");	// 관리자 상품검색
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 관리자 이벤트목록
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boAttendance");			// 관리자 이벤트(출석) 생성
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boQuiz");				// 관리자 이벤트(퀴즈) 생성
+//		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 관리자 이벤트목록
+//		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boAttendance");			// 관리자 이벤트(출석) 생성
+//		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boQuiz");				// 관리자 이벤트(퀴즈) 생성
 //		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/selectMemberPoint");	// 관리자 회원 포인트 수정
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventDetail");		// 관리자 이벤트 정보 수정
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 관리자 이벤트 목록
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boJoinedMember");		// 관리자 이벤트 포인트 내역
+//		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventDetail");		// 관리자 이벤트 정보 수정
+//		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 관리자 이벤트 목록
+//		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boJoinedMember");		// 관리자 이벤트 포인트 내역
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminDeclReply");		// 관리자 신고 답글 관리
 		
 		
@@ -107,14 +107,14 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/bonewbookList");				// 관리자 상품상세
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/bonewbookInsert");			// 관리자 상품등록
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boSearchNewbookList");		// 관리자 상품검색
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boEventList");				// 관리자 이벤트목록
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boAttendance");				// 관리자 이벤트(출석) 생성
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boQuiz");					// 관리자 이벤트(퀴즈) 생성
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boEventList");				// 관리자 이벤트목록
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boAttendance");				// 관리자 이벤트(출석) 생성
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boQuiz");					// 관리자 이벤트(퀴즈) 생성
 //		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/selectMemberPoint");			// 관리자 회원 포인트 수정
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boEventDetail");				// 관리자 이벤트 정보 수정
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boEventList");				// 관리자 이벤트 목록
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boJoinedMember");			// 관리자 이벤트 포인트 내역
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/adminDeclReply");			// 관리자 신고 답글 관리
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boEventDetail");				// 관리자 이벤트 정보 수정
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boEventList");				// 관리자 이벤트 목록
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boJoinedMember");			// 관리자 이벤트 포인트 내역
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/adminDeclReply");			// 관리자 신고 답글 관리
 	
 	}
 }

@@ -664,8 +664,4 @@ import lombok.extern.slf4j.Slf4j;
 			return response;
 		}
 		
-		@RequestMapping(value = "boMemberPointUpdate") 
-		public String boMemberPointUpdate() {
-			return "sh/boMemberPointUpdate";
-		}
 }

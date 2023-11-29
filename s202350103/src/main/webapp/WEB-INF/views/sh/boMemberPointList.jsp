@@ -14,17 +14,25 @@
 		alert("포인트 유형\n 1 주문 적립\n 2 출석 이벤트\n 3 퀴즈 이벤트\n 4 회원가입\n 5 추천인 코드\n 6 주문 포인트 사용\n 7 관리자 조정\n 8 포인트 충전");
 	}
 	
-	function boMemberPointUpdate() {
+	function boMemberPointUpdate(m_point, m_num) {
 			var popupW = 600;
 			var popupH = 800;
 			var left = Math.ceil((window.screen.width - popupW)/2);
 			var top = Math.ceil((window.screen.height - popupH)/2);
 		
-			var url = "boMemberPointUpdate";
+			var url = "boMemberPointUpdate?m_point="+m_point+"$m_num="+m_num;
 	        var name = "boMemberPointUpdate";
 	        
 	        window.open(url, name, 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes,resizable=no,toolbar=no,titlebar=no,menubar=no,location=no')
 	}
+	
+	function openDetail(eNum){
+		window.open("boMemberPointUpdate?m_point="+m_point+"$m_num="+m_num,"이벤트 상세조회","width=800,height=600");
+	}
+	
+	//이벤트 리스터 세팅
+	document.getElementById('m_point').addEventListener('input');
+	document.getElementById('m_num').addEventListener('input');
 
 </script>
 <style type="text/css">
@@ -57,7 +65,7 @@
 	<tbody>
 		<c:forEach var="memberPoint" items="${memberPoint }">
 		<input type="text" id="m_num" name="m_num" value="${memberPoint.m_num }">
-		<input type="text" id="m_point" name="m_point" value="${memberPoint.point }">
+		<input type="text" id="m_point" name="m_point" value="${sum}">
 			<tr>
 				<th scope="row">${memberPoint.rn }</th>
 				<td>${memberPoint.p_num }</td>
@@ -78,7 +86,7 @@
 				</td>
 				<td>${memberPoint.m_point }
 					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					   <button class="btn btn-soft-primary" type="button" id="openWrite" onclick="boMemberPointUpdate()">수정하기</button>
+					   <button class="btn btn-soft-primary" type="button" id="openWrite" onclick="boMemberPointUpdate(m_point.value, m_num.value)">수정하기</button>
 					</div>	
 				</td>
 						
