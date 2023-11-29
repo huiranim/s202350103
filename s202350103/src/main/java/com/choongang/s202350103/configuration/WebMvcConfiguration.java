@@ -16,7 +16,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 로그인 관련 InterCeptor (비로그인 시 접근 막을 페이지)					
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberMyPage");					// 마이페이지
-		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/adminMemberList");				// 회원목록
+//		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/adminMemberList");				// 회원목록
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberCartList");					// 장바구니
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/foGivingGift");					// 선물하기
 		registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/foOrderDetail");					// 마이페이지 - 주문상세
@@ -50,8 +50,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		
 		// 로그인 후 관리자 권한 InterCeptor (비관리자 접근 막을 페이지)
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/mainBo");				// 관리자 메인
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminMemberList");		// 관리자 회원목록
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminMemberInfo");		// 관리자 회원상세
+//		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminMemberList");		// 관리자 회원목록
+//		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/adminMemberInfo");		// 관리자 회원상세
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/memberSearch");			// 관리자 회원검색
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boOrderList");			// 관리자 주문목록
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boOrderDetail");		// 관리자 주문상세
@@ -64,7 +64,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 관리자 이벤트목록
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boAttendance");			// 관리자 이벤트(출석) 생성
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boQuiz");				// 관리자 이벤트(퀴즈) 생성
-		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/selectMemberPoint");	// 관리자 회원 포인트 수정
+//		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/selectMemberPoint");	// 관리자 회원 포인트 수정
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventDetail");		// 관리자 이벤트 정보 수정
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boEventList");			// 관리자 이벤트 목록
 		registry.addInterceptor(new  AdminAuthorityInterCeptor()).addPathPatterns("/boJoinedMember");		// 관리자 이벤트 포인트 내역
@@ -75,7 +75,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		// 로그인 인터셉터 이후 이전 페이지로 돌아가기
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/memberMyCommunity");			// 내 독후감목록
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/memberMyPage");				// 마이페이지
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/adminMemberList");			// 회원목록
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/memberCartList");			// 장바구니
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/foGivingGift");				// 선물하기
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/foOrderDetail");				// 마이페이지 - 주문상세
@@ -97,8 +96,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/memberPwChangeForm");		// 비밀번호변경	
 //      ---------------------------------- 관리자 ----------------------
 	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/mainBo");					// 관리자 메인
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/adminMemberList");			// 관리자 회원목록
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/adminMemberInfo");			// 관리자 회원상세
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/adminMemberList");			// 관리자 회원목록
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/adminMemberInfo");			// 관리자 회원상세
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/memberSearch");				// 관리자 회원검색
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boOrderList");				// 관리자 주문목록
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boOrderDetail");				// 관리자 주문상세
@@ -111,7 +110,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boEventList");				// 관리자 이벤트목록
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boAttendance");				// 관리자 이벤트(출석) 생성
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boQuiz");					// 관리자 이벤트(퀴즈) 생성
-		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/selectMemberPoint");			// 관리자 회원 포인트 수정
+//		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/selectMemberPoint");			// 관리자 회원 포인트 수정
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boEventDetail");				// 관리자 이벤트 정보 수정
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boEventList");				// 관리자 이벤트 목록
 		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/boJoinedMember");			// 관리자 이벤트 포인트 내역

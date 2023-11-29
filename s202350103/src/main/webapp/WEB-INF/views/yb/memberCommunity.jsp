@@ -58,7 +58,7 @@ function openWrite() {
 	  </div>
 	  <p>DADOK과 함께하며 인상깊었던 경험을 공유해보세요.</p>
 	</div>
- 	
+ 	 <hr><br>
    <h3 class="mb-3">인기글</h3>
     <div id="div1" class="mb-10" style="background-color: #EDF7EA;">
        
