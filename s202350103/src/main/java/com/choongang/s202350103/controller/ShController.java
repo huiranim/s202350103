@@ -663,5 +663,17 @@ import lombok.extern.slf4j.Slf4j;
 			}
 			return response;
 		}
-		
+		@RequestMapping(value = "boMemberPointUpdate")
+		public String boMemberPointUpdate(int m_num, Model model, Member member ) {
+			System.out.println("shController boMemberPointUpdate start..");
+			System.out.println("shController boMemberPointUpdate m_num -> " + m_num);
+			
+			int sum = ps.pointSum(m_num);
+			member = ms.memberInfo(m_num);
+			System.out.println("shController boMemberPointUpdate member -> " + member);
+			model.addAttribute("member", member);
+			model.addAttribute("sum", sum);
+			
+			return "sh/boMemberPointUpdate";
+		}
 }
