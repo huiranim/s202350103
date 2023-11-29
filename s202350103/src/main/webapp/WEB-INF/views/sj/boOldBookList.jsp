@@ -69,7 +69,7 @@
 	           	
 	           	
 	           	<div class="table">
-	           <table class="table text-nowrap" style="margin-top: 20px;" >
+	           <table class="table text-nowrap text-center" style="margin-top: 20px;" >
 	              <!-- Table Head -->
 	              <thead class="table-light">
 	                 <tr>  

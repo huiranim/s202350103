@@ -65,17 +65,6 @@
 	    		return false;
 	    	}
 		}
-	    
-	    if (!window.checkAnswerExecuted) {
-	        // 이 부분에는 초기 로딩 시에 실행되어야 하는 코드를 작성할 수 있습니다.
-	        $(function(){
-				if(${chance == 1}){
-					alert("이미 참여하셨습니다.");
-				}
-			});
-	        // 실행 여부 플래그 설정
-	        window.checkAnswerExecuted = true;
-		}
 	}
 </script>
 <body>

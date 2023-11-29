@@ -302,11 +302,18 @@ public class PointServiceImpl implements PointService {
 		int result = qd.deleteQuiz(q_num);
 		return result;
 	}
+	
+	@Override
+	public int joinedList(int eNum) {
+		System.out.println("PointService joinedList() Start..");
+		int result = pld.joinedList(eNum);
+		return result;
+	}
 
 	@Override
-	public List<PointList> boJoinedMember(int eNum) {
+	public List<PointList> boJoinedMember(Attendance attendance) {
 		System.out.println("PointService boJoinedMember() Start...");
-		List<PointList> pointList = pld.boJoinedMember(eNum); 
+		List<PointList> pointList = pld.boJoinedMember(attendance); 
 		return pointList;
 	}
 

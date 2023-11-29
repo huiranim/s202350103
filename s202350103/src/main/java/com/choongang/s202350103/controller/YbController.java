@@ -163,6 +163,7 @@ public class YbController {
 	@RequestMapping("/memberChk")
 	public String memberLoginChk(Member member, String chk_Id, String chk_Pw) {
 		System.out.println("YbController memberChk() start...");
+		// jsp로 받은 파라미터로 회원 있나 검색
 		member = ms.memberChk(chk_Id);
 		if (member != null) {
 			System.out.println("YbController memberLoginChk member.m_id -> " + member.getM_id());
@@ -176,7 +177,7 @@ public class YbController {
 			System.out.println("YbController memberLoginChk chk_id -> " + chk_Id);
 			System.out.println("YbController memberLoginChk chk_Pw -> " + chk_Pw);
 			int result = 0;
-
+			// 받은 파라미터로 체크
 			if (chk_Id.equals(m_id) && chk_Pw.equals(m_pw) && m_wd == 0) {
 				result = 1;
 				session.setAttribute("member", member);
@@ -204,17 +205,16 @@ public class YbController {
 
 		System.out.println("YbController login() session -> " + session);
 		Member member = ms.login(member1);
-
+		
 		if (member != null) {
 			session.setAttribute("member", member);
 			System.out.println("YbController login() session -> " + session.getId());
 			System.out.println("YbController login() member.getId -> " + member.getM_id());
-			
+			// 인터셉터에서 이전페이지 주소 세션 받기
 			String dest = (String) session.getAttribute("dest");
 		    String redirectUrl = dest != null ? dest : "/";
 		    System.out.println("ybController memberLogin dest => " + redirectUrl);
-//		   
-		    
+	   
 		    return "redirect:" + redirectUrl;
 
 		} else {
@@ -227,19 +227,21 @@ public class YbController {
 	@GetMapping(value = "memberLogout")
 	public String logout(HttpSession session, HttpServletRequest request) {
 		System.out.println("YbController userLogout start... ");
+		String dest = (String) session.getAttribute("dest");
 		try {
-
 			session = request.getSession(false); // 세션이 있으면 기존 세션을 반환한다.
 			// 세션이 없으면 새로운 세션을 생성하지 않고, null을 반환
 			if (session != null) {
 				System.out.println("YbController logout() session null ");
 				session.removeAttribute("member");
-				session.invalidate(); // 세션 초기화
+//				session.invalidate(); // 세션 초기화
 			}
 		} catch (Exception e) {
 			System.out.println("logout Exception -> " + e.getMessage());
 		}
-		return "redirect:/";
+
+		session.removeAttribute("dest");  
+		return "redirect:/";	
 	}
 
 	// 비밀번호 찾기 페이지 이동
@@ -260,14 +262,7 @@ public class YbController {
 		}
 
 	}
-
-	@RequestMapping("memberPwChange")
-	public String memberPwChange(Model model) {
-
-		return "yb/memberPwChange";
-
-	}
-
+	
 	// 장바구니 페이지 이동
 	@RequestMapping(value = "memberCartList")
 	public String memberCartList(Cart cart, Model model, String currentPage, HttpSession session, Member member) {
@@ -292,8 +287,9 @@ public class YbController {
 		List<Cart> listCart = ms.listCart(cart, member);
 		System.out.println("YbController memberCartList listCart.size() -> " + listCart.size());
 		NewBook newbook = new NewBook();
+		// 최근 도서 목록
 		ArrayList<NewBook> recentBookList = rb.selectRecentBookList(session);
-
+		// 총 포인트
 		int totalPrice = ms.totalPrice(member);
 
 		model.addAttribute("recentBookList", recentBookList);
@@ -376,9 +372,10 @@ public class YbController {
 
 		// 페이징 처리
 		Paging page = new Paging(pointListCnt, currentPage);
-
+		
 		pointList.setStart(page.getStart());
 		pointList.setEnd(page.getEnd());
+		// 회원별 포인트 리스트
 		List<PointList> memberPointList = ms.memberPointList(pointList);
 		System.out.println("YbController memberPointList() memberPointList.size() -> " + memberPointList.size());
 		// 최근본 상품
@@ -432,7 +429,7 @@ public class YbController {
 	public String memberCommunity(Community community, Model model, String currentPage, Member member) {
 		System.out.println("YbController memberCommunity() start..");
 		member = (Member) session.getAttribute("member");
-
+		// 독후감 총 개수
 		int comListTotalCnt = ms.comListTotalCnt(community);
 		communityPaging page = new communityPaging(comListTotalCnt, currentPage);
 
@@ -468,6 +465,7 @@ public class YbController {
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());
 		community.setM_num(m_num);
+		// 독후감 리스트
 		List<Community> communityMyList = ms.communityMyList(community);
 		System.out.println("YbController memberCommunity() communityMyList.size() -> " + communityMyList.size());
 
@@ -847,7 +845,6 @@ public class YbController {
 		System.out.println(fileList.size());
 
 		// 파일업로드
-
 		try {
 			if (fileList.size() > 0) {
 				for (int i = 0; i < multiFileList.size(); i++) {
@@ -865,12 +862,15 @@ public class YbController {
 			}
 			e.printStackTrace();
 		}
+		// map fileList changeFile 값 String으로 뽑기
 		List<String> valueList = fileList.stream().filter(t -> t.containsKey("changeFile"))
 				.map(m -> m.get("changeFile").toString()).collect(Collectors.toList());
 		String cm_image1 = "";
 		String cm_image2 = "";
+		// 이미지 1개만 등록할때 설정
 		if (valueList.size() == 1) {
 			cm_image1 = valueList.get(0);
+		// 이미지 2개
 		} else if (valueList.size() > 1) {
 			cm_image1 = valueList.get(0);
 			cm_image2 = valueList.get(1);
@@ -883,6 +883,7 @@ public class YbController {
 		System.out.println("getM_num -> " + community.getM_num());
 		System.out.println("getM_num -> " + community.getCm_image1());
 		System.out.println("getM_num -> " + community.getCm_image2());
+		// 선택한 책 독후감 dto에 세팅 후 insert문 실행
 		community.setNb_num(newbook.getNb_num());
 		System.out.println("getNB_num -> " + community.getNb_num());
 		int communityInsert = ms.communityInsert(community);
@@ -898,12 +899,13 @@ public class YbController {
 	@GetMapping(value = "searchListBook")
 	public String searchListBook(NewBook newbook, Model model, String currentPage) {
 		System.out.println("YbController searchListBook() start..");
+		// 도서 개수
 		int searchBookCnt = ms.searchBookCnt(newbook);
 		Paging page = new Paging(searchBookCnt, currentPage);
 
 		newbook.setStart(page.getStart());
 		newbook.setEnd(page.getEnd());
-
+		// 검색 키워드 별 도서 검색
 		List<NewBook> searchListBook = ms.searchListBook(newbook);
 
 		model.addAttribute("page", page);
@@ -916,7 +918,7 @@ public class YbController {
 	@GetMapping(value = "searchBook")
 	public String searchBook(NewBook newbook, Model model, String currentPage) {
 		System.out.println("YbController searchBook() start..");
-
+		
 		int searchBookCnt = ms.searchBookCnt(newbook);
 		Paging page = new Paging(searchBookCnt, currentPage);
 
@@ -999,10 +1001,11 @@ public class YbController {
 				}
 				e.printStackTrace();
 			}
+			// fielList에서 changeFile 값 String으로 뽑기
 			List<String> valueList = fileList.stream().filter(t -> t.containsKey("changeFile"))
 					.map(m -> m.get("changeFile").toString()).collect(Collectors.toList());
 			System.out.println(valueList);
-
+			// 이미지 1개 등록 시
 			if (valueList.size() == 1) {
 				if (community.getCm_image1().equals("")) {
 					community.setCm_image1(valueList.get(0));
@@ -1011,6 +1014,7 @@ public class YbController {
 					community.setCm_image2(valueList.get(0));
 					System.out.println("cm_imageA -> " + community.getCm_image2());
 				}
+				// 이미지 2개 등록 시
 			} else if (valueList.size() > 1) {
 				community.setCm_image1(valueList.get(0));
 				community.setCm_image2(valueList.get(1));
@@ -1035,13 +1039,14 @@ public class YbController {
 		System.out.println("YbController deleteImage cm_imageChk1 -> " + cm_imageChk1);
 		System.out.println("YbController deleteImage cm_imageChk2 -> " + cm_imageChk2);
 		System.out.println("int cm_num" + cm_num);
+		// 체크박스 선택 안됐을 때 n 값 못받아와서 임의 값 지정
 		if (cm_imageChk1 == null) {
 			cm_imageChk1 = "";
 		}
 		if (cm_imageChk2 == null) {
 			cm_imageChk2 = "";
 		}
-		// 체크 시 y 값 반환 -> update -> null 값
+		// 삭제할 이미지 체크 시 y 값 반환 -> update -> null 값
 		if (cm_imageChk1.equals("y") && !cm_imageChk2.equals("y")) {
 			System.out.println("YbController deleteImage deleteImage1 Start... ");
 			int deleteImage = ms.deleteImage(cm_num);
@@ -1066,9 +1071,10 @@ public class YbController {
 	public String communityDelete(Community community, Member member, int cm_num, Model model) {
 		System.out.println("YbController communityDelete() start..");
 		member = (Member) session.getAttribute("member");
-
+		// 게시글 삭제
 		int communityDelete = ms.communityDelete(cm_num);
 		System.out.println("YbController communityDelete() -> " + communityDelete);
+		// 게시글 삭제 등록, 실패 시 
 		model.addAttribute("result", communityDelete);
 		return "redirect:/memberCommunity";
 	}
@@ -1091,11 +1097,15 @@ public class YbController {
 //		   System.out.println("communityClickHeart confirmHeart getH_status-> " + commHeart.getH_status());
 		// 데이터 없을 때
 		if (commHeart == null) {
+			// commHeart Insert
 			commHeartInsert = ms.commHeartInsert(cm_num, m_num);
+			// 좋아요 상태 값  바꾸기
 			communityHitPush = ms.communityHitPush(cm_num);
 		} else {
+			// 데이터 있을 경우 상태 값 업데이트
 			commHeartUpdate = ms.commHeartUpdate(commHeart);
 			System.out.println("communityClickHeart confirmHeart community-> " + community);
+			// 독후감 좋아요 갯수 업데이트
 			int updateHitCnt = ms.updateHitCnt(community, commHeart);
 		}
 		
