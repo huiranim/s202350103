@@ -195,18 +195,20 @@
 					                 <!-- 지은이, 출판사, 출판일 -->
 					                 <h3 class="fs-6 mb-3">${searchNewbook.nb_writer} | ${searchNewbook.nb_publisher} | ${searchNewbook.nb_publi_date}
 					                 </h3>
-					              <div>
-				                    <!-- 별점 -->
-				                    <div class="text-warning">
-				                    	<c:forEach var="i" begin="1" end="${searchNewbook.r_ratingAvg }">
-				                    		<i class="bi bi-star-fill"></i>
-				                    	</c:forEach>
-				                    	<c:forEach var="i" begin="${searchNewbook.r_ratingAvg + 1}" end="5">
-				                    		<i class="bi bi-star"></i>
-				                    	</c:forEach>
-					                    <span class="text-muted small" style="margin-left: 10px;">${searchNewbook.r_ratingAvg }(${searchNewbook.reviewCnt })</span>
-				              		</div>
-					              </div>
+					              <c:if test="${searchNewbook.nb_num < 200000 }">
+						              <div>
+					                    <!-- 별점 -->
+					                    <div class="text-warning">
+					                    	<c:forEach var="i" begin="1" end="${searchNewbook.r_ratingAvg }">
+					                    		<i class="bi bi-star-fill"></i>
+					                    	</c:forEach>
+					                    	<c:forEach var="i" begin="${searchNewbook.r_ratingAvg + 1}" end="5">
+					                    		<i class="bi bi-star"></i>
+					                    	</c:forEach>
+						                    <span class="text-muted small" style="margin-left: 10px;">${searchNewbook.r_ratingAvg }(${searchNewbook.reviewCnt })</span>
+					              		</div>
+						              </div>
+					              </c:if>
 					                 
 					                 <!-- 도서가격 + 버튼들 -->
 					                 <div class="  mt-8 mb-3">

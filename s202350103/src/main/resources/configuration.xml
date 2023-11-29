@@ -29,5 +29,6 @@
 		<typeAlias alias="WishList" 		type="com.choongang.s202350103.model.WishList"/>
 		<typeAlias alias="NewBookOldBook"   type="com.choongang.s202350103.model.NewBookOldBook"/>
 		<typeAlias alias="Ka"               type="com.choongang.s202350103.domain.KakaoPayApprovalVO"/>
+		<typeAlias alias="TotalOrder"   	type="com.choongang.s202350103.model.TotalOrder"/>
 	</typeAliases>
 </configuration>
