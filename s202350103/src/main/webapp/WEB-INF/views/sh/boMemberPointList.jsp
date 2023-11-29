@@ -53,12 +53,11 @@
 	
 	h2{
 		text-align: center;
-	}
+	}	
 </style>
 </head>
 <body>
 <p class="fs-1 text-center">회원 포인트 리스트</p>
-<p>
 <div style="margin: 0 15% 0 15%;">
 	<label class="" style="margin-right:30px; ; float: right;"> 총합 : ${sum} 포인트</label>
 <table class="table" style="text-align: center">
@@ -69,7 +68,7 @@
 			<th scope="col">회원번호</th>
 			<th scope="col">발행페이지 코드</th>
 			<th scope="col">발행일시</th>
-			<th scope="col">포인트유형</th>
+			<th scope="col">포인트유형	</th>
 			<th scope="col">지급포인트</th>
 		</tr>
 	</thead>
@@ -90,7 +89,9 @@
 				<td>
 					<fmt:formatDate pattern="yyyy-MM-dd" value="${memberPoint.a_par_pdate }"/>
 				</td>
-				<td>${memberPoint.p_list_type }</td>
+				<td class="tooltip" onmouseover="mouse_over()" onmouseout="mouse_out" title="포인트 유형<br>1 주문 적립<br>2 출석 이벤트<br>3 퀴즈 이벤트<br>4 회원가입<br>5 추천인 코드<br>6 주문 포인트 사용<br>7 관리자 조정<br>8 포인트 충전">
+						${memberPoint.p_list_type }	
+				</td>
 				<td>${memberPoint.m_point }</td>		
 			</tr>
 		</c:forEach>

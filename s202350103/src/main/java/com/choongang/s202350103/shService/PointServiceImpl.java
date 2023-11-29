@@ -323,6 +323,20 @@ public class PointServiceImpl implements PointService {
 		int count = pld.joinedCount(eNum);
 		return count;
 	}
+	
+	@Override
+	public List<PointList> boMemberSelect(PointList pointList) {
+		System.out.println("PointService boMemberSelect start");
+		List<PointList> pointListList = pld.boMemberSelect(pointList);
+		return pointListList;
+	}
+
+	@Override
+	public int joinedCountSelect(int eNum) {
+		System.out.println("PointService joinedCountSelect start");
+		int count = pld.joinedCountSelect(eNum);
+		return count;
+	}
 
 	@Override
 	public List<Attendance> searchDetail11(Attendance attendance) {
@@ -345,6 +359,5 @@ public class PointServiceImpl implements PointService {
 		list = ad.searchDetail13(attendance);
 		return null;
 	}
-
 
 }
