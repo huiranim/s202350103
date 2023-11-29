@@ -23,7 +23,7 @@ public class LoginInterCeptor implements HandlerInterceptor {
 		ModelMap modelMap = modelAndView.getModelMap();
 		Object member = modelMap.get("member");
 		Object dest = null;
-		if(member != null) {
+		if(member != null) {			
 			System.out.println("Login success!");
 			session.setAttribute(LOGIN, member);
 			
@@ -36,7 +36,7 @@ public class LoginInterCeptor implements HandlerInterceptor {
 			
 			session.setAttribute("redirectUrl", redirectUrl);	
 			
-			 session.removeAttribute("dest");  // Clear the 'dest' attribute after using it
+			session.removeAttribute("dest");  // Clear the 'dest' attribute after using it
 			  
 		}
 	

@@ -352,7 +352,7 @@ public class YbController {
 		System.out.println("YbController memberPointList() start...");
 		// 로그인한 멤버 값 불러오기
 		member = (Member) session.getAttribute("member");
-
+		// 포인트 충전
 		String result1 = null;
 		if (result != null) {
 			result1 = result;
@@ -366,6 +366,7 @@ public class YbController {
 		// 포인트 적립갯수
 		pointList.setM_num(member.getM_num());
 		System.out.println("YbController memberPointList pointList.getM_num -> " + pointList.getM_num());
+		// 포인트리스트 회원별 총 개수
 		int pointListCnt = ms.pointListCnt(pointList);
 		System.out.println("YbController memberPointList pointListCnt ->" + pointListCnt);
 		// 포인트 리스트
