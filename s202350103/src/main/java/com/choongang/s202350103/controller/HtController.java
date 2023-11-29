@@ -523,9 +523,13 @@ public class HtController {
 		
 		//카카오에서 요청한 DTO 변수명과 타입으로 변경
 		String partner_order_id = String.valueOf(orderr.getO_order_num()); //주문번호 또는 회원번호
-		String partner_user_id  = String.valueOf(orderr.getM_num()); //회원번호
+		String partner_user_id  = String.valueOf(orderr.getM_num()); //회원이름
 		Integer quantity = orderr.getO_order_count(); //결제 수량
-		Integer install_month = orderr.getO_type(); // 주문유형 (선물여부)
+		Integer install_month = orderr.getO_type();   // 주문유형 (선물여부)
+		String cid_secret = orderr.getO_rec_mail();	  // 메일
+		String item_code = orderr.getM_name();			  // 회원이름
+		//String item_code = orderr.getO_gift_msg();	  // 선물 메시지
+		
 		String item_name = null; //상품명
 		if(quantity == 1) {// 1개 구매일 경우
 			item_name = orderr.getNb_title(); 
@@ -543,6 +547,8 @@ public class HtController {
 		kakaoDto.setItem_name(item_name);
 		kakaoDto.setQuantity(quantity);
 		kakaoDto.setInstall_month(install_month);
+		kakaoDto.setCid_secret(cid_secret);
+		kakaoDto.setItem_code(item_code);
 		kakaoDto.setAmount(amountVO);
 		
 		System.out.println("kakaoDto---> " + kakaoDto);
@@ -618,8 +624,8 @@ public class HtController {
 			}
 			 
 		 }catch (Exception e) {
-		  System.out.println("kakaoPaySuccess Exception -> " + e.getMessage());
-			
+			 result = 0;
+			 System.out.println("kakaoPaySuccess Exception -> " + e.getMessage());
 		}
 		 // 메일 보내기(고도화 예정)
 		 //emailService.sendEmail("whgudxor1@naver.com", "Test Subject", "Hello, this is a test email.");
