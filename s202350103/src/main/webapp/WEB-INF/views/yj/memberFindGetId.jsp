@@ -9,15 +9,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<script type="text/javascript">
-	
-	function findMemberPw(){
-		var m_num = document.getElementById("m_num").value;
-		
-		location.href="memberPwChangeForm?m_num=" + m_num;
-	}
-
-</script>
 
 </head>
 <body>
@@ -36,7 +27,7 @@
 				</div>
 
 
-				<form action="loginForm"  >
+				<form action="memberPwChangeForm" method="post">
 					<input type="hidden" name="m_num" value="${member.m_num }" id="m_num">
 					<div class="col-lg-4">
 						<div class="input-group mb-8">
@@ -73,7 +64,7 @@
 					<div class="col-lg-7">
 						<div class="input-group mb-8">
 							비밀번호 &nbsp;&nbsp; 
-							<button type="button" class="btn btn-primary" onclick="findMemberPw();">
+							<button type="submit" class="btn btn-primary">
 								비밀번호 변경
 							</button>					
 						</div>
@@ -82,7 +73,7 @@
 					<hr>
 
 					<div class="btn btn-ghost-primary mb-2 d-grid gap-2 col-6 mx-auto ">
-						<button class="btn btn-primary" type="submit">로그인</button>
+						<button class="btn btn-primary" type="button" onclick="location.href='loginForm'">로그인</button>
 					</div>
 				</form>
 

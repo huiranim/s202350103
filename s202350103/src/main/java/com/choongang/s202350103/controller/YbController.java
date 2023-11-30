@@ -591,7 +591,7 @@ public class YbController {
 	}
 
 	// 아이디 찾기 -> 인증 후 비밀번호 변경 페이지
-	@GetMapping(value = "memberPwChangeForm")
+	@PostMapping(value = "memberPwChangeForm")
 	public String memberPwChangeForm(String m_num, Model model) {
 		System.out.println("YbController memberPwChangeForm() start..");
 
