@@ -116,7 +116,8 @@
 		
 		<div style="color: #002b63;">
 			<i class="bi bi-exclamation-circle"></i> 답변을 등록하시려면 로그인 해주세요.<br>
-			<i class="bi bi-exclamation-circle"></i> 개인정보가 포함된 글에 대한 법적 책임은 글쓴이에게 있으니 유의하시기 바랍니다.
+			<i class="bi bi-exclamation-circle"></i> 개인정보가 포함된 글에 대한 법적 책임은 글쓴이에게 있으니 유의하시기 바랍니다.<br>
+			<i class="bi bi-exclamation-circle"></i> 누적 신고 댓글은 <span style="color: red;">자동삭제</span>  됩니다 .
 		</div>
 		
 		

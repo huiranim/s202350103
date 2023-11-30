@@ -113,7 +113,10 @@
 												<c:when test="${reply.mqr_decl_val == 6 }">
 													명예훼손/저작권											
 												</c:when>			
-										
+												<c:otherwise>
+													기타 사유
+												</c:otherwise>
+												
 											</c:choose>
 										)</strong></td>
 
