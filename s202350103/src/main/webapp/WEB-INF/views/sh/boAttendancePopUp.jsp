@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../common/none.jsp" %>
+<%@ include file="../common/headerBo.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,28 +8,42 @@
 <title>Insert title here</title>
 </head>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
-
+<style>
+  .small-input {
+    width: 100px; 
+  }
+</style>
 <body>
-<p class="fs-1 text-center">Attendance Event 수정</p>
-<form id="attendanceForm">
-	<table class="table table-striped table-bordered">
+<div class="offset-lg-2 col-lg-8 col-12">
+
+	<div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-10">출석체크 수정</h1>
+      </div>
+
+ <div class="mb-8">
+<div class="mt-7 md-10 justify-content-center">
+<form id="attendanceForm" >
+	<table class="table" style="  border: 1px solid #dfe2e1; ">
 		<tr>
-			<th scope="row">이벤트 번호  :</th>
+			<th scope="col" class="table-active">이벤트 번호  :</th>
 			<td>
-				<input type="text"   name="a_num"     value="${attendance.a_num}"   readonly="readonly">
+				<input type="text"   name="a_num"     value="${attendance.a_num}"  style="width: 300px;"  readonly="readonly" class="form-control ">
 			</td>
 		</tr>
 		<tr>
-			<th scope="row">이벤트 이름  : </th>
-			<td>
-				<input type="text"   name="a_title"   value="${attendance.a_title}" required="required">
-			</td>
+		
+		<tr>
+			<th scope="col" class="table-active">이벤트 이름</th>
+			<td><input class="form-control" type="text"   value="${attendance.a_title}"  name="a_title" style="width: 300px;" required="required"></td>	
 		</tr>
 		<tr>
-			<th scope="row">이벤트 기간  : </th>
+			<th scope="col" class="table-active">이벤트 기간</th>
 			<td>
-				<input type="date"   name="a_sdate" id="a_sdate"  value="${attendance.a_sdate}" required="required">~
-			  	<input type="date"   name="a_edate" id="a_edate"  value="${attendance.a_edate}" required="required" readonly="readonly">
+				<div style="display: flex;">
+					<input class="form-control" type="date" name="a_sdate"  value="${attendance.a_sdate}"  id="a_sdate" required="required" style="width: 22%; margin-right: 5px;"><div class="mt-2">~</div>					
+					<input class="form-control" type="date" name="a_edate"  value="${attendance.a_edate}"  id="a_edate" required="required" style="width: 22%; margin-left: 5px;" readonly="readonly">
+				</div>
 			</td>
 		</tr>
 		<script>
@@ -46,71 +60,57 @@
 			    });
 			  });
 		</script>
-		<tr>
-			<th scope="row" style="vertical-align: middle;">사진 등록	: </th>
-			<td style="padding-top: 20px; padding-bottom: 4px;">
-				<input type="hidden" name="a_image"   value="${attendance.a_image}" jdbcType="varchar"> <input type="file" name="file1" style="width:185px;">													<p>
-			</td>
+		
+		
+		<tr>	
+			<th scope="col" class="table-active">사진 등록</th>
+			<td>
+			<input type="hidden" name="a_image"   value="${attendance.a_image}" jdbcType="varchar">
+			<input class="form-control" type="file" name="file1" required="required" style="width: 300px;">
+			</td>		
 		</tr>
 		<tr>
-			<th scope="row" colspan="2">출석 관리	:</th>
+			<th scope="row" class="table-active">출석 관리</th>
+			<td>
+				<table>
+				<tr>
+	              <th>포인트</th>
+	               <td>
+	               		<div style="display: flex;">
+	        <input class="form-control" type="text" name="a_point" min="1" pattern="\d*" maxlength="3" value="${attendance.a_point}" required="required"> <div class="mt-2">point</div></div>
+			
+					</td>        
+	            </tr>
+	        	</table>
+	        </td>
 		</tr>
 		<tr>
-			<td colspan="2">
-				<table class="table mb-0">
-         			<thead>
-         				<tr>
-							<th scope="row">지급 포인트 :</th>
-							<td>	
-								<input type="text" name="a_point" min="1" pattern="\d*" maxlength="3" value="${attendance.a_point}" required="required"> point
-							</td>
-						</tr>
-					</thead>
-				</table>
-			</td>
-		</tr>	
-		<tr>
-			<th scope="row" colspan="2">연속 출석 	:</th>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<table class="table mb-0">
-         			<thead>
-         				<tr>
-							<th scope="row">조건   : </th>
-							<td>
-								<input type="text" name="a_add" min="1" maxlength="1" value="${attendance.a_add}" required="required">일 연속 출석 시
-							</td>
-						</tr>
-					</thead>
-					<tbody>	
-						<tr>
-							<th scope="row">포인트  :</th>
-							<td>
-								<input type="text" name="a_addpoint" min="1" pattern="\d*" maxlength="5" value="${attendance.a_addpoint}" required="required"> point
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2" style="text-align: center;">
-				<input type="button" onclick="updateAtt()" value="수정">
-				<input type="button" onclick="deleteAtt(${attendance.a_num },'${attendance.a_title}')" value="삭제">
-				<button id="closeButton">취소</button>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="3">
-				<span style="background-color:yellow; color: red;">*포인트 수령 기록이 있으면 삭제가 되지 않습니다!</span><p>
-				<span>이미지 교체는 선택사항이며, 선택 안할 시, 기존 이미지가 사용됩니다.</span>
-			</td>
+			<th scope="row" class="table-active">연속 출석</th>
+			<td>
+				<table>
+					<tr>
+		              <th>조건</th>
+		           	  <td><div style="display: flex;">
+		           	  <input class="form-control" type="text" name="a_add" min="1" maxlength="1" 
+														value="${attendance.a_add}"    style="width: 80px; margin-right: 5px;" required="required"> <div class="mt-2">일 연속 출석 시</div></div></td>
+		            </tr>
+		            <tr>
+		              <th>포인트</th>
+		              <td><div style="display: flex;"><input class="form-control" pattern="\d*"  type="text" name="a_addpoint" min="1" maxlength="5" 
+										value="${attendance.a_addpoint}" style="width: 80px; margin-right: 5px;" required="required"> <div class="mt-2">point</div></div></td>           
+		            </tr>
+		        </table>
+	        </td>
 		</tr>
 	</table>
+	<div class="d-grid gap-2 d-md-flex justify-content-center" >
+		<input type="button"  onclick="updateAtt()" class="btn btn-primary mb-2" value="수정" style="margin-right: 10px"> 
+		<input type="button"  class="btn btn-primary mb-2" id="cancleButton"  value="삭제" onclick="deleteAtt(${attendance.a_num },'${attendance.a_title}')" >
+	</div>
 </form>
-	
-	
+</div>
+</div>
+</div>
 	
 	
  
@@ -128,9 +128,7 @@
 	        type: "POST",
 	        success: function (result) {
 	            if (result == 1) {
-	                if (confirm("수정 성공, 창을 닫으시겠습니까?")) {
-	                	opener.parent.location.reload();
-	                	window.close();
+	                if (confirm("수정 성공")) {
 	                }
 	            } else {
 	                alert("수정 실패");

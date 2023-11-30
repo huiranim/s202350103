@@ -12,136 +12,137 @@
 	$(function)
 </script>
 <style>
-		textarea {
-      width: 80%;
-      height: 150px;
-      padding: 10px;
-      box-sizing: border-box;
-      border: solid 2px;
-      border-radius: 5px;
-      font-size: 16px;
-      resize: both;
-      }
+	form {
+		width:80%;
+	}
+	
+	th{
+		width: 20%;	
+		vertical-align: middle;
+	}
+	
+	.title{
+		font-size: 25px; 
+		font-weight: bold;
+	}
+	
+	.s_title{
+		text-align: center;
+	}
+	
+	textarea {
+	 width: 80%;
+	 height: 150px;
+	 
+	 
+}
+	#createQuizForm {
+		
+		
+	}
+	
 </style>
-<body>
-	<p class="fs-1 text-center">Quiz Event 수정</p>
-	<form id="quizForm" action="javascript:void(0)">
-		<table class="table table-striped table-bordered">
-			<tr>
-				<th scope="row">이벤트 번호 :</th>
-				<td>
-					<input type="text" name="q_num" 	value="${quiz.q_num }" readonly="readonly">
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">이벤트 이름 : </th>
-				<td>
-					<input type="text" name="q_title" 	value="${quiz.q_title}" required="required">
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">이벤트 기간 :</th> 
-				<td>
-					<input type="date" name="q_sdate" 	value="${quiz.q_sdate}" required="required">~
-					<input type="date"  name="q_edate"	value="${quiz.q_edate}" required="required">
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">사진 등록 : </th>
-				<td>
-					<input type="hidden" name="q_image"   value="${quiz.q_image}" jdbcType="varchar"><input type="file" name="file1">
-				</td>
-			</tr>
-			<tr>
-				<th scope="row" colspan="2">출석 혜택지급 :</th>
-			</tr>
-			<tr>
-				<td colspan="2">
-				<table class="table mb-0">
-         			<thead>
-         				<tr>
-				 			<th scope="row">지급 포인트 :</th>
-				 			<td>
-				 				<input type="text"  name="q_point" min="1" maxlength="3" value="${quiz.q_point}" required="required">point
-							</td>
-						</tr>
-					</thead>
-				</table>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">질문</th>
-				<td>
-					<textarea name="q_question" required="required">${quiz.q_question }</textarea>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">정답 :</th>
-				<td>
-					<select name="q_answer" required="required">
-						<option id="select" value="1" ${quiz.q_answer == 1 ? "selected" : "" }>1
-						<option id="select" value="2" ${quiz.q_answer == 2 ? "selected" : "" }>2
-						<option id="select" value="3" ${quiz.q_answer == 3 ? "selected" : "" }>3
-						<option id="select" value="4" ${quiz.q_answer == 4 ? "selected" : "" }>4
-					</select>						
-				</td>
-			</tr>
-			<tr>
-				<th scope="row" colspan="2">선택지</th>
-			</tr>
-			<tr>
-				<td colspan="2">
-				<table class="table mb-0">
-         			<tbody>
-         				<tr>
-							<th>1.</th>
-							<td>
-								<input type="text" name="q_select1" value="${quiz.q_select1}"	required="required">
-							</td>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>	
-							<th>2.</th>
-							<td>
-								<input type="text" name="q_select2" value="${quiz.q_select2}"	required="required">
-							</td>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>
-							<th>3.</th>
-							<td>
-								<input type="text" name="q_select3" value="${quiz.q_select3}" required="required">
-							</td>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>
-							<th>4.</th>
-							<td>
-								<input type="text" name="q_select4" value="${quiz.q_select4}" required="required">
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" style="text-align: center;">	
-					<input type="button" onclick="updateQuiz()" value="수정">																	
-					<input type="button" onclick="deleteQuiz(${quiz.q_num },'${quiz.q_title}')" value="삭제">
-					<input type="button" value="닫기" onclick="window.close();">
-				</td>
-			</tr>
-			<tr>
-			<td colspan="3">
-				<span style="background-color:yellow; color: red;">*포인트 수령 기록이 있으면 삭제가 되지 않습니다!</span><p>
-				<span>이미지 교체는 선택사항이며, 선택 안할 시, 기존 이미지가 사용됩니다.</span>
-			</td>
-		</tr>	
-		</table>	
-	</form>
+
+<div class="offset-lg-2 col-lg-8 col-12">
+
+	<div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-10">퀴즈 수정</h1>
+      </div>
+
+ <div class="mb-8">
+      
+      
+<div class="mt-7 md-10 justify-content-center">
+		<form class="" id="quizForm" action="javascript:void(0)" >
+			<table class="table" style="  border: 1px solid #dfe2e1; ">
+				
+				<tr>		
+					<th class="table-active">이벤트 번호</th>
+					<td>
+					<input class="form-control" type="text" value="${quiz.q_num }" name="q_num" style="width: 300px;" readonly="readonly">
+					</td>	
+				</tr>
+				
+				<tr>		
+					<th class="table-active">이벤트 이름</th>
+					<td><input class="form-control" type="text" value="${quiz.q_title}" name="q_title" style="width: 300px;" required="required"></td>	
+				</tr>
+				
+				<tr>
+					<th class="table-active">이벤트 기간</th>	
+					<td>
+						<div style="display: flex;">
+							<input class="form-control" type="date" name="q_sdate" required="required" value="${quiz.q_sdate}"><div class="mt-2">~</div>					
+							<input class="form-control" type="date" name="q_edate" required="required" value="${quiz.q_edate}">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-active">사진 등록</th>
+					<td>
+					<input type="hidden" name="q_image"   value="${quiz.q_image}" jdbcType="varchar">
+					<input class="form-control" type="file" name="file1" required="required" style="width: 300px;"></td>
+				</tr>
+				<tr>
+					
+					<th class="table-active">포인트</th>
+					<td><div style="display: flex;">
+					<input class="form-control" type="number" name="q_point" min="1" maxlength="3" 
+							value="${quiz.q_point}" required="required"> <div class="mt-2">point</div></div></td>
+				</tr>
+				<tr>
+					<th class="table-active">질문</th>
+					<td >
+					<textarea name="q_question" required="required" style="border: 1px solid #dfe2e1">${quiz.q_question }</textarea>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-active">선택</th>
+					<td >
+						<table>
+							<tr>
+								<th class="s_title">1 </th><td>
+								<input class="form-control" type="text" name="q_select1" value="${quiz.q_select1}" style="width: 300px;" required="required"></td>
+							</tr>
+							<tr>
+								<th class="s_title">2 </th><td>
+								<input class="form-control" type="text" name="q_select2" value="${quiz.q_select2}" style="width: 300px;" required="required"></td>
+							</tr>
+							<tr>
+								<th class="s_title">3 </th><td>
+								<input class="form-control" type="text" name="q_select3" value="${quiz.q_select3}" style="width: 300px;" required="required"></td>
+							</tr>
+							<tr>
+								<th class="s_title">4 </th><td>
+								<input class="form-control" type="text" name="q_select4" value="${quiz.q_select4}" style="width: 300px;" required="required"></td>
+							</tr>
+						</table>
+					</td>						
+				</tr>
+				<tr>
+					<th scope="row" class="table-active">정답</th>
+					<td>
+						<select class="w-10 rounded" name="q_answer" required="required" style="width: 45px;height: 35px;text-align: center;padding-left: 0;border: 1px solid #dfe2e1;">
+							<option id="select" value="1" ${quiz.q_answer == 1 ? "selected" : "" }>1
+							<option id="select" value="2" ${quiz.q_answer == 2 ? "selected" : "" }>2
+							<option id="select" value="3" ${quiz.q_answer == 3 ? "selected" : "" }>3
+							<option id="select" value="4" ${quiz.q_answer == 4 ? "selected" : "" }>4
+						</select>
+					</td>
+				</tr>
+				
+			</table>
+		
+			<div class="d-grid gap-2 d-md-flex justify-content-center" >
+				<input type="submit" onclick="updateQuiz()"  class="btn btn-primary mb-2" value="수정" style="margin-right: 10px"> 
+				<input type="button"   onclick="deleteQuiz(${quiz.q_num },'${quiz.q_title}')"  class="btn btn-primary mb-2" id="cancleButton"  value="삭제">
+			</div>
+			</form>
+	</div>
+	</div>
+	</div>
+</body>
 	
 	<script type="text/javascript">
 	function updateQuiz(){
@@ -158,9 +159,7 @@
 			type : "POST",
 			success: function(result){
 				if(result == 1){
-					if(confirm("수정 성공, 창을 닫으시겠습니까?")){
-						opener.parent.location.reload();
-						window.close();		
+					if(confirm("수정 성공")){
 					}
 				}else{
 					alert("수정 실패");

@@ -39,6 +39,16 @@
 		border-radius: 10px;
 	    box-shadow: 0 5px 5px 0 rgba(34, 36, 38, 0.3);
 	    padding: 10px;
+	    margin-top: 30px;
+	}
+	.center-text {
+	  	text-align: center; /* 텍스트 가운데 정렬 */
+	  	position: absolute;
+	  	top: 155%;
+	  	left: 50%;
+	  	font-weight: bold;
+	  	color:black;
+	  	transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
 	}
 </style>
 <script type="text/javascript">
@@ -315,6 +325,13 @@
       </div>
       <!-- row -->
       <div class="row g-4 row-cols-lg-4 row-cols-2 row-cols-md-2 mt-2">
+      <c:if test="${empty sameDetailList }">
+			<div class="row">
+				<div class="center-text mt-14 md-14">
+					등록된 관련 독후감이 없습니다.
+				</div>
+			</div>
+		</c:if>
         <!-- col -->
         <c:forEach var="sameDetail" items="${sameDatailList }">
         <c:if test="${sameDetail.cm_num != community.cm_num }">
