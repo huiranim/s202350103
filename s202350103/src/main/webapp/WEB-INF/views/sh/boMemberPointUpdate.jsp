@@ -6,6 +6,38 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.center-text {
+	  	text-align: center; /* 텍스트 가운데 정렬 */
+	  	position: absolute;
+	  	top: 30%;
+	  	left: 50%;
+	  	font-weight: bold;
+	  	color:black;
+	  	transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+	}
+	
+	.top {
+              position: relative;
+              display: flex; 
+              justify-content: space-between;
+              padding: 0.5rem 1.4rem;
+              background-color: #3CB371;
+              vertical-align: middle;
+          }
+              
+    h1.infoTit {
+                margin-top : 10px;
+                   font-size: 20px; 
+                   color:#ffffff;
+               }
+    .textBox {
+                margin-left: 5%;
+                margin-right: 5%;
+              }
+	
+	
+</style>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
 	function plusPoint(){
@@ -55,13 +87,20 @@
 </script>
 </head>
 <body>
-	<div>
-		<h2 class="mt-10" style="text-align: center">포인트 수정</h2>
-	</div>
+<main class="textBox">
+   <div class="mb-6">
+      <header class="top">
+         <h1 class="infoTit">
+           	이벤트 참여 이력
+         </h1>
+      </header>
+   </div>
+
+<c:if test="${sum != 0 }">
 	<div style="margin-left: 20%; margin-right: 20%; text-align: center; margin-left: 105px;" class="mt-9" >
-    	<div class="row g-4 row-cols-lg-4 row-cols-2 row-cols-md-2 mt-2" style="border: 1px solid black; width: 700px;">
+    	<div class="row g-4 row-cols-lg-4 row-cols-2 row-cols-md-2 mt-2" style="border: 1px solid #0aad0a; width: 700px;">
         <!-- col -->
-        	<div class="col" style="border-right: 1px solid black;margin-top: 0px; width:200px;">
+        	<div class="col" style="border-right: 1px solid #0aad0a;margin-top: 0px; width:200px;">
         		<input type="hidden" name="m_num" id="m_num" value="${member.m_num }"> 
 	              <div class="text-muted mt-4">
 	              	  <div>
@@ -102,9 +141,14 @@
 		           </div>	    
 	          </div>
 	        </div>  
-
-
-	
-	
+</c:if>
+<c:if test="${sum == 0 }">
+	<div class="row">
+		<div class="center-text mt-14">
+			보유한 포인트가 없습니다.
+		</div>
+	</div>
+</c:if>
+</main>
 </body>
 </html>

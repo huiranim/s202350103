@@ -10,8 +10,8 @@
 <script type="text/javascript">
 	
 	function boMemberPointUpdate(m_num) {
-			var popupW = 900;
-			var popupH = 400;
+			var popupW = 100;
+			var popupH = 350;
 			var left = Math.ceil((window.screen.width - popupW)/2);
 			var top = Math.ceil((window.screen.height - popupH)/2);
 		
