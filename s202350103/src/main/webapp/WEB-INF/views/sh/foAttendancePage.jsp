@@ -97,7 +97,7 @@
 			        </div>
 			    </c:forEach>
 			
-			    <c:forEach var="i" begin="1" end="${lastday}">
+			    <c:forEach var="i" begin="1" end="${lastday}" ㅁ>
 			        <c:set var="today" value="${(i + dayOfWeek - 2) % 7 + 1}" />
 						
 						
@@ -155,7 +155,7 @@
 		          <strong>[${month}월 출석 이벤트]</strong>
 					<br>
 					<span>일일 출석 체크 : ${attendance.a_point }포인트</span><br>
-					<span>연속 출석 체크 : ${attendance.a_addpoint }포인트</span><br> 	
+					<span>연속 출석 체크 : ${attendance.a_addpoint}포인트</span><br> 	
 		       </div>
 		    </div>
 		 </div>
