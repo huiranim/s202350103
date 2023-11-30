@@ -195,7 +195,7 @@
 							                       	</span>
 							                       </span>
 						                       </c:if>
-						                       <c:if test="${totalIncome - lastTotalIncome <= 0}">
+						                       <c:if test="${totalIncome - lastTotalIncome < 0}">
 							                       <span _msttexthash="21663070" _msthash="89">
 							                       	지난달과 비교 : 
 							                       	<span class="me-1" _istranslated="1" style="color:blue">

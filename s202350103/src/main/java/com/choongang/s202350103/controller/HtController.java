@@ -601,8 +601,11 @@ public class HtController {
 			
 			System.out.println("kakaoDto22---> " + kakaoDto);
 			
-			orderr = os.obNumSelect(kakaoDto);
-			System.out.println("kakaoPaySuccess obNumSelect---> " + orderr);
+			
+			if(kakaoDto.getPartner_order_id().length() != 4) {
+				orderr = os.obNumSelect(kakaoDto);
+				System.out.println("kakaoPaySuccess obNumSelect---> " + orderr);
+			}
 			
 			if (String.valueOf(orderr.getNb_num()).startsWith("2")) {
 				System.out.println("2로 시작해");
