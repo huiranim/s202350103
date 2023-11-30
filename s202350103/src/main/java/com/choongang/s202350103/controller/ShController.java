@@ -146,14 +146,16 @@ import lombok.extern.slf4j.Slf4j;
 			System.out.println(a_num);
 			System.out.println(m_num);
 			
+			ps.checkAtt(attJoin);
+			
+			
 			//출석 참여(att_join list)
-			ps.stampAtt(attJoin);
 			//멤버 포인트 적립
-			ps.savePoint(attJoin);
+			//멤버 포인트 적립
+			
 			//당일 기록 체크 
 			attJoin = ps.searchAtt(attJoin);
-			//멤버 포인트 적립
-			ps.attPointList(attJoin);
+			
 			
 			return "forward:/attendancePage?eNum="+a_num+"&m_num="+m_num;
 		}
@@ -236,25 +238,25 @@ import lombok.extern.slf4j.Slf4j;
 		}
 		
 		//Quiz 오답 제출
-		@RequestMapping(value = "checkQuiz", method = RequestMethod.GET)
-		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
-			System.out.println("shController checkQuiz() Start...");
-			QuizJoin quizJoin = new QuizJoin();
-			quizJoin.setM_num(m_num);
-			quizJoin.setQ_num(eNum);
-			//퀴즈 참여
-			ps.checkedAnswer(quizJoin);
-			return "redirect:/quizPage?eNum="+eNum+"&m_num="+m_num;
-		}
-		
-		//Quiz 정답 제출
 		@RequestMapping(value = "wrongQuiz", method = RequestMethod.GET)
 		public String wrongQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
 			System.out.println("shController wrongQuiz() Start...");
 			QuizJoin quizJoin = new QuizJoin();
 			quizJoin.setM_num(m_num);
 			quizJoin.setQ_num(eNum);
-			//퀴즈 참여
+			//퀴즈 참여(오답)
+			ps.checkedAnswer(quizJoin);
+			return "redirect:/quizPage?eNum="+eNum+"&m_num="+m_num;
+		}
+		
+		//Quiz 정답 제출
+		@RequestMapping(value = "checkQuiz", method = RequestMethod.GET)
+		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
+			System.out.println("shController checkQuiz() Start...");
+			QuizJoin quizJoin = new QuizJoin();
+			quizJoin.setM_num(m_num);
+			quizJoin.setQ_num(eNum);
+			//퀴즈 참여(정답)
 			ps.checkedAnswer(quizJoin);
 			//member table 포인트 적립
 			ps.savePoint(quizJoin);

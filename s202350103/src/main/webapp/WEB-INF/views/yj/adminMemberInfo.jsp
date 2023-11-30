@@ -171,12 +171,14 @@
 </head>
 <body>
 
-	<div class="mb-8">
-         <!-- heading -->
-         <h1 class="mb-10">회원 상세</h1>
-      </div>
 
 	
+<div class="offset-lg-2 col-lg-8 col-12">
+
+	<div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-7">회원 상세</h1>
+      </div>
 	    <div class="mb-8">
          <!-- heading -->
           <p class="fs-2 mb-3"><strong>${member.m_name} 님 (${member.m_id })</strong> 
@@ -208,7 +210,6 @@
 
 
       </div>
-<div class="offset-lg-2 col-lg-8 col-12">
        
        
           <!-- form -->

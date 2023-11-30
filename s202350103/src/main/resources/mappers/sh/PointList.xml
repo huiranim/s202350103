@@ -53,19 +53,37 @@
 		Where  m_num = #{m_num}
 	</update>
 	
-	<select id="shBoJoinedMember" parameterType="int" resultType="PointList">
-		Select *
+	<select id="shJoinedList" parameterType="int" resultType="int">
+		Select count(rn)
 		From (
-		 Select rownum rn, a.*
+		 Select rownum rn,a.*
 		 From
 		 (
-		  Select p_num, m_num, a_num, q_num, a_par_pdate, p_list_type, m_point 
+		  Select*
 		  From point_list 
-		  Where a_num = #{eNum} 
+		  Where a_num = #{eNum}
 		  Or q_num = #{eNum}
 		 ) a)
-		 Order by rn desc
+		 Order by rn desc	
 	</select>
+	
+		<select id="shBoJoinedMember" parameterType="Attendance" resultType="PointList">
+			<![CDATA[
+			Select *
+			From (
+			 Select rownum rn, a.*
+			 From
+			 (
+			  Select p_num, m_num, a_num, q_num, a_par_pdate, p_list_type, m_point 
+			  From point_list 
+			  Where a_num = #{a_num} 
+			  Or q_num = #{a_num}
+			 ) a)
+			 Where rn >= #{start}
+			 And rn <= #{end}  
+			 Order by rn asc
+			 ]]>
+		</select>
 	
 	<select id="shJoinedCount" parameterType="int" resultType="int">
 		Select count(*) 

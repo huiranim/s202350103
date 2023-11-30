@@ -1100,6 +1100,7 @@ public class YjController {
 		  
 		  model.addAttribute("totalMember",searchTotalMember);
 		  model.addAttribute("adminMemberList", adminMemberSearch);
+		  model.addAttribute("member",member);
 		  model.addAttribute("page", page);
 		  
 		  return "yj/adminMemberList";

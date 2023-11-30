@@ -28,7 +28,7 @@
 	
 	<insert id="shAttPointList" parameterType="AttJoin">
 	Insert into point_list(p_num, a_num, m_num, a_par_pdate, p_list_type, m_point) 
-	Values (pointlist_p_num_seq.nextval, #{a_num}, #{m_num}, #{a_par_pdate}, 2, 
+	Values (pointlist_p_num_seq.nextval, #{a_num}, #{m_num}, sysdate, 2, 
 		   (select a_point from attendance Where a_num = #{a_num}))
 	</insert> 
 	
