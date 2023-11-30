@@ -51,22 +51,22 @@
 	<c:if test="${not empty pointList }">
 	<p style="float: left; margin-left: 30px;">총 참여 인원 : ${joinedCount}</p>
 	
-	<table class="table" style="text-align: center; margin: auto; border: none;">
+	<table class="table" style="text-align: center; margin: auto;">
 		<thead class="table-light">
 		<tr>
-			<th>번호</th>
-			<th>적립번호</th>
+			<th>-</th>
 			<th>회원번호</th>
+			<th>적립번호</th>
 			<th>획득일자</th>
 		</tr>
 		</thead>
 		<tbody>
 		
 				<c:forEach var="pl" items="${pointList}">
-					<tr>
+					<tr style="border-color: #d8dbda">
 						<td>${pl.rn}</td>	
-						<td>${pl.p_num}</td>
 						<td>${pl.m_num}</td>
+						<td>${pl.p_num}</td>
 						<td><fmt:formatDate value="${pl.a_par_pdate}" pattern="yy-MM-dd"/></td>
 	
 					</tr>
