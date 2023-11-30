@@ -253,7 +253,8 @@
 	
 	
 	function changeChk(p_point){
-		var regex = /^[1-9][0-9]*$/;
+		//var regex = /^[0-9][0-9]*$/;
+		var regex = /^0$|^[1-9][0-9]*$/;
 		if(!regex.test(p_point)){
 			alert("숫자(양수)로 입력하세요.");
 			$("#o_point2").val("");
@@ -286,9 +287,13 @@
 			$("#o_pay_price").html(success_total_price);
 			$("#o_pay_price_submit").html(success_total_price);
 			// 적립금(성공)
-			$("#o_point_save").html(Math.round(success_save_pointy));
+			let replaced_success_save_pointy = success_save_pointy.replace(/,/g, '');
+	
+			$("#o_point_save").html(parseInt(replaced_success_save_pointy, 10));
 			$('#o_point').val(p_point);
 		} else {
+			//alert("else...");
+	
 			$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
 			$("#o_point_result").html("");
 			$("#o_point").val(0);
@@ -628,7 +633,8 @@
             			<td class="form-label" width="70%">적립 혜택</td>
             			<td class="h6" width="30%" align="right">
             				<span id="o_point_save">
-            					<fmt:formatNumber value="${(cart.totalPrice + cart.o_deliv_price) * 0.01}" groupingUsed="true"/>
+            					<%-- <fmt:formatNumber value="${(cart.totalPrice + cart.o_deliv_price) * 0.01}" groupingUsed="true"/> --%>
+            					<fmt:formatNumber value="${(cart.totalPrice + cart.o_deliv_price) * 0.01}" groupingUsed="true" maxFractionDigits="0"/>
             				</span> 원
             			</td>
             		</tr>
