@@ -217,15 +217,41 @@ public class OrderrDaoImpl implements OrderrDao {
 		return member;
 	}
 
+//	@Override
+//	public Orderr obNumSelect(KakaoPayApprovalVO kakaoDto) {
+//		System.out.println("OrderDaoImpl selectMember() Start...");
+//		Orderr orderr = null;
+//		try {
+//			orderr = session.selectOne("htNbNumSelect", kakaoDto);
+//			System.out.println("OrderrDaoImpl obNumSelect kakaoDto--> "+ kakaoDto);
+//			
+//		
+//		
+//		}catch (Exception e) {
+//			System.out.println("OrderrDaoImpl obNumSelect Exception -> " + e.getMessage());
+//		}
+//		return orderr;
+//	}
+	
 	@Override
 	public Orderr obNumSelect(KakaoPayApprovalVO kakaoDto) {
 		System.out.println("OrderDaoImpl selectMember() Start...");
 		Orderr orderr = null;
 		try {
-			orderr = session.selectOne("htNbNumSelect", kakaoDto);
-			System.out.println("OrderrDaoImpl obNumSelect kakaoDto--> "+ kakaoDto);
-		
-		
+			List<Orderr> orderrs = session.selectList("htNbNumSelect", kakaoDto);
+
+	        if (orderrs != null && orderrs.size() > 0) {
+	            // 여러 개의 결과 중 첫 번째 결과를 사용하거나 다른 처리를 수행할 수 있습니다.
+	            orderr = orderrs.get(0);
+	        } else {
+	            // 결과가 없는 경우에 대한 처리
+	            System.out.println("OrderrDaoImpl obNumSelect: 조회된 값이 없습니다.");
+	            // 추가적인 처리나 로깅 등을 수행할 수 있음
+	        }
+
+	        System.out.println("OrderrDaoImpl obNumSelect kakaoDto--> " + kakaoDto);
+			
+			
 		}catch (Exception e) {
 			System.out.println("OrderrDaoImpl obNumSelect Exception -> " + e.getMessage());
 		}

@@ -174,7 +174,7 @@ function cart(pNb_num) {
 							            <img src="${order.nb_image }" alt="도서 썸네일" class="mb-3 img-fluid" width="130px;" height="150px;">
 							     </c:when>
 							     <c:otherwise>
-							            <img src="${pageContext.request.contextPath}/upload/${order.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid" style="width: 13rem;">
+							            <img src="${pageContext.request.contextPath}/upload/${order.nb_image}" alt="도서 썸네일" class="mb-3 img-fluid"  width="130px;" height="150px;" >
 							     </c:otherwise>
 							</c:choose>
 		                 </div>
