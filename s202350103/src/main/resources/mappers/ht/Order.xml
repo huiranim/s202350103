@@ -157,4 +157,16 @@
 		WHERE  m_num = #{m_num}
 	</select>
 	
+	<select id="htNbNumSelect" parameterType="Ka" resultType="Orderr">
+		SELECT od.nb_num 
+		FROM   orderr o, order_detail od
+		WHERE  o.o_order_num = od.o_order_num
+		AND    o.o_order_num = #{partner_order_id}
+	</select>
+	
+	<update id="htOldBookUpdate" parameterType="Ka">
+		UPDATE oldbook
+		SET    ob_status = 4
+		WHERE  ob_num = #{green_deposit}
+	</update>
 </mapper>
