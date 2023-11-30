@@ -102,7 +102,24 @@
                                             </div>
                                         </div>
                                     </div>
-
+									
+									
+									<div style="display: flex; align-items: center;">
+										<div class="list-inline">
+							              <div class="list-inline-item me-5">
+							
+							                <a href="adminDeclReply" class="text-muted position-relative">
+							                  <button class="mt-10 btn btn btn-soft-info mb-2" style="margin-left: 10px;">
+							      		  	 <i class="bi bi-chat-left-text"></i>&nbsp;   
+							                  	신고 접수관리</button>
+							                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="margin-top: 10px;">
+												${declReplyCount }
+							                  </span>
+							                </a>
+							                </div>
+						                </div>
+									</div>
+									
                                 </div>
                             </div>
                         </div>
@@ -271,6 +288,8 @@
 						  	</div>
 						  	
 						  	<!-- 연도 그래프 -->
+						  	<div class="row">
+						       <div class="col-lg-4 col-12 mb-6">
 						  	<div class="card card-lg mb-6">
                                 <div class="card-body px-6 py-8">
                                 	<h3 class="mb-0 fs-5">Order Chart </h3>
@@ -341,32 +360,8 @@
                                     </div>
                                 </div>
                             </div>
-                             
-                             <!-- 답글관리 -->
-                             <a href="adminDeclReply">   
-                                <div class="card card-lg mb-6">
-                                    <div class="card-body px-6 py-8">
-                                        <div class="d-flex align-items-center">
-                                            <div>
-												<i class="bi bi-chat-left-text" style="font-size: 32px; color: #198754;"></i>
-                                            </div>
-                                            
-                                            <div class="ms-4">
-                                                <h5 class="mb-1">답글 관리</h5>
-                                            <c:if test="${declReplyCount > 0 }">
-                                                <p class="mb-0">${declReplyCount } 건 의 신고 접수이력이 있습니다.</p>
-                                            </c:if>
-                                            <c:if test="${declReplyCount == 0 }">
-                                                <p class="mb-0">접수 이력이 없습니다 .</p>
-                                            </c:if>
-                                            
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                               </a>
-                   
-                   </div>     
+                  	 </div>     	
+                  	 </div>
 
 
 </body>

@@ -23,8 +23,18 @@
 	}
 </style>
 <body>
+
+    <div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-1">이벤트 목록</h1>
+      </div>
+
+      <div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-1">이벤트 목록</h1>
+         <p>총 ${totalEvent } 건</p>
+      </div>
 <div class="tab	le-responsive" >
-	<p>이벤트 목록</p>
 <table class="table">
   <thead class="table-light">
     <tr>
@@ -76,10 +86,11 @@
 	</ul>
 </nav>
 <script type="text/javascript">
-	function openPopUp(eNum){
-		window.open("boEventDetail?eNum="+eNum,"eventUpdate","width=500,height=700");
+
+	 function openPopUp(eNum){
+		location.href="boEventDetail?eNum="+eNum,"eventUpdate","width=500,height=700";
 	}
-	
+ 
 	function openDetail(eNum){
 		window.open("boJoinedMember?eNum="+eNum,"이벤트 상세조회","width=800,height=600");
 	}

@@ -8,15 +8,10 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
-
-	
-	function mouse_click(){
-		alert("포인트 유형\n 1 주문 적립\n 2 출석 이벤트\n 3 퀴즈 이벤트\n 4 회원가입\n 5 추천인 코드\n 6 주문 포인트 사용\n 7 관리자 조정\n 8 포인트 충전");
-	}
 	
 	function boMemberPointUpdate(m_num) {
 			var popupW = 1000;
-			var popupH = 500;
+			var popupH = 350;
 			var left = Math.ceil((window.screen.width - popupW)/2);
 			var top = Math.ceil((window.screen.height - popupH)/2);
 		
@@ -55,10 +50,10 @@
  <div class="mb-8">
   <!-- heading -->
    <p class="fs-2 mb-3"><strong>${member.m_name} 님 (${member.m_id })</strong></p>
+   <p class="fs-4 mb-5">총 포인트 : <mark >${sum}P</mark></p>
+   
 </div>
-
-<p class="fs-4 mb-5">총 포인트 : <mark >${sum}P</mark></p>
-
+<div class="fs-5">회원번호 : ${member.m_num}</div>
 <c:if test="${empty memberPoint }">
 			<div class="row">
 				<div class="center-text mt-14">
@@ -66,13 +61,13 @@
 				</div>
 			</div>
 </c:if>
-<c:if test="${not empty memberPoint }">	         
+<c:if test="${not empty memberPoint }">	  
+<input type="hidden" name="m_num" id="m_num" value="${m_num  }">       
 <table class="table" style="text-align: center">
 	<thead class="table-light">
 		<tr>
 			<th scope="col">번호</th>
 			<th scope="col">포인트번호</th>
-			<th scope="col">회원번호</th>
 			<th scope="col">발행페이지 코드</th>
 			<th scope="col">발행일시</th>
 			<th scope="col">포인트유형	</th>
@@ -83,24 +78,33 @@
 	<tbody>
 		
 		<c:forEach var="memberPoint" items="${memberPoint }">
-				<input type="hidden" name="m_num" id="m_num" value="${memberPoint.m_num }">
+				
 				<tr>
 				<th scope="row">${memberPoint.rn }</th>
 				<td>${memberPoint.p_num }</td>
-				<td>${memberPoint.m_num }</td>
 				<td>
 				<c:choose>
 					<c:when test="${memberPoint.o_order_num != 0}"> ${memberPoint.o_order_num}</c:when>
 					<c:when test="${memberPoint.q_num != 0}">${memberPoint.q_num}</c:when>
 					<c:when test="${memberPoint.a_num != 0}">${memberPoint.a_num}</c:when>
-					<c:otherwise>00000</c:otherwise>
+					<c:when test="${memberPoint.p_list_type == 4}">-</c:when>
+					<c:when test="${memberPoint.p_list_type == 7}">-</c:when>
 				</c:choose>
 				</td>
 				<td>
 					<fmt:formatDate pattern="yyyy-MM-dd" value="${memberPoint.a_par_pdate }"/>
 				</td>
 				<td>
-					<a onclick="mouse_click()">${memberPoint.p_list_type }</a>	
+					<c:choose>
+						<c:when test="${memberPoint.p_list_type == 1}">주문 적립</c:when>
+						<c:when test="${memberPoint.p_list_type == 2}">출석 이벤트</c:when>
+						<c:when test="${memberPoint.p_list_type == 3}">퀴즈 이벤트</c:when>
+						<c:when test="${memberPoint.p_list_type == 4}">회원가입</c:when>
+						<c:when test="${memberPoint.p_list_type == 5}">추천인</c:when>
+						<c:when test="${memberPoint.p_list_type == 6}">주문 포인트 사용</c:when>
+						<c:when test="${memberPoint.p_list_type == 7}">관리자 조정</c:when>
+						<c:when test="${memberPoint.p_list_type == 8}">포인트 충전</c:when>
+					</c:choose>
 				</td>
 				<td>${memberPoint.m_point }</td>
 						
