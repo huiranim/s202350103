@@ -133,7 +133,7 @@
 		
 		
 		<div class="d-grid gap-2 col-4 mx-auto mt-8">
-			<input type="button" id="subButton" onClick="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num})" disabled="disabled" value="출석체크" class="btn btn-success mb-2">
+			<input type="button" id="subButton" onClick="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num})" value="출석체크" class="btn btn-success mb-2">
 		</div>
 		
 		
@@ -154,7 +154,8 @@
 		       <div class="accordion-body">
 		          <strong>[${month}월 출석 이벤트]</strong>
 					<br>
-						<span>정답 시 : ${quiz.q_point }포인트</span><br>    	
+					<span>일일 출석 체크 : ${attendance.a_point }포인트</span><br>
+					<span>연속 출석 체크 : ${attendance.a_addpoint }포인트</span><br> 	
 		       </div>
 		    </div>
 		 </div>
@@ -169,13 +170,8 @@
 		    </h2>
 		    <div id="collapseTwo" class="accordion-collapse collapse show"
 		       aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-		       <div class="accordion-body">
-		          <strong>[${month}월 출석 이벤트]</strong>
-					<br>
-					<span>[${month}월 출석 이벤트]</span><br>
-					<span>일일 출석 체크 : ${attendance.a_point }포인트</span><br>
-					<span>연속 출석 체크 : ${attendance.a_addpoint }포인트</span><br>
-					<span>[공통 안내]</span><br>
+		       <div class="accordion-body">					
+					<strong>[공통 안내]</strong><br>
 					<span>-본 이벤트는 당사의 사정에 따라 변경 또는 종료될 수 있습니다.</span><br>
 					<span>-이벤트 기간 내 ID당 1일 1회 참여 가능합니다.(모바일, PC 중복 응모 불가)</span><br>
 					<span>-본 이벤트 혜택은 참여 즉시 자동 지급되며, 최대 1분까지 시간 소요될 수 있습니다.</span><br>
@@ -192,62 +188,41 @@
 			&nbsp;
 		</div>
 
-<script type="text/javascript">
-	//이벤트 기간 체크 function (자동)
-	$(function(){
-		var curDate = new Date();
-		var curDate1 = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
-		var a_sdate = '${attendance.a_sdate}';
-		var a_edate = '${attendance.a_edate}';
-		var sysdate = new Date(curDate1);
-		var sdate = convertToDate(a_sdate);
-		var edate = convertToDate(a_edate);
-		var target = document.getElementById("subButton");
-		if(sysdate>=sdate&&sysdate<= edate){
-		target.disabled = false;
-		} else{
-		target.disabled = true;	
-		}
-		
-		function convertToDate(dateStr) {
-			  var parts = dateStr.split('-');
-			  return new Date(parts[0], parts[1] - 1, parts[2]);
-			}
-	});
-	//당일 출석 참여 유무 function
-	function checkAtt(a_num, m_num){
-		var point = '${attendance.a_point}';
-		if(${chance}==0){
-			alert("체크되었습니다."+point+"포인트 획득하셨습니다.");
-			location.href="checkAtt?a_num="+a_num+"&m_num="+m_num;
-			// checkAtt가 실행되면서 addAtt 함수 호출
-		    addAtt(a_num, m_num);
-			return true;
-		} else {
-			alert("금일 참여하셨습니다.");
-			return false;
-		}
-	}
-
-	//연속 출석 function 
-	function addAtt(a_num, m_num){
-		$.ajax({
-			url : "/checkAddAtt",
-			data : {a_num:a_num, m_num:m_num},
-			dataType:"text",
-			success : function(result){
-				if(result == 1){
-					alert(${attendance.a_add}+"일 연속 출석 하셨습니다!");
+			<script type="text/javascript">
+				//당일 출석 참여 유무 function
+				function checkAtt(a_num, m_num){
+					var point = '${attendance.a_point}';
+					if(${chance}==0){
+						alert("체크되었습니다."+point+"포인트 획득하셨습니다.");
+						location.href="checkAtt?a_num="+a_num+"&m_num="+m_num;
+						// checkAtt가 실행되면서 addAtt 함수 호출
+					    addAtt(a_num, m_num);
+						return true;
+					} else {
+						alert("금일 참여하셨습니다.");
+						return false;
+					}
 				}
-			}, 
-			error : function(){
-				alert("오류발생");
-			}
-		});
-	}
-</script>
-</div>
-</div>
+			
+				//연속 출석 function 
+				function addAtt(a_num, m_num){
+					$.ajax({
+						url : "/checkAddAtt",
+						data : {a_num:a_num, m_num:m_num},
+						dataType:"text",
+						success : function(result){
+							if(result == 1){
+								alert(${attendance.a_add}+"일 연속 출석 하셨습니다!");
+							}
+						}, 
+						error : function(){
+							alert("오류발생");
+						}
+					});
+				}
+			</script>
+		</div>
+	</div>
 </div>
 </body>
 
