@@ -74,10 +74,16 @@
 	
 </style>
 <body>
-	  <div class="mb-8">
+<div class="offset-lg-2 col-lg-8 col-12">
+
+	<div class="mb-8">
          <!-- heading -->
-         <h1 class="mb-1">QUIZ 설정</h1>
+         <h1 class="mb-10">퀴즈 등록</h1>
       </div>
+
+ <div class="mb-8">
+      
+      
       <div class="mt-10 md-10 justify-content-center">
 		<form class="" id="createQuizForm" action="createQuiz" onsubmit="return checkDate()" enctype="multipart/form-data" method="post">
 			<table class="table" style="width: 70%;  border: 1px solid #dfe2e1; margin-left: 300px;">
@@ -148,6 +154,8 @@
 				<input type="button"  class="btn btn-secondary mb-2" id="cancleButton"  value="목록가기">
 			</div>
 			</form>
+	</div>
+	</div>
 	</div>
 <script type="text/javascript">
 	var cancleButton = document.getElementById("cancleButton");

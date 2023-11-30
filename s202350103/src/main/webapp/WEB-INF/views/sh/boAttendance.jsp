@@ -47,21 +47,19 @@
 		font-weight: bold;
 	}
 	
-	form{
-		width: 80%;
-	}
-	
-	th {vertical-align: middle;}
-	
 </style>
 <body>
-<div class="mb-8">
-   <!-- heading -->
-   <h1 class="mb-1">출석체크 설정</h1>
-</div>
-<div class="mt-10 md-10 justify-content-center">
+
+<div class="offset-lg-2 col-lg-8 col-12">
+
+	<div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-10">출석체크 등록</h1>
+      </div>
+
+ <div class="mb-8">
 <form id="createAttForm" action="createAtt" onsubmit="return checkDate()" method="post" enctype="multipart/form-data">
-	<table class="table" style="width: 70%;  border: 1px solid #dfe2e1; margin-left: 300px;">
+	<table class="table">
 		<tr>
 			<th scope="col" class="table-active">이벤트 이름</th>
 			<td><input class="form-control" type="text" name="a_title" style="width: 300px;" required="required"></td>	
@@ -111,12 +109,14 @@
 	        </td>
 		</tr>
 	</table>
-	<div class="d-grid gap-2 d-md-flex justify-content-center" style="padding-left: 250px;">
+	<div class="d-grid gap-2 d-md-flex justify-content-center" >
 		<input type="submit" class="btn btn-primary mb-2" value="등록하기" style="margin-right: 10px"> 
 		<input type="button"  class="btn btn-secondary mb-2" id="cancleButton"  value="목록가기">
 	</div>
 </form>
 </div>
+</div>
+
 <script type="text/javascript">
 	var cancleButton = document.getElementById("cancleButton");
 	cancleButton.addEventListener('click',function(){
