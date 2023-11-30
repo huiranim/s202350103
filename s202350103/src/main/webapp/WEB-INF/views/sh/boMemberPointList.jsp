@@ -15,8 +15,8 @@
 	}
 	
 	function boMemberPointUpdate(m_num) {
-			var popupW = 1000;
-			var popupH = 500;
+			var popupW = 800;
+			var popupH = 350;
 			var left = Math.ceil((window.screen.width - popupW)/2);
 			var top = Math.ceil((window.screen.height - popupH)/2);
 		
@@ -66,7 +66,8 @@
 				</div>
 			</div>
 </c:if>
-<c:if test="${not empty memberPoint }">	         
+<c:if test="${not empty memberPoint }">	  
+<input type="hidden" name="m_num" id="m_num" value="${m_num  }">       
 <table class="table" style="text-align: center">
 	<thead class="table-light">
 		<tr>
@@ -83,7 +84,7 @@
 	<tbody>
 		
 		<c:forEach var="memberPoint" items="${memberPoint }">
-				<input type="hidden" name="m_num" id="m_num" value="${memberPoint.m_num }">
+				
 				<tr>
 				<th scope="row">${memberPoint.rn }</th>
 				<td>${memberPoint.p_num }</td>

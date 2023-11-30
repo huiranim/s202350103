@@ -50,11 +50,11 @@
 	
 </style>
 <body>
-<div class="mb-8">
+<div class="mt-7 md-10 justify-content-center">
+<div class="mb-10" style="margin-left: 300px;">
    <!-- heading -->
    <h1 class="mb-1">출석체크 설정</h1>
 </div>
-<div class="mt-10 md-10 justify-content-center">
 <form id="createAttForm" action="createAtt" onsubmit="return checkDate()" method="post" enctype="multipart/form-data">
 	<table class="table" style="width: 70%;  border: 1px solid #dfe2e1; margin-left: 300px;">
 		<tr>

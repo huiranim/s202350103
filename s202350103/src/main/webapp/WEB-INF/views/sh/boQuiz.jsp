@@ -74,11 +74,11 @@
 	
 </style>
 <body>
-	  <div class="mb-8">
-         <!-- heading -->
-         <h1 class="mb-1">QUIZ 설정</h1>
-      </div>
-      <div class="mt-10 md-10 justify-content-center">
+      <div class="mt-7 md-10 justify-content-center">
+	      <div class="mb-10">
+	         <!-- heading -->
+	         <h1 class="mb-1" style="margin-left: 300px;">QUIZ 설정</h1>
+	      </div>
 		<form class="" id="createQuizForm" action="createQuiz" onsubmit="return checkDate()" enctype="multipart/form-data" method="post">
 			<table class="table" style="width: 70%;  border: 1px solid #dfe2e1; margin-left: 300px;">
 			

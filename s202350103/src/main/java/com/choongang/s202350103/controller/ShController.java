@@ -563,25 +563,25 @@ import lombok.extern.slf4j.Slf4j;
 		}
 		
 		@RequestMapping(value = "boPlusPoint")
-		public String boPlusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+		public String boPlusPoint(int m_num,  int point) {
 			System.out.println("shController boPlusPoint() Start...");
 			Member member = new Member();
 			member.setM_num(m_num);
 			member.setM_point(point);
 			ps.boInsertPlusPoint(member);
 			ps.boUpdatePlusPoint(member);
-			return "redirect:/selectMemberPoint?m_num="+m_num;
+			return "sh/boMemberPointUpdate";
 		}
 		
 		@RequestMapping(value = "boMinusPoint")
-		public String boMinusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+		public String boMinusPoint(int m_num, int point) {
 			System.out.println("shController boMinusPoint() Start...");
 			Member member = new Member();
 			member.setM_num(m_num);
 			member.setM_point(point);
 			ps.boInsertMinusPoint(member);
 			ps.boUpdateMinusPoint(member);
-			return "redirect:/selectMemberPoint?m_num="+m_num;
+			return "sh/boMemberPointUpdate";
 		}
 		
 		@RequestMapping(value = "boJoinedMember")
