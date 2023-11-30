@@ -97,7 +97,7 @@
 			        </div>
 			    </c:forEach>
 			
-			    <c:forEach var="i" begin="1" end="${lastday}" ㅁ>
+			    <c:forEach var="i" begin="1" end="${lastday}" >
 			        <c:set var="today" value="${(i + dayOfWeek - 2) % 7 + 1}" />
 						
 						
