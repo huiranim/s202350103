@@ -58,7 +58,7 @@
 			</c:if>
 			<td>${event.a_title }</td>
 			<c:if test="${event.event_status == 1 }">
-				<td>진행중</td>
+				<td>진행</td>
 			</c:if>
 			<c:if test="${event.event_status == 2 }">
 				<td>예정</td>
