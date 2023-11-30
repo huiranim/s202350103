@@ -30,7 +30,7 @@
 		  top: 80%;
 		  left: 50%;
 		
-		  width: 600px;
+		  width: 580px;
 		  height: 1400px;
 		
 		  padding: 40px;

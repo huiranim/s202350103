@@ -531,6 +531,7 @@ public class HtController {
 		String item_code = orderr.getM_name();			  // 회원이름
 		//String item_code = orderr.getO_gift_msg();	  // 선물 메시지
 		
+		
 		String item_name = null; //상품명
 		if(quantity == 1) {// 1개 구매일 경우
 			item_name = orderr.getNb_title(); 
@@ -540,6 +541,7 @@ public class HtController {
 		AmountVO amountVO = new AmountVO();
 		amountVO.setTotal(orderr.getO_pay_price()); //결제금액
 		amountVO.setPoint(orderr.getO_point());		//사용포인트
+		
 		
 		// kakaopay에 보낼것을 KakaoPayApprovalVO DTO에 담기
 		KakaoPayApprovalVO kakaoDto = new KakaoPayApprovalVO();
@@ -577,7 +579,7 @@ public class HtController {
 	 // 결제 성공
 	 @RequestMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
 	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, 
-			 						@ModelAttribute("kakaoDto") KakaoPayApprovalVO kakaoDto, Model model, HttpSession session, Member member) throws MessagingException {
+			 						@ModelAttribute("kakaoDto") KakaoPayApprovalVO kakaoDto, Model model, HttpSession session, Member member, Orderr orderr) throws MessagingException {
 		 
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -600,7 +602,18 @@ public class HtController {
 			// 카카오 결제 성공 응답 데이터
 			kakaoDto =  kakaopay.kakaoPayInfo(pg_token, kakaoDto);
 			
-			System.out.println("kakaoDto---> " + kakaoDto);
+			System.out.println("kakaoDto22---> " + kakaoDto);
+			
+			orderr = os.obNumSelect(kakaoDto);
+			System.out.println("kakaoPaySuccess obNumSelect---> " + orderr);
+			
+			if (String.valueOf(orderr.getNb_num()).startsWith("2")) {
+				System.out.println("2로 시작해");
+				kakaoDto.setGreen_deposit(orderr.getNb_num());
+			} else {
+				System.out.println("1로 시작해");
+			}
+			
 
 			// 일반 & 선물 주문
 			if(kakaoDto.getPartner_order_id().length() != 4) {

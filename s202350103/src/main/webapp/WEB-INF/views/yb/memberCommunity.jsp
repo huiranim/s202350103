@@ -31,7 +31,7 @@ function openWrite() {
 		location.href = "loginForm"
 	} else {
 		var popupW = 600;
-		var popupH = 800;
+		var popupH = 900;
 		var left = Math.ceil((window.screen.width - popupW)/2);
 		var top = Math.ceil((window.screen.height - popupH)/2);
 	

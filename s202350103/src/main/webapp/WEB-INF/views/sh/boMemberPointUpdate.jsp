@@ -91,7 +91,7 @@
    <div class="mb-6">
       <header class="top">
          <h1 class="infoTit">
-           	이벤트 참여 이력
+           	포인트 수정
          </h1>
       </header>
    </div>

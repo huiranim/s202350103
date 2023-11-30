@@ -167,11 +167,11 @@ public class OrderrDaoImpl implements OrderrDao {
 				System.out.println("Dao htOrderInsert cart_delete_result--->" + cart_delete_result);
 			}
 			
-//			// 중고상품 상태값 변경(결제완료일 경우)
-//			if (ka.getPartner_order_id() != null && ka.getPartner_order_id().matches("^2\\d*")) {
-//				int oldBook_status_result = session.delete("htCartDelete",ka);
-//				System.out.println("Dao htOrderInsert cart_delete_result--->" + oldBook_status_result);
-//			}
+			// 중고상품 상태값 변경(결제완료일 경우)
+			if (ka.getGreen_deposit() != null) {
+				int oldBook_status_result = session.update("htOldBookUpdate", ka);
+				System.out.println("Dao htOrderInsert oldBook_status_result--->" + oldBook_status_result);
+			}
 						
 			
 			//commit
@@ -215,6 +215,21 @@ public class OrderrDaoImpl implements OrderrDao {
 			System.out.println("OrderrDaoImpl selectMember Exception -> " + e.getMessage());
 		}
 		return member;
+	}
+
+	@Override
+	public Orderr obNumSelect(KakaoPayApprovalVO kakaoDto) {
+		System.out.println("OrderDaoImpl selectMember() Start...");
+		Orderr orderr = null;
+		try {
+			orderr = session.selectOne("htNbNumSelect", kakaoDto);
+			System.out.println("OrderrDaoImpl obNumSelect kakaoDto--> "+ kakaoDto);
+		
+		
+		}catch (Exception e) {
+			System.out.println("OrderrDaoImpl obNumSelect Exception -> " + e.getMessage());
+		}
+		return orderr;
 	}
 
 

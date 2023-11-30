@@ -60,6 +60,7 @@ public class KakaoPay {
         params.add("point_amount", String.valueOf(ka.getAmount().getPoint()));
         params.add("tax_free_amount", "100");
         
+        
         String plus = "partner_order_id="+ka.getPartner_order_id()+
 		  			  "&partner_user_id="+ka.getPartner_user_id()+
 		  			  "&amount.total="+ka.getAmount().getTotal()+
@@ -68,7 +69,7 @@ public class KakaoPay {
 		  			  "&cid_secret="+ka.getCid_secret()+
 		  			  "&item_code="+ka.getItem_code()+
 		  			  "&item_name="+ka.getItem_name()+
-		  			  "&quantity"+ka.getQuantity();
+		  			  "&quantity="+ka.getQuantity();
         String total = "http://localhost:8200/kakaoPaySuccess?" + plus;
         
         params.add("approval_url", total);
@@ -78,6 +79,7 @@ public class KakaoPay {
  
          HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
          System.out.println("KakaoPay service 여기까지 왔어 4");
+         System.out.println("확인용 body -> "+body);
         try {
             kakaoPayReadyVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyVO.class);
             
@@ -127,6 +129,8 @@ public class KakaoPay {
         params.add("point_amount", String.valueOf(ka.getAmount().getPoint()));
         params.add("cid_secret", ka.getCid_secret());
         params.add("item_code", ka.getItem_code());
+        
+        
         System.out.println("희라 확인용 params -> "+params);
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
@@ -140,6 +144,8 @@ public class KakaoPay {
             kakaoPayApprovalVO.getAmount().setPoint(ka.getAmount().getPoint());
             kakaoPayApprovalVO.setCid_secret(ka.getCid_secret());
             kakaoPayApprovalVO.setItem_code(ka.getItem_code());
+            
+            
             System.out.println("kakaoPayApprovalVO -> " + kakaoPayApprovalVO);
           
             return kakaoPayApprovalVO;

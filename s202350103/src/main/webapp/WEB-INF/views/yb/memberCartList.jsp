@@ -94,16 +94,16 @@
 	        <div class="col-lg-8 col-md-7">
 	          <div class="py-3">
 	          	<div class="table-responsive">
-			        <table class="table text-nowrap table-with-checkbox" style="margin-bottom: 0px;">
+			        <table class="table text-nowrap table-with-checkbox" style="margin-bottom: 0px; text-align: center;" >
 			                <thead class="table-light">
 			                  <tr>
 			                    <th></th>
 			                    <th style="padding-left: 70px;">제목</th>
-			                    <th>카테고리</th>
 			                    <th></th>    
 			                    <th></th>
+			                    <th></th>
 			                    <th>수량</th>
-			                   	<th style="padding-left: ;padding-right: 0px;padding-left: 70px;">가격</th>
+			                   	<th style="padding-right: 20px;padding-left: 50px;">가격</th>
 			                  </tr>
 			                </thead>
 			         </table>
