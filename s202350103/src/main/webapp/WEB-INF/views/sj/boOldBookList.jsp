@@ -64,6 +64,7 @@
 	        <option value=1 <c:if test="${oldBook.ob_status eq '1'}"> selected="selected"</c:if>>  검수 중</option>
 	         <option value=2<c:if test="${oldBook.ob_status eq '2'}"> selected="selected"</c:if>> 검수 완료</option>
 	          <option value=3 <c:if test="${oldBook.ob_status eq '3'}"> selected="selected"</c:if>> 매입 완료</option>
+	           <option value=4 <c:if test="${oldBook.ob_status eq '4'}"> selected="selected"</c:if>> 판매 완료</option>
 	       </select>    
 	           	<br>
 	           	
@@ -107,6 +108,7 @@
 						<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수중"/></c:when>
 						<c:when test="${oldBook.ob_status eq '2' }"><c:out value="검수완료"/></c:when>
 						<c:when test="${oldBook.ob_status eq '3' }"><c:out value="매입완료"/></c:when>
+						<c:when test="${oldBook.ob_status eq '4' }"><c:out value="판매완료"/></c:when>
 						<c:otherwise><c:out value=""/></c:otherwise>
 				</c:choose>
 	                    </td>
@@ -120,6 +122,9 @@
 									<input type="button" class="btn btn-soft-info mb-2" name="ob_num" style="margin-left: 20px;" value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:when test="${oldBook.ob_status eq '3' }"><c:out value=""/>
+									<input type="button" class="btn btn-soft-info mb-2" name="ob_num" style="margin-left: 20px;" value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+								</c:when>
+									<c:when test="${oldBook.ob_status eq '4' }"><c:out value=""/>
 									<input type="button" class="btn btn-soft-info mb-2" name="ob_num" style="margin-left: 20px;" value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:otherwise><c:out value=""/>

@@ -62,7 +62,7 @@
 		          <i class="bi bi-currency-dollar fs-1 me-1" style="color:#21313c;">
 		          		&nbsp;&nbsp;
 		          		<span style=" font-size: 20px; font-style: normal;">
-		          		<strong>판매현황</strong>
+		          		<strong>중고 판매현황</strong>
 		          		</span> 
 		          </i>
          	</div>

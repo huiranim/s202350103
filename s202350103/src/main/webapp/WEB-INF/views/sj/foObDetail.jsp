@@ -43,6 +43,7 @@
 				<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수중"/></c:when>
 				<c:when test="${oldBook.ob_status eq '2' }"><c:out value="검수완료"/></c:when>
 				<c:when test="${oldBook.ob_status eq '3' }"><c:out value="매입완료"/></c:when>
+				<c:when test="${oldBook.ob_status eq '4' }"><c:out value="판매완료"/></c:when>
 				<c:otherwise><c:out value=""/></c:otherwise>
 				
 		</c:choose>
@@ -120,7 +121,7 @@
 	
 	<div class=" text-center">
 	<form action="foObUpComple" method="post">
-		   <c:if test="${oldBook.ob_status != 3 }">
+		   <c:if test="${oldBook.ob_status == 2 }">
 		    <button class="btn btn-primary mt-5 mb-2" type="submit" onclick="chkcalcul()" style="margin-right: 10px;" >정산받기</button>
 		    <input type="hidden" name="ob_status" value="3">
 		    <input type="hidden" name="ob_write_date" value="">

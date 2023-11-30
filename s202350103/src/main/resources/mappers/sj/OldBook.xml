@@ -18,6 +18,9 @@
 				<when test="ob_status == 3">
 					WHERE	ob_status = 3
 				</when> 
+				<when test="ob_status == 4">
+					WHERE	ob_status = 4
+				</when> 
 		</choose>			
 	</select>
 
@@ -178,6 +181,9 @@
 																	</when>
 																	<when test="ob_status == 3">
 																	AND ob_status = 3 order by ob_report_date DESC
+																	</when>	
+																	<when test="ob_status == 4">
+																	AND ob_status = 4 order by ob_report_date DESC
 																	</when>	
 												 	  		</choose>	
 								                        ) a  

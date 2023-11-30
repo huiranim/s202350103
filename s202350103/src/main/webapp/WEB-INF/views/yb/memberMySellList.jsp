@@ -33,8 +33,8 @@
 		          <div class="card py-1 border-0 mb-8">
            			 <div class="mb-8">
 			         <!-- heading -->
-				         <h2 class="mb-2">판매 현황</h2>
-				         <p><a href="#">${member.m_id } 님의 판매 목록입니다.</a></p>
+				         <h2 class="mb-2">중고 판매 현황</h2>
+				         <p><a href="#">${member.m_id } 님의 중고 판매 목록입니다.</a></p>
 				               총 상품 개수 : ${totalSellCnt }		
 			      	</div>
 		          <div>
@@ -89,6 +89,7 @@
 										<c:when test="${oldbook.ob_status == 1}"><span>검수중</span></c:when>
 										<c:when test="${oldbook.ob_status == 2}"><span>검수완료</span></c:when>
 										<c:when test="${oldbook.ob_status == 3}"><span>매입완료</span></c:when>
+										<c:when test="${oldbook.ob_status == 4}"><span>판매완료</span></c:when>
 								</c:choose>
 		                 	</td>
 		                    <td class="align-middle" style="padding-left: 10px;">
