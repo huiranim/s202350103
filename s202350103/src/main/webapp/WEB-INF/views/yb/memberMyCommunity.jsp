@@ -21,6 +21,16 @@
      	  border-radius: 10px;
      	  border: 1px solid black;
     }
+    
+    .center-text {
+	  	text-align: center; /* 텍스트 가운데 정렬 */
+	  	position: absolute;
+	  	top: 95%;
+	  	left: 50%;
+	  	font-weight: bold;
+	  	color:black;
+	  	transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+	}
 
 </style>
 <script type="text/javascript">
@@ -157,6 +167,13 @@ function openWrite() {
  		 </div>		
      </div>
 	 <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
+	 <c:if test="${empty communityMyList }">
+ 		<div class="row" style="height: 100px">
+			<div class="center-text mt-14 md-14">
+				등록한 독후감이 없습니다.
+			</div>
+		</div>	 	
+	 </c:if>
 	 	<c:forEach items="${communityMyList }" var="community">
 			<div class="col" style="margin-bottom:16px;" >
               <!-- card -->

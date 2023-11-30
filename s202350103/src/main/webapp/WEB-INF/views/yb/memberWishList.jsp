@@ -98,7 +98,7 @@
 						
 						 <div class="row">
 						<div class="center-text mt-14">
-							작성한 게시글이 없습니다. 
+							찜한 상품이 없습니다. 
 						</div>
 						</div>
 						
