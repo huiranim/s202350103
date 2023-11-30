@@ -35,7 +35,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObCal");         	   	// 중고판매 정산안내
 	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/writeFormObTrans");       	  	// 중고판매 운송장
 	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/eventIn"); 						// 이벤트 페이지
-	    registry.addInterceptor(new LoginInterCeptor()).addPathPatterns("/memberPwChangeForm");
 	    
 		// 영준 InterCeptor (Parameter로 다룬 페이지)
 		registry.addInterceptor(new YjInterceptor()).addPathPatterns("/memberMyOrder"); 					// 내 주문
@@ -93,7 +92,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/writeFormObCal");         	// 중고판매 정산안내
 	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/writeFormObTrans");       	// 중고판매 운송장
 	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/eventIn"); 					// 이벤트 페이지
-	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/memberPwChangeForm");		// 비밀번호변경	
 //      ---------------------------------- 관리자 ----------------------
 	    registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/mainBo");					// 관리자 메인
 //		registry.addInterceptor(new ReturnPageInterCeptor()).addPathPatterns("/adminMemberList");			// 관리자 회원목록

@@ -16,6 +16,11 @@
 </style>
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
+	//비밀번호에 focus
+	window.onload = function() {
+	    document.getElementById('m_pw').focus();
+	};
+
 	function validateForm() {
 	    var passwordSaveButton = document.getElementById("passwordSave");
 	    
@@ -45,22 +50,23 @@
          dataType : 'json',
          success : function(strResult) {
         	var jsonStr = JSON.stringify(strResult);
-        	alert(jsonStr);
-        	alert(strResult['strResult']);
             if(strResult['strResult'] == 1) {
 				$('#msg').html("비밀번호가 일치합니다.");
 				$('#msg').css("color", "#0aad0a");
 				$('#passwordSave').css("display", "block").prop("disabled", false);
+				$('#passwordSave').focus();
             } else if(strResult['strResult'] == 2) {
             	$('#msg').html("비밀번호는 영문, 숫자, 특수문자 조합으로 8자에서 20자 사이여야 합니다. 다시 입력해주세요");
 				$('#msg').css("color", "red");
 				$('#m_pw2').val('');
 				$('#passwordSave').css("display", "none").prop("disabled", true);
+				$('#m_pw').focus();
             } else if(strResult['strResult'] == 0){
             	$('#msg').html("비밀번호가 일치하지 않습니다. 다시 입력해주세요");
 				$('#msg').css("color", "red");
 				$('#m_pw2').val('');
 				$('#passwordSave').css("display", "none").prop("disabled", true);
+				$('#m_pw').focus();
             }
          }
          
@@ -121,7 +127,17 @@
 <%@ include file="../common/footerFo.jsp" %>
 </body>
 <script type="text/javascript">
-//비밀번호 type 바꾸기
+	const passwordChkEnter = document.getElementById("passwordChkEnter");
+	const m_pw2 = document.getElementById("m_pw2");
+	
+	// input 요소에서 엔터 키를 누를 때 버튼을 클릭하도록 설정합니다.
+	m_pw2.addEventListener("keyup", function(event) {
+	  if (event.key === "Enter") {
+		  passwordChkEnter.click();
+	  }
+	});
+
+	//비밀번호 type 바꾸기
 	const passwordToggler = document.getElementById("passwordToggler");
 	const pwInput = document.getElementById("m_pw2");
 	
@@ -135,6 +151,8 @@
 		  pwInput.type = "text";
 	  }
 	});
+	
+	
 
 
 </script>
