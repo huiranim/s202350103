@@ -181,7 +181,7 @@
 	</table>
 		   <div class="col-12 " style="margin: auto;">
      <div class="text-center">
-	   	 <button class="btn btn-primary mt-5 mb-2 center" type="button" onclick="location.href='BolistOb'" >중고 리스트 보기</button>
+	   	 <button class="btn btn-secondary mt-5 mb-2 center" type="button" onclick="location.href='BolistOb'" >목록 보기</button>
 	  </div>
 		</div>
 	</form>		
