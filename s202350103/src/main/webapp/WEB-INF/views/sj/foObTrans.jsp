@@ -111,10 +111,7 @@
              </div>
              </div>
              </div>
- <div>            
-<img src="assets/images/png/ttrans.jpeg" alt="판매신청"
-                      class="mb-3 img-fluid" style="width: 650px; height: 380px; margin-left: 150px;">
-</div>
+<br>
 
  <p class="text-start fs-4"> 운송장  정보  </p>
  <div class="input-group mb-3">
