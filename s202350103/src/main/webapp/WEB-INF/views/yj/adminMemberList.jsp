@@ -149,11 +149,25 @@
 						<a class="page-link mx-1 text-body" href="adminMemberList?currentPage=${page.startPage-page.pageBlock}">이전</a>
 					</li>
 				</c:if>
+				
+		<c:choose>
+			<c:when test="${member.keyword != null }">
+ 			
  				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 					 <li class="page-item justify-content-center">
- 						<a class="page-link mx-1 text-body" href="adminMemberList?currentPage=${i}">${i}</a>
+ 						<a class="page-link mx-1 text-body" href="memberSearch?currentPage=${i}&search=${member.search}&keyword=${member.keyword}">${i}</a>
 					</li>
 				</c:forEach>
+			
+			</c:when>
+			<c:otherwise>
+	 				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+						 <li class="page-item justify-content-center">
+	 						<a class="page-link mx-1 text-body" href="adminMemberList?currentPage=${i}">${i}</a>
+						</li>
+					</c:forEach>
+			</c:otherwise>					
+		</c:choose>				
 					
 				<c:if test="${page.endPage < page.totalPage }">
 					 <li class="page-item justify-content-center">		 
