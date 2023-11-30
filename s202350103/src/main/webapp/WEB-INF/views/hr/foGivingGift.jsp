@@ -18,7 +18,7 @@
 			
 			// 음수 또는 숫자 아닌 값 입력 시
 			if(Number(p_point) < 0){
-				$("#o_point").val("");
+				$("#o_point").val(0);
 				$("#o_point_result").html(0);
 
 			// 보유 포인트 이하로 입력 시
@@ -51,7 +51,7 @@
 			} else {
 				//alert("보유 포인트보다 많이 사용할 수 없습니다.");
 				$("#pointMsg").html("보유 포인트보다 많이 사용할 수 없습니다.");
-				$("#o_point").val("");
+				$("#o_point").val(0);
 				$("#o_point_result").html(0);
 			}
 		}
