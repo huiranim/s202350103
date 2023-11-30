@@ -79,7 +79,7 @@
 		          <table class="table text-nowrap">
 		             <thead class="table-light">
 		                <tr>
-		                   <th>순번</th>
+		                   <th>No.</th>
 		                   <th>상품번호</th>
 		                   <th></th>
 		                   <th>제목</th>

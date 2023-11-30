@@ -33,7 +33,7 @@
 <table class="table">
   <thead class="table-light">
     <tr>
-      <th scope="col">번호</th>
+      <th scope="col">No.</th>
       <th scope="col">이벤트 번호</th>
       <th scope="col">이벤트 유형</th>
       <th scope="col">제목</th>
@@ -58,7 +58,7 @@
 			</c:if>
 			<td>${event.a_title }</td>
 			<c:if test="${event.event_status == 1 }">
-				<td>진행중</td>
+				<td>진행</td>
 			</c:if>
 			<c:if test="${event.event_status == 2 }">
 				<td>예정</td>

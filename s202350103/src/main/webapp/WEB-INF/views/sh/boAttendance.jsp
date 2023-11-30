@@ -41,6 +41,11 @@
 		font-size: 25px; 
 		font-weight: bold;
 	}
+	th{
+		width: 20%;	
+		vertical-align: middle;
+		text-align: center;
+	}
 	
 </style>
 <body>
@@ -76,7 +81,7 @@
 		<tr>
 			<th scope="row" class="table-active">출석 관리</th>
 			<td>
-				<table>
+				<table style="text-align: center;">
 				<tr>
 	              <th>포인트</th>
 	               <td>

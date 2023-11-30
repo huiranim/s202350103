@@ -125,7 +125,6 @@
 		var delcon = confirm("해당 회원을 삭제하시겠습니까?");
 		
 		if(delcon == true){
-			alert("삭제 처리 되었습니다.");
 			return true;
 		}else{
 			return false;
@@ -165,9 +164,20 @@
 	    var inputElement = document.getElementById("m_image");	// input 태그의 ID를 가져옴
 	    inputElement.value = m_image; // input 태그의 value 속성에 이미지 url 추가
 	}
+	
+	function boMemberPointUpdate(m_num) {
+		var popupW = 720;
+		var popupH = 800;
+		var left = Math.ceil((window.screen.width - popupW)/2);
+		var top = Math.ceil((window.screen.height - popupH)/2);
+	
+		var url = "boMemberPointUpdate?m_num="+m_num;
+        var name = "boMemberPointUpdate";
+        
+        window.open(url, name, 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes,resizable=no,toolbar=no,titlebar=no,menubar=no,location=no')
+	}
 
 </script>
-
 </head>
 <body>
 
@@ -283,7 +293,7 @@
               <span class="text-danger">*</span>
               </label><p>
               	 ${member.m_point } <span style="color: red;">P</span>
-					&nbsp;&nbsp;<a href="selectMemberPoint?m_num=${member.m_num }" class="btn btn-primary">포인트 조정</a>
+					&nbsp;&nbsp;<input type="button" class="btn btn-primary mb-2" value="포인트 조정" onclick="boMemberPointUpdate(m_num.value)">
             </div>
             
               <div class="col-md-12 mb-8">

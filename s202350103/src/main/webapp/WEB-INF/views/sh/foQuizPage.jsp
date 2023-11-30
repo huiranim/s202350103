@@ -71,7 +71,7 @@
 <div>
 	<div class="card-body text-center py-8" style="background-color: #F2F2F2; border-radius: 100px;">
 		<h1 class="mb-5" style="text-align: center;">✨${quiz.q_title }✨</h1>
-		<div style="text-align: center; color: #0aad0a;">${quiz.q_sdate} 00:00 ~${quiz.q_edate} 00:00 </div>   
+		<div style="text-align: center; color: #0aad0a;">${quiz.q_sdate} ~ ${quiz.q_edate}</div>   
 			<div>
 			<div id="quiz-div">
 				<div id="quiz-image"></div>

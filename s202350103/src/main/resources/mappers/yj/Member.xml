@@ -136,7 +136,7 @@
 			              from newbook
 			                  union
 			              select ob.ob_num nb_num, 
-			                 concat(ob_grade_alpha(ob.ob_grade),nb.nb_title) nb_title, nb.nb_writer, nb.nb_price, nb.nb_image
+			                 concat(ob_grade_alpha(ob.ob_grade),nb.nb_title) nb_title, nb.nb_writer, ob.ob_sell_price nb_price, nb.nb_image
 			              from newbook nb, oldbook ob
 			              where nb.nb_num = ob.nb_num
 			            ) books

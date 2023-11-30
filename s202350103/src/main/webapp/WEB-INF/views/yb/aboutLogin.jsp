@@ -96,7 +96,7 @@
 							alert("아이디 혹은 비밀번호를 확인해주세요.");
 							$('#msg').html("아이디 혹은 비밀번호를 확인해주세요.");
 							$('#msg').css("color", "red");
-							$('#m_id').val('');
+// 							$('#m_id').val('');
 							$('#m_pw').val('');
 							return false;
 						}	

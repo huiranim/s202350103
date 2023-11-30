@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../common/none.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -103,6 +103,25 @@
 	.star-rating label:hover ~ label {
 	  -webkit-text-fill-color: #fff58c;
 	}
+			
+	.top {
+              position: relative;
+              display: flex; 
+              justify-content: space-between;
+              padding: 0.5rem 1.4rem;
+              background-color: #3CB371;
+              vertical-align: middle;
+          }
+              
+    h1.infoTit {
+                margin-top : 10px;
+                   font-size: 20px; 
+                   color:#ffffff;
+               }
+    .textBox {
+                margin-left: 5%;
+                margin-right: 5%;
+              }
 </style>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
@@ -174,6 +193,14 @@
 </script>
 </head>
 <body>
+<main class="textBox">
+   <div class="mb-6">
+      <header class="top">
+         <h1 class="infoTit">
+           	독후감 작성
+         </h1>
+      </header>
+   </div>
 <section class="my-lg-14 my-8" style="width: 90%; ">
      <!-- container -->
      <div class="container" id="container">
@@ -237,6 +264,7 @@
    </div>
 </div>
 </section>
+</main>
 <script type="text/javascript">
 	document.getElementById('product_detail_image').addEventListener('change', function() {
 	    if(this.files.length > 2) {
