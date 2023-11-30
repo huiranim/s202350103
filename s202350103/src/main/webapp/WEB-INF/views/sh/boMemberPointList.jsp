@@ -67,7 +67,7 @@
 <table class="table" style="text-align: center">
 	<thead class="table-light">
 		<tr>
-			<th scope="col">-</th>
+			<th scope="col">No.</th>
 			<th scope="col">포인트번호</th>
 			<th scope="col">발행페이지 코드</th>
 			<th scope="col">발행일시</th>

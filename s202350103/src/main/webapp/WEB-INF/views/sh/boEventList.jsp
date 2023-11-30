@@ -33,7 +33,7 @@
 <table class="table">
   <thead class="table-light">
     <tr>
-      <th scope="col">번호</th>
+      <th scope="col">No.</th>
       <th scope="col">이벤트 번호</th>
       <th scope="col">이벤트 유형</th>
       <th scope="col">제목</th>
