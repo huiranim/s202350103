@@ -679,14 +679,18 @@ import lombok.extern.slf4j.Slf4j;
 			Paging page = new Paging(memberEvent, currentPage);
 			int start = page.getStart();
 			int end = page.getEnd();
-
-			member.setStart(start);
-			member.setEnd(end);
+			System.out.println("member -> " + member);
 			member.setM_num(m_num);
 			member = ms.memberInfo(m_num);
+			member.setStart(start);
+			member.setEnd(end);
 			int sum = ps.pointSum(m_num);
 			
 			List<PointList> memberPointList = ps.selectMemberPoint(member);
+			System.out.println("shController boMemberPointUpdate memberPointList -> " + memberPointList);
+			
+			System.out.println("shController boMemberPointUpdate page.startpage -> " + page.getStartPage());
+			System.out.println("shController boMemberPointUpdate page.getEndPage -> " + page.getEndPage());
 			
 			
 			System.out.println("shController boMemberPointUpdate member -> " + member);

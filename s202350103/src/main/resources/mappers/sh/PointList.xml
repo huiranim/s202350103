@@ -21,7 +21,7 @@
 		]]>
 	</select>
 	
-	<select id="shMemberPointList" parameterType="int" resultType="PointList">
+	<select id="shMemberPointList" parameterType="int" resultType="int">
 		Select count(*) From point_list Where m_num=#{m_num}
 	</select>
 	

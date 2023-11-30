@@ -225,7 +225,7 @@
           <!-- form -->
           <form class="row" action="adminMemberUpdate" method="post" id="frm" onsubmit="return adminMemberupdate();">
          
-          <input type="hidden" name="m_num" value="${member.m_num }">
+          <input type="hidden" name="m_num" id="m_num" value="${member.m_num }">
    	      <input type="hidden" id="m_image" name="m_image" value="${member.m_image }">
    	      <input type="hidden" id="m_admin" name="m_admin" value="${member.m_admin }">
          
@@ -293,7 +293,7 @@
               <span class="text-danger">*</span>
               </label><p>
               	 ${member.m_point } <span style="color: red;">P</span>
-					&nbsp;&nbsp;<input type="button" class="btn btn-primary mb-2" value="포인트 조정" onclick="boMemberPointUpdate(m_num.value)">
+					&nbsp;&nbsp;<input type="button" class="btn btn-primary mb-2" value="포인트 조정" onclick="boMemberPointUpdate(${member.m_num })">
             </div>
             
               <div class="col-md-12 mb-8">

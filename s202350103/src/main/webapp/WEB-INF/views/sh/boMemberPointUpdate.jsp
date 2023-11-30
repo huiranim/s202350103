@@ -153,7 +153,7 @@
 <div class="fs-6 mt-5" style="margin-left: 10px;">회원번호 : ${member.m_num}</div>
 
 <c:if test="${not empty memberPoint }">	  
-<input type="hidden" name="m_num" id="m_num" value="${m_num  }">       
+<input type="hidden" name="m_num" id="m_num" value="${member.m_num  }">       
 <table class="table" style="text-align: center">
 	<thead class="table-light">
 		<tr>
@@ -205,18 +205,18 @@
   <ul class="pagination justify-content-center">
 	 	<c:if test="${page.startPage > page.pageBlock }">
 			 <li class="page-item justify-content-center">					
-				<a class="page-link mx-1 text-body"  href="selectMemberPoint?currentPage=${page.startPge-page.pageBlocck }">이전</a>
+				<a class="page-link mx-1 text-body"  href="boMemberPointUpdate?currentPage=${page.startPage-page.pageBlock }">이전</a>
 			</li>
 		</c:if>
 			<c:forEach var="i" begin="${page.startPage }" end="${page.endPage}">
 			 <li class="page-item justify-content-center">
-					<a class="page-link mx-1 text-body"  href="selectMemberPoint?currentPage=${i }&m_num=${memberPoint.m_num }">${i}</a>
+					<a class="page-link mx-1 text-body"  href="boMemberPointUpdate?currentPage=${i }&m_num=${member.m_num }">${i}</a>
 			</li>
 		</c:forEach>
 			
 		<c:if test="${page.endPage < page.totalPage }">
 			 <li class="page-item justify-content-center">		 
-				<a class="page-link mx-1 text-body"href="selectMemberPoint?currentPage=${page.startPage+page.pageBlock }">다음</a>
+				<a class="page-link mx-1 text-body"href="boMemberPointUpdate?currentPage=${page.startPage+page.pageBlock }">다음</a>
 			</li>
 		</c:if>
 	</ul>
