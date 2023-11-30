@@ -51,15 +51,15 @@
 	
 	<div class="row">
 	<div class="col-lg-12 col-md-12 col-12 d-block">
-	     <div class="py-6 p-md-6 p-lg-10">
+	     <div class="col-12">
 	      
 	        <div class="mb-8">
          <!-- heading -->
          <h1 class="mb-1">  중고 판매 신청 목록</h1>
-         <p>총 ${totalOb } 건</p>
+         <p style="margin-bottom: 0px;">총 ${totalOb } 건</p>
       </div>
 	       
-	       <select id="obstatus1" class="pl " style="margin-left: 120px;" onchange="toglestatus()" >
+	       <select id="obstatus1" class="pl "  onchange="toglestatus()" >
 	       <option value=0 <c:if test="${oldBook.ob_status eq '0'}"> selected="selected"</c:if>>   전체</option>
 	        <option value=1 <c:if test="${oldBook.ob_status eq '1'}"> selected="selected"</c:if>>  검수 중</option>
 	         <option value=2<c:if test="${oldBook.ob_status eq '2'}"> selected="selected"</c:if>> 검수 완료</option>

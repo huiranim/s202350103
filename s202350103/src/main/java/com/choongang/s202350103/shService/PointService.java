@@ -23,10 +23,8 @@ public interface PointService {
 	int 			 startYear(int eNum);
 	int 			 createAtt(Attendance attendance);
 	List<AttJoin> 	 subDate(AttJoin attJoin);
-	int 			 stampAtt(AttJoin attJoin);					//att_join 기록 저장(출석)
-	int 			 savePoint(AttJoin attJoin);				//미정
+	void 			 checkAtt(AttJoin attJoin);
 	AttJoin 		 searchAtt(AttJoin attJoin);				//당일 포인트 이력 체크 (출석)
-	void 			 attPointList(AttJoin attJoin);				//
 	int 			 checkChance(AttJoin attJoin);
 	int 			 checkChance(QuizJoin quizJoin);
 	void 			 checkedAnswer(QuizJoin quizJoin);
@@ -61,6 +59,7 @@ public interface PointService {
 	List<Attendance> searchDetail11(Attendance attendance);
 	List<Attendance> searchDetail12(Attendance attendance);
 	List<Attendance> searchDetail13(Attendance attendance);
+	
 	
 
 	

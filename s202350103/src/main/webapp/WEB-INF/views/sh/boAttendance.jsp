@@ -35,11 +35,6 @@
 			return false;
 		}
 	}
-	
-	function convertToDate(dateStr) {
-		var parts = dateStr.split('-');
-		return new Date(parts[0], parts[1] - 1, parts[2]);
-		}	
 </script>
 <style>
 	.title{
@@ -70,8 +65,8 @@
 			<th scope="col" class="table-active">이벤트 기간</th>
 			<td>
 				<div style="display: flex;">
-					<input class="form-control" type="date" name="a_sdate" required="required" style="width: 22%; margin-right: 5px;"><div class="mt-2">~</div>					
-					<input class="form-control" type="date" name="a_edate" required="required" style="width: 22%; margin-left: 5px;">
+					<input class="form-control" type="date" name="a_sdate" id="a_sdate" required="required" style="width: 22%; margin-right: 5px;"><div class="mt-2">~</div>					
+					<input class="form-control" type="date" name="a_edate" id="a_edate" required="required" style="width: 22%; margin-left: 5px;" readonly="readonly">
 				</div>
 			</td>
 		</tr>
@@ -122,6 +117,21 @@
 	cancleButton.addEventListener('click',function(){
 		location.href='mainBo';
 	});
+	
+	//시작일 설정시 a_edate에 해당 월 마지막 날 입력
+	 $(document).ready(function() {
+		    $('#a_sdate').on('change', function() {
+		      // 시작일을 선택하면 종료일이 해당 달의 마지막 날짜로 자동 설정됩니다.
+		      const startDate = new Date($(this).val());
+		      const lastDay = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
+		      const formattedLastDay = lastDay.toISOString().split('T')[0];
+		      
+		      console.log('formattedLastDay:', formattedLastDay);
+		      
+		      $('#a_edate').val(formattedLastDay);
+		    });
+		    	
+		  });
 </script>
 </body>
 </html>

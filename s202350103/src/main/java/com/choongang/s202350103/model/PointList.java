@@ -15,7 +15,7 @@ public class PointList {			//포인트 이력
 	private int   	m_point;		//포인트
 	
 	// 조회용
-	private int		eNum;
+	private int		eNum;			//이벤트번호 종합
 	private String 	title;			//이벤트제목
 	private int    	point;			//이벤트 지급포인트
 	private Date    date1;			//이벤트 지급날짜

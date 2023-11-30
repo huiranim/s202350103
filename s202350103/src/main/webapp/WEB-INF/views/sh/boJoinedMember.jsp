@@ -40,11 +40,6 @@
 		</c:otherwise>
 	</c:choose>
 	</tbody>
-	<tfoot>
-		<tr>
-			<td colspan="6"><button id="closeButton">닫기</button></td>
-		</tr>
-	</tfoot>
 </table>
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
@@ -55,7 +50,7 @@
 		</c:if>
 			<c:forEach var="i" begin="${page.startPage }" end="${page.endPage}">
 			 <li class="page-item justify-content-center">
-					<a class="page-link mx-1 text-body"  href="boJoinedMember?currentPage=${i }&m_num=${memberPoint.m_num }">${i}</a>
+					<a class="page-link mx-1 text-body"  href="boJoinedMember?currentPage=${i }&eNum=${eNum}">${i}</a>
 			</li>
 		</c:forEach>
 			
@@ -66,6 +61,7 @@
 		</c:if>
 	</ul>
 </nav>	
+<button id="closeButton">닫기</button>
 <script type="text/javascript">
 	var closeButton = document.getElementById("closeButton");
 	closeButton.addEventListener('click',function(){
