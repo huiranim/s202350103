@@ -391,6 +391,7 @@ import lombok.extern.slf4j.Slf4j;
 			 attendance.setStart(start);
 			 attendance.setEnd(end);
 			 List<Attendance> attendanceList = ps.boEventList(attendance);
+			 model.addAttribute("totalEvent", totalEvent);
 			 model.addAttribute("page", page);
 			 model.addAttribute("event",attendanceList);
 			 
