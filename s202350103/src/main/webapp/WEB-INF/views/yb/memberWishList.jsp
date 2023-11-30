@@ -98,7 +98,8 @@
 						
 						 <div class="row">
 						<div class="center-text mt-14">
-							찜한 상품이 없습니다. 
+							찜한 상품이 없습니다. <p><p>
+					<a href="innewbookList?nb_category1=1&nb_category2=0&orderType=recently" class="btn btn-soft-success ">새상품 보러가기</a>
 						</div>
 						</div>
 						

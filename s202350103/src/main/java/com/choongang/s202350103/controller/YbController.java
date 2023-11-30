@@ -432,7 +432,7 @@ public class YbController {
 		// 독후감 총 개수
 		int comListTotalCnt = ms.comListTotalCnt(community);
 		communityPaging page = new communityPaging(comListTotalCnt, currentPage);
-
+		
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());
 		// 독후감 리스트
