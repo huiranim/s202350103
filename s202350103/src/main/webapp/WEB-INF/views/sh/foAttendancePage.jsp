@@ -44,20 +44,23 @@
 
 </head>
 	
-	<div  style="text-align: center; color: #0aad0a; font-weight: bold; font-size: 25px;">
-	   🌟 ${attendance.a_sdate }
+	
+
+<div class="container" style="background: #FAF5EF;">
+
+	 <div class="mb-6">
+		<div class="offset-lg-1 col-lg-10 col-12 " >
+		
+		<p  class="mt-10 mb-2" style="font-size: 58px;  padding-top:30px; text-align: center; color:#3B3B3B; font-family: 'Bagel Fat One';">
+			${month} 월  출석  현황
+		</p>
+		<!--  -->
+<div  style="text-align: center; margin-bottom:10px; color: #0aad0a; font-weight: bold; font-size: 21px;">
+	    ${attendance.a_sdate }
 	   <span style="color: black;">~ </span>
-	     ${attendance.a_edate } 🌟
+	     ${attendance.a_edate } 
 	</div>
 
-<div class=" mt-8 mb-lg-14 mb-8" style="background: #FAF5EF;">
-
-	 <div class="mb-8">
-		<div class="offset-lg-2 col-lg-8 col-12 " >
-		
-		<p  class="mt-10 mb-8" style="font-size: 80px; text-align: center; color:#3B3B3B; font-family: 'Bagel Fat One';">
-			${month} 월 출석 현황
-		</p>
 
 	
 		<div style="background: white;">
@@ -65,7 +68,7 @@
 		<table  class="table ">
 			<thead>
 				<c:forEach var="day" begin="1" end="7">
-					<th style="text-align: center; background: #3B3B3B;">
+					<th style="text-align: center; width:auto; background: #3B3B3B;">
 			    	<c:choose>
 					    <c:when test="${day eq 1}"><span style="color: #db3030;">일</span>
 					    		<small>SUN</small></c:when>
@@ -113,7 +116,7 @@
 							   <span>${i}</span>
 							        <c:forEach var="date" items="${date }">
 							            <c:if test="${date == i}">
-								            <img src="../assets/images/logo/dadokStamp.png"  style="width: 100%; height: auto;">
+								            <img src="../assets/images/logo/dadokStamp.png"  style=" width: 100px; height: 100px;">
 							            </c:if>
 							        </c:forEach>
 
