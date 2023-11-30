@@ -126,7 +126,7 @@
 			              	</div>
 			              	<div style="display: flex; color: black">
 			              		<div class="fs-5 mt-2" style="margin-right:8px;">조정 포인트 : </div>
-			              		<input type="text" class="form-control"  id="point" placeholder="포인트를 입력하세요" style="width: 150px;">
+			              		<input type="text" class="form-control"  id="point" placeholder="포인트를 입력하세요." style="width: 180px;">
 			              		<div class="fs-5 mt-2" style="margin-left: 8px;">P</div> 
 			              	</div>
 		              	</div>

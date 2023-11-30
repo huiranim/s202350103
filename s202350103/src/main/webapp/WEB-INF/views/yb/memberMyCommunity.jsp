@@ -112,7 +112,8 @@ function openWrite() {
                 <!-- heading -->
                  <a href="postDetailForm?cm_num=${popList.cm_num }"><h2 class="fs-6">${popList.cm_title }
                 </h2></a>
-                <div class="text-small"><small>작성자: ${popList.m_name }</small></div>
+                <div class="text-small"><small>작성자: ${popList.m_name }</small></div><p><p>
+                
                 <div class="text-small mb-1" "><small>${popList.nb_title }</small></div>               
                   <p><div class="mb-2">
                             <div class="text-warning">
@@ -159,8 +160,8 @@ function openWrite() {
 <div id="div1" class="mb-3">
 	 <div class="mb-7 mt-3">
 		 <div class="mb-3" style="float: left;"> 
-		 	${member.m_name } 님의 총 독후감 : ${comMyListTotalCnt } 
-		 	
+		 	총 : ${comMyListTotalCnt } 건 
+			
 		 </div>
          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
    			<button class="btn btn-soft-primary" type="button" id="openWrite" onclick="openWrite()">작성하기</button>
