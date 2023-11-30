@@ -26,6 +26,7 @@
 <style type="text/css">
 	table{
 		width: 80%;
+		border-style: none;
 	}
 	
 	h2{
@@ -66,7 +67,7 @@
 <table class="table" style="text-align: center">
 	<thead class="table-light">
 		<tr>
-			<th scope="col">번호</th>
+			<th scope="col">-</th>
 			<th scope="col">포인트번호</th>
 			<th scope="col">발행페이지 코드</th>
 			<th scope="col">발행일시</th>
@@ -80,7 +81,7 @@
 		<c:forEach var="memberPoint" items="${memberPoint }">
 				
 				<tr>
-				<th scope="row">${memberPoint.rn }</th>
+				<td scope="row">${memberPoint.rn }</td>
 				<td>${memberPoint.p_num }</td>
 				<td>
 				<c:choose>
@@ -106,7 +107,7 @@
 						<c:when test="${memberPoint.p_list_type == 8}">포인트 충전</c:when>
 					</c:choose>
 				</td>
-				<td>${memberPoint.m_point }</td>
+				<td>${memberPoint.m_point }P</td>
 						
 			</tr>
 		</c:forEach>
@@ -150,7 +151,6 @@
 </nav>
 </c:if>
 <br>
-<hr>
 <br>
 	
 </body>
