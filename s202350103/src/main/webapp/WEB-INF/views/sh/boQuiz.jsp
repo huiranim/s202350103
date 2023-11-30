@@ -50,6 +50,7 @@
 	th{
 		width: 20%;	
 		vertical-align: middle;
+		text-align: center;
 	}
 	
 	.title{

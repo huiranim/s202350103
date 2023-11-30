@@ -177,7 +177,7 @@ public class YjController {
 		int joinResult = ms.joinResult(member);
 		
 		// 회원 가입시  포인트 이력에 insert 
-		int joinPoint = ms.joinPoint();
+//		int joinPoint = ms.joinPoint();
 		
 		model.addAttribute("joinResult",joinResult);
 		System.out.println("joinResult ->" + joinResult);

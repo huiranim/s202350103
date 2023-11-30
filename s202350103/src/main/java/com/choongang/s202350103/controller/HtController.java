@@ -343,12 +343,9 @@ public class HtController {
 		System.out.println("newBook getC_count--> "+ newBook.getC_count());
 		System.out.println("newBook getOb_num--> "+ newBook.getOb_num());
 		
+		
 		// paymentType 1--> 바로결제, 2--> 장바구니 결제
 		if (paymentType == 1) {
-			// 바로 결제(1개)
-//			List<NewBook> orderOne = os.orderOne(newBook);
-//			System.out.println("HtController orderOne--->" + orderOne);
-			
 			// ob_num이 null이면 새상품 아니면 중고
 			if(newBook.getOb_num() == 0) {
 				List<NewBook> orderOne = os.orderOne(newBook);

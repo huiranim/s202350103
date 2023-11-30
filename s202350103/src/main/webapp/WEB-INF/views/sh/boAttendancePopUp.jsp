@@ -10,8 +10,12 @@
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <style>
   .small-input {
-    width: 100px; 
+    width: 100px;        
   }
+  th{
+	width: 20%;	
+	vertical-align: middle;
+	}
 </style>
 <body>
 <div class="offset-lg-2 col-lg-8 col-12">

@@ -82,7 +82,7 @@
 					<th class="table-active">사진 등록</th>
 					<td>
 					<input type="hidden" name="q_image"   value="${quiz.q_image}" jdbcType="varchar">
-					<input class="form-control" type="file" name="file1" required="required" style="width: 300px;"></td>
+					<input class="form-control" type="file" name="file1" style="width: 300px;"></td>
 				</tr>
 				<tr>
 					
@@ -187,8 +187,7 @@
 				success:function(result){
 					if(result == 1){
 						alert("삭제하였습니다.");
-						opener.parent.location.reload();
-						window.close();
+						return "boEventDetail";
 					} else {
 						alert("참가한 회원이 존재하여 삭제가 불가능합니다.");
 						return false;

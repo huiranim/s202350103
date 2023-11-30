@@ -289,13 +289,13 @@
 						  	
 						  	<!-- 연도 그래프 -->
 						  	<div class="row">
-						       <div class="col-lg-4 col-12 mb-6">
+						       <div class="col-lg-12 col-12 mb-6">
 						  	<div class="card card-lg mb-6">
                                 <div class="card-body px-6 py-8">
                                 	<h3 class="mb-0 fs-5">Order Chart </h3>
                                     <div class="d-flex align-items-center">
                                     	<div id="chart">
-                                    		<canvas id="myOrderChart" width="1570vw" height="600vh"></canvas>
+                                    		<canvas id="myOrderChart" width="1350vw" height="600vh"></canvas>
                                     		<script>
 	                                    		// 차트를 그럴 영역을 dom요소로 가져온다.
 	                                        	var orderctx = document.getElementById('myOrderChart').getContext('2d');
