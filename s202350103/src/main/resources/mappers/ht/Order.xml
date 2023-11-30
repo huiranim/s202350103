@@ -15,7 +15,7 @@
 				WHERE  nb.nb_num = #{nb_num}
   			</when>
 	        <otherwise>
-                SELECT   ob.ob_num, ob.OB_SELL_PRICE, ob.ob_grade, nb.*, 1 as quantity
+                SELECT   ob.ob_num, ob.OB_SELL_PRICE, ob.ob_grade, nb.*, 1 as quantity, 1 as c_count
                 FROM     OldBook ob, NewBook nb
                 WHERE    nb.nb_num = ob.nb_num
                 AND      ob.ob_num = #{ob_num}
