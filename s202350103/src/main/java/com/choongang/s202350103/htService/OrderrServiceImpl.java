@@ -68,6 +68,13 @@ public class OrderrServiceImpl implements OrderrService {
 		return member;
 	}
 
+	@Override
+	public Orderr obNumSelect(KakaoPayApprovalVO kakaoDto) {
+		System.out.println("HtService obNumSelect Start...");
+		Orderr orderr = od.obNumSelect(kakaoDto);
+		return orderr;
+	}
+
 
 
 	

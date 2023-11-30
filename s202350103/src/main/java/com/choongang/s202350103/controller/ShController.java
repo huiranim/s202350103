@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.gbService.RecentlyBook;
 import com.choongang.s202350103.model.AttJoin;
@@ -146,14 +147,16 @@ import lombok.extern.slf4j.Slf4j;
 			System.out.println(a_num);
 			System.out.println(m_num);
 			
+			ps.checkAtt(attJoin);
+			
+			
 			//출석 참여(att_join list)
-			ps.stampAtt(attJoin);
 			//멤버 포인트 적립
-			ps.savePoint(attJoin);
+			//멤버 포인트 적립
+			
 			//당일 기록 체크 
 			attJoin = ps.searchAtt(attJoin);
-			//멤버 포인트 적립
-			ps.attPointList(attJoin);
+			
 			
 			return "forward:/attendancePage?eNum="+a_num+"&m_num="+m_num;
 		}
@@ -236,25 +239,25 @@ import lombok.extern.slf4j.Slf4j;
 		}
 		
 		//Quiz 오답 제출
-		@RequestMapping(value = "checkQuiz", method = RequestMethod.GET)
-		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
-			System.out.println("shController checkQuiz() Start...");
-			QuizJoin quizJoin = new QuizJoin();
-			quizJoin.setM_num(m_num);
-			quizJoin.setQ_num(eNum);
-			//퀴즈 참여
-			ps.checkedAnswer(quizJoin);
-			return "redirect:/quizPage?eNum="+eNum+"&m_num="+m_num;
-		}
-		
-		//Quiz 정답 제출
 		@RequestMapping(value = "wrongQuiz", method = RequestMethod.GET)
 		public String wrongQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
 			System.out.println("shController wrongQuiz() Start...");
 			QuizJoin quizJoin = new QuizJoin();
 			quizJoin.setM_num(m_num);
 			quizJoin.setQ_num(eNum);
-			//퀴즈 참여
+			//퀴즈 참여(오답)
+			ps.checkedAnswer(quizJoin);
+			return "redirect:/quizPage?eNum="+eNum+"&m_num="+m_num;
+		}
+		
+		//Quiz 정답 제출
+		@RequestMapping(value = "checkQuiz", method = RequestMethod.GET)
+		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
+			System.out.println("shController checkQuiz() Start...");
+			QuizJoin quizJoin = new QuizJoin();
+			quizJoin.setM_num(m_num);
+			quizJoin.setQ_num(eNum);
+			//퀴즈 참여(정답)
 			ps.checkedAnswer(quizJoin);
 			//member table 포인트 적립
 			ps.savePoint(quizJoin);
@@ -389,6 +392,7 @@ import lombok.extern.slf4j.Slf4j;
 			 attendance.setStart(start);
 			 attendance.setEnd(end);
 			 List<Attendance> attendanceList = ps.boEventList(attendance);
+			 model.addAttribute("totalEvent", totalEvent);
 			 model.addAttribute("page", page);
 			 model.addAttribute("event",attendanceList);
 			 
@@ -561,25 +565,27 @@ import lombok.extern.slf4j.Slf4j;
 		}
 		
 		@RequestMapping(value = "boPlusPoint")
-		public String boPlusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+		public String boPlusPoint(int m_num,  int point) {
 			System.out.println("shController boPlusPoint() Start...");
 			Member member = new Member();
 			member.setM_num(m_num);
 			member.setM_point(point);
 			ps.boInsertPlusPoint(member);
 			ps.boUpdatePlusPoint(member);
-			return "redirect:/selectMemberPoint?m_num="+m_num;
+			
+			
+			return "redirect:/boMemberPointUpdate?m_num="+m_num;
 		}
 		
 		@RequestMapping(value = "boMinusPoint")
-		public String boMinusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+		public String boMinusPoint(int m_num, int point) {
 			System.out.println("shController boMinusPoint() Start...");
 			Member member = new Member();
 			member.setM_num(m_num);
 			member.setM_point(point);
 			ps.boInsertMinusPoint(member);
 			ps.boUpdateMinusPoint(member);
-			return "redirect:/selectMemberPoint?m_num="+m_num;
+			return "redirect:/boMemberPointUpdate?m_num="+m_num;
 		}
 		
 		@RequestMapping(value = "boJoinedMember")
@@ -663,5 +669,36 @@ import lombok.extern.slf4j.Slf4j;
 			}
 			return response;
 		}
-		
+		@RequestMapping(value = "boMemberPointUpdate")
+		public String boMemberPointUpdate(int m_num, Model model, Member member, String currentPage, RedirectAttributes redirect) {
+			System.out.println("shController boMemberPointUpdate start..");
+			System.out.println("shController boMemberPointUpdate m_num -> " + m_num);
+	
+			int memberEvent = ps.memberPointList(m_num);
+			//페이징 작업
+			Paging page = new Paging(memberEvent, currentPage);
+			int start = page.getStart();
+			int end = page.getEnd();
+			System.out.println("member -> " + member);
+			member.setM_num(m_num);
+			member = ms.memberInfo(m_num);
+			member.setStart(start);
+			member.setEnd(end);
+			int sum = ps.pointSum(m_num);
+			
+			List<PointList> memberPointList = ps.selectMemberPoint(member);
+			System.out.println("shController boMemberPointUpdate memberPointList -> " + memberPointList);
+			
+			System.out.println("shController boMemberPointUpdate page.startpage -> " + page.getStartPage());
+			System.out.println("shController boMemberPointUpdate page.getEndPage -> " + page.getEndPage());
+			
+			
+			System.out.println("shController boMemberPointUpdate member -> " + member);
+			model.addAttribute("page", page);
+			model.addAttribute("memberPoint",memberPointList);
+			model.addAttribute("member", member);
+			model.addAttribute("sum", sum);
+			
+			return "sh/boMemberPointUpdate";
+		}
 }

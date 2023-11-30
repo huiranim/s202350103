@@ -432,7 +432,7 @@ public class YbController {
 		// 독후감 총 개수
 		int comListTotalCnt = ms.comListTotalCnt(community);
 		communityPaging page = new communityPaging(comListTotalCnt, currentPage);
-
+		
 		community.setStart(page.getStart());
 		community.setEnd(page.getEnd());
 		// 독후감 리스트
@@ -591,7 +591,7 @@ public class YbController {
 	}
 
 	// 아이디 찾기 -> 인증 후 비밀번호 변경 페이지
-	@GetMapping(value = "memberPwChangeForm")
+	@PostMapping(value = "memberPwChangeForm")
 	public String memberPwChangeForm(String m_num, Model model) {
 		System.out.println("YbController memberPwChangeForm() start..");
 

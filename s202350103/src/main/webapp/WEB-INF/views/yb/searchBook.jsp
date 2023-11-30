@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="../common/none.jsp" %>
 <html> 
 <head>
 <meta charset="UTF-8">
@@ -27,13 +25,13 @@
 <style type="text/css">
 	#container {
 		 position: absolute;
-		  top: 80%;
+		  top: 85%;
 		  left: 50%;
 		
-		  width: 600px;
+		  width: 580px;
 		  height: 1400px;
 		
-		  padding: 40px;
+		  padding: 20px;
 		
 		
 		  background-color: rgb(255, 255, 255);
@@ -42,6 +40,26 @@
 		
 		  transform: translateX(-50%) translateY(-50%);
 			}
+			
+				
+		.top {
+	              position: relative;
+	              display: flex; 
+	              justify-content: space-between;
+	              padding: 0.5rem 1.4rem;
+	              background-color: #3CB371;
+	              vertical-align: middle;
+	          }
+	              
+	    h1.infoTit {
+	                margin-top : 10px;
+	                   font-size: 20px; 
+	                   color:#ffffff;
+	               }
+	    .textBox {
+	                margin-left: 5%;
+	                margin-right: 5%;
+	              }
 </style>
 <script type="text/javascript">
 	function sendChildValue(title, image, nb_num){
@@ -51,6 +69,14 @@
 </script>
 </head>
 <body>
+<main class="textBox">
+   <div class="mb-6">
+      <header class="top">
+         <h1 class="infoTit">
+           	책 검색
+         </h1>
+      </header>
+   </div>
 <div id="container">
 
 	<form action="searchListBook" method="get">
@@ -145,7 +171,7 @@
 			</div>
 		</div>
 </div>
-
+</main>
 
 </body>
 </html>

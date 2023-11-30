@@ -51,18 +51,20 @@
 </head>
 <body>
 
+  <div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-1">신고답글</h1>
+         <p><strong style="color: #198754;">총 ${declReplyCount } 건 의 신고 접수 답글</strong></p>
+			   <span class="text-danger">*</span> 누적 신고 15 회 이상 시 자동 삭제 됩니다
+			      <span class="text-danger">*</span>
+
+      </div>
+	
+
 
 <div class="row">
 		<div class="col-lg-12">
-			  <div class="mb-8">
-          <p class="fs-1 mb-3"><strong>신고 답글</strong></p>
-          <p class="fs-6 mb-3"><strong>${declReplyCount }건의 신고 접수 답글</strong></p>
-			   <span class="text-danger">*</span> 누적 신고 15 회 이상 시 자동 삭제 됩니다
-			      <span class="text-danger">*</span>
-      </div>
 			<div>
-
-
 				<div class="card-body p-0">
 					<div class="table-responsive ">
 						<table

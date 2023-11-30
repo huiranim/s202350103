@@ -26,5 +26,6 @@ public class KakaoPayApprovalVO { // 카카오페이에서 결과값 받는 DTO
     private Date created_at;  // 결제 준비 요청 시각
     private Date approved_at; // 결제 승인 시각
     private Integer install_month;	// 카드 할부개월, 0~12 (-> o_type 선물여부로 사용)
+    private Integer green_deposit; //중고번호
     
 }

@@ -31,7 +31,7 @@ function openWrite() {
 		location.href = "loginForm"
 	} else {
 		var popupW = 600;
-		var popupH = 800;
+		var popupH = 900;
 		var left = Math.ceil((window.screen.width - popupW)/2);
 		var top = Math.ceil((window.screen.height - popupH)/2);
 	
@@ -146,7 +146,9 @@ function openWrite() {
 
 <div id="div1" class="mb-3">
   	 <div class="mb-7 mt-3">
-        <div class="mb-3" style="float: left;"> 총 독후감 : ${comListTotalCnt } </div>
+        <div class="mb-3" style="float: left;"> 
+		 	 총  : ${comListTotalCnt } 건
+        </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 		   <button class="btn btn-soft-primary" type="button" id="openWrite" onclick="openWrite()">작성하기</button>
 		</div>	

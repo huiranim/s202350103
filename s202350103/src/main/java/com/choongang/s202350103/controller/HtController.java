@@ -343,12 +343,9 @@ public class HtController {
 		System.out.println("newBook getC_count--> "+ newBook.getC_count());
 		System.out.println("newBook getOb_num--> "+ newBook.getOb_num());
 		
+		
 		// paymentType 1--> 바로결제, 2--> 장바구니 결제
 		if (paymentType == 1) {
-			// 바로 결제(1개)
-//			List<NewBook> orderOne = os.orderOne(newBook);
-//			System.out.println("HtController orderOne--->" + orderOne);
-			
 			// ob_num이 null이면 새상품 아니면 중고
 			if(newBook.getOb_num() == 0) {
 				List<NewBook> orderOne = os.orderOne(newBook);
@@ -486,6 +483,7 @@ public class HtController {
 				osHr.givingGiftAction(member, orderr, orderGift);
 			} else {
 				os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
+				orderr.setO_type(1);
 			}
 		}else {
 			orderr.setO_order_count(1);
@@ -530,6 +528,7 @@ public class HtController {
 		String item_code = orderr.getM_name();			  // 회원이름
 		//String item_code = orderr.getO_gift_msg();	  // 선물 메시지
 		
+		
 		String item_name = null; //상품명
 		if(quantity == 1) {// 1개 구매일 경우
 			item_name = orderr.getNb_title(); 
@@ -539,6 +538,7 @@ public class HtController {
 		AmountVO amountVO = new AmountVO();
 		amountVO.setTotal(orderr.getO_pay_price()); //결제금액
 		amountVO.setPoint(orderr.getO_point());		//사용포인트
+		
 		
 		// kakaopay에 보낼것을 KakaoPayApprovalVO DTO에 담기
 		KakaoPayApprovalVO kakaoDto = new KakaoPayApprovalVO();
@@ -576,7 +576,7 @@ public class HtController {
 	 // 결제 성공
 	 @RequestMapping("/kakaoPaySuccess") // pg_token : 결제승인 요청을 인증하는 토큰 사용자 결제 수단 선택 완료 시, approval_url로 redirection해줄 때 pg_token을 query string으로 전달
 	 public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, 
-			 						@ModelAttribute("kakaoDto") KakaoPayApprovalVO kakaoDto, Model model, HttpSession session, Member member) throws MessagingException {
+			 						@ModelAttribute("kakaoDto") KakaoPayApprovalVO kakaoDto, Model model, HttpSession session, Member member, Orderr orderr) throws MessagingException {
 		 
 		// 로그인한 멤버 값 불러오기
 		member =(Member) session.getAttribute("member");
@@ -599,14 +599,25 @@ public class HtController {
 			// 카카오 결제 성공 응답 데이터
 			kakaoDto =  kakaopay.kakaoPayInfo(pg_token, kakaoDto);
 			
-			System.out.println("kakaoDto---> " + kakaoDto);
+			System.out.println("kakaoDto22---> " + kakaoDto);
+			
+			orderr = os.obNumSelect(kakaoDto);
+			System.out.println("kakaoPaySuccess obNumSelect---> " + orderr);
+			
+			if (String.valueOf(orderr.getNb_num()).startsWith("2")) {
+				System.out.println("2로 시작해");
+				kakaoDto.setGreen_deposit(orderr.getNb_num());
+			} else {
+				System.out.println("1로 시작해");
+			}
+			
 
 			// 일반 & 선물 주문
 			if(kakaoDto.getPartner_order_id().length() != 4) {
 				// 일반 주문
 				if(kakaoDto.getInstall_month() == 1) {
 					// orderr update(주문상태 변경)
-					// result = os.paySuccess(kakaoDto);
+					result = os.paySuccess(kakaoDto);
 					
 				// 선물 주문 -> ORDERR UPDATE & POINT INSERT 수행
 				} else if(kakaoDto.getInstall_month() == 2) {

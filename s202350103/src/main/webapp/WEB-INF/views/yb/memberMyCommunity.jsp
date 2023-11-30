@@ -21,6 +21,16 @@
      	  border-radius: 10px;
      	  border: 1px solid black;
     }
+    
+    .center-text {
+	  	text-align: center; /* 텍스트 가운데 정렬 */
+	  	position: absolute;
+	  	top: 95%;
+	  	left: 50%;
+	  	font-weight: bold;
+	  	color:black;
+	  	transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+	}
 
 </style>
 <script type="text/javascript">
@@ -102,7 +112,8 @@ function openWrite() {
                 <!-- heading -->
                  <a href="postDetailForm?cm_num=${popList.cm_num }"><h2 class="fs-6">${popList.cm_title }
                 </h2></a>
-                <div class="text-small"><small>작성자: ${popList.m_name }</small></div>
+                <div class="text-small"><small>작성자: ${popList.m_name }</small></div><p><p>
+                
                 <div class="text-small mb-1" "><small>${popList.nb_title }</small></div>               
                   <p><div class="mb-2">
                             <div class="text-warning">
@@ -149,14 +160,21 @@ function openWrite() {
 <div id="div1" class="mb-3">
 	 <div class="mb-7 mt-3">
 		 <div class="mb-3" style="float: left;"> 
-		 	${member.m_name } 님의 총 독후감 : ${comMyListTotalCnt } 
-		 	
+		 	총 : ${comMyListTotalCnt } 건 
+			
 		 </div>
          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
    			<button class="btn btn-soft-primary" type="button" id="openWrite" onclick="openWrite()">작성하기</button>
  		 </div>		
      </div>
 	 <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
+	 <c:if test="${empty communityMyList }">
+ 		<div class="row" style="height: 100px">
+			<div class="center-text mt-14 md-14">
+				등록한 독후감이 없습니다.
+			</div>
+		</div>	 	
+	 </c:if>
 	 	<c:forEach items="${communityMyList }" var="community">
 			<div class="col" style="margin-bottom:16px;" >
               <!-- card -->

@@ -102,6 +102,7 @@
 				<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수중"/></c:when>
 				<c:when test="${oldBook.ob_status eq '2' }"><c:out value="검수완료"/></c:when>
 				<c:when test="${oldBook.ob_status eq '3' }"><c:out value="매입완료"/></c:when>
+				<c:when test="${oldBook.ob_status eq '4' }"><c:out value="판매완료"/></c:when>
 				<c:otherwise><c:out value=""/></c:otherwise>
 		</c:choose>
 				
@@ -181,7 +182,7 @@
 	</table>
 		   <div class="col-12 " style="margin: auto;">
      <div class="text-center">
-	   	 <button class="btn btn-primary mt-5 mb-2 center" type="button" onclick="location.href='BolistOb'" >중고 리스트 보기</button>
+	   	 <button class="btn btn-secondary mt-5 mb-2 center" type="button" onclick="location.href='BolistOb'" >목록 보기</button>
 	  </div>
 		</div>
 	</form>		

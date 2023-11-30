@@ -12,6 +12,16 @@
 	.col-lg-9 col-md-12 {
 		
 	}
+	
+	.center-text {
+	  text-align: center; /* 텍스트 가운데 정렬 */
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  font-weight: bold;
+	  color:black;
+	  transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+	}
 </style>
 </head>
 <body>
@@ -23,12 +33,21 @@
 		          <div class="card py-1 border-0 mb-8">
            			 <div class="mb-8">
 			         <!-- heading -->
-				         <h2 class="mb-2">판매 현황</h2>
-				         <p><a href="#">${member.m_id } 님의 판매 목록입니다.</a></p>
+				         <h2 class="mb-2">중고 판매 현황</h2>
+				         <p><a href="#">${member.m_id } 님의 중고 판매 목록입니다.</a></p>
 				               총 상품 개수 : ${totalSellCnt }		
 			      	</div>
 		          <div>
+		         <c:if test="${totalSellCnt == 0}">			
+			 		<div class="row" style="height: 100px">
+						<div class="center-text mt-14 md-14">
+							판매한 상품이 없습니다.<p><p>
+							<a href="writeFormObReport" class="btn btn-soft-success ">상품 팔기</a>
+						</div>
+					</div>	 	
+				</c:if>
 		            <!-- table -->
+		        <c:if test="${totalSellCnt != 0 }">
 		            <div class="">
 		              <table class="table text-nowrap table-with-checkbox">
 		              
@@ -70,6 +89,7 @@
 										<c:when test="${oldbook.ob_status == 1}"><span>검수중</span></c:when>
 										<c:when test="${oldbook.ob_status == 2}"><span>검수완료</span></c:when>
 										<c:when test="${oldbook.ob_status == 3}"><span>매입완료</span></c:when>
+										<c:when test="${oldbook.ob_status == 4}"><span>판매완료</span></c:when>
 								</c:choose>
 		                 	</td>
 		                    <td class="align-middle" style="padding-left: 10px;">
@@ -105,11 +125,12 @@
 		               
 		              </table>
 		            </div>
-		
+			</c:if>
 		          </div>
 		        </div>
 		
 		      </div>
+		    <c:if test="${totalSellCnt != 0}">
 			<nav aria-label="Page navigation example">
 			  <ul class="pagination justify-content-center">
 				 	<c:if test="${page.startPage > page.pageBlock }">
@@ -130,10 +151,10 @@
 					</c:if>
 			  	</ul>
 	   		</nav>
-		
+			</c:if>
 		
 		    </div>
-		
+			
 
 
 <%@ include file="../common/footerFo.jsp"%>

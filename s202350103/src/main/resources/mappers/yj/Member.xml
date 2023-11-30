@@ -136,7 +136,7 @@
 			              from newbook
 			                  union
 			              select ob.ob_num nb_num, 
-			                 concat(ob_grade_alpha(ob.ob_grade),nb.nb_title) nb_title, nb.nb_writer, nb.nb_price, nb.nb_image
+			                 concat(ob_grade_alpha(ob.ob_grade),nb.nb_title) nb_title, nb.nb_writer, ob.ob_sell_price nb_price, nb.nb_image
 			              from newbook nb, oldbook ob
 			              where nb.nb_num = ob.nb_num
 			            ) books
@@ -279,26 +279,32 @@
 	
 	<select id="adminMemberSearch" parameterType="Member" resultType="Member">
 		
-             select rownum rn, m.* from member m where 
-			
-	    	 <choose>
-		           <when test="search == 's_num'">
-		             m_num like '%' || #{keyword} || '%'
-		          </when>
-		           <when test="search == 's_name'">
-		             m_name like '%' || #{keyword} || '%'
-		          </when>
-		           <when test="search == 's_id'">
-		             m_id like '%' || #{keyword} || '%'
-		          </when>
-		           <when test="search == 's_email'">
-		             m_email like '%' || #{keyword} || '%'
-		          </when>
-		           <when test="search == 's_addr'">
-		             m_addr like '%' || #{keyword} || '%'
-		          </when>
-	     	 </choose>
-	     	 order by m_num
+		select *  
+		from 
+			(  
+				select rownum rn, m.* 
+				from 
+					(select * from member
+		    	 <choose>
+			           <when test="search == 's_num'">
+			             WHERE m_num like '%' || #{keyword} || '%'
+			          </when>
+			           <when test="search == 's_name'">
+			            WHERE m_name like '%' || #{keyword} || '%'
+			          </when>
+			           <when test="search == 's_id'">
+			            WHERE m_id like '%' || #{keyword} || '%'
+			          </when>
+			           <when test="search == 's_email'">
+			            WHERE m_email like '%' || #{keyword} || '%'
+			          </when>
+			           <when test="search == 's_addr'">
+			            WHERE m_addr like '%' || #{keyword} || '%'
+			          </when>
+		     	 </choose>
+	     	 ) m
+	    ) 
+	    WHERE rn BETWEEN #{start} and #{end} 	 
 	</select>
 	
 	

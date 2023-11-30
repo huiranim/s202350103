@@ -23,14 +23,21 @@
 	}
 </style>
 <body>
+
+      <div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-1">이벤트 목록</h1>
+         <p>총 ${totalEvent } 건</p>
+      </div>
 <div class="tab	le-responsive" >
-	<p>이벤트 목록</p>
 <table class="table">
   <thead class="table-light">
     <tr>
-      <th scope="col">번호</th>
+      <th scope="col">No.</th>
       <th scope="col">이벤트 번호</th>
+      <th scope="col">이벤트 유형</th>
       <th scope="col">제목</th>
+      <th scope="col">진행상태</th>
       <th scope="col">시작일</th>
       <th scope="col">종료일</th>
       <th scope="col">포인트</th>
@@ -43,7 +50,22 @@
 		<tr style="vertical-align: middle;">
 			<th scope="row">${event.rn }</th>
 			<td>${event.a_num }	 </td>
+			<c:if test="${event.event_type == 1 }">
+				<td>출석</td>
+			</c:if>
+			<c:if test="${event.event_type == 2 }">
+				<td>퀴즈</td>
+			</c:if>
 			<td>${event.a_title }</td>
+			<c:if test="${event.event_status == 1 }">
+				<td>진행</td>
+			</c:if>
+			<c:if test="${event.event_status == 2 }">
+				<td>예정</td>
+			</c:if>
+			<c:if test="${event.event_status == 3 }">
+				<td>종료</td>
+			</c:if>
 			<td>${event.a_sdate }</td>
 			<td>${event.a_edate }</td>
 			<td>${event.a_point }</td>
@@ -76,10 +98,11 @@
 	</ul>
 </nav>
 <script type="text/javascript">
-	function openPopUp(eNum){
-		window.open("boEventDetail?eNum="+eNum,"eventUpdate","width=500,height=700");
+
+	 function openPopUp(eNum){
+		location.href="boEventDetail?eNum="+eNum,"eventUpdate","width=500,height=700";
 	}
-	
+ 
 	function openDetail(eNum){
 		window.open("boJoinedMember?eNum="+eNum,"이벤트 상세조회","width=800,height=600");
 	}

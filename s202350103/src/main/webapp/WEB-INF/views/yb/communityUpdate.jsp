@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../common/none.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,8 +44,8 @@
     }
 	.upload-box .drag-file {
 				position: relative;
-				width: 20%;
-				height: 100px;
+				width: 25%;
+				height: 110px;
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
@@ -64,7 +64,7 @@
 		  left: 50%;
 		  width: 600px;
 		  height: auto;
-		  padding: 40px;
+		  padding: 30px;
 		  border-radius: 10px;
 		  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.25);
 		  transform: translateX(-50%) translateY(-50%);
@@ -107,7 +107,25 @@
 	}
 	#textLabel {
 		font-style: bold; font-size: 20px;
-	}
+	}		
+	.top {
+              position: relative;
+              display: flex; 
+              justify-content: space-between;
+              padding: 0.5rem 1.4rem;
+              background-color: #3CB371;
+              vertical-align: middle;
+          }
+              
+    h1.infoTit {
+                margin-top : 10px;
+                   font-size: 20px; 
+                   color:#ffffff;
+               }
+    .textBox {
+                margin-left: 5%;
+                margin-right: 5%;
+              }
 </style>
 
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -170,99 +188,108 @@
 </script>
 </head>
 <body>
-<section class="my-lg-14 my-8" style="width: 90%; ">
-     <!-- container -->
-     <div class="container" id="container">
-      <div class="row">
-       <div class="offset-lg-2 col-lg-8 col-12">
-	   <form action="communityUpdateDo" method="post" name="" enctype="multipart/form-data" id="frm" onsubmit="return chkForm()">
-		   <input type="hidden" name="cm_num" value="${community.cm_num }">
-		   <input type="hidden" name="m_num" value="${community.m_num }">
-		   <input type="hidden" name="nb_num" value="${community.nb_num }">
-		   <input type="hidden" name="cm_image" value="${community.cm_image }">
-		   <input type="hidden" name="cm_image1" value="${community.cm_image1 }">
-		   <input type="hidden" name="cm_image2" value="${community.cm_image2 }">
-		    <div class="col-md-12 mb-3">
-	          <label class="form-label" for="title">책 제목 *</label>
-	          <input type="text" id="nb_title" name="nb_title" class="form-control mt-2" placeholder="책을 선택해주세요" value="${community.nb_title }" readonly="readonly">
-	<!--           <input type="text" id="book_image" name="book_image" class="form-control" placeholder=""> -->
-	        </div>
-			<div class="col-md-12 mb-3">
-	          <label class="form-label" for="title"> 제목 *</label>
-	          <input type="text" id="cm_title" name="cm_title" class="form-control" required value="${community.cm_title }">
-	        </div>
+<main class="textBox">
+   <div class="mb-6">
+      <header class="top">
+         <h1 class="infoTit">
+           	독후감 수정
+         </h1>
+      </header>
+   </div>
+	<section class="my-lg-14 my-8" style="width: 90%; ">
+	     <!-- container -->
+	     <div class="container" id="container">
+	      <div class="row">
+	       <div class="offset-lg-2 col-lg-8 col-12">
+		   <form action="communityUpdateDo" method="post" name="" enctype="multipart/form-data" id="frm" onsubmit="return chkForm()">
+			   <input type="hidden" name="cm_num" value="${community.cm_num }">
+			   <input type="hidden" name="m_num" value="${community.m_num }">
+			   <input type="hidden" name="nb_num" value="${community.nb_num }">
+			   <input type="hidden" name="cm_image" value="${community.cm_image }">
+			   <input type="hidden" name="cm_image1" value="${community.cm_image1 }">
+			   <input type="hidden" name="cm_image2" value="${community.cm_image2 }">
+			    <div class="col-md-12 mb-3">
+		          <label class="form-label" for="title">책 제목 *</label>
+		          <input type="text" id="nb_title" name="nb_title" class="form-control mt-2" placeholder="책을 선택해주세요" value="${community.nb_title }" readonly="readonly">
+		<!--           <input type="text" id="book_image" name="book_image" class="form-control" placeholder=""> -->
+		        </div>
+				<div class="col-md-12 mb-3">
+		          <label class="form-label" for="title"> 제목 *</label>
+		          <input type="text" id="cm_title" name="cm_title" class="form-control" required value="${community.cm_title }">
+		        </div>
+		        
+		        <div class="col-md-12 mb-3">
+		          <label class="form-label" for="comments"> 내용 *</label>
+		          <textarea rows="3" name="cm_content" id="cm_content" class="form-control">${community.cm_content }</textarea>
+		        </div>
+		        <label class="form-label" for="comments" style="color: red;"><small> * 500자까지 입력 가능합니다. *</small></label>
+		        <div class="col-md-12 mb-3">
+			      <label class="form-label" for="comments"> 별점 *</label>
+			       <div class="star-rating space-x-4 mx-auto">
+						<input type="radio" id="5-stars" name="cm_rating" value="5"/>
+						<label for="5-stars" class="star pr-4">★</label>
+						<input type="radio" id="4-stars" name="cm_rating" value="4"/>
+						<label for="4-stars" class="star">★</label>
+						<input type="radio" id="3-stars" name="cm_rating" value="3"/>
+						<label for="3-stars" class="star">★</label>
+						<input type="radio" id="2-stars" name="cm_rating" value="2"/>
+						<label for="2-stars" class="star">★</label>
+						<input type="radio" id="1-star"  name="cm_rating" value="1" />
+						<label for="1-star" class="star">★</label>
+					</div>
+			      </div>
 	        
-	        <div class="col-md-12 mb-3">
-	          <label class="form-label" for="comments"> 내용 *</label>
-	          <textarea rows="3" name="cm_content" id="cm_content" class="form-control">${community.cm_content }</textarea>
-	        </div>
-	        <label class="form-label" for="comments" style="color: red;"><small> * 500자까지 입력 가능합니다. *</small></label>
-	        <div class="col-md-12 mb-3">
-		      <label class="form-label" for="comments"> 별점 *</label>
-		       <div class="star-rating space-x-4 mx-auto">
-					<input type="radio" id="5-stars" name="cm_rating" value="5"/>
-					<label for="5-stars" class="star pr-4">★</label>
-					<input type="radio" id="4-stars" name="cm_rating" value="4"/>
-					<label for="4-stars" class="star">★</label>
-					<input type="radio" id="3-stars" name="cm_rating" value="3"/>
-					<label for="3-stars" class="star">★</label>
-					<input type="radio" id="2-stars" name="cm_rating" value="2"/>
-					<label for="2-stars" class="star">★</label>
-					<input type="radio" id="1-star"  name="cm_rating" value="1" />
-					<label for="1-star" class="star">★</label>
+		        <div class="col-md-12 mb-3">
+		        	<label class="form-label " for="comments"> 책 이미지</label>
+		        	<div class="upload-box">
+					  <span id="drop-file" class="drag-file mx-auto">
+					    <img src="${community.cm_image }" alt="파일 아이콘" class="image" id="image" name="image">
+					    <input type="hidden" id="cm_image" name="cm_image"> 
+					  </span>  
+					</div>
 				</div>
-		      </div>
-        
-	        <div class="col-md-12 mb-3">
-	        	<label class="form-label " for="comments"> 책 이미지</label>
-	        	<div class="upload-box">
-				  <span id="drop-file" class="drag-file mx-auto">
-				    <img src="${community.cm_image }" alt="파일 아이콘" class="image" id="image" name="image">
-				    <input type="hidden" id="cm_image" name="cm_image"> 
-				  </span>  
-				</div>
-			</div>
-			<div class="col-md-12 mb-3">	
-				<label class="form-label mt-3" for="comments"> 등록 된 이미지</label>
-				<div>
-					<c:if test="${community.cm_image1 != null }">
-						<input type="checkbox" name="cm_imageChk1" id="cm_imageChk1" value="n" onclick="clickImage1()"> ${community.cm_image1 } 
-					</c:if> <p>
-					<c:if test="${community.cm_image2 != null }">
-						<input type="checkbox" name="cm_imageChk2" id="cm_imageChk2" value="n" onclick="clickImage2()"> ${community.cm_image2 }
+				<div class="col-md-12 mb-3">	
+					<label class="form-label mt-3" for="comments"> 등록 된 이미지</label>
+					<div>
+						<c:if test="${community.cm_image1 != null }">
+							<input type="checkbox" name="cm_imageChk1" id="cm_imageChk1" value="n" onclick="clickImage1()"> ${community.cm_image1 } 
+						</c:if> <p>
+						<c:if test="${community.cm_image2 != null }">
+							<input type="checkbox" name="cm_imageChk2" id="cm_imageChk2" value="n" onclick="clickImage2()"> ${community.cm_image2 }
+						</c:if>
+					</div>
+		        </div>
+		        
+		        <div class="col-md-12 mb-3">
+			        <c:if test="${community.cm_image1 != null  && community.cm_image2 == null }">
+						이미지 삭제하기 <button type="button" class="btn btn-soft-primary" onclick="imageDelete(cm_num.value, cm_imageChk1.value)" style="border: none;">
+						<i class="bi bi-file-earmark-x"></i></button>
+					</c:if>
+					<c:if test="${community.cm_image1 == null  && community.cm_image2 != null }">
+						이미지 삭제하기 <button type="button" class="btn btn-soft-primary" onclick="imageDelete1(cm_num.value, cm_imageChk2.value)" style="border: none;">
+						<i class="bi bi-file-earmark-x"></i></button>
+					</c:if>
+			        <c:if test="${community.cm_image1 != null && community.cm_image2 != null}">
+						이미지 삭제하기 <button type="button" class="btn btn-soft-primary" onclick="imageDelete2(cm_num.value, cm_imageChk1.value, cm_imageChk2.value)" style="border: none;">
+						<i class="bi bi-file-earmark-x"></i></button>
 					</c:if>
 				</div>
-	        </div>
-	        
-	        <div class="col-md-12 mb-3">
-		        <c:if test="${community.cm_image1 != null  && community.cm_image2 == null }">
-					이미지 삭제하기 <button type="button" class="btn btn-soft-primary" onclick="imageDelete(cm_num.value, cm_imageChk1.value)" style="border: none;">
-					<i class="bi bi-file-earmark-x"></i></button>
-				</c:if>
-				<c:if test="${community.cm_image1 == null  && community.cm_image2 != null }">
-					이미지 삭제하기 <button type="button" class="btn btn-soft-primary" onclick="imageDelete1(cm_num.value, cm_imageChk2.value)" style="border: none;">
-					<i class="bi bi-file-earmark-x"></i></button>
-				</c:if>
-		        <c:if test="${community.cm_image1 != null && community.cm_image2 != null}">
-					이미지 삭제하기 <button type="button" class="btn btn-soft-primary" onclick="imageDelete2(cm_num.value, cm_imageChk1.value, cm_imageChk2.value)" style="border: none;">
-					<i class="bi bi-file-earmark-x"></i></button>
-				</c:if>
+		        <label class="form-label" for="comments" style="color: red;"><small> * 이미지는 최대 2개까지 선택 가능합니다 *</small></label>
+		        <div class="form-group">
+				   <input type="file" class="form-control form-control-user" id="product_detail_image" name="multiFile" 
+				   		  multiple="multiple" accept="image/jpeg, image/png" onchange="setDetailImage()"></input>
+		        </div>
+		        
+		       <div class="d-grid gap-2 col-3 mx-auto mt-5">
+				    <input type="submit" class="btn btn-soft-primary" value="수정">
+			   </div>
+	       </form>
 			</div>
-	        <label class="form-label" for="comments" style="color: red;"><small> * 이미지는 최대 2개까지 선택 가능합니다 *</small></label>
-	        <div class="form-group">
-			   <input type="file" class="form-control form-control-user" id="product_detail_image" name="multiFile" 
-			   		  multiple="multiple" accept="image/jpeg, image/png" onchange="setDetailImage()"></input>
-	        </div>
-	        
-	       <div class="d-grid gap-2 col-3 mx-auto mt-5">
-			    <input type="submit" class="btn btn-soft-primary" value="수정">
-		   </div>
-       </form>
-		</div>
-		
-   	</div>
-   </div>
-</section>
+			
+	   	</div>
+	   </div>
+	</section>
+</main>
 <script type="text/javascript">
 	document.getElementById('product_detail_image').addEventListener('change', function() {
 	    if(this.files.length > 2) {

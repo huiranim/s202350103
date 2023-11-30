@@ -50,6 +50,7 @@
 	th{
 		width: 20%;	
 		vertical-align: middle;
+		text-align: center;
 	}
 	
 	.title{
@@ -74,13 +75,20 @@
 	
 </style>
 <body>
-	  <div class="mb-8">
+
+<div class="offset-lg-2 col-lg-8 col-12">
+
+	<div class="mb-8">
          <!-- heading -->
-         <h1 class="mb-1">QUIZ 설정</h1>
+         <h1 class="mb-10">퀴즈 등록</h1>
       </div>
-      <div class="mt-10 md-10 justify-content-center">
+
+ <div class="mb-8">
+      
+      
+<div class="mt-7 md-10 justify-content-center">
 		<form class="" id="createQuizForm" action="createQuiz" onsubmit="return checkDate()" enctype="multipart/form-data" method="post">
-			<table class="table" style="width: 70%;  border: 1px solid #dfe2e1; margin-left: 300px;">
+			<table class="table" style="  border: 1px solid #dfe2e1; ">
 			
 				<tr>		
 					<th class="table-active">이벤트 이름</th>
@@ -91,8 +99,8 @@
 					<th class="table-active">이벤트 기간</th>	
 					<td>
 						<div style="display: flex;">
-							<input class="form-control" type="date" name="q_sdate" required="required" style="width: 21%; margin-right: 5px;"><div class="mt-2">~</div>					
-							<input class="form-control" type="date" name="q_edate" required="required" style="width: 21%; margin-left: 5px;">
+							<input class="form-control" type="date" name="q_sdate" required="required" ><div class="mt-2">~</div>					
+							<input class="form-control" type="date" name="q_edate" required="required" >
 						</div>
 					</td>
 				</tr>
@@ -104,15 +112,15 @@
 					
 					<th class="table-active">포인트</th>
 					<td><div style="display: flex;"><input class="form-control" type="number" name="q_point" min="1" maxlength="3" 
-														   style="width: 80px; margin-right: 5px;" required="required"> <div class="mt-2">point</div></div></td>
+														  required="required"> <div class="mt-2">point</div></div></td>
 				</tr>
 				<tr>
 					<th class="table-active">질문</th>
-					<td style="padding-left: 0; padding-left: 21px;"><textarea name="q_question" required="required" style="border: 1px solid #dfe2e1"></textarea></td>
+					<td ><textarea name="q_question" required="required" style="border: 1px solid #dfe2e1"></textarea></td>
 				</tr>
 				<tr>
 					<th class="table-active">선택</th>
-					<td style="padding-left: 0">
+					<td >
 						<table>
 							<tr>
 								<th class="s_title">1 </th><td><input class="form-control" type="text" name="q_select1" style="width: 300px;" required="required"></td>
@@ -143,17 +151,19 @@
 				
 			</table>
 		
-			<div class="d-grid gap-2 d-md-flex justify-content-center" style="padding-left: 320px;">
+			<div class="d-grid gap-2 d-md-flex justify-content-center" >
 				<input type="submit" class="btn btn-primary mb-2" value="등록하기" style="margin-right: 10px"> 
 				<input type="button"  class="btn btn-secondary mb-2" id="cancleButton"  value="목록가기">
 			</div>
 			</form>
 	</div>
+	</div>
+	</div>
+</body>
 <script type="text/javascript">
 	var cancleButton = document.getElementById("cancleButton");
 	cancleButton.addEventListener('click',function(){
 		location.href='boEventList';
 	});
 </script>
-</body>
 </html>

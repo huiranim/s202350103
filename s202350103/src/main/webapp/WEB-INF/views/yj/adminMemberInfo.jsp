@@ -125,7 +125,6 @@
 		var delcon = confirm("해당 회원을 삭제하시겠습니까?");
 		
 		if(delcon == true){
-			alert("삭제 처리 되었습니다.");
 			return true;
 		}else{
 			return false;
@@ -165,18 +164,31 @@
 	    var inputElement = document.getElementById("m_image");	// input 태그의 ID를 가져옴
 	    inputElement.value = m_image; // input 태그의 value 속성에 이미지 url 추가
 	}
+	
+	function boMemberPointUpdate(m_num) {
+		var popupW = 720;
+		var popupH = 800;
+		var left = Math.ceil((window.screen.width - popupW)/2);
+		var top = Math.ceil((window.screen.height - popupH)/2);
+	
+		var url = "boMemberPointUpdate?m_num="+m_num;
+        var name = "boMemberPointUpdate";
+        
+        window.open(url, name, 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes,resizable=no,toolbar=no,titlebar=no,menubar=no,location=no')
+	}
 
 </script>
-
 </head>
 <body>
 
-	<div class="mb-8">
-         <!-- heading -->
-         <h1 class="mb-10">회원 상세</h1>
-      </div>
 
 	
+<div class="offset-lg-2 col-lg-8 col-12">
+
+	<div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-7">회원 상세</h1>
+      </div>
 	    <div class="mb-8">
          <!-- heading -->
           <p class="fs-2 mb-3"><strong>${member.m_name} 님 (${member.m_id })</strong> 
@@ -208,13 +220,12 @@
 
 
       </div>
-<div class="offset-lg-2 col-lg-8 col-12">
        
        
           <!-- form -->
           <form class="row" action="adminMemberUpdate" method="post" id="frm" onsubmit="return adminMemberupdate();">
          
-          <input type="hidden" name="m_num" value="${member.m_num }">
+          <input type="hidden" name="m_num" id="m_num" value="${member.m_num }">
    	      <input type="hidden" id="m_image" name="m_image" value="${member.m_image }">
    	      <input type="hidden" id="m_admin" name="m_admin" value="${member.m_admin }">
          
@@ -282,7 +293,7 @@
               <span class="text-danger">*</span>
               </label><p>
               	 ${member.m_point } <span style="color: red;">P</span>
-					&nbsp;&nbsp;<a href="selectMemberPoint?m_num=${member.m_num }" class="btn btn-primary">포인트 조정</a>
+					&nbsp;&nbsp;<input type="button" class="btn btn-primary mb-2" value="포인트 조정" onclick="boMemberPointUpdate(${member.m_num })">
             </div>
             
               <div class="col-md-12 mb-8">

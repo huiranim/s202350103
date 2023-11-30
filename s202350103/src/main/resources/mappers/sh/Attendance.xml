@@ -9,14 +9,26 @@
 	
 	<select id="shEventList" parameterType="Attendance" resultType="Attendance">
 		<![CDATA[
-		Select * From (Select ROWNUM rn, a.* From 
-		(SELECT a_num, a_title, a_sdate, a_edate, a_image FROM attendance
-		UNION
-		SELECT q_num, q_title, q_sdate, q_edate, q_image FROM quiz
-		order by a_num desc
-		)a) 
-		Where 	rn >= #{start}
-		and		rn <= #{end}
+		SELECT * 
+		FROM (SELECT ROWNUM rn, a.* 
+		      FROM (SELECT a_num, a_title a_title, a_sdate, a_edate, a_image, 1 event_type,
+		                    CASE WHEN sysdate BETWEEN TO_DATE(a_sdate, 'YYYY-MM-DD') 
+		                                      AND     TO_DATE(a_edate || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1
+		                         WHEN sysdate < TO_DATE(a_sdate, 'YYYY-MM-DD')  THEN 2
+		                         ELSE 3 END as event_status
+		            FROM attendance
+		            UNION
+		            SELECT q_num, q_title a_title, q_sdate, q_edate, q_image, 2 event_type,
+		                    CASE WHEN sysdate BETWEEN TO_DATE(q_sdate, 'YYYY-MM-DD') 
+		                                      AND     TO_DATE(q_edate || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1
+		                         WHEN sysdate < TO_DATE(q_sdate, 'YYYY-MM-DD')  THEN 2
+		                         ELSE 3 END as event_status
+		            FROM quiz
+		            ORDER BY event_status
+		            )a
+		       ) 
+		WHERE 	rn >= #{start}
+		AND		rn <= #{end}
 		]]>
 	</select>
 	
@@ -42,22 +54,32 @@
 	
 	<select id="shBoEventList" parameterType="Attendance" resultType="Attendance">
 	<![CDATA[
-		Select *
-		From
+		SELECT *
+		FROM
 		(
-		 Select rownum rn, a.* 
-		 From
-		  (
-		  Select a_title, a_num, a_sdate, a_edate, a_point, a_add
-		  From attendance
-		  Union
-		  Select q_title, q_num, q_sdate, q_edate, q_point, null As a_add
-		  From Quiz
-		  Order by a_num desc
-		  )a)
-		Where rn >= #{start}
-		And   rn <= #{end}
-		Order by rn asc	
+		     SELECT rownum rn, a.* 
+		     FROM
+		      (
+		          SELECT a_title, a_num, a_sdate, a_edate, a_point, a_add, 1 event_type, 
+		                 CASE WHEN sysdate BETWEEN TO_DATE(a_sdate, 'YYYY-MM-DD') 
+		                                      AND     TO_DATE(a_edate || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1
+		                      WHEN sysdate < TO_DATE(a_sdate, 'YYYY-MM-DD')  THEN 2
+		                      ELSE 3 END as event_status
+		          FROM attendance
+		          UNION
+		          SELECT q_title, q_num, q_sdate, q_edate, q_point, NULL AS a_add, 2 event_type, 
+		                 CASE WHEN sysdate BETWEEN TO_DATE(q_sdate, 'YYYY-MM-DD') 
+		                                      AND     TO_DATE(q_edate || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1
+		                      WHEN sysdate < TO_DATE(q_sdate, 'YYYY-MM-DD')  THEN 2
+		                      ELSE 3 END as event_status
+		          FROM Quiz
+		          ORDER BY a_sdate DESC
+		      )a
+		      ORDER BY a_edate DESC
+		      )
+		WHERE 	rn >= #{start}
+		AND		rn <= #{end}
+		ORDER BY rn ASC
 	]]>
 	</select>
 	

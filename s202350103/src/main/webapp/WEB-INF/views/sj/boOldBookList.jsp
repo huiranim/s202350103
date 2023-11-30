@@ -51,19 +51,20 @@
 	
 	<div class="row">
 	<div class="col-lg-12 col-md-12 col-12 d-block">
-	     <div class="py-6 p-md-6 p-lg-10">
+	     <div class="col-12">
 	      
 	        <div class="mb-8">
          <!-- heading -->
          <h1 class="mb-1">  중고 판매 신청 목록</h1>
-         <p>총 ${totalOb } 건</p>
+         <p style="margin-bottom: 0px;">총 ${totalOb } 건</p>
       </div>
 	       
-	       <select id="obstatus1" class="pl " style="margin-left: 120px;" onchange="toglestatus()" >
+	       <select id="obstatus1" class="pl "  onchange="toglestatus()" >
 	       <option value=0 <c:if test="${oldBook.ob_status eq '0'}"> selected="selected"</c:if>>   전체</option>
 	        <option value=1 <c:if test="${oldBook.ob_status eq '1'}"> selected="selected"</c:if>>  검수 중</option>
 	         <option value=2<c:if test="${oldBook.ob_status eq '2'}"> selected="selected"</c:if>> 검수 완료</option>
 	          <option value=3 <c:if test="${oldBook.ob_status eq '3'}"> selected="selected"</c:if>> 매입 완료</option>
+	           <option value=4 <c:if test="${oldBook.ob_status eq '4'}"> selected="selected"</c:if>> 판매 완료</option>
 	       </select>    
 	           	<br>
 	           	
@@ -107,6 +108,7 @@
 						<c:when test="${oldBook.ob_status eq '1' }"><c:out value="검수중"/></c:when>
 						<c:when test="${oldBook.ob_status eq '2' }"><c:out value="검수완료"/></c:when>
 						<c:when test="${oldBook.ob_status eq '3' }"><c:out value="매입완료"/></c:when>
+						<c:when test="${oldBook.ob_status eq '4' }"><c:out value="판매완료"/></c:when>
 						<c:otherwise><c:out value=""/></c:otherwise>
 				</c:choose>
 	                    </td>
@@ -120,6 +122,9 @@
 									<input type="button" class="btn btn-soft-info mb-2" name="ob_num" style="margin-left: 20px;" value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:when test="${oldBook.ob_status eq '3' }"><c:out value=""/>
+									<input type="button" class="btn btn-soft-info mb-2" name="ob_num" style="margin-left: 20px;" value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
+								</c:when>
+									<c:when test="${oldBook.ob_status eq '4' }"><c:out value=""/>
 									<input type="button" class="btn btn-soft-info mb-2" name="ob_num" style="margin-left: 20px;" value="상세보기" onclick="location.href='BodetailOb?ob_num=${oldBook.ob_num}'">
 								</c:when>
 								<c:otherwise><c:out value=""/>

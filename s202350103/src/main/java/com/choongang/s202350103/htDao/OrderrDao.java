@@ -17,4 +17,5 @@ public interface OrderrDao {
 	Orderr        orderPayment(Orderr orderr);
 	int           paySuccess(KakaoPayApprovalVO ka);
 	Member        selectMember(Member member);
+	Orderr        obNumSelect(KakaoPayApprovalVO kakaoDto);
 }

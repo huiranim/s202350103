@@ -21,9 +21,11 @@ public class PointListDaoImpl implements PointListDao {
 	@Override
 	public List<PointList> selectMemberPoint(Member member) {
 		System.out.println("PointListDao selectMemberPoint() Start..");
+		System.out.println("PointListDao selectMemberPoint() member -> " + member);
 		List<PointList> memberPointList = null;
 		try {
 			memberPointList = session.selectList("shSelectMemberPoint",member);
+			System.out.println("PointListDao selectMemberPoint() memberPointList -> "+memberPointList);
 		} catch (Exception e) {
 			System.out.println("pointListDao selectMemberPoint() Exception ->"+e.getMessage());
 		}
@@ -117,6 +119,7 @@ public class PointListDaoImpl implements PointListDao {
 	@Override
 	public int memberPointList(int m_num) {
 		System.out.println("PointList memberPointList() Start...");
+		System.out.println("PointList memberPointList() m_num -> " + m_num);
 		int result = 0;
 		try {
 			result = session.selectOne("shMemberPointList",m_num);

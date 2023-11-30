@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.choongang.s202350103.model.AttJoin;
 
@@ -14,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class AttJoinDaoImpl implements AttJoinDao {
 
 	private final SqlSession session;
+	// Transaction 관리
+	private final PlatformTransactionManager transactionManager;
 	
 	@Override
 	public List<AttJoin> listAttJoin(AttJoin attJoin) {
@@ -52,27 +57,32 @@ public class AttJoinDaoImpl implements AttJoinDao {
 	}	
 
 	@Override
-	public int stampAtt(AttJoin attJoin) {
-		int result = 0 ;
+	public void checkAtt(AttJoin attJoin) {
+		
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		int result;
+		int result1, result2 , result3 = 0;
 		try {
-			result = session.insert("shStampAtt",attJoin);
-		} catch (Exception e) {
-			System.out.println("AttJoinDaoImpl StampAtt() Exception->"+e.getMessage());
+			result1 = session.insert("shStampAtt",attJoin);
+			result2 = session.update("shSaveAttPoint",attJoin);
+			result3 = session.insert("shAttPointList",attJoin);
+		
+		if(result1 == 1 && result2 == 1&&result3 == 1) {
+			result = 1;
 		}
-		return result;
-	}
-	
-	@Override
-	public int savePoint(AttJoin attJoin) {
-		int point = 0;
-		try {
-			point = session.update("shSaveAttPoint",attJoin);
+		
+		// COMMIT
+		transactionManager.commit(txStatus);
 		} catch (Exception e) {
-			System.out.println("AttendanceDaoImpl savePoint() Exception->"+e.getMessage());
-		} 
-		return point;
-	}
-
+			// ROLLBACK
+			transactionManager.rollback(txStatus);
+			
+			System.out.println("AttJoinDao checkAtt() e.getMessage() -> "+e.getMessage());
+		}
+		System.out.println("AttJoinDao checkAtt() end..");
+}
+	
 	@Override
 	public AttJoin searchAtt(AttJoin attJoin) {
 		try {
@@ -82,15 +92,6 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		}
 		return attJoin;
 	}	
-	
-	@Override
-	public void attPointList(AttJoin attJoin) {
-		try {
-			session.insert("shAttPointList",attJoin);
-		} catch (Exception e) {
-			System.out.println("AttJoinDao attPointList() Exception->"+e.getMessage());
-		}
-	}
 
 	@Override
 	public int addAtt(AttJoin attJoin) {
@@ -145,6 +146,8 @@ public class AttJoinDaoImpl implements AttJoinDao {
 		}
 		return rowCount;
 	}
+
+	
 
 }
 

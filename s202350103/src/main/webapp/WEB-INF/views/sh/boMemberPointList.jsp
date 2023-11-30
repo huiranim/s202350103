@@ -8,53 +8,66 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
-
 	
-	function mouse_click(){
-		alert("포인트 유형\n 1 주문 적립\n 2 출석 이벤트\n 3 퀴즈 이벤트\n 4 회원가입\n 5 추천인 코드\n 6 주문 포인트 사용\n 7 관리자 조정\n 8 포인트 충전");
-	}
-	
-	function boMemberPointUpdate(m_point, m_num) {
-			var popupW = 600;
-			var popupH = 800;
+	function boMemberPointUpdate(m_num) {
+			var popupW = 1000;
+			var popupH = 350;
 			var left = Math.ceil((window.screen.width - popupW)/2);
 			var top = Math.ceil((window.screen.height - popupH)/2);
 		
-			var url = "boMemberPointUpdate?m_point="+m_point+"$m_num="+m_num;
+			var url = "boMemberPointUpdate?m_num="+m_num;
 	        var name = "boMemberPointUpdate";
 	        
 	        window.open(url, name, 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes,resizable=no,toolbar=no,titlebar=no,menubar=no,location=no')
 	}
-	
-	function openDetail(eNum){
-		window.open("boMemberPointUpdate?m_point="+m_point+"$m_num="+m_num,"이벤트 상세조회","width=800,height=600");
-	}
-	
-	//이벤트 리스터 세팅
-	document.getElementById('m_point').addEventListener('input');
-	document.getElementById('m_num').addEventListener('input');
 
 </script>
 <style type="text/css">
 	table{
 		width: 80%;
+		border-style: none;
 	}
 	
 	h2{
 		text-align: center;
 	}	
+	.center-text {
+	  	text-align: center; /* 텍스트 가운데 정렬 */
+	  	position: absolute;
+	  	top: 30%;
+	  	left: 60%;
+	  	font-weight: bold;
+	  	color:black;
+	  	transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+	}
 </style>
 </head>
 <body>
-<p class="fs-1 text-center">회원 포인트 리스트</p>
-<div style="margin: 0 15% 0 15%;">
-	<label class="" style="margin-right:30px; ; float: right;"> 총합 : ${sum} 포인트</label>
+<div class="mb-8">
+   <!-- heading -->
+   <h1 class="mb-1">포인트 목록</h1>
+</div>
+ <div class="mb-8">
+  <!-- heading -->
+   <p class="fs-2 mb-3"><strong>${member.m_name} 님 (${member.m_id })</strong></p>
+   <p class="fs-4 mb-5">총 포인트 : <mark >${sum}P</mark></p>
+   
+</div>
+<div class="fs-5">회원번호 : ${member.m_num}</div>
+<c:if test="${empty memberPoint }">
+			<div class="row">
+				<div class="center-text mt-14">
+					발생한 포인트 이력이 없습니다.
+				</div>
+			</div>
+</c:if>
+<c:if test="${not empty memberPoint }">	  
+<input type="hidden" name="m_num" id="m_num" value="${m_num  }">       
 <table class="table" style="text-align: center">
 	<thead class="table-light">
 		<tr>
-			<th scope="col">번호</th>
+			<th scope="col">No.</th>
 			<th scope="col">포인트번호</th>
-			<th scope="col">회원번호</th>
 			<th scope="col">발행페이지 코드</th>
 			<th scope="col">발행일시</th>
 			<th scope="col">포인트유형	</th>
@@ -63,38 +76,53 @@
 		
 	</thead>
 	<tbody>
+		
 		<c:forEach var="memberPoint" items="${memberPoint }">
-		<input type="text" id="m_num" name="m_num" value="${memberPoint.m_num }">
-		<input type="text" id="m_point" name="m_point" value="${sum}">
-			<tr>
-				<th scope="row">${memberPoint.rn }</th>
+				
+				<tr>
+				<td scope="row">${memberPoint.rn }</td>
 				<td>${memberPoint.p_num }</td>
-				<td>${memberPoint.m_num }</td>
 				<td>
 				<c:choose>
 					<c:when test="${memberPoint.o_order_num != 0}"> ${memberPoint.o_order_num}</c:when>
 					<c:when test="${memberPoint.q_num != 0}">${memberPoint.q_num}</c:when>
 					<c:when test="${memberPoint.a_num != 0}">${memberPoint.a_num}</c:when>
-					<c:otherwise>00000</c:otherwise>
+					<c:when test="${memberPoint.p_list_type == 4}">-</c:when>
+					<c:when test="${memberPoint.p_list_type == 7}">-</c:when>
 				</c:choose>
 				</td>
 				<td>
 					<fmt:formatDate pattern="yyyy-MM-dd" value="${memberPoint.a_par_pdate }"/>
 				</td>
 				<td>
-					<a onclick="mouse_click()">${memberPoint.p_list_type }</a>	
+					<c:choose>
+						<c:when test="${memberPoint.p_list_type == 1}">주문 적립</c:when>
+						<c:when test="${memberPoint.p_list_type == 2}">출석 이벤트</c:when>
+						<c:when test="${memberPoint.p_list_type == 3}">퀴즈 이벤트</c:when>
+						<c:when test="${memberPoint.p_list_type == 4}">회원가입</c:when>
+						<c:when test="${memberPoint.p_list_type == 5}">추천인</c:when>
+						<c:when test="${memberPoint.p_list_type == 6}">주문 시 사용</c:when>
+						<c:when test="${memberPoint.p_list_type == 7}">관리자 조정</c:when>
+						<c:when test="${memberPoint.p_list_type == 8}">포인트 충전</c:when>
+					</c:choose>
 				</td>
-				<td>${memberPoint.m_point }
-					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					   <button class="btn btn-soft-primary" type="button" id="openWrite" onclick="boMemberPointUpdate(m_point.value, m_num.value)">수정하기</button>
-					</div>	
-				</td>
+				<td>${memberPoint.m_point }P</td>
 						
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
+<div class="d-grid gap-2 d-md-flex justify-content-center">
+	<input type="button" class="btn btn-primary mb-2" value="수정하기" style="margin-right: 10px" onclick="boMemberPointUpdate(m_num.value)">
+	<input type="button"  class="btn btn-secondary mb-2" id="cancleButton"  value="목록가기">
 </div>
+<script type="text/javascript">
+	var cancleButton = document.getElementById("cancleButton");
+	cancleButton.addEventListener('click',function(){
+		location.href='adminMemberList';
+	});
+</script>				
+
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
 	 	<c:if test="${page.startPage > page.pageBlock }">
@@ -115,8 +143,8 @@
 		</c:if>
 	</ul>
 </nav>
+</c:if>
 <br>
-<hr>
 <br>
 	
 </body>

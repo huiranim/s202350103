@@ -17,7 +17,7 @@
 
 <table>
 	<tr>
-		<th>번호</th><th>이름</th><th>적립 날짜</th><th>포인트</th><th>관리</th>
+		<th>No.</th><th>이름</th><th>적립 날짜</th><th>포인트</th><th>관리</th>
 	</tr>
 	<c:forEach var="pl" items="${pointList }">
 	<tr>
