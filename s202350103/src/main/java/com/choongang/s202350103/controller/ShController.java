@@ -146,14 +146,16 @@ import lombok.extern.slf4j.Slf4j;
 			System.out.println(a_num);
 			System.out.println(m_num);
 			
+			ps.checkAtt(attJoin);
+			
+			
 			//출석 참여(att_join list)
-			ps.stampAtt(attJoin);
 			//멤버 포인트 적립
-			ps.savePoint(attJoin);
+			//멤버 포인트 적립
+			
 			//당일 기록 체크 
 			attJoin = ps.searchAtt(attJoin);
-			//멤버 포인트 적립
-			ps.attPointList(attJoin);
+			
 			
 			return "forward:/attendancePage?eNum="+a_num+"&m_num="+m_num;
 		}
@@ -236,25 +238,25 @@ import lombok.extern.slf4j.Slf4j;
 		}
 		
 		//Quiz 오답 제출
-		@RequestMapping(value = "checkQuiz", method = RequestMethod.GET)
-		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
-			System.out.println("shController checkQuiz() Start...");
-			QuizJoin quizJoin = new QuizJoin();
-			quizJoin.setM_num(m_num);
-			quizJoin.setQ_num(eNum);
-			//퀴즈 참여
-			ps.checkedAnswer(quizJoin);
-			return "redirect:/quizPage?eNum="+eNum+"&m_num="+m_num;
-		}
-		
-		//Quiz 정답 제출
 		@RequestMapping(value = "wrongQuiz", method = RequestMethod.GET)
 		public String wrongQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
 			System.out.println("shController wrongQuiz() Start...");
 			QuizJoin quizJoin = new QuizJoin();
 			quizJoin.setM_num(m_num);
 			quizJoin.setQ_num(eNum);
-			//퀴즈 참여
+			//퀴즈 참여(오답)
+			ps.checkedAnswer(quizJoin);
+			return "redirect:/quizPage?eNum="+eNum+"&m_num="+m_num;
+		}
+		
+		//Quiz 정답 제출
+		@RequestMapping(value = "checkQuiz", method = RequestMethod.GET)
+		public String checkQuiz(@RequestParam("m_num") int m_num, @RequestParam("eNum") int eNum) {
+			System.out.println("shController checkQuiz() Start...");
+			QuizJoin quizJoin = new QuizJoin();
+			quizJoin.setM_num(m_num);
+			quizJoin.setQ_num(eNum);
+			//퀴즈 참여(정답)
 			ps.checkedAnswer(quizJoin);
 			//member table 포인트 적립
 			ps.savePoint(quizJoin);
@@ -389,6 +391,7 @@ import lombok.extern.slf4j.Slf4j;
 			 attendance.setStart(start);
 			 attendance.setEnd(end);
 			 List<Attendance> attendanceList = ps.boEventList(attendance);
+			 model.addAttribute("totalEvent", totalEvent);
 			 model.addAttribute("page", page);
 			 model.addAttribute("event",attendanceList);
 			 
@@ -561,25 +564,25 @@ import lombok.extern.slf4j.Slf4j;
 		}
 		
 		@RequestMapping(value = "boPlusPoint")
-		public String boPlusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+		public String boPlusPoint(int m_num,  int point) {
 			System.out.println("shController boPlusPoint() Start...");
 			Member member = new Member();
 			member.setM_num(m_num);
 			member.setM_point(point);
 			ps.boInsertPlusPoint(member);
 			ps.boUpdatePlusPoint(member);
-			return "redirect:/selectMemberPoint?m_num="+m_num;
+			return "sh/boMemberPointUpdate";
 		}
 		
 		@RequestMapping(value = "boMinusPoint")
-		public String boMinusPoint(@RequestParam("m_num") int m_num, @RequestParam("point") int point) {
+		public String boMinusPoint(int m_num, int point) {
 			System.out.println("shController boMinusPoint() Start...");
 			Member member = new Member();
 			member.setM_num(m_num);
 			member.setM_point(point);
 			ps.boInsertMinusPoint(member);
 			ps.boUpdateMinusPoint(member);
-			return "redirect:/selectMemberPoint?m_num="+m_num;
+			return "sh/boMemberPointUpdate";
 		}
 		
 		@RequestMapping(value = "boJoinedMember")

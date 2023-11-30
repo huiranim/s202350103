@@ -29,8 +29,12 @@
          <h1 class="mb-1">이벤트 목록</h1>
       </div>
 
+      <div class="mb-8">
+         <!-- heading -->
+         <h1 class="mb-1">이벤트 목록</h1>
+         <p>총 ${totalEvent } 건</p>
+      </div>
 <div class="tab	le-responsive" >
-
 <table class="table">
   <thead class="table-light">
     <tr>

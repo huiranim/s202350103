@@ -34,13 +34,27 @@
 </style>
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <script type="text/javascript">
+	<%-- $(document).ready.ready(function(){
+		//a_edate의 하루 전날을 계산 및 변수 저장
+		var oneDayBefore = calculateOneDayBefore('<%= eventList.a_edate %>');
+	})
+	
+		// 날짜 문자열을 받아 하루를 뺀 날짜를 구하는 함수
+        function calculateOneDayBefore(dateStr) {
+        var date = new Date(dateStr);
+        date.setDate(date.getDate() - 1);
+        return date.toISOString().split('T')[0];
+        }
+	
+	} --%>
+	
 	//이벤트 클릭 function
 	function checkTime(e_sdate,e_edate){
 		var curDate = new Date();
 		var curDate1 = curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate();
 		var sysdate = new Date(curDate1);
-		var sdate = convertToDate(e_sdate);
-		var edate = convertToDate(e_edate);
+		var sdate = convertTosDate(e_sdate);
+		var edate = convertToeDate(e_edate);
 		var target = document.getElementById("subButton");
 		if(sysdate>=sdate&&sysdate<=edate){
 			return true;
@@ -52,9 +66,14 @@
 		}
 	}
 	
-	function convertToDate(dateStr) {
+	function convertTosDate(dateStr) {
 		var parts = dateStr.split('-');
 		return new Date(parts[0], parts[1] - 1, parts[2]);
+		}
+	
+	function convertToeDate(dateStr) {
+		var parts = dateStr.split('-');
+		return new Date(parts[0], parts[1] - 1, parts[2]+1);
 		}
 		
 	
@@ -95,10 +114,9 @@
 		       <div class="col-md-4 col-12">
 				  <div class="text-center">
 				  	<h2 class="fs-5 mb-2">${event.a_title }</h2>
-							${event.a_sdate } ~ ${event.a_edate }
+							${event.a_sdate} ~ ${event.a_edate}
 				  
 					<div class="flex-column text-center">
-					
 					
 					<fmt:formatDate value="${sysdate}" pattern="yyyy-MM-dd" var="sys"/>
 					

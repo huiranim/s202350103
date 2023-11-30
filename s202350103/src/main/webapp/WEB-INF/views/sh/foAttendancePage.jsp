@@ -130,7 +130,7 @@
 		
 		
 		<div class="d-grid gap-2 col-4 mx-auto mt-8">
-			<input type="button" id="subButton" onClick="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num })" disabled="disabled" value="출석체크" class="btn btn-success mb-2">
+			<input type="button" id="subButton" onClick="checkAtt(${a_num},${m_num}),addAtt(${a_num},${m_num})" disabled="disabled" value="출석체크" class="btn btn-success mb-2">
 		</div>
 		
 		
@@ -215,8 +215,10 @@
 	function checkAtt(a_num, m_num){
 		var point = '${attendance.a_point}';
 		if(${chance}==0){
-			alert("체크되었습니다. "+point+"포인트 획득하셨습니다.");
+			alert("체크되었습니다."+point+"포인트 획득하셨습니다.");
 			location.href="checkAtt?a_num="+a_num+"&m_num="+m_num;
+			// checkAtt가 실행되면서 addAtt 함수 호출
+		    addAtt(a_num, m_num);
 			return true;
 		} else {
 			alert("금일 참여하셨습니다.");
