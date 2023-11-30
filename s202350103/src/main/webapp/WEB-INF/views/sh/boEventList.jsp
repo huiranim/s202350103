@@ -24,11 +24,6 @@
 </style>
 <body>
 
-    <div class="mb-8">
-         <!-- heading -->
-         <h1 class="mb-1">이벤트 목록</h1>
-      </div>
-
       <div class="mb-8">
          <!-- heading -->
          <h1 class="mb-1">이벤트 목록</h1>

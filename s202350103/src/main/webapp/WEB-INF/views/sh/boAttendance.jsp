@@ -54,13 +54,8 @@
 
  <div class="mb-8">
 <div class="mt-7 md-10 justify-content-center">
-<div class="mb-10" style="margin-left: 300px;">
-   <!-- heading -->
-   <h1 class="mb-1">출석체크 설정</h1>
-</div>
->>>>>>> branch 'main' of https://github.com/huiranim/s202350103.git
 <form id="createAttForm" action="createAtt" onsubmit="return checkDate()" method="post" enctype="multipart/form-data">
-	<table class="table">
+	<table class="table" style="  border: 1px solid #dfe2e1; ">
 		<tr>
 			<th scope="col" class="table-active">이벤트 이름</th>
 			<td><input class="form-control" type="text" name="a_title" style="width: 300px;" required="required"></td>	
@@ -115,6 +110,7 @@
 		<input type="button"  class="btn btn-secondary mb-2" id="cancleButton"  value="목록가기">
 	</div>
 </form>
+</div>
 </div>
 </div>
 
