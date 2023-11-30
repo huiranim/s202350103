@@ -1072,15 +1072,25 @@ public class YjController {
 		  return "yj/memberMyOna";
 	  }
 	  
-	  // 관리자 - 회원 삭제 
+	  // 관리자 - 회원 삭제
 	  @GetMapping("/adminMemberDelete")
 	  public String adminMemberDelete(@RequestParam int m_num, Model model) {
-		  
-		  System.out.println(m_num);
-		  
-		  int adminMemberDelete = ms.adminMemberDelete(m_num);
-		  
-		  return "redirect:/adminMemberList";
+	      System.out.println(m_num);
+	      
+	      try {
+	          int adminMemberDelete = ms.adminMemberDelete(m_num);
+	          
+	          if (adminMemberDelete < 1) {
+	              // 삭제 작업 실패
+	              return "redirect:/custom404";
+	          }
+	      } catch (Exception e) {
+	          // 오류 발생 
+	          return "redirect:/custom404";
+	      }
+	      
+	      // 삭제 성공
+	      return "redirect:/adminMemberList";
 	  }
 	  
 	  // 관리자 - 회원 검색

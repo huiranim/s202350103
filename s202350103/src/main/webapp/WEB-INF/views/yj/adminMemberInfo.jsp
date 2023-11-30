@@ -125,7 +125,6 @@
 		var delcon = confirm("해당 회원을 삭제하시겠습니까?");
 		
 		if(delcon == true){
-			alert("삭제 처리 되었습니다.");
 			return true;
 		}else{
 			return false;
