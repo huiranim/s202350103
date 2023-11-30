@@ -177,7 +177,9 @@
 					<c:when test="${memberPoint.q_num != 0}">${memberPoint.q_num}</c:when>
 					<c:when test="${memberPoint.a_num != 0}">${memberPoint.a_num}</c:when>
 					<c:when test="${memberPoint.p_list_type == 4}">-</c:when>
+					<c:when test="${memberPoint.p_list_type == 5}">-</c:when>
 					<c:when test="${memberPoint.p_list_type == 7}">-</c:when>
+					<c:when test="${memberPoint.p_list_type == 8}">-</c:when>
 				</c:choose>
 				</td>
 				<td>
