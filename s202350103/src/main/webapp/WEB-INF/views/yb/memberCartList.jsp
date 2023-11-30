@@ -183,7 +183,8 @@
 		<c:if test="${listCart.size() == 0 }">			
 	 		<div class="row" style="height: 100px">
 				<div class="center-text mt-14 md-14">
-					담은 상품이 없습니다.
+					담은 상품이 없습니다.<p><p>
+					<a href="innewbookList?nb_category1=1&nb_category2=0&orderType=recently" class="btn btn-soft-success ">새상품 보러가기</a>
 				</div>
 			</div>	 	
 		</c:if>
