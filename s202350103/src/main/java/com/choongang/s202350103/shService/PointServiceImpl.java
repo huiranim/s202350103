@@ -116,15 +116,8 @@ public class PointServiceImpl implements PointService {
 	}
 
 	@Override
-	public int stampAtt(AttJoin attJoin) {
-		int result = ajd.stampAtt(attJoin);
-		return result;
-	}
-
-	@Override
-	public int savePoint(AttJoin attJoin) {
-		int point = ajd.savePoint(attJoin);
-		return point;
+	public void checkAtt(AttJoin attJoin) {
+		ajd.checkAtt(attJoin);
 	}
 
 	@Override
@@ -147,12 +140,6 @@ public class PointServiceImpl implements PointService {
 	@Override
 	public void savePoint(QuizJoin quizJoin) {
 		qjd.savePoint(quizJoin);
-	}
-
-	@Override
-	public void attPointList(AttJoin attJoin) {
-		ajd.attPointList(attJoin);
-		
 	}
 
 	@Override

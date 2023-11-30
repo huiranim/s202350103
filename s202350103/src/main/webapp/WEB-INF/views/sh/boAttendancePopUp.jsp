@@ -28,10 +28,24 @@
 		<tr>
 			<th scope="row">이벤트 기간  : </th>
 			<td>
-				<input type="date"   name="a_sdate"   value="${attendance.a_sdate}" required="required">~
-			  	<input type="date"   name="a_edate"   value="${attendance.a_edate}" required="required">
+				<input type="date"   name="a_sdate" id="a_sdate"  value="${attendance.a_sdate}" required="required">~
+			  	<input type="date"   name="a_edate" id="a_edate"  value="${attendance.a_edate}" required="required" readonly="readonly">
 			</td>
 		</tr>
+		<script>
+			$(document).ready(function() {
+			    $('#a_sdate').on('change', function() {
+			      // 시작일을 선택하면 종료일이 해당 달의 마지막 날짜로 자동 설정됩니다.
+			      const startDate = new Date($(this).val());
+			      const lastDay = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
+			      const formattedLastDay = lastDay.toISOString().split('T')[0];
+			      
+			      console.log('formattedLastDay:', formattedLastDay);
+			      
+			      $('#a_edate').val(formattedLastDay);
+			    });
+			  });
+		</script>
 		<tr>
 			<th scope="row" style="vertical-align: middle;">사진 등록	: </th>
 			<td style="padding-top: 20px; padding-bottom: 4px;">

@@ -53,10 +53,12 @@
 		  Union
 		  Select q_title, q_num, q_sdate, q_edate, q_point, null As a_add
 		  From Quiz
-		  Order by a_num desc
-		  )a)
-		Where rn >= #{start}
-		And   rn <= #{end}
+		  Order by a_sdate desc
+		  )a
+          Order by a_edate desc
+          )
+        Where 	rn >= #{start}
+		and		rn <= #{end}
 		Order by rn asc	
 	]]>
 	</select>
