@@ -7,6 +7,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.center-text {
+	  text-align: center; /* 텍스트 가운데 정렬 */
+	  position: absolute;
+	  top: 40%;
+	  left: 55%;
+	  font-weight: bold;
+	  color:black;
+	  transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변환 */
+	}
+</style>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
 	
@@ -169,38 +180,40 @@
 			    
 			</div>
 		</c:if>
-		<c:if test="${listCart.size() == 0 }">
-			<div class="col-lg-8 col-md-7">
-	          <div class="py-3">
-	         	<button type="button" class="btn btn-primary justify-content-between align-items-center" onclick="bookListPage()">상품 보러가기</button>
-	          </div>
-			</div>
+		<c:if test="${listCart.size() == 0 }">			
+	 		<div class="row" style="height: 100px">
+				<div class="center-text mt-14 md-14">
+					담은 상품이 없습니다.
+				</div>
+			</div>	 	
 		</c:if>
         <!-- 사이드  결제 버튼 -->
-        <div class="col-12 col-lg-4 col-md-5">
-          <!-- card -->
-          <div class="mb-5 card mt-6">
-            <div class="card-body p-6">
-              <!-- heading -->
-              	<h5>상품금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
-              	<h5>배송비 <span>
-              	<c:if test="${totalPrice >= 50000 || totalPrice == 0 }"><fmt:formatNumber value="0" pattern="#,###" /> 원</c:if>
-              	<c:if test="${totalPrice < 50000 && totalPrice > 0 }"><fmt:formatNumber value="3000" pattern="#,###" />
-              	 원
-              	 <h5 style="color: red; font-size: 15px; margin-top: 5px;">50,000원 이상 무료 배송</h5>
-              	 </c:if></span></h5>
-              	
-              <hr>
-              	<h5>결제예정금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
-              <div class="d-grid mb-1 mt-4">
-                <!-- btn -->
-                <input type="hidden" name="paymentType" value="2">
-                <button class="btn btn-primary justify-content-between align-items-center" type="submit">
-                  	주문하기(${totalCart })</button>
-              </div>
-              </div>
-            </div>
-          </div>
+	    <c:if test="${listCart.size() != 0 }">
+	        <div class="col-12 col-lg-4 col-md-5">
+	          <!-- card -->
+	          <div class="mb-5 card mt-6">
+	            <div class="card-body p-6">
+	              <!-- heading -->
+	              	<h5>상품금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
+	              	<h5>배송비 <span>
+	              	<c:if test="${totalPrice >= 50000 || totalPrice == 0 }"><fmt:formatNumber value="0" pattern="#,###" /> 원</c:if>
+	              	<c:if test="${totalPrice < 50000 && totalPrice > 0 }"><fmt:formatNumber value="3000" pattern="#,###" />
+	              	 원
+	              	 <h5 style="color: red; font-size: 15px; margin-top: 5px;">50,000원 이상 무료 배송</h5>
+	              	 </c:if></span></h5>
+	              	
+	              <hr>
+	              	<h5>결제예정금액 <span><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</span></h5> 
+	              <div class="d-grid mb-1 mt-4">
+	                <!-- btn -->
+	                <input type="hidden" name="paymentType" value="2">
+	                <button class="btn btn-primary justify-content-between align-items-center" type="submit">
+	                  	주문하기(${totalCart })</button>
+	              </div>
+	              </div>
+	            </div>
+	          </div>
+	        </c:if>  
         </div>
         
       </form>  

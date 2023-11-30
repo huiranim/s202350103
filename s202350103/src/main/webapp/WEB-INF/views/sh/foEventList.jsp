@@ -28,6 +28,37 @@
     transform: translateY(-50%); 	 /* 화면 수직 중앙 */
 }
 
+.eventexpInfo {
+	border: none;					 /* 테두리 제거 */
+    border-radius: 50%;				 /* 동그라미 */
+    width: 70px; 					 /* 넓 */
+    height : 70px; 					 /* 높 */
+    background-color : #97BDE0; 	 /* 배경색 */
+    font-weight : bold;				 /* 폰트 굵게*/
+    color: #fff; 				 	 /* 글자색 */
+    text-align: center;				 /* 글자 위치 */
+    line-height : 50px; 			 /* 버튼 위치 */
+    position : absolute;			 /* 위치고정 */
+    right: 20px; 					 /* 오른 여백*/
+    top: 50%; 					 	 /* 화면 상단 중앙 */
+    transform: translateY(-50%); 	 /* 화면 수직 중앙 */
+}
+.eventendInfo {
+	border: none;					 /* 테두리 제거 */
+    border-radius: 50%;				 /* 동그라미 */
+    width: 70px; 					 /* 넓 */
+    height : 70px; 					 /* 높 */
+    background-color : #d3d3d3; 	 /* 배경색 */
+    font-weight : bold;				 /* 폰트 굵게*/
+    color: #fff; 				 	 /* 글자색 */
+    text-align: center;				 /* 글자 위치 */
+    line-height : 50px; 			 /* 버튼 위치 */
+    position : absolute;			 /* 위치고정 */
+    right: 20px; 					 /* 오른 여백*/
+    top: 50%; 					 	 /* 화면 상단 중앙 */
+    transform: translateY(-50%); 	 /* 화면 수직 중앙 */
+}
+
 .card-body {
     padding: 0; 					  /* 카드 이미지 사이 여백*/
 }
@@ -113,6 +144,12 @@
            
 		       <div class="col-md-4 col-12">
 				  <div class="text-center">
+				  	<c:if test="${event.event_type == 1 }">
+				  		<p>[출석]</p>
+				  	</c:if>
+				  	<c:if test="${event.event_type == 2 }">
+				  		<p>[퀴즈]</p>
+				  	</c:if>
 				  	<h2 class="fs-5 mb-2">${event.a_title }</h2>
 							${event.a_sdate} ~ ${event.a_edate}
 				  
@@ -124,9 +161,11 @@
 						<c:when test="${sys >=  event.a_sdate  && sys <= event.a_edate }">
 							<button onclick="checkTime('${event.a_sdate }','${event.a_edate}'); eventClick('${member.m_num}',${event.a_num});" id="subButton" class="eventInfo">참여</button>
 						</c:when>
-						
+						<c:when test="${event.event_status == 2 }">
+							<button id="subButton" class="eventexpInfo" disabled="disabled">예정</button>
+						</c:when>
 						<c:otherwise>
-							<br><span style="color: red;">종료된 이벤트 입니다.</span>
+							<button id="subButton" class="eventendInfo" disabled="disabled">종료</button>
 						</c:otherwise>
 
 					</c:choose>						
