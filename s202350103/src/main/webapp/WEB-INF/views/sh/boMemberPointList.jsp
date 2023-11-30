@@ -21,7 +21,6 @@
 	        window.open(url, name, 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes,resizable=no,toolbar=no,titlebar=no,menubar=no,location=no')
 	}
 
-
 </script>
 <style type="text/css">
 	table{
@@ -102,7 +101,7 @@
 						<c:when test="${memberPoint.p_list_type == 3}">퀴즈 이벤트</c:when>
 						<c:when test="${memberPoint.p_list_type == 4}">회원가입</c:when>
 						<c:when test="${memberPoint.p_list_type == 5}">추천인</c:when>
-						<c:when test="${memberPoint.p_list_type == 6}">주문 포인트 사용</c:when>
+						<c:when test="${memberPoint.p_list_type == 6}">주문 시 사용</c:when>
 						<c:when test="${memberPoint.p_list_type == 7}">관리자 조정</c:when>
 						<c:when test="${memberPoint.p_list_type == 8}">포인트 충전</c:when>
 					</c:choose>
@@ -113,11 +112,6 @@
 		</c:forEach>
 	</tbody>
 </table>
-
-<!-- <div class="d-grid gap-2 d-md-flex justify-content-center"> -->
-<!--   	<button class="btn btn-soft-primary" type="button" onclick="boMemberPointUpdate(m_num.value)">수정하기</button> -->
-<!--   	<input type="button"  class="btn btn-secondary mb-2" id="cancleButton"  value="목록가기"> -->
-<!-- </div>	 -->
 <div class="d-grid gap-2 d-md-flex justify-content-center">
 	<input type="button" class="btn btn-primary mb-2" value="수정하기" style="margin-right: 10px" onclick="boMemberPointUpdate(m_num.value)">
 	<input type="button"  class="btn btn-secondary mb-2" id="cancleButton"  value="목록가기">

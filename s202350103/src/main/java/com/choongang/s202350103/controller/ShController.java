@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.s202350103.gbService.RecentlyBook;
 import com.choongang.s202350103.model.AttJoin;
@@ -571,7 +572,9 @@ import lombok.extern.slf4j.Slf4j;
 			member.setM_point(point);
 			ps.boInsertPlusPoint(member);
 			ps.boUpdatePlusPoint(member);
-			return "sh/boMemberPointUpdate";
+			
+			
+			return "redirect:/boMemberPointUpdate?m_num="+m_num;
 		}
 		
 		@RequestMapping(value = "boMinusPoint")
@@ -582,7 +585,7 @@ import lombok.extern.slf4j.Slf4j;
 			member.setM_point(point);
 			ps.boInsertMinusPoint(member);
 			ps.boUpdateMinusPoint(member);
-			return "sh/boMemberPointUpdate";
+			return "redirect:/boMemberPointUpdate?m_num="+m_num;
 		}
 		
 		@RequestMapping(value = "boJoinedMember")
@@ -667,13 +670,28 @@ import lombok.extern.slf4j.Slf4j;
 			return response;
 		}
 		@RequestMapping(value = "boMemberPointUpdate")
-		public String boMemberPointUpdate(int m_num, Model model, Member member ) {
+		public String boMemberPointUpdate(int m_num, Model model, Member member, String currentPage, RedirectAttributes redirect) {
 			System.out.println("shController boMemberPointUpdate start..");
 			System.out.println("shController boMemberPointUpdate m_num -> " + m_num);
-			
-			int sum = ps.pointSum(m_num);
+	
+			int memberEvent = ps.memberPointList(m_num);
+			//페이징 작업
+			Paging page = new Paging(memberEvent, currentPage);
+			int start = page.getStart();
+			int end = page.getEnd();
+
+			member.setStart(start);
+			member.setEnd(end);
+			member.setM_num(m_num);
 			member = ms.memberInfo(m_num);
+			int sum = ps.pointSum(m_num);
+			
+			List<PointList> memberPointList = ps.selectMemberPoint(member);
+			
+			
 			System.out.println("shController boMemberPointUpdate member -> " + member);
+			model.addAttribute("page", page);
+			model.addAttribute("memberPoint",memberPointList);
 			model.addAttribute("member", member);
 			model.addAttribute("sum", sum);
 			

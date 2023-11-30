@@ -31,12 +31,16 @@
                    font-size: 20px; 
                    color:#ffffff;
                }
-    .textBox {
-                margin-left: 5%;
-                margin-right: 5%;
-              }
+
 	
+	table{
+		width: 80%;
+		border-style: none;
+	}
 	
+	h2{
+		text-align: center;
+	}	
 </style>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
@@ -47,8 +51,6 @@
 			if(confirm(point+"만큼 추가하시겠습니까?")){
 				alert(point + "포인트 추가 하셨습니다.");
 				location.href="boPlusPoint?m_num="+m_num+"&point="+point;
-				window.close();
-				opener.parent.location.reload();
 		
 			} else {
 				alert("포인트 추가를 취소하셨습니다.");
@@ -69,8 +71,6 @@
 				if(confirm(point+"만큼 차감하시겠습니까?")){
 					alert(point + "포인트 차감 하셨습니다.");
 					location.href="boMinusPoint?m_num="+m_num+"&point="+point;
-					window.close();
-					opener.parent.location.reload();
 				}else{
 					alert("포인트 차감을 취소하셨습니다.");
 					return false;
@@ -91,14 +91,14 @@
    <div class="mb-6">
       <header class="top">
          <h1 class="infoTit">
-           	포인트 수정
+           	포인트 조정
          </h1>
       </header>
    </div>
 
 <c:if test="${sum != 0 }">
 	<div style="margin-left: 20%; margin-right: 20%; text-align: center; margin-left: 105px;" class="mt-9" >
-    	<div class="row g-4 row-cols-lg-4 row-cols-2 row-cols-md-2 mt-2" style="border: 1px solid #0aad0a; width: 700px;">
+    	<div class="row g-4 row-cols-lg-4 row-cols-2 row-cols-md-2 mt-2" style="border: 1px solid #0aad0a; width: 600px; margin-left: -50px;">
         <!-- col -->
         	<div class="col" style="border-right: 1px solid #0aad0a;margin-top: 0px; width:200px;">
         		<input type="hidden" name="m_num" id="m_num" value="${member.m_num }"> 
@@ -119,8 +119,8 @@
 	            
 	              </div>
 	               <div class="text-muted mt-4">
-		              <div class="col" style="margin-top: 0px; width:500px;">
-		             	 <div style="margin-left: 50px">
+		              <div class="col" style="margin-top: 0px; width:350px;">
+		             	 <div style="margin-left: 20px">
 			              	<div style="display: flex; color: black">
 			              		<div class="fs-5 mt-5" style="margin-right:8px;">보유 포인트 : ${sum } P </div>
 			              	</div>
@@ -132,9 +132,9 @@
 		              	</div>
 <!-- 		              	<button type="button" class="btn btn-ghost-primary mb-2" >추가하기 </button> -->
 <!-- 	           			<button type="button" class="btn btn-ghost-danger mb-2" >차감하기</button> -->
-	           			<div class="mt-5" style="display: flex;margin-left: 130px;">
+	           			<div class="mt-5" style="display: flex;margin-left: 100px;">
 							<input type="button" class="btn btn-primary mb-2"  onclick="plusPoint()" value="추가하기" style="margin-right: 10px">
-							<input type="button"  class="btn btn-secondary mb-2" id="cancleButton"  onclick="minusPoint()" value="차감하기">
+							<input type="button"  class="btn btn-secondary mb-2"  onclick="minusPoint()" value="차감하기">
 					    </div>
 		           	  </div>
 		           	  
@@ -149,6 +149,81 @@
 		</div>
 	</div>
 </c:if>
+
+<div class="fs-6 mt-5" style="margin-left: 10px;">회원번호 : ${member.m_num}</div>
+
+<c:if test="${not empty memberPoint }">	  
+<input type="hidden" name="m_num" id="m_num" value="${m_num  }">       
+<table class="table" style="text-align: center">
+	<thead class="table-light">
+		<tr>
+			<th scope="col">No.</th>
+			<th scope="col">포인트번호</th>
+			<th scope="col">발행페이지 코드</th>
+			<th scope="col">발행일시</th>
+			<th scope="col">포인트유형	</th>
+			<th scope="col">지급포인트</th>
+		</tr>
+		
+	</thead>
+	<tbody>		
+		<c:forEach var="memberPoint" items="${memberPoint }">				
+				<tr>
+				<td scope="row">${memberPoint.rn }</td>
+				<td>${memberPoint.p_num }</td>
+				<td>
+				<c:choose>
+					<c:when test="${memberPoint.o_order_num != 0}"> ${memberPoint.o_order_num}</c:when>
+					<c:when test="${memberPoint.q_num != 0}">${memberPoint.q_num}</c:when>
+					<c:when test="${memberPoint.a_num != 0}">${memberPoint.a_num}</c:when>
+					<c:when test="${memberPoint.p_list_type == 4}">-</c:when>
+					<c:when test="${memberPoint.p_list_type == 7}">-</c:when>
+				</c:choose>
+				</td>
+				<td>
+					<fmt:formatDate pattern="yyyy-MM-dd" value="${memberPoint.a_par_pdate }"/>
+				</td>
+				<td>
+					<c:choose>
+						<c:when test="${memberPoint.p_list_type == 1}">주문 적립</c:when>
+						<c:when test="${memberPoint.p_list_type == 2}">출석 이벤트</c:when>
+						<c:when test="${memberPoint.p_list_type == 3}">퀴즈 이벤트</c:when>
+						<c:when test="${memberPoint.p_list_type == 4}">회원가입</c:when>
+						<c:when test="${memberPoint.p_list_type == 5}">추천인</c:when>
+						<c:when test="${memberPoint.p_list_type == 6}">주문 포인트 사용</c:when>
+						<c:when test="${memberPoint.p_list_type == 7}">관리자 조정</c:when>
+						<c:when test="${memberPoint.p_list_type == 8}">포인트 충전</c:when>
+					</c:choose>
+				</td>
+				<td>${memberPoint.m_point }P</td>
+						
+			</tr>
+		</c:forEach>
+	</tbody>
+</table>		
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+	 	<c:if test="${page.startPage > page.pageBlock }">
+			 <li class="page-item justify-content-center">					
+				<a class="page-link mx-1 text-body"  href="selectMemberPoint?currentPage=${page.startPge-page.pageBlocck }">이전</a>
+			</li>
+		</c:if>
+			<c:forEach var="i" begin="${page.startPage }" end="${page.endPage}">
+			 <li class="page-item justify-content-center">
+					<a class="page-link mx-1 text-body"  href="selectMemberPoint?currentPage=${i }&m_num=${memberPoint.m_num }">${i}</a>
+			</li>
+		</c:forEach>
+			
+		<c:if test="${page.endPage < page.totalPage }">
+			 <li class="page-item justify-content-center">		 
+				<a class="page-link mx-1 text-body"href="selectMemberPoint?currentPage=${page.startPage+page.pageBlock }">다음</a>
+			</li>
+		</c:if>
+	</ul>
+</nav>
+</c:if>
+<br>
+<br>
 </main>
 </body>
 </html>
