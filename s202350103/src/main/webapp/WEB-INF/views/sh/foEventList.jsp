@@ -58,6 +58,32 @@
     top: 50%; 					 	 /* 화면 상단 중앙 */
     transform: translateY(-50%); 	 /* 화면 수직 중앙 */
 }
+.att{
+	border: none;					 /* 테두리 제거 */
+    border-radius: 10px;			 /* 둥글게 */
+    width: 100px; 					 /* 넓이 */
+    height : 30px; 					 /* 높이 */
+    background-color : #E0B1AC; 	 /* 배경색 */
+    font-weight : bold;				 /* 폰트 굵게*/
+    color: #fff; 				 	 /* 글자색 */
+    text-align: center;				 /* 글자 위치 */
+    right: 20px; 					 /* 오른 여백*/
+    top: 50%; 					 	 /* 화면 상단 중앙 */
+    transform: translateY(-50%); 	 /* 화면 수직 중앙 */
+}
+.quiz{
+	border: none;					 /* 테두리 제거 */
+    border-radius: 10px;			 /* 둥글게 */
+    width: 100px; 					 /* 넓이 */
+    height : 30px; 					 /* 높이 */
+    background-color : #0CBFB5; 	 /* 배경색 */
+    font-weight : bold;				 /* 폰트 굵게*/
+    color: #fff; 				 	 /* 글자색 */
+    text-align: center;				 /* 글자 위치 */
+    right: 20px; 					 /* 오른 여백*/
+    top: 50%; 					 	 /* 화면 상단 중앙 */
+    transform: translateY(-50%); 	 /* 화면 수직 중앙 */
+}
 
 .card-body {
     padding: 0; 					  /* 카드 이미지 사이 여백*/
@@ -145,10 +171,10 @@
 		       <div class="col-md-4 col-12">
 				  <div class="text-center">
 				  	<c:if test="${event.event_type == 1 }">
-				  		<p>[출석]</p>
+				  		<button id="attButton" class="att" disabled="disabled">출석 이벤트</button>
 				  	</c:if>
 				  	<c:if test="${event.event_type == 2 }">
-				  		<p>[퀴즈]</p>
+				  		<button id="quizButton" class="quiz" disabled="disabled">퀴즈 이벤트</button>
 				  	</c:if>
 				  	<h2 class="fs-5 mb-2">${event.a_title }</h2>
 							${event.a_sdate} ~ ${event.a_edate}
