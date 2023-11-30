@@ -105,25 +105,25 @@ public class OrderrDaoImpl implements OrderrDao {
 			System.out.println("orderr.getM_num()--> " + orderr.getM_num());
 			
 			
-			// member 포인트 update
-			int update_result = session.update("htMemberPointUpdate", orderr);
-			System.out.println("Dao htOrderInsert update_result--->" + update_result);
-			
-			// 포인트 이력 insert(구매시)
-			int pay_point_insert_result = session.insert("htPayPointInsert", orderr);
-			System.out.println("Dao htOrderInsert pay_point_insert_result--->" + pay_point_insert_result);
-			
-			// 포인트 이력 insert(사용시)
-			if(orderr.getO_point() != 0) {
-				int use_point_insert_result = session.insert("htUsePointInsert", orderr);
-				System.out.println("Dao htOrderInsert use_point_insert_result--->" + use_point_insert_result);
-			}
-			
-			// 장바구니 삭제(장바구니 결제일 경우)
-			if(orderr.getPaymentType() == 2) {
-				int cart_delete_result = session.delete("htCartDelete",orderr);
-				System.out.println("Dao htOrderInsert cart_delete_result--->" + cart_delete_result);
-			}
+//			// member 포인트 update
+//			int update_result = session.update("htMemberPointUpdate", orderr);
+//			System.out.println("Dao htOrderInsert update_result--->" + update_result);
+//			
+//			// 포인트 이력 insert(구매시)
+//			int pay_point_insert_result = session.insert("htPayPointInsert", orderr);
+//			System.out.println("Dao htOrderInsert pay_point_insert_result--->" + pay_point_insert_result);
+//			
+//			// 포인트 이력 insert(사용시)
+//			if(orderr.getO_point() != 0) {
+//				int use_point_insert_result = session.insert("htUsePointInsert", orderr);
+//				System.out.println("Dao htOrderInsert use_point_insert_result--->" + use_point_insert_result);
+//			}
+//			
+//			// 장바구니 삭제(장바구니 결제일 경우)
+//			if(orderr.getPaymentType() == 2) {
+//				int cart_delete_result = session.delete("htCartDelete",orderr);
+//				System.out.println("Dao htOrderInsert cart_delete_result--->" + cart_delete_result);
+//			}
 			
 			//commit
 			transactionManager.commit(txStatus);
@@ -133,6 +133,56 @@ public class OrderrDaoImpl implements OrderrDao {
 			transactionManager.rollback(txStatus);
 		}
 		return ;
+	}
+	
+	@Override
+	public int paySuccess(KakaoPayApprovalVO ka) {
+		System.out.println("OrderDaoImpl PaySuccess() Start...");
+		int result = 0;
+		
+		//Transaction 관리
+		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+		try {
+			System.out.println("OrderrDaoImpl PaySuccess ka--> "+ ka);
+			result = session.update("htOrderUpdate", ka);
+			System.out.println("OrderrDaoImpl PaySuccess result--> "+ result);
+			
+			// member 포인트 update
+			int update_result = session.update("htMemberPointUpdate", ka);
+			System.out.println("Dao htOrderInsert update_result--->" + update_result);
+			
+			// 포인트 이력 insert(구매시)
+			int pay_point_insert_result = session.insert("htPayPointInsert", ka);
+			System.out.println("Dao htOrderInsert pay_point_insert_result--->" + pay_point_insert_result);
+			
+			// 포인트 이력 insert(사용시)
+			if(ka.getAmount().getPoint() != 0) {
+				int use_point_insert_result = session.insert("htUsePointInsert", ka);
+				System.out.println("Dao htOrderInsert use_point_insert_result--->" + use_point_insert_result);
+			}
+			
+			// 장바구니 삭제(장바구니 결제일 경우)
+			if(ka.getQuantity() != 1) {
+				int cart_delete_result = session.delete("htCartDelete",ka);
+				System.out.println("Dao htOrderInsert cart_delete_result--->" + cart_delete_result);
+			}
+			
+//			// 중고상품 상태값 변경(결제완료일 경우)
+//			if (ka.getPartner_order_id() != null && ka.getPartner_order_id().matches("^2\\d*")) {
+//				int oldBook_status_result = session.delete("htCartDelete",ka);
+//				System.out.println("Dao htOrderInsert cart_delete_result--->" + oldBook_status_result);
+//			}
+						
+			
+			//commit
+			transactionManager.commit(txStatus);
+		}catch (Exception e) {
+			System.out.println("OrderrDaoImpl PaySuccess Exception -> " + e.getMessage());
+			
+			//rollback
+			transactionManager.rollback(txStatus);
+		}
+		return result;
 	}
 
 	// 카카오페이 결제 데이터
@@ -151,19 +201,7 @@ public class OrderrDaoImpl implements OrderrDao {
 		return orderr2;
 	}
 
-	@Override
-	public int paySuccess(KakaoPayApprovalVO ka) {
-		System.out.println("OrderDaoImpl PaySuccess() Start...");
-		int result = 0;
-		try {
-			System.out.println("OrderrDaoImpl PaySuccess ka--> "+ ka);
-			result = session.update("htOrderUpdate", ka);
-			System.out.println("OrderrDaoImpl PaySuccess result--> "+ result);
-		}catch (Exception e) {
-			System.out.println("OrderrDaoImpl PaySuccess Exception -> " + e.getMessage());
-		}
-		return result;
-	}
+	
 
 	@Override
 	public Member selectMember(Member member) {

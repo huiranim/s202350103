@@ -486,6 +486,7 @@ public class HtController {
 				osHr.givingGiftAction(member, orderr, orderGift);
 			} else {
 				os.orderInsert(orderr, list); //프로시저를 사용하므로 return값이 없어도 된다. orderr DTO에 값을 가지고 나온다. DAO 참고
+				orderr.setO_type(1);
 			}
 		}else {
 			orderr.setO_order_count(1);
@@ -606,7 +607,7 @@ public class HtController {
 				// 일반 주문
 				if(kakaoDto.getInstall_month() == 1) {
 					// orderr update(주문상태 변경)
-					// result = os.paySuccess(kakaoDto);
+					result = os.paySuccess(kakaoDto);
 					
 				// 선물 주문 -> ORDERR UPDATE & POINT INSERT 수행
 				} else if(kakaoDto.getInstall_month() == 2) {
