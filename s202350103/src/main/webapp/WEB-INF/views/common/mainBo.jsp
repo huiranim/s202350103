@@ -199,7 +199,7 @@
 							                       <span _msttexthash="21663070" _msthash="89">
 							                       	지난달과 비교 : 
 							                       	<span class="me-1" _istranslated="1" style="color:blue">
-							                       		-<fmt:formatNumber value="${totalIncome - lastTotalIncome }" groupingUsed="true"/>원
+							                       		<fmt:formatNumber value="${totalIncome - lastTotalIncome }" groupingUsed="true"/>원
 							                       	</span>
 							                       </span>
 						                       </c:if>
@@ -238,7 +238,7 @@
 							                       <span _msttexthash="48127183" _msthash="92">
 							                       	지난달과 비교 : 
 							                       	 <span class="me-1" _istranslated="1" style="color:blue">
-							                         	-<fmt:formatNumber value="${monthTotalCnt - lastTotalCnt }" groupingUsed="true"/>건
+							                         	<fmt:formatNumber value="${monthTotalCnt - lastTotalCnt }" groupingUsed="true"/>건
 							                         </span>
 							                       </span>
 						                       </c:if>
@@ -277,7 +277,7 @@
 							                       <span _msttexthash="72624214" _msthash="95">
 							                       	지난달과 비교 : 
 							                       	<span class="me-1" _istranslated="1" style="color:blue">
-							                       		-<fmt:formatNumber value="${monthTotalNewMember - lastTotalNewMember }" groupingUsed="true"/>명
+							                       		<fmt:formatNumber value="${monthTotalNewMember - lastTotalNewMember }" groupingUsed="true"/>명
 							                       	</span>
 							                       </span>
 						                       </c:if>
