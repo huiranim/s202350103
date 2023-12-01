@@ -1,10 +1,12 @@
 package com.choongang.s202350103.htService;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Data
 public class Paging {
 	//			현재 페이지							페이지 당 게시글 수
 	private int currentPage = 1;	private int rowPage = 5;

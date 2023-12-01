@@ -148,6 +148,9 @@ public class HtController {
 		// Parameter orderr --> Page만 추가 setting
 		orderr.setStart(page.getStart());    // 시작시 1
 		orderr.setEnd(page.getEnd()); 		 // 시작시 5
+		System.out.println("Start--> " + page.getStart());
+		System.out.println("End--> " + page.getEnd());
+		System.out.println("M_num--> " + orderr.getM_num());
 		
 		 
 		List<Orderr> reviewWriteList = rs.reviewWriteList(orderr);
@@ -156,7 +159,7 @@ public class HtController {
 		model.addAttribute("page", page);
 		model.addAttribute("reviewWriteList", reviewWriteList);
 		model.addAttribute("member",member); 
-		  
+		System.out.println("page--> " + page); 
 		return "/ht/foMyReviewList";
 	}
 	 
@@ -172,21 +175,19 @@ public class HtController {
 			return "yb/loginForm";
 		}
 		
-		int totalReviewedCnt = 0;
+		review.setM_num(member.getM_num());
+		 
+		// orderr 전체 Count ?
+		int totalReviewedCnt = rs.totalReviewedCnt(review);
+		System.out.println("totalReviewedCnt--> " + totalReviewedCnt);
+		System.out.println("currentPage--> " + currentPage);
+		
 		// Paging 작업 
 		Paging page = new Paging(totalReviewedCnt, currentPage);
 		
 	    List<Review> reviewedWriteList = null;
 		
 		try {
-			 review.setM_num(member.getM_num());
-			 
-			 // orderr 전체 Count ?
-			 totalReviewedCnt = rs.totalReviewedCnt(review);
-			 System.out.println("totalReviewedCnt--> " + totalReviewedCnt);
-			 System.out.println("currentPage--> " + currentPage);
-			 
-			 
 			 //Parameter orderr --> Page만 추가 setting
 			 System.out.println("Start--> " + page.getStart());
 			 System.out.println("End--> " + page.getEnd());
@@ -203,6 +204,7 @@ public class HtController {
 		}
 		 
 		 
+		 System.out.println("page--> " + page);
 		 model.addAttribute("page", page);
 		 model.addAttribute("reviewedWriteList", reviewedWriteList);
 		 model.addAttribute("member",member);

@@ -22,7 +22,7 @@
     }
     .pagination .page-item {
 						    width: 50%;
-						     text-align: center;
+						    text-align: center;
     }
 </style>
 

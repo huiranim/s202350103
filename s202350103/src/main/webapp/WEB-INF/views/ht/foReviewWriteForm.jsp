@@ -35,7 +35,7 @@
 <script type="text/javascript">
 function validateForm() {
 	var rating = frm.r_rating.value;
-	alert('rating--> '+rating);
+	//alert('rating--> '+rating);
 	if(rating == "") rating = 0;
     // 별점이 선택되지 않았을 경우
     if (rating == 0) {
