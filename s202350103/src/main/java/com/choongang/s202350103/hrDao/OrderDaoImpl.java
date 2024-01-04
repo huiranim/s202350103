@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-
 import com.choongang.s202350103.domain.KakaoPayApprovalVO;
 import com.choongang.s202350103.model.Member;
 import com.choongang.s202350103.model.OrderDetail;
