@@ -33,15 +33,90 @@
 <!-- Google tag (gtag.js) -->
 
 <!-- End Tag 금비 -->
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
+
+	const $j112 = jQuery.noConflict();
+	
+	// 검색 함수
 	function search() {
 		var search_type = $("#search_type").val();
 		var search_keyword = $("#search_keyword").val();
 		// alert("내가 선택한 검색 조건 -> "+search_type + " 키워드는 "+search_keyword);
 		
-		location.href = "/searchNewbookList?search_type="+search_type+"&search_keyword="+search_keyword;
+		location.href = "/searchNewbookList?search_type="+search_type+"&search_keyword="+search_keyword;		
 	}
+	
+	// 검색 키워드 자동완성 함수
+	function autoKeywordcomplete(){
+		var pSearch_type = $j112("#search_type").val();
+		
+		$j112('#search_keyword').autocomplete({
+			// source : 타이핑시 보여질 내용
+			source : function(request, response){
+				$j112.ajax({
+					url : "autocompleteKeyword",	// 전송할 URL 주소
+					// 검색 조건, 검색 키워드를 파라미터로 넘김
+					// request.term : text 박스 내에 입력된 값을 가지고 옴
+					data : {search_type : pSearch_type, value : request.term},
+					dataType : 'json',
+					success : function(data) {
+						// return 된 result를 response() 함수 내에 담는다.
+						// var jsonStr = JSON.stringify(data);
+						// alert("jsonStr -> "+jsonStr);
+						response(
+							$j112.map(data.resultList, function(item) {
+								if(pSearch_type == "title"){
+									return {
+										label : item.NB_TITLE,	// 자동완성 목록에 표시되는 값
+										value : item.NB_TITLE	// 선택 시 input창에 표시되는 값
+									};
+								}else if(pSearch_type == "writer") {
+									return {
+										label : item.NB_WRITER,	// 자동완성 목록에 표시되는 값
+										value : item.NB_WRITER	// 선택 시 input창에 표시되는 값
+									};
+								}else {
+									return {
+										label : item.NB_PUBLISHER,	// 자동완성 목록에 표시되는 값
+										value : item.NB_PUBLISHER	// 선택 시 input창에 표시되는 값
+									};
+								}
+								
+							})		
+						);
+					},
+					error : function() {
+						alert('자동완성에 실패했습니다.');
+					}
+				});
+			},
+			// 방향키로 자동완성 단어 선택 가능하게 해줌
+			focus : function(event, ui) {
+				return false;
+			},
+			// minLength : 최소 몇자 이상되면 통신을 시작하겠다라는 옵션
+			minLength: 1,
+			// true -> 첫번째 항목에 자동으로 초점이 맞춰짐
+			autoFocus : true,
+			// autocomplete 딜레이 시간(ms)
+			delay : 100,
+			// 자동완성 목록에서 특정 값 선택 시 처리하는 동작 구현
+			// 구현 없으면 단순 text 태그 내 값이 들어간다.
+			select: function(event, ui) {
+				console.log(ui.item.label);
+				location.href = "/searchNewbookList?search_type="+pSearch_type+"&search_keyword="+ui.item.label;
+			} 
+		});
+	}
+	
+	// 페이지 처음 로드될 때 검색 키워드 자동완성 함수 실행
+	$j112(document).ready(function() {
+		autoKeywordcomplete();
+	});
+	
 	
 </script>
 
@@ -260,23 +335,23 @@
 		    <!-- 검색 금비 -->
 	        <div class="input-group" style="margin-left: 10px;">
 	        
-				<select id="search_type" class="w-25 rounded" style="border-color: rgb(223, 226, 225);" >
+				<select id="search_type" class="w-25 rounded" style="border-color: rgb(223, 226, 225);" onchange="autoKeywordcomplete()">
 					<option value="title">도서제목</option>
 					<option value="writer">지은이</option>
 					<option value="publisher">출판사</option>
 				</select>&nbsp;&nbsp;
-	            <input id = "search_keyword" class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요." >
-	      
+	            <input id = "search_keyword" class="form-control rounded" type="search" placeholder="찾으실 도서를 검색해보세요.">
+	      		<div></div>
 		
-        <!-- 검색 버튼 -->
-        <div class="col-md-1 col-xxl-2 d-lg-block">
-          <div style="margin-left: 40px; width: 65px; margin-right: 30px;">
-	          <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
-            	data-bs-target="#locationModal" onclick="search()">검색  </button>
-            	</div>
-</div>
-</div>
-        </div>
+		        <!-- 검색 버튼 -->
+		        <div class="col-md-1 col-xxl-2 d-lg-block">
+		          <div style="margin-left: 40px; width: 65px; margin-right: 30px;">
+			          <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
+		            	data-bs-target="#locationModal" onclick="search()">검색  </button>
+		          </div>
+				</div>
+			</div>
+       </div>
           
           <div class="col-md-2 col-xxl-2 text-end d-none d-lg-block" style="margin-left: 40px;">
 		  

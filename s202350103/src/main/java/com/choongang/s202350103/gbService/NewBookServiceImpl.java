@@ -1,6 +1,7 @@
 package com.choongang.s202350103.gbService;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -197,6 +198,16 @@ public class NewBookServiceImpl implements NewBookService {
 		List<NewBook> releaseNewbookList = nbd.selectReleaseNewbookListNum();
 		
 		return releaseNewbookList;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectAutocompleteList(Map<String, Object> paramMap) {
+		System.out.println("NewBookServiceImpl selectAutocompleteList start...");
+		
+		List<Map<String, Object>> autoKeyworkList = nbd.selectAutocompleteList(paramMap);
+		System.out.println("NewBookServiceImpl selectAutocompleteList autoKeyworkList -> "+autoKeyworkList.size());
+		
+		return autoKeyworkList;
 	}
 
 

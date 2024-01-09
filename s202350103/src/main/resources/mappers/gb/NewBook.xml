@@ -548,4 +548,21 @@
 		WHERE rn BETWEEN 1 AND 5
 	</select>
 	
+	<select id="gbSelectAutocompleteList" parameterType="map" resultType="map">
+		
+		SELECT	nb_title, nb_writer, nb_publisher
+		FROM	newbook
+		<choose>
+            <when test="search_type == 'title'">
+                WHERE nb_title LIKE '%' || #{value} || '%'
+            </when>
+            <when test="search_type == 'writer'">
+                WHERE nb_writer LIKE '%' || #{value} || '%'
+            </when>
+            <when test="search_type == 'publisher'">
+               WHERE nb_publisher LIKE '%' || #{value} || '%'
+            </when>
+        </choose>
+	</select>
+	
 </mapper>

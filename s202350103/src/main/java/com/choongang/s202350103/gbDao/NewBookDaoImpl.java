@@ -1,6 +1,7 @@
 package com.choongang.s202350103.gbDao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -268,6 +269,21 @@ public class NewBookDaoImpl implements NewBookDao {
 		}
 		
 		return releaseNewbookList;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectAutocompleteList(Map<String, Object> paramMap) {
+		System.out.println("NewBookDaoImpl selectAutocompleteList start...");
+		List<Map<String, Object>> autoKeyworkList = null;
+		
+		try {
+			autoKeyworkList = session.selectList("gbSelectAutocompleteList", paramMap);
+			System.out.println("autoKeyworkList -> "+autoKeyworkList.size());
+		} catch (Exception e) {
+			System.out.println("NewBookDaoImpl selectAutocompleteList -> "+e.getMessage());
+		}
+		
+		return autoKeyworkList;
 	}
 
 	}

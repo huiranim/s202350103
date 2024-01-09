@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.mail.internet.MimeMessage;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.query.criteria.internal.expression.function.SubstringFunction;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -42,6 +45,7 @@ import com.choongang.s202350103.model.Orderr;
 import com.choongang.s202350103.model.Review;
 import com.choongang.s202350103.model.WishList;
 
+import kotlinx.serialization.json.JsonObject;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -615,5 +619,29 @@ public class GbController {
 		return "gb/shareEmailPopup"; 
 	}
 	
+	@ResponseBody
+	@RequestMapping("autocompleteKeyword")
+	public Map<String, Object> autocompleteKeyword(@RequestParam Map<String, Object> paramMap){
+		System.out.println("GbController autocompleteKeyword start...");
+		
+		System.out.println("paramMap search_type -> "+paramMap.get("search_type"));
+		System.out.println("paramMap value -> "+paramMap.get("value"));
+		
+		// JSONArray arrayObj = new JSONArray();
+		// JSONObject jsonObj = null;
+		
+		// ajax로부터 받은 json 형식의 파라미터값을 map에 담아 service로 이동한다. (search_type, value)
+		// input 타입에 입력한 text 값과 select의 검색 조건 값을 받아 자동완성 리스트를 가지고 온다.
+		List<Map<String, Object>> autoKeyworkList = nbs.selectAutocompleteList(paramMap);
+		System.out.println("GbController selectAutocompleteList autoKeyworkList -> "+autoKeyworkList.size());
+		
+		paramMap.put("resultList", autoKeyworkList);
+		/*
+		 * for(String autoKeyword : autoKeyworkList) { jsonObj = new JSONObject();
+		 * jsonObj.put("nb_title", autoKeyword); arrayObj.add(jsonObj); }
+		 */
+		
+		return paramMap;
+	}
 	 
 }

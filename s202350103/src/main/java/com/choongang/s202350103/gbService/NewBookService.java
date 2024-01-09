@@ -1,6 +1,7 @@
 package com.choongang.s202350103.gbService;
 
 import java.util.List;
+import java.util.Map;
 
 import com.choongang.s202350103.model.Cart;
 import com.choongang.s202350103.model.NewBook;
@@ -27,6 +28,7 @@ public interface NewBookService {
 	int 			insertBoNewbook(NewBook newbook);
 	NewBook 		selectRecentBookList(int nb_num);
 	NewBook 		selectAllHitNbNum();
-	List<NewBook> 	selectReleaseNewbookListNum();  
+	List<NewBook> 	selectReleaseNewbookListNum();
+	List<Map<String, Object>> selectAutocompleteList(Map<String, Object> paramMap);  
 
 }
